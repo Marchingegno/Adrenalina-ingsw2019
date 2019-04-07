@@ -1,114 +1,48 @@
-package it.polimi.se2019.Model.Player;
+package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.Model.Gameboard;
+import it.polimi.se2019.model.GameBoard;
 
-import java.util.*;
+import java.awt.Color;
 
-/**
- *
- */
 public class Player {
 
-	/**
-	 * Default constructor
-	 */
-	public Player() {
-	}
-
-	/**
-	 *
-	 */
 	private String playerName;
-
-	/**
-	 *
-	 */
 	private int playerID;
-
-	/**
-	 *
-	 */
-	private Gameboard gameboard;
-
-	/**
-	 *
-	 */
+	private Color playerColor;
 	private PlayerBoard playerBoard;
-
-	/**
-	 *
-	 */
 	private Status status;
+	private GameBoard gameboard;
 
-	/**
-	 * @param playerName
-	 * @param playerID
-	 */
-	public void Player(String playerName, int playerID) {
-		// TODO implement here
+
+	public Player(String playerName, int playerID) {
 	}
 
-	/**
-	 *
-	 */
+
 	public void getAvailableActions() {
-		// TODO implement here
 	}
 
-	/**
-	 *
-	 */
 	public void shoot() {
-		// TODO implement here
 	}
 
-	/**
-	 *
-	 */
 	public void grab() {
-		// TODO implement here
 	}
 
-	/**
-	 *
-	 */
 	public void reload() {
-		// TODO implement here
 	}
 
-	/**
-	 * @param target
-	 */
 	public void getDistance(Player target) {
-		// TODO implement here
 	}
 
-	/**
-	 * @param target
-	 */
 	public void isVisible(Player target) {
-		// TODO implement here
 	}
 
-	/**
-	 *
-	 */
 	public void getAllVisiblePlayers() {
-		// TODO implement here
 	}
 
-	/**
-	 * @param newStatus
-	 */
 	public void setStatus(Status newStatus) {
-		// TODO implement here
 	}
 
-	/**
-	 * @return
-	 */
 	public Status getStatus() {
-		// TODO implement here
 		return null;
 	}
 

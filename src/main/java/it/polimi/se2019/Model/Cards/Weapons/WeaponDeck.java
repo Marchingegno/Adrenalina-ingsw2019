@@ -1,19 +1,10 @@
-package it.polimi.se2019.Model.Cards.Weapons;
+package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.Model.Cards.Deck;
+import it.polimi.se2019.model.cards.Deck;
 
-import java.util.ArrayList;
+public class WeaponDeck extends Deck {
 
-/**
- *
- */
-public class WeaponDeck extends Deck{
-
-	/**
-	 * Default constructor
-	 */
 	public WeaponDeck() {
-
 	}
 
 }

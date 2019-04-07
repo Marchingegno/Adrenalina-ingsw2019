@@ -1,63 +1,30 @@
-package it.polimi.se2019.Model.GameMap;
+package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.Model.Cards.Ammo.AmmoCard;
-import it.polimi.se2019.Model.Cards.Card;
+import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.ammo.AmmoCard;
 
-import java.util.*;
+import java.util.ArrayList;
 
-/**
- *
- */
 public class AmmoSquare extends Square {
 
-	/**
-	 * Default constructor
-	 */
-	public AmmoSquare() {
-	}
-
-	/**
-	 *
-	 */
-	private boolean[] possibleDirections;
-
-	/**
-	 *
-	 */
-	private int roomID;
-
-	/**
-	 *
-	 */
 	private AmmoCard ammoCard;
 
-	/**
-	 * @param card
-	 */
-	public void AmmoSquare(Card card) {
-		// TODO implement here
+
+	public AmmoSquare(Card card) {
 	}
 
-	/**
-	 * @param cardToAdd
-	 */
+
+	@Override
 	public void addCard(Card cardToAdd) {
-		// TODO implement here
 	}
 
-	/**
-	 * @return
-	 */
+	@Override
 	public Card grabCard() {
-		// TODO implement here
 		return null;
 	}
 
-	/**
-	 * @return
-	 */
+	@Override
 	public ArrayList<Card> listCards() {
-		// TODO implement here
 		return null;
 	}
 

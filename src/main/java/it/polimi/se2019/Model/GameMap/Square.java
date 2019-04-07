@@ -1,43 +1,19 @@
-package it.polimi.se2019.Model.GameMap;
+package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.Model.Cards.Card;
+import it.polimi.se2019.model.cards.Card;
 
-import java.util.*;
+import java.util.ArrayList;
 
-/**
- *
- */
 public abstract class Square {
 
-	/**
-	 * Default constructor
-	 */
-	public Square() {
-	}
-
-	/**
-	 *
-	 */
-	private boolean[] possibleDirections;
-
-	/**
-	 *
-	 */
+	private ArrayList<Boolean> possibleDirections;
 	private int roomID;
 
-	/**
-	 * @param cardToAdd
-	 */
+
 	public abstract void addCard(Card cardToAdd);
 
-	/**
-	 * @return
-	 */
 	public abstract Card grabCard();
 
-	/**
-	 * @return
-	 */
 	public abstract ArrayList<Card> listCards();
 
 }

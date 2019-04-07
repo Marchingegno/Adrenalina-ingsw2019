@@ -1,30 +1,12 @@
-package it.polimi.se2019.Model.Cards.Weapons;
+package it.polimi.se2019.model.cards.weapons;
 
-import java.util.*;
+public final class ZX_2 extends DoubleFire {
 
-/**
- *
- */
-public final class ZX_2 extends DoubleFire{
+	protected void primaryFire() {
+	}
 
-/**
- * Default constructor
- */
-public ZX_2(){
-		}
+	protected void secondaryFire() {
+	}
 
-/**
- *
- */
-protected void primaryFire(){
-		// TODO implement here
-		}
 
-/**
- *
- */
-protected void secondaryFire(){
-		// TODO implement here
-		}
-
-		}
+}

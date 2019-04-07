@@ -1,35 +1,13 @@
-package it.polimi.se2019.Model.Cards.Weapons;
+package it.polimi.se2019.model.cards.weapons;
 
-import java.util.*;
-
-/**
- *
- */
 public abstract class DoubleFire extends WeaponCard {
 
-	/**
-	 * Default constructor
-	 */
-	public DoubleFire() {
-	}
-
-	/**
-	 *
-	 */
+	@Override
 	public void shoot() {
-		// TODO implement here
 	}
 
-	/**
-	 *
-	 */
-	protected void primaryFire() {
-		// TODO implement here
-	}
+	protected abstract void primaryFire();
 
-	/**
-	 *
-	 */
 	protected abstract void secondaryFire();
 
 }

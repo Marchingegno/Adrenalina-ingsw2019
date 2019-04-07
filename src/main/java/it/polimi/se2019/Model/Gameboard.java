@@ -1,135 +1,56 @@
-package it.polimi.se2019.Model;
+package it.polimi.se2019.model;
 
-import it.polimi.se2019.Model.Cards.Ammo.AmmoDeck;
-import it.polimi.se2019.Model.Cards.Powerups.PowerupDeck;
-import it.polimi.se2019.Model.Cards.Weapons.WeaponDeck;
-import it.polimi.se2019.Model.GameMap.GameMap;
-import it.polimi.se2019.Model.Player.Player;
+import it.polimi.se2019.model.cards.ammo.AmmoDeck;
+import it.polimi.se2019.model.cards.powerups.PowerupDeck;
+import it.polimi.se2019.model.cards.weapons.WeaponDeck;
+import it.polimi.se2019.model.gamemap.GameMap;
+import it.polimi.se2019.model.player.Player;
 
-import java.util.*;
+import java.util.ArrayList;
 
-/**
- * 
- */
-public class Gameboard {
+public class GameBoard {
 
-    /**
-     * Default constructor
-     */
-    public Gameboard() {
-    }
+	private int skulls;
+	private ArrayList<Player> killShots;
+	private ArrayList<Player> doubleKill;
+	private WeaponDeck weaponDeck;
+	private AmmoDeck ammoDeck;
+	private PowerupDeck powerupDeck;
+	private Player currentPlayer;
+	private Player players;
+	private GameMap gameMap;
 
-    /**
-     * 
-     */
-    private int skulls;
 
-    /**
-     * 
-     */
-    private ArrayList<Player> killShots;
+	public void Gameboard(String mapPath, ArrayList<String> playerNames, int skulls) {
+	}
 
-    /**
-     * 
-     */
-    private ArrayList<Player> doubleKill;
 
-    /**
-     * 
-     */
-    private WeaponDeck weaponDeck;
+	public ArrayList<Player> getPlayers() {
+		return null;
+	}
 
-    /**
-     * 
-     */
-    private AmmoDeck ammoDeck;
+	public void isFrenzyTriggered() {
+	}
 
-    /**
-     * 
-     */
-    private PowerupDeck powerupDeck;
+	public void addDoubleKill(Player player) {
+	}
 
-    /**
-     * 
-     */
-    private Player currentPlayer;
+	public void addKill(Player player, boolean overkill) {
+	}
 
-    /**
-     * 
-     */
-    private ArrayList<Player> players;
+	public void nextPlayerTurn() {
+	}
 
-    /**
-     * 
-     */
-    private GameMap gameMap;
+	public WeaponDeck getWeaponDeck() {
+		return null;
+	}
 
-    /**
-     * @param skulls
-     */
-    public void Gameboard(int skulls) {
-        // TODO implement here
-    }
+	public PowerupDeck getPowerupDeck() {
+		return null;
+	}
 
-    /**
-     * @return
-     */
-    public ArrayList<Player> getPlayers() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * 
-     */
-    public void isFrenzyTriggered() {
-        // TODO implement here
-    }
-
-    /**
-     * @param player
-     */
-    public void addDoubleKill(Player player) {
-        // TODO implement here
-    }
-
-    /**
-     * @param player 
-     * @param overkill
-     */
-    public void addKill(Player player, boolean overkill) {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void nextPlayerTurn() {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
-    public WeaponDeck getWeaponDeck() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public PowerupDeck getPowerupDeck() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public AmmoDeck getAmmoDeck() {
-        // TODO implement here
-        return null;
-    }
+	public AmmoDeck getAmmoDeck() {
+		return null;
+	}
 
 }

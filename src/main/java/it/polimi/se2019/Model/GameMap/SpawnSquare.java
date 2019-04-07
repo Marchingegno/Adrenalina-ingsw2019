@@ -1,80 +1,38 @@
-package it.polimi.se2019.Model.GameMap;
+package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.Model.Cards.Ammo.AmmoType;
-import it.polimi.se2019.Model.Cards.Card;
-import it.polimi.se2019.Model.Cards.Weapons.WeaponCard;
+import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.weapons.WeaponCard;
 
-import java.util.*;
+import java.util.ArrayList;
 
-/**
- *
- */
 public class SpawnSquare extends Square {
 
-	/**
-	 * Default constructor
-	 */
-	public SpawnSquare() {
-	}
-
-	/**
-	 *
-	 */
-	private boolean[] possibleDirections;
-
-	/**
-	 *
-	 */
-	private int roomID;
-
-	/**
-	 *
-	 */
 	private AmmoType color;
-
-	/**
-	 *
-	 */
 	private WeaponCard weaponCard;
 
-	/**
-	 * @param card1
-	 * @param card2
-	 * @param card3
-	 */
-	public void SpawnSquare(Card card1, Card card2, Card card3) {
-		// TODO implement here
+
+	public SpawnSquare(Card card1, Card card2, Card card3) {
 	}
 
-	/**
-	 * @param cardToAdd
-	 */
+
+	@Override
 	public void addCard(Card cardToAdd) {
-		// TODO implement here
 	}
 
-	/**
-	 * @return
-	 */
+	@Override
 	public Card grabCard() {
-		// TODO implement here
 		return null;
 	}
 
-	/**
-	 * @return
-	 */
-	public AmmoType getAmmoType() {
-		// TODO implement here
-		return null;
-	}
-
-	/**
-	 * @return
-	 */
+	@Override
 	public ArrayList<Card> listCards() {
-		// TODO implement here
 		return null;
 	}
+
+	public AmmoType getAmmoType() {
+		return null;
+	}
+
 
 }

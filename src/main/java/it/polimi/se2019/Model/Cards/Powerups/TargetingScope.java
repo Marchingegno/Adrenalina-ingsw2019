@@ -1,28 +1,17 @@
-package it.polimi.se2019.Model.Cards.Powerups;
+package it.polimi.se2019.model.cards.powerups;
 
-import it.polimi.se2019.Model.Cards.Ammo.AmmoType;
-import it.polimi.se2019.Model.Player.Player;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.player.Player;
 
-import java.util.*;
-
-/**
- *
- */
 public class TargetingScope extends PowerupCard {
 
-	/**
-	 * @param associatedAmmo
-	 * @param description
-	 */
-	public void TargetingScope(AmmoType associatedAmmo, String description) {
-		// TODO implement here
+	public TargetingScope(AmmoType associatedAmmo, String description) {
+		super(associatedAmmo, description);
 	}
 
-	/**
-	 * @param targetPlayer
-	 */
+
+	@Override
 	public void activatePowerup(Player targetPlayer) {
-		// TODO implement here
 	}
 
 }

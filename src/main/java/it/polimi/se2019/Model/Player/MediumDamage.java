@@ -1,49 +1,12 @@
-package it.polimi.se2019.Model.Player;
+package it.polimi.se2019.model.player;
 
-import java.util.*;
-
-/**
- *
- */
 public class MediumDamage extends Status {
 
-	/**
-	 *
-	 */
-	private Player Player;
-
-	/**
-	 * Default constructor
-	 */
-	public MediumDamage() {
-	}
-
-	/**
-	 *
-	 */
+	@Override
 	public void getAvailableActions() {
-		// TODO implement here
 	}
 
-	/**
-	 *
-	 */
-	public void runAround() {
-		// TODO implement here
+	@Override
+	public void doAction() {
 	}
-
-	/**
-	 *
-	 */
-	public void grabStuff() {
-		// TODO implement here
-	}
-
-	/**
-	 *
-	 */
-	public void shootPeople() {
-		// TODO implement here
-	}
-
 }

@@ -1,49 +1,13 @@
-package it.polimi.se2019.Model.Player;
+package it.polimi.se2019.model.player;
 
-import java.util.*;
-
-/**
- *
- */
 public class LowDamage extends Status {
 
-	/**
-	 *
-	 */
-	private Player player;
-
-	/**
-	 * Default constructor
-	 */
-	public LowDamage() {
-	}
-
-	/**
-	 *
-	 */
+	@Override
 	public void getAvailableActions() {
-		// TODO implement here
 	}
 
-	/**
-	 *
-	 */
-	public void runAround() {
-		// TODO implement here
-	}
-
-	/**
-	 *
-	 */
-	public void grabStuff() {
-		// TODO implement here
-	}
-
-	/**
-	 *
-	 */
-	public void shootPeople() {
-		// TODO implement here
+	@Override
+	public void doAction() {
 	}
 
 }

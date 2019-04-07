@@ -1,62 +1,27 @@
-package it.polimi.se2019.Model.Cards;
+package it.polimi.se2019.model.cards;
 
-import java.util.*;
+import java.util.ArrayList;
 
-/**
- *
- */
-public abstract class Deck {
+public abstract class Deck<E> {
 
-	/**
-	 * Default constructor
-	 */
-    public Deck(){
-	}
+	private ArrayList<E> discardDeck;
+	private ArrayList<E> actualDeck;
 
-	/**
-	 *
-	 */
-	private ArrayList<Card> discardDeck;
 
-	/**
-	 *
-	 */
-	private ArrayList<Card> actualDeck;
-
-	/**
-	 * @param cardToAdd
-	 */
-	public void addCard(Card cardToAdd) {
-		// TODO implement here
-	}
-
-	/**
-	 * @param cardToDiscard
-	 */
-	public void discardCard(Card cardToDiscard) {
-		// TODO implement here
-	}
-
-	/**
-	 * @return
-	 */
-	public Card drawCard() {
-		// TODO implement here
+	public E drawCard() {
 		return null;
 	}
 
-	/**
-	 *
-	 */
-	public void refillActualDeck(){
-
+	public void addCard(E cardToAdd) {
 	}
 
-	/**
-	 *
-	 */
+	public void refillActualDeck() {
+	}
+
+	public void discardCard(E cardToDiscard) {
+	}
+
 	public void shuffleDeck() {
-		// TODO implement here
 	}
 
 }

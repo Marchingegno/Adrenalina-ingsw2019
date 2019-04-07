@@ -1,11 +1,7 @@
-package it.polimi.se2019.Model.Cards.Ammo;
+package it.polimi.se2019.model.cards.ammo;
 
-/**
- *
- */
 public enum AmmoType {
-	BLUE_AMMO,
 	RED_AMMO,
-	YELLOW_AMMO
-
+	YELLOW_AMMO,
+	BLUE_AMMO
 }
