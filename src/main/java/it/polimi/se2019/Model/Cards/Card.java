@@ -5,7 +5,7 @@ public abstract class Card {
 	private String description;
 
 
-	public void Card(String description) {
+	public Card(String description) {
 	}
 
 

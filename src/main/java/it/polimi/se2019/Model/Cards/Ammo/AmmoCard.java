@@ -10,10 +10,12 @@ public class AmmoCard extends Card {
 	private boolean hasPowerup;
 
 
-	public void AmmoCard(AmmoType ammo1, AmmoType ammo2, AmmoType ammo3, String description) {
+	public AmmoCard(AmmoType ammo1, AmmoType ammo2, AmmoType ammo3, String description) {
+		super(description);
 	}
 
-	public void AmmoCard(AmmoType ammo1, AmmoType ammo2, String description) {
+	public AmmoCard(AmmoType ammo1, AmmoType ammo2, String description) {
+		super(description);
 	}
 
 

@@ -2,8 +2,10 @@ package it.polimi.se2019.model.cards.weapons;
 
 public final class GrenadeLauncher extends OptionalFire {
 
-	public GrenadeLauncher() {
+	public GrenadeLauncher(String description) {
+		super(description);
 	}
+
 
 	protected void primaryFire() {
 	}

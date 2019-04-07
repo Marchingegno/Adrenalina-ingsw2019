@@ -15,7 +15,7 @@ public class TurnController {
 	private VirtualView view;
 
 
-	public void TurnController(Model model, Player player) {
+	public TurnController(Model model, Player player) {
 	}
 
 

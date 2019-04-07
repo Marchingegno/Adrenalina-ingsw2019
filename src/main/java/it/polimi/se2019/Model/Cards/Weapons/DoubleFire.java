@@ -2,6 +2,11 @@ package it.polimi.se2019.model.cards.weapons;
 
 public abstract class DoubleFire extends WeaponCard {
 
+	public DoubleFire(String description) {
+		super(description);
+	}
+
+
 	@Override
 	public void shoot() {
 	}

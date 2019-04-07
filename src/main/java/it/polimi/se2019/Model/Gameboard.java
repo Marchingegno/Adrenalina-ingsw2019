@@ -21,7 +21,7 @@ public class GameBoard {
 	private GameMap gameMap;
 
 
-	public void Gameboard(String mapPath, ArrayList<String> playerNames, int skulls) {
+	public GameBoard(String mapPath, ArrayList<String> playerNames, int skulls) {
 	}
 
 

@@ -2,10 +2,10 @@ package it.polimi.se2019.controller;
 
 public class MacroActionBuilder {
 
-	public int moveDistance;
-	public boolean grabActive;
-	public boolean reloadActive;
-	public boolean shootActive;
+	private int moveDistance;
+	private boolean grabActive;
+	private boolean reloadActive;
+	private boolean shootActive;
 
 
 	public MacroActionBuilder() {

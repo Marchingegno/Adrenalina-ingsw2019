@@ -7,14 +7,14 @@ import java.util.Set;
 
 public class MacroAction {
 
-	public int numOfMovements;
-	public boolean grab;
-	public boolean reload;
-	public boolean shoot;
+	private int numOfMovements;
+	private boolean grab;
+	private boolean reload;
+	private boolean shoot;
 	private Set<Status> possibleActions;
 
 
-	public void MacroAction(int numOfMovements, boolean grab, boolean reload, boolean shoot) {
+	public MacroAction(int numOfMovements, boolean grab, boolean reload, boolean shoot) {
 	}
 
 

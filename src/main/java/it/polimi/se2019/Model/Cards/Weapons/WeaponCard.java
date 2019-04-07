@@ -13,6 +13,11 @@ public abstract class WeaponCard extends Card {
 	private ArrayList<AmmoType> reloadPrice;
 
 
+	public WeaponCard(String description) {
+		super(description);
+	}
+
+
 	public abstract void shoot();
 
 	protected abstract void primaryFire();

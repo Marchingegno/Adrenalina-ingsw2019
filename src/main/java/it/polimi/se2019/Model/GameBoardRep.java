@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class GameBoardRep {
 
-	public int skulls;
-	public ArrayList<String> doubleKills;
-	public ArrayList<String> killShoots;
-	public String currentPlayer;
+	private int skulls;
+	private ArrayList<String> doubleKills;
+	private ArrayList<String> killShoots;
+	private String currentPlayer;
 
 	public GameBoardRep() {
 	}

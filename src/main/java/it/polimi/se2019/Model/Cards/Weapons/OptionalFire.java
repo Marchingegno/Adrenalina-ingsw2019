@@ -5,6 +5,11 @@ public abstract class OptionalFire extends WeaponCard {
 	private boolean hasOptionalFire2;
 
 
+	public OptionalFire(String description) {
+		super(description);
+	}
+
+
 	@Override
 	public void shoot() {
 	}

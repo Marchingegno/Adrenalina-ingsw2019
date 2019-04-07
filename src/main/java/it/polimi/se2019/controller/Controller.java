@@ -11,7 +11,7 @@ public class Controller {
 	private Model model;
 
 
-	public void Controller(ArrayList<Player> playerQueue) {
+	public Controller(ArrayList<Player> playerQueue) {
 	}
 
 

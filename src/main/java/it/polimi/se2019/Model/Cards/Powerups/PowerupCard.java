@@ -9,6 +9,7 @@ public abstract class PowerupCard extends Card {
 	private AmmoType associatedAmmo;
 
 	public PowerupCard(AmmoType associatedAmmo, String description) {
+		super(description);
 	}
 
 

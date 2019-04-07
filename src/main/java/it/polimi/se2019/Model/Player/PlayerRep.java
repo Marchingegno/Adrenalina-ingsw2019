@@ -21,14 +21,11 @@ public class PlayerRep {
 	private boolean hidden;
 
 
-	public void PlayerRep(Player player) {
+	public PlayerRep(Player player) {
 	}
 
 
 	public void getHiddenPlayerRep() {
-	}
-
-	private void PlayerRep() {
 	}
 
 	public boolean isHidden() {

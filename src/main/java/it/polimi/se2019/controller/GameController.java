@@ -12,7 +12,7 @@ public class GameController {
 	private PlayerQueue playerQueue;
 
 
-	public void GameController(Model model, ArrayList<Player> playerQueue) {
+	public GameController(Model model, ArrayList<Player> playerQueue) {
 	}
 
 
