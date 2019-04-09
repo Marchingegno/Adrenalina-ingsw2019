@@ -17,7 +17,7 @@ public class AmmoContainerTest {
 	}
 
 	@Test
-	public void getAmmo_initialState_shouldGiveInitialAmmo() {
+	public void getAmmo_noInput_shouldGiveInitialAmmo() {
 		AmmoContainer ammoContainer = new AmmoContainer();
 		for (AmmoType ammoType : AmmoType.values()) {
 			assertEquals(AmmoContainer.INITIAL_AMMO, ammoContainer.getAmmo(ammoType));
