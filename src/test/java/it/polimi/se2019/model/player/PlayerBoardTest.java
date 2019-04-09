@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
+
 import static org.junit.Assert.*;
 
 public class PlayerBoardTest {
@@ -19,9 +21,10 @@ public class PlayerBoardTest {
 
 	@Before
 	public void setUp() throws Exception {
-		player1 = new Player("Test 1", 0);
-		player2 = new Player("Test 2", 1);
-		player3 = new Player("Test 3", 2);
+		player1 = new Player("Test 1", 0, Color.GREEN);
+		player2 = new Player("Test 2", 1, Color.BLUE);
+		player3 = new Player("Test 3", 2, Color.RED);
+		player3 = new Player("Test 4", 3, Color.YELLOW);
 	}
 
 	@After
@@ -29,12 +32,21 @@ public class PlayerBoardTest {
 	}
 
 	@Test
-	public void addDamage_correctInput_noOutput() {
+	public void addDamage_correctInput_correctOutput() {
 		PlayerBoard playerBoard = new PlayerBoard();
 		playerBoard.addDamage(player1, 2);
 		playerBoard.addDamage(player2, 1);
 		playerBoard.addDamage(player3, 2);
 		playerBoard.addDamage(player1, 3);
+		assertEquals(8, playerBoard.getDamage().size());
+		assertEquals(player1, playerBoard.getDamage().get(0));
+		assertEquals(player1, playerBoard.getDamage().get(1));
+		assertEquals(player2, playerBoard.getDamage().get(2));
+		assertEquals(player3, playerBoard.getDamage().get(3));
+		assertEquals(player3, playerBoard.getDamage().get(4));
+		assertEquals(player1, playerBoard.getDamage().get(5));
+		assertEquals(player1, playerBoard.getDamage().get(6));
+		assertEquals(player1, playerBoard.getDamage().get(7));
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -84,12 +96,19 @@ public class PlayerBoardTest {
 	}
 
 	@Test
-	public void addMarks_correctInput_noOutput() {
+	public void addMarks_correctInput_correctOutput() {
 		PlayerBoard playerBoard = new PlayerBoard();
 		playerBoard.addMarks(player1, 2);
 		playerBoard.addMarks(player2, 1);
 		playerBoard.addMarks(player3, 2);
-		playerBoard.addMarks(player1, 3);
+		playerBoard.addMarks(player1, 3); // can't have more than 3!
+		assertEquals(6, playerBoard.getMarks().size());
+		assertEquals(player1, playerBoard.getMarks().get(0));
+		assertEquals(player1, playerBoard.getMarks().get(1));
+		assertEquals(player2, playerBoard.getMarks().get(2));
+		assertEquals(player3, playerBoard.getMarks().get(3));
+		assertEquals(player3, playerBoard.getMarks().get(4));
+		assertEquals(player1, playerBoard.getMarks().get(5));
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -118,10 +137,6 @@ public class PlayerBoardTest {
 		playerBoard = new PlayerBoard();
 		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE - 1);
 		assertFalse(playerBoard.isDead());
-	}
-
-	@Test
-	public void addPoints() {
 	}
 
 	@Test

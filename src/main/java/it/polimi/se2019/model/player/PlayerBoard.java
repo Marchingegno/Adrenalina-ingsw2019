@@ -14,9 +14,9 @@ import java.util.List;
 public class PlayerBoard {
 
 	public static final int DEATH_DAMAGE = 11;
-	private static final int MAX_MARKS_PER_PLAYER = 3;
-	private static final int MAX_WEAPON_CARDS_PER_PLAYER = 3;
-	private static final int MAX_POWERUP_CARDS_PER_PLAYER = 3;
+	public static final int MAX_MARKS_PER_PLAYER = 3;
+	public static final int MAX_WEAPON_CARDS_PER_PLAYER = 3;
+	public static final int MAX_POWERUP_CARDS_PER_PLAYER = 3;
 
 	private ArrayList<Player> damage;
 	private ArrayList<Player> marks;
@@ -69,6 +69,16 @@ public class PlayerBoard {
 	}
 
 	/**
+	 * Returns the current damage board of the player.
+	 * @return the List of damages done to the player.
+	 */
+	public List<Player> getDamage() {
+		List<Player> clone = new ArrayList<>(damage.size());
+		clone.addAll(damage);
+		return clone;
+	}
+
+	/**
 	 * Add marks to the player.
 	 * @param shootingPlayer the player making the damage.
 	 * @param amountOfMarks amount of marks to add to the player.
@@ -82,6 +92,16 @@ public class PlayerBoard {
 			// check if the shooting player doesn't have the max number of marks on the target player.
 			if(marks.stream().filter(player -> player == shootingPlayer).count() < MAX_MARKS_PER_PLAYER)
 				marks.add(shootingPlayer);
+	}
+
+	/**
+	 * Returns the current marks of the player.
+	 * @return the List of marks done to the player.
+	 */
+	public List<Player> getMarks() {
+		List<Player> clone = new ArrayList<>(marks.size());
+		clone.addAll(marks);
+		return clone;
 	}
 
 	private void resetDamage() {
@@ -210,6 +230,7 @@ public class PlayerBoard {
 
 /**
  * Thrown when a new item hasn't be added because the inventory has reached the max capacity.
+ * @author Desno365
  */
 class InventoryFullException extends RuntimeException {
 
