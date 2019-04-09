@@ -32,6 +32,10 @@ public class GameBoard {
 	public void isFrenzyTriggered() {
 	}
 
+	public int getSkulls() {
+		return skulls;
+	}
+
 	public void addDoubleKill(Player player) {
 	}
 

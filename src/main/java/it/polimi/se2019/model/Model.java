@@ -17,6 +17,10 @@ public class Model extends Observable {
 	public void initialize(String mapPath, ArrayList<String> playerNames, int skulls) {
 	}
 
+	public GameBoard getGameBoard() {
+		return gameBoard;
+	}
+
 	public void movePlayerTo(Player palyerToMove) {
 	}
 
@@ -29,8 +33,10 @@ public class Model extends Observable {
 	public void doDamageTo(Player playerShooting, Player playerDamages, int amountOfDamage) {
 	}
 
-	public void isFrenzy() {
+	public boolean isFrenzy() {
+		return false;
 	}
+
 
 	public void drawPowerupCard(Player player) {
 	}

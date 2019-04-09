@@ -21,6 +21,10 @@ public class Player {
 	public void getAvailableActions() {
 	}
 
+	public PlayerBoard getPlayerBoard() {
+		return playerBoard;
+	}
+
 	public void shoot() {
 	}
 

@@ -9,17 +9,21 @@ import java.util.Set;
 
 public class TurnController {
 
-	private Player player;
+	private Player currentPlayer;
 	private Model model;
 	private Set<MacroAction> possibleActions;
 	private VirtualView view;
 
 
-	public TurnController(Model model, Player player) {
+	public TurnController(Model model) {
 	}
 
 
-	public void handleTurn() {
+	public void handleTurn(Player player) {
+	}
+
+	public void displayPossibleMoves(){
+
 	}
 
 	public void performPowerup(int indexOfPowerup) {

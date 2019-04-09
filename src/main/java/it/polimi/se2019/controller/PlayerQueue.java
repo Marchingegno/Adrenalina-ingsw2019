@@ -1,8 +1,16 @@
 package it.polimi.se2019.controller;
 
-import java.util.ArrayDeque;
+import it.polimi.se2019.model.player.Player;
 
-public class PlayerQueue extends ArrayDeque {
+import java.util.ArrayDeque;
+import java.util.List;
+
+public class PlayerQueue<Player> extends ArrayDeque {
+
+
+	public PlayerQueue(List<Player> playerQueue) {
+		super(playerQueue);
+	}
 
 	public void moveToBottom() {
 	}
