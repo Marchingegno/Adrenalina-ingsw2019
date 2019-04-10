@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.player;
 
+import it.polimi.se2019.model.GameConstants;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.Newton;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
@@ -59,19 +60,19 @@ public class PlayerBoardTest {
 	public void addDamage_correctInputWithMarks_shouldBeDead() {
 		PlayerBoard playerBoard = new PlayerBoard();
 		playerBoard.addMarks(player1, 2);
-		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE - 1);
+		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE - 1);
 		assertTrue(playerBoard.isDead());
 
 		playerBoard = new PlayerBoard();
 		playerBoard.addMarks(player1, 3);
-		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE - 1);
+		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE - 1);
 		assertTrue(playerBoard.isDead());
 
 		playerBoard = new PlayerBoard();
 		playerBoard.addMarks(player1, 3);
 		playerBoard.addMarks(player2, 2);
 		playerBoard.addMarks(player3, 1);
-		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE - 1);
+		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE - 1);
 		assertTrue(playerBoard.isDead());
 	}
 
@@ -79,7 +80,7 @@ public class PlayerBoardTest {
 	public void addDamage_correctInputWithMarks_shouldBeAlive() {
 		PlayerBoard playerBoard = new PlayerBoard();
 		playerBoard.addMarks(player1, 2);
-		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE - 3);
+		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE - 3);
 		assertFalse(playerBoard.isDead());
 
 		playerBoard = new PlayerBoard();
@@ -91,7 +92,7 @@ public class PlayerBoardTest {
 		playerBoard.addMarks(player1, 3);
 		playerBoard.addMarks(player2, 2);
 		playerBoard.addMarks(player3, 1);
-		playerBoard.addDamage(player3, PlayerBoard.DEATH_DAMAGE - 2);
+		playerBoard.addDamage(player3, GameConstants.DEATH_DAMAGE - 2);
 		assertFalse(playerBoard.isDead());
 	}
 
@@ -120,11 +121,11 @@ public class PlayerBoardTest {
 	@Test
 	public void isDead_moreDamageThanDeathLimitAdded_shouldBeDead() {
 		PlayerBoard playerBoard = new PlayerBoard();
-		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE);
+		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE);
 		assertTrue(playerBoard.isDead());
 
 		playerBoard = new PlayerBoard();
-		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE + 1);
+		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE + 1);
 		assertTrue(playerBoard.isDead());
 	}
 
@@ -135,7 +136,7 @@ public class PlayerBoardTest {
 		assertFalse(playerBoard.isDead());
 
 		playerBoard = new PlayerBoard();
-		playerBoard.addDamage(player1, PlayerBoard.DEATH_DAMAGE - 1);
+		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE - 1);
 		assertFalse(playerBoard.isDead());
 	}
 

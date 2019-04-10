@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.player;
 
+import it.polimi.se2019.model.GameConstants;
 import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -12,11 +13,6 @@ import java.util.List;
  * @author Desno365
  */
 public class PlayerBoard {
-
-	public static final int DEATH_DAMAGE = 11;
-	public static final int MAX_MARKS_PER_PLAYER = 3;
-	public static final int MAX_WEAPON_CARDS_PER_PLAYER = 3;
-	public static final int MAX_POWERUP_CARDS_PER_PLAYER = 3;
 
 	private ArrayList<Player> damage;
 	private ArrayList<Player> marks;
@@ -57,7 +53,7 @@ public class PlayerBoard {
 			damage.add(shootingPlayer);
 
 		// Add marks
-		for (int i = 0; i < MAX_MARKS_PER_PLAYER; i++) {
+		for (int i = 0; i < GameConstants.MAX_MARKS_PER_PLAYER; i++) {
 			int index = marks.indexOf(shootingPlayer);
 			if(index == -1) {
 				break;
@@ -90,7 +86,7 @@ public class PlayerBoard {
 
 		for (int i = 0; i < amountOfMarks; i++)
 			// check if the shooting player doesn't have the max number of marks on the target player.
-			if(marks.stream().filter(player -> player == shootingPlayer).count() < MAX_MARKS_PER_PLAYER)
+			if(marks.stream().filter(player -> player == shootingPlayer).count() < GameConstants.MAX_MARKS_PER_PLAYER)
 				marks.add(shootingPlayer);
 	}
 
@@ -113,7 +109,7 @@ public class PlayerBoard {
 	 * @return true if the player is dead.
 	 */
 	public boolean isDead() {
-		return damage.size() >= DEATH_DAMAGE;
+		return damage.size() >= GameConstants.DEATH_DAMAGE;
 	}
 
 	/**
@@ -161,7 +157,7 @@ public class PlayerBoard {
 	 * @throws InventoryFullException if the inventory is already full.
 	 */
 	public void addWeapon(WeaponCard weaponToAdd) {
-		if(weaponCards.size() >= MAX_WEAPON_CARDS_PER_PLAYER)
+		if(weaponCards.size() >= GameConstants.MAX_WEAPON_CARDS_PER_PLAYER)
 			throw new InventoryFullException("Cannot add another weapon card since the inventory is full. Use swapWeapon to change the weapon.");
 		weaponCards.add(weaponToAdd);
 	}
@@ -195,7 +191,7 @@ public class PlayerBoard {
 	 * @throws InventoryFullException if the inventory is already full.
 	 */
 	public void addPowerup(PowerupCard powerupToAdd) {
-		if(powerupCards.size() >= MAX_POWERUP_CARDS_PER_PLAYER)
+		if(powerupCards.size() >= GameConstants.MAX_POWERUP_CARDS_PER_PLAYER)
 			throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
 		powerupCards.add(powerupToAdd);
 	}

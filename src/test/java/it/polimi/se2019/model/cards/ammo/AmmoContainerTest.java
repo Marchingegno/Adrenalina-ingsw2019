@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.ammo;
 
+import it.polimi.se2019.model.GameConstants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,27 +21,27 @@ public class AmmoContainerTest {
 	public void getAmmo_noInput_shouldGiveInitialAmmo() {
 		AmmoContainer ammoContainer = new AmmoContainer();
 		for (AmmoType ammoType : AmmoType.values()) {
-			assertEquals(AmmoContainer.INITIAL_AMMO, ammoContainer.getAmmo(ammoType));
+			assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE, ammoContainer.getAmmo(ammoType));
 		}
 	}
 
 	@Test
 	public void addAmmo_lessThanMaxAmmoAdded_shouldGiveModifiedValue() {
 		AmmoContainer ammoContainer = new AmmoContainer();
-		final int ammoToAddForTest = 2; // must be less than MAX_AMMO - INITIAL_AMMO!
+		final int ammoToAddForTest = 2; // must be less than MAX_AMMO_PER_AMMO_TYPE - INITIAL_AMMO_PER_AMMO_TYPE!
 		for (AmmoType ammoType : AmmoType.values()) {
 			ammoContainer.addAmmo(ammoType, ammoToAddForTest);
-			assertEquals(AmmoContainer.INITIAL_AMMO + ammoToAddForTest, ammoContainer.getAmmo(ammoType));
+			assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE + ammoToAddForTest, ammoContainer.getAmmo(ammoType));
 		}
 	}
 
 	@Test
 	public void addAmmo_moreThanMaxAmmoAdded_shouldGiveMaxAmmo() {
 		AmmoContainer ammoContainer = new AmmoContainer();
-		final int ammoToAddForTest = AmmoContainer.MAX_AMMO + 1;
+		final int ammoToAddForTest = GameConstants.MAX_AMMO_PER_AMMO_TYPE + 1;
 		for (AmmoType ammoType : AmmoType.values()) {
 			ammoContainer.addAmmo(ammoType, ammoToAddForTest);
-			assertEquals(AmmoContainer.MAX_AMMO, ammoContainer.getAmmo(ammoType));
+			assertEquals(GameConstants.MAX_AMMO_PER_AMMO_TYPE, ammoContainer.getAmmo(ammoType));
 		}
 	}
 
@@ -53,17 +54,17 @@ public class AmmoContainerTest {
 	@Test
 	public void removeAmmo_removedLessThanCurrent_shouldGiveModifiedValue() {
 		AmmoContainer ammoContainer = new AmmoContainer();
-		final int ammoToRemoveForTest = AmmoContainer.INITIAL_AMMO; // must be less or equal to INITIAL_AMMO!
+		final int ammoToRemoveForTest = GameConstants.INITIAL_AMMO_PER_AMMO_TYPE; // must be less or equal to INITIAL_AMMO_PER_AMMO_TYPE!
 		for (AmmoType ammoType : AmmoType.values()) {
 			ammoContainer.removeAmmo(ammoType, ammoToRemoveForTest);
-			assertEquals(AmmoContainer.INITIAL_AMMO - ammoToRemoveForTest, ammoContainer.getAmmo(ammoType));
+			assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE - ammoToRemoveForTest, ammoContainer.getAmmo(ammoType));
 		}
 	}
 
 	@Test
 	public void removeAmmo_removedMoreThanCurrent_shouldGiveZero() {
 		AmmoContainer ammoContainer = new AmmoContainer();
-		final int ammoToRemoveForTest = AmmoContainer.MAX_AMMO + 1;
+		final int ammoToRemoveForTest = GameConstants.MAX_AMMO_PER_AMMO_TYPE + 1;
 		for (AmmoType ammoType : AmmoType.values()) {
 			ammoContainer.removeAmmo(ammoType, ammoToRemoveForTest);
 			assertEquals(0, ammoContainer.getAmmo(ammoType));

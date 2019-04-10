@@ -1,13 +1,12 @@
 package it.polimi.se2019.model.cards.ammo;
 
+import it.polimi.se2019.model.GameConstants;
+
 /**
  * Contains all the ammos of the player.
  * @author Desno365
  */
 public class AmmoContainer {
-
-	public static final int MAX_AMMO = 3;
-	public static final int INITIAL_AMMO = 1;
 
 	private int[] ammos;
 
@@ -18,7 +17,7 @@ public class AmmoContainer {
 	public AmmoContainer() {
 		ammos = new int[AmmoType.values().length];
 		for (AmmoType ammoType : AmmoType.values()) {
-			ammos[ammoType.ordinal()] = INITIAL_AMMO;
+			ammos[ammoType.ordinal()] = GameConstants.INITIAL_AMMO_PER_AMMO_TYPE;
 		}
 	}
 
@@ -44,8 +43,8 @@ public class AmmoContainer {
 
 		ammos[ammoToAdd.ordinal()] += numOfAmmoToAdd;
 
-		if(ammos[ammoToAdd.ordinal()] > MAX_AMMO)
-			ammos[ammoToAdd.ordinal()] = MAX_AMMO;
+		if(ammos[ammoToAdd.ordinal()] > GameConstants.MAX_AMMO_PER_AMMO_TYPE)
+			ammos[ammoToAdd.ordinal()] = GameConstants.MAX_AMMO_PER_AMMO_TYPE;
 	}
 
 	/**
