@@ -131,7 +131,7 @@ public class PlayerBoardTest {
 	@Test
 	public void isDead_lessDamageThanDeathLimitAdded_shouldBeAlive() {
 		PlayerBoard playerBoard = new PlayerBoard();
-		playerBoard.addDamage(player1, 0);
+		playerBoard.addDamage(player1, 1);
 		assertFalse(playerBoard.isDead());
 
 		playerBoard = new PlayerBoard();
