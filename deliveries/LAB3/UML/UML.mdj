@@ -13384,7 +13384,7 @@
 											"top": 660,
 											"width": 269.87060546875,
 											"height": 13,
-											"text": "+setStatus(newStatus)",
+											"text": "+setStatus(newDamageStatus)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -27054,7 +27054,7 @@
 													"_parent": {
 														"$ref": "AAAAAAFpwEsAZ1ht7rU="
 													},
-													"name": "newStatus",
+													"name": "newDamageStatus",
 													"type": ""
 												}
 											]

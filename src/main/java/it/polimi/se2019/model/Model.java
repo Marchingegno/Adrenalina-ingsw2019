@@ -49,7 +49,7 @@ public class Model extends Observable {
 			PlayerBoard playerBoard = player.getPlayerBoard();
 			if (playerBoard.isDead())
 			{
-
+				//TODO: Implement scoring
 				playerBoard.resetBoardAfterDeath();
 			}
 		}

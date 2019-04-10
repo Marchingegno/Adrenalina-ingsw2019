@@ -1,6 +1,8 @@
 package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.player.damagestatus.DamageStatus;
+import it.polimi.se2019.model.player.damagestatus.LowDamage;
 
 import java.awt.Color;
 
@@ -10,7 +12,7 @@ public class Player {
 	private int playerID;
 	private Color playerColor;
 	private PlayerBoard playerBoard;
-	private Status status;
+	private DamageStatus damageStatus;
 	private GameBoard gameboard;
 
 
@@ -19,7 +21,7 @@ public class Player {
 		this.playerID = playerID;
 		this.playerColor = playerColor;
 		playerBoard = new PlayerBoard();
-		status = new LowDamage();
+		damageStatus = new LowDamage();
 	}
 
 	public PlayerBoard getPlayerBoard() {
@@ -38,12 +40,12 @@ public class Player {
 		return playerColor;
 	}
 
-	public void setStatus(Status newStatus) {
-		status = newStatus;
+	public void setDamageStatus(DamageStatus newDamageStatus) {
+		damageStatus = newDamageStatus;
 	}
 
-	public Status getStatus() {
-		return status;
+	public DamageStatus getDamageStatus() {
+		return damageStatus;
 	}
 
 	public void getAvailableActions() {
