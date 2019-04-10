@@ -3,9 +3,11 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 public class Model extends Observable {
@@ -14,27 +16,43 @@ public class Model extends Observable {
 	private GameBoard gameBoard;
 
 
-	public void initialize(String mapPath, ArrayList<String> playerNames, int skulls) {
+	public void initialize(String mapPath, List<String> playerNames, int startingSkulls) {
+		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
 	}
 
-	public GameBoard getGameBoard() {
-		return gameBoard;
+	public void movePlayerTo(Player playerToMove) {
 	}
 
-	public void movePlayerTo(Player palyerToMove) {
+	public void doDamageAndAddMarks(Player shootingPlayer, Player damagedPlayer, int amountOfDamage, int amountOfMarks) {
+		doDamage(shootingPlayer, damagedPlayer, amountOfDamage);
+		addMarks(shootingPlayer, damagedPlayer, amountOfMarks);
 	}
 
-	public void doDamageAndAddMarksTo(Player playerShooting, Player playerDamages, int amountOfDamage, int numOfMarks) {
+	public void addMarks(Player shootingPlayer, Player damagedPlayer, int amountOfMarks) {
+		damagedPlayer.getPlayerBoard().addMarks(shootingPlayer, amountOfMarks);
 	}
 
-	public void addMarks(Player playerShooting, Player playerDamages, int numOfMarks) {
+	public void doDamage(Player shootingPlayer, Player damagedPlayer, int amountOfDamage) {
+		PlayerBoard damagedPlayerBoard = damagedPlayer.getPlayerBoard();
+		damagedPlayerBoard.addDamage(shootingPlayer, amountOfDamage);
+		if(damagedPlayerBoard.isDead()) {
+			gameBoard.addKillShot(shootingPlayer, damagedPlayerBoard.isOverkilled());
+		}
 	}
 
-	public void doDamageTo(Player playerShooting, Player playerDamages, int amountOfDamage) {
+	public boolean areSkullsFinished() {
+		return gameBoard.areSkullsFinished();
 	}
 
-	public boolean isFrenzy() {
-		return false;
+	public void scoreDeadPlayers() {
+		for (Player player : gameBoard.getPlayers()) {
+			PlayerBoard playerBoard = player.getPlayerBoard();
+			if (playerBoard.isDead())
+			{
+
+				playerBoard.resetBoardAfterDeath();
+			}
+		}
 	}
 
 
