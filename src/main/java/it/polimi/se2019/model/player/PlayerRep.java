@@ -37,8 +37,8 @@ public class PlayerRep implements Serializable {
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
 
-		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamage().size());
-		for(Player player1 : player.getPlayerBoard().getDamage()) {
+		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());
+		for(Player player1 : player.getPlayerBoard().getDamageBoard()) {
 			damageBoard.add(player1.getPlayerName());
 		}
 

@@ -38,15 +38,15 @@ public class PlayerBoardTest {
 		playerBoard.addDamage(player2, 1);
 		playerBoard.addDamage(player3, 2);
 		playerBoard.addDamage(player1, 3);
-		assertEquals(8, playerBoard.getDamage().size());
-		assertEquals(player1, playerBoard.getDamage().get(0));
-		assertEquals(player1, playerBoard.getDamage().get(1));
-		assertEquals(player2, playerBoard.getDamage().get(2));
-		assertEquals(player3, playerBoard.getDamage().get(3));
-		assertEquals(player3, playerBoard.getDamage().get(4));
-		assertEquals(player1, playerBoard.getDamage().get(5));
-		assertEquals(player1, playerBoard.getDamage().get(6));
-		assertEquals(player1, playerBoard.getDamage().get(7));
+		assertEquals(8, playerBoard.getDamageBoard().size());
+		assertEquals(player1, playerBoard.getDamageBoard().get(0));
+		assertEquals(player1, playerBoard.getDamageBoard().get(1));
+		assertEquals(player2, playerBoard.getDamageBoard().get(2));
+		assertEquals(player3, playerBoard.getDamageBoard().get(3));
+		assertEquals(player3, playerBoard.getDamageBoard().get(4));
+		assertEquals(player1, playerBoard.getDamageBoard().get(5));
+		assertEquals(player1, playerBoard.getDamageBoard().get(6));
+		assertEquals(player1, playerBoard.getDamageBoard().get(7));
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -160,22 +160,17 @@ public class PlayerBoardTest {
 	}
 
 	@Test
-	public void score() {
-		// TODO
-	}
-
-	@Test
 	public void getNumberOfDeaths_normalState_correctOutput() {
 		PlayerBoard playerBoard = new PlayerBoard();
 		assertEquals(0, playerBoard.getNumberOfDeaths());
 		playerBoard.addDamage(player1, 11);
-		playerBoard.score();
+		playerBoard.resetBoardAfterDeath();
 		assertEquals(1, playerBoard.getNumberOfDeaths());
 		playerBoard.addDamage(player2, 12);
-		playerBoard.score();
+		playerBoard.resetBoardAfterDeath();
 		assertEquals(2, playerBoard.getNumberOfDeaths());
 		playerBoard.addDamage(player2, 2);
-		playerBoard.score();
+		playerBoard.resetBoardAfterDeath();
 		assertEquals(2, playerBoard.getNumberOfDeaths());
 	}
 

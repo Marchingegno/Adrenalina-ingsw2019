@@ -30,15 +30,14 @@ public class GameController {
 	}
 
 	public void gameLogic() {
-		while(!model.isFrenzy()){
+		while(!model.areSkullsFinished()){
 			startTurn((Player)playerQueue.getFirst());
 			endTurn();
 		}
 
 
 	}
-
-
+	
 	public void startFrenzy() {
 	}
 
@@ -57,12 +56,9 @@ public class GameController {
 	 * and moves to the bottom the first player of playerQueue.
 	 */
 	public void endTurn() {
-		for (Player player:model.getGameBoard().getPlayers()) {
-			if (player.getPlayerBoard().isDead())
-				player.getPlayerBoard().score();
-		}
+		model.scoreDeadPlayers();
 
-		if(model.getGameBoard().getSkulls() == 0)
+		if(model.areSkullsFinished())
 			startFrenzy();
 		playerQueue.moveToBottom();
 	}

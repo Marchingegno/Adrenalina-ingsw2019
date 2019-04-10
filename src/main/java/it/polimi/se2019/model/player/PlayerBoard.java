@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class PlayerBoard {
 
-	private ArrayList<Player> damage;
+	private ArrayList<Player> damageBoard;
 	private ArrayList<Player> marks;
 	private int numberOfDeaths;
 	private int points;
@@ -28,7 +28,7 @@ public class PlayerBoard {
 	 * Create an empty PlayerBoard ready to be used.
 	 */
 	public PlayerBoard() {
-		damage = new ArrayList<>();
+		damageBoard = new ArrayList<>();
 		marks = new ArrayList<>();
 		numberOfDeaths = 0;
 		points = 0;
@@ -39,18 +39,19 @@ public class PlayerBoard {
 
 
 	/**
-	 * Add damage to the player and add previous marks to the damage.
-	 * @param shootingPlayer the player making the damage.
-	 * @param amountOfDamage amount of damage tokens to add to the player.
-	 * @throws IllegalArgumentException if the amount of damage to add is negative.
+	 * Add damageBoard to the player and add previous marks to the damageBoard.
+	 * @param shootingPlayer the player making the damageBoard.
+	 * @param amountOfDamage amount of damageBoard tokens to add to the player.
+	 * @throws IllegalArgumentException if the amount of damageBoard is not positive.
 	 */
 	public void addDamage(Player shootingPlayer, int amountOfDamage) {
-		if(amountOfDamage < 0)
-			throw new IllegalArgumentException("amountOfDamage cannot be negative.");
+		if(amountOfDamage <= 0)
+			throw new IllegalArgumentException("amountOfDamage cannot be negative or zero.");
 
-		// Add damage
+		// Add damageBoard
 		for (int i = 0; i < amountOfDamage; i++)
-			damage.add(shootingPlayer);
+			if(damageBoard.size() < GameConstants.OVERKILL_DAMAGE)
+				damageBoard.add(shootingPlayer);
 
 		// Add marks
 		for (int i = 0; i < GameConstants.MAX_MARKS_PER_PLAYER; i++) {
@@ -58,31 +59,29 @@ public class PlayerBoard {
 			if(index == -1) {
 				break;
 			} else {
-				damage.add(shootingPlayer);
+				damageBoard.add(shootingPlayer);
 				marks.remove(index);
 			}
 		}
 	}
 
 	/**
-	 * Returns the current damage board of the player.
+	 * Returns the current damageBoard board of the player.
 	 * @return the List of damages done to the player.
 	 */
-	public List<Player> getDamage() {
-		List<Player> clone = new ArrayList<>(damage.size());
-		clone.addAll(damage);
-		return clone;
+	public List<Player> getDamageBoard() {
+		return new ArrayList<>(damageBoard);
 	}
 
 	/**
 	 * Add marks to the player.
-	 * @param shootingPlayer the player making the damage.
+	 * @param shootingPlayer the player making the damageBoard.
 	 * @param amountOfMarks amount of marks to add to the player.
-	 * @throws IllegalArgumentException if the amount of marks to add is negative.
+	 * @throws IllegalArgumentException if the amount of marks is not positive.
 	 */
 	public void addMarks(Player shootingPlayer, int amountOfMarks) {
-		if(amountOfMarks < 0)
-			throw new IllegalArgumentException("amountOfMarks cannot be negative.");
+		if(amountOfMarks <= 0)
+			throw new IllegalArgumentException("amountOfMarks cannot be negative or zero.");
 
 		for (int i = 0; i < amountOfMarks; i++)
 			// check if the shooting player doesn't have the max number of marks on the target player.
@@ -95,13 +94,7 @@ public class PlayerBoard {
 	 * @return the List of marks done to the player.
 	 */
 	public List<Player> getMarks() {
-		List<Player> clone = new ArrayList<>(marks.size());
-		clone.addAll(marks);
-		return clone;
-	}
-
-	private void resetDamage() {
-		damage = new ArrayList<>();
+		return new ArrayList<>(marks);
 	}
 
 	/**
@@ -109,7 +102,15 @@ public class PlayerBoard {
 	 * @return true if the player is dead.
 	 */
 	public boolean isDead() {
-		return damage.size() >= GameConstants.DEATH_DAMAGE;
+		return damageBoard.size() >= GameConstants.DEATH_DAMAGE;
+	}
+
+	/**
+	 * Returns true if the player is overkilled.
+	 * @return true if the player is overkilled.
+	 */
+	public boolean isOverkilled() {
+		return damageBoard.size() >= GameConstants.OVERKILL_DAMAGE;
 	}
 
 	/**
@@ -133,14 +134,17 @@ public class PlayerBoard {
 	}
 
 	/**
-	 * Process the death of the player and give points to other players that shot this player.
+	 * Reset the PlayerBoard after the player death
 	 */
-	public void score() {
+	public void resetBoardAfterDeath() {
 		if(isDead()) {
 			numberOfDeaths++;
-			resetDamage();
-			// TODO give score or maybe done by controller
+			resetDamageBoard();
 		}
+	}
+
+	private void resetDamageBoard() {
+		damageBoard = new ArrayList<>();
 	}
 
 	/**
@@ -167,9 +171,7 @@ public class PlayerBoard {
 	 * @return the weapon cards in player's inventory.
 	 */
 	public List<WeaponCard> getWeaponCards() {
-		List<WeaponCard> clone = new ArrayList<>(weaponCards.size());
-		clone.addAll(weaponCards);
-		return clone;
+		return new ArrayList<>(weaponCards);
 	}
 
 	/**
@@ -201,9 +203,7 @@ public class PlayerBoard {
 	 * @return the powerup cards in player's inventory.
 	 */
 	public List<PowerupCard> getPowerupCards() {
-		List<PowerupCard> clone = new ArrayList<>(powerupCards.size());
-		clone.addAll(powerupCards);
-		return clone;
+		return new ArrayList<>(powerupCards);
 	}
 
 	/**
