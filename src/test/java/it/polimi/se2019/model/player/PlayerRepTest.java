@@ -39,12 +39,12 @@ public class PlayerRepTest {
 		player3.getPlayerBoard().addWeapon(new Cyberblade("Desc4"));
 		player3.getPlayerBoard().addWeapon(new Cyberblade("Desc5"));
 		player3.getPlayerBoard().addWeapon(new Cyberblade("Desc6"));
-		player1.getPlayerBoard().addPowerup(new Newton(AmmoType.RED_AMMO, "Desc1"));
-		player2.getPlayerBoard().addPowerup(new Newton(AmmoType.YELLOW_AMMO, "Desc2"));
-		player2.getPlayerBoard().addPowerup(new Newton(AmmoType.YELLOW_AMMO, "Desc3"));
-		player3.getPlayerBoard().addPowerup(new Newton(AmmoType.BLUE_AMMO, "Desc4"));
-		player3.getPlayerBoard().addPowerup(new Newton(AmmoType.BLUE_AMMO, "Desc5"));
-		player3.getPlayerBoard().addPowerup(new Newton(AmmoType.BLUE_AMMO, "Desc6"));
+		player1.getPlayerBoard().addPowerup(new Newton(AmmoType.RED_AMMO));
+		player2.getPlayerBoard().addPowerup(new Newton(AmmoType.YELLOW_AMMO));
+		player2.getPlayerBoard().addPowerup(new Newton(AmmoType.YELLOW_AMMO));
+		player3.getPlayerBoard().addPowerup(new Newton(AmmoType.BLUE_AMMO));
+		player3.getPlayerBoard().addPowerup(new Newton(AmmoType.BLUE_AMMO));
+		player3.getPlayerBoard().addPowerup(new Newton(AmmoType.BLUE_AMMO));
 		player1.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);
 		player2.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);
 		player3.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);

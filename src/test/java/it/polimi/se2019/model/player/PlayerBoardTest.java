@@ -270,9 +270,9 @@ public class PlayerBoardTest {
 	public void addPowerup_morePowerupCardsThanLimit_shouldThrowException() {
 		PlayerBoard playerBoard = new PlayerBoard();
 		PowerupCard newton1 = new Newton(AmmoType.RED_AMMO);
-		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMM);
-		PowerupCard newton3 = new Newton(AmmoType.YELLOW_AMMO, "Desc3");
-		PowerupCard newton4 = new Newton(AmmoType.RED_AMMO, "Desc4");
+		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMMO);
+		PowerupCard newton3 = new Newton(AmmoType.YELLOW_AMMO);
+		PowerupCard newton4 = new Newton(AmmoType.RED_AMMO);
 		playerBoard.addPowerup(newton1);
 		playerBoard.addPowerup(newton2);
 		playerBoard.addPowerup(newton3);
@@ -282,10 +282,10 @@ public class PlayerBoardTest {
 	@Test
 	public void removePowerup_correctInput_correctOutput() {
 		PlayerBoard playerBoard = new PlayerBoard();
-		PowerupCard newton1 = new Newton(AmmoType.RED_AMMO, "Desc1");
-		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMMO, "Desc2");
-		PowerupCard newton3 = new Newton(AmmoType.YELLOW_AMMO, "Desc3");
-		PowerupCard newton4 = new Newton(AmmoType.RED_AMMO, "Desc4");
+		PowerupCard newton1 = new Newton(AmmoType.RED_AMMO);
+		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMMO);
+		PowerupCard newton3 = new Newton(AmmoType.YELLOW_AMMO);
+		PowerupCard newton4 = new Newton(AmmoType.RED_AMMO);
 		playerBoard.addPowerup(newton1);
 		playerBoard.addPowerup(newton2);
 		playerBoard.addPowerup(newton3);
