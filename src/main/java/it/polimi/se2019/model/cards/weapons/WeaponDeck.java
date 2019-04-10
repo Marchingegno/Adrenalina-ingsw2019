@@ -7,4 +7,8 @@ public class WeaponDeck extends Deck {
 	public WeaponDeck() {
 	}
 
+	public void initializeDeck(){
+
+	}
+
 }

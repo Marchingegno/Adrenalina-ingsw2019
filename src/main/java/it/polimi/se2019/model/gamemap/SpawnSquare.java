@@ -2,37 +2,26 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.cards.weapons.WeaponCard;
 
-import java.util.ArrayList;
-
+/**
+ * Spawn square associated with an ammo type that represents its color
+ * @author MarcerAndrea
+ */
 public class SpawnSquare extends Square {
 
-	private AmmoType color;
-	private WeaponCard weaponCard;
+	private AmmoType ammoType;
 
-
-	public SpawnSquare(Card card1, Card card2, Card card3) {
-	}
-
-
-	@Override
-	public void addCard(Card cardToAdd) {
+	public SpawnSquare(AmmoType ammoType, int roomID, boolean[] possibleDirections) {
+		super(possibleDirections, roomID);
+		this.ammoType = ammoType;
 	}
 
 	@Override
-	public Card grabCard() {
-		return null;
-	}
+	public Card grabCard() {return null; }
 
-	@Override
-	public ArrayList<Card> listCards() {
-		return null;
-	}
-
-	public AmmoType getAmmoType() {
-		return null;
-	}
-
+	/**
+	 * @return the ammo type associated with the spawn square
+	 */
+	public AmmoType getAmmoType() {	return ammoType;}
 
 }

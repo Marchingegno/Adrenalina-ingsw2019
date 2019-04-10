@@ -250,15 +250,15 @@ public class PlayerBoardTest {
 	@Test
 	public void addPowerup_correctInput_correctOutput() {
 		PlayerBoard playerBoard = new PlayerBoard();
-		PowerupCard newton = new Newton(AmmoType.RED_AMMO, "Desc1");
+		PowerupCard newton = new Newton(AmmoType.RED_AMMO);
 		assertEquals(0, playerBoard.getPowerupCards().size());
 		playerBoard.addPowerup(newton);
 		assertEquals(newton, playerBoard.getPowerupCards().get(0));
 
 		playerBoard = new PlayerBoard();
-		PowerupCard newton1 = new Newton(AmmoType.RED_AMMO, "Desc1");
-		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMMO, "Desc2");
-		PowerupCard newton3 = new Newton(AmmoType.YELLOW_AMMO, "Desc3");
+		PowerupCard newton1 = new Newton(AmmoType.RED_AMMO);
+		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMMO);
+		PowerupCard newton3 = new Newton(AmmoType.YELLOW_AMMO);
 		assertEquals(0, playerBoard.getPowerupCards().size());
 		playerBoard.addPowerup(newton1);
 		assertEquals(1, playerBoard.getPowerupCards().size());
@@ -274,8 +274,8 @@ public class PlayerBoardTest {
 	@Test (expected = InventoryFullException.class)
 	public void addPowerup_morePowerupCardsThanLimit_shouldThrowException() {
 		PlayerBoard playerBoard = new PlayerBoard();
-		PowerupCard newton1 = new Newton(AmmoType.RED_AMMO, "Desc1");
-		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMMO, "Desc2");
+		PowerupCard newton1 = new Newton(AmmoType.RED_AMMO);
+		PowerupCard newton2 = new Newton(AmmoType.BLUE_AMM);
 		PowerupCard newton3 = new Newton(AmmoType.YELLOW_AMMO, "Desc3");
 		PowerupCard newton4 = new Newton(AmmoType.RED_AMMO, "Desc4");
 		playerBoard.addPowerup(newton1);

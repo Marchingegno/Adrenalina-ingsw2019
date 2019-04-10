@@ -24,4 +24,6 @@ public abstract class Deck<E> {
 	public void shuffleDeck() {
 	}
 
+	abstract public void initializeDeck();
+
 }
