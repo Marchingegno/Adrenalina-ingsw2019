@@ -36,6 +36,14 @@ public class AmmoContainerTest {
 	}
 
 	@Test
+	public void addAmmo_singleAmmoAdded_shouldGiveModifiedValue() {
+		AmmoContainer ammoContainer = new AmmoContainer();
+		ammoContainer.addAmmo(AmmoType.values()[0]);
+		ammoContainer.addAmmo(AmmoType.values()[0]);
+		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE + 2, ammoContainer.getAmmo(AmmoType.values()[0]));
+	}
+
+	@Test
 	public void addAmmo_moreThanMaxAmmoAdded_shouldGiveMaxAmmo() {
 		AmmoContainer ammoContainer = new AmmoContainer();
 		final int ammoToAddForTest = GameConstants.MAX_AMMO_PER_AMMO_TYPE + 1;

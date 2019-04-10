@@ -25,7 +25,6 @@ public class PlayerBoardTest {
 		player1 = new Player("Test 1", 0, Color.GREEN);
 		player2 = new Player("Test 2", 1, Color.BLUE);
 		player3 = new Player("Test 3", 2, Color.RED);
-		player3 = new Player("Test 4", 3, Color.YELLOW);
 	}
 
 	@After
@@ -301,5 +300,13 @@ public class PlayerBoardTest {
 		assertNotEquals(-1, playerBoard.getPowerupCards().indexOf(newton4));
 		assertNotEquals(-1, playerBoard.getPowerupCards().indexOf(newton3));
 		assertEquals(-1, playerBoard.getPowerupCards().indexOf(newton2));
+	}
+
+	@Test
+	public void getAmmoContainer_initialState_shouldGiveInitialContainer() {
+		PlayerBoard playerBoard = new PlayerBoard();
+		for (AmmoType ammoType : AmmoType.values()) {
+			assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE, playerBoard.getAmmoContainer().getAmmo(ammoType));
+		}
 	}
 }

@@ -4,10 +4,15 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerRep {
+/**
+ * A sharable version of all the useful Player information.
+ * @author Desno365
+ */
+public class PlayerRep implements Serializable {
 
 	private String playerName;
 	private Color playerColor;
@@ -23,6 +28,10 @@ public class PlayerRep {
 	private boolean hidden;
 
 
+	/**
+	 * Create a new PlayerRep with all the information of a Player.
+	 * @param player the player from which the information are extracted.
+	 */
 	public PlayerRep(Player player) {
 		playerName = player.getPlayerName();
 		playerColor = player.getPlayerColor();
@@ -59,8 +68,15 @@ public class PlayerRep {
 		hidden = false;
 	}
 
+	/**
+	 * Used to create the hidden PlayerRep.
+	 */
 	private PlayerRep() {}
 
+	/**
+	 * Returns a PlayerRep that contains only the information that are available also to the other players.
+	 * @return a new PlayerRep without the sensitive information.
+	 */
 	public PlayerRep getHiddenPlayerRep() {
 		PlayerRep newPlayerRep = new PlayerRep();
 		newPlayerRep.playerName = this.playerName;
@@ -80,56 +96,107 @@ public class PlayerRep {
 		return newPlayerRep;
 	}
 
+	/**
+	 * Returns true if the sensitive information are removed.
+	 * @return true if the sensitive information are removed.
+	 */
 	public boolean isHidden() {
 		return hidden;
 	}
 
+	/**
+	 * Return the player name.
+	 * @return the player name.
+	 */
 	public String getPlayerName() {
 		return playerName;
 	}
 
+	/**
+	 * Returns the player color.
+	 * @return the player color.
+	 */
 	public Color getPlayerColor() {
 		return playerColor;
 	}
 
+	/**
+	 * Returns the sensitive information of player's points.
+	 * @return the sensitive information of player's points.
+	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
+	 */
 	public int getPoints() throws HiddenException {
 		if(isHidden())
 			throw new HiddenException("The value of \"points\" is hidden in this PlayerRep.");
 		return points;
 	}
 
+	/**
+	 * Returns the damage board of this player with all the player names that made the damage.
+	 * @return the damage board of this player with all the player names that made the damage.
+	 */
 	public List<String> getDamageBoard() {
 		return damageBoard;
 	}
 
+	/**
+	 * Returns the marks of this player with all the player names that made the marks.
+	 * @return the marks of this player with all the player names that made the marks.
+	 */
 	public List<String> getMarks() {
 		return marks;
 	}
 
+	/**
+	 * Returns an array of boolean that represents which weapons are loaded in the player's inventory.
+	 * @return an array of boolean that represents which weapons are loaded in the player's inventory.
+	 */
 	public boolean[] getWeaponLoaded() {
 		return weaponLoaded;
 	}
 
+	/**
+	 * Returns the sensitive information of player's powerup cards.
+	 * @return the sensitive information of player's powerup cards.
+	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
+	 */
 	public List<String> getPowerupCards() throws HiddenException {
 		if(isHidden())
 			throw new HiddenException("The value of \"powerupCards\" is hidden in this PlayerRep.");
 		return powerupCards;
 	}
 
+	/**
+	 * Returns the sensitive information of the ammo associated with the player's powerups.
+	 * @return the sensitive information of the ammo associated with the player's powerups.
+	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
+	 */
 	public List<AmmoType> getPowerupAmmos() throws HiddenException {
 		if(isHidden())
 			throw new HiddenException("The value of \"powerupAmmos\" is hidden in this PlayerRep.");
 		return powerupAmmos;
 	}
 
+	/**
+	 * Returns the total amount of red ammo this player posses.
+	 * @return the total amount of red ammo this player posses.
+	 */
 	public int getRedAmmo() {
 		return redAmmo;
 	}
 
+	/**
+	 * Returns the total amount of yellow ammo this player posses.
+	 * @return the total amount of yellow ammo this player posses.
+	 */
 	public int getYellowAmmo() {
 		return yellowAmmo;
 	}
 
+	/**
+	 * Returns the total amount of blue ammo this player posses.
+	 * @return the total amount of blue ammo this player posses.
+	 */
 	public int getBlueAmmo() {
 		return blueAmmo;
 	}
