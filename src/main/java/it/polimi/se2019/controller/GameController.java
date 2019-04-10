@@ -4,9 +4,12 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import java.util.List;
 
+/**
+ * This class is in a lower level than Controller. It handles the logic relative to the game.
+ * @author Marchingegno
+ */
 public class GameController {
 
-	private static final Integer scores[] ={8,6,4,2,1,1};
 	private TurnController turnController;
 	private Model model;
 	private PlayerQueue<Player> playerQueue;

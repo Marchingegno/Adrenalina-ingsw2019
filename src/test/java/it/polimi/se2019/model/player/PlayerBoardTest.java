@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.model.GameConstants;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.Newton;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;

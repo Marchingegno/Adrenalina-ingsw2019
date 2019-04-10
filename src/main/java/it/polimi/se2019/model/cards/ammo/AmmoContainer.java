@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.cards.ammo;
 
-import it.polimi.se2019.model.GameConstants;
+import it.polimi.se2019.utils.GameConstants;
 
 /**
  * Contains all the ammos of the player.

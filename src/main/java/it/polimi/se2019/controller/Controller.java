@@ -5,15 +5,13 @@ import it.polimi.se2019.model.player.Player;
 
 import java.util.ArrayList;
 
+import static it.polimi.se2019.utils.GameConstants.*;
+
 /**
  * This class is the top level controller. Its jobs are to delegate the model initialization and to start the game.
  * @author Marchingegno
  */
 public class Controller {
-	private static final int MIN_SKULLS = 5;
-	private static final int MAX_SKULLS = 8;
-	private static final int MIN_PLAYERS = 3;
-	private static final int MAX_PLAYERS = 5;
 
 	private GameController gameController;
 	private Model model;
