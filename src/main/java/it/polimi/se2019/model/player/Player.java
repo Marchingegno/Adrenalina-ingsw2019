@@ -13,7 +13,7 @@ public class Player {
 	private Color playerColor;
 	private PlayerBoard playerBoard;
 	private DamageStatus damageStatus;
-	private GameBoard gameboard;
+	private GameBoard gameBoard;
 
 
 	public Player(String playerName, int playerID, Color playerColor) {
