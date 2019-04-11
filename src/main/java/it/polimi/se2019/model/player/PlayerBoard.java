@@ -73,6 +73,12 @@ public class PlayerBoard {
 		return new ArrayList<>(damageBoard);
 	}
 
+
+	public boolean isFrenzy(){
+		//TODO: Implementare metodo dopo l'implementazione del DamageStatus
+		return false;
+	}
+
 	/**
 	 * Add marks to the player.
 	 * @param shootingPlayer the player making the damageBoard.
@@ -134,7 +140,7 @@ public class PlayerBoard {
 	}
 
 	/**
-	 * Reset the PlayerBoard after the player death
+	 * Reset the PlayerBoard after the player death and increments its deaths.
 	 */
 	public void resetBoardAfterDeath() {
 		if(isDead()) {
