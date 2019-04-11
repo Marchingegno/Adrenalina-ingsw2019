@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * This is a custom created class. Create an instance of this with "new ImmutableListWithDefaultValue(new int[]{1,2,3});".
- * Once instantiated, the list cannot be modified.
+ * Implements an immutable list: once instantiated, the list cannot be modified.
+ * Also uses a default value when requesting an index not present in the list.
  * @author Marchingegno
  * @author Desno365
  */

@@ -18,8 +18,8 @@ public class GameConstants {
 	public static final int MIN_SKULLS = 5;
 	public static final int MAX_SKULLS = 8;
 	public static final int MIN_PLAYERS = 3;
-	public static final ImmutableListWithDefaultValue SCORES = new ImmutableListWithDefaultValue(new Integer[]{8,6,4,2}, 1);
-	public static final ImmutableListWithDefaultValue FRENZY_SCORES = new ImmutableListWithDefaultValue(new Integer[]{2}, 1);
+	public static final ImmutableListWithDefaultValue<Integer> SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{8,6,4,2}, 1);
+	public static final ImmutableListWithDefaultValue<Integer> FRENZY_SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{2}, 1);
 
 
 
