@@ -13,17 +13,13 @@ import java.util.ArrayList;
  */
 public class AmmoDeck extends Deck<AmmoCard>{
 
-	public AmmoDeck() {
-		initializeDeck();
-	}
-
 	/**
 	 * Initialize the ammo deck according to the file "AmmoDeck.txt"
 	 *
 	 * FILE FORMAT:
 	 * HAS_POWERUP, NUM_OF_YELLOW_AMMOS, NUM_OF_RED_AMMOS, NUM_OF_BLUE_AMMOS
 	 */
-	public void initializeDeck(){
+	protected void initializeDeck(){
 
 		String ammoDeckPath = System.getProperty("user.dir") + "\\src\\resources\\decks\\AmmoDeck.txt";
 		String line;

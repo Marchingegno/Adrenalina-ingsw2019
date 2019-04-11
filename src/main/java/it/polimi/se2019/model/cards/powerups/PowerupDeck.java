@@ -14,18 +14,13 @@ import java.text.ParseException;
  */
 public class PowerupDeck extends Deck<PowerupCard> {
 
-	public PowerupDeck() {
-		super();
-		initializeDeck();
-	}
-
 	/**
 	 * Initialize the Powerup deck according to the file "PowerupDeck.txt".
 	 *
 	 * FILE FORMAT:
 	 * POWERUP_CARD_NAME, NUM_OF_YELLOW_AMMOS, NUM_OF_RED_AMMOS, NUM_OF_BLUE_AMMOS
 	 */
-	public void initializeDeck(){
+	protected void initializeDeck(){
 
 		String powerupDeckPath = System.getProperty("user.dir") + "\\src\\resources\\decks\\PowerupDeck.txt";
 		String line;
