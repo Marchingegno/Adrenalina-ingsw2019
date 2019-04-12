@@ -15,7 +15,7 @@ public class Coordinates {
 	private int column;
 
 	public Coordinates(int row, int column){
-		if ((row < 0) || (column < 0)) throw new NegativeCoordinatesException("some index is negative");
+		if ((row < 0) || (column < 0)) throw new NegativeCoordinatesException("tried to create a coordinate with negative indexes (" + row + "," + column + ")");
 		this.row = row;
 		this.column = column;
 	}
@@ -50,12 +50,18 @@ public class Coordinates {
 	}
 
 	@Override
+	public  String toString(){
+		return ("(" + getRow() + "," + getColumn() + ")");
+	}
+
+
+	@Override
 	public boolean equals(Object obj) {
 		return ((obj instanceof Coordinates) && (((Coordinates) obj).getRow() == this.row) && (((Coordinates) obj).getColumn() == this.column));
 	}
 
 	@Override
-	public int hashCode(){	return (int)(pow(2, row - 1) * (2 * column - 1));}
+	public int hashCode(){	return (int)(pow( (double)2, (double)(row - 1)) * (2 * column - 1));}
 }
 
 /**

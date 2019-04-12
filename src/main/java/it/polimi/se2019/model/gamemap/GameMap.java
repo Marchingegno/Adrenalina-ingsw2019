@@ -20,7 +20,7 @@ public class GameMap {
 	int numOfRows, numOfColumns;
 	private Square[][] map;
 	private ArrayList<ArrayList<Coordinates>> rooms = new ArrayList<>();
-	private HashMap<Player, Coordinates> playersPositions;
+	private HashMap<Player, Coordinates> playersPositions = new HashMap<>();
 	private ArrayList<Coordinates> spawnSquaresCoordinates = new ArrayList<>();
 
 	public GameMap(String mapName, List<Player> players) {
@@ -48,7 +48,12 @@ public class GameMap {
 	 * @param playerToMove player to move
 	 * @param coordinates coordinates to which the players has to be moved to
 	 */
-	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {playersPositions.replace(playerToMove, coordinates);}
+	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
+		if (isIn(coordinates))
+			playersPositions.replace(playerToMove, coordinates);
+		else
+			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
+	}
 
 	/**
 	 * Returns the set of all reachable squares from the coordinates and distance at most max distance
@@ -148,11 +153,7 @@ public class GameMap {
 	 * @param coordinates coordinates of the square we want
 	 * @return the square in the specified coordinates
 	 */
-	public Square getSquare(Coordinates coordinates){
-		if (isIn(coordinates))
-			return map[coordinates.getRow()][coordinates.getColumn()];
-		throw new OutOfBoundariesException("coordinates out of boundary");
-	}
+	public Square getSquare(Coordinates coordinates){return map[coordinates.getRow()][coordinates.getColumn()];	}
 
 	/**
 	 * Used to know if in some coordinates there is a spawn square
@@ -183,7 +184,7 @@ public class GameMap {
 	 * @param coordinates coordinates to check
 	 * @return true if and only if the coordinates belong to the map
 	 */
-	private boolean isIn(Coordinates coordinates){	return ((coordinates.getRow() > numOfRows) || (coordinates.getColumn() > numOfColumns));}
+	private boolean isIn(Coordinates coordinates){	return !((coordinates.getRow() >= numOfRows) || (coordinates.getColumn() >= numOfColumns));}
 
 	/**
 	 * Returns true if and only if the square belong to the map
@@ -213,8 +214,11 @@ public class GameMap {
 	 */
 	private void addSquaresToRoom(){
 		for (int i = 0; i < numOfRows; i++)
-			for (int j = 0;  j < numOfColumns; i++)
-				rooms.get(getSquare(new Coordinates(i,j)).getRoomID()).add(new Coordinates(i,j));
+			for (int j = 0;  j < numOfColumns; j++){
+				int roomID = getSquare(new Coordinates(i,j)).getRoomID();
+				if (roomID >= 0)
+					rooms.get(roomID).add(new Coordinates(i,j));
+			}
 	}
 
 	/**
