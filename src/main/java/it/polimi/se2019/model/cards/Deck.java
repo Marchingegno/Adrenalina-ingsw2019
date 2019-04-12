@@ -20,6 +20,7 @@ public abstract class Deck<C extends Card> {
 		discardDeck = new ArrayDeque<>();
 		actualDeck = new ArrayDeque<>();
 		initializeDeck();
+		shuffleDeck();
 	}
 
 
@@ -42,7 +43,7 @@ public abstract class Deck<C extends Card> {
 	}
 
 	/**
-	 * Refill the deck by using the discard deck.
+	 * Refill the deck by using the discard deck and then shuffles it.
 	 */
 	public void refillDeck() {
 		actualDeck.addAll(discardDeck);
@@ -61,7 +62,7 @@ public abstract class Deck<C extends Card> {
 	/**
 	 * Shuffle the deck.
 	 */
-	public void shuffleDeck() {
+	private void shuffleDeck() {
 		ArrayList<C> list = new ArrayList<>(actualDeck); // Create shuffleable list.
 		Collections.shuffle(list); // Shuffle list.
 		actualDeck = new ArrayDeque<>(list); // Re-create deque from list.
