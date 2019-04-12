@@ -12,7 +12,7 @@ public class GameController {
 
 	private TurnController turnController;
 	private Model model;
-	private PlayerQueue<Player> playerQueue;
+	private PlayerQueue playerQueue;
 
 
 	public GameController(Model model, List<Player> playerList) {
@@ -34,7 +34,7 @@ public class GameController {
 
 	public void gameLogic() {
 		while(!model.areSkullsFinished()){
-			startTurn((Player)playerQueue.getFirst());
+			startTurn(playerQueue.getFirst());
 			endTurn();
 		}
 
@@ -63,7 +63,7 @@ public class GameController {
 
 		if(model.areSkullsFinished())
 			startFrenzy();
-		playerQueue.moveToBottom();
+		playerQueue.moveFirstToLast();
 	}
 
 }

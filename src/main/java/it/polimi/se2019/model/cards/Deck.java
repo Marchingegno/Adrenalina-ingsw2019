@@ -31,7 +31,7 @@ public abstract class Deck<C extends Card> {
 	public C drawCard() {
 		if(actualDeck.isEmpty())
 			throw new NoSuchElementException("Cannot draw a card when the deck is empty.");
-		return actualDeck.pop();
+		return actualDeck.pollFirst();
 	}
 
 	/**
