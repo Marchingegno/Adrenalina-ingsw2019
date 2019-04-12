@@ -15,6 +15,7 @@ public class LowDamage implements DamageStatus {
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
 		MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
 		MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
+		availableActions = new ArrayList<>();
 
 		runAroundBuilder.setMovementDistance(3);
 		availableActions.add(runAroundBuilder.build());
@@ -28,7 +29,8 @@ public class LowDamage implements DamageStatus {
 	}
 
 	@Override
-	public void getAvailableActions() {
+	public ArrayList<MacroAction> getAvailableActions() {
+		return (ArrayList<MacroAction>) availableActions.clone();
 	}
 
 	@Override

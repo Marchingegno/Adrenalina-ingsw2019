@@ -3,8 +3,10 @@ package it.polimi.se2019.model.player;
 import it.polimi.se2019.model.GameBoard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
+import it.polimi.se2019.utils.MacroAction;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -48,7 +50,13 @@ public class Player {
 		return damageStatus;
 	}
 
-	public void getAvailableActions() {
+	public ArrayList<MacroAction> getAvailableActions() {
+		return damageStatus.getAvailableActions();
+	}
+
+	public void resetAfterDeath(){
+		playerBoard.resetBoardAfterDeath();
+		setDamageStatus(new LowDamage());
 	}
 
 	public void shoot() {

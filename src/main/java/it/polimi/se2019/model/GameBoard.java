@@ -70,14 +70,24 @@ public class GameBoard {
 		doubleKills.add(shootingPlayer);
 	}
 
+	/**
+	 * This method award points in the killshot track. It checks whether or not the killshot is an overkill, and
+	 * decreases the number of skulls in the gameBoard.
+	 * @param shootingPlayer
+	 * @param overkill
+	 */
 	public void addKillShot(Player shootingPlayer, boolean overkill) {
 		killShots.add(new KillShot(shootingPlayer, overkill));
 		if(shootingPlayer == getCurrentPlayer()) {
 			if(killShotInThisTurn)
 				addDoubleKill(shootingPlayer);
 			else
+				if(!areSkullsFinished()){
+					remainingSkulls--;
+				}
 				killShotInThisTurn = true;
 		}
+
 	}
 
 	public List<KillShot> getKillShots() {

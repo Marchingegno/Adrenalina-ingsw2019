@@ -5,13 +5,10 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.view.ViewInterface;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
 
-import static it.polimi.se2019.utils.GameConstants.FRENZY_SCORES;
-import static it.polimi.se2019.utils.GameConstants.SCORES;
+import java.util.*;
+
+import static it.polimi.se2019.utils.GameConstants.*;
 
 /**
  * @author Marchingegno
@@ -54,27 +51,35 @@ public class Model extends Observable {
 	public void scoreDeadPlayers() {
 		gameBoard.getPlayers().stream()
 				.filter(item -> item.getPlayerBoard().isDead())
-				.forEach(item -> scoreDeadPlayer(item));
+				.forEach(this::scoreDeadPlayer);
 	}
 
 	private void scoreDeadPlayer(Player player) {
 		PlayerBoard playerBoard = player.getPlayerBoard();
 		DamageDone damageDone = new DamageDone();
 		ArrayList<Player> sortedPlayers;
+		Player killingPlayer;
+		boolean overkill = false;
 
+		//This will check the damageBoard of the player and award killShot points.
+		killingPlayer = playerBoard.getDamageBoard().get(DEATH_DAMAGE - 1);
+		if(playerBoard.getDamageBoard().lastIndexOf(killingPlayer) == OVERKILL_DAMAGE - 1){
+			overkill = true;
+		}
+		gameBoard.addKillShot(killingPlayer, overkill);
+
+		//This foreach cannot be replaced with a lambda expression because it's not synchronized.
 		for (Player p : playerBoard.getDamageBoard()) {
 			damageDone.damageUp(p);
 		}
 
 		sortedPlayers = damageDone.getSortedPlayers();
-		awardPoint(playerBoard, sortedPlayers);
+		awardPoints(playerBoard, sortedPlayers);
 
-		playerBoard.resetBoardAfterDeath(); //This automatically increases its number of deaths.
+		player.resetAfterDeath(); //This automatically increases its number of deaths.
 	}
 
-    private synchronized void awardPoint(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers){
-
-		//TODO: Set new status for the player.
+    private synchronized void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers){
 		int offset = 0;
 
 		//This method relies on the "SCORES" array defined in GameConstants.

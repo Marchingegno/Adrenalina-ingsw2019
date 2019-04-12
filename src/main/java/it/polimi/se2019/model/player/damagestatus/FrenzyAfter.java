@@ -14,6 +14,7 @@ public class FrenzyAfter implements DamageStatus {
 	public FrenzyAfter(){
 		MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
 		MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
+		availableActions = new ArrayList<>();
 
 		shootPeopleBuilder.setMovementDistance(2);
 		shootPeopleBuilder.setReloadAction(true);
@@ -27,7 +28,8 @@ public class FrenzyAfter implements DamageStatus {
 
 
 	@Override
-	public void getAvailableActions() {
+	public ArrayList<MacroAction> getAvailableActions() {
+		return (ArrayList<MacroAction>) availableActions.clone();
 	}
 
 	@Override
