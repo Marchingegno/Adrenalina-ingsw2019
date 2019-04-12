@@ -11,6 +11,7 @@ public abstract class Square {
 
 	private boolean[] possibleDirections;
 	private int roomID;
+	private ArrayList<Square> adjacentSquares = new ArrayList<>();
 	private ArrayList<Card> cards = new ArrayList<>();
 
 	public Square(boolean[] possibleDirections, int roomID) {
@@ -31,8 +32,29 @@ public abstract class Square {
 	public abstract Card grabCard();
 
 	/**
+	 *
+	 * @return
+	 */
+	public int getRoomID() {return roomID;	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public boolean[] getPossibleDirections() {return possibleDirections.clone();}
+
+	/**
 	 * @return the list of the cards in the square
 	 */
 	public ArrayList<Card> getCardList(){return (ArrayList<Card>) cards.clone();}
+
+	public ArrayList<Square> getAdjacentSquares(){
+		return (ArrayList<Square>) adjacentSquares.clone();
+	}
+
+
+	void addAdjacentSquare(Square adjacentSquare){
+		adjacentSquares.add(adjacentSquare);
+	}
 
 }

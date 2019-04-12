@@ -38,7 +38,7 @@ public class GameBoard {
 		remainingSkulls = startingSkulls;
 
 		// initialize map
-		gameMap = new GameMap(mapPath);
+		gameMap = new GameMap(mapPath, players);
 
 		// initialize GameBoard attributes
 		killShots = new ArrayList<>();
