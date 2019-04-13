@@ -15,10 +15,6 @@ public class ImmutableListWithDefaultValueTest {
 		listToTest = new ImmutableListWithDefaultValue<>(new Integer[]{8, 6, 4, 2}, 1);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void get_indexInBounds_correctOutput() {
 		assertEquals(8, listToTest.get(0));
@@ -36,6 +32,8 @@ public class ImmutableListWithDefaultValueTest {
 	@Test
 	public void getDefaultValue_shouldGiveLastElement() {
 		assertEquals(1, listToTest.getDefaultValue());
+		assertEquals(1, (int) GameConstants.SCORES.getDefaultValue());
+		assertEquals(1, (int) GameConstants.FRENZY_SCORES.getDefaultValue());
 	}
 
 

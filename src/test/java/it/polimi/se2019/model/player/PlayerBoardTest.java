@@ -126,6 +126,10 @@ public class PlayerBoardTest {
 		playerBoard = new PlayerBoard();
 		playerBoard.addDamage(player1, GameConstants.DEATH_DAMAGE + 1);
 		assertTrue(playerBoard.isDead());
+
+		playerBoard = new PlayerBoard();
+		playerBoard.addDamage(player1, GameConstants.OVERKILL_DAMAGE + 1);
+		assertTrue(playerBoard.isDead());
 	}
 
 	@Test
