@@ -4,6 +4,7 @@ import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.MacroActionBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
 
@@ -28,8 +29,8 @@ public class FrenzyAfter implements DamageStatus {
 
 
 	@Override
-	public ArrayList<MacroAction> getAvailableActions() {
-		return (ArrayList<MacroAction>) availableActions.clone();
+	public List<MacroAction> getAvailableActions() {
+		return new ArrayList<>(availableActions);
 	}
 
 	@Override

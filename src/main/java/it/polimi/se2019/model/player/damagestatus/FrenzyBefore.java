@@ -4,11 +4,12 @@ import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.MacroActionBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
+import static it.polimi.se2019.utils.GameConstants.FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN;
 
 public class FrenzyBefore implements DamageStatus {
-	public final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
+	public final int numberOfActions = FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN;
 	private ArrayList<MacroAction> availableActions;
 
 	public FrenzyBefore(){
@@ -31,8 +32,8 @@ public class FrenzyBefore implements DamageStatus {
 	}
 
 	@Override
-	public ArrayList<MacroAction> getAvailableActions() {
-		return (ArrayList<MacroAction>) availableActions.clone();
+	public List<MacroAction> getAvailableActions() {
+		return new ArrayList<>(availableActions);
 	}
 
 	@Override
