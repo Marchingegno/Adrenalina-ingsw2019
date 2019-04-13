@@ -5,8 +5,8 @@ import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
 import it.polimi.se2019.utils.MacroAction;
 
-import java.awt.*;
-import java.util.List;
+import java.awt.Color;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -50,7 +50,7 @@ public class Player {
 		return damageStatus;
 	}
 
-	public List<MacroAction> getAvailableActions() {
+	public ArrayList<MacroAction> getAvailableActions() {
 		return damageStatus.getAvailableActions();
 	}
 

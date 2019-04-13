@@ -2,7 +2,7 @@ package it.polimi.se2019.model.player.damagestatus;
 
 import it.polimi.se2019.utils.MacroAction;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class represents the status of the player that decides which actions it can take.
@@ -10,10 +10,8 @@ import java.util.List;
  */
 public interface DamageStatus {
 
-	List<MacroAction> getAvailableActions();
+	ArrayList<MacroAction> getAvailableActions();
 
 	void doAction();
-
-	int getNumberOfActions();
 
 }
