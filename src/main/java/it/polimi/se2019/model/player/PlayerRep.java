@@ -82,10 +82,8 @@ public class PlayerRep implements Serializable {
 		newPlayerRep.playerName = this.playerName;
 		newPlayerRep.playerColor = this.playerColor;
 		newPlayerRep.points = -1; // hidden
-		newPlayerRep.damageBoard = new ArrayList<>(damageBoard.size());
-		newPlayerRep.damageBoard.addAll(damageBoard);
-		newPlayerRep.marks = new ArrayList<>(marks.size());
-		newPlayerRep.marks.addAll(marks);
+		newPlayerRep.damageBoard = new ArrayList<>(damageBoard);
+		newPlayerRep.marks = new ArrayList<>(marks);
 		newPlayerRep.weaponLoaded = this.weaponLoaded;
 		newPlayerRep.powerupCards = null; // hidden
 		newPlayerRep.powerupAmmos = null; // hidden

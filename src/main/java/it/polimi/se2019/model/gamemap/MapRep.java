@@ -1,8 +1,9 @@
 package it.polimi.se2019.model.gamemap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MapRep {
+public class MapRep implements Serializable {
 
 	private ArrayList<ArrayList<String>> gameMapRep;
 
