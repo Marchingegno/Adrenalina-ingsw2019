@@ -2,13 +2,13 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -291,7 +291,7 @@ public class GameMap {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logError("Error in generateMap()", e);
 		}
 	}
 
