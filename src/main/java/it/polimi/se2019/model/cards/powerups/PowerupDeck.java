@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -63,9 +64,9 @@ public class PowerupDeck extends Deck<PowerupCard> {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logError("Error in initializeDeck()", e);
 		}catch (ParseException e) {
-			System.out.println(e.toString()+ "at line" + e.getErrorOffset());
+			Utils.logError("Error while parsing PowerupDeck at line " + e.getErrorOffset(), e);
 		}
 	}
 

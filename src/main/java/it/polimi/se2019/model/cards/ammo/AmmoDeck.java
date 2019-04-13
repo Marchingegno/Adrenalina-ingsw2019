@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.ammo;
 
 import it.polimi.se2019.model.cards.Deck;
+import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -39,7 +40,7 @@ public class AmmoDeck extends Deck<AmmoCard>{
 				addCard(new AmmoCard(ammoToAdd, Boolean.parseBoolean(elements[0])));
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logError("Error in initializeDeck()", e);
 		}
 	}
 
