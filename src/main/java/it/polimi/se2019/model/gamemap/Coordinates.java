@@ -55,8 +55,7 @@ public class Coordinates {
 			case UP: return new Coordinates(coordinates.getRow() - 1, coordinates.getColumn());
 			case RIGHT: return new Coordinates(coordinates.getRow(), coordinates.getColumn() + 1);
 			case DOWN: return new Coordinates(coordinates.getRow() + 1, coordinates.getColumn());
-			case LEFT: return new Coordinates(coordinates.getRow(), coordinates.getColumn() - 1);
-			default: return null;
+			default: return new Coordinates(coordinates.getRow(), coordinates.getColumn() - 1);
 		}
 	}
 

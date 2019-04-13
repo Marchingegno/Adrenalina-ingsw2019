@@ -54,6 +54,25 @@ public class GameMapTest {
 		assertEquals(new Coordinates(2, 3), map.playerCoordinates(player1));
 	}
 
+	@Test (expected = PlayerNotInTheMapException.class)
+	public void playerSquare_playerNotYetPlaced1_throwsPlayerNotInTheMapException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.playerSquare(player1);
+	}
+
+	@Test (expected = PlayerNotInTheMapException.class)
+	public void playerSquare_playerNotYetPlaced4_throwsPlayerNotInTheMapException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.playerCoordinates(player4);
+	}
+
+	@Test
+	public void playerSquare_playerMoved_correctOutput() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.movePlayerTo(player1, new Coordinates(2, 3));
+		assertEquals(map.getSquare(new Coordinates(2, 3)), map.playerSquare(player1));
+	}
+
 	@Test
 	public void movePlayerTo_correctInput_correctOutput() {
 		GameMap map = new GameMap("MediumMap.txt", players);
@@ -80,6 +99,12 @@ public class GameMapTest {
 	public void movePlayerTo_playerOutOfRow_throwsOutOfBoundaryException() {
 		GameMap map = new GameMap("MediumMap.txt", players);
 		map.movePlayerTo(player1, new Coordinates(9,1));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void movePlayerTo_playerOutOfMap_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.movePlayerTo(player1, new Coordinates(2,0));
 	}
 
 	@Test
@@ -238,12 +263,12 @@ public class GameMapTest {
 	@Test (expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapSquare_throwsOutOfBoundaryException() {
 		GameMap map = new GameMap("SmallMap.txt", players);
-		boolean[] possibledirection = new boolean[4];
-		possibledirection[0] = true;
-		possibledirection[1] = true;
-		possibledirection[2] = true;
-		possibledirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibledirection));
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection));
 	}
 
 	@Test (expected = OutOfBoundariesException.class)
@@ -297,22 +322,51 @@ public class GameMapTest {
 	}
 
 	@Test
-	public void getSpawnSquare() {
+	public void getSpawnSquare_allAmmoTypes_allSpawnCoordinates() {
+		GameMap map = new GameMap("BigMap.txt", players);
+		assertEquals(new Coordinates(2,3) , map.getSpawnSquare(AmmoType.YELLOW_AMMO));
+		assertEquals(new Coordinates(1,0) , map.getSpawnSquare(AmmoType.RED_AMMO));
+		assertEquals(new Coordinates(0,2) , map.getSpawnSquare(AmmoType.BLUE_AMMO));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getCoordinates_squareOutOfTheMap_throwsOutOfBoundariesException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection));
 	}
 
 	@Test
-	public void getCoordinates() {
+	public void getCoordinates_squareInTheMap_correctOutput() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.movePlayerTo(player1, new Coordinates(2,3));
+		assertEquals(new Coordinates(2,3), map.getCoordinates(map.playerSquare(player1)));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getSquare_coordinatesOutOfTheMap_throwsOutOfBoundariesException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.getSquare(new Coordinates(9,2));
 	}
 
 	@Test
-	public void getDistance() {
-	}
-
-	@Test
-	public void getSquare() {
+	public void getSquare_coordinatesInTheMap_correctOutput() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.movePlayerTo(player1, new Coordinates(1,2));
+		assertEquals(map.playerSquare(player1), map.getSquare(new Coordinates(1,2)));
 	}
 
 	@Test
 	public void isSpawnSquare() {
+		GameMap map = new GameMap("BigMap.txt", players);
+		assertTrue(map.isSpawnSquare(new Coordinates(0,2)));
+		assertTrue(map.isSpawnSquare(new Coordinates(1,0)));
+		assertTrue(map.isSpawnSquare(new Coordinates(2,3)));
+		assertFalse(map.isSpawnSquare(new Coordinates(2,2)));
+		assertFalse(map.isSpawnSquare(new Coordinates(8,6)));
 	}
 }

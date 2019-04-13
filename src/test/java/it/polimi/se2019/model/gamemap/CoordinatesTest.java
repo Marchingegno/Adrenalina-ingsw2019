@@ -77,6 +77,26 @@ public class CoordinatesTest {
 	}
 
 	@Test
+	public void equals_notCoordinate_correctOutput() {
+		assertFalse(new Coordinates( 2 , 1).equals(new Object()));
+	}
+
+	@Test
+	public void equals_differentColumn_correctOutput() {
+		assertFalse(new Coordinates( 2 , 1).equals(new Coordinates(2,2)));
+	}
+
+	@Test
+	public void equals_differentRow_correctOutput() {
+		assertFalse(new Coordinates( 2 , 1).equals(new Coordinates(1,1)));
+	}
+
+	@Test
+	public void equals_dirrefentCoordinate_correctOutput() {
+		assertFalse(new Coordinates( 2 , 1).equals(new Coordinates(5,5)));
+	}
+
+	@Test
 	public void hashCode_correctInput_correctOutput() {
 		assertEquals(320 , new Coordinates( 7 , 3).hashCode());
 	}

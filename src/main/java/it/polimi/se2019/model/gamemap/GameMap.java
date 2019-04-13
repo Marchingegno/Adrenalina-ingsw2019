@@ -51,9 +51,24 @@ public class GameMap {
 	}
 
 	/**
+	 * Returns the player's square.
+	 * @param playerToFind player to find
+	 * @return the player's square
+	 * @throws PlayerNotInTheMapException when the player is not in the map
+	 */
+	public Square playerSquare(Player playerToFind) {
+		Coordinates playerCoordinates = playersPositions.get(playerToFind);
+		if (playerCoordinates != null)
+			return map[playerCoordinates.getRow()][playerCoordinates.getColumn()];
+		else
+			throw new PlayerNotInTheMapException("player position not in the map");
+	}
+
+	/**
 	 * Moves the player in the specified coordinates.
 	 * @param playerToMove player to move
 	 * @param coordinates coordinates where the player has to be moved to
+	 * @throws OutOfBoundariesException when the player is moved to a square not in the map
 	 */
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
 		if (isIn(coordinates))
@@ -123,9 +138,7 @@ public class GameMap {
 		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID())
 			return true;
 
-		System.out.println(getCoordinates(squarePlayer1));
 		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
-			System.out.println(getCoordinates(adjacentSquare));
 			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID())
 				return true;
 		}
@@ -160,21 +173,17 @@ public class GameMap {
 	}
 
 	/**
-	 * return the distance between the player1 and player2
-	 * @param player1 first player
-	 * @param player2 second player
-	 * @return the distance between player1 e player 2
-	 */
-	public int getDistance(Player player1, Player player2) {
-		return playersPositions.get(player1).distance(playersPositions.get(player2));
-	}
-
-	/**
 	 * Given the coordinates of the map returns the associated square.
 	 * @param coordinates coordinates of the square we want
 	 * @return the square in the specified coordinates
+	 * @throws OutOfBoundariesException if the coordinates do not belong to the map
 	 */
-	public Square getSquare(Coordinates coordinates){return map[coordinates.getRow()][coordinates.getColumn()];	}
+	public Square getSquare(Coordinates coordinates){
+		if (isIn(coordinates))
+			return map[coordinates.getRow()][coordinates.getColumn()];
+		else
+			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
+	}
 
 	/**
 	 * Used to know if in some coordinates there is a spawn square
@@ -207,7 +216,7 @@ public class GameMap {
 	 */
 	private boolean isIn(Coordinates coordinates){
 		return (!((coordinates.getRow() >= numOfRows) || (coordinates.getColumn() >= numOfColumns))) &&
-				getSquare(coordinates).getRoomID() != -1;}
+				map[coordinates.getRow()][coordinates.getColumn()].getRoomID() != -1;}
 
 	/**
 	 * Returns true if and only if the square belong to the map
@@ -241,7 +250,7 @@ public class GameMap {
 	private void addSquaresToRoom(){
 		for (int i = 0; i < numOfRows; i++)
 			for (int j = 0;  j < numOfColumns; j++){
-				int roomID = getSquare(new Coordinates(i,j)).getRoomID();
+				int roomID = map[i][j].getRoomID();
 				if (roomID >= 0)
 					rooms.get(roomID).add(new Coordinates(i,j));
 			}
@@ -255,8 +264,7 @@ public class GameMap {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				for (CardinalDirection direction: CardinalDirection.values()) {
-					square = getSquare(new Coordinates(i,j));
-					System.out.println(square.getPossibleDirections()[direction.ordinal()] +" at "+direction.ordinal());
+					square = map[i][j];
 					if(square.getRoomID() != -1 && square.getPossibleDirections()[direction.ordinal()])
 						square.addAdjacentSquare(getSquare(Coordinates.getDirectionCoordinates(new Coordinates(i,j), direction)));
 				}
@@ -314,7 +322,7 @@ public class GameMap {
 					possibleDirections[2] = Boolean.parseBoolean(elements[4]);
 					possibleDirections[3] = Boolean.parseBoolean(elements[5]);
 
-					addSquareToMap(new Coordinates(i, j), elements[0], Integer.parseInt(elements[1]), possibleDirections);
+					addSquareToMap(new Coordinates(i, j), elements[0], Integer.parseInt(elements[1]), possibleDirections.clone());
 				}
 			}
 
