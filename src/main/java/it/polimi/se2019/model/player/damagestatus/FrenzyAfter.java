@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.player.damagestatus;
 
-import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.MacroActionBuilder;
 
@@ -33,11 +32,6 @@ public class FrenzyAfter implements DamageStatus {
 
 	@Override
 	public void doAction() {
-	}
-
-	@Override
-	public int getNumberOfActions() {
-		return GameConstants.FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
 	}
 
 }

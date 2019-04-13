@@ -14,6 +14,4 @@ public interface DamageStatus {
 
 	void doAction();
 
-	int getNumberOfActions();
-
 }

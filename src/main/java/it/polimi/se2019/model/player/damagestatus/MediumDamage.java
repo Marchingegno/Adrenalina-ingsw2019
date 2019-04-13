@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.player.damagestatus;
 
-import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.MacroActionBuilder;
 
@@ -36,8 +35,4 @@ public class MediumDamage implements DamageStatus {
 	public void doAction() {
 	}
 
-	@Override
-	public int getNumberOfActions() {
-		return GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
-	}
 }
