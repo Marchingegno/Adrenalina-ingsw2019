@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 
@@ -39,8 +40,15 @@ public class GameMap {
 	 * Returns the player's coordinates.
 	 * @param playerToFind player to find
 	 * @return the player's coordinates
+	 * @throws PlayerNotInTheMapException when the player is not in the map
 	 */
-	public Coordinates playerCoordinates(Player playerToFind) {	return playersPositions.get(playerToFind);}
+	public Coordinates playerCoordinates(Player playerToFind) {
+		Coordinates playerCoordinates = playersPositions.get(playerToFind);
+		if (playerCoordinates != null)
+			return playerCoordinates;
+		else
+			throw new PlayerNotInTheMapException("player position not in the map");
+	}
 
 	/**
 	 * Moves the player in the specified coordinates.
@@ -78,23 +86,35 @@ public class GameMap {
 
 	/**
 	 * Returns the set of all the squares belonging to the same room of the specified square.
-	 * @param square a square belonging to the room
+	 * @param square a square
 	 * @return the set of all the squares belonging to the same room of the specified square
+	 * @throws OutOfBoundariesException when the square does not belong to the map
 	 */
-	public ArrayList<Coordinates> getRoomCoordinates(Square square) {isIn(square); return rooms.get(square.getRoomID());}
+	public ArrayList<Coordinates> getRoomCoordinates(Square square) {
+		if (isIn(square))
+			return rooms.get(square.getRoomID());
+		else
+			throw new OutOfBoundariesException("the square does not belong to the map " + getCoordinates(square));
+	}
 
 	/**
-	 * Returns the set of all the squares belonging to the same room of the specified square
-	 * @param coordinates TODO
+	 * Returns the set of all the squares belonging to the same room of the specified square.
+	 * @param coordinates a coordinates
 	 * @return the set of all the squares belonging to the same room of the specified square
+	 * @throws OutOfBoundariesException the coordinates do not belong to the map
 	 */
-	public ArrayList<Coordinates> getRoomCoordinates(Coordinates coordinates) {isIn(coordinates); return rooms.get(getSquare(coordinates).getRoomID());}
+	public ArrayList<Coordinates> getRoomCoordinates(Coordinates coordinates) {
+		if (isIn(coordinates))
+			return rooms.get(getSquare(coordinates).getRoomID());
+		else
+			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
+	}
 
 	/**
-	 * Returns true if and only if the player2 is visible from  the player1
+	 * Returns true if and only if the player2 is visible from the player1. This is done looking at the rooms ID of the squares where the player are.
 	 * @param player1 player how is observing
 	 * @param player2 player target
-	 * @return true if and only if the player2 is visible from  the player1
+	 * @return true if and only if the player2 is visible from the player1
 	 */
 	public boolean visible(Player player1, Player player2) {
 		Square squarePlayer1 = getSquare(playersPositions.get(player1));
@@ -103,7 +123,9 @@ public class GameMap {
 		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID())
 			return true;
 
-		for (Square adjacentSquare:  squarePlayer1.getAdjacentSquares()) {
+		System.out.println(getCoordinates(squarePlayer1));
+		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
+			System.out.println(getCoordinates(adjacentSquare));
 			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID())
 				return true;
 		}
@@ -183,14 +205,19 @@ public class GameMap {
 	 * @param coordinates coordinates to check
 	 * @return true if and only if the coordinates belong to the map
 	 */
-	private boolean isIn(Coordinates coordinates){	return !((coordinates.getRow() >= numOfRows) || (coordinates.getColumn() >= numOfColumns));}
+	private boolean isIn(Coordinates coordinates){
+		return (!((coordinates.getRow() >= numOfRows) || (coordinates.getColumn() >= numOfColumns))) &&
+				getSquare(coordinates).getRoomID() != -1;}
 
 	/**
 	 * Returns true if and only if the square belong to the map
 	 * @param square square to check
 	 * @return true if and only if the square belong to the map
 	 */
-	private boolean isIn(Square square){ return isIn(getCoordinates(square));}
+	private boolean isIn(Square square){
+		return isIn(getCoordinates(square)) &&
+				square.getRoomID() != -1;
+	}
 
 	/**
 	 * Adds a Square to the map according to the specified coordinates.
@@ -229,7 +256,8 @@ public class GameMap {
 			for (int j = 0; j < numOfColumns; j++) {
 				for (CardinalDirection direction: CardinalDirection.values()) {
 					square = getSquare(new Coordinates(i,j));
-					if(square.getPossibleDirections()[direction.ordinal()])
+					System.out.println(square.getPossibleDirections()[direction.ordinal()] +" at "+direction.ordinal());
+					if(square.getRoomID() != -1 && square.getPossibleDirections()[direction.ordinal()])
 						square.addAdjacentSquare(getSquare(Coordinates.getDirectionCoordinates(new Coordinates(i,j), direction)));
 				}
 			}
@@ -308,6 +336,21 @@ class OutOfBoundariesException extends RuntimeException {
 	 * @param message the detail message.
 	 */
 	public OutOfBoundariesException(String message) {
+		super(message);
+	}
+}
+
+/**
+ * Thrown when a player is not in the Map.
+ * @author MarcerAndrea
+ */
+class PlayerNotInTheMapException extends RuntimeException {
+
+	/**
+	 * Constructs an PlayerNotInTheMapException with the specified message.
+	 * @param message the detail message.
+	 */
+	public PlayerNotInTheMapException(String message) {
 		super(message);
 	}
 }

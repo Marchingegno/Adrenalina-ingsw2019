@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import org.junit.After;
 import org.junit.Before;
@@ -34,14 +35,16 @@ public class GameMapTest {
 	public void tearDown(){
 	}
 
-	@Test
-	public void playerCoordinates_playerNotYetPlaced_shouldBeNull() {
+	@Test (expected = PlayerNotInTheMapException.class)
+	public void playerCoordinates_playerNotYetPlaced1_throwsPlayerNotInTheMapException() {
 		GameMap map = new GameMap("MediumMap.txt", players);
-		assertNull(map.playerCoordinates(player1));
-		assertNull(map.playerCoordinates(player2));
-		assertNull(map.playerCoordinates(player3));
-		assertNull(map.playerCoordinates(player4));
-		assertNull(map.playerCoordinates(player5));
+		map.playerCoordinates(player1);
+	}
+
+	@Test (expected = PlayerNotInTheMapException.class)
+	public void playerCoordinates_playerNotYetPlaced4_throwsPlayerNotInTheMapException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.playerCoordinates(player4);
 	}
 
 	@Test
@@ -232,12 +235,65 @@ public class GameMapTest {
 		assertTrue(valid);
 	}
 
-	@Test
-	public void getRoomCoordinates1() {
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapSquare_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		boolean[] possibledirection = new boolean[4];
+		possibledirection[0] = true;
+		possibledirection[1] = true;
+		possibledirection[2] = true;
+		possibledirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibledirection));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapCoordinates_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		map.getRoomCoordinates(new Coordinates(5, 3));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapCoordinates02_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		map.getRoomCoordinates(new Coordinates(0, 3));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapSquare02_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		map.getRoomCoordinates(map.getSquare(new Coordinates(2, 0)));
 	}
 
 	@Test
-	public void visible() {
+	public void visible_playersInTheSameSquare_correctOutput() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		map.movePlayerTo(player1, new Coordinates(1,1));
+		map.movePlayerTo(player2, new Coordinates(1,1));
+		assertTrue(map.visible(player1, player2));
+	}
+
+	@Test
+	public void visible_playersNotVisible_correctOutput() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+
+		map.movePlayerTo(player3, new Coordinates(0,0));
+		map.movePlayerTo(player4, new Coordinates(2,3));
+		assertFalse(map.visible(player3, player4));
+	}
+
+	@Test
+	public void visible_playersOnTheEdge_correctOutput() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+
+		map.movePlayerTo(player1, new Coordinates(1,2));
+		map.movePlayerTo(player2, new Coordinates(1,3));
+		map.movePlayerTo(player3, new Coordinates(0,0));
+		map.movePlayerTo(player4, new Coordinates(2,2));
+		map.movePlayerTo(player5, new Coordinates(0,1));
+		assertTrue(map.visible(player1, player2));
+		assertTrue(map.visible(player1, player3));
+		assertFalse(map.visible(player1, player4));
+		assertTrue(map.visible(player1, player5));
 	}
 
 	@Test
