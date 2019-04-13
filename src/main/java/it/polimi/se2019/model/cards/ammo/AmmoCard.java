@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.ammo;
 
 import it.polimi.se2019.model.cards.Card;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class implements the ammo card
@@ -48,11 +49,15 @@ public class AmmoCard extends Card {
 	/**
 	 * @return true if and only of the card has a powerup associated
 	 */
-	public boolean hasPowerup() {return hasPowerup();}
+	public boolean hasPowerup() {
+		return hasPowerup;
+	}
 
 	/**
 	 * @return a copy of the list of ammos associated with the card
 	 */
-	public ArrayList<AmmoType> getAmmos() {	return (ArrayList<AmmoType>)ammos.clone();}
+	public List<AmmoType> getAmmos() {
+		return new ArrayList<>(ammos);
+	}
 
 }
