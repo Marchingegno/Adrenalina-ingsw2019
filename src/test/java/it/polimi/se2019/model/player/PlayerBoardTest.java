@@ -27,10 +27,6 @@ public class PlayerBoardTest {
 		player3 = new Player("Test 3", 2, Color.RED);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void addDamage_correctInput_correctOutput() {
 		PlayerBoard playerBoard = new PlayerBoard();

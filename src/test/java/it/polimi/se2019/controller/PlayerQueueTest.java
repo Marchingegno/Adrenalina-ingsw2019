@@ -28,10 +28,6 @@ public class PlayerQueueTest {
 		players.add(player3);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void moveFirstToLast_initialState_correctOutput() {
 		PlayerQueue pq = new PlayerQueue(players);

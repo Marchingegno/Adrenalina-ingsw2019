@@ -24,10 +24,6 @@ public class DeckTest {
 		powerupCardsForTest.add(new Teleporter(AmmoType.RED_AMMO));
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void drawCard_initialState_correctOuput() {
 		DeckTestConcrete deck = new DeckTestConcrete();

@@ -50,10 +50,6 @@ public class PlayerRepTest {
 		player3.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void getHiddenPlayerRep_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player1);
