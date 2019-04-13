@@ -17,15 +17,20 @@ public class CoordinatesTest {
 	}
 
 	@Test
+	public void Coordinates_correctInput_correctOutput() {
+		new Coordinates(1,2);
+	}
+
+	@Test
 	public void getRow_correctInput_correctOutput() {
-		Coordinates coordinates = new Coordinates( 1 , 1);
+		Coordinates coordinates = new Coordinates( 1 , 2);
 		assertEquals(1, coordinates.getRow());
 	}
 
 	@Test
 	public void getColumn_correctInput_correctOutput() {
-		Coordinates coordinates = new Coordinates( 1 , 1);
-		assertEquals(1, coordinates.getColumn());
+		Coordinates coordinates = new Coordinates( 1 , 5);
+		assertEquals(5, coordinates.getColumn());
 	}
 
 	@Test
@@ -44,8 +49,35 @@ public class CoordinatesTest {
 	public void getDirectionCoordinates_correctInput_correctOutput() {
 		Coordinates coordinates = new Coordinates( 2 , 1);
 		assertEquals(new Coordinates(1,1), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.UP));
-		assertEquals(new Coordinates(1,1), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.UP));
-		assertEquals(new Coordinates(1,1), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.UP));
-		assertEquals(new Coordinates(1,1), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.UP));
+		assertEquals(new Coordinates(2,2), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.RIGHT));
+		assertEquals(new Coordinates(3,1), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.DOWN));
+		assertEquals(new Coordinates(2,0), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.LEFT));
+	}
+
+	@Test (expected = NegativeCoordinatesException.class)
+	public void getDirectionCoordinates_coordinatesOnTheEdgeUP_throwsNegativeCoordinatesException() {
+		Coordinates coordinates = new Coordinates( 0, 0);
+		Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.UP);
+	}
+
+	@Test (expected = NegativeCoordinatesException.class)
+	public void getDirectionCoordinates_coordinatesOnTheEdgeLEFT_throwsNegativeCoordinatesException() {
+		Coordinates coordinates = new Coordinates( 0, 0);
+		Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.LEFT);
+	}
+
+	@Test
+	public void toString_correctInput_correctOutput() {
+		assertEquals("(2,1)", new Coordinates( 2 , 1).toString());
+	}
+
+	@Test
+	public void equals_correctInput_correctOutput() {
+		assertEquals(new Coordinates( 2 , 1), new Coordinates( 2 , 1));
+	}
+
+	@Test
+	public void hashCode_correctInput_correctOutput() {
+		assertEquals(320 , new Coordinates( 7 , 3).hashCode());
 	}
 }
