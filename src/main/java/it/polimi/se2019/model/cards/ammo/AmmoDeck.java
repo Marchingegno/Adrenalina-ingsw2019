@@ -21,7 +21,7 @@ public class AmmoDeck extends Deck<AmmoCard>{
 	 */
 	protected void initializeDeck(){
 
-		String ammoDeckPath = System.getProperty("user.dir") + "\\src\\resources\\decks\\AmmoDeck.txt";
+		String ammoDeckPath = System.getProperty("user.dir") + "/src/resources/decks/AmmoDeck.txt";
 		String line;
 		String separator = ",";
 		ArrayList<AmmoType> ammoToAdd = new ArrayList<>();

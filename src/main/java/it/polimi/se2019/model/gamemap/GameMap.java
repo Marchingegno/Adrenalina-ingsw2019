@@ -17,7 +17,8 @@ import java.util.List;
  */
 public class GameMap {
 
-	int numOfRows, numOfColumns;
+	private int numOfRows;
+	private int	numOfColumns;
 	private Square[][] map;
 	private ArrayList<ArrayList<Coordinates>> rooms = new ArrayList<>();
 	private HashMap<Player, Coordinates> playersPositions = new HashMap<>();
@@ -39,14 +40,12 @@ public class GameMap {
 	 * @param playerToFind player to find
 	 * @return the player's coordinates
 	 */
-	public Coordinates playerCoordinates(Player playerToFind) {
-		return playersPositions.get(playerToFind);
-	}
+	public Coordinates playerCoordinates(Player playerToFind) {	return playersPositions.get(playerToFind);}
 
 	/**
 	 * Moves the player in the specified coordinates.
 	 * @param playerToMove player to move
-	 * @param coordinates coordinates to which the players has to be moved to
+	 * @param coordinates coordinates where the player has to be moved to
 	 */
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
 		if (isIn(coordinates))
@@ -56,7 +55,7 @@ public class GameMap {
 	}
 
 	/**
-	 * Returns the set of all reachable squares from the coordinates and distance at most max distance
+	 * Returns the set of all reachable squares from the coordinates and distance at most max distance.
 	 * @param coordinates coordinates of the starting point
 	 * @param maxDistance maximum distance
 	 * @return the set of all reachable squares from the coordinates and distance at most max distance
@@ -78,18 +77,18 @@ public class GameMap {
 	}
 
 	/**
-	 * Returns the set of all the squares belonging to the same room of the specified square
-	 * @param square TODO
+	 * Returns the set of all the squares belonging to the same room of the specified square.
+	 * @param square a square belonging to the room
 	 * @return the set of all the squares belonging to the same room of the specified square
 	 */
-	public ArrayList<Coordinates> getRoomCoordinates(Square square) {return rooms.get(square.getRoomID());}
+	public ArrayList<Coordinates> getRoomCoordinates(Square square) {isIn(square); return rooms.get(square.getRoomID());}
 
 	/**
 	 * Returns the set of all the squares belonging to the same room of the specified square
 	 * @param coordinates TODO
 	 * @return the set of all the squares belonging to the same room of the specified square
 	 */
-	public ArrayList<Coordinates> getRoomCoordinates(Coordinates coordinates) {return getRoomCoordinates(getSquare(coordinates));}
+	public ArrayList<Coordinates> getRoomCoordinates(Coordinates coordinates) {isIn(coordinates); return rooms.get(getSquare(coordinates).getRoomID());}
 
 	/**
 	 * Returns true if and only if the player2 is visible from  the player1
@@ -131,8 +130,8 @@ public class GameMap {
 	 * @throws OutOfBoundariesException if the square does not belong to the map.
 	 */
 	public Coordinates getCoordinates(Square square){
-		for (int i = 0; i < numOfColumns; i++)
-			for (int j = 0; j < numOfRows; j++)
+		for (int i = 0; i < numOfRows; i++)
+			for (int j = 0; j < numOfColumns; j++)
 				if(square.equals(map[i][j]))
 					return new Coordinates(i, j);
 		throw new OutOfBoundariesException("square does not belong to the map");
@@ -256,7 +255,7 @@ public class GameMap {
 	 */
 	private void generateMap(String mapName) {
 
-		String mapPath = System.getProperty("user.dir") + "\\src\\resources\\maps\\" + mapName;
+		String mapPath = System.getProperty("user.dir") + "/src/resources/maps/" + mapName;
 		String line;
 		String separator = ",";
 		boolean[] possibleDirections = new boolean[4];
