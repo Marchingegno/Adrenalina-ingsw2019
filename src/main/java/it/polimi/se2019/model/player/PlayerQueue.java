@@ -1,6 +1,4 @@
-package it.polimi.se2019.controller;
-
-import it.polimi.se2019.model.player.Player;
+package it.polimi.se2019.model.player;
 
 import java.util.ArrayDeque;
 import java.util.List;
