@@ -13,28 +13,22 @@ public class AmmoCard extends Card {
 	private ArrayList<AmmoType> ammos;
 	private boolean hasPowerup;
 
-	public AmmoCard(AmmoType ammo1, AmmoType ammo2, AmmoType ammo3, String description) {
-		super(description);
-	}
 
-	public AmmoCard(AmmoType ammo1, AmmoType ammo2, String description) {
-		super(description);
-	}
-
-	public AmmoCard(ArrayList<AmmoType> ammos, boolean hasPowerup) {
+	public AmmoCard(List<AmmoType> ammos, boolean hasPowerup) {
 
 		super(createDescription(ammos, hasPowerup));
 
-		this.ammos = ammos;
+		this.ammos = new ArrayList<>(ammos);
 		this.hasPowerup = hasPowerup;
 	}
+
 
 	/**
 	 * @param ammos array of the ammos associated with the card
 	 * @param hasPowerup true if the card has a powerup associated
 	 * @return the description of the card
 	 */
-	private static String createDescription(ArrayList<AmmoType> ammos, boolean hasPowerup){
+	private static String createDescription(List<AmmoType> ammos, boolean hasPowerup){
 
 		StringBuilder description = new StringBuilder();
 
