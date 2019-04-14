@@ -1,14 +1,12 @@
-package it.polimi.se2019.controller;
+package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.model.player.PlayerQueue;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PlayerQueueTest {
 
