@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Utils;
@@ -77,26 +76,29 @@ public class GameMap {
 			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
 	}
 
+	public ArrayList<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
+		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
+		return reachableSquares(getSquare(coordinates), maxDistance, reachableCoordinates);
+	}
+
 	/**
 	 * Returns the set of all reachable squares from the coordinates and distance at most max distance.
-	 * @param coordinates coordinates of the starting point
+	 * @param square square of the starting point
 	 * @param maxDistance maximum distance
 	 * @return the set of all reachable squares from the coordinates and distance at most max distance
 	 */
-	public ArrayList<Coordinates> reachableSquares(Coordinates coordinates, int maxDistance) {
-		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
+	private ArrayList<Coordinates> reachableSquares(Square square, int maxDistance, ArrayList<Coordinates> reachableCoordinates) {
 
 		if (maxDistance != 0)
 		{
-			boolean[] possibleDirection = getSquare(coordinates).getPossibleDirections();
-			for (CardinalDirection direction: CardinalDirection.values()) {
-				if(possibleDirection[direction.ordinal()])
-					reachableCoordinates.addAll(reachableSquares(Coordinates.getDirectionCoordinates(coordinates, direction), maxDistance - 1));
+			for (Square adjacentSquare: square.getAdjacentSquares()) {
+				reachableSquares(adjacentSquare, maxDistance - 1, reachableCoordinates);
 			}
 		}
 
-		reachableCoordinates.add(coordinates);
-		return removeDuplicatedCoordinates(reachableCoordinates);
+		if (!(reachableCoordinates.contains(getCoordinates(square))))
+			reachableCoordinates.add(getCoordinates(square));
+		return reachableCoordinates;
 	}
 
 	/**
@@ -107,7 +109,7 @@ public class GameMap {
 	 */
 	public ArrayList<Coordinates> getRoomCoordinates(Square square) {
 		if (isIn(square))
-			return rooms.get(square.getRoomID());
+			return new ArrayList<>(rooms.get(square.getRoomID()));
 		else
 			throw new OutOfBoundariesException("the square does not belong to the map " + getCoordinates(square));
 	}
@@ -120,7 +122,7 @@ public class GameMap {
 	 */
 	public ArrayList<Coordinates> getRoomCoordinates(Coordinates coordinates) {
 		if (isIn(coordinates))
-			return rooms.get(getSquare(coordinates).getRoomID());
+			return new ArrayList<>(rooms.get(getSquare(coordinates).getRoomID()));
 		else
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
@@ -165,11 +167,10 @@ public class GameMap {
 	 * @throws OutOfBoundariesException if the square does not belong to the map.
 	 */
 	public Coordinates getCoordinates(Square square){
-		for (int i = 0; i < numOfRows; i++)
-			for (int j = 0; j < numOfColumns; j++)
-				if(square.equals(map[i][j]))
-					return new Coordinates(i, j);
-		throw new OutOfBoundariesException("square does not belong to the map");
+		if (isIn(square))
+			return square.getCoordinates();
+		else
+			throw new OutOfBoundariesException("square does not belong to the map");
 	}
 
 	/**
@@ -193,23 +194,6 @@ public class GameMap {
 	public boolean isSpawnSquare(Coordinates coordinates) { return spawnSquaresCoordinates.contains(coordinates);}
 
 	/**
-	 * Removes duplicated coordinates from the List
-	 * @param coordinatesList list of coordinates
-	 * @return a List without duplicates
-	 */
-	private ArrayList<Coordinates> removeDuplicatedCoordinates(ArrayList<Coordinates> coordinatesList) {
-		ArrayList<Coordinates> newArrayList = new ArrayList<>();
-
-		for (Coordinates coordinates : coordinatesList) {
-
-			if (!newArrayList.contains(coordinates))
-				newArrayList.add(coordinates);
-		}
-
-		return newArrayList;
-	}
-
-	/**
 	 * Returns true if and only if the coordinates belong to the map
 	 * @param coordinates coordinates to check
 	 * @return true if and only if the coordinates belong to the map
@@ -224,8 +208,8 @@ public class GameMap {
 	 * @return true if and only if the square belong to the map
 	 */
 	private boolean isIn(Square square){
-		return isIn(getCoordinates(square)) &&
-				square.getRoomID() != -1;
+		Coordinates coordinates = square.getCoordinates();
+		return (isIn(coordinates) && map[coordinates.getRow()][coordinates.getColumn()].equals(square));
 	}
 
 	/**
@@ -237,11 +221,11 @@ public class GameMap {
 	 */
 	private void addSquareToMap(Coordinates coordinatesOfTheSquare, String ammoType, int roomID, boolean[] possibleDirections) {
 		if(!ammoType.equals("NONE")){
-			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new SpawnSquare(AmmoType.valueOf(ammoType), roomID, possibleDirections);
+			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new SpawnSquare(AmmoType.valueOf(ammoType), roomID, possibleDirections, coordinatesOfTheSquare);
 			spawnSquaresCoordinates.add(coordinatesOfTheSquare);
 		}
 		else
-			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new AmmoSquare(roomID, possibleDirections);
+			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new AmmoSquare(roomID, possibleDirections, coordinatesOfTheSquare);
 	}
 
 	/**

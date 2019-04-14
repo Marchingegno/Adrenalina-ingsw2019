@@ -13,10 +13,12 @@ public abstract class Square {
 	private int roomID;
 	private ArrayList<Square> adjacentSquares = new ArrayList<>();
 	private ArrayList<Card> cards = new ArrayList<>();
+	private Coordinates coordinates;
 
-	public Square(boolean[] possibleDirections, int roomID) {
+	public Square(boolean[] possibleDirections, int roomID, Coordinates coordinates) {
 		this.possibleDirections = possibleDirections;
 		this.roomID = roomID;
+		this.coordinates = coordinates;
 	}
 
 	/**
@@ -36,6 +38,14 @@ public abstract class Square {
 	 * @return
 	 */
 	public int getRoomID() {return roomID;	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Coordinates getCoordinates() {
+		return coordinates;
+	}
 
 	/**
 	 *
