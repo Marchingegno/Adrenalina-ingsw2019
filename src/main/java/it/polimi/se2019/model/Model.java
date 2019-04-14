@@ -131,6 +131,10 @@ public class Model extends Observable {
 
 }
 
+/**
+ * Data structure that helps with counting players and damage done on damage boards.
+ * @author Marchingegno
+ */
 class DamageDone{
 	private ArrayList<Player> players;
 	private ArrayList<Integer> damages;
@@ -139,6 +143,19 @@ class DamageDone{
 	DamageDone() {
 		this.players = new ArrayList<>();
 		this.damages = new ArrayList<>();
+	}
+
+	/*
+	 * The following two method are for testing purposes only.
+	 */
+
+	public ArrayList<Integer> getDamages() {
+		return new ArrayList<>(damages);
+	}
+
+
+	public ArrayList<Player> getPlayers() {
+		return new ArrayList<>(players);
 	}
 
 	void damageUp(Player player){
@@ -163,7 +180,7 @@ class DamageDone{
 	ArrayList<Player> getSortedPlayers()
 	{
 		sort();
-		return (ArrayList<Player>) players.clone();
+		return new ArrayList<Player>(players);
 	}
 
 	private void sort(){

@@ -24,7 +24,8 @@ public class DamageDoneTest {
 
 		assertEquals(player1, players.get(0));
 		assertEquals(player2, players.get(1));
-		assertEquals(2, java.util.Optional.ofNullable(damages.get(0)));
+		assertEquals(2, (int) damages.get(0));
+
 
 	}
 
