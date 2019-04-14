@@ -16,7 +16,11 @@ public class Newton extends PowerupCard {
 	}
 
 	@Override
-	public void activatePowerup(Player targetPlayer) {
+	public void activatePowerup(Player activatingPlayer) {
+		// TODO can be activated during the client's turn (same as the Teleporter card).
+		// TODO get targetPlayer possible movements (1 or 2 squares in one direction).
+		// TODO ask client where to move giving possible movements.
+		// TODO move targetPlayer.
 	}
 
 }

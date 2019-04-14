@@ -17,7 +17,7 @@ public abstract class PowerupCard extends Card {
 		this.associatedAmmo = associatedAmmo;
 	}
 
-	public abstract void activatePowerup(Player targetPlayer);
+	public abstract void activatePowerup(Player activatingPlayer);
 
 	/**
 	 * @return the ammo associated with the card

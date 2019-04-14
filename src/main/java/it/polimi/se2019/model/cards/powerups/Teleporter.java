@@ -14,7 +14,10 @@ public class Teleporter extends PowerupCard {
 	public Teleporter(AmmoType associatedAmmo){	super(associatedAmmo, DESCRIPTION);	}
 
 	@Override
-	public void activatePowerup(Player targetPlayer) {
+	public void activatePowerup(Player activatingPlayer) {
+		// TODO can be activated during the client's turn (same as the Newton card).
+		// TODO ask client where to move (can be moved anywhere).
+		// TODO move activatingPlayer.
 	}
 
 }

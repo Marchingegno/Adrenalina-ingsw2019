@@ -71,4 +71,12 @@ public class AmmoContainer {
 			ammos[ammoToRemove.ordinal()] = 0;
 	}
 
+	/**
+	 * Remove a single ammo of ammo type.
+	 * @param ammoToRemove type of ammo to remove.
+	 */
+	public void removeAmmo(AmmoType ammoToRemove) {
+		removeAmmo(ammoToRemove, 1);
+	}
+
 }

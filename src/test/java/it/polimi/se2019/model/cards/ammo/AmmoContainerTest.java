@@ -76,4 +76,13 @@ public class AmmoContainerTest {
 		AmmoContainer ammoContainer = new AmmoContainer();
 		ammoContainer.removeAmmo(AmmoType.values()[0], -1);
 	}
+
+	@Test
+	public void removeAmmo_singleAmmoRemoved_shouldGiveModifiedValue() {
+		AmmoContainer ammoContainer = new AmmoContainer();
+		ammoContainer.removeAmmo(AmmoType.values()[0]);
+		ammoContainer.removeAmmo(AmmoType.values()[1]);
+		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE - 1, ammoContainer.getAmmo(AmmoType.values()[0]));
+		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE - 1, ammoContainer.getAmmo(AmmoType.values()[1]));
+	}
 }

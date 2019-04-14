@@ -10,6 +10,7 @@ import it.polimi.se2019.model.player.Player;
 public class TagbackGrenade extends PowerupCard {
 
 	private static final String DESCRIPTION = "TagbackGranade description";
+	private static final int GIVEN_MARKS = 1;
 
 	public TagbackGrenade(AmmoType associatedAmmo) {
 		super(associatedAmmo, DESCRIPTION);
@@ -17,7 +18,10 @@ public class TagbackGrenade extends PowerupCard {
 
 
 	@Override
-	public void activatePowerup(Player targetPlayer) {
+	public void activatePowerup(Player activatingPlayer) {
+		// TODO can be activated when the client receive damage from a player he can see (should this check be performed by the controller or here?).
+		Player targetPlayer = activatingPlayer; // TODO placeholder, must be targetPlayer.
+		targetPlayer.getPlayerBoard().addMarks(activatingPlayer, GIVEN_MARKS); // add marks to the target player.
 	}
 
 }
