@@ -108,7 +108,136 @@ public class GameMapTest {
 	}
 
 	@Test
-	public void reachableSquares() {
+	public void reachableCoordinates_zeroDistance_correctOutput() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		ArrayList<Coordinates> correctReachableSquares = new ArrayList<>();
+		correctReachableSquares.add(new Coordinates(1,1));
+		assertEquals(correctReachableSquares , map.reachableCoordinates(new Coordinates(1,1), 0));
+	}
+
+	@Test
+	public void reachableCoordinates_oneDistance_correctOutput() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		ArrayList<Coordinates> correctOutput = new ArrayList<>();
+		correctOutput.add(new Coordinates(1,0));
+		correctOutput.add(new Coordinates(0,0));
+		correctOutput.add(new Coordinates(1,1));
+		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,0), 1);
+
+		assertEquals(correctOutput.size(), methodOutput.size());
+
+		boolean valid = true;
+		for (Coordinates coordinates : correctOutput) {
+			if(!(methodOutput.contains(coordinates)))
+				valid = false;
+		}
+		assertTrue(valid);
+	}
+
+	@Test
+	public void reachableCoordinates_maxDistance1_correctOutput() {
+		GameMap map = new GameMap("BigMap.txt", players);
+		ArrayList<Coordinates> correctOutput = new ArrayList<>();
+		correctOutput.add(new Coordinates(2,3));
+		correctOutput.add(new Coordinates(2,2));
+		correctOutput.add(new Coordinates(2,1));
+		correctOutput.add(new Coordinates(2,0));
+		correctOutput.add(new Coordinates(0,1));
+		correctOutput.add(new Coordinates(0,2));
+		correctOutput.add(new Coordinates(0,3));
+		correctOutput.add(new Coordinates(0,0));
+		correctOutput.add(new Coordinates(1,3));
+		correctOutput.add(new Coordinates(1,0));
+		correctOutput.add(new Coordinates(1,2));
+		correctOutput.add(new Coordinates(1,1));
+		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,2), 4);
+
+		assertEquals(correctOutput.size(), methodOutput.size());
+
+		boolean valid = true;
+		for (Coordinates coordinates : correctOutput) {
+			if(!(methodOutput.contains(coordinates)))
+				valid = false;
+		}
+		assertTrue(valid);
+	}
+
+	@Test
+	public void reachableCoordinates_maxDistance2_correctOutput() {
+		GameMap map = new GameMap("BigMap.txt", players);
+		ArrayList<Coordinates> correctOutput = new ArrayList<>();
+		correctOutput.add(new Coordinates(2,3));
+		correctOutput.add(new Coordinates(2,2));
+		correctOutput.add(new Coordinates(2,1));
+		correctOutput.add(new Coordinates(2,0));
+		correctOutput.add(new Coordinates(0,1));
+		correctOutput.add(new Coordinates(0,2));
+		correctOutput.add(new Coordinates(0,3));
+		correctOutput.add(new Coordinates(0,0));
+		correctOutput.add(new Coordinates(1,3));
+		correctOutput.add(new Coordinates(1,0));
+		correctOutput.add(new Coordinates(1,2));
+		correctOutput.add(new Coordinates(1,1));
+		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,2), 5);
+
+		assertEquals(correctOutput.size(), methodOutput.size());
+
+		boolean valid = true;
+		for (Coordinates coordinates : correctOutput) {
+			if(!(methodOutput.contains(coordinates)))
+				valid = false;
+		}
+		assertTrue(valid);
+	}
+
+	@Test
+	public void reachableCoordinates_maxDistance3_correctOutput() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		ArrayList<Coordinates> correctOutput = new ArrayList<>();
+		correctOutput.add(new Coordinates(2,2));
+		correctOutput.add(new Coordinates(2,1));
+		correctOutput.add(new Coordinates(0,2));
+		correctOutput.add(new Coordinates(0,0));
+		correctOutput.add(new Coordinates(1,3));
+		correctOutput.add(new Coordinates(1,0));
+		correctOutput.add(new Coordinates(1,2));
+		correctOutput.add(new Coordinates(1,1));
+		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,1), 2);
+
+		assertEquals(correctOutput.size(), methodOutput.size());
+
+		boolean valid = true;
+		for (Coordinates coordinates : correctOutput) {
+			if(!(methodOutput.contains(coordinates)))
+				valid = false;
+		}
+		assertTrue(valid);
+	}
+
+	@Test
+	public void reachableCoordinates_overMaxDistance_correctOutput() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		ArrayList<Coordinates> correctOutput = new ArrayList<>();
+		correctOutput.add(new Coordinates(2,3));
+		correctOutput.add(new Coordinates(2,2));
+		correctOutput.add(new Coordinates(2,1));
+		correctOutput.add(new Coordinates(0,1));
+		correctOutput.add(new Coordinates(0,2));
+		correctOutput.add(new Coordinates(0,0));
+		correctOutput.add(new Coordinates(1,3));
+		correctOutput.add(new Coordinates(1,0));
+		correctOutput.add(new Coordinates(1,2));
+		correctOutput.add(new Coordinates(1,1));
+		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,1), 9);
+
+		assertEquals(correctOutput.size(), methodOutput.size());
+
+		boolean valid = true;
+		for (Coordinates coordinates : correctOutput) {
+			if(!(methodOutput.contains(coordinates)))
+				valid = false;
+		}
+		assertTrue(valid);
 	}
 
 	@Test
@@ -122,7 +251,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(0,1));
 		ArrayList<Coordinates> methodOutput = map.getRoomCoordinates(new Coordinates(0,0));
 
-		assertEquals(methodOutput.size(), correctOutput.size());
+		assertEquals(correctOutput.size(), methodOutput.size());
 
 		boolean valid = true;
 		for (Coordinates coordinates : correctOutput) {
@@ -136,7 +265,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(0,3));
 		methodOutput = map.getRoomCoordinates(new Coordinates(0,3));
 
-		assertEquals(methodOutput, correctOutput);
+		assertEquals(correctOutput, methodOutput);
 
 		//--------------------------------------------THIRD ROOM---------------------------------
 		correctOutput.clear();
@@ -144,7 +273,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1,1));
 		methodOutput = map.getRoomCoordinates(new Coordinates(1,0));
 
-		assertEquals(methodOutput.size(), correctOutput.size());
+		assertEquals(correctOutput.size(), methodOutput.size());
 
 		valid = true;
 		for (Coordinates coordinates : correctOutput) {
@@ -161,7 +290,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(2,3));
 		methodOutput = map.getRoomCoordinates(new Coordinates(2,3));
 
-		assertEquals(methodOutput.size(), correctOutput.size());
+		assertEquals(correctOutput.size(), methodOutput.size());
 
 		valid = true;
 		for (Coordinates coordinates : correctOutput) {
@@ -176,7 +305,7 @@ public class GameMapTest {
 
 		methodOutput = map.getRoomCoordinates(new Coordinates(2,1));
 
-		assertEquals(methodOutput, correctOutput);
+		assertEquals(correctOutput, methodOutput);
 	}
 
 	@Test
@@ -189,7 +318,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(0, 0));
 		ArrayList<Coordinates> methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(0, 0)));
 
-		assertEquals(methodOutput.size(), correctOutput.size());
+		assertEquals(correctOutput.size(), methodOutput.size());
 
 		boolean valid = true;
 		for (Coordinates coordinates : correctOutput) {
@@ -204,7 +333,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(0, 1));
 		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(0, 2)));
 
-		assertEquals(methodOutput.size(), correctOutput.size());
+		assertEquals(correctOutput.size(), methodOutput.size());
 
 		valid = true;
 		for (Coordinates coordinates : correctOutput) {
@@ -218,14 +347,14 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(0, 3));
 		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(0, 3)));
 
-		assertEquals(methodOutput, correctOutput);
+		assertEquals(correctOutput, methodOutput);
 
 		//--------------------------------------------FOURTH ROOM---------------------------------
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(1, 1));
 		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(1, 1)));
 
-		assertEquals(methodOutput, correctOutput);
+		assertEquals(correctOutput, methodOutput);
 
 		//--------------------------------------------FIFTH ROOM---------------------------------
 		correctOutput.clear();
@@ -235,7 +364,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1, 3));
 		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(1, 3)));
 
-		assertEquals(methodOutput.size(), correctOutput.size());
+		assertEquals(correctOutput.size(), methodOutput.size());
 
 		valid = true;
 		for (Coordinates coordinates : correctOutput) {
@@ -250,7 +379,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(2, 1));
 		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(2, 0)));
 
-		assertEquals(methodOutput.size(), correctOutput.size());
+		assertEquals(correctOutput.size(), methodOutput.size());
 
 		valid = true;
 		for (Coordinates coordinates : correctOutput) {
@@ -261,32 +390,37 @@ public class GameMapTest {
 	}
 
 	@Test (expected = OutOfBoundariesException.class)
-	public void getRoomCoordinates_SmallMapSquare_throwsOutOfBoundaryException() {
+	public void getRoomCoordinates_SmallMapCoordinatesOutOfTheMap_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		map.getRoomCoordinates(new Coordinates(5, 3));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapBlackCoordinates_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		map.getRoomCoordinates(new Coordinates(0, 3));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapBlackSquare_throwsOutOfBoundaryException() {
 		GameMap map = new GameMap("SmallMap.txt", players);
 		boolean[] possibleDirection = new boolean[4];
 		possibleDirection[0] = true;
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection));
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, -1, possibleDirection, new Coordinates(0,2)));
 	}
 
 	@Test (expected = OutOfBoundariesException.class)
-	public void getRoomCoordinates_SmallMapCoordinates_throwsOutOfBoundaryException() {
+	public void getRoomCoordinates_SmallMapSquareOutOfTheMap_throwsOutOfBoundaryException() {
 		GameMap map = new GameMap("SmallMap.txt", players);
-		map.getRoomCoordinates(new Coordinates(5, 3));
-	}
-
-	@Test (expected = OutOfBoundariesException.class)
-	public void getRoomCoordinates_SmallMapCoordinates02_throwsOutOfBoundaryException() {
-		GameMap map = new GameMap("SmallMap.txt", players);
-		map.getRoomCoordinates(new Coordinates(0, 3));
-	}
-
-	@Test (expected = OutOfBoundariesException.class)
-	public void getRoomCoordinates_SmallMapSquare02_throwsOutOfBoundaryException() {
-		GameMap map = new GameMap("SmallMap.txt", players);
-		map.getRoomCoordinates(map.getSquare(new Coordinates(2, 0)));
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection, new Coordinates(1,1)));
 	}
 
 	@Test
@@ -330,14 +464,36 @@ public class GameMapTest {
 	}
 
 	@Test (expected = OutOfBoundariesException.class)
-	public void getCoordinates_squareOutOfTheMap_throwsOutOfBoundariesException() {
+	public void getCoordinates_squareNotInTheMap_throwsOutOfBoundariesException() {
 		GameMap map = new GameMap("MediumMap.txt", players);
 		boolean[] possibleDirection = new boolean[4];
 		possibleDirection[0] = true;
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection));
+		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection, new Coordinates(2,1)));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getCoordinates_squareOutOfBoundaries_throwsOutOfBoundariesException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection, new Coordinates(5,1)));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getCoordinates_blackSquare_throwsOutOfBoundariesException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, -1, possibleDirection, new Coordinates(2,1)));
 	}
 
 	@Test
@@ -348,9 +504,21 @@ public class GameMapTest {
 	}
 
 	@Test (expected = OutOfBoundariesException.class)
-	public void getSquare_coordinatesOutOfTheMap_throwsOutOfBoundariesException() {
+	public void getSquare_coordinatesOutOfTheMap1_throwsOutOfBoundariesException() {
 		GameMap map = new GameMap("MediumMap.txt", players);
 		map.getSquare(new Coordinates(9,2));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getSquare_coordinatesOutOfTheMap2_throwsOutOfBoundariesException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.getSquare(new Coordinates(1,5));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getSquare_blackCoordinates_throwsOutOfBoundariesException() {
+		GameMap map = new GameMap("MediumMap.txt", players);
+		map.getSquare(new Coordinates(2,0));
 	}
 
 	@Test

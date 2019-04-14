@@ -7,8 +7,8 @@ import it.polimi.se2019.model.cards.Card;
  */
 public class AmmoSquare extends Square {
 
-	public AmmoSquare(int roomID, boolean[] possibleDirections) {
-		super(possibleDirections, roomID);
+	public AmmoSquare(int roomID, boolean[] possibleDirections, Coordinates coordinates) {
+		super(possibleDirections, roomID, coordinates);
 	}
 
 	@Override

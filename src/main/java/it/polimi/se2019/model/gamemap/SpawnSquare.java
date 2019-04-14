@@ -11,8 +11,8 @@ public class SpawnSquare extends Square {
 
 	private AmmoType ammoType;
 
-	public SpawnSquare(AmmoType ammoType, int roomID, boolean[] possibleDirections) {
-		super(possibleDirections, roomID);
+	public SpawnSquare(AmmoType ammoType, int roomID, boolean[] possibleDirections, Coordinates coordinates) {
+		super(possibleDirections, roomID, coordinates);
 		this.ammoType = ammoType;
 	}
 
