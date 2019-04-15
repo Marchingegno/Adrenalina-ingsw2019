@@ -112,7 +112,7 @@ public class Model extends Observable {
 		return gameBoard.getGameMap().reachableCoordinates(player, distance);
 	}
 
-	public Map<Player, Coordinates> getPlayersCoordinates() { return gameBoard.getGameMap().getPlayersPositions();	}
+	public Map<Player, Coordinates> getPlayersCoordinates() { return gameBoard.getGameMap().getPlayersCoordinates();	}
 
 	public List<Player> getPlayers(){return gameBoard.getPlayers();}
 

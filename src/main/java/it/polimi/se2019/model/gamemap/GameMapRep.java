@@ -9,14 +9,14 @@ import java.util.HashMap;
 /**
  * @author MarcerAndrea
  */
-public class MapRep implements Serializable {
+public class GameMapRep implements Serializable {
 
 	private int numOfRows;
 	private int	numOfColumns;
 	private SquareRep[][] mapRep;
 	private HashMap<Player, Coordinates> playersPositions;
 
-	public MapRep(GameMap gameMapToRepresent) {
+	public GameMapRep(GameMap gameMapToRepresent) {
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
 		this.numOfRows = gameMapToRepresent.getNumOfRows();
 
@@ -32,7 +32,7 @@ public class MapRep implements Serializable {
 			}
 		}
 
-		playersPositions = gameMapToRepresent.getPlayersPositions();
+		playersPositions = gameMapToRepresent.getPlayersCoordinates();
 	}
 
 	public int getNumOfRows() {
@@ -47,7 +47,7 @@ public class MapRep implements Serializable {
 		return mapRep;
 	}
 
-	public HashMap<Player, Coordinates> getPlayersPositions() {
+	public HashMap<Player, Coordinates> getPlayersCoordinates() {
 		return playersPositions;
 	}
 }

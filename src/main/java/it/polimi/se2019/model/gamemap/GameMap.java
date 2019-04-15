@@ -56,7 +56,7 @@ public class GameMap {
 	 * Returns the player position.
 	 * @return the player position
 	 */
-	public HashMap<Player, Coordinates> getPlayersPositions() {
+	public HashMap<Player, Coordinates> getPlayersCoordinates() {
 		return new HashMap<>(playersPositions);
 	}
 

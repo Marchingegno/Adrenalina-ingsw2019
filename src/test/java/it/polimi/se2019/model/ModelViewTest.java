@@ -1,7 +1,7 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.gamemap.GameMap;
-import it.polimi.se2019.model.gamemap.MapRep;
+import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import org.junit.Before;
@@ -16,7 +16,7 @@ public class ModelViewTest {
 	private GameMap gameMap;
 
 	private GameBoardRep gameBoardRep;
-	private MapRep mapRep;
+	private GameMapRep mapRep;
 	private ArrayList<PlayerRep> playerReps;
 	private ArrayList<Player> players;
 
@@ -30,7 +30,7 @@ public class ModelViewTest {
 
 		gameMap = gameBoard.getGameMap();
 
-		mapRep = new MapRep(gameMap);
+		mapRep = new GameMapRep(gameMap);
 		gameBoardRep = new GameBoardRep(gameBoard);
 		playerReps = new ArrayList<>();
 		for (Player player : gameBoard.getPlayers())
