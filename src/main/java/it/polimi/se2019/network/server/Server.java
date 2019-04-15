@@ -37,6 +37,7 @@ public class Server {
 		// ********** JUST FOR TEST ************
 		try {
 			clients.add(client);
+			Utils.logInfo("Registered new client.");
 			client.processMessage(new Message(MessageType.REQUEST_FOR_UPPER_CASE));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -48,17 +49,23 @@ public class Server {
 
 
 		// ********** JUST FOR TEST ************
-		try {
-			if(message.getMessageType() == MessageType.INPUT_FOR_UPPER_CASE) {
-				String messageString = ((UpperCaseInputMessage) message).getContent();
-				for (ClientInterface client : clients) {
-					client.processMessage(new UpperCaseOutputMessage(messageString.toUpperCase()));
-					client.processMessage(new Message(MessageType.REQUEST_FOR_UPPER_CASE));
-				}
+		if(message.getMessageType() == MessageType.INPUT_FOR_UPPER_CASE) {
+			String messageString = ((UpperCaseInputMessage) message).getContent();
+			for (ClientInterface client : clients) {
+				asyncSendMessage(client, new UpperCaseOutputMessage(messageString.toUpperCase()));
+				asyncSendMessage(client, new Message(MessageType.REQUEST_FOR_UPPER_CASE));
 			}
-		} catch (RemoteException e) {
-			e.printStackTrace();
 		}
+	}
+
+	public void asyncSendMessage(ClientInterface client, Message message) {
+		new Thread(() -> {
+			try {
+				client.processMessage(message);
+			} catch (RemoteException e) {
+				Utils.logError("Error while sending a message asynchronously.", e);
+			}
+		}).start();
 	}
 
 	public void startRMIServer() {
