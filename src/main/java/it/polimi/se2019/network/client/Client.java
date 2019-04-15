@@ -1,28 +1,41 @@
 package it.polimi.se2019.network.client;
 
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.client.rmi.RMIClient;
-import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.network.message.UpperCaseInputMessage;
-import it.polimi.se2019.network.message.UpperCaseOutputMessage;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.CLIView;
+import it.polimi.se2019.view.GUIView;
+import it.polimi.se2019.view.RemoteViewInterface;
 
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 public class Client implements ClientInterface{
 
 	private ConnectionInterface connection;
+	private RemoteViewInterface view;
+
 
 	public static void main(String[] args) {
+		Client client;
+
+		boolean isCLI = true; // TODO if user requested CLI use CLI otherwise GUI
+		if(isCLI)
+			client = new Client(new CLIView());
+		else
+			client = new Client(new GUIView());
+
 		boolean isRMI = true; // TODO if user requested RMI start RMI otherwise socket
-		if(isRMI) {
-			Client client = new Client();
+		if(isRMI)
 			client.startConnectionWithRMI();
-		} else {
-			Client client = new Client();
+		else
 			client.startConnectionWithSocket();
-		}
+	}
+
+
+	public Client(RemoteViewInterface view) {
+		this.view = view;
 	}
 
 	/**
@@ -33,19 +46,29 @@ public class Client implements ClientInterface{
 	public void processMessage(Message message) {
 		// TODO process the message and update the view
 
-		// ********** JUST FOR TEST ************
 		try {
-			if(message.getMessageType() == MessageType.REQUEST_FOR_UPPER_CASE) {
-				System.out.println("Type something and it will converted in upper case.");
-				Scanner s = new Scanner(System.in);
-				String input = s.nextLine();
-				connection.sendMessage(new UpperCaseInputMessage(input));
-			}
-			if(message.getMessageType() == MessageType.OUTPUT_FOR_UPPER_CASE) {
-				System.out.println(((UpperCaseOutputMessage)message).getContent());
+			switch (message.getMessageType()) {
+				case NICKNAME:
+					if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+						String nickname = view.askNickname();
+						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+					}
+					if(message.getMessageSubtype() == MessageSubtype.ERROR) {
+						String nickname = view.askNickname();
+						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+					}
+					if(message.getMessageSubtype() == MessageSubtype.OK) {
+						String nickname = ((NicknameMessage)message).getContent();
+						view.displayText("Nickname set to: \"" + nickname + "\".");
+					}
+					break;
+
+				default:
+					break;
+
 			}
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			Utils.logError("Error while sending a message to the server.", e);
 		}
 	}
 

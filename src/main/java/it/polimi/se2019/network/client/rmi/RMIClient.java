@@ -35,6 +35,6 @@ public class RMIClient implements ConnectionInterface {
 
 	@Override
 	public void sendMessage(Message message) throws RemoteException {
-		rmiServer.sendMessage(message); // Send message to the server.
+		rmiServer.sendMessage(stub, message); // Send message to the server.
 	}
 }

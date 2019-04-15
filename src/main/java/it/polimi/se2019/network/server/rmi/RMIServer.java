@@ -50,7 +50,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	 * @throws RemoteException
 	 */
 	@Override
-	public void sendMessage(Message message) throws RemoteException {
-		server.onReceiveMessage(message);
+	public void sendMessage(ClientInterface client, Message message) throws RemoteException {
+		server.onReceiveMessage(client, message);
 	}
 }

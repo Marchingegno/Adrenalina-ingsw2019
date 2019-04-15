@@ -1,6 +1,7 @@
 package it.polimi.se2019.network.message;
 
 public enum MessageType {
+	NICKNAME,
 
 	// ********** TYPES JUST FOR TEST ************
 	REQUEST_FOR_UPPER_CASE,

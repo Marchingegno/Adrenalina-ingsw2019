@@ -23,6 +23,6 @@ public interface RMIServerInterface extends Remote {
 	 * @param message the message to send.
 	 * @throws RemoteException
 	 */
-	void sendMessage(Message message) throws RemoteException;
+	void sendMessage(ClientInterface client, Message message) throws RemoteException;
 
 }
