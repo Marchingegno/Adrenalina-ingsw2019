@@ -35,6 +35,19 @@ public class GameMapTest {
 	public void tearDown(){
 	}
 
+
+	@Test
+	public void getNumOfRows_correctInput_correcntOutput(){
+		GameMap map = new GameMap("MediumMap.txt", players);
+		assertEquals(3, map.getNumOfRows());
+	}
+
+	@Test
+	public void getNumOfColumn_correctInput_correcntOutput(){
+		GameMap map = new GameMap("MediumMap.txt", players);
+		assertEquals(4, map.getNumOfColumns());
+	}
+
 	@Test (expected = PlayerNotInTheMapException.class)
 	public void playerCoordinates_playerNotYetPlaced1_throwsPlayerNotInTheMapException() {
 		GameMap map = new GameMap("MediumMap.txt", players);
@@ -413,6 +426,50 @@ public class GameMapTest {
 	}
 
 	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapSquareOutOfTheMap1_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection, new Coordinates(0,9)));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapSquareOutOfTheMap2_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, -1, possibleDirection, new Coordinates(0,0)));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapSquareOutOfTheMap3_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection, new Coordinates(0,0)));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapSquareOutOfTheMap4_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, -1, possibleDirection, new Coordinates(9,9)));
+	}
+
+	@Test (expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapSquareOutOfTheMap_throwsOutOfBoundaryException() {
 		GameMap map = new GameMap("SmallMap.txt", players);
 		boolean[] possibleDirection = new boolean[4];
@@ -420,7 +477,19 @@ public class GameMapTest {
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection, new Coordinates(1,1)));
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 4, possibleDirection, new Coordinates(9,1)));
+	}
+
+
+	@Test (expected = OutOfBoundariesException.class)
+	public void getRoomCoordinates_SmallMapNewSquare_throwsOutOfBoundaryException() {
+		GameMap map = new GameMap("SmallMap.txt", players);
+		boolean[] possibleDirection = new boolean[4];
+		possibleDirection[0] = true;
+		possibleDirection[1] = true;
+		possibleDirection[2] = true;
+		possibleDirection[3] = true;
+		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, 2, possibleDirection, new Coordinates(0, 1)));
 	}
 
 	@Test

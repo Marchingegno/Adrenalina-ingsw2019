@@ -1,5 +1,9 @@
 package it.polimi.se2019.model.gamemap;
 
+import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
+
+import java.io.Serializable;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
@@ -7,7 +11,7 @@ import static java.lang.Math.pow;
  * Class with two integers representing the positions in the map matrix
  * @author MarcerAndrea
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
 
 	private int row;
 	private int column;

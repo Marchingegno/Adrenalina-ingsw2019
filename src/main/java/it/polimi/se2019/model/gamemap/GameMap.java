@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class implements the game map
@@ -33,6 +34,30 @@ public class GameMap {
 		for (Player playerToAdd: players ) {
 			playersPositions.put(playerToAdd, null);
 		}
+	}
+
+	/**
+	 * Returns the number of rows.
+	 * @return the number of rows
+	 */
+	public int getNumOfRows() {
+		return numOfRows;
+	}
+
+	/**
+	 * Returns the number of columns.
+	 * @return the number of columns
+	 */
+	public int getNumOfColumns() {
+		return numOfColumns;
+	}
+
+	/**
+	 * Returns the player position.
+	 * @return the player position
+	 */
+	public HashMap<Player, Coordinates> getPlayersPositions() {
+		return new HashMap<>(playersPositions);
 	}
 
 	/**
@@ -74,6 +99,11 @@ public class GameMap {
 			playersPositions.replace(playerToMove, coordinates);
 		else
 			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
+	}
+
+	public ArrayList<Coordinates> reachableCoordinates(Player player, int maxDistance) {
+		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
+		return reachableSquares(getSquare(playersPositions.get(player)), maxDistance, reachableCoordinates);
 	}
 
 	public ArrayList<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
@@ -209,7 +239,7 @@ public class GameMap {
 	 */
 	private boolean isIn(Square square){
 		Coordinates coordinates = square.getCoordinates();
-		return (isIn(coordinates) && map[coordinates.getRow()][coordinates.getColumn()].equals(square));
+		return isIn(square.getCoordinates()) &&	map[coordinates.getRow()][coordinates.getColumn()].equals(square);
 	}
 
 	/**

@@ -1,19 +1,53 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.player.Player;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+/**
+ * @author MarcerAndrea
+ */
 public class MapRep implements Serializable {
 
-	private ArrayList<ArrayList<String>> gameMapRep;
+	private int numOfRows;
+	private int	numOfColumns;
+	private SquareRep[][] mapRep;
+	private HashMap<Player, Coordinates> playersPositions;
 
+	public MapRep(GameMap gameMapToRepresent) {
+		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
+		this.numOfRows = gameMapToRepresent.getNumOfRows();
 
-	public MapRep(GameMap gameMap) {
+		mapRep = new SquareRep[this.numOfRows][this.numOfColumns];
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				try{
+					this.mapRep[i][j] = new SquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j)));
+				}catch (OutOfBoundariesException e){
+					mapRep[i][j] = new SquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j)));
+				}
+			}
+		}
+
+		playersPositions = gameMapToRepresent.getPlayersPositions();
 	}
 
-
-	private Coordinates convertCoordinates(Coordinates originalCoordinates) {
-		return null;
+	public int getNumOfRows() {
+		return numOfRows;
 	}
 
+	public int getNumOfColumns() {
+		return numOfColumns;
+	}
+
+	public SquareRep[][] getMapRep() {
+		return mapRep;
+	}
+
+	public HashMap<Player, Coordinates> getPlayersPositions() {
+		return playersPositions;
+	}
 }

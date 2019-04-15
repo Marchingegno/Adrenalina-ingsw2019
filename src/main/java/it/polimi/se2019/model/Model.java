@@ -19,7 +19,6 @@ public class Model extends Observable {
 	private ViewInterface view;
 	private GameBoard gameBoard;
 
-
 	public void initialize(String mapPath, List<String> playerNames, int startingSkulls) {
 		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
 	}
@@ -109,12 +108,13 @@ public class Model extends Observable {
 	public void drawWeaponCard(Player player, WeaponCard weapon) {
 	}
 
-	public ArrayList<Coordinates> getReachableCoordinates(Player player) {
-		return null;
+	public ArrayList<Coordinates> getReachableCoordinates(Player player, int distance) {
+		return gameBoard.getGameMap().reachableCoordinates(player, distance);
 	}
 
-	public void getPlayersCoordinates() {
-	}
+	public Map<Player, Coordinates> getPlayersCoordinates() { return gameBoard.getGameMap().getPlayersPositions();	}
+
+	public List<Player> getPlayers(){return gameBoard.getPlayers();}
 
 	public GameBoardRep getGameboardRep() {
 		return null;
