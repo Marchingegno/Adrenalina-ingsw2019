@@ -4,6 +4,7 @@ import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
+import it.polimi.se2019.model.player.PlayerQueue;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.*;
@@ -19,12 +20,27 @@ public class Model extends Observable {
 	private ViewInterface view;
 	private GameBoard gameBoard;
 
-	public void initialize(String mapPath, List<String> playerNames, int startingSkulls) {
+	public Model(String mapPath, List<String> playerNames, int startingSkulls) {
 		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
 	}
 
 	public void movePlayerTo(Player playerToMove) {
 	}
+
+
+	public PlayerQueue getPlayerQueue()
+	{
+		return gameBoard.getPlayerQueue();
+	}
+
+	public Player getCurrentPlayer(){
+		return gameBoard.getCurrentPlayer();
+	}
+
+	public void nextPlayerTurn(){
+		gameBoard.nextPlayerTurn();
+	}
+
 
 	public void doDamageAndAddMarks(Player shootingPlayer, Player damagedPlayer, int amountOfDamage, int amountOfMarks) {
 		doDamage(shootingPlayer, damagedPlayer, amountOfDamage);
@@ -80,6 +96,8 @@ public class Model extends Observable {
 
     private synchronized void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers){
 		int offset = 0;
+
+		//TODO: The implementation is WRONG. A player should give FRENZY_SCORES only if the playerBoard is flipped. @Marchingegno
 
 		//This method relies on the "SCORES" array defined in GameConstants.
 		if(deadPlayerBoard.isFrenzy()) {

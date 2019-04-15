@@ -1,9 +1,9 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.*;
 
@@ -17,20 +17,28 @@ public class Controller {
 	private Model model;
 
 
-	public Controller(ArrayList<Player> playerQueue) {
-		GameController gameController = new GameController(model, playerQueue);
-		this.model = new Model();
-	}
-
-
-	public void initializeModel(String mapPath, ArrayList<String> playerNames, int skulls) {
+	public Controller(List<String> playerNames, int skulls, String mapPath) {
 		if(skulls < MIN_SKULLS || skulls > MAX_SKULLS)
 			throw new IllegalArgumentException("Invalid number of skulls!");
 		if(playerNames.size() > MAX_PLAYERS || playerNames.size() < MIN_PLAYERS)
 			throw new IllegalArgumentException("Invalid number of players!");
 
-		this.model.initialize(mapPath, playerNames, skulls);
+
+		this.model = new Model(mapPath, playerNames, skulls);
+		GameController gameController = new GameController(model);
 	}
+
+
+	@Deprecated
+	private void initializeModel(String mapPath, ArrayList<String> playerNames, int skulls) {
+		if(skulls < MIN_SKULLS || skulls > MAX_SKULLS)
+			throw new IllegalArgumentException("Invalid number of skulls!");
+		if(playerNames.size() > MAX_PLAYERS || playerNames.size() < MIN_PLAYERS)
+			throw new IllegalArgumentException("Invalid number of players!");
+
+		this.model = new Model (mapPath, playerNames, skulls);
+	}
+
 
 	public void startGame() {
 		gameController.startGame();

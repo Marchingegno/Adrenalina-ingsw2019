@@ -26,6 +26,13 @@ public class Player {
 		damageStatus = new LowDamage();
 	}
 
+	public Player(String playerName, int playerID) {
+		this.playerName = playerName;
+		this.playerID = playerID;
+		playerBoard = new PlayerBoard();
+		damageStatus = new LowDamage();
+	}
+
 	public PlayerBoard getPlayerBoard() {
 		return playerBoard;
 	}
@@ -57,6 +64,13 @@ public class Player {
 	public void resetAfterDeath(){
 		playerBoard.resetBoardAfterDeath();
 		setDamageStatus(new LowDamage());
+	}
+
+	/**
+	 * This method should flip the playerBoard to the frenzy side.
+	 */
+	public void flipIfNoDamage(){
+
 	}
 
 	public void shoot() {

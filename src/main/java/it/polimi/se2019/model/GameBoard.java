@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupDeck;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.model.player.PlayerQueue;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,9 +20,9 @@ public class GameBoard {
 	private WeaponDeck weaponDeck;
 	private AmmoDeck ammoDeck;
 	private PowerupDeck powerupDeck;
-	private int currentPlayerIndex;
 	private GameMap gameMap;
 	private boolean killShotInThisTurn;
+	private PlayerQueue playerQueue;
 
 
 	public GameBoard(String mapPath, List<String> playerNames, int startingSkulls) {
@@ -32,7 +33,8 @@ public class GameBoard {
 			players.add(new Player(name, id, Color.BLACK)); //  TODO Color?
 			id++;
 		}
-		currentPlayerIndex = 0;
+
+		playerQueue = new PlayerQueue(players);
 
 		// initialize skulls
 		remainingSkulls = startingSkulls;
@@ -49,13 +51,20 @@ public class GameBoard {
 		killShotInThisTurn = false;
 	}
 
+	PlayerQueue getPlayerQueue() {
+		return playerQueue;
+	}
 
-	public List<Player> getPlayers() {
-		return new ArrayList<>(players);
+	public void nextPlayerTurn(){
+		playerQueue.moveFirstToLast();
 	}
 
 	public Player getCurrentPlayer() {
-		return players.get(currentPlayerIndex);
+		return playerQueue.peekFirst();
+	}
+
+	public List<Player> getPlayers() {
+		return new ArrayList<>(players);
 	}
 
 	public boolean areSkullsFinished() {
@@ -102,12 +111,6 @@ public class GameBoard {
 		return gameMap;
 	}
 
-	public void nextPlayerTurn() {
-		killShotInThisTurn = false;
-		currentPlayerIndex++;
-		if(currentPlayerIndex >= players.size())
-			currentPlayerIndex = 0;
-	}
 
 	public WeaponDeck getWeaponDeck() {
 		return weaponDeck;

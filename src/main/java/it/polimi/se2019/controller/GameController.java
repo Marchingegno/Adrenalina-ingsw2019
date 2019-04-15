@@ -3,7 +3,10 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
+import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,12 +17,10 @@ public class GameController {
 
 	private TurnController turnController;
 	private Model model;
-	private PlayerQueue playerQueue;
 
 
-	public GameController(Model model, List<Player> playerList) {
+	public GameController(Model model) {
 		this.model = model;
-		this.playerQueue = new PlayerQueue(playerList);
 		turnController = new TurnController(model);
 	}
 
@@ -34,25 +35,40 @@ public class GameController {
 	public void finalRounds() {
 	}
 
-	public void gameLogic() {
+	private void gameLogic() {
 		while(!model.areSkullsFinished()){
-			startTurn(playerQueue.getFirst());
+			startTurn(model.getCurrentPlayer());
 			endTurn();
 		}
 
 
 	}
 
-	public void startFrenzy() {
+	private void startFrenzy() {
+		Player firstPlayer = model.getPlayers().get(0);
+		ArrayList<Player> sortedPlayers = model.getPlayerQueue().getAsArray();
+		int i = 0;
+
+		while(sortedPlayers.get(i) != firstPlayer){
+			sortedPlayers.get(i).setDamageStatus(new FrenzyBefore());
+			i++;
+		}
+
+		while(i < sortedPlayers.size()){
+			sortedPlayers.get(i).setDamageStatus(new FrenzyAfter());
+			i++;
+		}
+
+		sortedPlayers.stream().forEach(Player::flipIfNoDamage);
 	}
 
 	public void refillCardsOnMap() {
 	}
 
-	public void spawnPlayer(Player player, int idexOfPowerup) {
+	public void spawnPlayer(Player player, int indexOfPowerup) {
 	}
 
-	public void startTurn(Player player) {
+	private void startTurn(Player player) {
 		turnController.handleTurn(player);
 	}
 
@@ -60,12 +76,12 @@ public class GameController {
 	 * This method scores dead players, starts frenzy if it needs to be started
 	 * and moves to the bottom the first player of playerQueue.
 	 */
-	public void endTurn() {
+	private void endTurn() {
 		model.scoreDeadPlayers();
-
+		refillCardsOnMap();
+		model.nextPlayerTurn();
 		if(model.areSkullsFinished())
 			startFrenzy();
-		playerQueue.moveFirstToLast();
 	}
 
 }
