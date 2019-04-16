@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 
@@ -11,7 +11,7 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
 
-	private ArrayList<ClientMessageReceiverInterface> clients;
+	private ArrayList<ConnectionInterface> clients;
 	private Lobby lobby;
 
 
@@ -26,7 +26,7 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 	 * @param client the implementation of the client.
 	 */
 	@Override
-	public void onClientRegistration(ClientMessageReceiverInterface client) {
+	public void onClientRegistration(ConnectionInterface client) {
 		clients.add(client);
 		Utils.logInfo("Registered new client.");
 		Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
@@ -37,7 +37,7 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 	 * @param message the message received.
 	 */
 	@Override
-	public void onMessageReceived(ClientMessageReceiverInterface client, Message message) {
+	public void onMessageReceived(ConnectionInterface client, Message message) {
 		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		// Don't process message of not registered clients.
@@ -60,7 +60,7 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 		}
 	}
 
-	private void nicknameLogic(ClientMessageReceiverInterface client, Message message) {
+	private void nicknameLogic(ConnectionInterface client, Message message) {
 		// Remove spaces in the nickname and set max length.
 		String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s", "");
 		int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
@@ -80,7 +80,7 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 	 * @param client the client that send the GameConfigMessage.
 	 * @param message the message.
 	 */
-	private void gameConfigLogic(ClientMessageReceiverInterface client, Message message) {
+	private void gameConfigLogic(ConnectionInterface client, Message message) {
 		// TODO should interact with match
 		
 		numberOfAnswers++;

@@ -1,5 +1,6 @@
 package it.polimi.se2019.network.client;
 
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
@@ -13,7 +14,7 @@ import it.polimi.se2019.view.RemoteViewInterface;
 
 import java.rmi.RemoteException;
 
-public class Client implements ClientMessageReceiverInterface {
+public class Client implements ConnectionInterface {
 
 	private ClientMessageSenderInterface connection;
 	private RemoteViewInterface view;

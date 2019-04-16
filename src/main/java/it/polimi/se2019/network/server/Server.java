@@ -1,8 +1,9 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.rmi.RMIServer;
+import it.polimi.se2019.network.server.socket.SocketServer;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.RemoteException;
@@ -28,7 +29,7 @@ public class Server {
 	 * @param client the recipient of the message.
 	 * @param message the message to send.
 	 */
-	public static void asyncSendMessage(ClientMessageReceiverInterface client, Message message) {
+	public static void asyncSendMessage(ConnectionInterface client, Message message) {
 		new Thread(() -> {
 			try {
 				client.processMessage(message);
@@ -53,7 +54,7 @@ public class Server {
 	 * Start the socket server.
 	 */
 	public void startSocketServer() {
-		// TODO start socket server and give him the messageHandler
+		new SocketServer(messageHandler).start();
 	}
 
 }

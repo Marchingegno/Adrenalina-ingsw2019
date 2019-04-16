@@ -1,19 +1,18 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.HashMap;
 
 public class Lobby {
 
-	private HashMap<ClientMessageReceiverInterface, Match> playingClients;
-	private HashMap<ClientMessageReceiverInterface, String> waitingRoom;
+	private HashMap<ConnectionInterface, Match> playingClients;
+	private HashMap<ConnectionInterface, String> waitingRoom;
 
 
 	/**
@@ -32,7 +31,7 @@ public class Lobby {
 	 * @param client the client to add to the waiting room.
 	 * @param nickname the nickname of the client.
 	 */
-	public void addWaitingClient(ClientMessageReceiverInterface client, String nickname) {
+	public void addWaitingClient(ConnectionInterface client, String nickname) {
 		if(waitingRoom.containsValue(nickname)) {
 			Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		} else {
@@ -49,7 +48,7 @@ public class Lobby {
 	 * @param client the client.
 	 * @return the match in which the client is playing.
 	 */
-	public Match getMatchOfClient(ClientMessageReceiverInterface client) {
+	public Match getMatchOfClient(ConnectionInterface client) {
 		return playingClients.get(client);
 	}
 
@@ -60,7 +59,7 @@ public class Lobby {
 		//if(waitingRoom.size() == GameConstants.MAX_PLAYERS) {
 		if(waitingRoom.size() == GameConstants.MIN_PLAYERS) { // TODO using MIN_PLAYERS for easier testing
 			Match match = new Match(waitingRoom);
-			for(ClientMessageReceiverInterface client : waitingRoom.keySet())
+			for(ConnectionInterface client : waitingRoom.keySet())
 				playingClients.put(client, match);
 			waitingRoom.clear();
 			match.requestMatchConfig();

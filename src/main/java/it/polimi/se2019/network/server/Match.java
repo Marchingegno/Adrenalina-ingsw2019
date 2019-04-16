@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class Match {
 
-	private HashMap<ClientMessageReceiverInterface, String> participants;
+	private HashMap<ConnectionInterface, String> participants;
 	private int numberOfPartecipants;
 	private Controller controller;
 
 	// Game config attributes.
-	private HashMap<ClientMessageReceiverInterface, Integer> skullsChosen;
-	private HashMap<ClientMessageReceiverInterface, Integer> mapChoosen;
+	private HashMap<ConnectionInterface, Integer> skullsChosen;
+	private HashMap<ConnectionInterface, Integer> mapChoosen;
 	private int numberOfAnswers = 0;
 
 
@@ -29,7 +29,7 @@ public class Match {
 	 * Create a new match with the specified clients.
 	 * @param participants a map that contains all the clients for this match and their nicknames.
 	 */
-	public Match(Map<ClientMessageReceiverInterface, String> participants) {
+	public Match(Map<ConnectionInterface, String> participants) {
 		numberOfPartecipants = participants.size();
 		if(numberOfPartecipants < GameConstants.MIN_PLAYERS || numberOfPartecipants > GameConstants.MAX_PLAYERS)
 			throw new IllegalArgumentException("The number of participants for this match (" + numberOfPartecipants + ") is not valid.");
@@ -44,7 +44,7 @@ public class Match {
 	 * Send game config request messages to the clients, asking skulls and map type.
 	 */
 	public void requestMatchConfig() {
-		for(ClientMessageReceiverInterface client : participants.keySet())
+		for(ConnectionInterface client : participants.keySet())
 			Server.asyncSendMessage(client, new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 	}
 
@@ -61,7 +61,7 @@ public class Match {
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
 		gameConfigMessage.setSkulls(skulls);
 		gameConfigMessage.setMapIndex(mapType.ordinal());
-		for(ClientMessageReceiverInterface client : participants.keySet())
+		for(ConnectionInterface client : participants.keySet())
 			Server.asyncSendMessage(client, gameConfigMessage);
 
 		// start the game.

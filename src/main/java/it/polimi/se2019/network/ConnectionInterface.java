@@ -1,4 +1,4 @@
-package it.polimi.se2019.network.client;
+package it.polimi.se2019.network;
 
 import it.polimi.se2019.network.message.Message;
 
@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
  * Represents the methods that can be called by the server.
  * Basically this class represents what the server can do with the client.
  */
-public interface ClientMessageReceiverInterface extends Remote {
+public interface ConnectionInterface extends Remote {
 
 	/**
 	 * Receive and process the message sent by the server both by socket or by RMI.
