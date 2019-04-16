@@ -19,7 +19,7 @@ public class Match implements ServerReceiverInterface{
 	private int numberOfPartecipants;
 	private Controller controller;
 
-	// Game config attributes
+	// Game config attributes.
 	private HashMap<ClientInterface, Integer> skullsChosen;
 	private HashMap<ClientInterface, Integer> mapChoosen;
 	private int numberOfAnswers = 0;
@@ -40,6 +40,9 @@ public class Match implements ServerReceiverInterface{
 	}
 
 
+	/**
+	 * Send game config request messages to the clients, asking skulls and map type.
+	 */
 	public void requestMatchConfig() {
 		for(ClientInterface client : participants.keySet())
 			Server.asyncSendMessage(client, new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
@@ -49,17 +52,19 @@ public class Match implements ServerReceiverInterface{
 	 * Start the match.
 	 */
 	private void startMatch() {
+		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
 		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
-		// Send match start message.
+		// Send game start message with the voted skulls and map.
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
 		gameConfigMessage.setSkulls(skulls);
 		gameConfigMessage.setMapIndex(mapType.ordinal());
 		for(ClientInterface client : participants.keySet())
 			Server.asyncSendMessage(client, gameConfigMessage);
 
+		// start the game.
 		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());
 		controller.startGame();
 	}
@@ -116,9 +121,17 @@ public class Match implements ServerReceiverInterface{
 				if (message.getMessageSubtype() == MessageSubtype.ANSWER)
 					gameConfigLogic(client, message);
 				break;
+
+			default:
+				break;
 		}
 	}
 
+	/**
+	 * Implement the logic to handle a GameConfigMessage.
+	 * @param client the client that send the GameConfigMessage.
+	 * @param message the message.
+	 */
 	private void gameConfigLogic(ClientInterface client, Message message) {
 		numberOfAnswers++;
 		GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
@@ -132,6 +145,10 @@ public class Match implements ServerReceiverInterface{
 			startMatch();
 	}
 
+	/**
+	 * Not used in Match.
+	 * @param client not used in Match.
+	 */
 	@Override
 	public void onRegisterClient(ClientInterface client) {
 		throw new UnsupportedOperationException("Not supported.");

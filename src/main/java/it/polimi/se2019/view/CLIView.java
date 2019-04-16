@@ -38,6 +38,13 @@ public class CLIView implements RemoteViewInterface {
 		return askForAnInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
 	}
 
+	/**
+	 * Ask the user an integer that must be between minInclusive and maxInclusive.
+	 * Repeatedly ask the integer if the input is not in the limits.
+	 * @param minInclusive the minimum limit.
+	 * @param maxInclusive the maximum limit.
+	 * @return the integer chosen by the user.
+	 */
 	private int askForAnInteger(int minInclusive, int maxInclusive) {
 		int input = -1;
 		while (input < minInclusive || input > maxInclusive) {

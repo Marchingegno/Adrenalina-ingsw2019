@@ -63,12 +63,17 @@ public class Lobby implements ServerReceiverInterface{
 	 */
 	@Override
 	public void onReceiveMessage(ClientInterface client, Message message) {
-		if(playingClients.containsKey(client)) {
+		Match match = playingClients.get(client);
+		if(match != null) {
 			Utils.logInfo("Message forwarded to the corresponding Match.");
-			playingClients.get(client).onReceiveMessage(client, message); // Forward the message to the Match class.
+			match.onReceiveMessage(client, message); // Forward the message to the Match class.
 		}
 	}
 
+	/**
+	 * Not used in Lobby.
+	 * @param client Nnt used in Match.
+	 */
 	@Override
 	public void onRegisterClient(ClientInterface client) {
 		throw new UnsupportedOperationException("Not supported.");
