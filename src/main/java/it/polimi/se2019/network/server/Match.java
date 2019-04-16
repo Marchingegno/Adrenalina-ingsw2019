@@ -2,21 +2,27 @@ package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
-public class Match {
+public class Match implements ServerReceiverInterface{
 
 	private HashMap<ClientInterface, String> participants;
 	private int numberOfPartecipants;
 	private Controller controller;
+
+	// Game config attributes
+	private HashMap<ClientInterface, Integer> skullsChosen;
+	private HashMap<ClientInterface, Integer> mapChoosen;
+	private int numberOfAnswers = 0;
 
 
 	/**
@@ -24,52 +30,110 @@ public class Match {
 	 * @param participants a map that contains all the clients for this match and their nicknames.
 	 */
 	public Match(Map<ClientInterface, String> participants) {
-		if(participants.size() < GameConstants.MIN_PLAYERS || participants.size() > GameConstants.MAX_PLAYERS)
-			throw new IllegalArgumentException("The number of participants for this match (" + participants.size() + ") is not valid.");
+		numberOfPartecipants = participants.size();
+		if(numberOfPartecipants < GameConstants.MIN_PLAYERS || numberOfPartecipants > GameConstants.MAX_PLAYERS)
+			throw new IllegalArgumentException("The number of participants for this match (" + numberOfPartecipants + ") is not valid.");
 		this.participants = new HashMap<>(participants);
-		this.numberOfPartecipants = participants.size();
+
+		this.skullsChosen = new HashMap<>();
+		this.mapChoosen = new HashMap<>();
 	}
 
+
+	public void requestMatchConfig() {
+		for(ClientInterface client : participants.keySet())
+			Server.asyncSendMessage(client, new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
+	}
 
 	/**
 	 * Start the match.
 	 */
-	public void startMatch() {
-		controller = new Controller(new ArrayList<>(participants.values()), findPerfectNumberOfSkulls(numberOfPartecipants), findPerfectMap(numberOfPartecipants));
-		controller.startGame();
+	private void startMatch() {
+		int skulls = findVotedNumberOfSkulls();
+		GameConstants.MapType mapType = findVotedMap();
+		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
+
+		// Send match start message.
+		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
+		gameConfigMessage.setSkulls(skulls);
+		gameConfigMessage.setMapIndex(mapType.ordinal());
 		for(ClientInterface client : participants.keySet())
-			Server.asyncSendMessage(client, new Message(MessageType.MATCH_START, MessageSubtype.OK));
+			Server.asyncSendMessage(client, gameConfigMessage);
+
+		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());
+		controller.startGame();
 	}
 
 	/**
-	 * Find the number of skulls randomly, using a gaussian with mean based on the number of players: less players means less skulls, more players means more skulls.
-	 * @param numberOfPlayers the number of players.
-	 * @return the "perfect" number of skulls.
+	 * Calculates the average of voted skulls.
+	 * @return the average of voted skulls.
 	 */
-	private int findPerfectNumberOfSkulls(int numberOfPlayers) {
-		// Assign the mean of the gaussian based on the number of players
-		int mean;
-		if(numberOfPlayers == GameConstants.MIN_PLAYERS)
-			mean = GameConstants.MIN_SKULLS;
-		else if(numberOfPlayers == GameConstants.MAX_PLAYERS)
-			mean = GameConstants.MAX_SKULLS;
-		else
-			mean = (GameConstants.MAX_SKULLS + GameConstants.MIN_SKULLS) / 2;
-
-		// Get the random number of skulls on the gaussian using the mean previously found.
-		int skulls = (int) (new Random().nextGaussian() + mean);
-		if(skulls < GameConstants.MIN_SKULLS)
-			skulls = GameConstants.MIN_SKULLS;
-		if(skulls > GameConstants.MAX_SKULLS)
-			skulls = GameConstants.MAX_SKULLS;
-		return skulls;
+	private int findVotedNumberOfSkulls() {
+		float average = 0f;
+		for(Integer votedSkulls : skullsChosen.values())
+			average += votedSkulls;
+		return  Math.round(average / skullsChosen.values().size());
 	}
 
-	private String findPerfectMap(int numberOfPlayers) {
-		if(numberOfPlayers == GameConstants.MIN_PLAYERS)
-			return "SmallMap.txt";
-		if(numberOfPlayers == GameConstants.MAX_PLAYERS)
-			return "BigMap.txt";
-		return "MediumMap.txt";
+	/**
+	 * Find the most voted map, if votes are tied it chooses the smaller map.
+	 * @return the map name of the most voted map.
+	 */
+	private GameConstants.MapType findVotedMap() {
+		// Create array of votes.
+		int[] votes = new int[GameConstants.MapType.values().length];
+
+		// Initialize array with all zeros.
+		for (int i = 0; i < votes.length; i++)
+			votes[i] = 0;
+
+		// Add votes.
+		for(Integer votedMap : mapChoosen.values())
+			votes[votedMap]++;
+
+		// search for max.
+		int indexOfMax = 0;
+		for(int i = 1; i < votes.length; i++) {
+			if (votes[i] > votes[indexOfMax])
+				indexOfMax = i;
+		}
+
+		// Return corresponding map.
+		return GameConstants.MapType.values()[indexOfMax];
+	}
+
+	/**
+	 * Called when receiving a message from the client, forwarded by the lobby.
+	 * @param message the message received.
+	 */
+	@Override
+	public void onReceiveMessage(ClientInterface client, Message message) {
+		if(!participants.containsKey(client))
+			throw new IllegalArgumentException("Client is not in this Match.");
+
+		switch (message.getMessageType()) {
+			case GAME_CONFIG:
+				if (message.getMessageSubtype() == MessageSubtype.ANSWER)
+					gameConfigLogic(client, message);
+				break;
+		}
+	}
+
+	private void gameConfigLogic(ClientInterface client, Message message) {
+		numberOfAnswers++;
+		GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
+		int skulls = gameConfigMessage.getSkulls();
+		if(!skullsChosen.containsKey(client))
+			skullsChosen.put(client, skulls);
+		int mapIndex = gameConfigMessage.getMapIndex();
+		if(!mapChoosen.containsKey(client))
+			mapChoosen.put(client, mapIndex);
+		if(numberOfAnswers >= numberOfPartecipants)
+			startMatch();
+	}
+
+	@Override
+	public void onRegisterClient(ClientInterface client) {
+		throw new UnsupportedOperationException("Not supported.");
 	}
 }

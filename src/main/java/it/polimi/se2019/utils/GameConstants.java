@@ -26,6 +26,27 @@ public class GameConstants {
 	public static final int MEDIUM_DAMAGE_THRESHOLD = 3;
 	public static final int HIGH_DAMAGE_THRESHOLD = 6;
 
+	public enum MapType {
+		SMALL_MAP("SmallMap.txt", "Small map with 10 squares."), MEDIUM_MAP("MediumMap.txt", "Medium map with 11 squares."), BIG_MAP("BigMap.txt", "Big map with 12 squares.");
+
+		private String mapName;
+
+		private String description;
+
+		MapType(String mapName, String description) {
+			this.mapName = mapName;
+			this.description = description;
+		}
+
+		public String getMapName() {
+			return mapName;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+	}
+
 	/**
 	 * Since it's an utility class it can't be instantiated.
 	 */

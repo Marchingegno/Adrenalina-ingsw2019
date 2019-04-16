@@ -25,7 +25,8 @@ public class Utils {
 	}
 
 	public static void logInfo(String msg) {
-		LOGGER.log(Level.INFO, msg);
+		System.out.println("INFO: " + msg);
+		//LOGGER.log(Level.INFO, msg);
 	}
 
 	public static Logger getGlobalLogger() {

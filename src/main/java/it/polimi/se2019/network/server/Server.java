@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Server implements ServerReceiverInterface {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
+	private static final int NICKNAME_MIN_LENGTH = 1;
 
 	private ArrayList<ClientInterface> clients;
 	private Lobby lobby;
@@ -52,22 +53,25 @@ public class Server implements ServerReceiverInterface {
 	public void onReceiveMessage(ClientInterface client, Message message) {
 		// TODO based on the message send it to the controller (or remoteview?)
 
-		Utils.logInfo("Received message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
-		switch (message.getMessageType()) {
-			case NICKNAME:
-				if(message.getMessageSubtype() == MessageSubtype.ANSWER) {
-					// Remove spaces in the nickname and set max length.
-					String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s","");
-					int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
-					nickname = nickname.substring(0, maxLength);
+		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		if (message.getMessageType() == MessageType.NICKNAME) {
+			if (message.getMessageSubtype() == MessageSubtype.ANSWER) {
+				// Remove spaces in the nickname and set max length.
+				String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s", "");
+				int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
+				nickname = nickname.substring(0, maxLength);
 
+				if(nickname.length() >= NICKNAME_MIN_LENGTH) {
 					// Add the client to the lobby, waiting for a match to start.
 					lobby.addWaitingClient(client, nickname);
+				} else {
+					// Nickname not valid (too short).
+					Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 				}
-				break;
-
-			default:
-				break;
+			}
+		} else {
+			Utils.logInfo("Message forwarded to the lobby.");
+			lobby.onReceiveMessage(client, message); // Forward the message to the Match class.
 		}
 	}
 

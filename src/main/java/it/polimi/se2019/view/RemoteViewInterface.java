@@ -5,4 +5,8 @@ public interface RemoteViewInterface {
 	String askNickname();
 
 	void displayText(String text);
+
+	int askMapToUse();
+
+	int askSkullsForGame();
 }

@@ -15,4 +15,14 @@ public class GUIView implements RemoteViewInterface {
 	public void displayText(String text) {
 
 	}
+
+	@Override
+	public int askMapToUse() {
+		return 0;
+	}
+
+	@Override
+	public int askSkullsForGame() {
+		return 0;
+	}
 }

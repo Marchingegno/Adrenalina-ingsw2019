@@ -1,9 +1,11 @@
 package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.network.client.rmi.RMIClient;
+import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.CLIView;
 import it.polimi.se2019.view.GUIView;
@@ -59,7 +61,7 @@ public class Client implements ClientInterface{
 						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
 					}
 					if(message.getMessageSubtype() == MessageSubtype.ERROR) {
-						view.displayText("The nickname already exists, please use a different one.");
+						view.displayText("The nickname already exists or is not valid, please use a different one.");
 						String nickname = view.askNickname();
 						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
 					}
@@ -68,9 +70,21 @@ public class Client implements ClientInterface{
 						view.displayText("Nickname set to: \"" + nickname + "\".");
 					}
 					break;
-				case MATCH_START:
+				case GAME_CONFIG:
+					if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+						int mapIndex = view.askMapToUse();
+						int skulls = view.askSkullsForGame();
+						GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
+						gameConfigMessage.setMapIndex(mapIndex);
+						gameConfigMessage.setSkulls(skulls);
+						connection.sendMessage(gameConfigMessage);
+						view.displayText("Waiting for other clients to answer...");
+					}
 					if(message.getMessageSubtype() == MessageSubtype.OK) {
-						view.displayText("Game started!");
+						GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
+						view.displayText("Average of voted skulls: " + gameConfigMessage.getSkulls());
+						view.displayText("Most voted map: " + GameConstants.MapType.values()[gameConfigMessage.getMapIndex()].getDescription());
+						view.displayText("Match started!");
 					}
 					break;
 			}

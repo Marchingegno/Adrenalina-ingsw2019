@@ -6,10 +6,11 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.HashMap;
 
-public class Lobby {
+public class Lobby implements ServerReceiverInterface{
 
 	private HashMap<ClientInterface, Match> playingClients;
 	private HashMap<ClientInterface, String> waitingRoom;
@@ -52,7 +53,24 @@ public class Lobby {
 			for(ClientInterface client : waitingRoom.keySet())
 				playingClients.put(client, match);
 			waitingRoom.clear();
-			match.startMatch();
+			match.requestMatchConfig();
 		}
+	}
+
+	/**
+	 * Called when receiving a message from the client.
+	 * @param message the message received.
+	 */
+	@Override
+	public void onReceiveMessage(ClientInterface client, Message message) {
+		if(playingClients.containsKey(client)) {
+			Utils.logInfo("Message forwarded to the corresponding Match.");
+			playingClients.get(client).onReceiveMessage(client, message); // Forward the message to the Match class.
+		}
+	}
+
+	@Override
+	public void onRegisterClient(ClientInterface client) {
+		throw new UnsupportedOperationException("Not supported.");
 	}
 }
