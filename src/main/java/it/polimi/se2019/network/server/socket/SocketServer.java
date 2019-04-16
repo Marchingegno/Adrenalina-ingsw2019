@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server.socket;
 
-import it.polimi.se2019.network.server.MessageHandler;
+import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.IOException;
@@ -14,11 +14,11 @@ public class SocketServer extends Thread{
 	private final int PORT = 12345;
 
 	private ServerSocket serverSocket; //Server that listens for requests
-	private MessageHandler messageHandler; //General messageHandler that works both with RMI and Socket
+	private ServerMessageHandler serverMessageHandler; //General serverMessageHandler that works both with RMI and Socket
 	private ExecutorService executor = Executors.newFixedThreadPool(128);
 
-	public SocketServer(MessageHandler serverMessageHandler) {
-		this.messageHandler = serverMessageHandler;
+	public SocketServer(ServerMessageHandler serverMessageHandler) {
+		this.serverMessageHandler = serverMessageHandler;
 		startServerSocket();
 	}
 
@@ -41,9 +41,9 @@ public class SocketServer extends Thread{
 			ServerClientSocket newServerClientSocket;
 			try {
 				clientSocket = serverSocket.accept();
-				newServerClientSocket = new ServerClientSocket(messageHandler, clientSocket);
+				newServerClientSocket = new ServerClientSocket(serverMessageHandler, clientSocket);
 				newServerClientSocket.start();
-				messageHandler.onClientRegistration(newServerClientSocket);
+				serverMessageHandler.onClientRegistration(newServerClientSocket);
 			} catch (IOException e) {
 				Utils.logError("Error in SocketServer: run()", e);
 			}

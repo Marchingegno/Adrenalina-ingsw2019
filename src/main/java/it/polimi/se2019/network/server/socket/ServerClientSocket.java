@@ -2,7 +2,7 @@ package it.polimi.se2019.network.server.socket;
 
 import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.server.MessageHandler;
+import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.IOException;
@@ -12,14 +12,14 @@ import java.net.Socket;
 
 public class ServerClientSocket extends Thread implements ConnectionInterface {
 
-	private MessageHandler messageHandler;
+	private ServerMessageHandler serverMessageHandler;
 	private Socket socket;
 	private boolean active;
 	private ObjectInputStream objInStream;
 	private ObjectOutputStream objOutStream;
 
-	public ServerClientSocket(MessageHandler messageHandler, Socket socket){
-		this.messageHandler = messageHandler;
+	public ServerClientSocket(ServerMessageHandler serverMessageHandler, Socket socket){
+		this.serverMessageHandler = serverMessageHandler;
 		this.socket = socket;
 
 		try {
@@ -49,7 +49,7 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 	public void run() {
 		try{
 			while(isActive()){
-				messageHandler.onMessageReceived(this, (Message) objInStream.readObject());
+				serverMessageHandler.onMessageReceived(this, (Message) objInStream.readObject());
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			Utils.logError("Error in ServerClientSocket: Run()", e);

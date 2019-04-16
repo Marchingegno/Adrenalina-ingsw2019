@@ -6,7 +6,7 @@ import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 
-public class MessageHandler implements ServerMessageReceiverInterface {
+public class ServerMessageHandler implements ServerMessageReceiverInterface {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
@@ -15,7 +15,7 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 	private Lobby lobby;
 
 
-	public MessageHandler() {
+	public ServerMessageHandler() {
 		clients = new ArrayList<>();
 		lobby = new Lobby();
 	}

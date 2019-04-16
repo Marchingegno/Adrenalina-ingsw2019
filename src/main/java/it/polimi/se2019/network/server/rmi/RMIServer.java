@@ -2,7 +2,7 @@ package it.polimi.se2019.network.server.rmi;
 
 import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.server.MessageHandler;
+import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.RemoteException;
@@ -12,7 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonInterface {
 
-	private transient MessageHandler messageHandler;
+	private transient ServerMessageHandler serverMessageHandler;
 
 
 	/**
@@ -20,9 +20,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 * @param serverMessageHandler TODO
 	 * @throws RemoteException
 	 */
-	public RMIServer(MessageHandler serverMessageHandler) throws RemoteException {
+	public RMIServer(ServerMessageHandler serverMessageHandler) throws RemoteException {
 		super();
-		this.messageHandler = serverMessageHandler;
+		this.serverMessageHandler = serverMessageHandler;
 		startRMIServer();
 	}
 
@@ -33,7 +33,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 */
 	@Override
 	public void registerClient(ConnectionInterface client) throws RemoteException {
-		messageHandler.onClientRegistration(client);
+		serverMessageHandler.onClientRegistration(client);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 */
 	@Override
 	public void receiveMessage(ConnectionInterface client, Message message) throws RemoteException {
-		messageHandler.onMessageReceived(client, message);
+		serverMessageHandler.onMessageReceived(client, message);
 	}
 
 	/**

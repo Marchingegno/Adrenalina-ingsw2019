@@ -24,7 +24,7 @@ import java.util.Scanner;
 
 public class Client implements ConnectionInterface {
 
-	private ClientMessageSenderInterface connection;
+	private ClientMessageSenderInterface clientMessageSender;
 	private RemoteViewInterface view;
 
 
@@ -77,12 +77,12 @@ public class Client implements ConnectionInterface {
 				case NICKNAME:
 					if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
 						String nickname = view.askNickname();
-						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+						clientMessageSender.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
 					}
 					if(message.getMessageSubtype() == MessageSubtype.ERROR) {
 						view.displayText("The nickname already exists or is not valid, please use a different one.");
 						String nickname = view.askNickname();
-						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+						clientMessageSender.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
 					}
 					if(message.getMessageSubtype() == MessageSubtype.OK) {
 						String nickname = ((NicknameMessage)message).getContent();
@@ -97,7 +97,7 @@ public class Client implements ConnectionInterface {
 						GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 						gameConfigMessage.setMapIndex(mapIndex);
 						gameConfigMessage.setSkulls(skulls);
-						connection.sendMessage(gameConfigMessage);
+						clientMessageSender.sendMessage(gameConfigMessage);
 						view.displayText("Waiting for other clients to answer...");
 					}
 					if(message.getMessageSubtype() == MessageSubtype.OK) {
@@ -118,8 +118,8 @@ public class Client implements ConnectionInterface {
 	 */
 	public void startConnectionWithRMI() {
 		try {
-			connection = new RMIClient(this);
-			connection.registerClient();
+			clientMessageSender = new RMIClient(this);
+			clientMessageSender.registerClient();
 		} catch (Exception e) {
 			Utils.logError("Failed connection to server.", e);
 		}
@@ -129,8 +129,8 @@ public class Client implements ConnectionInterface {
 	 * Start a connection with the server, using socket.
 	 */
 	public void startConnectionWithSocket() {
-		connection = new ClientSocket(this);
-		connection.registerClient();
-		((ClientSocket) connection).start();//TODO Find another solution
+		clientMessageSender = new ClientSocket(this);
+		clientMessageSender.registerClient();
+		((ClientSocket) clientMessageSender).start();//TODO Find another solution
 	}
 }

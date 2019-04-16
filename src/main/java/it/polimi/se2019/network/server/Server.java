@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 
 public class Server {
 
-	private MessageHandler messageHandler;
+	private ServerMessageHandler serverMessageHandler;
 
 	public static void main(String[] args) {
 		Server server = new Server();
@@ -20,7 +20,7 @@ public class Server {
 
 
 	private Server() {
-		messageHandler = new MessageHandler();
+		serverMessageHandler = new ServerMessageHandler();
 	}
 
 
@@ -44,7 +44,7 @@ public class Server {
 	 */
 	public void startRMIServer() {
 		try {
-			new RMIServer(messageHandler);
+			new RMIServer(serverMessageHandler);
 		} catch (RemoteException e) {
 			Utils.logError("Failed to start RMI server.", e);
 		}
@@ -54,7 +54,7 @@ public class Server {
 	 * Start the socket server.
 	 */
 	public void startSocketServer() {
-		(new SocketServer(messageHandler)).start();
+		(new SocketServer(serverMessageHandler)).start();
 	}
 
 }
