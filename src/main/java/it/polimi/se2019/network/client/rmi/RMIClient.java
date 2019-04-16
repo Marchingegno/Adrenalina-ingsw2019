@@ -17,7 +17,14 @@ public class RMIClient implements ConnectionInterface {
 	private RMIServerInterface rmiServer;
 	private ClientInterface stub;
 
-	public void startRMIClient(ClientInterface client) throws RemoteException, NotBoundException {
+
+	/**
+	 * Create a new instance of a RMI client and start the connection with the server.
+	 * @param client the client on which messages will be forwarded.
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 */
+	public RMIClient(ClientInterface client) throws RemoteException, NotBoundException {
 		// Get Server remote object.
 		Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 		rmiServer = (RMIServerInterface) registry.lookup("Server");
@@ -28,11 +35,20 @@ public class RMIClient implements ConnectionInterface {
 		Utils.logInfo("Client remote object is ready.");
 	}
 
+
+	/**
+	 * Register the client on the server.
+	 */
 	@Override
 	public void registerClient() throws RemoteException {
 		rmiServer.registerClient(stub); // Register client's stub to the server.
 	}
 
+	/**
+	 * Send a message to the server.
+	 * @param message the message to send.
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendMessage(Message message) throws RemoteException {
 		rmiServer.sendMessage(stub, message); // Send message to the server.

@@ -34,9 +34,14 @@ public class Client implements ClientInterface{
 	}
 
 
-	public Client(RemoteViewInterface view) {
+	/**
+	 * Create a new client and associate it with the view.
+	 * @param view the view to be associated with the client.
+	 */
+	private Client(RemoteViewInterface view) {
 		this.view = view;
 	}
+
 
 	/**
 	 * Receive and process the message sent by the server both by socket or by RMI.
@@ -72,17 +77,21 @@ public class Client implements ClientInterface{
 		}
 	}
 
+	/**
+	 * Start a connection with the server, using RMI.
+	 */
 	public void startConnectionWithRMI() {
 		try {
-			RMIClient rmiClient = new RMIClient();
-			rmiClient.startRMIClient(this);
-			connection = rmiClient;
+			connection = new RMIClient(this);
 			connection.registerClient();
 		} catch (Exception e) {
 			Utils.logError("Failed connection to server.", e);
 		}
 	}
 
+	/**
+	 * Start a connection with the server, using socket.
+	 */
 	public void startConnectionWithSocket() {
 		// TODO create a socket connection and save it in the attribute "connection"
 	}

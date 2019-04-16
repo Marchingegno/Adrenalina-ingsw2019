@@ -10,9 +10,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Server {
+public class Server implements ServerReceiverInterface {
 
-	private final static int NICKNAME_MAX_LENGTH = 16;
+	private static final int NICKNAME_MAX_LENGTH = 16;
 
 	private RMIServerInterface rmiServer;
 	private ArrayList<ClientInterface> clients;
@@ -26,12 +26,17 @@ public class Server {
 	}
 
 
-	public Server() {
+	private Server() {
 		clients = new ArrayList<>();
 		clientNickanames = new HashMap<>();
 	}
 
 
+	/**
+	 * Called when the client is registering himself on the server.
+	 * @param client the implementation of the client.
+	 */
+	@Override
 	public void onRegisterClient(ClientInterface client) {
 		// TODO wait for other clients and start the game when ready
 		clients.add(client);
@@ -39,6 +44,11 @@ public class Server {
 		asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 
+	/**
+	 * Called when receiving a message from the client.
+	 * @param message the message received.
+	 */
+	@Override
 	public void onReceiveMessage(ClientInterface client, Message message) {
 		// TODO based on the message send it to the controller (or remoteview?)
 
@@ -56,21 +66,28 @@ public class Server {
 
 			default:
 				break;
-
 		}
 	}
 
+	/**
+	 * Send a message asynchronously.
+	 * @param client the recipient of the message.
+	 * @param message the message to send.
+	 */
 	private void asyncSendMessage(ClientInterface client, Message message) {
 		new Thread(() -> {
 			try {
 				client.processMessage(message);
 			} catch (RemoteException e) {
-				Utils.logError("Error while sending a message asynchronously.", e);
+				Utils.logError("Lost connection with the client.", e);
 			}
 		}).start();
 	}
 
-	private void startRMIServer() {
+	/**
+	 * Start the RMI server.
+	 */
+	public void startRMIServer() {
 		try {
 			rmiServer = new RMIServer(this);
 		} catch (RemoteException e) {
@@ -78,7 +95,10 @@ public class Server {
 		}
 	}
 
-	private void startSocketServer() {
+	/**
+	 * Start the socket server.
+	 */
+	public void startSocketServer() {
 		// TODO
 	}
 

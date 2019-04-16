@@ -1,8 +1,8 @@
 package it.polimi.se2019.network.server.rmi;
 
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.client.ClientInterface;
-import it.polimi.se2019.network.server.Server;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.server.ServerReceiverInterface;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.RemoteException;
@@ -12,27 +12,20 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface{
 
-	private transient Server server;
+	private transient ServerReceiverInterface server;
 
-	public RMIServer(Server server) throws RemoteException {
+
+	/**
+	 * Create a new instance of a RMIServer and start it.
+	 * @param server the server on which messages will be forwarded.
+	 * @throws RemoteException
+	 */
+	public RMIServer(ServerReceiverInterface server) throws RemoteException {
 		super();
 		this.server = server;
 		startRMIServer();
 	}
 
-
-	/**
-	 * Start the RMI server and register it on the RMI registry,
-	 * @throws RemoteException
-	 */
-	private void startRMIServer() throws RemoteException {
-		// Register server.
-		System.setProperty("java.rmi.server.hostname", "localhost");
-		Registry registry = LocateRegistry.createRegistry(1099);
-		registry.rebind("Server", this);
-
-		Utils.logInfo("RMI server is ready.");
-	}
 
 	/**
 	 * Register a new client that is connected to the server. This method is called remotely by the client.
@@ -52,5 +45,18 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	@Override
 	public void sendMessage(ClientInterface client, Message message) throws RemoteException {
 		server.onReceiveMessage(client, message);
+	}
+
+	/**
+	 * Start the RMI server and register it on the RMI registry,
+	 * @throws RemoteException
+	 */
+	private void startRMIServer() throws RemoteException {
+		// Register server.
+		System.setProperty("java.rmi.server.hostname", "localhost");
+		Registry registry = LocateRegistry.createRegistry(1099);
+		registry.rebind("Server", this);
+
+		Utils.logInfo("RMI server is ready.");
 	}
 }
