@@ -3,6 +3,8 @@ package it.polimi.se2019.network.client.rmi;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
 import it.polimi.se2019.network.client.ClientMessageSenderInterface;
+import it.polimi.se2019.network.server.rmi.RMIServer;
+import it.polimi.se2019.network.server.rmi.RMIServerSkeletonInterface;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.NotBoundException;
@@ -13,7 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient implements ClientMessageSenderInterface {
 
-	private RMIServerInterface rmiServer;
+	private RMIServerSkeletonInterface rmiServerSkeleton;
 	private ClientMessageReceiverInterface stub;
 
 
@@ -26,7 +28,7 @@ public class RMIClient implements ClientMessageSenderInterface {
 	public RMIClient(ClientMessageReceiverInterface client) throws RemoteException, NotBoundException {
 		// Get Server remote object.
 		Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-		rmiServer = (RMIServerInterface) registry.lookup("Server");
+		rmiServerSkeleton = (RMIServerSkeletonInterface) registry.lookup("Server");
 
 		// Create stub from client.
 		stub = (ClientMessageReceiverInterface) UnicastRemoteObject.exportObject(client, 0);
@@ -40,7 +42,7 @@ public class RMIClient implements ClientMessageSenderInterface {
 	 */
 	@Override
 	public void registerClient() throws RemoteException {
-		rmiServer.registerClient(stub); // Register client's stub to the server.
+		rmiServerSkeleton.registerClient(stub); // Register client's stub to the server.
 	}
 
 	/**
@@ -50,6 +52,6 @@ public class RMIClient implements ClientMessageSenderInterface {
 	 */
 	@Override
 	public void sendMessage(Message message) throws RemoteException {
-		rmiServer.sendMessage(stub, message); // Send message to the server.
+		rmiServerSkeleton.sendMessage(stub, message); // Send message to the server.
 	}
 }

@@ -10,7 +10,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIServer extends UnicastRemoteObject {
+public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonInterface {
 
 	private transient ServerMessageReceiverInterface server;
 
@@ -32,6 +32,7 @@ public class RMIServer extends UnicastRemoteObject {
 	 * @param client the RMI implementation of the client.
 	 * @throws RemoteException
 	 */
+	@Override
 	public void registerClient(ClientMessageReceiverInterface client) throws RemoteException {
 		server.onClientRegistration(client);
 	}
@@ -41,6 +42,7 @@ public class RMIServer extends UnicastRemoteObject {
 	 * @param message the message to send.
 	 * @throws RemoteException
 	 */
+	@Override
 	public void sendMessage(ClientMessageReceiverInterface client, Message message) throws RemoteException {
 		server.onMessageReceived(client, message);
 	}
