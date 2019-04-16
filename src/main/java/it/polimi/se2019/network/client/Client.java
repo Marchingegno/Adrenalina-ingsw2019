@@ -125,6 +125,5 @@ public class Client implements ConnectionInterface {
 	public void startConnectionWithSocket() {
 		clientMessageSender = new ClientSocket(this);
 		clientMessageSender.registerClient();
-		((ClientSocket) clientMessageSender).start();//TODO Find another solution
 	}
 }

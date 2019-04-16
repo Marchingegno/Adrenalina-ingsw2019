@@ -58,6 +58,7 @@ public class ClientSocket extends Thread  implements ClientMessageSenderInterfac
 			clientSocket = new Socket(HOST, PORT);
 			this.objOutStream = new ObjectOutputStream(this.clientSocket.getOutputStream());
 			this.objInStream = new ObjectInputStream(this.clientSocket.getInputStream());
+			this.start();
 		} catch (IOException e) {
 			Utils.logError("Error in ServerClientSocket: registerClient()", e);
 		}
