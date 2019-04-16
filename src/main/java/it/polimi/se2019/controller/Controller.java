@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Controller {
 
 		this.model = new Model(mapPath, playerNames, skulls);
 		gameController = new GameController(model);
+		Utils.logInfo("Created controller.");
 	}
 
 
@@ -41,6 +43,7 @@ public class Controller {
 
 
 	public void startGame() {
+		Utils.logInfo("Controller: startGame");
 		gameController.startGame();
 	}
 

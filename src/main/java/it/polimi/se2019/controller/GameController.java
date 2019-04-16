@@ -4,7 +4,9 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
 import it.polimi.se2019.model.player.damagestatus.*;
+import it.polimi.se2019.utils.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +30,12 @@ public class GameController {
 		this.model = model;
 		turnController = new TurnController(model);
 		frenzyStarted = FALSE;
+		Utils.logInfo("Create GameController");
 	}
 
 
 	public void startGame() {
+		Utils.logInfo("GameController: startGame");
 		gameLogic();
 	}
 
@@ -46,6 +50,7 @@ public class GameController {
 	}
 
 	private void gameLogic() {
+		Utils.logInfo("Iteration of gameLogic");
 		while(!model.areSkullsFinished()){
 			startTurn(model.getCurrentPlayer());
 			endTurn();
