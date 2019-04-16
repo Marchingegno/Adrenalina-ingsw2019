@@ -35,11 +35,15 @@ public class SocketServer extends Thread{
 	 */
 	@Override
 	public void run() {
+		Utils.logInfo("Socket server is listening");
 		while(true) {
 			Socket clientSocket;
+			ServerClientSocket newServerClientSocket;
 			try {
 				clientSocket = serverSocket.accept();
-				(new ServerClientSocket(this, clientSocket)).start();
+				newServerClientSocket = new ServerClientSocket(messageHandler, clientSocket);
+				newServerClientSocket.start();
+				messageHandler.onClientRegistration(newServerClientSocket);
 			} catch (IOException e) {
 				Utils.logError("Error in SocketServer: run()", e);
 			}

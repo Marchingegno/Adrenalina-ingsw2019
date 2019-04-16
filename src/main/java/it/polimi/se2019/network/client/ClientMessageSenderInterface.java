@@ -13,7 +13,7 @@ public interface ClientMessageSenderInterface {
 	/**
 	 * Register the client on the server.
 	 */
-	void registerClient() throws RemoteException;
+	void registerClient();
 
 	/**
 	 * Send a message to the server.

@@ -54,7 +54,7 @@ public class Server {
 	 * Start the socket server.
 	 */
 	public void startSocketServer() {
-		//new SocketServer(messageHandler).start();
+		(new SocketServer(messageHandler)).start();
 	}
 
 }

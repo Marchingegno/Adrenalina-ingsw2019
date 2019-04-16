@@ -2,6 +2,7 @@ package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
+import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
@@ -29,7 +30,7 @@ public class Client implements ConnectionInterface {
 		else
 			client = new Client(new GUIView());
 
-		boolean isRMI = true; // TODO if user requested RMI start RMI otherwise socket
+		boolean isRMI = false; // TODO if user requested RMI start RMI otherwise socket
 		if(isRMI)
 			client.startConnectionWithRMI();
 		else
@@ -111,6 +112,8 @@ public class Client implements ConnectionInterface {
 	 * Start a connection with the server, using socket.
 	 */
 	public void startConnectionWithSocket() {
-		// TODO create a socket connection and save it in the attribute "connection"
+		connection = new ClientSocket(this);
+		connection.registerClient();
+		((ClientSocket) connection).start();//TODO Find another solution
 	}
 }

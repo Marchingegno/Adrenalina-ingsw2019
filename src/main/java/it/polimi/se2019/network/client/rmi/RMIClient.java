@@ -40,8 +40,12 @@ public class RMIClient implements ClientMessageSenderInterface {
 	 * Register the client on the server.
 	 */
 	@Override
-	public void registerClient() throws RemoteException {
-		rmiServerSkeleton.registerClient(stub); // Register client's stub to the server.
+	public void registerClient(){
+		try {
+			rmiServerSkeleton.registerClient(stub); // Register client's stub to the server.
+		} catch (RemoteException e) {
+			Utils.logInfo("Error in RMIClient: registerClient()");
+		}
 	}
 
 	/**
