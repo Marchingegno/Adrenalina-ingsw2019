@@ -25,7 +25,7 @@ public class Controller {
 
 
 		this.model = new Model(mapPath, playerNames, skulls);
-		GameController gameController = new GameController(model);
+		gameController = new GameController(model);
 	}
 
 

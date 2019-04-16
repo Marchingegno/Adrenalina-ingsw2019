@@ -1,16 +1,13 @@
 package it.polimi.se2019.model.player.damagestatus;
 
-import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.MacroActionBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
 
-public class FrenzyAfter implements DamageStatus {
-	public final int numberOfActions = FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
-	private ArrayList<MacroAction> availableActions;
+public class FrenzyAfter extends DamageStatus {
+
 
 	public FrenzyAfter(){
 		MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
@@ -25,12 +22,9 @@ public class FrenzyAfter implements DamageStatus {
 		grabStuffBuilder.setMovementDistance(3);
 		grabStuffBuilder.setGrabAction(true);
 		availableActions.add(grabStuffBuilder.build());
-	}
 
-
-	@Override
-	public List<MacroAction> getAvailableActions() {
-		return new ArrayList<>(availableActions);
+		numberOfActionsPerTurn = FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
+		numberOfActionsPerformed = FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
 	}
 
 	@Override

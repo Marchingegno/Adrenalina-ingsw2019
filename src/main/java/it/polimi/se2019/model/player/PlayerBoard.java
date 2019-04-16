@@ -8,6 +8,9 @@ import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 /**
  * Represents the player board and all the players information.
  * @author Desno365
@@ -18,7 +21,7 @@ public class PlayerBoard {
 	private ArrayList<Player> marks;
 	private int numberOfDeaths;
 	private int points;
-
+	private boolean isFlipped; //Indicates if the damageBoard is flipped to the frenzy side.
 	private AmmoContainer ammoContainer;
 	private ArrayList<PowerupCard> powerupCards;
 	private ArrayList<WeaponCard> weaponCards;
@@ -35,6 +38,7 @@ public class PlayerBoard {
 		ammoContainer = new AmmoContainer();
 		powerupCards = new ArrayList<>();
 		weaponCards = new ArrayList<>();
+		isFlipped = FALSE;
 	}
 
 
@@ -77,6 +81,10 @@ public class PlayerBoard {
 	public boolean isFrenzy(){
 		//TODO: Implementare metodo dopo l'implementazione del DamageStatus
 		return false;
+	}
+
+	public boolean isFlipped() {
+		return isFlipped;
 	}
 
 	/**
@@ -228,7 +236,18 @@ public class PlayerBoard {
 		return ammoContainer;
 	}
 
+	/**
+	 * Set isFlipped to TRUE if the player has no damage on the damageBoard.
+	 * @return isFlipped.
+	 */
+	public boolean flipIfNoDamage(){
+		if(damageBoard.size() == 0) {
+			isFlipped = TRUE;
+		}
+		return isFlipped;
+	}
 }
+
 
 /**
  * Thrown when a new item hasn't be added because the inventory has reached the max capacity.

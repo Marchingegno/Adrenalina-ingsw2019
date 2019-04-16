@@ -3,11 +3,15 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
-import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
-import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
+import it.polimi.se2019.model.player.damagestatus.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.se2019.utils.GameConstants.HIGH_DAMAGE_THRESHOLD;
+import static it.polimi.se2019.utils.GameConstants.MEDIUM_DAMAGE_THRESHOLD;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 /**
  * This class is in a lower level than Controller. It handles the logic relative to the game.
@@ -17,11 +21,13 @@ public class GameController {
 
 	private TurnController turnController;
 	private Model model;
+	private boolean frenzyStarted;
 
 
 	public GameController(Model model) {
 		this.model = model;
 		turnController = new TurnController(model);
+		frenzyStarted = FALSE;
 	}
 
 
@@ -32,7 +38,11 @@ public class GameController {
 	public void initialRounds() {
 	}
 
-	public void finalRounds() {
+	public void startFinalRounds() {
+		for (int i = 0; i < model.getPlayers().size(); i++) {
+			startTurn(model.getCurrentPlayer());
+			flipPlayers(model.getPlayers());
+		}
 	}
 
 	private void gameLogic() {
@@ -41,6 +51,11 @@ public class GameController {
 			endTurn();
 		}
 
+		startFinalRounds();
+	}
+
+	private void flipPlayers(List<Player> playersToFlip){
+		playersToFlip.stream().forEach(Player::flipIfNoDamage);
 
 	}
 
@@ -59,7 +74,7 @@ public class GameController {
 			i++;
 		}
 
-		sortedPlayers.stream().forEach(Player::flipIfNoDamage);
+		flipPlayers(sortedPlayers);
 	}
 
 	public void refillCardsOnMap() {
@@ -68,7 +83,24 @@ public class GameController {
 	public void spawnPlayer(Player player, int indexOfPowerup) {
 	}
 
+	private void setCorrectDamageStatus(Player player){
+		List<Player> damageBoard = player.getPlayerBoard().getDamageBoard();
+
+		if (frenzyStarted)
+			player.getDamageStatus().refillActions();
+
+		else if(damageBoard.size() < MEDIUM_DAMAGE_THRESHOLD)
+			player.setDamageStatus(new LowDamage());
+
+		else if(damageBoard.size() < HIGH_DAMAGE_THRESHOLD)
+			player.setDamageStatus(new MediumDamage());
+
+		else
+			player.setDamageStatus(new HighDamage());
+	}
+
 	private void startTurn(Player player) {
+		setCorrectDamageStatus(player);
 		turnController.handleTurn(player);
 	}
 
@@ -80,8 +112,10 @@ public class GameController {
 		model.scoreDeadPlayers();
 		refillCardsOnMap();
 		model.nextPlayerTurn();
-		if(model.areSkullsFinished())
+		if(model.areSkullsFinished() && !frenzyStarted) {
+			frenzyStarted = TRUE;
 			startFrenzy();
+		}
 	}
 
 }

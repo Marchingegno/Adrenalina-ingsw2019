@@ -23,7 +23,8 @@ public class GameConstants {
 	public static final int FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN = 1;
 	public static final ImmutableListWithDefaultValue<Integer> SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{8,6,4,2}, 1);
 	public static final ImmutableListWithDefaultValue<Integer> FRENZY_SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{2}, 1);
-
+	public static final int MEDIUM_DAMAGE_THRESHOLD = 3;
+	public static final int HIGH_DAMAGE_THRESHOLD = 6;
 
 	/**
 	 * Since it's an utility class it can't be instantiated.

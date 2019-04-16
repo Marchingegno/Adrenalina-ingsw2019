@@ -100,24 +100,27 @@ public class Model extends Observable {
 		//TODO: The implementation is WRONG. A player should give FRENZY_SCORES only if the playerBoard is flipped. @Marchingegno
 
 		//This method relies on the "SCORES" array defined in GameConstants.
-		if(deadPlayerBoard.isFrenzy()) {
+		if(deadPlayerBoard.isFlipped()) {
 			for (Player p : sortedPlayers) {
-				p.getPlayerBoard().addPoints(FRENZY_SCORES.get(deadPlayerBoard.getNumberOfDeaths() + offset));
+				p.getPlayerBoard().addPoints(FRENZY_SCORES.get(offset));
 				offset++;
 			}
 		}
 
 		else{
+			//AWARD FIRST BLOOD POINT
+			sortedPlayers.get(0).getPlayerBoard().addPoints(1);
+
 			for (Player p : sortedPlayers) {
 				p.getPlayerBoard().addPoints(SCORES.get(deadPlayerBoard.getNumberOfDeaths() + offset));
 				offset++;
 				/*Se con questa morte si attiva la frenzy, o la frenzy è già attivata,
 				 *si deve swappare la damageBoard e il damageStatus del player.
+				 *
+				 * Fatto dal gameController!
 				 */
 			}
 
-			//ADD FIRST BLOOD POINT
-			sortedPlayers.get(0).getPlayerBoard().addPoints(1);
 		}
 	}
 	public void drawPowerupCard(Player player) {

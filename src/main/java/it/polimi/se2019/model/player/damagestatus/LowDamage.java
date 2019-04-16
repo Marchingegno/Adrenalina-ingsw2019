@@ -8,7 +8,7 @@ import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
-public class LowDamage implements DamageStatus {
+public class LowDamage extends DamageStatus {
 	public final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
 	private ArrayList<MacroAction> availableActions;
 
@@ -27,6 +27,9 @@ public class LowDamage implements DamageStatus {
 
 		shootPeopleBuilder.setShootAction(true);
 		availableActions.add(shootPeopleBuilder.build());
+
+		numberOfActionsPerTurn= NUMBER_OF_ACTIONS_PER_TURN;
+		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}
 
 	@Override

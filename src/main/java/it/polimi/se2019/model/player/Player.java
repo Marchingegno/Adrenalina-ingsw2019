@@ -69,8 +69,8 @@ public class Player {
 	/**
 	 * This method should flip the playerBoard to the frenzy side.
 	 */
-	public void flipIfNoDamage(){
-
+	public boolean flipIfNoDamage(){
+		return playerBoard.flipIfNoDamage();
 	}
 
 	public void shoot() {
