@@ -1,22 +1,22 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.network.server.rmi.RMIServer;
-import it.polimi.se2019.network.server.rmi.RMIServerInterface;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Server implements ServerReceiverInterface {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
 
-	private RMIServerInterface rmiServer;
 	private ArrayList<ClientInterface> clients;
-	private HashMap<ClientInterface, String> clientNickanames;
+	private Lobby lobby;
 
 
 	public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class Server implements ServerReceiverInterface {
 
 	private Server() {
 		clients = new ArrayList<>();
-		clientNickanames = new HashMap<>();
+		lobby = new Lobby();
 	}
 
 
@@ -56,11 +56,13 @@ public class Server implements ServerReceiverInterface {
 		switch (message.getMessageType()) {
 			case NICKNAME:
 				if(message.getMessageSubtype() == MessageSubtype.ANSWER) {
+					// Remove spaces in the nickname and set max length.
 					String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s","");
 					int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
 					nickname = nickname.substring(0, maxLength);
-					clientNickanames.put(client, nickname); // TODO check if nickname isn't already used
-					asyncSendMessage(client, new NicknameMessage(nickname, MessageSubtype.OK));
+
+					// Add the client to the lobby, waiting for a match to start.
+					lobby.addWaitingClient(client, nickname);
 				}
 				break;
 
@@ -74,7 +76,7 @@ public class Server implements ServerReceiverInterface {
 	 * @param client the recipient of the message.
 	 * @param message the message to send.
 	 */
-	private void asyncSendMessage(ClientInterface client, Message message) {
+	public static void asyncSendMessage(ClientInterface client, Message message) {
 		new Thread(() -> {
 			try {
 				client.processMessage(message);
@@ -89,7 +91,7 @@ public class Server implements ServerReceiverInterface {
 	 */
 	public void startRMIServer() {
 		try {
-			rmiServer = new RMIServer(this);
+			new RMIServer(this);
 		} catch (RemoteException e) {
 			Utils.logError("Failed to start RMI server.", e);
 		}

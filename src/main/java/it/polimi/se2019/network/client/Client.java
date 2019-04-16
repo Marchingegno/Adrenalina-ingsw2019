@@ -59,6 +59,7 @@ public class Client implements ClientInterface{
 						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
 					}
 					if(message.getMessageSubtype() == MessageSubtype.ERROR) {
+						view.displayText("The nickname already exists, please use a different one.");
 						String nickname = view.askNickname();
 						connection.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
 					}
@@ -67,10 +68,11 @@ public class Client implements ClientInterface{
 						view.displayText("Nickname set to: \"" + nickname + "\".");
 					}
 					break;
-
-				default:
+				case MATCH_START:
+					if(message.getMessageSubtype() == MessageSubtype.OK) {
+						view.displayText("Game started!");
+					}
 					break;
-
 			}
 		} catch (RemoteException e) {
 			Utils.logError("Error while sending a message to the server.", e);
