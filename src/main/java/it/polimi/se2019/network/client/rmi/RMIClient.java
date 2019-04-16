@@ -54,7 +54,11 @@ public class RMIClient implements ClientMessageSenderInterface {
 	 * @throws RemoteException
 	 */
 	@Override
-	public void sendMessage(Message message) throws RemoteException {
-		rmiServerSkeleton.receiveMessage(stub, message); // Send message to the server.
+	public void sendMessage(Message message) {
+		try {
+			rmiServerSkeleton.receiveMessage(stub, message); // Send message to the server.
+		} catch (RemoteException e) {
+			Utils.logInfo("Error in RMIClient: sendMessage()");
+		}
 	}
 }

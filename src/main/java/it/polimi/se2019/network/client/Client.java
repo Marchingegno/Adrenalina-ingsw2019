@@ -70,46 +70,40 @@ public class Client implements ConnectionInterface {
 	 */
 	@Override
 	public void processMessage(Message message) {
-		// TODO process the message and update the view
-
-		try {
-			switch (message.getMessageType()) {
-				case NICKNAME:
-					if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
-						String nickname = view.askNickname();
-						clientMessageSender.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
-					}
-					if(message.getMessageSubtype() == MessageSubtype.ERROR) {
-						view.displayText("The nickname already exists or is not valid, please use a different one.");
-						String nickname = view.askNickname();
-						clientMessageSender.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
-					}
-					if(message.getMessageSubtype() == MessageSubtype.OK) {
-						String nickname = ((NicknameMessage)message).getContent();
-						view.displayText("Nickname set to: \"" + nickname + "\".");
-						view.displayText("Waiting for other clients to connect...");
-					}
-					break;
-				case GAME_CONFIG:
-					if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
-						int mapIndex = view.askMapToUse();
-						int skulls = view.askSkullsForGame();
-						GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
-						gameConfigMessage.setMapIndex(mapIndex);
-						gameConfigMessage.setSkulls(skulls);
-						clientMessageSender.sendMessage(gameConfigMessage);
-						view.displayText("Waiting for other clients to answer...");
-					}
-					if(message.getMessageSubtype() == MessageSubtype.OK) {
-						GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
-						view.displayText("Average of voted skulls: " + gameConfigMessage.getSkulls());
-						view.displayText("Most voted map: " + GameConstants.MapType.values()[gameConfigMessage.getMapIndex()].getDescription());
-						view.displayText("Match started!");
-					}
-					break;
-			}
-		} catch (RemoteException e) {
-			Utils.logError("Error while sending a message to the server.", e);
+		switch (message.getMessageType()) {
+			case NICKNAME:
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					String nickname = view.askNickname();
+					clientMessageSender.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+				}
+				if(message.getMessageSubtype() == MessageSubtype.ERROR) {
+					view.displayText("The nickname already exists or is not valid, please use a different one.");
+					String nickname = view.askNickname();
+					clientMessageSender.sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+				}
+				if(message.getMessageSubtype() == MessageSubtype.OK) {
+					String nickname = ((NicknameMessage)message).getContent();
+					view.displayText("Nickname set to: \"" + nickname + "\".");
+					view.displayText("Waiting for other clients to connect...");
+				}
+				break;
+			case GAME_CONFIG:
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					int mapIndex = view.askMapToUse();
+					int skulls = view.askSkullsForGame();
+					GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
+					gameConfigMessage.setMapIndex(mapIndex);
+					gameConfigMessage.setSkulls(skulls);
+					clientMessageSender.sendMessage(gameConfigMessage);
+					view.displayText("Waiting for other clients to answer...");
+				}
+				if(message.getMessageSubtype() == MessageSubtype.OK) {
+					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
+					view.displayText("Average of voted skulls: " + gameConfigMessage.getSkulls());
+					view.displayText("Most voted map: " + GameConstants.MapType.values()[gameConfigMessage.getMapIndex()].getDescription());
+					view.displayText("Match started!");
+				}
+				break;
 		}
 	}
 

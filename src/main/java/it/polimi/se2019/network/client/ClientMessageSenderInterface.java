@@ -18,7 +18,6 @@ public interface ClientMessageSenderInterface {
 	/**
 	 * Send a message to the server.
 	 * @param message the message to send.
-	 * @throws RemoteException
 	 */
-	void sendMessage(Message message) throws RemoteException;
+	void sendMessage(Message message);
 }
