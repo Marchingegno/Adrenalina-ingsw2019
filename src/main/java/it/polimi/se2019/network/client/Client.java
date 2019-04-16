@@ -13,9 +13,9 @@ import it.polimi.se2019.view.RemoteViewInterface;
 
 import java.rmi.RemoteException;
 
-public class Client implements ClientInterface{
+public class Client implements ClientMessageReceiverInterface {
 
-	private ConnectionInterface connection;
+	private ClientMessageSenderInterface connection;
 	private RemoteViewInterface view;
 
 
@@ -68,6 +68,7 @@ public class Client implements ClientInterface{
 					if(message.getMessageSubtype() == MessageSubtype.OK) {
 						String nickname = ((NicknameMessage)message).getContent();
 						view.displayText("Nickname set to: \"" + nickname + "\".");
+						view.displayText("Waiting for other clients to connect...");
 					}
 					break;
 				case GAME_CONFIG:

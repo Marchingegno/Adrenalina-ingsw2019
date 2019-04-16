@@ -1,8 +1,8 @@
 package it.polimi.se2019.network.server.rmi;
 
-import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.server.ServerReceiverInterface;
+import it.polimi.se2019.network.server.ServerMessageReceiverInterface;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.RemoteException;
@@ -10,9 +10,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIServer extends UnicastRemoteObject implements RMIServerInterface{
+public class RMIServer extends UnicastRemoteObject {
 
-	private transient ServerReceiverInterface server;
+	private transient ServerMessageReceiverInterface server;
 
 
 	/**
@@ -20,7 +20,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	 * @param server the server on which messages will be forwarded.
 	 * @throws RemoteException
 	 */
-	public RMIServer(ServerReceiverInterface server) throws RemoteException {
+	public RMIServer(ServerMessageReceiverInterface server) throws RemoteException {
 		super();
 		this.server = server;
 		startRMIServer();
@@ -32,9 +32,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	 * @param client the RMI implementation of the client.
 	 * @throws RemoteException
 	 */
-	@Override
-	public void registerClient(ClientInterface client) throws RemoteException {
-		server.onRegisterClient(client);
+	public void registerClient(ClientMessageReceiverInterface client) throws RemoteException {
+		server.onClientRegistration(client);
 	}
 
 	/**
@@ -42,9 +41,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	 * @param message the message to send.
 	 * @throws RemoteException
 	 */
-	@Override
-	public void sendMessage(ClientInterface client, Message message) throws RemoteException {
-		server.onReceiveMessage(client, message);
+	public void sendMessage(ClientMessageReceiverInterface client, Message message) throws RemoteException {
+		server.onMessageReceived(client, message);
 	}
 
 	/**

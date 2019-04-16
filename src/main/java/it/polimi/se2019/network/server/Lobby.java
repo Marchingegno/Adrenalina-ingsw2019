@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
@@ -10,10 +10,10 @@ import it.polimi.se2019.utils.Utils;
 
 import java.util.HashMap;
 
-public class Lobby implements ServerReceiverInterface{
+public class Lobby implements ServerMessageReceiverInterface {
 
-	private HashMap<ClientInterface, Match> playingClients;
-	private HashMap<ClientInterface, String> waitingRoom;
+	private HashMap<ClientMessageReceiverInterface, Match> playingClients;
+	private HashMap<ClientMessageReceiverInterface, String> waitingRoom;
 
 
 	/**
@@ -32,7 +32,7 @@ public class Lobby implements ServerReceiverInterface{
 	 * @param client the client to add to the waiting room.
 	 * @param nickname the nickname of the client.
 	 */
-	public void addWaitingClient(ClientInterface client, String nickname) {
+	public void addWaitingClient(ClientMessageReceiverInterface client, String nickname) {
 		if(waitingRoom.containsValue(nickname)) {
 			Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		} else {
@@ -50,7 +50,7 @@ public class Lobby implements ServerReceiverInterface{
 		//if(waitingRoom.size() == GameConstants.MAX_PLAYERS) {
 		if(waitingRoom.size() == GameConstants.MIN_PLAYERS) { // TODO using MIN_PLAYERS for easier testing
 			Match match = new Match(waitingRoom);
-			for(ClientInterface client : waitingRoom.keySet())
+			for(ClientMessageReceiverInterface client : waitingRoom.keySet())
 				playingClients.put(client, match);
 			waitingRoom.clear();
 			match.requestMatchConfig();
@@ -62,11 +62,11 @@ public class Lobby implements ServerReceiverInterface{
 	 * @param message the message received.
 	 */
 	@Override
-	public void onReceiveMessage(ClientInterface client, Message message) {
+	public void onMessageReceived(ClientMessageReceiverInterface client, Message message) {
 		Match match = playingClients.get(client);
 		if(match != null) {
 			Utils.logInfo("Message forwarded to the corresponding Match.");
-			match.onReceiveMessage(client, message); // Forward the message to the Match class.
+			match.onMessageReceived(client, message); // Forward the message to the Match class.
 		}
 	}
 
@@ -75,7 +75,7 @@ public class Lobby implements ServerReceiverInterface{
 	 * @param client Nnt used in Match.
 	 */
 	@Override
-	public void onRegisterClient(ClientInterface client) {
+	public void onClientRegistration(ClientMessageReceiverInterface client) {
 		throw new UnsupportedOperationException("Not supported.");
 	}
 }

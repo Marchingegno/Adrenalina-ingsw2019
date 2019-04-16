@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Match implements ServerReceiverInterface{
+public class Match implements ServerMessageReceiverInterface {
 
-	private HashMap<ClientInterface, String> participants;
+	private HashMap<ClientMessageReceiverInterface, String> participants;
 	private int numberOfPartecipants;
 	private Controller controller;
 
 	// Game config attributes.
-	private HashMap<ClientInterface, Integer> skullsChosen;
-	private HashMap<ClientInterface, Integer> mapChoosen;
+	private HashMap<ClientMessageReceiverInterface, Integer> skullsChosen;
+	private HashMap<ClientMessageReceiverInterface, Integer> mapChoosen;
 	private int numberOfAnswers = 0;
 
 
@@ -29,7 +29,7 @@ public class Match implements ServerReceiverInterface{
 	 * Create a new match with the specified clients.
 	 * @param participants a map that contains all the clients for this match and their nicknames.
 	 */
-	public Match(Map<ClientInterface, String> participants) {
+	public Match(Map<ClientMessageReceiverInterface, String> participants) {
 		numberOfPartecipants = participants.size();
 		if(numberOfPartecipants < GameConstants.MIN_PLAYERS || numberOfPartecipants > GameConstants.MAX_PLAYERS)
 			throw new IllegalArgumentException("The number of participants for this match (" + numberOfPartecipants + ") is not valid.");
@@ -44,7 +44,7 @@ public class Match implements ServerReceiverInterface{
 	 * Send game config request messages to the clients, asking skulls and map type.
 	 */
 	public void requestMatchConfig() {
-		for(ClientInterface client : participants.keySet())
+		for(ClientMessageReceiverInterface client : participants.keySet())
 			Server.asyncSendMessage(client, new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 	}
 
@@ -61,7 +61,7 @@ public class Match implements ServerReceiverInterface{
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
 		gameConfigMessage.setSkulls(skulls);
 		gameConfigMessage.setMapIndex(mapType.ordinal());
-		for(ClientInterface client : participants.keySet())
+		for(ClientMessageReceiverInterface client : participants.keySet())
 			Server.asyncSendMessage(client, gameConfigMessage);
 
 		// start the game.
@@ -112,7 +112,7 @@ public class Match implements ServerReceiverInterface{
 	 * @param message the message received.
 	 */
 	@Override
-	public void onReceiveMessage(ClientInterface client, Message message) {
+	public void onMessageReceived(ClientMessageReceiverInterface client, Message message) {
 		if(!participants.containsKey(client))
 			throw new IllegalArgumentException("Client is not in this Match.");
 
@@ -132,7 +132,7 @@ public class Match implements ServerReceiverInterface{
 	 * @param client the client that send the GameConfigMessage.
 	 * @param message the message.
 	 */
-	private void gameConfigLogic(ClientInterface client, Message message) {
+	private void gameConfigLogic(ClientMessageReceiverInterface client, Message message) {
 		numberOfAnswers++;
 		GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 		int skulls = gameConfigMessage.getSkulls();
@@ -150,7 +150,7 @@ public class Match implements ServerReceiverInterface{
 	 * @param client not used in Match.
 	 */
 	@Override
-	public void onRegisterClient(ClientInterface client) {
+	public void onClientRegistration(ClientMessageReceiverInterface client) {
 		throw new UnsupportedOperationException("Not supported.");
 	}
 }

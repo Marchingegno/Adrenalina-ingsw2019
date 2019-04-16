@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
  * Represents the methods that can be called by the server.
  * Basically this class represents what the server can do with the client.
  */
-public interface ClientInterface extends Remote {
+public interface ClientMessageReceiverInterface extends Remote {
 
 	/**
 	 * Receive and process the message sent by the server both by socket or by RMI.

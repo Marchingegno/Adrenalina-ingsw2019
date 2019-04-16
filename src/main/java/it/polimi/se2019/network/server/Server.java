@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.client.ClientMessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
@@ -11,12 +11,12 @@ import it.polimi.se2019.utils.Utils;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Server implements ServerReceiverInterface {
+public class Server implements ServerMessageReceiverInterface {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
 
-	private ArrayList<ClientInterface> clients;
+	private ArrayList<ClientMessageReceiverInterface> clients;
 	private Lobby lobby;
 
 
@@ -38,8 +38,7 @@ public class Server implements ServerReceiverInterface {
 	 * @param client the implementation of the client.
 	 */
 	@Override
-	public void onRegisterClient(ClientInterface client) {
-		// TODO wait for other clients and start the game when ready
+	public void onClientRegistration(ClientMessageReceiverInterface client) {
 		clients.add(client);
 		Utils.logInfo("Registered new client.");
 		asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
@@ -50,7 +49,7 @@ public class Server implements ServerReceiverInterface {
 	 * @param message the message received.
 	 */
 	@Override
-	public void onReceiveMessage(ClientInterface client, Message message) {
+	public void onMessageReceived(ClientMessageReceiverInterface client, Message message) {
 		// TODO based on the message send it to the controller (or remoteview?)
 
 		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
@@ -71,7 +70,7 @@ public class Server implements ServerReceiverInterface {
 			}
 		} else {
 			Utils.logInfo("Message forwarded to the lobby.");
-			lobby.onReceiveMessage(client, message); // Forward the message to the Match class.
+			lobby.onMessageReceived(client, message); // Forward the message to the Match class.
 		}
 	}
 
@@ -80,7 +79,7 @@ public class Server implements ServerReceiverInterface {
 	 * @param client the recipient of the message.
 	 * @param message the message to send.
 	 */
-	public static void asyncSendMessage(ClientInterface client, Message message) {
+	public static void asyncSendMessage(ClientMessageReceiverInterface client, Message message) {
 		new Thread(() -> {
 			try {
 				client.processMessage(message);
