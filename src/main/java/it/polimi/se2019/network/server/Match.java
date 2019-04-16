@@ -10,6 +10,7 @@ import it.polimi.se2019.utils.GameConstants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Match {
 
@@ -40,13 +41,35 @@ public class Match {
 			Server.asyncSendMessage(client, new Message(MessageType.MATCH_START, MessageSubtype.OK));
 	}
 
+	/**
+	 * Find the number of skulls randomly, using a gaussian with mean based on the number of players: less players means less skulls, more players means more skulls.
+	 * @param numberOfPlayers the number of players.
+	 * @return the "perfect" number of skulls.
+	 */
 	private int findPerfectNumberOfSkulls(int numberOfPlayers) {
-		// TODO
-		return GameConstants.MIN_SKULLS;
+		// Assign the mean of the gaussian based on the number of players
+		int mean;
+		if(numberOfPlayers == GameConstants.MIN_PLAYERS)
+			mean = GameConstants.MIN_SKULLS;
+		else if(numberOfPlayers == GameConstants.MAX_PLAYERS)
+			mean = GameConstants.MAX_SKULLS;
+		else
+			mean = (GameConstants.MAX_SKULLS + GameConstants.MIN_SKULLS) / 2;
+
+		// Get the random number of skulls on the gaussian using the mean previously found.
+		int skulls = (int) (new Random().nextGaussian() + mean);
+		if(skulls < GameConstants.MIN_SKULLS)
+			skulls = GameConstants.MIN_SKULLS;
+		if(skulls > GameConstants.MAX_SKULLS)
+			skulls = GameConstants.MAX_SKULLS;
+		return skulls;
 	}
 
 	private String findPerfectMap(int numberOfPlayers) {
-		// TODO
+		if(numberOfPlayers == GameConstants.MIN_PLAYERS)
+			return "SmallMap.txt";
+		if(numberOfPlayers == GameConstants.MAX_PLAYERS)
+			return "BigMap.txt";
 		return "MediumMap.txt";
 	}
 }
