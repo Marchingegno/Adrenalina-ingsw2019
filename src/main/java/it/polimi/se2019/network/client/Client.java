@@ -15,22 +15,39 @@ import it.polimi.se2019.view.RemoteViewInterface;
 
 import java.rmi.RemoteException;
 
+
+
+//TEMP
+import java.util.Scanner;
+
+
+
 public class Client implements ConnectionInterface {
 
 	private ClientMessageSenderInterface connection;
 	private RemoteViewInterface view;
 
 
+	//TEMP
+	private static Scanner scanner;
+
+
 	public static void main(String[] args) {
 		Client client;
 
-		boolean isCLI = true; // TODO if user requested CLI use CLI otherwise GUI
+		//TEMP
+		scanner = new Scanner(System.in);
+
+		System.out.println("You want CLI? [true/false]");
+		boolean isCLI = Boolean.parseBoolean(scanner.nextLine()); // TODO if user requested CLI use CLI otherwise GUI
 		if(isCLI)
 			client = new Client(new CLIView());
 		else
 			client = new Client(new GUIView());
 
-		boolean isRMI = false; // TODO if user requested RMI start RMI otherwise socket
+
+		System.out.println("You want RMI? [true/false]");
+		boolean isRMI = Boolean.parseBoolean(scanner.nextLine()); // TODO if user requested RMI start RMI otherwise socket
 		if(isRMI)
 			client.startConnectionWithRMI();
 		else
