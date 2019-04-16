@@ -44,7 +44,7 @@ public class Lobby {
 
 
 	/**
-	 * Returns the Match that the client is in.
+	 * Returns the Match that the client is in, or null if it isn't in any Match.
 	 * @param client the client.
 	 * @return the match in which the client is playing.
 	 */

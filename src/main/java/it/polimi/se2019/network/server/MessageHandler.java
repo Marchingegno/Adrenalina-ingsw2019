@@ -52,8 +52,7 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 					nicknameLogic(client, message);
 				break;
 			case GAME_CONFIG:
-				Match match = lobby.getMatchOfClient(client);
-				if(match != null && message.getMessageSubtype() == MessageSubtype.ANSWER)
+				if(message.getMessageSubtype() == MessageSubtype.ANSWER)
 					gameConfigLogic(client, message);
 				break;
 
@@ -81,18 +80,11 @@ public class MessageHandler implements ServerMessageReceiverInterface {
 	 * @param message the message.
 	 */
 	private void gameConfigLogic(ConnectionInterface client, Message message) {
-		// TODO should interact with match
-		
-		numberOfAnswers++;
-		GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
-		int skulls = gameConfigMessage.getSkulls();
-		if(!skullsChosen.containsKey(client))
-			skullsChosen.put(client, skulls);
-		int mapIndex = gameConfigMessage.getMapIndex();
-		if(!mapChoosen.containsKey(client))
-			mapChoosen.put(client, mapIndex);
-		if(numberOfAnswers >= numberOfPartecipants)
-			startMatch();
+		Match match = lobby.getMatchOfClient(client);
+		if(match != null) {
+			GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
+			match.addConfigVote(client, gameConfigMessage.getSkulls(), gameConfigMessage.getMapIndex());
+		}
 	}
 
 }

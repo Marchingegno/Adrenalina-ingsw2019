@@ -1,6 +1,5 @@
 package it.polimi.se2019.network.server.socket;
 
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.MessageHandler;
 import it.polimi.se2019.utils.Utils;
 

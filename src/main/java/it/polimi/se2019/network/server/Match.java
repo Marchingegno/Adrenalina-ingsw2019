@@ -48,6 +48,20 @@ public class Match {
 			Server.asyncSendMessage(client, new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 	}
 
+	public void addConfigVote(ConnectionInterface client, int skulls, int mapIndex) {
+		if(participants.containsKey(client)) { // Check if the participants is in the Match.
+			if(!skullsChosen.containsKey(client))
+				skullsChosen.put(client, skulls);
+
+			if(!mapChoosen.containsKey(client))
+				mapChoosen.put(client, mapIndex);
+
+			numberOfAnswers++;
+			if(numberOfAnswers >= numberOfPartecipants)
+				startMatch();
+		}
+	}
+
 	/**
 	 * Start the match.
 	 */
