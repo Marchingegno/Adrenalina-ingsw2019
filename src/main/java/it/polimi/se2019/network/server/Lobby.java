@@ -10,7 +10,7 @@ import it.polimi.se2019.utils.Utils;
 
 import java.util.HashMap;
 
-public class Lobby implements ServerMessageReceiverInterface {
+public class Lobby {
 
 	private HashMap<ClientMessageReceiverInterface, Match> playingClients;
 	private HashMap<ClientMessageReceiverInterface, String> waitingRoom;
@@ -43,6 +43,16 @@ public class Lobby implements ServerMessageReceiverInterface {
 		// TODO timer for waiting room
 	}
 
+
+	/**
+	 * Returns the Match that the client is in.
+	 * @param client the client.
+	 * @return the match in which the client is playing.
+	 */
+	public Match getMatchOfClient(ClientMessageReceiverInterface client) {
+		return playingClients.get(client);
+	}
+
 	/**
 	 * Check if the waiting room is ready to start, and if it is then it's started.
 	 */
@@ -57,25 +67,4 @@ public class Lobby implements ServerMessageReceiverInterface {
 		}
 	}
 
-	/**
-	 * Called when receiving a message from the client.
-	 * @param message the message received.
-	 */
-	@Override
-	public void onMessageReceived(ClientMessageReceiverInterface client, Message message) {
-		Match match = playingClients.get(client);
-		if(match != null) {
-			Utils.logInfo("Message forwarded to the corresponding Match.");
-			match.onMessageReceived(client, message); // Forward the message to the Match class.
-		}
-	}
-
-	/**
-	 * Not used in Lobby.
-	 * @param client Nnt used in Match.
-	 */
-	@Override
-	public void onClientRegistration(ClientMessageReceiverInterface client) {
-		throw new UnsupportedOperationException("Not supported.");
-	}
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Match implements ServerMessageReceiverInterface {
+public class Match {
 
 	private HashMap<ClientMessageReceiverInterface, String> participants;
 	private int numberOfPartecipants;
@@ -107,50 +107,4 @@ public class Match implements ServerMessageReceiverInterface {
 		return GameConstants.MapType.values()[indexOfMax];
 	}
 
-	/**
-	 * Called when receiving a message from the client, forwarded by the lobby.
-	 * @param message the message received.
-	 */
-	@Override
-	public void onMessageReceived(ClientMessageReceiverInterface client, Message message) {
-		if(!participants.containsKey(client))
-			throw new IllegalArgumentException("Client is not in this Match.");
-
-		switch (message.getMessageType()) {
-			case GAME_CONFIG:
-				if (message.getMessageSubtype() == MessageSubtype.ANSWER)
-					gameConfigLogic(client, message);
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	/**
-	 * Implement the logic to handle a GameConfigMessage.
-	 * @param client the client that send the GameConfigMessage.
-	 * @param message the message.
-	 */
-	private void gameConfigLogic(ClientMessageReceiverInterface client, Message message) {
-		numberOfAnswers++;
-		GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
-		int skulls = gameConfigMessage.getSkulls();
-		if(!skullsChosen.containsKey(client))
-			skullsChosen.put(client, skulls);
-		int mapIndex = gameConfigMessage.getMapIndex();
-		if(!mapChoosen.containsKey(client))
-			mapChoosen.put(client, mapIndex);
-		if(numberOfAnswers >= numberOfPartecipants)
-			startMatch();
-	}
-
-	/**
-	 * Not used in Match.
-	 * @param client not used in Match.
-	 */
-	@Override
-	public void onClientRegistration(ClientMessageReceiverInterface client) {
-		throw new UnsupportedOperationException("Not supported.");
-	}
 }
