@@ -4,7 +4,7 @@ import it.polimi.se2019.model.cards.Deck;
 
 public class WeaponDeck extends Deck<WeaponCard> {
 
-	protected void initializeDeck(){
+	public void initializeDeck(){
 
 	}
 

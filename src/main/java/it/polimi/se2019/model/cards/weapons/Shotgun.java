@@ -1,16 +1,20 @@
 package it.polimi.se2019.model.cards.weapons;
 
-public final class Shotgun extends DoubleFire {
+import it.polimi.se2019.model.player.Player;
 
-	public Shotgun(String description) {
-		super(description);
+import java.util.List;
+
+public final class Shotgun extends AlternateFire {
+
+	public Shotgun(String description, ArrayList<AmmoType> reloadPrice) {
+		super(description, reloadPrice);
 	}
 
 
-	protected void primaryFire() {
+	public void primaryFire(List<Player> playersToShoot) {
 	}
 
-	protected void secondaryFire() {
+	public void secondaryFire() {
 	}
 
 

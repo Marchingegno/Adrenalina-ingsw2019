@@ -1,20 +1,24 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
-public final class VortexCannon extends OptionalFire {
+import it.polimi.se2019.model.player.Player;
 
-	public VortexCannon(String description) {
-		super(description);
+import java.util.List;
+
+public final class VortexCannon extends OptionalEffect {
+
+	public VortexCannon(String description, ArrayList<AmmoType> reloadPrice) {
+		super(description, reloadPrice);
 	}
 
 
-	protected void primaryFire() {
+	public void primaryFire(List<Player> playersToShoot) {
 	}
 
-	protected void optionalFire1() {
+	public void optionalEffect1() {
 	}
 
-	protected void optionalFire2() {
+	public void optionalEffect2() {
 	}
 
 }
