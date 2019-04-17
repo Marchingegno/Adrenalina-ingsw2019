@@ -13,15 +13,17 @@ import it.polimi.se2019.view.CLIView;
 import it.polimi.se2019.view.GUIView;
 import it.polimi.se2019.view.RemoteViewInterface;
 
-import java.rmi.RemoteException;
-
 
 
 //TEMP
 import java.util.Scanner;
 
 
-
+/**
+ * Implements the Client.
+ * @author Desno365
+ * @author MarcerAndrea
+ */
 public class Client implements ConnectionInterface {
 
 	private ClientMessageSenderInterface clientMessageSender;
@@ -115,7 +117,7 @@ public class Client implements ConnectionInterface {
 			clientMessageSender = new RMIClient(this);
 			clientMessageSender.registerClient();
 		} catch (Exception e) {
-			Utils.logError("Failed connection to server.", e);
+			Utils.logError("Failed to connect to the server.", e);
 		}
 	}
 

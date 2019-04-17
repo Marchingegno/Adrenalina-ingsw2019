@@ -10,6 +10,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Contains the socket to communicate with a client. It sends messages through the output stream and receives them through the input stream.
+ * @author MarcerAndrea
+ */
 public class ServerClientSocket extends Thread implements ConnectionInterface {
 
 	private ServerMessageHandler serverMessageHandler;
@@ -29,9 +33,14 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 			Utils.logError("Error in ServerClientSocket()", e);
 		}
 
+		this.start();
+
 		active = true;
 	}
 
+	/**
+	 * Closes the connection with the client.
+	 */
 	public synchronized void closeConnection() {
 		try {
 			socket.close();
@@ -41,10 +50,15 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 		active = false;
 	}
 
-	public boolean isActive(){
-		return active;
-	}
+	/**
+	 * Returns true if and only if the socket is active.
+	 * @return true if and only if the socket is active.
+	 */
+	public boolean isActive(){ return active; }
 
+	/**
+	 * Thread that listens for new messages from the client.
+	 */
 	@Override
 	public void run() {
 		try{
@@ -58,6 +72,10 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 		}
 	}
 
+	/**
+	 * TODO
+	 * @param message the message received.
+	 */
 	@Override
 	public void processMessage(Message message){
 		try {

@@ -6,20 +6,73 @@ import it.polimi.se2019.utils.Utils;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+/**
+ * Server that listens for new socket clients and creates a ServerClientSocket for each of them
+ * @author MarcerAndrea
+ */
 public class SocketServer extends Thread{
 
 	private final int PORT = 12345;
 
 	private ServerSocket serverSocket; //Server that listens for requests
 	private ServerMessageHandler serverMessageHandler; //General serverMessageHandler that works both with RMI and Socket
-	private ExecutorService executor = Executors.newFixedThreadPool(128);
 
+	private boolean active = false;
+
+	/**
+	 * Starts a thread that listens for new connection requests
+	 * @param serverMessageHandler the message handler to which all messages are sent
+	 */
 	public SocketServer(ServerMessageHandler serverMessageHandler) {
 		this.serverMessageHandler = serverMessageHandler;
 		startServerSocket();
+	}
+
+	/**
+	 * Listens for client connection requests and creates a socket for each client. The socket is added to the
+	 */
+	@Override
+	public void run() {
+		Utils.logInfo("Socket server is listening");
+
+		while(isActive()) {
+
+			Socket newClientSocket;
+			ServerClientSocket newServerClientSocket;
+
+			try {
+				//The server receives a new connection requests, accepts it and returns the socket associated.
+				newClientSocket = serverSocket.accept();
+
+				//The socket is decorated with the logic to handle the message communication
+				newServerClientSocket = new ServerClientSocket(serverMessageHandler, newClientSocket);
+
+				//The new decorated socket is registered to the server message handler
+				serverMessageHandler.onClientRegistration(newServerClientSocket);
+
+			} catch (IOException e) {
+				Utils.logError("Error in SocketServer: run()", e);
+			}
+		}
+	}
+
+	/**
+	 * Returns true if and only if the server is active.
+	 * @return true if and only if the server is active.
+	 */
+	public boolean isActive() {	return active;}
+
+	/**
+	 * Closes the server.
+	 */
+	public void close(){
+		active = false;
+		try {
+			serverSocket.close();
+		}catch (IOException e){
+			Utils.logError("Error in SocketServer: close()", e);
+		}
 	}
 
 	private void startServerSocket(){
@@ -28,25 +81,6 @@ public class SocketServer extends Thread{
 		} catch (IOException e) {
 			Utils.logError("Error in SocketServer()", e);
 		}
-	}
-
-	/**
-	 * Listens for client connection requests and creates a socket for each client
-	 */
-	@Override
-	public void run() {
-		Utils.logInfo("Socket server is listening");
-		while(true) {
-			Socket clientSocket;
-			ServerClientSocket newServerClientSocket;
-			try {
-				clientSocket = serverSocket.accept();
-				newServerClientSocket = new ServerClientSocket(serverMessageHandler, clientSocket);
-				newServerClientSocket.start();
-				serverMessageHandler.onClientRegistration(newServerClientSocket);
-			} catch (IOException e) {
-				Utils.logError("Error in SocketServer: run()", e);
-			}
-		}
+		active = true;
 	}
 }

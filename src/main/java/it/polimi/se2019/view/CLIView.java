@@ -4,6 +4,9 @@ import it.polimi.se2019.utils.GameConstants;
 
 import java.util.Scanner;
 
+/**
+ * @author Desno365
+ */
 public class CLIView implements RemoteViewInterface {
 
 	private Scanner scanner;

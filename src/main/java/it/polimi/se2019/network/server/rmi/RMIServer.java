@@ -10,14 +10,17 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Implements the RMI server
+ * @author DEsno365
+ */
 public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonInterface {
 
 	private transient ServerMessageHandler serverMessageHandler;
 
-
 	/**
 	 * Create a new instance of a RMIServer and start it.
-	 * @param serverMessageHandler TODO
+	 * @param serverMessageHandler the MessageHandler to which all messages are sent
 	 * @throws RemoteException
 	 */
 	public RMIServer(ServerMessageHandler serverMessageHandler) throws RemoteException {

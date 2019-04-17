@@ -8,6 +8,11 @@ import it.polimi.se2019.utils.Utils;
 
 import java.rmi.RemoteException;
 
+/**
+ * Starts the RMI server and the Socket server.
+ * @author Desno365
+ * @author MarcerAndrea
+ */
 public class Server {
 
 	private ServerMessageHandler serverMessageHandler;
@@ -18,11 +23,9 @@ public class Server {
 		server.startSocketServer();
 	}
 
-
 	private Server() {
 		serverMessageHandler = new ServerMessageHandler();
 	}
-
 
 	/**
 	 * Send a message asynchronously.

@@ -12,6 +12,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * @author DEsno365
+ */
 public class RMIClient implements ClientMessageSenderInterface {
 
 	private RMIServerSkeletonInterface rmiServerSkeleton;

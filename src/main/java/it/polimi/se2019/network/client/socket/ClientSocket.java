@@ -10,35 +10,60 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Socket that receives messages from the server and sends the to the message handler. Also receives messages from the client and sends them to the server.
+ * @author MarcerAndrea
+ */
 public class ClientSocket extends Thread  implements ClientMessageSenderInterface {
 
-	private final String HOST = "localhost";
-	private final int PORT = 12345;
+	private static final String HOST = "localhost";
+	private static final int PORT = 12345;
 
-	private Socket clientSocket;
+	private Socket socketClient;
 	private ConnectionInterface client;
 	private ObjectInputStream objInStream;
 	private ObjectOutputStream objOutStream;
 	private boolean active;
 
+	/**
+	 * Creates a socket to the server
+	 * @param client
+	 */
 	public ClientSocket(ConnectionInterface client){
 		this.client = client;
+		try {
+			socketClient = new Socket(HOST, PORT);
+			this.objOutStream = new ObjectOutputStream(this.socketClient.getOutputStream());
+			this.objInStream = new ObjectInputStream(this.socketClient.getInputStream());
+		} catch (IOException e) {
+			Utils.logError("Error in ServerClientSocket: registerClient()", e);
+		}
 		active = false;
 	}
 
+	/**
+	 * Closes the connection with the server.
+	 */
 	public synchronized void closeConnection() {
 		try {
-			clientSocket.close();
+			socketClient.close();
 		} catch (IOException e) {
 			Utils.logError("Error in ClientSocket: closeConnection()", e);
 		}
 		active = false;
 	}
 
+	/**
+	 * Returns true if and only if the socket is active.
+	 * @return true if and only if the socket is active.
+	 */
 	public boolean isActive() {
 		return active;
 	}
 
+	/**
+	 * Listens for messages from the server.
+	 */
 	@Override
 	public void run() {
 		try{
@@ -52,17 +77,13 @@ public class ClientSocket extends Thread  implements ClientMessageSenderInterfac
 		}
 	}
 
+	/**
+	 * Activates the communication with the server by starting the listening thread.
+	 */
 	@Override
 	public void registerClient(){
-		try {
-			clientSocket = new Socket(HOST, PORT);
-			this.objOutStream = new ObjectOutputStream(this.clientSocket.getOutputStream());
-			this.objInStream = new ObjectInputStream(this.clientSocket.getInputStream());
-			this.start();
-		} catch (IOException e) {
-			Utils.logError("Error in ServerClientSocket: registerClient()", e);
-		}
 		active = true;
+		this.start();
 	}
 
 	@Override
