@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.client.socket;
 
-import it.polimi.se2019.network.client.Client;
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.client.ClientMessageSenderInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Utils;
@@ -16,12 +16,12 @@ public class ClientSocket extends Thread  implements ClientMessageSenderInterfac
 	private final int PORT = 12345;
 
 	private Socket clientSocket;
-	private Client client;
+	private ConnectionInterface client;
 	private ObjectInputStream objInStream;
 	private ObjectOutputStream objOutStream;
 	private boolean active;
 
-	public ClientSocket(Client client){
+	public ClientSocket(ConnectionInterface client){
 		this.client = client;
 		active = false;
 	}
@@ -58,6 +58,7 @@ public class ClientSocket extends Thread  implements ClientMessageSenderInterfac
 			clientSocket = new Socket(HOST, PORT);
 			this.objOutStream = new ObjectOutputStream(this.clientSocket.getOutputStream());
 			this.objInStream = new ObjectInputStream(this.clientSocket.getInputStream());
+			this.start();
 		} catch (IOException e) {
 			Utils.logError("Error in ServerClientSocket: registerClient()", e);
 		}
