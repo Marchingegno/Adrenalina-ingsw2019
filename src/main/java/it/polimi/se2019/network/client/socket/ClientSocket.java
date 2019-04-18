@@ -71,7 +71,7 @@ public class ClientSocket extends Thread  implements ClientMessageSenderInterfac
 				client.processMessage((Message) objInStream.readObject());
 			}
 		} catch (IOException | ClassNotFoundException e) {
-			Utils.logError("Error in ServerClientSocket: Run()", e);
+			Utils.logError("Error in ClientSocket: Run()", e);
 		}finally{
 			closeConnection();
 		}
