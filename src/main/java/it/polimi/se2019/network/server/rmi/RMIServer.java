@@ -5,6 +5,7 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
+import java.io.Closeable;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -15,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
  * Implements the RMI server
  * @author DEsno365
  */
-public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonInterface {
+public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonInterface, Closeable {
 
 	private transient ServerMessageHandler serverMessageHandler;
 	private Registry registry;
@@ -54,6 +55,19 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	}
 
 	/**
+	 * Closes this stream and releases any system resources associated with it.
+	 */
+	@Override
+	public void close() {
+		try {
+			if(registry != null)
+				UnicastRemoteObject.unexportObject(registry, true);
+		} catch (NoSuchObjectException e) {
+			Utils.logError("Error in RMIServer: close()", e);
+		}
+	}
+
+	/**
 	 * Start the RMI server and register it on the RMI registry,
 	 * @throws RemoteException
 	 */
@@ -64,13 +78,5 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 		registry.rebind("Server", this);
 
 		Utils.logInfo("RMI server is ready.");
-	}
-
-	public void close() {
-		try {
-			UnicastRemoteObject.unexportObject(registry, true);
-		} catch (NoSuchObjectException e) {
-			Utils.logError("Error in RMIServer: close()", e);
-		}
 	}
 }
