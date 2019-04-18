@@ -1,26 +1,31 @@
 package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.network.ConnectionInterface;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.network.message.NicknameMessage;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Utils;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Lobby {
 
 	private HashMap<ConnectionInterface, Match> playingClients;
 	private HashMap<ConnectionInterface, String> waitingRoom;
+	private long timerDelayForMatchStart;
+	private Timer timer;
 
 
 	/**
-	 * Create the lobby.
+	 * Creates the lobby with the specified delay for starting a match.
+	 * @param timerDelayForMatchStart the delay for starting a match in millisecodns.
 	 */
-	public Lobby() {
+	public Lobby(long timerDelayForMatchStart) {
 		playingClients = new HashMap<>();
 		waitingRoom = new HashMap<>();
+		this.timerDelayForMatchStart = timerDelayForMatchStart;
 	}
 
 
@@ -39,7 +44,6 @@ public class Lobby {
 			waitingRoom.put(client, nickname);
 			checkIfWaitingRoomIsReady();
 		}
-		// TODO timer for waiting room
 	}
 
 
@@ -53,17 +57,76 @@ public class Lobby {
 	}
 
 	/**
-	 * Check if the waiting room is ready to start, and if it is then it's started.
+	 * Check if the waiting room has reached the minimum number of players (and schedule the timer for the match to start).
+	 * Check if the waiting room has reached the maximum number of players (and start the match immediately).
 	 */
 	private void checkIfWaitingRoomIsReady() {
-		//if(waitingRoom.size() == GameConstants.MAX_PLAYERS) {
-		if(waitingRoom.size() == GameConstants.MIN_PLAYERS) { // TODO using MIN_PLAYERS for easier testing
-			Match match = new Match(waitingRoom);
-			for(ConnectionInterface client : waitingRoom.keySet())
-				playingClients.put(client, match);
-			waitingRoom.clear();
-			match.requestMatchConfig();
+		// Send a message to all the clients in the waiting room.
+		sendWaitingPlayersMessage();
+
+		// Logic for starting the match or the timer.
+		if(waitingRoom.size() == GameConstants.MAX_PLAYERS) {
+			// Reached the maximum number of players. Cancel the timer and start the match.
+			timer.cancel();
+			startMatchInWaitingRoom();
+		} else if(waitingRoom.size() == GameConstants.MIN_PLAYERS) {
+			// Reached the minimum number of players. Start a timer for starting the match.
+			final Lobby lobby = this;
+			timer = new Timer();
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					Utils.logInfo("Timer ended. Starting the match...");
+					lobby.startMatchInWaitingRoom();
+				}
+			}, timerDelayForMatchStart);
+			Utils.logInfo("Scheduled a timer for starting the match of " + timerDelayForMatchStart + " milliseconds.");
+			sendTimerStartedMessage();
+		} else if(waitingRoom.size() < GameConstants.MIN_PLAYERS) {
+			// If a timer has been started, cancels it since now the number of players is less than the minimum.
+			if(timer != null) {
+				timer.cancel();
+				sendTimerCanceledMessage();
+			}
 		}
+	}
+
+	/**
+	 * Start the match with the clients in the waiting room.
+	 */
+	private void startMatchInWaitingRoom() {
+		Match match = new Match(waitingRoom);
+		for(ConnectionInterface client : waitingRoom.keySet())
+			playingClients.put(client, match);
+		waitingRoom.clear();
+		match.requestMatchConfig();
+	}
+
+	private void sendWaitingPlayersMessage() {
+		if(waitingRoom.size() > 0) {
+			// Create a String of all the nicknames of the players.
+			StringBuilder stringBuilder = new StringBuilder();
+			for (String nickname : waitingRoom.values()) {
+				if(stringBuilder.length() != 0)
+					stringBuilder.append(", ");
+				stringBuilder.append(nickname);
+			}
+
+			// Send the message with all nicknames.
+			for (ConnectionInterface client : waitingRoom.keySet()) {
+				Server.asyncSendMessage(client, new WaitingPlayersMessage(stringBuilder.toString()));
+			}
+		}
+	}
+
+	private void sendTimerStartedMessage() {
+		for(ConnectionInterface client : waitingRoom.keySet())
+			Server.asyncSendMessage(client, new TimerForStartMessage(timerDelayForMatchStart, MessageSubtype.INFO));
+	}
+
+	private void sendTimerCanceledMessage() {
+		for(ConnectionInterface client : waitingRoom.keySet())
+			Server.asyncSendMessage(client, new Message(MessageType.TIMER_FOR_START, MessageSubtype.ERROR));
 	}
 
 }

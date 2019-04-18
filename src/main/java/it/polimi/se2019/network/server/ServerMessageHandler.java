@@ -17,7 +17,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 
 	public ServerMessageHandler() {
 		clients = new ArrayList<>();
-		lobby = new Lobby();
+		lobby = new Lobby(5000L); // TODO get the timer delay from command line or file.
 	}
 
 

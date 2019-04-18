@@ -3,10 +3,7 @@ package it.polimi.se2019.network.client;
 import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
-import it.polimi.se2019.network.message.GameConfigMessage;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.NicknameMessage;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.CLIView;
@@ -86,18 +83,33 @@ public class Client implements ConnectionInterface {
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					String nickname = ((NicknameMessage)message).getContent();
 					view.displayText("Nickname set to: \"" + nickname + "\".");
-					view.displayText("Waiting for other clients to connect...");
+				}
+				break;
+			case WAITING_PLAYERS:
+				if(message.getMessageSubtype() == MessageSubtype.INFO) {
+					StringMessage stringMessage = (StringMessage) message;
+					view.displayWaitingPlayers(stringMessage.getContent());
+				}
+				break;
+			case TIMER_FOR_START:
+				if(message.getMessageSubtype() == MessageSubtype.INFO) {
+					TimerForStartMessage timerForStartMessage = (TimerForStartMessage) message;
+					view.displayTimerStarted(timerForStartMessage.getDelayInMs());
+				}
+				if(message.getMessageSubtype() == MessageSubtype.ERROR) {
+					view.displayText("Timer for starting the match cancelled.");
 				}
 				break;
 			case GAME_CONFIG:
 				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					view.displayText("\n\nMatch ready to start. Select your preferred configuration.");
 					int mapIndex = view.askMapToUse();
 					int skulls = view.askSkullsForGame();
+					view.displayText("Waiting for other clients to answer...");
 					GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 					gameConfigMessage.setMapIndex(mapIndex);
 					gameConfigMessage.setSkulls(skulls);
 					clientMessageSender.sendMessage(gameConfigMessage);
-					view.displayText("Waiting for other clients to answer...");
 				}
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;

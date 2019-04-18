@@ -12,6 +12,16 @@ public class GUIView implements RemoteViewInterface {
 	}
 
 	@Override
+	public void displayWaitingPlayers(String waitingPlayers) {
+
+	}
+
+	@Override
+	public void displayTimerStarted(long delayInMs) {
+
+	}
+
+	@Override
 	public void displayText(String text) {
 
 	}

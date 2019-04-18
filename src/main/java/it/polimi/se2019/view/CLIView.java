@@ -2,6 +2,7 @@ package it.polimi.se2019.view;
 
 import it.polimi.se2019.utils.GameConstants;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 /**
@@ -19,6 +20,18 @@ public class CLIView implements RemoteViewInterface {
 	public String askNickname() {
 		System.out.println("Enter your nickname.");
 		return scanner.nextLine();
+	}
+
+	@Override
+	public void displayWaitingPlayers(String waitingPlayers) {
+		System.out.println("Players in the waiting room: " + waitingPlayers + ".");
+	}
+
+	@Override
+	public void displayTimerStarted(long delayInMs) {
+		DecimalFormat decimalFormat = new DecimalFormat();
+		decimalFormat.setMaximumFractionDigits(2);
+		System.out.println("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds.");
 	}
 
 	@Override
