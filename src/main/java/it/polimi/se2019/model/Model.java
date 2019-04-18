@@ -14,14 +14,16 @@ import static it.polimi.se2019.utils.GameConstants.*;
 /**
  * @author Marchingegno
  * @author Desno365
+ * @author MarcerAndrea
  */
 public class Model extends Observable {
 
-	private ViewInterface view;
 	private GameBoard gameBoard;
+	private ModelRep modelRep;
 
 	public Model(String mapPath, List<String> playerNames, int startingSkulls) {
 		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
+		modelRep = new ModelRep(gameBoard);
 	}
 
 	public void movePlayerTo(Player playerToMove) {
@@ -150,6 +152,11 @@ public class Model extends Observable {
 	public void notifyGameboardChange() {
 	}
 
+	public ModelRep getModelRep() {
+		modelRep = new ModelRep(gameBoard, modelRep);
+		return modelRep;
+	}
+
 }
 
 /**
@@ -166,10 +173,9 @@ class DamageDone{
 		this.damages = new ArrayList<>();
 	}
 
-	/*
+	/**
 	 * The following two method are for testing purposes only.
 	 */
-
 	public ArrayList<Integer> getDamages() {
 		return new ArrayList<>(damages);
 	}

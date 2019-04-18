@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.player;
 
+import it.polimi.se2019.model.Changeable;
 import it.polimi.se2019.model.GameBoard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
@@ -8,7 +9,7 @@ import it.polimi.se2019.utils.MacroAction;
 import java.awt.*;
 import java.util.List;
 
-public class Player {
+public class Player implements Changeable {
 
 	private String playerName;
 	private int playerID;
@@ -91,4 +92,18 @@ public class Player {
 	public void getAllVisiblePlayers() {
 	}
 
+	@Override
+	public boolean isChanged() {
+		return false;
+	}
+
+	@Override
+	public void change() {
+
+	}
+
+	@Override
+	public void reset() {
+
+	}
 }

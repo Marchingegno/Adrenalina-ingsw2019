@@ -13,11 +13,8 @@ import static org.junit.Assert.assertEquals;
 
 public class ModelViewTest {
 
+	private GameBoard gameBoard;
 	private GameMap gameMap;
-
-	private GameBoardRep gameBoardRep;
-	private GameMapRep mapRep;
-	private ArrayList<PlayerRep> playerReps;
 	private ArrayList<Player> players;
 
 	@Before
@@ -27,20 +24,13 @@ public class ModelViewTest {
 		playerNames.add("Test 2");
 		playerNames.add("Test 3");
 		GameBoard gameBoard = new GameBoard("MediumMap.txt", playerNames, 5);
-
 		gameMap = gameBoard.getGameMap();
-
-		mapRep = new GameMapRep(gameMap);
-		gameBoardRep = new GameBoardRep(gameBoard);
-		playerReps = new ArrayList<>();
-		for (Player player : gameBoard.getPlayers())
-			playerReps.add(new PlayerRep(player));
 	}
-
+/**
 	@Test
 	public void getGameBoardRep_initialState_correctOutput() {
-		ModelView modelView = new ModelView(gameBoardRep, gameMap, playerReps);
-		assertEquals(gameBoardRep, modelView.getGameBoardRep());
+		ModelRep modelRep = new ModelRep(gameBoard, gameMap, players);
+		assertEquals(gameBoard, modelRep.getGameBoardRep());
 	}
 
 	/**
@@ -49,11 +39,11 @@ public class ModelViewTest {
 	public void getMapRep_initialState_correctOutput() {
 		ModelView modelView = new ModelView(gameBoardRep, gameMap, playerReps);
 		assertEquals(gameMap, modelView.getMapRep());
-	}*/
+	}
 
 	@Test
 	public void getPlayerReps_initialState_correctOutput() {
-		ModelView modelView = new ModelView(gameBoardRep, gameMap, playerReps);
-		assertEquals(playerReps, modelView.getPlayerReps());
-	}
+		ModelRep modelRep = new ModelRep(gameBoard, gameMap, players);
+		assertEquals(players, modelRep.getPlayerReps());
+	}*/
 }

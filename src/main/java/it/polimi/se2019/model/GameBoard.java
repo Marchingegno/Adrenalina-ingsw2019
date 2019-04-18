@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameBoard {
+public class GameBoard implements Changeable {
 
 	private ArrayList<Player> players;
 	private int remainingSkulls;
@@ -63,7 +63,7 @@ public class GameBoard {
 		return playerQueue.peekFirst();
 	}
 
-	public List<Player> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return new ArrayList<>(players);
 	}
 
@@ -124,6 +124,20 @@ public class GameBoard {
 		return ammoDeck;
 	}
 
+	@Override
+	public boolean isChanged() {
+		return false;
+	}
+
+	@Override
+	public void change() {
+
+	}
+
+	@Override
+	public void reset() {
+
+	}
 }
 
 class KillShot {

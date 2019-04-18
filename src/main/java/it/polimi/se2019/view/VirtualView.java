@@ -1,6 +1,7 @@
 package it.polimi.se2019.view;
 
-import it.polimi.se2019.model.ModelView;
+import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.ModelRep;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
@@ -10,7 +11,11 @@ import java.util.Observer;
 
 public class VirtualView implements ViewInterface, Observer {
 
-	private ModelView modelView;
+	private ModelRep modelRep;
+
+	public VirtualView(Model model){
+		model.addObserver(this);
+	}
 
 	public void displayPossibleActions(List<MacroAction> possibleActions){
 		for (MacroAction macroAction: possibleActions) {
@@ -59,6 +64,6 @@ public class VirtualView implements ViewInterface, Observer {
 
 	@Override
 	public void update(Observable observable, Object arg) {
+		((Model) observable).getModelRep();
 	}
-
 }

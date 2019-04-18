@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.Changeable;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Utils;
@@ -10,13 +11,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class implements the game map
  * @author MarcerAndrea
  */
-public class GameMap {
+public class GameMap implements Changeable {
 
 	private int numOfRows;
 	private int	numOfColumns;
@@ -345,6 +345,20 @@ public class GameMap {
 		}
 	}
 
+	@Override
+	public boolean isChanged() {
+		return false;
+	}
+
+	@Override
+	public void change() {
+
+	}
+
+	@Override
+	public void reset() {
+
+	}
 }
 
 /**
