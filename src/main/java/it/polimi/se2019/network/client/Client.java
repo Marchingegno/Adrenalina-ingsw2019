@@ -1,5 +1,6 @@
 package it.polimi.se2019.network.client;
 
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.*;
@@ -20,7 +21,7 @@ import java.util.Scanner;
  * @author Desno365
  * @author MarcerAndrea
  */
-public class Client implements ClientInterface {
+public class Client implements ConnectionInterface {
 
 	private ClientMessageSenderInterface clientMessageSender;
 	private RemoteViewInterface view;

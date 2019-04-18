@@ -6,7 +6,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * Represents the methods that can be called by the server.
+ * Represents the methods of the client that can be called by the server.
  * Basically this class represents what the server can do with the client.
  */
 public interface ConnectionInterface extends Remote {

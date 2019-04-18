@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 
@@ -11,7 +11,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
 
-	private ArrayList<ClientInterface> clients;
+	private ArrayList<ConnectionInterface> clients;
 	private Lobby lobby;
 
 
@@ -26,7 +26,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	 * @param client the implementation of the client.
 	 */
 	@Override
-	public void onClientRegistration(ClientInterface client) {
+	public void onClientRegistration(ConnectionInterface client) {
 		clients.add(client);
 		Utils.logInfo("Registered new client.");
 		Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
@@ -37,7 +37,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	 * @param message the message received.
 	 */
 	@Override
-	public void onMessageReceived(ClientInterface client, Message message) {
+	public void onMessageReceived(ConnectionInterface client, Message message) {
 		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		// Don't process message of not registered clients.
@@ -59,7 +59,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 		}
 	}
 
-	private void nicknameLogic(ClientInterface client, Message message) {
+	private void nicknameLogic(ConnectionInterface client, Message message) {
 		// Remove spaces in the nickname and set max length.
 		String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s", "");
 		int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
@@ -79,7 +79,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	 * @param client the client that send the GameConfigMessage.
 	 * @param message the message.
 	 */
-	private void gameConfigLogic(ClientInterface client, Message message) {
+	private void gameConfigLogic(ConnectionInterface client, Message message) {
 		Match match = lobby.getMatchOfClient(client);
 		if(match != null) {
 			GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
