@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server.rmi;
 
-import it.polimi.se2019.network.ConnectionInterface;
+import it.polimi.se2019.network.client.ClientInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
@@ -37,7 +37,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 * @throws RemoteException
 	 */
 	@Override
-	public void registerClient(ConnectionInterface client) throws RemoteException {
+	public void registerClient(ClientInterface client) throws RemoteException {
 		serverMessageHandler.onClientRegistration(client);
 	}
 
@@ -47,7 +47,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 * @throws RemoteException
 	 */
 	@Override
-	public void receiveMessage(ConnectionInterface client, Message message) throws RemoteException {
+	public void receiveMessage(ClientInterface client, Message message) throws RemoteException {
 		new Thread(() -> {
 			serverMessageHandler.onMessageReceived(client, message);
 		}, "CUSTOM: RMI Message Reception").start();

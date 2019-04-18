@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server.socket;
 
-import it.polimi.se2019.network.ConnectionInterface;
+import it.polimi.se2019.network.client.ClientInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
@@ -14,7 +14,7 @@ import java.net.Socket;
  * Contains the socket to communicate with a client. It sends messages through the output stream and receives them through the input stream.
  * @author MarcerAndrea
  */
-public class ServerClientSocket extends Thread implements ConnectionInterface {
+public class ServerClientSocket extends Thread implements ClientInterface {
 
 	private ServerMessageHandler serverMessageHandler;
 	private Socket socket;
@@ -77,7 +77,7 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 	 * @param message the message received.
 	 */
 	@Override
-	public void processMessage(Message message){
+	public synchronized void processMessage(Message message){
 		try {
 			objOutStream.writeObject(message);
 		}catch(IOException e){

@@ -1,19 +1,18 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.ConnectionInterface;
+import it.polimi.se2019.network.client.ClientInterface;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Lobby {
 
-	private HashMap<ConnectionInterface, Match> playingClients;
-	private HashMap<ConnectionInterface, String> waitingRoom;
+	private HashMap<ClientInterface, Match> playingClients;
+	private HashMap<ClientInterface, String> waitingRoom;
 	private long timerDelayForMatchStart;
 	private Timer timer;
 
@@ -36,7 +35,7 @@ public class Lobby {
 	 * @param client the client to add to the waiting room.
 	 * @param nickname the nickname of the client.
 	 */
-	public void addWaitingClient(ConnectionInterface client, String nickname) {
+	public void addWaitingClient(ClientInterface client, String nickname) {
 		if(waitingRoom.containsValue(nickname)) {
 			Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		} else {
@@ -52,7 +51,7 @@ public class Lobby {
 	 * @param client the client.
 	 * @return the match in which the client is playing.
 	 */
-	public Match getMatchOfClient(ConnectionInterface client) {
+	public Match getMatchOfClient(ClientInterface client) {
 		return playingClients.get(client);
 	}
 
@@ -96,7 +95,7 @@ public class Lobby {
 	 */
 	private void startMatchInWaitingRoom() {
 		Match match = new Match(waitingRoom);
-		for(ConnectionInterface client : waitingRoom.keySet())
+		for(ClientInterface client : waitingRoom.keySet())
 			playingClients.put(client, match);
 		waitingRoom.clear();
 		match.requestMatchConfig();
@@ -113,19 +112,19 @@ public class Lobby {
 			}
 
 			// Send the message with all nicknames.
-			for (ConnectionInterface client : waitingRoom.keySet()) {
+			for (ClientInterface client : waitingRoom.keySet()) {
 				Server.asyncSendMessage(client, new WaitingPlayersMessage(stringBuilder.toString()));
 			}
 		}
 	}
 
 	private void sendTimerStartedMessage() {
-		for(ConnectionInterface client : waitingRoom.keySet())
+		for(ClientInterface client : waitingRoom.keySet())
 			Server.asyncSendMessage(client, new TimerForStartMessage(timerDelayForMatchStart, MessageSubtype.INFO));
 	}
 
 	private void sendTimerCanceledMessage() {
-		for(ConnectionInterface client : waitingRoom.keySet())
+		for(ClientInterface client : waitingRoom.keySet())
 			Server.asyncSendMessage(client, new Message(MessageType.TIMER_FOR_START, MessageSubtype.ERROR));
 	}
 

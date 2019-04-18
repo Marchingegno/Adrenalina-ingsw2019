@@ -67,12 +67,12 @@ public class SocketServer extends Thread{
 	 * Closes the server.
 	 */
 	public void close(){
-		active = false;
+
 		try {
 			serverSocket.close();
 		}catch (IOException e){
 			Utils.logError("Error in SocketServer: close()", e);
-		}
+		}active = false;
 	}
 
 	private void startServerSocket(){

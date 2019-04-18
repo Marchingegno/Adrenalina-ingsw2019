@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.network.ConnectionInterface;
+import it.polimi.se2019.network.client.ClientInterface;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class Match {
 
-	private HashMap<ConnectionInterface, String> participants;
+	private HashMap<ClientInterface, String> participants;
 	private int numberOfPartecipants;
 	private Controller controller;
 
 	// Game config attributes.
-	private HashMap<ConnectionInterface, Integer> skullsChosen;
-	private HashMap<ConnectionInterface, Integer> mapChoosen;
+	private HashMap<ClientInterface, Integer> skullsChosen;
+	private HashMap<ClientInterface, Integer> mapChoosen;
 	private int numberOfAnswers = 0;
 
 
@@ -29,7 +29,7 @@ public class Match {
 	 * Create a new match with the specified clients.
 	 * @param participants a map that contains all the clients for this match and their nicknames.
 	 */
-	public Match(Map<ConnectionInterface, String> participants) {
+	public Match(Map<ClientInterface, String> participants) {
 		numberOfPartecipants = participants.size();
 		if(numberOfPartecipants < GameConstants.MIN_PLAYERS || numberOfPartecipants > GameConstants.MAX_PLAYERS)
 			throw new IllegalArgumentException("The number of participants for this match (" + numberOfPartecipants + ") is not valid.");
@@ -44,11 +44,11 @@ public class Match {
 	 * Send game config request messages to the clients, asking skulls and map type.
 	 */
 	public void requestMatchConfig() {
-		for(ConnectionInterface client : participants.keySet())
+		for(ClientInterface client : participants.keySet())
 			Server.asyncSendMessage(client, new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 	}
 
-	public void addConfigVote(ConnectionInterface client, int skulls, int mapIndex) {
+	public void addConfigVote(ClientInterface client, int skulls, int mapIndex) {
 		if(participants.containsKey(client)) { // Check if the participants is in the Match.
 			if(!skullsChosen.containsKey(client))
 				skullsChosen.put(client, skulls);
@@ -72,7 +72,7 @@ public class Match {
 		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
 		// Send game start message with the voted skulls and map.
-		for(ConnectionInterface client : participants.keySet()) {
+		for(ClientInterface client : participants.keySet()) {
 			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
 			gameConfigMessage.setSkulls(skulls);
 			gameConfigMessage.setMapIndex(mapType.ordinal());
