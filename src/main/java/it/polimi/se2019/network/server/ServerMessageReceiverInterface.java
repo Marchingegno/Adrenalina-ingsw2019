@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.ConnectionInterface;
+import it.polimi.se2019.network.client.ClientInterface;
 import it.polimi.se2019.network.message.Message;
 
 /**
@@ -12,12 +12,12 @@ public interface ServerMessageReceiverInterface {
 	 * Implemented when willing to process client's registrations.
 	 * @param client the client that is registering,
 	 */
-	void onClientRegistration(ConnectionInterface client);
+	void onClientRegistration(ClientInterface client);
 
 	/**
 	 * Implemented when willing to process client's messages.
 	 * @param client the client that sent the message.
 	 * @param message the message sent by the client.
 	 */
-	void onMessageReceived(ConnectionInterface client, Message message);
+	void onMessageReceived(ClientInterface client, Message message);
 }

@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.ConnectionInterface;
+import it.polimi.se2019.network.client.ClientInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.rmi.RMIServer;
 import it.polimi.se2019.network.server.socket.SocketServer;
@@ -36,7 +36,7 @@ public class Server {
 	 * @param client the recipient of the message.
 	 * @param message the message to send.
 	 */
-	public static void asyncSendMessage(ConnectionInterface client, Message message) {
+	public static void asyncSendMessage(ClientInterface client, Message message) {
 		new Thread(() -> {
 			try {
 				client.processMessage(message);
