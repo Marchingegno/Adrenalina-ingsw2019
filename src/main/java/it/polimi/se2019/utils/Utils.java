@@ -60,6 +60,7 @@ public class Utils {
 		return setColorString(39, 49);
 	}
 	
+	@SuppressWarnings("unused")
 	private static void testColors() {
 		for (int i = 30; i <= 39; i++) {
 			for (int j = 40; j <= 49; j++) {

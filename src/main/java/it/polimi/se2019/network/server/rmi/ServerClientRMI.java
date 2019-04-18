@@ -25,6 +25,6 @@ public class ServerClientRMI implements ConnectionToClientInterface {
 			} catch (RemoteException e) {
 				Utils.logError("Error in ServerClientRMI: sendMessage()", e);
 			}
-		}, "CUSTOM: Server Message Sending").start();
+		}, "CUSTOM: RMI Message Sending").start();
 	}
 }
