@@ -65,7 +65,7 @@ public class Client {
 	 */
 	// TODO this is garbage
 	@Deprecated
-	public void processMessage(Message message) {
+	public synchronized void processMessage(Message message) {
 		switch (message.getMessageType()) {
 			case NICKNAME:
 				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
