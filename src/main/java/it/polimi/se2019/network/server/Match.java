@@ -72,11 +72,12 @@ public class Match {
 		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
 		// Send game start message with the voted skulls and map.
-		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
-		gameConfigMessage.setSkulls(skulls);
-		gameConfigMessage.setMapIndex(mapType.ordinal());
-		for(ConnectionInterface client : participants.keySet())
+		for(ConnectionInterface client : participants.keySet()) {
+			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
+			gameConfigMessage.setSkulls(skulls);
+			gameConfigMessage.setMapIndex(mapType.ordinal());
 			Server.asyncSendMessage(client, gameConfigMessage);
+		}
 
 		// start the game.
 		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());

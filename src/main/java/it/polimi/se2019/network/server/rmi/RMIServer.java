@@ -48,7 +48,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	public void receiveMessage(ConnectionInterface client, Message message) throws RemoteException {
 		new Thread(() -> {
 			serverMessageHandler.onMessageReceived(client, message);
-		}).start();
+		}, "CUSTOM: RMI Message Reception").start();
 	}
 
 	/**

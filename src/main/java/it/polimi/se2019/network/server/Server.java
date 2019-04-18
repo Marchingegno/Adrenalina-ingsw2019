@@ -39,7 +39,7 @@ public class Server {
 			} catch (RemoteException e) {
 				Utils.logError("Lost connection with the client.", e);
 			}
-		}).start();
+		}, "CUSTOM: Server Message Sending").start();
 	}
 
 	/**
