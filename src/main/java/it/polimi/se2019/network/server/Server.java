@@ -1,7 +1,5 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientInterface;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.rmi.RMIServer;
 import it.polimi.se2019.network.server.socket.SocketServer;
 import it.polimi.se2019.utils.Utils;
@@ -29,21 +27,6 @@ public class Server {
 
 	private Server() {
 		serverMessageHandler = new ServerMessageHandler();
-	}
-
-	/**
-	 * Send a message asynchronously.
-	 * @param client the recipient of the message.
-	 * @param message the message to send.
-	 */
-	public static void asyncSendMessage(ClientInterface client, Message message) {
-		new Thread(() -> {
-			try {
-				client.processMessage(message);
-			} catch (RemoteException e) {
-				Utils.logError("Lost connection with the client.", e);
-			}
-		}, "CUSTOM: Server Message Sending").start();
 	}
 
 	/**

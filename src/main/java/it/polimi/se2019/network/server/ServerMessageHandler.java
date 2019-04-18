@@ -1,17 +1,16 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.client.ClientInterface;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 
-public class ServerMessageHandler implements ServerMessageReceiverInterface {
+public class ServerMessageHandler {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
 
-	private ArrayList<ClientInterface> clients;
+	private ArrayList<ConnectionToClientInterface> clients;
 	private Lobby lobby;
 
 
@@ -25,19 +24,17 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	 * Called when the client is registering himself on the server.
 	 * @param client the implementation of the client.
 	 */
-	@Override
-	public void onClientRegistration(ClientInterface client) {
+	public void onClientRegistration(ConnectionToClientInterface client) {
 		clients.add(client);
 		Utils.logInfo("Registered new client.");
-		Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 
 	/**
 	 * Called when receiving a message from the client.
 	 * @param message the message received.
 	 */
-	@Override
-	public void onMessageReceived(ClientInterface client, Message message) {
+	public void onMessageReceived(ConnectionToClientInterface client, Message message) {
 		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		// Don't process message of not registered clients.
@@ -59,7 +56,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 		}
 	}
 
-	private void nicknameLogic(ClientInterface client, Message message) {
+	private void nicknameLogic(ConnectionToClientInterface client, Message message) {
 		// Remove spaces in the nickname and set max length.
 		String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s", "");
 		int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
@@ -70,7 +67,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 			// Add the client to the lobby, waiting for a match to start.
 			lobby.addWaitingClient(client, nickname);
 		} else {
-			Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
+			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		}
 	}
 
@@ -79,7 +76,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	 * @param client the client that send the GameConfigMessage.
 	 * @param message the message.
 	 */
-	private void gameConfigLogic(ClientInterface client, Message message) {
+	private void gameConfigLogic(ConnectionToClientInterface client, Message message) {
 		Match match = lobby.getMatchOfClient(client);
 		if(match != null) {
 			GameConfigMessage gameConfigMessage = (GameConfigMessage) message;

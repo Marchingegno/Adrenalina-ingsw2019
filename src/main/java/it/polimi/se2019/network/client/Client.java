@@ -9,9 +9,6 @@ import it.polimi.se2019.view.CLIView;
 import it.polimi.se2019.view.GUIView;
 import it.polimi.se2019.view.RemoteViewInterface;
 
-
-
-//TEMP
 import java.util.Scanner;
 
 
@@ -20,9 +17,9 @@ import java.util.Scanner;
  * @author Desno365
  * @author MarcerAndrea
  */
-public class Client implements ClientInterface {
+public class Client {
 
-	private ClientMessageSenderInterface clientMessageSender;
+	private ConnectionToServerInterface clientMessageSender;
 	private RemoteViewInterface view;
 
 
@@ -66,7 +63,8 @@ public class Client implements ClientInterface {
 	 * Receive and process the message sent by the server both by socket or by RMI.
 	 * @param message the message received.
 	 */
-	@Override
+	// TODO this is garbage
+	@Deprecated
 	public void processMessage(Message message) {
 		switch (message.getMessageType()) {
 			case NICKNAME:
@@ -126,7 +124,6 @@ public class Client implements ClientInterface {
 	public void startConnectionWithRMI() {
 		try {
 			clientMessageSender = new RMIClient(this);
-			clientMessageSender.registerClient();
 		} catch (Exception e) {
 			Utils.logError("Failed to connect to the server.", e);
 		}
@@ -137,6 +134,5 @@ public class Client implements ClientInterface {
 	 */
 	public void startConnectionWithSocket() {
 		clientMessageSender = new ClientSocket(this);
-		clientMessageSender.registerClient();
 	}
 }

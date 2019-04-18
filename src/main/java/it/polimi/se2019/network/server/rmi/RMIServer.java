@@ -1,6 +1,6 @@
 package it.polimi.se2019.network.server.rmi;
 
-import it.polimi.se2019.network.client.ClientInterface;
+import it.polimi.se2019.network.client.rmi.RMIClientInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
@@ -11,15 +11,17 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 
 /**
  * Implements the RMI server
- * @author DEsno365
+ * @author Desno365
  */
 public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonInterface, Closeable {
 
 	private transient ServerMessageHandler serverMessageHandler;
-	private Registry registry;
+	private transient Registry registry;
+	private transient HashMap<RMIClientInterface, ServerClientRMI> connections;
 
 	/**
 	 * Create a new instance of a RMIServer and start it.
@@ -29,17 +31,20 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	public RMIServer(ServerMessageHandler serverMessageHandler) throws RemoteException {
 		super();
 		this.serverMessageHandler = serverMessageHandler;
+		connections = new HashMap<>();
 		startRMIServer();
 	}
 
 	/**
 	 * Register a new client that is connected to the server. This method is called remotely by the client.
-	 * @param client the RMI implementation of the client.
+	 * @param rmiClientInterface the RMI implementation of the client.
 	 * @throws RemoteException
 	 */
 	@Override
-	public void registerClient(ClientInterface client) throws RemoteException {
-		serverMessageHandler.onClientRegistration(client);
+	public void registerClient(RMIClientInterface rmiClientInterface) throws RemoteException {
+		ServerClientRMI newServerClientRMI = new ServerClientRMI(rmiClientInterface);
+		connections.put(rmiClientInterface, newServerClientRMI);
+		serverMessageHandler.onClientRegistration(newServerClientRMI);
 	}
 
 	/**
@@ -48,9 +53,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 * @throws RemoteException
 	 */
 	@Override
-	public void receiveMessage(ClientInterface client, Message message) throws RemoteException {
+	public void receiveMessage(RMIClientInterface rmiClientInterface, Message message) throws RemoteException {
+		final ServerClientRMI serverClientRMI = connections.get(rmiClientInterface);
 		new Thread(() -> {
-			serverMessageHandler.onMessageReceived(client, message);
+			serverMessageHandler.onMessageReceived(serverClientRMI, message);
 		}, "CUSTOM: RMI Message Reception").start();
 	}
 
