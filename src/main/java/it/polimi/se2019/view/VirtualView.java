@@ -1,7 +1,13 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.ModelRep;
+import it.polimi.se2019.model.gamemap.GameMap;
+import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.server.ConnectionToClientInterface;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
@@ -11,10 +17,16 @@ import java.util.Observer;
 
 public class VirtualView implements ViewInterface, Observer {
 
-	private ModelRep modelRep;
+	private ConnectionToClientInterface client;
 
-	public VirtualView(Model model){
-		model.addObserver(this);
+	public VirtualView(Model model, ConnectionToClientInterface client){
+		this.client = client;
+
+		model.getGameBoard().addObserver(this);
+		model.getGameBoard().getGameMap().addObserver(this);
+		for (Player player : model.getPlayers() ) {
+			player.addObserver(this);
+		}
 	}
 
 	public void displayPossibleActions(List<MacroAction> possibleActions){
@@ -64,6 +76,17 @@ public class VirtualView implements ViewInterface, Observer {
 
 	@Override
 	public void update(Observable observable, Object arg) {
-		((Model) observable).getModelRep();
+	}
+
+	public void update(GameMap gameMap, Object arg){
+		client.sendMessage(new GameMapRep(gameMap));
+	}
+
+	public void update(GameBoard gameBoard, Object arg){
+		client.sendMessage(new GameBoardRep(gameBoard));
+	}
+
+	public void update(Player player, Object arg){
+		client.sendMessage(new PlayerRep(player));
 	}
 }

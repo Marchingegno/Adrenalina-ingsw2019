@@ -176,7 +176,7 @@ public class PlayerBoard {
 	 */
 	public void addWeapon(WeaponCard weaponToAdd) {
 		if(weaponCards.size() >= GameConstants.MAX_WEAPON_CARDS_PER_PLAYER)
-			throw new InventoryFullException("Cannot add another weapon card since the inventory is full. Use swapWeapon to change the weapon.");
+			throw new InventoryFullException("Cannot add another weapon card since the inventory is full. Use swapWeapon to setChanged the weapon.");
 		weaponCards.add(weaponToAdd);
 	}
 

@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.Changeable;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Utils;
@@ -11,12 +10,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * This class implements the game map
  * @author MarcerAndrea
  */
-public class GameMap implements Changeable {
+public class GameMap extends Observable {
 
 	private int numOfRows;
 	private int	numOfColumns;
@@ -34,6 +34,8 @@ public class GameMap implements Changeable {
 		for (Player playerToAdd: players ) {
 			playersPositions.put(playerToAdd, null);
 		}
+
+		setChanged();
 	}
 
 	/**
@@ -99,6 +101,7 @@ public class GameMap implements Changeable {
 			playersPositions.replace(playerToMove, coordinates);
 		else
 			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
+		setChanged();
 	}
 
 	public ArrayList<Coordinates> reachableCoordinates(Player player, int maxDistance) {
@@ -343,21 +346,6 @@ public class GameMap implements Changeable {
 		} catch (IOException e) {
 			Utils.logError("Error in generateMap()", e);
 		}
-	}
-
-	@Override
-	public boolean isChanged() {
-		return false;
-	}
-
-	@Override
-	public void change() {
-
-	}
-
-	@Override
-	public void reset() {
-
 	}
 }
 

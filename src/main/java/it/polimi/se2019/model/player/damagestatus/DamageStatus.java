@@ -30,7 +30,7 @@ public abstract class DamageStatus {
 	}
 
 	/**
-	 * This method will be called at the start of a turn if there is no need to change the status of the player.
+	 * This method will be called at the start of a turn if there is no need to setChanged the status of the player.
 	 */
 	public void refillActions()
 	{

@@ -115,6 +115,10 @@ public class Client {
 					view.displayText("Match started!");
 				}
 				break;
+			case GAME_MAP_REP:
+				if (message.getMessageSubtype() == MessageSubtype.INFO){
+
+				}
 		}
 	}
 

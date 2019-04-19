@@ -1,5 +1,6 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.ModelRep;
 import it.polimi.se2019.utils.GameConstants;
 
 import java.text.DecimalFormat;
@@ -10,9 +11,11 @@ import java.util.Scanner;
  */
 public class CLIView implements RemoteViewInterface {
 
+	private ModelRep modelRep;
 	private Scanner scanner;
 
 	public CLIView() {
+		modelRep = new ModelRep();
 		scanner = new Scanner(System.in);
 	}
 

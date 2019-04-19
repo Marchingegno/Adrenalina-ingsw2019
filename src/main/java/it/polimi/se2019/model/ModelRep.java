@@ -5,38 +5,39 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ModelRep implements Serializable, Changeable {
+public class ModelRep implements Serializable {
 
 	private GameBoardRep gameBoardRep;
 	private GameMapRep gameMapRep;
 	private ArrayList<PlayerRep> playersRep;
+	private boolean changed = true;
 
-
-	public ModelRep(GameBoard gameBoard) {
-		this.gameBoardRep = new GameBoardRep(gameBoard);
-		this.gameMapRep = new GameMapRep(gameBoard.getGameMap());
-		this.playersRep = generatePlayersRep(gameBoard.getPlayers());
+	public ModelRep() {
 	}
-
-	public ModelRep(GameBoard gameBoard, ModelRep oldModelRep) {
-		this.gameBoardRep = (gameBoard.isChanged()? new GameBoardRep(gameBoard) : oldModelRep.getGameBoardRep());
-		this.gameMapRep = gameBoard.getGameMap().isChanged()? new GameMapRep(gameBoard.getGameMap()) : oldModelRep.getMapRep();
-		this.playersRep = generatePlayersRep(gameBoard.getPlayers(), oldModelRep);
-	}
-
 
 	public GameBoardRep getGameBoardRep() {
 		return gameBoardRep;
 	}
 
-	public GameMapRep getMapRep() {
+	public GameMapRep getGameMapRep() {
 		return gameMapRep;
 	}
 
-	public List<PlayerRep> getPlayersRep() {
-		return new ArrayList<>(playersRep);
+	public ArrayList<PlayerRep> getPlayersRep() {
+		return playersRep;
+	}
+
+	public void setGameBoardRep(GameBoardRep gameBoardRep) {
+		this.gameBoardRep = gameBoardRep;
+	}
+
+	public void setGameMapRep(GameMapRep gameMapRep) {
+		this.gameMapRep = gameMapRep;
+	}
+
+	public void setPlayersRep(ArrayList<PlayerRep> playersRep) {
+		this.playersRep = playersRep;
 	}
 
 	private ArrayList<PlayerRep> generatePlayersRep(ArrayList<Player> players){
@@ -50,26 +51,11 @@ public class ModelRep implements Serializable, Changeable {
 	private ArrayList<PlayerRep> generatePlayersRep(ArrayList<Player> players, ModelRep oldModelRep){
 		ArrayList<PlayerRep> tempPlayersRep = new ArrayList<>();
 		for (int i = 0; i < players.size(); i++){
-			if (players.get(i).isChanged())
+			if (players.get(i).hasChanged())
 				tempPlayersRep.add(new PlayerRep(players.get(i)));
 			else
-				getPlayersRep().get(i);
+				tempPlayersRep.add(oldModelRep.getPlayersRep().get(i));
 		}
 		return tempPlayersRep;
-	}
-
-	@Override
-	public boolean isChanged() {
-		return false;
-	}
-
-	@Override
-	public void change() {
-
-	}
-
-	@Override
-	public void reset() {
-
 	}
 }

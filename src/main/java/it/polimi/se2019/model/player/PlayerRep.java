@@ -2,6 +2,9 @@ package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 
 import java.awt.Color;
 import java.io.Serializable;
@@ -12,7 +15,7 @@ import java.util.List;
  * A sharable version of all the useful Player information.
  * @author Desno365
  */
-public class PlayerRep implements Serializable {
+public class PlayerRep extends Message {
 
 	private String playerName;
 	private Color playerColor;
@@ -33,6 +36,7 @@ public class PlayerRep implements Serializable {
 	 * @param player the player from which the information are extracted.
 	 */
 	public PlayerRep(Player player) {
+		super(MessageType.PLATER_REP, MessageSubtype.INFO);
 		playerName = player.getPlayerName();
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
@@ -71,7 +75,9 @@ public class PlayerRep implements Serializable {
 	/**
 	 * Used to create the hidden PlayerRep.
 	 */
-	private PlayerRep() {}
+	private PlayerRep() {
+		super(MessageType.PLATER_REP, MessageSubtype.INFO);
+	}
 
 	/**
 	 * Returns a PlayerRep that contains only the information that are available also to the other players.

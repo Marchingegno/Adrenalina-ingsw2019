@@ -1,15 +1,17 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * A sharable vertion of the game map.
  * @author MarcerAndrea
  */
-public class GameMapRep implements Serializable {
+public class GameMapRep extends Message {
 
 	private int numOfRows;
 	private int	numOfColumns;
@@ -17,6 +19,7 @@ public class GameMapRep implements Serializable {
 	private HashMap<Player, Coordinates> playersPositions;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
+		super(MessageType.GAME_MAP_REP, MessageSubtype.INFO);
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
 		this.numOfRows = gameMapToRepresent.getNumOfRows();
 

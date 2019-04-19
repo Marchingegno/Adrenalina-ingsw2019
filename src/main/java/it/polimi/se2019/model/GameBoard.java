@@ -10,8 +10,9 @@ import it.polimi.se2019.model.player.PlayerQueue;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class GameBoard implements Changeable {
+public class GameBoard extends Observable {
 
 	private ArrayList<Player> players;
 	private int remainingSkulls;
@@ -23,6 +24,7 @@ public class GameBoard implements Changeable {
 	private GameMap gameMap;
 	private boolean killShotInThisTurn;
 	private PlayerQueue playerQueue;
+	private boolean changed;
 
 
 	public GameBoard(String mapPath, List<String> playerNames, int startingSkulls) {
@@ -57,6 +59,7 @@ public class GameBoard implements Changeable {
 
 	public void nextPlayerTurn(){
 		playerQueue.moveFirstToLast();
+		setChanged();
 	}
 
 	public Player getCurrentPlayer() {
@@ -77,6 +80,7 @@ public class GameBoard implements Changeable {
 
 	private void addDoubleKill(Player shootingPlayer) {
 		doubleKills.add(shootingPlayer);
+		setChanged();
 	}
 
 	/**
@@ -96,7 +100,7 @@ public class GameBoard implements Changeable {
 				}
 				killShotInThisTurn = true;
 		}
-
+		setChanged();
 	}
 
 	public List<KillShot> getKillShots() {
@@ -122,21 +126,6 @@ public class GameBoard implements Changeable {
 
 	public AmmoDeck getAmmoDeck() {
 		return ammoDeck;
-	}
-
-	@Override
-	public boolean isChanged() {
-		return false;
-	}
-
-	@Override
-	public void change() {
-
-	}
-
-	@Override
-	public void reset() {
-
 	}
 }
 
