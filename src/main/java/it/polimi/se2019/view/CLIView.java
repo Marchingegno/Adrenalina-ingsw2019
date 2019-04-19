@@ -1,12 +1,17 @@
 package it.polimi.se2019.view;
 
-import it.polimi.se2019.model.ModelRep;
+import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.gamemap.Square;
+import it.polimi.se2019.model.gamemap.SquareRep;
+import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.GameConstants;
 
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
 /**
+ * @author MarcerAndrea
  * @author Desno365
  */
 public class CLIView implements RemoteViewInterface {
@@ -43,6 +48,45 @@ public class CLIView implements RemoteViewInterface {
 	}
 
 	@Override
+	public void displayGame() {
+		displayMap();
+		displayPlayers();
+		displayGameBoard();
+	}
+
+	private void displayMap() {
+		GameMapRep gameMapRep = modelRep.getGameMapRep();
+		SquareRep[][] map = gameMapRep.getMapRep();
+
+		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
+			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
+				System.out.print(map[i][j].getRoomID());
+			}
+			System.out.print("\n");
+		}
+
+		try{
+			gameMapRep.getPlayersCoordinates().forEach((player, coordinates) -> System.out.println(player + ": " + coordinates));
+		}catch(NullPointerException e)
+		{
+
+		}
+	}
+
+	private void displayGameBoard() {
+		GameBoardRep gameBoardRep = modelRep.getGameBoardRep();
+
+		System.out.println("GAME BOARD REP");
+	}
+
+	private void displayPlayers() {
+		for (PlayerRep playerRep : modelRep.getPlayersRep() ) {
+			System.out.println("Nickname: " + playerRep.getPlayerName() + "\n" +
+								"MORE INFO\n");
+		}
+	}
+
+	@Override
 	public int askMapToUse() {
 		System.out.println("Select the map you would like to use, available maps:");
 		for(GameConstants.MapType map : GameConstants.MapType.values()) {
@@ -55,6 +99,21 @@ public class CLIView implements RemoteViewInterface {
 	public int askSkullsForGame() {
 		System.out.println("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
 		return askForAnInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
+	}
+
+	@Override
+	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
+		modelRep.setGameMapRep(gameMapRepToUpdate);
+	}
+
+	@Override
+	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
+		modelRep.setGameBoardRep(gameBoardRepToUpdate);
+	}
+
+	@Override
+	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+		modelRep.setPlayersRep(playerRepToUpdate);
 	}
 
 	/**

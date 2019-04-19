@@ -7,7 +7,6 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 
 import java.awt.Color;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class PlayerRep extends Message {
 	 * @param player the player from which the information are extracted.
 	 */
 	public PlayerRep(Player player) {
-		super(MessageType.PLATER_REP, MessageSubtype.INFO);
+		super(MessageType.PLAYER_REP, MessageSubtype.INFO);
 		playerName = player.getPlayerName();
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
@@ -76,7 +75,7 @@ public class PlayerRep extends Message {
 	 * Used to create the hidden PlayerRep.
 	 */
 	private PlayerRep() {
-		super(MessageType.PLATER_REP, MessageSubtype.INFO);
+		super(MessageType.PLAYER_REP, MessageSubtype.INFO);
 	}
 
 	/**

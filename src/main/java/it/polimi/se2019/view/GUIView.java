@@ -1,7 +1,5 @@
 package it.polimi.se2019.view;
 
-import it.polimi.se2019.model.ModelRep;
-
 public class GUIView implements RemoteViewInterface {
 
 	public ModelRep modelRep;

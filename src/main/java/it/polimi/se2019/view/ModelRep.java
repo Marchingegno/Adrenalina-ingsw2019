@@ -1,17 +1,16 @@
-package it.polimi.se2019.model;
+package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ModelRep implements Serializable {
+public class ModelRep{
 
 	private GameBoardRep gameBoardRep;
 	private GameMapRep gameMapRep;
 	private ArrayList<PlayerRep> playersRep;
-	private boolean changed = true;
 
 	public ModelRep() {
 	}
@@ -36,8 +35,14 @@ public class ModelRep implements Serializable {
 		this.gameMapRep = gameMapRep;
 	}
 
-	public void setPlayersRep(ArrayList<PlayerRep> playersRep) {
-		this.playersRep = playersRep;
+	public void setPlayersRep(PlayerRep playerRep) {
+		if(!playersRep.contains(playerRep))
+			playersRep.add(playerRep);
+		else
+			for (int i = 0; i < playersRep.size(); i++) {
+				if(playersRep.get(i).getPlayerName().equals(playerRep.getPlayerName()))
+					playersRep.add(i, playerRep);
+			}
 	}
 
 	private ArrayList<PlayerRep> generatePlayersRep(ArrayList<Player> players){

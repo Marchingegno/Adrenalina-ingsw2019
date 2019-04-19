@@ -1,5 +1,8 @@
 package it.polimi.se2019.network.client;
 
+import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.*;
@@ -113,12 +116,24 @@ public class Client {
 					view.displayText("Average of voted skulls: " + gameConfigMessage.getSkulls());
 					view.displayText("Most voted map: " + GameConstants.MapType.values()[gameConfigMessage.getMapIndex()].getDescription());
 					view.displayText("Match started!");
+					view.displayGame();
 				}
 				break;
 			case GAME_MAP_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
-
+					view.updateGameMapRep((GameMapRep) message);
 				}
+				break;
+			case GAME_BOARD_REP:
+				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					view.updateGameBoardRep((GameBoardRep) message);
+				}
+				break;
+			case PLAYER_REP:
+				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					view.updatePlayerRep((PlayerRep) message);
+				}
+				break;
 		}
 	}
 

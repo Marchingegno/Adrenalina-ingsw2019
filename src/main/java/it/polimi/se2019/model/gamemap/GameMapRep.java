@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
@@ -16,7 +15,7 @@ public class GameMapRep extends Message {
 	private int numOfRows;
 	private int	numOfColumns;
 	private SquareRep[][] mapRep;
-	private HashMap<Player, Coordinates> playersPositions;
+	private HashMap<String, Coordinates> playersPositions;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
 		super(MessageType.GAME_MAP_REP, MessageSubtype.INFO);
@@ -35,7 +34,7 @@ public class GameMapRep extends Message {
 			}
 		}
 
-		playersPositions = gameMapToRepresent.getPlayersCoordinates();
+		gameMapToRepresent.getPlayersCoordinates().forEach((player, coordinates) -> playersPositions.put(player.getPlayerName(), coordinates));
 	}
 
 	public int getNumOfRows() {
@@ -50,7 +49,7 @@ public class GameMapRep extends Message {
 		return mapRep;
 	}
 
-	public HashMap<Player, Coordinates> getPlayersCoordinates() {
+	public HashMap<String, Coordinates> getPlayersCoordinates() {
 		return playersPositions;
 	}
 }

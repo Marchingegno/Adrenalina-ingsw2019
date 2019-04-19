@@ -7,5 +7,5 @@ public enum MessageType {
 	GAME_CONFIG,
 	GAME_MAP_REP,
 	GAME_BOARD_REP,
-	PLATER_REP
+	PLAYER_REP
 }
