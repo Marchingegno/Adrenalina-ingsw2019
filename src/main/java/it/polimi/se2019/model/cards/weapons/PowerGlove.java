@@ -1,9 +1,5 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.model.player.Player;
-
-import java.util.List;
-
 public final class PowerGlove extends AlternateFire {
 
 	public PowerGlove(String description, ArrayList<AmmoType> reloadPrice) {
@@ -11,7 +7,7 @@ public final class PowerGlove extends AlternateFire {
 	}
 
 
-	public void primaryFire(List<Player> playersToShoot) {
+	public void primaryFire() {
 	}
 
 	public void secondaryFire() {

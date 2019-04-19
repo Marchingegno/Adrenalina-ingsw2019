@@ -1,9 +1,5 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.model.player.Player;
-
-import java.util.List;
-
 public final class Whisper extends WeaponCard {
 
 	public Whisper(String description, ArrayList<AmmoType> reloadPrice) {
@@ -14,7 +10,7 @@ public final class Whisper extends WeaponCard {
 	public void shoot() {
 	}
 
-	public void primaryFire(List<Player> playersToShoot) {
+	public void primaryFire() {
 	}
 
 

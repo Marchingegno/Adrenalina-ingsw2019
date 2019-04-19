@@ -1,5 +1,9 @@
 package it.polimi.se2019.model.cards.weapons;
 
+/**
+ * This is a simple utility class that collects damages and marks done by a single shot of the weapon.
+ * @author Marchingegno
+ */
 public class DamageAndMarks {
 	private int damage;
 	private int marks;

@@ -1,8 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,11 @@ public final class Cyberblade extends OptionalEffect {
 	}
 
 	@Override
+	protected void handleFire(Boolean[] flags) {
+
+	}
+
+	@Override
 	public void getAvailableOptions() {
 		super.getAvailableOptions();
 
@@ -33,10 +36,9 @@ public final class Cyberblade extends OptionalEffect {
 	}
 
 	@Override
-	public void primaryFire(List<Player> playersToShoot) {
-		//If there are two player in the list of targets, it means that the secondary
-		//effect has been activated.
-		dealDamage(playersToShoot, this.standardDamagesAndMarks);
+	public void primaryFire() {
+
+		dealDamage( this.standardDamagesAndMarks);
 
 		}
 

@@ -1,10 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
-import it.polimi.se2019.model.player.Player;
-
-import java.util.List;
-
 public final class Elecroscythe extends AlternateFire {
 
 	public Elecroscythe(String description, ArrayList<AmmoType> reloadPrice) {
@@ -12,7 +8,7 @@ public final class Elecroscythe extends AlternateFire {
 	}
 
 
-	public void primaryFire(List<Player> playersToShoot) {
+	public void primaryFire() {
 	}
 
 	public void secondaryFire() {
