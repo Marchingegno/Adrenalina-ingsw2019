@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class VirtualView implements ViewInterface, Observer {
+public class VirtualView implements ViewInterface {
 
 	private ConnectionToClientInterface client;
 	private Controller controller;
@@ -24,12 +24,12 @@ public class VirtualView implements ViewInterface, Observer {
 		this.client = client;
 		this.controller = controller;
 
-		this.controller.getModel().getGameBoard().addObserver(this);
+		this.controller.getModel().getGameBoard().addObserver(new GameBoardObserver());
 		System.out.println("Added Game Board Observer");
-		this.controller.getModel().getGameBoard().getGameMap().addObserver(this);
+		this.controller.getModel().getGameBoard().getGameMap().addObserver(new GameMapObserver());
 		System.out.println("Added Game Map Observer");
 		for (Player player : this.controller.getModel().getPlayers()) {
-			player.addObserver(this);
+			player.addObserver(new PlayerObserver());
 			System.out.println("Added Player Observer");
 		}
 	}
@@ -79,20 +79,26 @@ public class VirtualView implements ViewInterface, Observer {
 		return 0;
 	}
 
-	//TODO HORRIBLE, find another solution. Sorry For the Kittens :(
-	@Override
-	public void update(Observable observable, Object arg) {
-		if (observable instanceof GameMap) {
-			System.out.println("Map Rep Created");
-			client.sendMessage(new GameMapRep((GameMap) observable));
-		}
 
-		if (observable instanceof GameBoard) {
+	private class GameBoardObserver implements Observer {
+		@Override
+		public void update(Observable observable, Object arg) {
 			System.out.println("Game Map Rep Created");
 			client.sendMessage(new GameBoardRep((GameBoard) observable));
 		}
+	}
 
-		if (observable instanceof Player) {
+	private class GameMapObserver implements Observer {
+		@Override
+		public void update(Observable observable, Object arg) {
+			System.out.println("Map Rep Created");
+			client.sendMessage(new GameMapRep((GameMap) observable));
+		}
+	}
+
+	private class PlayerObserver implements Observer {
+		@Override
+		public void update(Observable observable, Object arg) {
 			System.out.println("Player Rep Created");
 			client.sendMessage(new PlayerRep((Player) observable));
 		}
