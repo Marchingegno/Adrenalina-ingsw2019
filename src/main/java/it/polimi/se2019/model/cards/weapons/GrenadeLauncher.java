@@ -1,5 +1,9 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.player.Player;
+
+import java.util.List;
+
 public final class GrenadeLauncher extends OptionalEffect {
 
 	public GrenadeLauncher(String description, ArrayList<AmmoType> reloadPrice) {
@@ -7,13 +11,13 @@ public final class GrenadeLauncher extends OptionalEffect {
 	}
 
 
-	public void primaryFire() {
+	public List<Player> primaryFire() {
 	}
 
-	public void optionalEffect1() {
+	public void optionalEffect1(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
 	}
 
-	public void optionalEffect2() {
+	public void optionalEffect2(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
 	}
 
 }

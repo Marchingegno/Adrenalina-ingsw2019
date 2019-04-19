@@ -1,15 +1,19 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Cyberblade extends OptionalEffect {
+import static java.lang.Boolean.TRUE;
+
+public final class Cyberblade extends OptionalEffect{
 	private final int PRIMARY_DAMAGE = 2;
 	private final int PRIMARY_MARKS = 0;
 	private final int OPTIONAL2_DAMAGE = 2;
 	private final int OPTIONAL2_MARKS = 0;
+	private final int MOVE_DISTANCE = 1;
 
 
 	public Cyberblade(String description, List<AmmoType> reloadPrice) {
@@ -17,13 +21,9 @@ public final class Cyberblade extends OptionalEffect {
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
-
+		this.moveDistance = MOVE_DISTANCE;
 	}
 
-	@Override
-	protected void handleFire(Boolean[] flags) {
-
-	}
 
 	@Override
 	public void getAvailableOptions() {
@@ -32,15 +32,29 @@ public final class Cyberblade extends OptionalEffect {
 	}
 
 	@Override
-	public void optionalEffect1() {
+	public void optionalEffect1(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
+		moveActive = TRUE;
 	}
 
 	@Override
-	public void primaryFire() {
+	public void optionalEffect2(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
+		//Asks the player which target to fire at.
+		//targetPlayers.add(a Player)
+	}
 
-		dealDamage( this.standardDamagesAndMarks);
 
-		}
+	@Override
+	public List<Player> primaryFire () {
+		List<Player> targetPlayers = new ArrayList<>();
+		List<Player> targettablePlayers = getPrimaryTargets();
+		//Asks the player which target to fire at
+		//targetPlayers.add(this player)
+		return targetPlayers;
+	}
 
+	@Override
+	public List<Player> getPrimaryTargets() {
+		//gameMap.getPlayersFromDistance(distance)
+		return null;
 	}
 }
