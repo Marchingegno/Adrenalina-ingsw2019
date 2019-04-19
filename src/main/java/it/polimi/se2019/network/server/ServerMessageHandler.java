@@ -24,7 +24,7 @@ public class ServerMessageHandler {
 	 * Called when the client is registering himself on the server.
 	 * @param client the implementation of the client.
 	 */
-	public void onClientRegistration(ConnectionToClientInterface client) {
+	public synchronized void onClientRegistration(ConnectionToClientInterface client) {
 		clients.add(client);
 		Utils.logInfo("Registered new client.");
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
@@ -34,7 +34,7 @@ public class ServerMessageHandler {
 	 * Called when receiving a message from the client.
 	 * @param message the message received.
 	 */
-	public void onMessageReceived(ConnectionToClientInterface client, Message message) {
+	public synchronized void onMessageReceived(ConnectionToClientInterface client, Message message) {
 		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		// Don't process message of not registered clients.
