@@ -41,24 +41,20 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 		// Create stub from client.
 		stub = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 0);
 
-		Utils.logInfo("Client remote object is ready.");
+		// Register client's stub to the server.
+		rmiServerSkeleton.registerClient(stub);
 
-		try {
-			rmiServerSkeleton.registerClient(stub); // Register client's stub to the server.
-		} catch (RemoteException e) {
-			Utils.logInfo("Error in RMIClient: registerClient()");
-		}
+		Utils.logInfo("Client remote object is ready.");
 	}
 
 	/**
 	 * Sends a message to the server.
 	 * @param message the message to send.
-	 * @throws RemoteException
 	 */
 	@Override
 	public void sendMessage(Message message) {
 		try {
-			rmiServerSkeleton.receiveMessage(stub, message); // Send message to the server.
+			rmiServerSkeleton.receiveMessage(stub, message);
 		} catch (RemoteException e) {
 			Utils.logInfo("Error in RMIClient: sendMessage()");
 		}
