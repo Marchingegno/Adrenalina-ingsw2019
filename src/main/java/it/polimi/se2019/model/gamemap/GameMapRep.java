@@ -4,6 +4,7 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,7 +15,7 @@ public class GameMapRep extends Message {
 
 	private int numOfRows;
 	private int	numOfColumns;
-	private SquareRep[][] mapRep;
+	private ArrayList<ArrayList<SquareRep>> mapRep;
 	private HashMap<String, Coordinates> playersPositions;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
@@ -22,18 +23,23 @@ public class GameMapRep extends Message {
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
 		this.numOfRows = gameMapToRepresent.getNumOfRows();
 
-		mapRep = new SquareRep[this.numOfRows][this.numOfColumns];
+		mapRep = new ArrayList<>();
+
+		for (int i = 0; i < gameMapToRepresent.getNumOfRows(); i++) {
+			mapRep.add(new ArrayList<>());
+		}
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				try{
-					this.mapRep[i][j] = new SquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j)));
+					this.mapRep.get(i).add(j, new SquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j))));
 				}catch (OutOfBoundariesException e){
-					mapRep[i][j] = new SquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j)));
+					this.mapRep.get(i).add(j, new SquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j))));
 				}
 			}
 		}
 
+		playersPositions = new HashMap<>();
 		gameMapToRepresent.getPlayersCoordinates().forEach((player, coordinates) -> playersPositions.put(player.getPlayerName(), coordinates));
 	}
 
@@ -45,7 +51,7 @@ public class GameMapRep extends Message {
 		return numOfColumns;
 	}
 
-	public SquareRep[][] getMapRep() {
+	public ArrayList<ArrayList<SquareRep>> getMapRep() {
 		return mapRep;
 	}
 

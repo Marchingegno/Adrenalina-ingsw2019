@@ -8,6 +8,7 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.GameConstants;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -56,11 +57,11 @@ public class CLIView implements RemoteViewInterface {
 
 	private void displayMap() {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
-		SquareRep[][] map = gameMapRep.getMapRep();
+		ArrayList<ArrayList<SquareRep>> map = gameMapRep.getMapRep();
 
 		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
 			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
-				System.out.print(map[i][j].getRoomID());
+				System.out.print(map.get(i).get(j).getRoomID());
 			}
 			System.out.print("\n");
 		}
@@ -69,7 +70,7 @@ public class CLIView implements RemoteViewInterface {
 			gameMapRep.getPlayersCoordinates().forEach((player, coordinates) -> System.out.println(player + ": " + coordinates));
 		}catch(NullPointerException e)
 		{
-
+			System.out.println("Player not initializes");
 		}
 	}
 

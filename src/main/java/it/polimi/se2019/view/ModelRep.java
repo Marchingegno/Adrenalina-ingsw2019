@@ -13,6 +13,7 @@ public class ModelRep{
 	private ArrayList<PlayerRep> playersRep;
 
 	public ModelRep() {
+		playersRep = new ArrayList<>();
 	}
 
 	public GameBoardRep getGameBoardRep() {

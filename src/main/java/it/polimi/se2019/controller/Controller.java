@@ -30,6 +30,9 @@ public class Controller {
 		Utils.logInfo("Created controller.");
 	}
 
+	public Model getModel(){
+		return model;
+	}
 
 	@Deprecated
 	private void initializeModel(String mapPath, ArrayList<String> playerNames, int skulls) {

@@ -31,7 +31,6 @@ public class Model{
 
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
 		gameMap.movePlayerTo(playerToMove, coordinates);
-		updateReps();
 	}
 
 	public PlayerQueue getPlayerQueue()
@@ -151,11 +150,11 @@ public class Model{
 
 	public List<Player> getPlayers(){return gameBoard.getPlayers();}
 
-	private void updateReps(){
-		gameBoard.notifyObservers();
-		gameMap.notifyObservers();
+	public void updateReps(){
+		gameBoard.notifyObservers();System.out.println("UPDATED GameBoard. Observers = " + gameBoard.countObservers());
+		gameMap.notifyObservers();System.out.println("UPDATED Game Map. Observers = " + gameMap.countObservers());
 		for (Player player: gameBoard.getPlayers() ) {
-			player.notifyObservers();
+			player.notifyObservers();System.out.println("UPDATED Player. Observers = " + player.countObservers());
 		}
 	}
 }

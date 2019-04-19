@@ -7,10 +7,9 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.VirtualView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Match {
 
@@ -70,17 +69,34 @@ public class Match {
 		GameConstants.MapType mapType = findVotedMap();
 		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
-		// Send game start message with the voted skulls and map.
-		for(ConnectionToClientInterface client : participants.keySet()) {
-			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
-			gameConfigMessage.setSkulls(skulls);
-			gameConfigMessage.setMapIndex(mapType.ordinal());
-			client.sendMessage(gameConfigMessage);
-		}
-
 		// start the game.
 		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());
-		controller.startGame();
+		//controller.startGame();
+
+		for (ConnectionToClientInterface client : participants.keySet()) {
+			System.out.println("added Virtual View");
+			new VirtualView(controller, client);
+		}
+
+		controller.getModel().updateReps();
+
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				// Send game start message with the voted skulls and map.
+				for(ConnectionToClientInterface client : participants.keySet()) {
+					GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
+					gameConfigMessage.setSkulls(skulls);
+					gameConfigMessage.setMapIndex(mapType.ordinal());
+					client.sendMessage(gameConfigMessage);
+				}
+
+				Utils.logInfo("Timer ended. Starting the match...");
+			}
+		}, 5000L);
+
+
 	}
 
 	/**

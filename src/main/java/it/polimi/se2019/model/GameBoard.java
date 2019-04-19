@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 public class GameBoard extends Observable {
 
@@ -51,6 +52,7 @@ public class GameBoard extends Observable {
 		ammoDeck = new AmmoDeck();
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
+		setChanged();
 	}
 
 	PlayerQueue getPlayerQueue() {
@@ -127,6 +129,7 @@ public class GameBoard extends Observable {
 	public AmmoDeck getAmmoDeck() {
 		return ammoDeck;
 	}
+
 }
 
 class KillShot {

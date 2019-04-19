@@ -23,6 +23,7 @@ public class Player extends Observable {
 		this.playerColor = playerColor;
 		playerBoard = new PlayerBoard();
 		damageStatus = new LowDamage();
+		setChanged();
 	}
 
 	public Player(String playerName, int playerID) {
@@ -30,6 +31,7 @@ public class Player extends Observable {
 		this.playerID = playerID;
 		playerBoard = new PlayerBoard();
 		damageStatus = new LowDamage();
+		setChanged();
 	}
 
 	public PlayerBoard getPlayerBoard() {
