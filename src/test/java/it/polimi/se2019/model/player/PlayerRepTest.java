@@ -1,11 +1,10 @@
 package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.Newton;
 import it.polimi.se2019.model.cards.weapons.Cyberblade;
-import org.junit.After;
-import org.junit.Before;
+import it.polimi.se2019.utils.GameConstants;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.awt.*;
@@ -13,17 +12,17 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Desno365
+ */
 public class PlayerRepTest {
 
-	private Player player1;
-	private Player player2;
-	private Player player3;
+	private static final Player player1 = new Player("Test 1", 0, Color.GREEN);
+	private static final Player player2 = new Player("Test 2", 1, Color.BLUE);
+	private static final Player player3 = new Player("Test 3", 2, Color.RED);
 
-	@Before
-	public void setUp() throws Exception {
-		player1 = new Player("Test 1", 0, Color.GREEN);
-		player2 = new Player("Test 2", 1, Color.BLUE);
-		player3 = new Player("Test 3", 2, Color.RED);
+	@BeforeClass
+	public static void oneTimeSetUp() {
 		player1.getPlayerBoard().addPoints(11);
 		player2.getPlayerBoard().addPoints(22);
 		player3.getPlayerBoard().addPoints(33);

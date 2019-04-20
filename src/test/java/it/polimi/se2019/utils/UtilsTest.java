@@ -6,6 +6,9 @@ import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * @author Desno365
+ */
 public class UtilsTest {
 
 	@Test
