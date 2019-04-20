@@ -10,7 +10,7 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.CLIView;
 import it.polimi.se2019.view.GUIView;
-import it.polimi.se2019.view.RemoteViewInterface;
+import it.polimi.se2019.view.ViewInterface;
 
 import java.util.Scanner;
 
@@ -23,7 +23,7 @@ import java.util.Scanner;
 public class Client {
 
 	private ConnectionToServerInterface clientMessageSender;
-	private RemoteViewInterface view;
+	private ViewInterface view;
 
 
 	//TEMP
@@ -57,7 +57,7 @@ public class Client {
 	 * Create a new client and associate it with the view.
 	 * @param view the view to be associated with the client.
 	 */
-	private Client(RemoteViewInterface view) {
+	private Client(ViewInterface view) {
 		this.view = view;
 	}
 

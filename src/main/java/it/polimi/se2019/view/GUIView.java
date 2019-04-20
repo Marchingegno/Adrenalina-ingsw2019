@@ -4,7 +4,7 @@ import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 
-public class GUIView implements RemoteViewInterface {
+public class GUIView implements ViewInterface {
 
 	public ModelRep modelRep;
 
@@ -49,6 +49,16 @@ public class GUIView implements RemoteViewInterface {
 	}
 
 	@Override
+	public void askAction() {
+
+	}
+
+	@Override
+	public void showTargettablePlayers() {
+
+	}
+
+	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 
 	}
@@ -60,6 +70,11 @@ public class GUIView implements RemoteViewInterface {
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+
+	}
+
+	@Override
+	public void showMessage(String stringToShow) {
 
 	}
 }

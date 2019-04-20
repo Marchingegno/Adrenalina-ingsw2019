@@ -2,7 +2,6 @@ package it.polimi.se2019.view;
 
 import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
-import it.polimi.se2019.model.gamemap.Square;
 import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.GameConstants;
@@ -15,7 +14,7 @@ import java.util.Scanner;
  * @author MarcerAndrea
  * @author Desno365
  */
-public class CLIView implements RemoteViewInterface {
+public class CLIView implements ViewInterface {
 
 	private ModelRep modelRep;
 	private Scanner scanner;
@@ -103,6 +102,16 @@ public class CLIView implements RemoteViewInterface {
 	}
 
 	@Override
+	public void askAction() {
+
+	}
+
+	@Override
+	public void showTargettablePlayers() {
+
+	}
+
+	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		modelRep.setGameMapRep(gameMapRepToUpdate);
 	}
@@ -115,6 +124,11 @@ public class CLIView implements RemoteViewInterface {
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		modelRep.setPlayersRep(playerRepToUpdate);
+	}
+
+	@Override
+	public void showMessage(String stringToShow) {
+
 	}
 
 	/**

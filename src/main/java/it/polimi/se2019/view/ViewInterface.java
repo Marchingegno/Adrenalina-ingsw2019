@@ -1,23 +1,34 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.player.PlayerRep;
+
 public interface ViewInterface {
 
-	void handleMove(int row, int column);
+	String askNickname();
 
-	void handleReload(int indexOfweaponToReload);
+	void displayWaitingPlayers(String waitingPlayers);
 
-	void handleShoot(int indexOfWeapon, String playersToShoot);
+	void displayTimerStarted(long delayInMs);
 
-	void handleSpawn(int indexOfPowerup);
+	void displayText(String text);
 
-	void showMessage(String message);
+	void displayGame();
 
-	void showGameBoard();
+	int askMapToUse();
 
-	int chooseWeapon();
+	int askSkullsForGame();
 
-	int chooseAction();
+	void askAction();
 
-	int choosePowerup();
+	void showTargettablePlayers();
 
+	void updateGameMapRep(GameMapRep gameMapRepToUpdate);
+
+	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);
+
+	void updatePlayerRep(PlayerRep playerRepToUpdate);
+
+	void showMessage(String stringToShow);
 }

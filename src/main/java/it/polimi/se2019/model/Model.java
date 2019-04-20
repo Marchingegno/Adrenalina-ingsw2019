@@ -31,6 +31,7 @@ public class Model{
 
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
 		gameMap.movePlayerTo(playerToMove, coordinates);
+		updateReps();
 	}
 
 	public PlayerQueue getPlayerQueue()
