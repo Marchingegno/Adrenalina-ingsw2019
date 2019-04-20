@@ -11,14 +11,6 @@ public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-
-	/**
-	 * Since it's an utility class it can't be instantiated.
-	 */
-	private Utils() {
-		throw new IllegalStateException("Cannot create an instance of this utility class.");
-	}
-
 	public static final int BLACK_TEXT = 30;//better not to use
 	public static final int RED_TEXT = 31;
 	public static final int GREEN_TEXT = 32;
@@ -38,6 +30,13 @@ public class Utils {
 	public static final int WHITE_BACKGROUND = 47; //better not to use
 	public static final int DEFAULT_BACKGROUND = 49;
 
+	/**
+	 * Since it's an utility class it can't be instantiated.
+	 */
+	private Utils() {
+		throw new IllegalStateException("Cannot create an instance of this utility class.");
+	}
+
 	public static void logError(String msg, Throwable e) {
 		LOGGER.log(Level.SEVERE, msg, e);
 	}
@@ -55,7 +54,7 @@ public class Utils {
 		return setColorString(characterColor, backgroundColor) + string + resetColorString();
 	}
 
-	private static String setColorString(int characterColor, int backgroundColor) {
+	public static String setColorString(int characterColor, int backgroundColor) {
 		if(characterColor < 30 || characterColor > 39)
 			throw new IllegalArgumentException("Character color must be between 30 and 39.");
 		if(backgroundColor < 40 || backgroundColor > 49)
@@ -78,7 +77,7 @@ public class Utils {
 		return (char)27 + "[" + characterColor + ";" + backgroundColor + "m";
 	}
 
-	private static String resetColorString() {
+	public static String resetColorString() {
 		return setColorString(39, 49);
 	}
 	
