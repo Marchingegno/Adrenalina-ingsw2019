@@ -50,13 +50,13 @@ public class MapRepTest {
 	@Test
 	public void getMapRep_correctInput_correctOutput() {
 		GameMapRep gameMapRep = new GameMapRep(gameMap);
-		ArrayList<ArrayList<SquareRep>> mapRep = gameMapRep.getMapRep();
+		SquareRep[][] mapRep = gameMapRep.getMapRep();
 		SquareRep squareRep;
 		Square square;
 
 		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
 			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
-				squareRep = mapRep.get(i).get(j);
+				squareRep = mapRep[i][j];
 				try{
 					square = gameMap.getSquare(new Coordinates(i,j));
 				}catch(OutOfBoundariesException e){

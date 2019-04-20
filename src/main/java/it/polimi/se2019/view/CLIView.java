@@ -1,11 +1,16 @@
 package it.polimi.se2019.view;
 
+import com.sun.javafx.scene.traversal.Direction;
 import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.gamemap.Square;
 import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Utils;
 
+import java.awt.image.DirectColorModel;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -54,22 +59,26 @@ public class CLIView implements ViewInterface {
 		displayGameBoard();
 	}
 
-	private void displayMap() {
+	public void displayMap() {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
-		ArrayList<ArrayList<SquareRep>> map = gameMapRep.getMapRep();
+		SquareRep[][] map = gameMapRep.getMapRep();
 
-		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
-			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
-				System.out.print(map.get(i).get(j).getRoomID());
-			}
-			System.out.print("\n");
-		}
+		printMap(generateMapToPrint(gameMapRep.getMapRep()));
 
 		try{
 			gameMapRep.getPlayersCoordinates().forEach((player, coordinates) -> System.out.println(player + ": " + coordinates));
 		}catch(NullPointerException e)
 		{
 			System.out.println("Player not initializes");
+		}
+	}
+
+	private void printMap(String[][] map){
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				System.out.print(map[i][j]);
+			}
+			System.out.print("\n");
 		}
 	}
 
@@ -84,6 +93,64 @@ public class CLIView implements ViewInterface {
 			System.out.println("Nickname: " + playerRep.getPlayerName() + "\n" +
 								"MORE INFO\n");
 		}
+	}
+
+	private String[][] generateMapToPrint(SquareRep[][] map){
+		int numOfRows = map.length;
+		int numOfColumns = map[0].length;
+
+		String[][] mapToPrint = new String[numOfRows * 5][numOfColumns * 5];
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				fillSquare(map[i][j], mapToPrint);
+			}
+		}
+
+		return mapToPrint;
+	}
+
+	private Coordinates convertCoordinates(Coordinates coordinatesToConvert){ return new Coordinates(2 + coordinatesToConvert.getRow() * 5,2 + coordinatesToConvert.getColumn() * 5); }
+
+	private void fillSquare(SquareRep squareRep, String[][] mapToPrint){
+		boolean[] possibleDirection = squareRep.getPossibleDirection();
+
+		Coordinates coordinates = convertCoordinates(squareRep.getCoordinates());
+
+		//Fills the corners
+		mapToPrint[coordinates.getRow()-2][coordinates.getColumn()-2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()-2][coordinates.getColumn()+2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()+2][coordinates.getColumn()-2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()+2][coordinates.getColumn()+2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+
+		//UP Door
+		mapToPrint[coordinates.getRow()-2][coordinates.getColumn()-1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT, possibleDirection[0]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()-2][coordinates.getColumn()] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[0]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()-2][coordinates.getColumn()+1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[0]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		//RIGHT Door
+		mapToPrint[coordinates.getRow()-1][coordinates.getColumn()+2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[1]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()][coordinates.getColumn()+2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[1]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()+1][coordinates.getColumn()+2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[1]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		//DOWN Door
+		mapToPrint[coordinates.getRow()+2][coordinates.getColumn()-1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[2]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()+2][coordinates.getColumn()] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[2]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()+2][coordinates.getColumn()+1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[2]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		//LEFT Door
+		mapToPrint[coordinates.getRow()-1][coordinates.getColumn()-2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[3]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()][coordinates.getColumn()-2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[3]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+		mapToPrint[coordinates.getRow()+1][coordinates.getColumn()-2] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,possibleDirection[3]? Utils.DEFAULT_BACKGROUND : Utils.CYAN_BACKGROUND - squareRep.getRoomID());
+
+
+		mapToPrint[coordinates.getRow()-1][coordinates.getColumn()-1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()-1][coordinates.getColumn()] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()-1][coordinates.getColumn()+1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()][coordinates.getColumn()-1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()][coordinates.getColumn()] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()][coordinates.getColumn()+1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()+1][coordinates.getColumn()-1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()+1][coordinates.getColumn()] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+		mapToPrint[coordinates.getRow()+1][coordinates.getColumn()+1] = Utils.getColoredString(" ", Utils.DEFAULT_TEXT,Utils.DEFAULT_BACKGROUND);
+
 	}
 
 	@Override
@@ -128,7 +195,7 @@ public class CLIView implements ViewInterface {
 
 	@Override
 	public void showMessage(String stringToShow) {
-
+		System.out.println(stringToShow);
 	}
 
 	/**

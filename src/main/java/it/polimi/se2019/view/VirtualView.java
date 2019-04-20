@@ -7,6 +7,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.message.StringMessage;
 import it.polimi.se2019.network.server.ConnectionToClientInterface;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
@@ -102,7 +103,7 @@ public class VirtualView implements ViewInterface {
 
 	@Override
 	public void showMessage(String stringToShow) {
-		System.out.println(stringToShow);
+
 	}
 
 

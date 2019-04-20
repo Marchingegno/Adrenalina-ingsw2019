@@ -15,7 +15,7 @@ public class GameMapRep extends Message {
 
 	private int numOfRows;
 	private int	numOfColumns;
-	private ArrayList<ArrayList<SquareRep>> mapRep;
+	private SquareRep[][] mapRep;
 	private HashMap<String, Coordinates> playersPositions;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
@@ -23,18 +23,14 @@ public class GameMapRep extends Message {
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
 		this.numOfRows = gameMapToRepresent.getNumOfRows();
 
-		mapRep = new ArrayList<>();
-
-		for (int i = 0; i < gameMapToRepresent.getNumOfRows(); i++) {
-			mapRep.add(new ArrayList<>());
-		}
+		mapRep = new SquareRep[gameMapToRepresent.getNumOfRows()][gameMapToRepresent.getNumOfColumns()];
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				try{
-					this.mapRep.get(i).add(j, new SquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j))));
+					this.mapRep[i][j] = new SquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j)));
 				}catch (OutOfBoundariesException e){
-					this.mapRep.get(i).add(j, new SquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j))));
+					this.mapRep[i][j] = new SquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j)));
 				}
 			}
 		}
@@ -51,7 +47,7 @@ public class GameMapRep extends Message {
 		return numOfColumns;
 	}
 
-	public ArrayList<ArrayList<SquareRep>> getMapRep() {
+	public SquareRep[][] getMapRep() {
 		return mapRep;
 	}
 

@@ -19,6 +19,24 @@ public class Utils {
 		throw new IllegalStateException("Cannot create an instance of this utility class.");
 	}
 
+	public static final int BLACK_TEXT = 30;//better not to use
+	public static final int RED_TEXT = 31;
+	public static final int GREEN_TEXT = 32;
+	public static final int YELLOW_TEXT = 33;
+	public static final int BLUE_TEXT = 34;
+	public static final int MAGENTA_TEXT = 35;
+	public static final int CYAN_TEXT = 36;
+	public static final int WHITE_TEXT = 37;//better not to use
+	public static final int DEFAULT_TEXT = 39;
+	public static final int BLACK_BACKGROUND = 40;//better not to use
+	public static final int RED_BACKGROUND = 41;
+	public static final int GREEN_BACKGROUND = 42;
+	public static final int YELLOW_BACKGROUND = 43;
+	public static final int BLUE_BACKGROUND = 44;
+	public static final int MAGENTA_BACKGROUND = 45;
+	public static final int CYAN_BACKGROUND = 46;
+	public static final int WHITE_BACKGROUND = 47; //better not to use
+	public static final int DEFAULT_BACKGROUND = 49;
 
 	public static void logError(String msg, Throwable e) {
 		LOGGER.log(Level.SEVERE, msg, e);
@@ -31,6 +49,10 @@ public class Utils {
 
 	public static Logger getGlobalLogger() {
 		return LOGGER;
+	}
+
+	public static String getColoredString(String string, int characterColor, int backgroundColor){
+		return setColorString(characterColor, backgroundColor) + string + resetColorString();
 	}
 
 	private static String setColorString(int characterColor, int backgroundColor) {

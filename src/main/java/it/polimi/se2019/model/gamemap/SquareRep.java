@@ -10,11 +10,13 @@ public class SquareRep implements Serializable {
 	private int roomID;
 	private ArrayList<Card> cards;
 	private Coordinates coordinates;
+	private boolean[] possibleDirection;
 
 	public SquareRep(Square squareToRepresent) {
 		this.roomID = squareToRepresent.getRoomID();
 		this.cards = new ArrayList<>(squareToRepresent.getCardList());
 		this.coordinates = squareToRepresent.getCoordinates();
+		this.possibleDirection = squareToRepresent.getPossibleDirections();
 	}
 
 	public int getRoomID() {
@@ -28,4 +30,6 @@ public class SquareRep implements Serializable {
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}
+
+	public boolean[] getPossibleDirection() { return possibleDirection; }
 }
