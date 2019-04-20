@@ -11,15 +11,16 @@ public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	public static final int BLACK_TEXT = 30;//better not to use
-	public static final int RED_TEXT = 31;
-	public static final int GREEN_TEXT = 32;
-	public static final int YELLOW_TEXT = 33;
-	public static final int BLUE_TEXT = 34;
-	public static final int MAGENTA_TEXT = 35;
-	public static final int CYAN_TEXT = 36;
-	public static final int WHITE_TEXT = 37;//better not to use
-	public static final int DEFAULT_TEXT = 39;
+	public static final int BLACK = 30;//better not to use
+	public static final int RED = 31;
+	public static final int GREEN = 32;
+	public static final int YELLOW = 33;
+	public static final int BLUE = 34;
+	public static final int MAGENTA = 35;
+	public static final int CYAN = 36;
+	public static final int WHITE = 37;//better not to use
+	public static final int DEFAULT_COLOR = 39;
+
 	public static final int BLACK_BACKGROUND = 40;//better not to use
 	public static final int RED_BACKGROUND = 41;
 	public static final int GREEN_BACKGROUND = 42;
@@ -52,6 +53,10 @@ public class Utils {
 
 	public static String getColoredString(String string, int characterColor, int backgroundColor){
 		return setColorString(characterColor, backgroundColor) + string + resetColorString();
+	}
+
+	public static String getColoredCell(int backgroundColor){
+		return setColorString(DEFAULT_COLOR, backgroundColor)+ " " + resetColorString();
 	}
 
 	public static String setColorString(int characterColor, int backgroundColor) {

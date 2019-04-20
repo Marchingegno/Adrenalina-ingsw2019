@@ -17,7 +17,7 @@ import java.util.List;
 public class PlayerRep extends Message {
 
 	private String playerName;
-	private Color playerColor;
+	private int playerColor;
 	private int points;
 	private ArrayList<String> damageBoard;
 	private ArrayList<String> marks;
@@ -119,7 +119,7 @@ public class PlayerRep extends Message {
 	 * Returns the player color.
 	 * @return the player color.
 	 */
-	public Color getPlayerColor() {
+	public int getPlayerColor() {
 		return playerColor;
 	}
 

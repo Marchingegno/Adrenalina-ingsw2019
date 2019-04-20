@@ -2,6 +2,7 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;

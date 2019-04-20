@@ -12,12 +12,12 @@ public class Player extends Observable {
 
 	private String playerName;
 	private int playerID;
-	private Color playerColor;
+	private int playerColor;
 	private PlayerBoard playerBoard;
 	private DamageStatus damageStatus;
 
 
-	public Player(String playerName, int playerID, Color playerColor) {
+	public Player(String playerName, int playerID, int playerColor) {
 		this.playerName = playerName;
 		this.playerID = playerID;
 		this.playerColor = playerColor;
@@ -46,7 +46,7 @@ public class Player extends Observable {
 		return playerID;
 	}
 
-	public Color getPlayerColor() {
+	public int getPlayerColor() {
 		return playerColor;
 	}
 

@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
-import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
+import it.polimi.se2019.utils.CardinalDirection;
 
 import java.io.Serializable;
 

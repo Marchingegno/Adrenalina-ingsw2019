@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +21,11 @@ public class MapRepTest {
 	@Before
 	public void setUp() throws Exception {
 		players = new ArrayList<>();
-		player1 = new Player("Test 1", 0, Color.GREEN);
-		player2 = new Player("Test 2", 1, Color.YELLOW);
-		player3 = new Player("Test 3", 2, Color.BLUE);
-		player4 = new Player("Test 4", 3, Color.GRAY);
-		player5 = new Player("Test 5", 4, Color.MAGENTA);
+		player1 = new Player("Test 1", 0, Utils.GREEN);
+		player2 = new Player("Test 2", 1, Utils.YELLOW);
+		player3 = new Player("Test 3", 2, Utils.BLUE);
+		player4 = new Player("Test 4", 3, Utils.RED);
+		player5 = new Player("Test 5", 4, Utils.MAGENTA);
 		players.add(player1);
 		players.add(player2);
 		players.add(player3);

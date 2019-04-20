@@ -4,6 +4,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.Newton;
 import it.polimi.se2019.model.cards.weapons.Cyberblade;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Utils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -17,9 +18,9 @@ import static org.junit.Assert.*;
  */
 public class PlayerRepTest {
 
-	private static final Player player1 = new Player("Test 1", 0, Color.GREEN);
-	private static final Player player2 = new Player("Test 2", 1, Color.BLUE);
-	private static final Player player3 = new Player("Test 3", 2, Color.RED);
+	private static final Player player1 = new Player("Test 1", 0, Utils.GREEN);
+	private static final Player player2 = new Player("Test 2", 1, Utils.BLUE);
+	private static final Player player3 = new Player("Test 3", 2, Utils.RED);
 
 	@BeforeClass
 	public static void oneTimeSetUp() {

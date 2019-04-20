@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.utils.CardinalDirection;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

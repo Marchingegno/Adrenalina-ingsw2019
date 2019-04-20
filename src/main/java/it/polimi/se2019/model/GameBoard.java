@@ -6,6 +6,7 @@ import it.polimi.se2019.model.cards.weapons.WeaponDeck;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.utils.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class GameBoard extends Observable {
 		players = new ArrayList<>(playerNames.size());
 		int id = 0;
 		for (String name : playerNames) {
-			players.add(new Player(name, id, Color.BLACK)); //  TODO Color?
+			players.add(new Player(name, id, Utils.RED)); //  TODO Color?
 			id++;
 		}
 

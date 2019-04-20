@@ -1,6 +1,7 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Utils;
 import org.junit.Test;
 
 import java.awt.*;
@@ -11,8 +12,8 @@ public class DamageDoneTest {
 
 	@Test
 	public void damageUp_newPlayer_correctOutput() {
-		Player player1 = new Player("name1", 0, Color.blue);
-		Player player2 = new Player("name2", 1, Color.red);
+		Player player1 = new Player("name1", 0, Utils.BLUE);
+		Player player2 = new Player("name2", 1, Utils.RED);
 		DamageDone damageDoneTest = new DamageDone();
 
 		damageDoneTest.damageUp(player1);
@@ -33,10 +34,10 @@ public class DamageDoneTest {
 
 	@Test
 	public void getSortedPlayers_correctArray_correctOutput() {
-		Player player1 = new Player("name1", 0, Color.blue);
-		Player player2 = new Player("name2", 1, Color.red);
-		Player player3 = new Player("name3", 0, Color.yellow);
-		Player player4 = new Player("name4", 1, Color.pink);
+		Player player1 = new Player("name1", 0, Utils.BLUE);
+		Player player2 = new Player("name2", 1, Utils.RED);
+		Player player3 = new Player("name3", 0, Utils.YELLOW);
+		Player player4 = new Player("name4", 1, Utils.MAGENTA);
 		DamageDone damageDoneTest = new DamageDone();
 
 		damageDoneTest.damageUp(player1);
