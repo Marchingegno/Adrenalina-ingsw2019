@@ -90,7 +90,7 @@ public class CLIViewTest {
 		players.add(player3);
 		players.add(player4);
 		players.add(player5);
-		GameMap gameMap = new GameMap("SmallMap.txt", players);
+		GameMap gameMap = new GameMap("MediumMap.txt", players);
 		CLIView cliView= new CLIView();
 		cliView.updateGameMapRep(new GameMapRep(gameMap));
 
