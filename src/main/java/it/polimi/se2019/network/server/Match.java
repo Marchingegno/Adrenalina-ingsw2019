@@ -14,13 +14,13 @@ import java.util.*;
 public class Match {
 
 	private HashMap<ConnectionToClientInterface, String> participants;
-	private HashMap<ConnectionToClientInterface, VirtualView> virtualViews;
+	private HashMap<ConnectionToClientInterface, VirtualView> virtualViews = new HashMap<>();
 	private int numberOfPartecipants;
 	private Controller controller;
 
 	// Game config attributes.
-	private HashMap<ConnectionToClientInterface, Integer> skullsChosen;
-	private HashMap<ConnectionToClientInterface, Integer> mapChoosen;
+	private HashMap<ConnectionToClientInterface, Integer> skullsChosen = new HashMap<>();
+	private HashMap<ConnectionToClientInterface, Integer> mapChoosen = new HashMap<>();
 	private int numberOfAnswers = 0;
 
 
@@ -33,9 +33,6 @@ public class Match {
 		if(numberOfPartecipants < GameConstants.MIN_PLAYERS || numberOfPartecipants > GameConstants.MAX_PLAYERS)
 			throw new IllegalArgumentException("The number of participants for this match (" + numberOfPartecipants + ") is not valid.");
 		this.participants = new HashMap<>(participants);
-
-		this.skullsChosen = new HashMap<>();
-		this.mapChoosen = new HashMap<>();
 	}
 
 
