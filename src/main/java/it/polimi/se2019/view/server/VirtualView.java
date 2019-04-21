@@ -7,6 +7,9 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.network.server.ConnectionToClientInterface;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
@@ -35,30 +38,12 @@ public class VirtualView implements ViewInterface {
 		}
 	}
 
+	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 		for (MacroAction macroAction : possibleActions) {
 			Utils.logInfo(macroAction.toString());
 		}
-	}
-
-	@Override
-	public void displayText(String text) {
-
-	}
-
-	@Override
-	public void displayGame() {
-
-	}
-
-	@Override
-	public void askAction() {
-
-	}
-
-	@Override
-	public void showTargettablePlayers() {
-
+		// TODO send a message with the possible actions
 	}
 
 	@Override
@@ -74,11 +59,6 @@ public class VirtualView implements ViewInterface {
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		client.sendMessage(playerRepToUpdate);
-	}
-
-	@Override
-	public void showMessage(String stringToShow) {
-
 	}
 
 

@@ -21,18 +21,13 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public synchronized void processMessage(Message message) {
 		switch (message.getMessageType()) {
 			case NICKNAME:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
-					String nickname = askNickname();
-					sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
-				}
-				if(message.getMessageSubtype() == MessageSubtype.ERROR) {
-					displayText("The nickname already exists or is not valid, please use a different one.");
-					String nickname = askNickname();
-					sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
-				}
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+					askNickname();
+				if(message.getMessageSubtype() == MessageSubtype.ERROR)
+					askNicknameError();
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					String nickname = ((NicknameMessage)message).getContent();
-					displayText("Nickname set to: \"" + nickname + "\".");
+					nicknameIsOk(nickname);
 				}
 				break;
 			case WAITING_PLAYERS:
@@ -47,26 +42,15 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					displayTimerStarted(timerForStartMessage.getDelayInMs());
 				}
 				if(message.getMessageSubtype() == MessageSubtype.ERROR) {
-					displayText("Timer for starting the match cancelled.");
+					displayTimerStopped();
 				}
 				break;
 			case GAME_CONFIG:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
-					displayText("\n\nMatch ready to start. Select your preferred configuration.");
-					int mapIndex = askMapToUse();
-					int skulls = askSkullsForGame();
-					displayText("Waiting for other clients to answer...");
-					GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
-					gameConfigMessage.setMapIndex(mapIndex);
-					gameConfigMessage.setSkulls(skulls);
-					sendMessage(gameConfigMessage);
-				}
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+					askMapAndSkullsToUse();
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
-					displayText("Average of voted skulls: " + gameConfigMessage.getSkulls());
-					displayText("Most voted map: " + GameConstants.MapType.values()[gameConfigMessage.getMapIndex()].getDescription());
-					displayText("Match started!");
-					displayGame();
+					showMapAndSkullsInUse(gameConfigMessage.getSkulls(), GameConstants.MapType.values()[gameConfigMessage.getMapIndex()]);
 				}
 				break;
 			case GAME_MAP_REP:
@@ -97,13 +81,19 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		connectionToServer.sendMessage(message);
 	}
 
-	public abstract String askNickname();
+	public abstract void askNickname();
+
+	public abstract void askNicknameError();
+
+	public abstract void nicknameIsOk(String nickname);
 
 	public abstract void displayWaitingPlayers(String waitingPlayers);
 
 	public abstract void displayTimerStarted(long delayInMs);
 
-	public abstract int askMapToUse();
+	public abstract void displayTimerStopped();
 
-	public abstract int askSkullsForGame();
+	public abstract void askMapAndSkullsToUse();
+
+	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);
 }

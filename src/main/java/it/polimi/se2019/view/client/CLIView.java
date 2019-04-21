@@ -5,13 +5,15 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
-import javax.rmi.CORBA.Util;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -31,9 +33,20 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public String askNickname() {
+	public void askNickname() {
 		System.out.println("Enter your nickname.");
-		return scanner.nextLine();
+		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public void askNicknameError() {
+		System.out.println("The nickname already exists or is not valid, please use a different one.");
+		askNickname();
+	}
+
+	@Override
+	public void nicknameIsOk(String nickname) {
+		System.out.println("Nickname set to: \"" + nickname + "\".");
 	}
 
 	@Override
@@ -49,37 +62,31 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void displayText(String text) {
-		System.out.println(text);
+	public void displayTimerStopped() {
+		System.out.println("Timer for starting the match cancelled.");
 	}
 
 	@Override
-	public void displayGame() {
-		repPrinter.displayGame();
+	public void askMapAndSkullsToUse() {
+		System.out.println("\n\nMatch ready to start. Select your preferred configuration.");
+		int mapIndex = askMapToUse();
+		int skulls = askSkullsForGame();
+		System.out.println("Waiting for other clients to answer...");
+		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
+		gameConfigMessage.setMapIndex(mapIndex);
+		gameConfigMessage.setSkulls(skulls);
+		sendMessage(gameConfigMessage);
 	}
 
 	@Override
-	public int askMapToUse() {
-		System.out.println("Select the map you would like to use, available maps:");
-		for(GameConstants.MapType map : GameConstants.MapType.values()) {
-			System.out.println(map.ordinal() + ": " + map.getDescription());
-		}
-		return askForAnInteger(0, GameConstants.MapType.values().length - 1);
+	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
+		System.out.println("Average of voted skulls: " + skulls + ".");
+		System.out.println("Most voted map: " + mapType.getDescription());
+		System.out.println("Match started!");
 	}
 
 	@Override
-	public int askSkullsForGame() {
-		System.out.println("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
-		return askForAnInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
-	}
-
-	@Override
-	public void askAction() {
-
-	}
-
-	@Override
-	public void showTargettablePlayers() {
+	public void displayPossibleActions(List<MacroAction> possibleActions) {
 
 	}
 
@@ -98,9 +105,21 @@ public class CLIView extends RemoteView {
 		modelRep.setPlayersRep(playerRepToUpdate);
 	}
 
-	@Override
-	public void showMessage(String stringToShow) {
-		System.out.println(stringToShow);
+	private int askMapToUse() {
+		System.out.println("Select the map you would like to use, available maps:");
+		for(GameConstants.MapType map : GameConstants.MapType.values()) {
+			System.out.println(map.ordinal() + ": " + map.getDescription());
+		}
+		return askForAnInteger(0, GameConstants.MapType.values().length - 1);
+	}
+
+	private int askSkullsForGame() {
+		System.out.println("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
+		return askForAnInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
+	}
+
+	public void displayGame() {
+		repPrinter.displayGame();
 	}
 
 	/**

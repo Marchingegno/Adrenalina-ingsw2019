@@ -3,6 +3,10 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.MacroAction;
+
+import java.util.List;
 
 public class GUIView extends RemoteView {
 
@@ -12,10 +16,19 @@ public class GUIView extends RemoteView {
 		this.modelRep = new ModelRep();
 	}
 
+	@Override
+	public void askNickname() {
+
+	}
 
 	@Override
-	public String askNickname() {
-		return null;
+	public void askNicknameError() {
+
+	}
+
+	@Override
+	public void nicknameIsOk(String nickname) {
+
 	}
 
 	@Override
@@ -29,37 +42,22 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void displayText(String text) {
+	public void displayTimerStopped() {
 
 	}
 
 	@Override
-	public void displayGame() {
+	public void askMapAndSkullsToUse() {
 
 	}
 
 	@Override
-	public int askMapToUse() {
-		return 0;
-	}
-
-	@Override
-	public int askSkullsForGame() {
-		return 0;
-	}
-
-	@Override
-	public void askAction() {
+	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
 
 	}
 
 	@Override
-	public void showTargettablePlayers() {
-
-	}
-
-	@Override
-	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
+	public void displayPossibleActions(List<MacroAction> possibleActions) {
 
 	}
 
@@ -69,12 +67,12 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 
 	}
 
 	@Override
-	public void showMessage(String stringToShow) {
+	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 
 	}
 }
