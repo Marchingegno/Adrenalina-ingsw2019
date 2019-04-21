@@ -1,17 +1,14 @@
 package it.polimi.se2019.view;
 
-import com.sun.javafx.scene.traversal.Direction;
 import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
-import it.polimi.se2019.model.gamemap.Square;
 import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
-import java.awt.image.DirectColorModel;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,7 +17,7 @@ import java.util.Scanner;
  * @author MarcerAndrea
  * @author Desno365
  */
-public class CLIView implements ViewInterface {
+public class CLIView extends RemoteView {
 
 	private ModelRep modelRep;
 	private Scanner scanner;

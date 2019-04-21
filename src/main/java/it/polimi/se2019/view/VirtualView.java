@@ -7,7 +7,6 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.StringMessage;
 import it.polimi.se2019.network.server.ConnectionToClientInterface;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
@@ -26,12 +25,12 @@ public class VirtualView implements ViewInterface {
 		this.controller = controller;
 
 		this.controller.getModel().getGameBoard().addObserver(new GameBoardObserver());
-		System.out.println("Added Game Board Observer");
+		Utils.logInfo("Added Game Board Observer");
 		this.controller.getModel().getGameBoard().getGameMap().addObserver(new GameMapObserver());
-		System.out.println("Added Game Map Observer");
+		Utils.logInfo("Added Game Map Observer");
 		for (Player player : this.controller.getModel().getPlayers()) {
 			player.addObserver(new PlayerObserver());
-			System.out.println("Added Player Observer");
+			Utils.logInfo("Added Player Observer");
 		}
 	}
 
@@ -39,21 +38,6 @@ public class VirtualView implements ViewInterface {
 		for (MacroAction macroAction : possibleActions) {
 			Utils.logInfo(macroAction.toString());
 		}
-	}
-
-	@Override
-	public String askNickname() {
-		return null;
-	}
-
-	@Override
-	public void displayWaitingPlayers(String waitingPlayers) {
-
-	}
-
-	@Override
-	public void displayTimerStarted(long delayInMs) {
-
 	}
 
 	@Override
@@ -67,16 +51,6 @@ public class VirtualView implements ViewInterface {
 	}
 
 	@Override
-	public int askMapToUse() {
-		return 0;
-	}
-
-	@Override
-	public int askSkullsForGame() {
-		return 0;
-	}
-
-	@Override
 	public void askAction() {
 
 	}
@@ -87,18 +61,18 @@ public class VirtualView implements ViewInterface {
 	}
 
 	@Override
-	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
-
+	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
+		client.sendMessage(gameBoardRepToUpdate);
 	}
 
 	@Override
-	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
-
+	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
+		client.sendMessage(gameMapRepToUpdate);
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
-
+		client.sendMessage(playerRepToUpdate);
 	}
 
 	@Override
@@ -110,24 +84,24 @@ public class VirtualView implements ViewInterface {
 	private class GameBoardObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			System.out.println("Game Map Rep Created");
-			client.sendMessage(new GameBoardRep((GameBoard) observable));
+			Utils.logInfo("Game Board Rep Created.");
+			updateGameBoardRep(new GameBoardRep((GameBoard) observable));
 		}
 	}
 
 	private class GameMapObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			System.out.println("Map Rep Created");
-			client.sendMessage(new GameMapRep((GameMap) observable));
+			Utils.logInfo("Map Rep Created.");
+			updateGameMapRep(new GameMapRep((GameMap) observable));
 		}
 	}
 
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			System.out.println("Player Rep Created");
-			client.sendMessage(new PlayerRep((Player) observable));
+			Utils.logInfo("Player Rep Created.");
+			updatePlayerRep(new PlayerRep((Player) observable));
 		}
 	}
 }

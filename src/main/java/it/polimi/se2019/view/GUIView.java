@@ -4,9 +4,9 @@ import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 
-public class GUIView implements ViewInterface {
+public class GUIView extends RemoteView {
 
-	public ModelRep modelRep;
+	private ModelRep modelRep;
 
 	public GUIView() {
 		this.modelRep = new ModelRep();

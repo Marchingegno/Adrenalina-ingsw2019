@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.client.socket;
 
-import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
+import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Utils;
 
@@ -19,17 +19,17 @@ public class ClientSocket extends Thread  implements ConnectionToServerInterface
 	private static final int PORT = 12345;
 
 	private Socket socketClient;
-	private Client client;
+	private MessageReceiverInterface messageReceiver;
 	private ObjectInputStream objInStream;
 	private ObjectOutputStream objOutStream;
 	private boolean active;
 
 	/**
 	 * Creates a socket between the client and the server.
-	 * @param client the associated client that will receive the messages.
+	 * @param messageReceiver the associated interface that will receive the messages.
 	 */
-	public ClientSocket(Client client){
-		this.client = client;
+	public ClientSocket(MessageReceiverInterface messageReceiver){
+		this.messageReceiver = messageReceiver;
 		try {
 			socketClient = new Socket(HOST, PORT);
 			this.objOutStream = new ObjectOutputStream(this.socketClient.getOutputStream());
@@ -70,7 +70,7 @@ public class ClientSocket extends Thread  implements ConnectionToServerInterface
 		try{
 			while(isActive()){
 				Message message = (Message) objInStream.readObject();
-				client.processMessage(message);
+				messageReceiver.processMessage(message);
 			}
 		} catch (EOFException e) {
 			Utils.logInfo("Connection closed by the server.");

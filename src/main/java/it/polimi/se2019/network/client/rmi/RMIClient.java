@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.client.rmi;
 
-import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
+import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.rmi.RMIServerSkeletonInterface;
 import it.polimi.se2019.utils.Utils;
@@ -21,18 +21,18 @@ import java.rmi.server.UnicastRemoteObject;
 public class RMIClient implements ConnectionToServerInterface, RMIClientInterface {
 
 	private RMIServerSkeletonInterface rmiServerSkeleton;
-	private Client client;
+	private MessageReceiverInterface messageReceiver;
 	private RMIClientInterface stub;
 
 
 	/**
 	 * Creates a new instance of a RMIClient and starts the connection with the server.
-	 * @param client the client on which messages will be forwarded.
+	 * @param messageReceiver the interface on which messages will be forwarded.
 	 * @throws RemoteException
 	 * @throws NotBoundException
 	 */
-	public RMIClient(Client client) throws RemoteException, NotBoundException {
-		this.client = client;
+	public RMIClient(MessageReceiverInterface messageReceiver) throws RemoteException, NotBoundException {
+		this.messageReceiver = messageReceiver;
 
 		// Get Server remote object.
 		Registry registry = LocateRegistry.getRegistry("localhost", 1099);
@@ -67,6 +67,6 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	 */
 	@Override
 	public void receiveMessage(Message message) throws RemoteException {
-			client.processMessage(message);
+			messageReceiver.processMessage(message);
 	}
 }
