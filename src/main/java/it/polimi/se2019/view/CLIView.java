@@ -152,7 +152,7 @@ class RepPrinter{
 		ArrayList<PlayerRep> playersRep = modelRep.getPlayersRep();
 		for (int i = 0; i < playersRep.size(); i++) {
 				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playersRep.get(i).getPlayerName()));
-				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + i] = Utils.getColoredCell(playersRep.get(i).getPlayerColor() + 10);
+				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + i] = Utils.getColoredString("♦", playersRep.get(i).getPlayerColor(), Utils.DEFAULT_BACKGROUND);
 		}
 	}
 
@@ -241,14 +241,23 @@ class RepPrinter{
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 		int roomID = squareRep.getRoomID();
 
-		mapToPrint[row-2][column-4] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
+		/*mapToPrint[row-2][column-4] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
 		mapToPrint[row-2][column-3] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
 		mapToPrint[row-2][column+4] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
 		mapToPrint[row-2][column+3] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
 		mapToPrint[row+2][column-4] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
 		mapToPrint[row+2][column-3] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
 		mapToPrint[row+2][column+4] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
-		mapToPrint[row+2][column+3] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row+2][column+3] = Utils.getColoredCell(Utils.CYAN_BACKGROUND - roomID);*/
+
+		mapToPrint[row-2][column-4] = Utils.getColoredString(" ", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row-2][column-3] = Utils.getColoredString("┌", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row-2][column+4] = Utils.getColoredString(" ", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row-2][column+3] = Utils.getColoredString("┐", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row+2][column-4] = Utils.getColoredString(" ", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row+2][column-3] = Utils.getColoredString("└", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row+2][column+4] = Utils.getColoredString(" ", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
+		mapToPrint[row+2][column+3] = Utils.getColoredString("┘", Utils.DEFAULT_COLOR, Utils.CYAN_BACKGROUND - roomID);
 	}
 
 	private void fillUpDoor(SquareRep squareRep){
