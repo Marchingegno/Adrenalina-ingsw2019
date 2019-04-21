@@ -14,6 +14,7 @@ import java.util.*;
 public class Match {
 
 	private HashMap<ConnectionToClientInterface, String> participants;
+	private HashMap<ConnectionToClientInterface, VirtualView> virtualViews;
 	private int numberOfPartecipants;
 	private Controller controller;
 
@@ -47,7 +48,7 @@ public class Match {
 	}
 
 	public void addConfigVote(ConnectionToClientInterface client, int skulls, int mapIndex) {
-		if(participants.containsKey(client)) { // Check if the participants is in the Match.
+		if(participants.containsKey(client)) { // Check if the client is in the Match.
 			if(!skullsChosen.containsKey(client))
 				skullsChosen.put(client, skulls);
 
@@ -58,6 +59,15 @@ public class Match {
 			if(numberOfAnswers >= numberOfPartecipants)
 				startMatch();
 		}
+	}
+
+	/**
+	 * Returns the VirtualView associated to the client, or null if this match doesn't have the VirtualView of the client.
+	 * @param client the client.
+	 * @return the VirtualView associated to the client.
+	 */
+	public VirtualView getVirtualViewOfClient(ConnectionToClientInterface client) {
+		return virtualViews.get(client);
 	}
 
 	/**
@@ -75,7 +85,7 @@ public class Match {
 
 		for (ConnectionToClientInterface client : participants.keySet()) {
 			System.out.println("added Virtual View");
-			new VirtualView(controller, client);
+			virtualViews.put(client, new VirtualView(controller, client));
 		}
 
 		controller.getModel().updateReps();

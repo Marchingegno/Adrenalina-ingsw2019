@@ -2,6 +2,7 @@ package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.ArrayList;
 
@@ -41,8 +42,6 @@ public class ServerMessageHandler {
 		if(!clients.contains(client))
 			return;
 
-		// TODO based on the message send it to the controller (or remoteview?)
-
 		switch (message.getMessageType()) {
 			case NICKNAME:
 				if (message.getMessageSubtype() == MessageSubtype.ANSWER)
@@ -51,6 +50,9 @@ public class ServerMessageHandler {
 			case GAME_CONFIG:
 				if(message.getMessageSubtype() == MessageSubtype.ANSWER)
 					gameConfigLogic(client, message);
+				break;
+			default:
+				forwardMessageToVirtualView(client, message);
 				break;
 
 		}
@@ -81,6 +83,17 @@ public class ServerMessageHandler {
 		if(match != null) {
 			GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 			match.addConfigVote(client, gameConfigMessage.getSkulls(), gameConfigMessage.getMapIndex());
+		}
+	}
+
+	private void forwardMessageToVirtualView(ConnectionToClientInterface client, Message message) {
+		Match match = lobby.getMatchOfClient(client);
+		if(match != null) { // If the client is in a match.
+			VirtualView virtualView = match.getVirtualViewOfClient(client);
+			if(virtualView == null)
+				Utils.logError("The lobby thinks the client is in a match but he actually isn't.", new IllegalStateException("The lobby thinks the client is in a match but he actually isn't."));
+			else
+				virtualView.onMessageReceived(message);
 		}
 	}
 

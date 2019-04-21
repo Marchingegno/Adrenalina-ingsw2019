@@ -38,6 +38,15 @@ public class VirtualView implements ViewInterface {
 		}
 	}
 
+	public void onMessageReceived(Message message) {
+		switch (message.getMessageType()) {
+			default:
+				Utils.logError("Message of type " + message.getMessageType() + " not recognized!" , new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
+				break;
+
+		}
+	}
+
 	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 		for (MacroAction macroAction : possibleActions) {
