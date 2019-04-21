@@ -12,8 +12,8 @@ public class DamageDoneTest {
 
 	@Test
 	public void damageUp_newPlayer_correctOutput() {
-		Player player1 = new Player("name1", 0, Utils.BLUE);
-		Player player2 = new Player("name2", 1, Utils.RED);
+		Player player1 = new Player("name1", 0, Utils.CharacterColorType.BLUE);
+		Player player2 = new Player("name2", 1, Utils.CharacterColorType.RED);
 		DamageDone damageDoneTest = new DamageDone();
 
 		damageDoneTest.damageUp(player1);
@@ -34,10 +34,10 @@ public class DamageDoneTest {
 
 	@Test
 	public void getSortedPlayers_correctArray_correctOutput() {
-		Player player1 = new Player("name1", 0, Utils.BLUE);
-		Player player2 = new Player("name2", 1, Utils.RED);
-		Player player3 = new Player("name3", 0, Utils.YELLOW);
-		Player player4 = new Player("name4", 1, Utils.MAGENTA);
+		Player player1 = new Player("name1", 0, Utils.CharacterColorType.BLUE);
+		Player player2 = new Player("name2", 1, Utils.CharacterColorType.RED);
+		Player player3 = new Player("name3", 0, Utils.CharacterColorType.YELLOW);
+		Player player4 = new Player("name4", 1, Utils.CharacterColorType.MAGENTA);
 		DamageDone damageDoneTest = new DamageDone();
 
 		damageDoneTest.damageUp(player1);

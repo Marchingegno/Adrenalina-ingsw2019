@@ -81,11 +81,11 @@ public class CLIViewTest {
 	@Test
 	public void displayMapTest() {
 		players = new ArrayList<>();
-		player1 = new Player("Test 1", 0, Utils.MAGENTA);
-		player2 = new Player("Test 2", 1, Utils.YELLOW);
-		player3 = new Player("Test 3", 2, Utils.BLUE);
-		player4 = new Player("Test 4", 3, Utils.CYAN);
-		player5 = new Player("Test 5", 4, Utils.RED);
+		player1 = new Player("Test 1", 0, Utils.CharacterColorType.MAGENTA);
+		player2 = new Player("Test 2", 1, Utils.CharacterColorType.YELLOW);
+		player3 = new Player("Test 3", 2, Utils.CharacterColorType.BLUE);
+		player4 = new Player("Test 4", 3, Utils.CharacterColorType.CYAN);
+		player5 = new Player("Test 5", 4, Utils.CharacterColorType.RED);
 		players.add(player1);
 		players.add(player2);
 		players.add(player3);

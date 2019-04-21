@@ -3,6 +3,7 @@ package it.polimi.se2019.model.player;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
 import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.utils.Utils;
 
 import java.awt.*;
 import java.util.List;
@@ -12,12 +13,12 @@ public class Player extends Observable {
 
 	private String playerName;
 	private int playerID;
-	private int playerColor;
+	private Utils.CharacterColorType playerColor;
 	private PlayerBoard playerBoard;
 	private DamageStatus damageStatus;
 
 
-	public Player(String playerName, int playerID, int playerColor) {
+	public Player(String playerName, int playerID, Utils.CharacterColorType playerColor) {
 		this.playerName = playerName;
 		this.playerID = playerID;
 		this.playerColor = playerColor;
@@ -46,7 +47,7 @@ public class Player extends Observable {
 		return playerID;
 	}
 
-	public int getPlayerColor() {
+	public Utils.CharacterColorType getPlayerColor() {
 		return playerColor;
 	}
 

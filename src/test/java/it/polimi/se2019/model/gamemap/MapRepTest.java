@@ -21,11 +21,11 @@ public class MapRepTest {
 	@Before
 	public void setUp() throws Exception {
 		players = new ArrayList<>();
-		player1 = new Player("Test 1", 0, Utils.GREEN);
-		player2 = new Player("Test 2", 1, Utils.YELLOW);
-		player3 = new Player("Test 3", 2, Utils.BLUE);
-		player4 = new Player("Test 4", 3, Utils.RED);
-		player5 = new Player("Test 5", 4, Utils.MAGENTA);
+		player1 = new Player("Test 1", 0, Utils.CharacterColorType.GREEN);
+		player2 = new Player("Test 2", 1, Utils.CharacterColorType.YELLOW);
+		player3 = new Player("Test 3", 2, Utils.CharacterColorType.BLUE);
+		player4 = new Player("Test 4", 3, Utils.CharacterColorType.RED);
+		player5 = new Player("Test 5", 4, Utils.CharacterColorType.MAGENTA);
 		players.add(player1);
 		players.add(player2);
 		players.add(player3);

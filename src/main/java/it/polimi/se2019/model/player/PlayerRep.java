@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.utils.Utils;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 public class PlayerRep extends Message {
 
 	private String playerName;
-	private int playerColor;
+	private Utils.CharacterColorType playerColor;
 	private int points;
 	private ArrayList<String> damageBoard;
 	private ArrayList<String> marks;
@@ -119,7 +120,7 @@ public class PlayerRep extends Message {
 	 * Returns the player color.
 	 * @return the player color.
 	 */
-	public int getPlayerColor() {
+	public Utils.CharacterColorType getPlayerColor() {
 		return playerColor;
 	}
 

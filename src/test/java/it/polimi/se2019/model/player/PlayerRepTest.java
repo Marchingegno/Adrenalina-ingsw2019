@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
  */
 public class PlayerRepTest {
 
-	private static final Player player1 = new Player("Test 1", 0, Utils.GREEN);
-	private static final Player player2 = new Player("Test 2", 1, Utils.BLUE);
-	private static final Player player3 = new Player("Test 3", 2, Utils.RED);
+	private static final Player player1 = new Player("Test 1", 0, Utils.CharacterColorType.GREEN);
+	private static final Player player2 = new Player("Test 2", 1, Utils.CharacterColorType.BLUE);
+	private static final Player player3 = new Player("Test 3", 2, Utils.CharacterColorType.RED);
 
 	@BeforeClass
 	public static void oneTimeSetUp() {
@@ -67,7 +67,7 @@ public class PlayerRepTest {
 	@Test
 	public void getPlayerColor_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player2);
-		assertEquals(Utils.BLUE, playerRep.getPlayerColor());
+		assertEquals(Utils.CharacterColorType.BLUE, playerRep.getPlayerColor());
 	}
 
 	@Test
