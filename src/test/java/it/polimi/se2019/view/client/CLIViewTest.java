@@ -94,8 +94,8 @@ public class CLIViewTest {
 		GameMap gameMap = new GameMap("SmallMap.txt", players);
 
 		gameMap.movePlayerTo(player1, new Coordinates(2,2));
-		gameMap.movePlayerTo(player2, new Coordinates(2,2));
-		gameMap.movePlayerTo(player3, new Coordinates(2,2));
+		gameMap.movePlayerTo(player2, new Coordinates(1,2));
+		gameMap.movePlayerTo(player3, new Coordinates(2,3));
 		gameMap.movePlayerTo(player4, new Coordinates(2,2));
 		gameMap.movePlayerTo(player5, new Coordinates(2,2));
 
@@ -108,5 +108,6 @@ public class CLIViewTest {
 		cliView.updatePlayerRep(new PlayerRep(player5));
 
 		cliView.displayGame();
+
 	}
 }

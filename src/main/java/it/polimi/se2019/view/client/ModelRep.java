@@ -37,11 +37,12 @@ public class ModelRep{
 	}
 
 	public void setPlayersRep(PlayerRep playerRep) {
-		if(!playersRep.contains(playerRep))
+		if(!(playersRep.contains(playerRep))){
 			playersRep.add(playerRep);
+		}
 		else
 			for (int i = 0; i < playersRep.size(); i++) {
-				if(playersRep.get(i).getPlayerName().equals(playerRep.getPlayerName()))
+				if(playersRep.equals(playerRep))
 					playersRep.add(i, playerRep);
 			}
 	}
@@ -64,4 +65,6 @@ public class ModelRep{
 		}
 		return tempPlayersRep;
 	}
+
+
 }

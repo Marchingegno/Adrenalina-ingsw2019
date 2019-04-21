@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.player;
 
+import com.sun.corba.se.impl.logging.UtilSystemException;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.network.message.Message;
@@ -7,6 +8,7 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +53,14 @@ public class PlayerRep extends Message {
 			marks.add(player2.getPlayerName());
 		}
 
-		weaponLoaded = new boolean[player.getPlayerBoard().getWeaponCards().size()];
-		for (int i = 0; i < player.getPlayerBoard().getWeaponCards().size(); i++) {
-			weaponLoaded[i] = player.getPlayerBoard().getWeaponCards().get(i).isLoaded();
+		if(player.getPlayerBoard().getWeaponCards().size() == 0){
+			weaponLoaded = null;
+		}
+		else{
+			weaponLoaded = new boolean[player.getPlayerBoard().getWeaponCards().size()];
+			for (int i = 0; i < player.getPlayerBoard().getWeaponCards().size(); i++) {
+				weaponLoaded[i] = player.getPlayerBoard().getWeaponCards().get(i).isLoaded();
+			}
 		}
 
 		powerupCards = new ArrayList<>(player.getPlayerBoard().getPowerupCards().size());
@@ -203,6 +210,42 @@ public class PlayerRep extends Message {
 	 */
 	public int getBlueAmmo() {
 		return blueAmmo;
+	}
+
+	public boolean equals(Object object){
+		if (!(object instanceof PlayerRep))
+				return false;
+		boolean temp;
+		try{
+			temp = ((((PlayerRep) object).isHidden() == hidden) &&
+					((PlayerRep) object).getPowerupAmmos().equals(powerupAmmos) &&
+					((PlayerRep) object).getPowerupCards().equals(powerupCards) &&
+					(((PlayerRep) object).getPoints() == points)) &&
+					((PlayerRep) object).getPlayerName().equals(playerName) &&
+					((PlayerRep) object).getPlayerColor().equals(playerColor) &&
+					((PlayerRep) object).blueAmmo == blueAmmo &&
+					((PlayerRep) object).redAmmo == redAmmo &&
+					((PlayerRep) object).yellowAmmo == yellowAmmo &&
+					(((PlayerRep) object).getWeaponLoaded() == null || ((PlayerRep) object).getWeaponLoaded().equals(weaponLoaded)) &&
+					((PlayerRep) object).getMarks().equals(marks);
+		}catch(HiddenException e){
+			temp = false;
+		}
+		return temp;
+	}
+
+	public String toString(){
+		return ("Player name: " + playerName +"\n" +
+				"Color: " + Utils.getColoredString(" ", playerColor, Utils.BackgroundColorType.DEFAULT) +
+				"Hidden: " + hidden + "\n" +
+				"PowerupAmmos: " + powerupAmmos + "\n" +
+				"PowerUpCards: " + powerupCards + "\n" +
+				"Point: " + points + "\n" +
+				"Blue ammo: " + blueAmmo + "\n" +
+				"Red ammo: " + redAmmo + "\n" +
+				"Yellow ammo: " + yellowAmmo + "\n" +
+				"Loaded: " + weaponLoaded + "\n" +
+				"Marks: " + marks);
 	}
 
 }
