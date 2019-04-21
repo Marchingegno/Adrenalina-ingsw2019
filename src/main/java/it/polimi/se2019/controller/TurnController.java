@@ -3,6 +3,7 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.view.ViewInterface;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public class TurnController {
 
 	private Player currentPlayer;
 	private Model model;
-	private VirtualView view;
+	private ViewInterface view;
 
 
 	public TurnController(Model model) {
@@ -24,7 +25,6 @@ public class TurnController {
 		List<MacroAction> possibleActions = currentPlayer.getDamageStatus().getAvailableActions();
 
 		while(player.getDamageStatus().getNumberOfActionsPerformed() != 0){
-			view.showMessage("Choose your action!");
 			view.displayPossibleActions(possibleActions);
 		}
 	}
