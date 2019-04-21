@@ -56,6 +56,12 @@ public class GUIView extends RemoteView {
 
 	}
 
+	// TODO remove
+	@Override
+	public void askActionExample() {
+
+	}
+
 	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 

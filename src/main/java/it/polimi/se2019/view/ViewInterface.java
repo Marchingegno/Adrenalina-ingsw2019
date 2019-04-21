@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ViewInterface {
 
+	void askActionExample(); // TODO remove
+
 	void displayPossibleActions(List<MacroAction> possibleActions);
 
 	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);

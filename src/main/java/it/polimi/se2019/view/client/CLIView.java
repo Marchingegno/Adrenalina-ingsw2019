@@ -85,6 +85,16 @@ public class CLIView extends RemoteView {
 		System.out.println("Match started!");
 	}
 
+	// TODO remove
+	@Override
+	public void askActionExample() {
+		System.out.println("Asking the user the action...");
+		System.out.println("Select a number between 0 and 2.");
+		int answer = askForAnInteger(0, 2);
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new IntMessage(answer, MessageType.EXAMPLE_ACTION, MessageSubtype.ANSWER));
+	}
+
 	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 

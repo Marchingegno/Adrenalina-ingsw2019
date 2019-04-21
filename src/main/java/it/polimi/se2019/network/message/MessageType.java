@@ -7,5 +7,6 @@ public enum MessageType {
 	GAME_CONFIG,
 	GAME_MAP_REP,
 	GAME_BOARD_REP,
-	PLAYER_REP
+	PLAYER_REP,
+	EXAMPLE_ACTION // TODO remove
 }

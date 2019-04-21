@@ -7,6 +7,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
@@ -40,11 +41,26 @@ public class VirtualView implements ViewInterface {
 
 	public void onMessageReceived(Message message) {
 		switch (message.getMessageType()) {
+			case EXAMPLE_ACTION: // TODO remove
+				if(message.getMessageSubtype() == MessageSubtype.ANSWER) {
+					IntMessage intMessage = (IntMessage) message;
+					int answer = intMessage.getContent();
+					Utils.logInfo("Received answer for Example Action: " + answer + ".");
+					//controller.doExampleAction(answer);
+				}
+				break;
 			default:
 				Utils.logError("Message of type " + message.getMessageType() + " not recognized!" , new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
 				break;
 
 		}
+	}
+
+	// TODO remove
+	@Override
+	public void askActionExample() { // This method in overridden from the ViewInterface.
+		// Send a message that represents asking the "example action". The client will process it in the RemoteView class.
+		client.sendMessage(new Message(MessageType.EXAMPLE_ACTION, MessageSubtype.REQUEST));
 	}
 
 	@Override
