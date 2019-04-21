@@ -1,4 +1,4 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.client;
 
 public enum TurnStatus {
 	PRE_SPAWN,

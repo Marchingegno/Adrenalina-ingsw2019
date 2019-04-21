@@ -3,9 +3,9 @@ package it.polimi.se2019.network.client;
 import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.CLIView;
-import it.polimi.se2019.view.GUIView;
-import it.polimi.se2019.view.RemoteView;
+import it.polimi.se2019.view.client.CLIView;
+import it.polimi.se2019.view.client.GUIView;
+import it.polimi.se2019.view.client.RemoteView;
 
 import java.util.Scanner;
 

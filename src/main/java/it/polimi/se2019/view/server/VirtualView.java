@@ -1,4 +1,4 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.server;
 
 import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.GameBoard;
@@ -10,6 +10,7 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.server.ConnectionToClientInterface;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.ViewInterface;
 
 import java.util.List;
 import java.util.Observable;

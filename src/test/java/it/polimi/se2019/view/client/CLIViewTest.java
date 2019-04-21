@@ -1,4 +1,4 @@
-package it.polimi.se2019.view;
+package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
@@ -6,14 +6,12 @@ import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.client.CLIView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 public class CLIViewTest {
 

@@ -7,7 +7,7 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.VirtualView;
+import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.*;
 

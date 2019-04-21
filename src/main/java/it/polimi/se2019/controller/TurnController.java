@@ -3,9 +3,8 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.MacroAction;
-import it.polimi.se2019.view.VirtualView;
+import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TurnController {
