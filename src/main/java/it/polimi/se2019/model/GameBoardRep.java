@@ -50,6 +50,14 @@ public class GameBoardRep extends Message {
 		return currentPlayer;
 	}
 
+	public boolean equals(Object object){
+		return (object instanceof GameBoardRep &&
+				this.remainingSkulls == ((GameBoardRep) object).remainingSkulls	&&
+				this.doubleKills.equals(((GameBoardRep) object).doubleKills) &&
+				this.currentPlayer.equals(((GameBoardRep) object).currentPlayer) &&
+				this.killShoots.equals(((GameBoardRep) object).killShoots));
+	}
+
 }
 
 
@@ -64,12 +72,17 @@ class KillShotRep implements Serializable {
 		this.overkill = overkill;
 	}
 
-
 	public String getPlayerName() {
 		return playerName;
 	}
 
 	public boolean isOverkill() {
 		return overkill;
+	}
+
+	public boolean equals(Object object){
+		return (object instanceof KillShotRep &&
+				this.playerName.equals(((KillShotRep) object).playerName) &&
+				this.overkill == (((KillShotRep) object).overkill));
 	}
 }

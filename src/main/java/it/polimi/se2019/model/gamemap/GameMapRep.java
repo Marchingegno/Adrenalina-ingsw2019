@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * A sharable vertion of the game map.
+ * A sharable version of the game map.
  * @author MarcerAndrea
  */
 public class GameMapRep extends Message {
@@ -53,5 +53,23 @@ public class GameMapRep extends Message {
 
 	public HashMap<String, Coordinates> getPlayersCoordinates() {
 		return playersPositions;
+	}
+
+	public boolean equals(Object object){
+		boolean temp = (object instanceof GameMapRep &&
+				this.numOfColumns == ((GameMapRep) object).numOfColumns &&
+				this.numOfRows == ((GameMapRep) object).numOfRows &&
+				this.playersPositions.equals(object));
+		if (!temp)
+			return false;
+		temp = true;
+		SquareRep[][] mapRepToCompare = ((GameMapRep) object).mapRep;
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				if(!mapRep[i][j].equals(mapRepToCompare[i][j]))
+					return false;
+			}
+		}
+		return true;
 	}
 }
