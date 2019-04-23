@@ -5,7 +5,6 @@ import it.polimi.se2019.model.player.damagestatus.LowDamage;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Observable;
 

@@ -73,16 +73,19 @@ public class VirtualView implements ViewInterface {
 
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
+		Utils.logInfo("Sending Game Board rep");
 		client.sendMessage(gameBoardRepToUpdate);
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
+		Utils.logInfo("Sending Game Map rep");
 		client.sendMessage(gameMapRepToUpdate);
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+		Utils.logInfo("Sending Player rep");
 		client.sendMessage(playerRepToUpdate);
 	}
 
@@ -90,7 +93,6 @@ public class VirtualView implements ViewInterface {
 	private class GameBoardObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			Utils.logInfo("Game Board Rep Created.");
 			updateGameBoardRep(new GameBoardRep((GameBoard) observable));
 		}
 	}
@@ -98,7 +100,6 @@ public class VirtualView implements ViewInterface {
 	private class GameMapObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			Utils.logInfo("Map Rep Created.");
 			updateGameMapRep(new GameMapRep((GameMap) observable));
 		}
 	}
@@ -106,7 +107,6 @@ public class VirtualView implements ViewInterface {
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			Utils.logInfo("Player Rep Created.");
 			updatePlayerRep(new PlayerRep((Player) observable));
 		}
 	}

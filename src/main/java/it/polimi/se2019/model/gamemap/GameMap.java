@@ -30,7 +30,7 @@ public class GameMap extends Observable {
 
 		generateMap(mapName);
 		connectSquares();
-		addSquaresToRoom();
+		addSquaresToRooms();
 
 		for (Player playerToAdd: players ) {
 			playersPositions.put(playerToAdd, null);
@@ -265,7 +265,7 @@ public class GameMap extends Observable {
 	/**
 	 * Creates the structure to memorize the squares belonging to each room
 	 */
-	private void addSquaresToRoom(){
+	private void addSquaresToRooms(){
 		for (int i = 0; i < numOfRows; i++)
 			for (int j = 0;  j < numOfColumns; j++){
 				int roomID = map[i][j].getRoomID();

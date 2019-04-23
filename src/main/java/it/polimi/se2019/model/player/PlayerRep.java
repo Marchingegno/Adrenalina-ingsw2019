@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.player;
 
-import com.sun.corba.se.impl.logging.UtilSystemException;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.network.message.Message;
@@ -8,8 +7,6 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 
-import javax.rmi.CORBA.Util;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 

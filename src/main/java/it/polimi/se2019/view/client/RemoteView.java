@@ -7,6 +7,7 @@ import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
@@ -51,21 +52,25 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 					showMapAndSkullsInUse(gameConfigMessage.getSkulls(), GameConstants.MapType.values()[gameConfigMessage.getMapIndex()]);
+					displayGame();
 				}
 				break;
 			case GAME_MAP_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
 					updateGameMapRep((GameMapRep) message);
+					Utils.logInfo("Updated Game Map rep");
 				}
 				break;
 			case GAME_BOARD_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
 					updateGameBoardRep((GameBoardRep) message);
+					Utils.logInfo("Updated Game Board rep");
 				}
 				break;
 			case PLAYER_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
 					updatePlayerRep((PlayerRep) message);
+					Utils.logInfo("Updated " + ((PlayerRep) message).getPlayerName() + " rep");
 				}
 				break;
 			case EXAMPLE_ACTION: // TODO remove
@@ -92,6 +97,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public abstract void nicknameIsOk(String nickname);
 
 	public abstract void displayWaitingPlayers(String waitingPlayers);
+
+	public abstract  void displayGame();
 
 	public abstract void displayTimerStarted(long delayInMs);
 

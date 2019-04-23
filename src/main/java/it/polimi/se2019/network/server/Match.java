@@ -78,10 +78,9 @@ public class Match {
 
 		// start the game.
 		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());
-		//controller.startGame();
 
 		for (ConnectionToClientInterface client : participants.keySet()) {
-			System.out.println("added Virtual View");
+			Utils.logInfo("added Virtual View to " + participants.get(client));
 			virtualViews.put(client, new VirtualView(controller, client));
 		}
 

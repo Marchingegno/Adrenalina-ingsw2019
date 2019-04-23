@@ -33,8 +33,9 @@ public class GameBoard extends Observable {
 		// initialize players
 		players = new ArrayList<>(playerNames.size());
 		int id = 0;
+
 		for (String name : playerNames) {
-			players.add(new Player(name, id, Utils.CharacterColorType.RED)); //  TODO Color?
+			players.add(new Player(name, id, Utils.CharacterColorType.values()[id]));
 			id++;
 		}
 

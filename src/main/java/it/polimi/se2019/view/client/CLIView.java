@@ -102,16 +102,22 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
+		if (gameMapRepToUpdate == null)
+				throw new NullPointerException();
 		modelRep.setGameMapRep(gameMapRepToUpdate);
 	}
 
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
+		if (gameBoardRepToUpdate == null)
+			throw new NullPointerException();
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+		if (playerRepToUpdate == null)
+			throw new NullPointerException();
 		modelRep.setPlayersRep(playerRepToUpdate);
 	}
 
@@ -196,8 +202,11 @@ class RepPrinter{
 
 		//update Players position
 		for (int i = 0; i < playersRep.size(); i++) {
+			if (gameMapRep.getPlayersCoordinates().get(playersRep.get(i).getPlayerName()) != null)
+			{
 				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playersRep.get(i).getPlayerName()));
 				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + i] = Utils.getColoredString("⧫", playersRep.get(i).getPlayerColor(), Utils.BackgroundColorType.DEFAULT);
+			}
 		}
 	}
 

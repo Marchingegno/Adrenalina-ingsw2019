@@ -6,6 +6,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.*;
@@ -152,10 +153,13 @@ public class Model{
 	public List<Player> getPlayers(){return gameBoard.getPlayers();}
 
 	public void updateReps(){
-		gameBoard.notifyObservers();System.out.println("UPDATED GameBoard. Observers = " + gameBoard.countObservers());
-		gameMap.notifyObservers();System.out.println("UPDATED Game Map. Observers = " + gameMap.countObservers());
+		gameBoard.notifyObservers();
+		Utils.logInfo("Notified all Game Board Observers");
+		gameMap.notifyObservers();
+		Utils.logInfo("Notified all Game Map Observers");
 		for (Player player: gameBoard.getPlayers() ) {
-			player.notifyObservers();System.out.println("UPDATED Player. Observers = " + player.countObservers());
+			player.notifyObservers();
+			Utils.logInfo("Notified all Player " + player.getPlayerName() +"Observers");
 		}
 	}
 }

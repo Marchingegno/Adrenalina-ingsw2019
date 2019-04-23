@@ -37,6 +37,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void displayGame() {
+
+	}
+
+	@Override
 	public void displayTimerStarted(long delayInMs) {
 
 	}
