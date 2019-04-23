@@ -27,7 +27,10 @@ public class GameConstants {
 	public static final int HIGH_DAMAGE_THRESHOLD = 6;
 
 	public enum MapType {
-		SMALL_MAP("SmallMap.txt", "Small map with 10 squares."), MEDIUM_MAP("MediumMap.txt", "Medium map with 11 squares."), BIG_MAP("BigMap.txt", "Big map with 12 squares.");
+		SMALL_MAP("SmallMap.txt", "Small map with 10 squares."),
+		MEDIUM_MAP("MediumMap.txt", "Medium map with 11 squares."),
+		BIG_MAP("BigMap.txt", "Big map with 12 squares."),
+		BONUS_MAP("BonusMap.txt", "Bonus map with 11 squares.");
 
 		private String mapName;
 
