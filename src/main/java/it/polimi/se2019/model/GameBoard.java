@@ -35,7 +35,7 @@ public class GameBoard extends Observable {
 		int id = 0;
 
 		for (String name : playerNames) {
-			players.add(new Player(name, id, Utils.CharacterColorType.values()[id]));
+			players.add(new Player(name, id, Utils.CharacterColorType.values()[id + 1]));
 			id++;
 		}
 

@@ -86,9 +86,9 @@ public class PlayerRepTest {
 	public void getDamageBoard_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player1);
 		List list = playerRep.getDamageBoard();
-		assertEquals(player2.getPlayerName(), list.get(0));
-		assertEquals(player2.getPlayerName(), list.get(1));
-		assertEquals(player2.getPlayerName(), list.get(2));
+		assertEquals(player2.getPlayerColor(), list.get(0));
+		assertEquals(player2.getPlayerColor(), list.get(1));
+		assertEquals(player2.getPlayerColor(), list.get(2));
 		assertEquals(3, list.size());
 	}
 
@@ -96,8 +96,8 @@ public class PlayerRepTest {
 	public void getMarks_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player1);
 		List list = playerRep.getMarks();
-		assertEquals(player2.getPlayerName(), list.get(0));
-		assertEquals(player2.getPlayerName(), list.get(1));
+		assertEquals(player2.getPlayerColor(), list.get(0));
+		assertEquals(player2.getPlayerColor(), list.get(1));
 		assertEquals(2, list.size());
 	}
 

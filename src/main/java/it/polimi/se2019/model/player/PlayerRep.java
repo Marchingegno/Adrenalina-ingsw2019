@@ -19,8 +19,9 @@ public class PlayerRep extends Message {
 	private String playerName;
 	private Utils.CharacterColorType playerColor;
 	private int points;
-	private ArrayList<String> damageBoard;
-	private ArrayList<String> marks;
+	private int playerID;
+	private ArrayList<Utils.CharacterColorType> damageBoard;
+	private ArrayList<Utils.CharacterColorType> marks;
 	private boolean[] weaponLoaded;
 	private ArrayList<String> powerupCards;
 	private ArrayList<AmmoType> powerupAmmos;
@@ -39,18 +40,19 @@ public class PlayerRep extends Message {
 		playerName = player.getPlayerName();
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
+		playerID = player.getPlayerID();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());
 		for(Player player1 : player.getPlayerBoard().getDamageBoard()) {
-			damageBoard.add(player1.getPlayerName());
+			damageBoard.add(player1.getPlayerColor());
 		}
 
 		marks = new ArrayList<>(player.getPlayerBoard().getMarks().size());
 		for(Player player2 : player.getPlayerBoard().getMarks()) {
-			marks.add(player2.getPlayerName());
+			marks.add(player2.getPlayerColor());
 		}
 
-		if(player.getPlayerBoard().getWeaponCards().size() == 0){
+		if(player.getPlayerBoard().getWeaponCards().isEmpty()){
 			weaponLoaded = null;
 		}
 		else{
@@ -121,6 +123,14 @@ public class PlayerRep extends Message {
 	}
 
 	/**
+	 * Return the player ID.
+	 * @return the player ID.
+	 */
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	/**
 	 * Returns the player color.
 	 * @return the player color.
 	 */
@@ -143,7 +153,7 @@ public class PlayerRep extends Message {
 	 * Returns the damage board of this player with all the player names that made the damage.
 	 * @return the damage board of this player with all the player names that made the damage.
 	 */
-	public List<String> getDamageBoard() {
+	public List<Utils.CharacterColorType> getDamageBoard() {
 		return damageBoard;
 	}
 
@@ -151,7 +161,7 @@ public class PlayerRep extends Message {
 	 * Returns the marks of this player with all the player names that made the marks.
 	 * @return the marks of this player with all the player names that made the marks.
 	 */
-	public List<String> getMarks() {
+	public List<Utils.CharacterColorType> getMarks() {
 		return marks;
 	}
 
@@ -220,6 +230,7 @@ public class PlayerRep extends Message {
 					(((PlayerRep) object).getPoints() == points)) &&
 					((PlayerRep) object).getPlayerName().equals(playerName) &&
 					((PlayerRep) object).getPlayerColor().equals(playerColor) &&
+					((PlayerRep) object).playerID == playerID &&
 					((PlayerRep) object).blueAmmo == blueAmmo &&
 					((PlayerRep) object).redAmmo == redAmmo &&
 					((PlayerRep) object).yellowAmmo == yellowAmmo &&
@@ -235,6 +246,7 @@ public class PlayerRep extends Message {
 		return ("Player name: " + playerName +"\n" +
 				"Color: " + Utils.getColoredString(" ", playerColor, Utils.BackgroundColorType.DEFAULT) +
 				"Hidden: " + hidden + "\n" +
+				"PlayerId: " + playerID + "\n" +
 				"PowerupAmmos: " + powerupAmmos + "\n" +
 				"PowerUpCards: " + powerupCards + "\n" +
 				"Point: " + points + "\n" +

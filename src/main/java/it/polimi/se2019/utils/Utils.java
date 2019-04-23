@@ -37,15 +37,19 @@ public class Utils {
 		return setColorString(characterColor, backgroundColor) + string + resetColorString();
 	}
 
+	public static String getColoredString(String string, CharacterColorType characterColor){
+		return setColorString(characterColor, BackgroundColorType.DEFAULT) + string + resetColorString();
+	}
+
 	public static String getColoredCell(BackgroundColorType backgroundColor){
 		return setColorString(CharacterColorType.DEFAULT, backgroundColor)+ " " + resetColorString();
 	}
 
-	public static String setColorString(CharacterColorType characterColor, BackgroundColorType backgroundColor) {
+	private static String setColorString(CharacterColorType characterColor, BackgroundColorType backgroundColor) {
 		return (char)27 + "[" + characterColor.getCharacterColor() + ";" + backgroundColor.getBackgroundColor() + "m";
 	}
 
-	public static String resetColorString() {
+	private static String resetColorString() {
 		return setColorString(CharacterColorType.DEFAULT, BackgroundColorType.DEFAULT);
 	}
 	
@@ -57,6 +61,23 @@ public class Utils {
 			}
 			System.out.print("\n");
 		}
+	}
+
+	public static String fillWithSpaces(String inputString, int length) {
+		return fillWithSpacesColored(inputString, length, CharacterColorType.DEFAULT);
+	}
+
+	public static String fillWithSpacesColored(String inputString, int length, Utils.CharacterColorType color) {
+		if (inputString.length() >= length) {
+			return inputString;
+		}
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(getColoredString(inputString, color));
+		while (stringBuilder.length() < length - inputString.length()) {
+			stringBuilder.append('0');
+		}
+
+		return stringBuilder.toString();
 	}
 
 
@@ -73,6 +94,20 @@ public class Utils {
 
 		public int getCharacterColor() {
 			return characterColor;
+		}
+
+		public static BackgroundColorType convertBackgroundColor(CharacterColorType characterColorToConvert){
+			switch (characterColorToConvert) {
+				case BLACK: return BackgroundColorType.BLACK;
+				case RED: return BackgroundColorType.RED;
+				case GREEN: return BackgroundColorType.GREEN;
+				case YELLOW: return BackgroundColorType.YELLOW;
+				case BLUE: return BackgroundColorType.BLUE;
+				case MAGENTA: return BackgroundColorType.MAGENTA;
+				case CYAN: return BackgroundColorType.CYAN;
+				case WHITE: return BackgroundColorType.WHITE;
+					default: return BackgroundColorType.DEFAULT;
+			}
 		}
 	}
 
@@ -91,5 +126,6 @@ public class Utils {
 			return backgroundColor;
 		}
 	}
+
 
 }

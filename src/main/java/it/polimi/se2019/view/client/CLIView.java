@@ -4,6 +4,7 @@ import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.SquareRep;
+import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.CardinalDirection;
@@ -15,6 +16,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author MarcerAndrea
@@ -25,6 +28,7 @@ public class CLIView extends RemoteView {
 	private ModelRep modelRep;
 	private Scanner scanner;
 	private RepPrinter repPrinter;
+	private Logger logger = Logger.getLogger(CLIView.class.getName());
 
 	public CLIView() {
 		this.modelRep = new ModelRep();
@@ -134,6 +138,9 @@ public class CLIView extends RemoteView {
 		return askForAnInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
 	}
 
+	/**
+	 * Displays the main game board
+	 */
 	public void displayGame() {
 		repPrinter.displayGame();
 	}
@@ -161,22 +168,28 @@ public class CLIView extends RemoteView {
 	}
 }
 
-
+/**
+ * Helps printing the information.
+ */
 class RepPrinter{
 
 	private ModelRep modelRep;
 	private String[][] mapToPrint;
+	private Logger logger = Logger.getLogger(RepPrinter.class.getName());
 
-	public RepPrinter(ModelRep modelRep){
+	RepPrinter(ModelRep modelRep){
 		this.modelRep = modelRep;
 	}
 
-	public void displayGame() {
-		System.out.println("\n\n");
+	/**
+	 * Displays all the game board.
+	 */
+	void displayGame() {
+		System.out.println("\n");
 
 		displayPlayers();
 
-		System.out.println("\n\n");
+		System.out.println("\n");
 
 		displayGameBoard();
 
@@ -192,6 +205,9 @@ class RepPrinter{
 		displayOwnPlayer(modelRep.getPlayersRep().get(0));
 	}
 
+	/**
+	 * Prepares the map to be printed by updating the ammo cards and the player positions.
+	 */
 	private void updateMapToPrint(){
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		SquareRep[][] mapRep = gameMapRep.getMapRep();
@@ -205,15 +221,20 @@ class RepPrinter{
 		}
 
 		//update Players position
-		for (int i = 0; i < playersRep.size(); i++) {
-			if (gameMapRep.getPlayersCoordinates().get(playersRep.get(i).getPlayerName()) != null)
-			{
-				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playersRep.get(i).getPlayerName()));
-				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + i] = Utils.getColoredString("⧫", playersRep.get(i).getPlayerColor(), Utils.BackgroundColorType.DEFAULT);
+		for (PlayerRep playerRep : playersRep) {
+			try {
+				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName()));
+				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Utils.getColoredString("⧫", playerRep.getPlayerColor());
+			} catch (NullPointerException e) {
+				logger.log(Level.SEVERE, "{0} has no position", playerRep.getPlayerName());
 			}
 		}
 	}
 
+	/**
+	 * Adds to the map to print in the correct square the ammos of the ammo card.
+	 * @param squareRep
+	 */
 	private void fillCards(SquareRep squareRep){
 		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
@@ -221,10 +242,14 @@ class RepPrinter{
 		if(squareRep.getRoomID() != -1){
 			mapToPrint[row + 1][column-1] = Utils.getColoredCell(Utils.BackgroundColorType.YELLOW);
 			mapToPrint[row + 1][column] = Utils.getColoredCell(Utils.BackgroundColorType.RED);
-			mapToPrint[row + 1][column+1] = Utils.getColoredCell(Utils.BackgroundColorType.BLUE);
+			mapToPrint[row + 1][column+1] = Utils.getColoredCell(Utils.BackgroundColorType.WHITE);
 		}
 	}
 
+	/**
+	 * Resets all the cells in a square.
+	 * @param squareRep
+	 */
 	private void fillEmpty(SquareRep squareRep){
 		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
@@ -236,16 +261,92 @@ class RepPrinter{
 		}
 	}
 
+	/**
+	 * Displays the remaining skulls, the kill shot track and the double kills.
+	 */
 	private void displayGameBoard() {
-		GameBoardRep gameBoardRep = modelRep.getGameBoardRep();
+		System.out.println(getSkullString() + "\n\n" +
+				getKillShotTrackString() + "\n\n" +
+				getDoubleKillString() + "\n");
+	}
 
-		System.out.println("SKULLS\tDOUBLEKILL");
+	private String getSkullString(){
+		int skulls = modelRep.getGameBoardRep().getRemainingSkulls();
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Skulls:\t\t");
+		for (int i = 0; i < GameConstants.MAX_SKULLS; i++) {
+			stringBuilder.append(Utils.getColoredString("◼", i < (GameConstants.MAX_SKULLS - skulls)? Utils.CharacterColorType.DEFAULT : Utils.CharacterColorType.RED));
+		}
+		return stringBuilder.toString();
+	}
+
+	private String getKillShotTrackString(){
+		ArrayList<KillShotRep> killShotTrackRep = modelRep.getGameBoardRep().getKillShoots();
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Killshot:\t|");
+		for (KillShotRep killShotRep : killShotTrackRep) {
+			stringBuilder.append(Utils.getColoredString(killShotRep.isOverkill()? "◼◼" : "◼",killShotRep.getPlayerColor()));
+			stringBuilder.append("|");
+		}
+		return stringBuilder.toString();
+	}
+
+	private String getDoubleKillString(){
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("DoubleKill:\t|");
+		for (Utils.CharacterColorType doubleKiller : modelRep.getGameBoardRep().getDoubleKills()) {
+			stringBuilder.append(Utils.getColoredString("◼", doubleKiller));
+			stringBuilder.append("|");
+		}
+		return stringBuilder.toString();
 	}
 
 	private void displayPlayers() {
-		for (PlayerRep playerRep : modelRep.getPlayersRep() ) {
-			System.out.println(Utils.getColoredCell(Utils.BackgroundColorType.BLACK) + " " + Utils.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Utils.BackgroundColorType.DEFAULT) + "\tDAMAGE\tMARKS\t");
+		StringBuilder stringBuilder = new StringBuilder();
+		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
+			stringBuilder.append(Utils.getColoredString("◼ ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer())? Utils.CharacterColorType.BLACK : Utils.CharacterColorType.DEFAULT));
+			stringBuilder.append(Utils.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
+			for (int i = 0; i < GameConstants.MAX_NICKNAME_LENGHT - playerRep.getPlayerName().length(); i++) {
+				stringBuilder.append(" ");
+			}
+
+			stringBuilder.append(getDamageBoard(playerRep.getDamageBoard()));
+
+			stringBuilder.append("\t\t\t|");
+			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
+
+			System.out.println(stringBuilder.toString());
+			stringBuilder = new StringBuilder();
 		}
+	}
+
+	private String getDamageBoard(List<Utils.CharacterColorType> damageBoard){
+		ArrayList<String> strings = new ArrayList<>();
+		StringBuilder stringBuilder = new StringBuilder();
+		strings.add("|");
+		for (Utils.CharacterColorType damage : damageBoard){
+			strings.add(Utils.getColoredString("◼", damage));
+		}
+		for (int i = damageBoard.size(); i < 11; i++) {
+			strings.add("◼");
+		}
+		strings.add("|");
+
+		for (int i = 0; i < strings.size(); i++) {
+			stringBuilder.append(strings.get(i));
+			if(i == 2 || i == 5 || i == 9)
+				stringBuilder.append("|");
+		}
+		return stringBuilder.toString();
+	}
+
+	private String getMarksBoard(List<Utils.CharacterColorType> damageBoard) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (Utils.CharacterColorType damage : damageBoard) {
+			stringBuilder.append(Utils.getColoredString("◼", damage));
+			stringBuilder.append("|");
+		}
+		return stringBuilder.toString();
 	}
 
 	private void displayMap(){
