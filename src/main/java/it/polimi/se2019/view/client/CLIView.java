@@ -172,18 +172,22 @@ class RepPrinter{
 	}
 
 	public void displayGame() {
+		System.out.println("\n\n");
+
 		displayPlayers();
 
 		System.out.println("\n\n");
 
 		displayGameBoard();
 
-		System.out.println("\n\n");
+		System.out.println("\n");
 
 		if(mapToPrint == null)
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
 		updateMapToPrint();
 		displayMap();
+
+		System.out.println("\n");
 
 		displayOwnPlayer(modelRep.getPlayersRep().get(0));
 	}
@@ -255,33 +259,45 @@ class RepPrinter{
 
 	private void displayOwnPlayer(PlayerRep playerRep){
 		System.out.println(Utils.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Utils.BackgroundColorType.DEFAULT));
-		System.out.println(Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
-														" Powerup 1\t\t" +
-														Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
-														" Weapon 1\t\t" +
-														Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT)	);
-		System.out.println(Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
-														" Powerup 2\t\t" +
-														Utils.getColoredString("◼", Utils.CharacterColorType.BLUE, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
-														" Weapon 2\t\t" +
-														Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT)	);
-		System.out.println(Utils.getColoredString("◼", Utils.CharacterColorType.BLUE, Utils.BackgroundColorType.DEFAULT) +
-														" Powerup 3\t\t" +
-														Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
-														" Weapon 3\t\t" +
-														Utils.getColoredString("◼", Utils.CharacterColorType.BLUE, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
-														Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT)	);
+		System.out.println(
+				"Move 1 >>>\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
+				" Powerup 1\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.WHITE, Utils.BackgroundColorType.DEFAULT) +
+				" Weapon 1\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
+				"\t\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT)	);
+		System.out.println(
+				"Move 2 >>O\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
+				" Powerup 2\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.BLACK, Utils.BackgroundColorType.DEFAULT) +
+				" Weapon 2\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.BLUE, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
+				"\t\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT)	);
+		System.out.println(
+				"Move 3 >>S\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.BLUE, Utils.BackgroundColorType.DEFAULT) +
+				" Powerup 3\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.BLACK, Utils.BackgroundColorType.DEFAULT) +
+				" Weapon 3\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
+				"\t\t\t" +
+				Utils.getColoredString("◼", Utils.CharacterColorType.BLUE, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT) +
+				Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT)	);
 	}
 
 	private String[][] initializeMapToPrint(SquareRep[][] map){
