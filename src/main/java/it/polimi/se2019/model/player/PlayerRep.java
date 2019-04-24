@@ -221,24 +221,41 @@ public class PlayerRep extends Message {
 
 	public boolean equals(Object object){
 		if (!(object instanceof PlayerRep))
-				return false;
-		boolean temp;
-		try{
-			temp = ((((PlayerRep) object).isHidden() == hidden) &&
-					((PlayerRep) object).getPowerupAmmos().equals(powerupAmmos) &&
-					((PlayerRep) object).getPowerupCards().equals(powerupCards) &&
-					(((PlayerRep) object).getPoints() == points)) &&
-					((PlayerRep) object).getPlayerName().equals(playerName) &&
-					((PlayerRep) object).getPlayerColor().equals(playerColor) &&
-					((PlayerRep) object).playerID == playerID &&
-					((PlayerRep) object).blueAmmo == blueAmmo &&
-					((PlayerRep) object).redAmmo == redAmmo &&
-					((PlayerRep) object).yellowAmmo == yellowAmmo &&
-					(((PlayerRep) object).getWeaponLoaded() == null || ((PlayerRep) object).getWeaponLoaded().equals(weaponLoaded)) &&
-					((PlayerRep) object).getMarks().equals(marks);
-		}catch(HiddenException e){
-			temp = false;
+			return false;
+
+		boolean temp = true;
+
+
+		if (((PlayerRep) object).isHidden() == hidden && !isHidden()) {
+			try {
+				temp = ((PlayerRep) object).getPowerupAmmos().equals(powerupAmmos) &&
+						((PlayerRep) object).getPowerupCards().equals(powerupCards) &&
+						(((PlayerRep) object).getPoints() == points);
+			} catch (HiddenException e) {
+				Utils.logError("Trying to compare hidden attributes PlayerRep equals()", e);
+			}
 		}
+
+
+		temp = temp &&
+				((PlayerRep) object).getPlayerName().equals(playerName) &&
+				((PlayerRep) object).getPlayerColor().equals(playerColor) &&
+				((PlayerRep) object).playerID == playerID &&
+				((PlayerRep) object).blueAmmo == blueAmmo &&
+				((PlayerRep) object).redAmmo == redAmmo &&
+				((PlayerRep) object).yellowAmmo == yellowAmmo &&
+				((PlayerRep) object).getMarks().equals(marks);
+
+		if(((PlayerRep) object).getWeaponLoaded() != null && weaponLoaded != null && ((PlayerRep) object).getWeaponLoaded().length == weaponLoaded.length){
+			for (int i = 0; i < weaponLoaded.length; i++) {
+				if(((PlayerRep) object).getWeaponLoaded()[i] != weaponLoaded[i])
+					return false;
+			}
+		}
+		else
+			if(((PlayerRep) object).getWeaponLoaded() != null || weaponLoaded != null)
+				temp = false;
+			
 		return temp;
 	}
 

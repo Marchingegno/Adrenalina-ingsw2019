@@ -149,5 +149,21 @@ public class CLIViewTest {
 
 		cliView.displayGame();
 
+		gameMap.movePlayerTo(players.get(0), new Coordinates(1,2));
+		gameMap.movePlayerTo(players.get(1), new Coordinates(0,3));
+		gameMap.movePlayerTo(players.get(2), new Coordinates(1,3));
+		gameMap.movePlayerTo(players.get(3), new Coordinates(2,1));
+		gameMap.movePlayerTo(players.get(4), new Coordinates(0,0));
+
+		cliView.updateGameBoardRep(new GameBoardRep(controller.getModel().getGameBoard()));
+		cliView.updateGameMapRep(new GameMapRep(gameMap));
+		cliView.updatePlayerRep(new PlayerRep(players.get(0)));
+		cliView.updatePlayerRep(new PlayerRep(players.get(1)));
+		cliView.updatePlayerRep(new PlayerRep(players.get(2)));
+		cliView.updatePlayerRep(new PlayerRep(players.get(3)));
+		cliView.updatePlayerRep(new PlayerRep(players.get(4)));
+
+		cliView.displayGame();
+
 	}
 }
