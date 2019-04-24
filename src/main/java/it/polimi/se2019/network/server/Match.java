@@ -15,7 +15,7 @@ public class Match {
 
 	private HashMap<ConnectionToClientInterface, String> participants;
 	private HashMap<ConnectionToClientInterface, VirtualView> virtualViews = new HashMap<>();
-	private int numberOfPartecipants;
+	private int numberOfParticipants;
 	private Controller controller;
 
 	// Game config attributes.
@@ -29,9 +29,9 @@ public class Match {
 	 * @param participants a map that contains all the clients for this match and their nicknames.
 	 */
 	public Match(Map<ConnectionToClientInterface, String> participants) {
-		numberOfPartecipants = participants.size();
-		if(numberOfPartecipants < GameConstants.MIN_PLAYERS || numberOfPartecipants > GameConstants.MAX_PLAYERS)
-			throw new IllegalArgumentException("The number of participants for this match (" + numberOfPartecipants + ") is not valid.");
+		numberOfParticipants = participants.size();
+		if(numberOfParticipants < GameConstants.MIN_PLAYERS || numberOfParticipants > GameConstants.MAX_PLAYERS)
+			throw new IllegalArgumentException("The number of participants for this match (" + numberOfParticipants + ") is not valid.");
 		this.participants = new HashMap<>(participants);
 	}
 
@@ -53,7 +53,7 @@ public class Match {
 				mapChoosen.put(client, mapIndex);
 
 			numberOfAnswers++;
-			if(numberOfAnswers >= numberOfPartecipants)
+			if(numberOfAnswers >= numberOfParticipants)
 				startMatch();
 		}
 	}
@@ -79,9 +79,9 @@ public class Match {
 		// start the game.
 		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());
 
-		for (ConnectionToClientInterface client : participants.keySet()) {
-			Utils.logInfo("added Virtual View to " + participants.get(client));
-			virtualViews.put(client, new VirtualView(controller, client));
+		for (Map.Entry<ConnectionToClientInterface, String> client : participants.entrySet()) {
+			Utils.logInfo("Added Virtual View to " + client.getValue());
+			virtualViews.put(client.getKey(), new VirtualView(controller, client.getKey(), client.getValue()));
 		}
 
 		controller.getModel().updateReps();
@@ -101,8 +101,6 @@ public class Match {
 				Utils.logInfo("Timer ended. Starting the match...");
 			}
 		}, 5000L);
-
-
 	}
 
 	/**

@@ -15,6 +15,7 @@ public class Player extends Observable {
 	private Utils.CharacterColorType playerColor;
 	private PlayerBoard playerBoard;
 	private DamageStatus damageStatus;
+	private PlayerRep playerRep;
 
 
 	public Player(String playerName, int playerID, Utils.CharacterColorType playerColor) {
@@ -63,7 +64,7 @@ public class Player extends Observable {
 		return damageStatus.getAvailableActions();
 	}
 
-	public void resetAfterDeath(){
+	public void resetAfterDeath() {
 		playerBoard.resetBoardAfterDeath();
 		setDamageStatus(new LowDamage());
 		setChanged();
@@ -72,7 +73,7 @@ public class Player extends Observable {
 	/**
 	 * This method should flip the playerBoard to the frenzy side.
 	 */
-	public boolean flipIfNoDamage(){
+	public boolean flipIfNoDamage() {
 		return playerBoard.flipIfNoDamage();
 	}
 
@@ -95,5 +96,17 @@ public class Player extends Observable {
 	}
 
 	public void getAllVisiblePlayers() {
+	}
+
+	public void updateRep() {
+		if (playerRep == null || hasChanged()) {
+			playerRep = new PlayerRep(this);
+			Utils.logInfo("Player Rep of " + playerName + " updated");
+		}
+
+	}
+
+	public PlayerRep getRep(String playerAsking) {
+		return playerName.equals(playerAsking) ? playerRep : playerRep.getHiddenPlayerRep();
 	}
 }

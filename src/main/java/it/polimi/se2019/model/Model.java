@@ -153,13 +153,13 @@ public class Model{
 	public List<Player> getPlayers(){return gameBoard.getPlayers();}
 
 	public void updateReps(){
+		gameBoard.updateRep();
 		gameBoard.notifyObservers();
-		Utils.logInfo("Notified all Game Board Observers");
+		gameMap.updateRep();
 		gameMap.notifyObservers();
-		Utils.logInfo("Notified all Game Map Observers");
 		for (Player player: gameBoard.getPlayers() ) {
+			player.updateRep();
 			player.notifyObservers();
-			Utils.logInfo("Notified all Player " + player.getPlayerName() +"Observers");
 		}
 	}
 }

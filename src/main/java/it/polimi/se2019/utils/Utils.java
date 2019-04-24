@@ -52,7 +52,7 @@ public class Utils {
 	private static String resetColorString() {
 		return setColorString(CharacterColorType.DEFAULT, BackgroundColorType.DEFAULT);
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testColors() {
 		for(CharacterColorType characterColor : CharacterColorType.values()) {

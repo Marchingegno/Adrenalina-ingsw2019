@@ -17,7 +17,7 @@ import java.util.Observable;
  * This class implements the game map
  * @author MarcerAndrea
  */
-public class GameMap extends Observable {
+public class GameMap extends Observable{
 
 	private int numOfRows;
 	private int	numOfColumns;
@@ -25,6 +25,7 @@ public class GameMap extends Observable {
 	private ArrayList<ArrayList<Coordinates>> rooms = new ArrayList<>();
 	private HashMap<Player, Coordinates> playersPositions = new HashMap<>();
 	private ArrayList<Coordinates> spawnSquaresCoordinates = new ArrayList<>();
+	private GameMapRep gameMapRep;
 
 	public GameMap(String mapName, List<Player> players) {
 
@@ -347,6 +348,18 @@ public class GameMap extends Observable {
 		} catch (IOException e) {
 			Utils.logError("Error in generateMap()", e);
 		}
+	}
+
+	public void updateRep() {
+		if(gameMapRep == null || hasChanged()){
+			gameMapRep = new GameMapRep(this);
+			Utils.logInfo("Game board rep updated");
+		}
+
+	}
+
+	public GameMapRep getRep(){
+		return gameMapRep;
 	}
 }
 

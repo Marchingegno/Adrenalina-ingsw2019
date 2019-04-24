@@ -24,25 +24,27 @@ public class VirtualView implements ViewInterface {
 
 	private ConnectionToClientInterface client;
 	private Controller controller;
+	private String playerName;
 
-	public VirtualView(Controller controller, ConnectionToClientInterface client) {
+	public VirtualView(Controller controller, ConnectionToClientInterface client, String playerName) {
 		this.client = client;
+		this.playerName = playerName;
 		this.controller = controller;
 
 		this.controller.getModel().getGameBoard().addObserver(new GameBoardObserver());
-		Utils.logInfo("Added Game Board Observer");
+		Utils.logInfo(playerName + " now observes Game Board");
 		this.controller.getModel().getGameBoard().getGameMap().addObserver(new GameMapObserver());
-		Utils.logInfo("Added Game Map Observer");
+		Utils.logInfo(playerName + " now observes Game Map");
 		for (Player player : this.controller.getModel().getPlayers()) {
 			player.addObserver(new PlayerObserver());
-			Utils.logInfo("Added Player Observer");
+			Utils.logInfo(playerName + " now observes " + player.getPlayerName());
 		}
 	}
 
 	public void onMessageReceived(Message message) {
 		switch (message.getMessageType()) {
 			case EXAMPLE_ACTION: // TODO remove
-				if(message.getMessageSubtype() == MessageSubtype.ANSWER) {
+				if (message.getMessageSubtype() == MessageSubtype.ANSWER) {
 					IntMessage intMessage = (IntMessage) message;
 					int answer = intMessage.getContent();
 					Utils.logInfo("Received answer for Example Action: " + answer + ".");
@@ -50,7 +52,7 @@ public class VirtualView implements ViewInterface {
 				}
 				break;
 			default:
-				Utils.logError("Message of type " + message.getMessageType() + " not recognized!" , new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
+				Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
 				break;
 
 		}
@@ -73,19 +75,19 @@ public class VirtualView implements ViewInterface {
 
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
-		Utils.logInfo("Sending Game Board rep");
+		Utils.logInfo("Sending Game Board rep to " + playerName);
 		client.sendMessage(gameBoardRepToUpdate);
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
-		Utils.logInfo("Sending Game Map rep");
+		Utils.logInfo("Sending Game Map rep to " + playerName);
 		client.sendMessage(gameMapRepToUpdate);
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
-		Utils.logInfo("Sending Player rep");
+		Utils.logInfo("Sending Player rep to " + playerName);
 		client.sendMessage(playerRepToUpdate);
 	}
 
@@ -93,21 +95,21 @@ public class VirtualView implements ViewInterface {
 	private class GameBoardObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updateGameBoardRep(new GameBoardRep((GameBoard) observable));
+			updateGameBoardRep(((GameBoard) observable).getRep());
 		}
 	}
 
 	private class GameMapObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updateGameMapRep(new GameMapRep((GameMap) observable));
+			updateGameMapRep(((GameMap) observable).getRep());
 		}
 	}
 
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updatePlayerRep(new PlayerRep((Player) observable));
+			updatePlayerRep(((Player) observable).getRep(playerName));
 		}
 	}
 }

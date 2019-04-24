@@ -8,13 +8,11 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
 import it.polimi.se2019.utils.Utils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
-public class GameBoard extends Observable {
+public class GameBoard extends Observable{
 
 	private ArrayList<Player> players;
 	private int remainingSkulls;
@@ -26,7 +24,7 @@ public class GameBoard extends Observable {
 	private GameMap gameMap;
 	private boolean killShotInThisTurn;
 	private PlayerQueue playerQueue;
-	private boolean changed;
+	private GameBoardRep gameBoardRep;
 
 
 	public GameBoard(String mapPath, List<String> playerNames, int startingSkulls) {
@@ -132,6 +130,17 @@ public class GameBoard extends Observable {
 		return ammoDeck;
 	}
 
+	public void updateRep(){
+		if (gameBoardRep == null || hasChanged()){
+			gameBoardRep = new GameBoardRep(this);
+			Utils.logInfo("Game board rep updated");
+		}
+
+	}
+
+	public GameBoardRep getRep(){
+		return gameBoardRep;
+	}
 }
 
 class KillShot {
