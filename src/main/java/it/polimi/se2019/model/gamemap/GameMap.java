@@ -8,10 +8,7 @@ import it.polimi.se2019.utils.Utils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * This class implements the game map
@@ -21,13 +18,15 @@ public class GameMap extends Observable{
 
 	private int numOfRows;
 	private int	numOfColumns;
-	private Square[][] map;
+	private MapSquare[][] map;
 	private ArrayList<ArrayList<Coordinates>> rooms = new ArrayList<>();
 	private HashMap<Player, Coordinates> playersPositions = new HashMap<>();
 	private ArrayList<Coordinates> spawnSquaresCoordinates = new ArrayList<>();
 	private GameMapRep gameMapRep;
+	private boolean isFilled;
 
 	public GameMap(String mapName, List<Player> players) {
+		isFilled = false;
 
 		generateMap(mapName);
 		connectSquares();
@@ -60,7 +59,7 @@ public class GameMap extends Observable{
 	 * Returns the player position.
 	 * @return the player position
 	 */
-	public HashMap<Player, Coordinates> getPlayersCoordinates() {
+	public Map<Player, Coordinates> getPlayersCoordinates() {
 		return new HashMap<>(playersPositions);
 	}
 
@@ -84,7 +83,7 @@ public class GameMap extends Observable{
 	 * @return the player's square
 	 * @throws PlayerNotInTheMapException when the player is not in the map
 	 */
-	public Square playerSquare(Player playerToFind) {
+	public MapSquare playerSquare(Player playerToFind) {
 		Coordinates playerCoordinates = playersPositions.get(playerToFind);
 		if (playerCoordinates != null)
 			return map[playerCoordinates.getRow()][playerCoordinates.getColumn()];
@@ -106,47 +105,64 @@ public class GameMap extends Observable{
 		setChanged();
 	}
 
-	public ArrayList<Coordinates> reachableCoordinates(Player player, int maxDistance) {
+	public List<Coordinates> reachableCoordinates(Player player, int maxDistance) {
 		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
 		return reachableSquares(getSquare(playersPositions.get(player)), maxDistance, reachableCoordinates);
 	}
 
-	public ArrayList<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
+	public List<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
 		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
 		return reachableSquares(getSquare(coordinates), maxDistance, reachableCoordinates);
 	}
 
 	/**
 	 * Returns the set of all reachable squares from the coordinates and distance at most max distance.
-	 * @param square square of the starting point
+	 * @param mapSquare mapSquare of the starting point
 	 * @param maxDistance maximum distance
 	 * @return the set of all reachable squares from the coordinates and distance at most max distance
 	 */
-	private ArrayList<Coordinates> reachableSquares(Square square, int maxDistance, ArrayList<Coordinates> reachableCoordinates) {
+	private ArrayList<Coordinates> reachableSquares(MapSquare mapSquare, int maxDistance, ArrayList<Coordinates> reachableCoordinates) {
 
 		if (maxDistance != 0)
 		{
-			for (Square adjacentSquare: square.getAdjacentSquares()) {
-				reachableSquares(adjacentSquare, maxDistance - 1, reachableCoordinates);
+			for (MapSquare adjacentMapSquare : mapSquare.getAdjacentMapSquares()) {
+				reachableSquares(adjacentMapSquare, maxDistance - 1, reachableCoordinates);
 			}
 		}
 
-		if (!(reachableCoordinates.contains(getCoordinates(square))))
-			reachableCoordinates.add(getCoordinates(square));
+		if (!(reachableCoordinates.contains(getCoordinates(mapSquare))))
+			reachableCoordinates.add(getCoordinates(mapSquare));
 		return reachableCoordinates;
 	}
 
+	/*public void fillMap(WeaponDeck weaponDeck, AmmoDeck ammoDeck){
+		if (!isFilled){
+			for (int row = 0; row < numOfRows; row++) {
+				for (int column = 0; column < numOfColumns; column++) {
+					MapSquare mapSquare = map[row][column];
+					if (!mapSquare.isFilled()){
+						if(isSpawnSquare(new Coordinates(row, column)))
+							mapSquare.fill(weaponDeck);
+						else
+							mapSquare.fill(ammoDeck);
+					}
+				}
+			}
+			setChanged();
+		}
+	}*/
+
 	/**
-	 * Returns the set of all the squares belonging to the same room of the specified square.
-	 * @param square a square
-	 * @return the set of all the squares belonging to the same room of the specified square
-	 * @throws OutOfBoundariesException when the square does not belong to the map
+	 * Returns the set of all the squares belonging to the same room of the specified mapSquare.
+	 * @param mapSquare a mapSquare
+	 * @return the set of all the squares belonging to the same room of the specified mapSquare
+	 * @throws OutOfBoundariesException when the mapSquare does not belong to the map
 	 */
-	public ArrayList<Coordinates> getRoomCoordinates(Square square) {
-		if (isIn(square))
-			return new ArrayList<>(rooms.get(square.getRoomID()));
+	public List<Coordinates> getRoomCoordinates(MapSquare mapSquare) {
+		if (isIn(mapSquare))
+			return new ArrayList<>(rooms.get(mapSquare.getRoomID()));
 		else
-			throw new OutOfBoundariesException("the square does not belong to the map " + getCoordinates(square));
+			throw new OutOfBoundariesException("the mapSquare does not belong to the map " + getCoordinates(mapSquare));
 	}
 
 	/**
@@ -155,7 +171,7 @@ public class GameMap extends Observable{
 	 * @return the set of all the squares belonging to the same room of the specified square
 	 * @throws OutOfBoundariesException the coordinates do not belong to the map
 	 */
-	public ArrayList<Coordinates> getRoomCoordinates(Coordinates coordinates) {
+	public List<Coordinates> getRoomCoordinates(Coordinates coordinates) {
 		if (isIn(coordinates))
 			return new ArrayList<>(rooms.get(getSquare(coordinates).getRoomID()));
 		else
@@ -168,15 +184,15 @@ public class GameMap extends Observable{
 	 * @param player2 player target
 	 * @return true if and only if the player2 is visible from the player1
 	 */
-	public boolean visible(Player player1, Player player2) {
-		Square squarePlayer1 = getSquare(playersPositions.get(player1));
-		Square squarePlayer2 = getSquare(playersPositions.get(player2));
+	public boolean isVisible(Player player1, Player player2) {
+		MapSquare mapSquarePlayer1 = getSquare(playersPositions.get(player1));
+		MapSquare mapSquarePlayer2 = getSquare(playersPositions.get(player2));
 
-		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID())
+		if (mapSquarePlayer1.getRoomID() == mapSquarePlayer2.getRoomID())
 			return true;
 
-		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
-			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID())
+		for (MapSquare adjacentMapSquare : mapSquarePlayer1.getAdjacentMapSquares()) {
+			if (adjacentMapSquare.getRoomID() == mapSquarePlayer2.getRoomID())
 				return true;
 		}
 		return false;
@@ -196,16 +212,16 @@ public class GameMap extends Observable{
 	}
 
 	/**
-	 * Given the square returns its coordinates in the map.
-	 * @param square square we want to know thw coordinates of
-	 * @return the coordinates of the square
-	 * @throws OutOfBoundariesException if the square does not belong to the map.
+	 * Given the mapSquare returns its coordinates in the map.
+	 * @param mapSquare mapSquare we want to know thw coordinates of
+	 * @return the coordinates of the mapSquare
+	 * @throws OutOfBoundariesException if the mapSquare does not belong to the map.
 	 */
-	public Coordinates getCoordinates(Square square){
-		if (isIn(square))
-			return square.getCoordinates();
+	public Coordinates getCoordinates(MapSquare mapSquare){
+		if (isIn(mapSquare))
+			return mapSquare.getCoordinates();
 		else
-			throw new OutOfBoundariesException("square does not belong to the map");
+			throw new OutOfBoundariesException("mapSquare does not belong to the map");
 	}
 
 	/**
@@ -214,7 +230,7 @@ public class GameMap extends Observable{
 	 * @return the square in the specified coordinates
 	 * @throws OutOfBoundariesException if the coordinates do not belong to the map
 	 */
-	public Square getSquare(Coordinates coordinates){
+	public MapSquare getSquare(Coordinates coordinates){
 		if (isIn(coordinates))
 			return map[coordinates.getRow()][coordinates.getColumn()];
 		else
@@ -238,17 +254,17 @@ public class GameMap extends Observable{
 				map[coordinates.getRow()][coordinates.getColumn()].getRoomID() != -1;}
 
 	/**
-	 * Returns true if and only if the square belong to the map
-	 * @param square square to check
-	 * @return true if and only if the square belong to the map
+	 * Returns true if and only if the mapSquare belong to the map
+	 * @param mapSquare mapSquare to check
+	 * @return true if and only if the mapSquare belong to the map
 	 */
-	private boolean isIn(Square square){
-		Coordinates coordinates = square.getCoordinates();
-		return isIn(square.getCoordinates()) &&	map[coordinates.getRow()][coordinates.getColumn()].equals(square);
+	private boolean isIn(MapSquare mapSquare){
+		Coordinates coordinates = mapSquare.getCoordinates();
+		return isIn(mapSquare.getCoordinates()) &&	map[coordinates.getRow()][coordinates.getColumn()].equals(mapSquare);
 	}
 
 	/**
-	 * Adds a Square to the map according to the specified coordinates.
+	 * Adds a MapSquare to the map according to the specified coordinates.
 	 * @param coordinatesOfTheSquare: coordinates where the square has to be added
 	 * @param ammoType: ammo associated with the square
 	 * @param roomID: the roomID of the room to which the square belongs to
@@ -279,13 +295,13 @@ public class GameMap extends Observable{
 	 * Links each square to the adjacent ones
 	 */
 	private void connectSquares(){
-		Square square;
+		MapSquare mapSquare;
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				for (CardinalDirection direction: CardinalDirection.values()) {
-					square = map[i][j];
-					if(square.getRoomID() != -1 && square.getPossibleDirections()[direction.ordinal()])
-						square.addAdjacentSquare(getSquare(Coordinates.getDirectionCoordinates(new Coordinates(i,j), direction)));
+					mapSquare = map[i][j];
+					if(mapSquare.getRoomID() != -1 && mapSquare.getPossibleDirections()[direction.ordinal()])
+						mapSquare.addAdjacentSquare(getSquare(Coordinates.getDirectionCoordinates(new Coordinates(i,j), direction)));
 				}
 			}
 		}
@@ -323,7 +339,7 @@ public class GameMap extends Observable{
 			numOfRows = Integer.parseInt(elements[0]);
 			numOfColumns = Integer.parseInt(elements[1]);
 
-			map = new Square[numOfRows][numOfColumns];
+			map = new MapSquare[numOfRows][numOfColumns];
 
 			line = bufReader.readLine();
 

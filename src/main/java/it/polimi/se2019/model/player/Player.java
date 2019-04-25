@@ -89,14 +89,11 @@ public class Player extends Observable {
 		setChanged();
 	}
 
-	public void getDistance(Player target) {
-	}
+	public void getDistance(Player target) {}
 
-	public void isVisible(Player target) {
-	}
+	public void isVisible(Player target) {}
 
-	public void getAllVisiblePlayers() {
-	}
+	public void getAllVisiblePlayers() {}
 
 	public void updateRep() {
 		if (playerRep == null || hasChanged()) {

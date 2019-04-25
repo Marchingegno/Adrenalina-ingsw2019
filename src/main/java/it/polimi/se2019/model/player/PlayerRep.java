@@ -255,7 +255,7 @@ public class PlayerRep extends Message {
 		else
 			if(((PlayerRep) object).getWeaponLoaded() != null || weaponLoaded != null)
 				temp = false;
-			
+
 		return temp;
 	}
 

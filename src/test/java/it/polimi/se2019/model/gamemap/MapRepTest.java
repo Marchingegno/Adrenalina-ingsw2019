@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -51,21 +50,21 @@ public class MapRepTest {
 	@Test
 	public void getMapRep_correctInput_correctOutput() {
 		GameMapRep gameMapRep = new GameMapRep(gameMap);
-		SquareRep[][] mapRep = gameMapRep.getMapRep();
-		SquareRep squareRep;
-		Square square;
+		MapSquareRep[][] mapRep = gameMapRep.getMapRep();
+		MapSquareRep mapSquareRep;
+		MapSquare mapSquare;
 
 		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
 			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
-				squareRep = mapRep[i][j];
+				mapSquareRep = mapRep[i][j];
 				try{
-					square = gameMap.getSquare(new Coordinates(i,j));
+					mapSquare = gameMap.getSquare(new Coordinates(i,j));
 				}catch(OutOfBoundariesException e){
-					square = new AmmoSquare(-1, new boolean[4], new Coordinates(i,j));
+					mapSquare = new AmmoSquare(-1, new boolean[4], new Coordinates(i,j));
 				}
-				//squareRep.getCards(); TODO
-				assertEquals(squareRep.getCoordinates(), square.getCoordinates());
-				assertEquals(squareRep.getRoomID(), square.getRoomID());
+				//mapSquareRep.getCards(); TODO
+				assertEquals(mapSquareRep.getCoordinates(), mapSquare.getCoordinates());
+				assertEquals(mapSquareRep.getRoomID(), mapSquare.getRoomID());
 			}
 		}
 	}

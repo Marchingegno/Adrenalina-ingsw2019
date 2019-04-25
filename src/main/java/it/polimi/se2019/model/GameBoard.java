@@ -2,7 +2,9 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.cards.ammo.AmmoDeck;
 import it.polimi.se2019.model.cards.powerups.PowerupDeck;
+import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
@@ -128,6 +130,11 @@ public class GameBoard extends Observable{
 
 	public AmmoDeck getAmmoDeck() {
 		return ammoDeck;
+	}
+
+	public void currentPlayerGrabs(int index){
+		Coordinates playerCoordinates = gameMap.getPlayersCoordinates().get(getCurrentPlayer());
+		//gameMap.getSquare(playerCoordinates).grabCard(getCurrentPlayer(), index);
 	}
 
 	public void updateRep(){

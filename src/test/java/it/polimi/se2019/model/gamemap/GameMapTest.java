@@ -7,7 +7,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -136,8 +135,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1,0));
 		correctOutput.add(new Coordinates(0,0));
 		correctOutput.add(new Coordinates(1,1));
-		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,0), 1);
-
+		ArrayList<Coordinates> methodOutput = new ArrayList<>(map.reachableCoordinates(new Coordinates(1,0), 1));
 		assertEquals(correctOutput.size(), methodOutput.size());
 
 		boolean valid = true;
@@ -164,7 +162,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1,0));
 		correctOutput.add(new Coordinates(1,2));
 		correctOutput.add(new Coordinates(1,1));
-		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,2), 4);
+		ArrayList<Coordinates> methodOutput = new ArrayList<>(map.reachableCoordinates(new Coordinates(1,2), 4));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -192,7 +190,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1,0));
 		correctOutput.add(new Coordinates(1,2));
 		correctOutput.add(new Coordinates(1,1));
-		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,2), 5);
+		ArrayList<Coordinates> methodOutput = new ArrayList<>(map.reachableCoordinates(new Coordinates(1,2), 5));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -216,7 +214,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1,0));
 		correctOutput.add(new Coordinates(1,2));
 		correctOutput.add(new Coordinates(1,1));
-		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,1), 2);
+		ArrayList<Coordinates> methodOutput = new ArrayList<>(map.reachableCoordinates(new Coordinates(1,1), 2));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -242,7 +240,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1,0));
 		correctOutput.add(new Coordinates(1,2));
 		correctOutput.add(new Coordinates(1,1));
-		ArrayList<Coordinates> methodOutput = map.reachableCoordinates(new Coordinates(1,1), 9);
+		ArrayList<Coordinates> methodOutput = new ArrayList<>(map.reachableCoordinates(new Coordinates(1,1), 9));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -263,7 +261,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(0,0));
 		correctOutput.add(new Coordinates(0,2));
 		correctOutput.add(new Coordinates(0,1));
-		ArrayList<Coordinates> methodOutput = map.getRoomCoordinates(new Coordinates(0,0));
+		ArrayList<Coordinates> methodOutput = new ArrayList<>(map.getRoomCoordinates(new Coordinates(0,0)));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -277,7 +275,7 @@ public class GameMapTest {
 		//--------------------------------------------SECOND ROOM---------------------------------
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(0,3));
-		methodOutput = map.getRoomCoordinates(new Coordinates(0,3));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(new Coordinates(0,3)));
 
 		assertEquals(correctOutput, methodOutput);
 
@@ -285,7 +283,7 @@ public class GameMapTest {
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(1,0));
 		correctOutput.add(new Coordinates(1,1));
-		methodOutput = map.getRoomCoordinates(new Coordinates(1,0));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(new Coordinates(1,0)));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -302,7 +300,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(1,3));
 		correctOutput.add(new Coordinates(2,2));
 		correctOutput.add(new Coordinates(2,3));
-		methodOutput = map.getRoomCoordinates(new Coordinates(2,3));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(new Coordinates(2,3)));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -317,7 +315,7 @@ public class GameMapTest {
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(2,1));
 
-		methodOutput = map.getRoomCoordinates(new Coordinates(2,1));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(new Coordinates(2,1)));
 
 		assertEquals(correctOutput, methodOutput);
 	}
@@ -330,7 +328,7 @@ public class GameMapTest {
 		ArrayList<Coordinates> correctOutput = new ArrayList<>();
 		correctOutput.add(new Coordinates(1, 0));
 		correctOutput.add(new Coordinates(0, 0));
-		ArrayList<Coordinates> methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(0, 0)));
+		ArrayList<Coordinates> methodOutput = new ArrayList<>(map.getRoomCoordinates(map.getSquare(new Coordinates(0, 0))));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -345,7 +343,7 @@ public class GameMapTest {
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(0, 2));
 		correctOutput.add(new Coordinates(0, 1));
-		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(0, 2)));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(map.getSquare(new Coordinates(0, 2))));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -359,14 +357,14 @@ public class GameMapTest {
 		//--------------------------------------------THIRD ROOM---------------------------------
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(0, 3));
-		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(0, 3)));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(map.getSquare(new Coordinates(0, 3))));
 
 		assertEquals(correctOutput, methodOutput);
 
 		//--------------------------------------------FOURTH ROOM---------------------------------
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(1, 1));
-		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(1, 1)));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(map.getSquare(new Coordinates(1, 1))));
 
 		assertEquals(correctOutput, methodOutput);
 
@@ -376,7 +374,7 @@ public class GameMapTest {
 		correctOutput.add(new Coordinates(2, 3));
 		correctOutput.add(new Coordinates(1, 2));
 		correctOutput.add(new Coordinates(1, 3));
-		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(1, 3)));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(map.getSquare(new Coordinates(1, 3))));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -391,7 +389,7 @@ public class GameMapTest {
 		correctOutput.clear();
 		correctOutput.add(new Coordinates(2, 0));
 		correctOutput.add(new Coordinates(2, 1));
-		methodOutput = map.getRoomCoordinates(map.getSquare(new Coordinates(2, 0)));
+		methodOutput = new ArrayList<>(map.getRoomCoordinates(map.getSquare(new Coordinates(2, 0))));
 
 		assertEquals(correctOutput.size(), methodOutput.size());
 
@@ -498,7 +496,7 @@ public class GameMapTest {
 		GameMap map = new GameMap("SmallMap.txt", players);
 		map.movePlayerTo(player1, new Coordinates(1,1));
 		map.movePlayerTo(player2, new Coordinates(1,1));
-		assertTrue(map.visible(player1, player2));
+		assertTrue(map.isVisible(player1, player2));
 	}
 
 	@Test
@@ -507,7 +505,7 @@ public class GameMapTest {
 
 		map.movePlayerTo(player3, new Coordinates(0,0));
 		map.movePlayerTo(player4, new Coordinates(2,3));
-		assertFalse(map.visible(player3, player4));
+		assertFalse(map.isVisible(player3, player4));
 	}
 
 	@Test
@@ -519,10 +517,10 @@ public class GameMapTest {
 		map.movePlayerTo(player3, new Coordinates(0,0));
 		map.movePlayerTo(player4, new Coordinates(2,2));
 		map.movePlayerTo(player5, new Coordinates(0,1));
-		assertTrue(map.visible(player1, player2));
-		assertTrue(map.visible(player1, player3));
-		assertFalse(map.visible(player1, player4));
-		assertTrue(map.visible(player1, player5));
+		assertTrue(map.isVisible(player1, player2));
+		assertTrue(map.isVisible(player1, player3));
+		assertFalse(map.isVisible(player1, player4));
+		assertTrue(map.isVisible(player1, player5));
 	}
 
 	@Test

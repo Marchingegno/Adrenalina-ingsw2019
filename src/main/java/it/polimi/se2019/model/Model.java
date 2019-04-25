@@ -136,6 +136,11 @@ public class Model{
 
 		}
 	}
+
+	public void fillGameMap(){
+		//gameMap.fillMap(gameBoard.getWeaponDeck(), gameBoard.getAmmoDeck());
+	}
+
 	public void drawPowerupCard(Player player) {
 		updateReps();
 	}
@@ -144,7 +149,7 @@ public class Model{
 		updateReps();
 	}
 
-	public ArrayList<Coordinates> getReachableCoordinates(Player player, int distance) {
+	public List<Coordinates> getReachableCoordinates(Player player, int distance) {
 		return gameMap.reachableCoordinates(player, distance);
 	}
 
