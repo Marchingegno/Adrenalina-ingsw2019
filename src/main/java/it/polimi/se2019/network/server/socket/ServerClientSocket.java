@@ -67,7 +67,8 @@ public class ServerClientSocket extends Thread implements ConnectionToClientInte
 				serverMessageHandler.onMessageReceived(this, (Message) objInStream.readObject());
 			}
 		} catch (IOException | ClassNotFoundException e) {
-			Utils.logError("Error in ServerClientSocket: Run()", e);
+			Utils.logError("Connection lost.", e);
+			serverMessageHandler.onConnectionLost(this);
 		}finally{
 			closeConnection();
 		}
