@@ -23,6 +23,7 @@ public class ServerClientSocket extends Thread implements ConnectionToClientInte
 	private ObjectOutputStream objOutStream;
 
 	public ServerClientSocket(ServerMessageHandler serverMessageHandler, Socket socket){
+		super("CUSTOM: Socket Connection to Client"); // Give a name to the thread for debugging purposes.
 		this.serverMessageHandler = serverMessageHandler;
 		this.socket = socket;
 

@@ -26,6 +26,7 @@ public class SocketServer extends Thread{
 	 * @param serverMessageHandler the message handler to which all messages are sent
 	 */
 	public SocketServer(ServerMessageHandler serverMessageHandler) {
+		super("CUSTOM: Socket Connection Request Listener"); // Give a name to the thread for debugging purposes.
 		this.serverMessageHandler = serverMessageHandler;
 		startServerSocket();
 	}

@@ -13,7 +13,7 @@ import java.net.Socket;
  * Also sends client's messages to the server.
  * @author MarcerAndrea
  */
-public class ClientSocket extends Thread  implements ConnectionToServerInterface, Closeable {
+public class ClientSocket extends Thread implements ConnectionToServerInterface, Closeable {
 
 	private static final String HOST = "localhost";
 	private static final int PORT = 12345;
@@ -29,6 +29,7 @@ public class ClientSocket extends Thread  implements ConnectionToServerInterface
 	 * @param messageReceiver the associated interface that will receive the messages.
 	 */
 	public ClientSocket(MessageReceiverInterface messageReceiver){
+		super("CUSTOM: Socket Connection to Server"); // Give a name to the thread for debugging purposes.
 		this.messageReceiver = messageReceiver;
 		try {
 			socketClient = new Socket(HOST, PORT);
