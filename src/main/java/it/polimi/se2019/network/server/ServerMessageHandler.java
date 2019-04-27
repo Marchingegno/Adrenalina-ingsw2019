@@ -27,8 +27,14 @@ public class ServerMessageHandler {
 	 */
 	public synchronized void onClientRegistration(ConnectionToClientInterface client) {
 		clients.add(client);
-		Utils.logInfo("Registered new client.");
+		Utils.logInfo("Registered new client. There are " + clients.size() + " client(s) registered.");
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
+	}
+
+	public synchronized void onConnectionLost(ConnectionToClientInterface client) {
+		clients.remove(client);
+		Utils.logInfo("Lost connection with a client. There are " + clients.size() + " client(s) registered.");
+		// TODO send it to match or lobby
 	}
 
 	/**

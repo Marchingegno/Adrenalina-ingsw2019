@@ -42,7 +42,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 */
 	@Override
 	public void registerClient(RMIClientInterface rmiClientInterface) throws RemoteException {
-		ServerClientRMI newServerClientRMI = new ServerClientRMI(rmiClientInterface);
+		ServerClientRMI newServerClientRMI = new ServerClientRMI(serverMessageHandler, rmiClientInterface);
 		connections.put(rmiClientInterface, newServerClientRMI);
 		serverMessageHandler.onClientRegistration(newServerClientRMI);
 	}
@@ -55,6 +55,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	@Override
 	public void receiveMessage(RMIClientInterface rmiClientInterface, Message message) throws RemoteException {
 		final ServerClientRMI serverClientRMI = connections.get(rmiClientInterface);
+
+		// Process the message in a thread so the thread of the client isn't put in wait.
 		new Thread(() -> {
 			serverMessageHandler.onMessageReceived(serverClientRMI, message);
 		}, "CUSTOM: RMI Message Reception").start();
