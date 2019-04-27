@@ -31,6 +31,10 @@ public class ServerMessageHandler {
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 
+	/**
+	 * Called when the client lose the connection with the server.
+	 * @param client the client that lost the connection.
+	 */
 	public synchronized void onConnectionLost(ConnectionToClientInterface client) {
 		clients.remove(client);
 		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + clients.size() + " client(s) registered.");
@@ -39,7 +43,7 @@ public class ServerMessageHandler {
 		lobby.removeWaitingClient(client);
 
 		// Report the disconnection of the client to the match.
-		// TODO
+		lobby.clientDisconnectedFromMatch(client);
 	}
 
 	/**
@@ -102,7 +106,7 @@ public class ServerMessageHandler {
 		if(match != null) { // If the client is in a match.
 			VirtualView virtualView = match.getVirtualViewOfClient(client);
 			if(virtualView == null)
-				Utils.logError("The lobby thinks the client is in a match but he actually isn't.", new IllegalStateException("The lobby thinks the client is in a match but he actually isn't."));
+				Utils.logError("The lobby thinks the client is in a match but he actually isn't.", new IllegalStateException());
 			else
 				virtualView.onMessageReceived(message);
 		}

@@ -37,7 +37,7 @@ public class ServerClientRMI implements ConnectionToClientInterface {
 			try {
 				rmiClientInterface.connectionListenerSubject();
 			} catch (RemoteException | InterruptedException e) {
-				Utils.logError("Connection lost", e);
+				Utils.logError("Connection lost.", e);
 				serverMessageHandler.onConnectionLost(this);
 			}
 		}, "CUSTOM: RMI Connection Listener").start();

@@ -3,10 +3,9 @@ package it.polimi.se2019.network.server;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Lobby {
 
@@ -53,6 +52,36 @@ public class Lobby {
 		checkIfWaitingRoomIsReady();
 	}
 
+	/**
+	 * Check if the client that is disconnected was a participant of a match.
+	 * Suspend the client if the match started or dismantle the match if the match isn't started.
+	 * @param client the client that lost the connection.
+	 */
+	public void clientDisconnectedFromMatch(ConnectionToClientInterface client) {
+		Match match = getMatchOfClient(client);
+		if(match != null) { // The client was a participant of a match.
+			if(match.isMatchStarted()) { // The client was a participant in an already started match. Forward the message to the virtual view.
+				VirtualView virtualView = match.getVirtualViewOfClient(client);
+				if(virtualView == null)
+					Utils.logError("The lobby thinks the client is in a match but he actually isn't.", new IllegalStateException());
+				else
+					virtualView.onClientDisconnected();
+			} else { // The client was a participant of a match that isn't started yet. Dismantle the match.
+				Map<ConnectionToClientInterface, String> participants = match.getParticipants();
+				participants.remove(client); // Remove the disconnected client from this map.
+
+				// Remove all the participants of the match from the playingClients hash map.
+				for(Map.Entry<ConnectionToClientInterface, String> participant : participants.entrySet())
+					playingClients.remove(participant.getKey());
+
+				// Add the participants of the dismantled match to the waiting room.
+				for(Map.Entry<ConnectionToClientInterface, String> participant : participants.entrySet()) {
+					waitingRoom.put(participant.getKey(), participant.getValue());
+					checkIfWaitingRoomIsReady();
+				}
+			}
+		}
+	}
 
 	/**
 	 * Returns the Match that the client is in, or null if it isn't in any Match.

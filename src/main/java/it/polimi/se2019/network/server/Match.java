@@ -17,6 +17,7 @@ public class Match {
 	private HashMap<ConnectionToClientInterface, VirtualView> virtualViews = new HashMap<>();
 	private int numberOfParticipants;
 	private Controller controller;
+	private boolean matchStarted = false;
 
 	// Game config attributes.
 	private HashMap<ConnectionToClientInterface, Integer> skullsChosen = new HashMap<>();
@@ -44,6 +45,7 @@ public class Match {
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 	}
 
+	// TODO start the match also after a timer and not wait every answer?
 	public void addConfigVote(ConnectionToClientInterface client, int skulls, int mapIndex) {
 		if(participants.containsKey(client)) { // Check if the client is in the Match.
 			if(!skullsChosen.containsKey(client))
@@ -59,6 +61,14 @@ public class Match {
 	}
 
 	/**
+	 * Returns a list with all the participants of this match.
+	 * @return a list with all the participants of this match.
+	 */
+	public Map<ConnectionToClientInterface, String> getParticipants() {
+		return new HashMap<>(participants);
+	}
+
+	/**
 	 * Returns the VirtualView associated to the client, or null if this match doesn't have the VirtualView of the client.
 	 * @param client the client.
 	 * @return the VirtualView associated to the client.
@@ -68,9 +78,19 @@ public class Match {
 	}
 
 	/**
+	 * Returns true if the match started.
+	 * @return true if the match started.
+	 */
+	public boolean isMatchStarted() {
+		return matchStarted;
+	}
+
+	/**
 	 * Start the match.
 	 */
 	private void startMatch() {
+		matchStarted = true;
+
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
@@ -86,6 +106,7 @@ public class Match {
 
 		controller.getModel().updateReps();
 
+		// TODO no need for a timer here
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			@Override

@@ -58,6 +58,10 @@ public class VirtualView implements ViewInterface {
 		}
 	}
 
+	public void onClientDisconnected() {
+		// TODO inform controller/model and supend the player
+	}
+
 	// TODO remove
 	@Override
 	public void askActionExample() { // This method in overridden from the ViewInterface.
