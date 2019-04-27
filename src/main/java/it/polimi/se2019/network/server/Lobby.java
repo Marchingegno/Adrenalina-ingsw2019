@@ -44,6 +44,15 @@ public class Lobby {
 		}
 	}
 
+	/**
+	 * Removes the client from the waiting room if present.
+	 * @param client the client to remove from the waiting room.
+	 */
+	public void removeWaitingClient(ConnectionToClientInterface client) {
+		waitingRoom.remove(client);
+		checkIfWaitingRoomIsReady();
+	}
+
 
 	/**
 	 * Returns the Match that the client is in, or null if it isn't in any Match.
@@ -65,25 +74,27 @@ public class Lobby {
 		// Logic for starting the match or the timer.
 		if(waitingRoom.size() == GameConstants.MAX_PLAYERS) {
 			// Reached the maximum number of players. Cancel the timer and start the match.
-			timer.cancel();
 			startMatchInWaitingRoom();
 		} else if(waitingRoom.size() == GameConstants.MIN_PLAYERS) {
-			// Reached the minimum number of players. Start a timer for starting the match.
-			final Lobby lobby = this;
-			timer = new Timer();
-			timer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					Utils.logInfo("Timer ended. Starting the match...");
-					lobby.startMatchInWaitingRoom();
-				}
-			}, timerDelayForMatchStart);
-			Utils.logInfo("Scheduled a timer for starting the match of " + timerDelayForMatchStart + " milliseconds.");
-			sendTimerStartedMessage();
+			// Reached the minimum number of players. Start a timer for starting the match if not already started.
+			if(timer == null) {
+				final Lobby lobby = this;
+				timer = new Timer();
+				timer.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						Utils.logInfo("Timer ended. Starting the match...");
+						lobby.startMatchInWaitingRoom();
+					}
+				}, timerDelayForMatchStart);
+				Utils.logInfo("Scheduled a timer for starting the match of " + timerDelayForMatchStart + " milliseconds.");
+				sendTimerStartedMessage();
+			}
 		} else if(waitingRoom.size() < GameConstants.MIN_PLAYERS) {
 			// If a timer has been started, cancels it since now the number of players is less than the minimum.
 			if(timer != null) {
 				timer.cancel();
+				timer = null;
 				sendTimerCanceledMessage();
 			}
 		}
@@ -93,6 +104,13 @@ public class Lobby {
 	 * Start the match with the clients in the waiting room.
 	 */
 	private void startMatchInWaitingRoom() {
+		// Stop the timer if it is running, used for example when reaching the maximum number of players.
+		if(timer != null) {
+			timer.cancel();
+			timer = null;
+		}
+
+		// Start a new match.
 		Match match = new Match(waitingRoom);
 		for(ConnectionToClientInterface client : waitingRoom.keySet())
 			playingClients.put(client, match);

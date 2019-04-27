@@ -33,8 +33,13 @@ public class ServerMessageHandler {
 
 	public synchronized void onConnectionLost(ConnectionToClientInterface client) {
 		clients.remove(client);
-		Utils.logInfo("Lost connection with a client. There are " + clients.size() + " client(s) registered.");
-		// TODO send it to match or lobby
+		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + clients.size() + " client(s) registered.");
+
+		// Remove the client from the waiting room if present.
+		lobby.removeWaitingClient(client);
+
+		// Report the disconnection of the client to the match.
+		// TODO
 	}
 
 	/**
