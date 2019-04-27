@@ -17002,7 +17002,7 @@
 											"top": 606,
 											"width": 513.40478515625,
 											"height": 13,
-											"text": "+getPosition(mapSquare: Square): Coordinates",
+											"text": "+getPosition(square: Square): Coordinates",
 											"horizontalAlignment": 0
 										},
 										{
@@ -17036,7 +17036,7 @@
 											"top": 636,
 											"width": 513.40478515625,
 											"height": 13,
-											"text": "+getCoordinatesFromSquare(mapSquare: Square): Coordinates",
+											"text": "+getCoordinatesFromSquare(square: Square): Coordinates",
 											"horizontalAlignment": 0
 										},
 										{
@@ -17104,7 +17104,7 @@
 											"top": 696,
 											"width": 513.40478515625,
 											"height": 13,
-											"text": "+isSpawnSquare(mapSquare: Square): boolean",
+											"text": "+isSpawnSquare(square: Square): boolean",
 											"horizontalAlignment": 0
 										}
 									],
@@ -25697,7 +25697,7 @@
 													"_parent": {
 														"$ref": "AAAAAAFpznh8NLNr2AM="
 													},
-													"name": "mapSquare",
+													"name": "square",
 													"type": {
 														"$ref": "AAAAAAFpxQvH9CGIzYo="
 													}
@@ -25761,7 +25761,7 @@
 													"_parent": {
 														"$ref": "AAAAAAFpz1j95k9h5ZQ="
 													},
-													"name": "mapSquare",
+													"name": "square",
 													"type": {
 														"$ref": "AAAAAAFpxQvH9CGIzYo="
 													}
@@ -25896,7 +25896,7 @@
 													"_parent": {
 														"$ref": "AAAAAAFpz6ehOALhlLM="
 													},
-													"name": "mapSquare",
+													"name": "square",
 													"type": {
 														"$ref": "AAAAAAFpxQvH9CGIzYo="
 													}
