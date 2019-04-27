@@ -16,7 +16,7 @@ public class MapSquareRep implements Serializable {
 		this.roomID = mapSquareToRepresent.getRoomID();
 		this.coordinates = mapSquareToRepresent.getCoordinates();
 		this.possibleDirection = mapSquareToRepresent.getPossibleDirections();
-		elementToPrint = mapSquareToRepresent.getElementsToPrint().clone();
+		//elementToPrint = mapSquareToRepresent.getElementsToPrint().clone();
 	}
 
 	public int getRoomID() {
