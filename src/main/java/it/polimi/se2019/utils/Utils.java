@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final boolean DEBUG = true;
 
 
 	/**
@@ -21,12 +22,15 @@ public class Utils {
 
 
 	public static void logError(String msg, Throwable e) {
-		LOGGER.log(Level.SEVERE, msg, e);
+		if(DEBUG)
+			LOGGER.log(Level.SEVERE, msg, e);
 	}
 
 	public static void logInfo(String msg) {
-		System.out.println(setColorString(CharacterColorType.RED, BackgroundColorType.BLUE) + "INFO:" + resetColorString() + " " + msg);
-		//LOGGER.log(Level.INFO, msg);
+		if(DEBUG) {
+			System.out.println(setColorString(CharacterColorType.RED, BackgroundColorType.BLUE) + "INFO:" + resetColorString() + " " + msg);
+			//LOGGER.log(Level.INFO, msg);
+		}
 	}
 
 	public static Logger getGlobalLogger() {
