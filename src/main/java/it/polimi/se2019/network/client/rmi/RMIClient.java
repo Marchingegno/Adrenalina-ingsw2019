@@ -70,4 +70,9 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	public void receiveMessage(Message message) throws RemoteException {
 		messageReceiver.processMessage(message);
 	}
+
+	@Override
+	public synchronized void connectionListenerSubject() throws RemoteException, InterruptedException {
+		wait();
+	}
 }

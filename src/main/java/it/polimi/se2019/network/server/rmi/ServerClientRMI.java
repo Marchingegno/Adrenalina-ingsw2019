@@ -6,6 +6,8 @@ import it.polimi.se2019.network.server.ConnectionToClientInterface;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
+import java.rmi.RemoteException;
+
 public class ServerClientRMI implements ConnectionToClientInterface {
 
 	private ServerMessageHandler serverMessageHandler;
@@ -25,9 +27,19 @@ public class ServerClientRMI implements ConnectionToClientInterface {
 			try {
 				rmiClientInterface.receiveMessage(message);
 			} catch (Exception e) {
-				Utils.logInfo("Lost connection with the client.");
-				serverMessageHandler.onConnectionLost(this);
+				Utils.logInfo("Send message to client failed.");
 			}
 		}, "CUSTOM: RMI Message Sending").start();
+	}
+
+	public void startConnectionListener() {
+		new Thread(() -> {
+			try {
+				rmiClientInterface.connectionListenerSubject();
+			} catch (RemoteException | InterruptedException e) {
+				Utils.logError("Connection lost", e);
+				serverMessageHandler.onConnectionLost(this);
+			}
+		}, "CUSTOM: RMI Connection Listener").start();
 	}
 }

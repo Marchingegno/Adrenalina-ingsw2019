@@ -45,6 +45,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 		ServerClientRMI newServerClientRMI = new ServerClientRMI(serverMessageHandler, rmiClientInterface);
 		connections.put(rmiClientInterface, newServerClientRMI);
 		serverMessageHandler.onClientRegistration(newServerClientRMI);
+		newServerClientRMI.startConnectionListener();
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 		// Process the message in a thread so the thread of the client isn't put in wait.
 		new Thread(() -> {
 			serverMessageHandler.onMessageReceived(serverClientRMI, message);
-		}, "CUSTOM: RMI Message Reception").start();
+		}, "CUSTOM: RMI On Message Reception Processing").start();
 	}
 
 	/**
