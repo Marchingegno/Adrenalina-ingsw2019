@@ -56,7 +56,8 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 		try {
 			rmiServerSkeleton.receiveMessage(stub, message);
 		} catch (RemoteException e) {
-			Utils.logInfo("Error in RMIClient: sendMessage()");
+			Utils.logInfo("Lost connection with the server.");
+			messageReceiver.lostConnection();
 		}
 	}
 
@@ -67,6 +68,6 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	 */
 	@Override
 	public void receiveMessage(Message message) throws RemoteException {
-			messageReceiver.processMessage(message);
+		messageReceiver.processMessage(message);
 	}
 }

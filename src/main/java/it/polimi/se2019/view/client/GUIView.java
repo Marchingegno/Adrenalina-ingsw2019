@@ -17,6 +17,16 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void failedConnectionToServer() {
+
+	}
+
+	@Override
+	public void lostConnectionToServer() {
+
+	}
+
+	@Override
 	public void askNickname() {
 
 	}

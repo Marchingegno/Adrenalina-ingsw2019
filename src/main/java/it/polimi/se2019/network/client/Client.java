@@ -7,6 +7,8 @@ import it.polimi.se2019.view.client.CLIView;
 import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 
@@ -62,8 +64,9 @@ public class Client {
 		try {
 			clientMessageSender = new RMIClient(messageReceiver);
 			view.setConnectionToServer(clientMessageSender);
-		} catch (Exception e) {
+		} catch (RemoteException | NotBoundException e) {
 			Utils.logError("Failed to connect to the server.", e);
+			view.failedConnectionToServer();
 		}
 	}
 
@@ -73,5 +76,9 @@ public class Client {
 	public void startConnectionWithSocket(MessageReceiverInterface messageReceiver) {
 		clientMessageSender = new ClientSocket(messageReceiver);
 		view.setConnectionToServer(clientMessageSender);
+	}
+
+	public static void terminateClient() {
+		System.exit(0);
 	}
 }

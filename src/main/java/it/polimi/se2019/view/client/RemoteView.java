@@ -3,6 +3,7 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.model.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.*;
@@ -80,6 +81,11 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		}
 	}
 
+	@Override
+	public void lostConnection() {
+		lostConnectionToServer();
+	}
+
 	public void setConnectionToServer(ConnectionToServerInterface connectionToServer) {
 		this.connectionToServer = connectionToServer;
 	}
@@ -89,6 +95,10 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 			throw new IllegalStateException("Before sending any message, a connection must be set!");
 		connectionToServer.sendMessage(message);
 	}
+
+	public abstract void failedConnectionToServer();
+
+	public abstract void lostConnectionToServer();
 
 	public abstract void askNickname();
 

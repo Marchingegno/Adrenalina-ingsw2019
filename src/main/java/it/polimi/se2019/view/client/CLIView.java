@@ -6,6 +6,7 @@ import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.MapSquareRep;
 import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.GameConstants;
@@ -34,6 +35,18 @@ public class CLIView extends RemoteView {
 		this.modelRep = new ModelRep();
 		this.scanner = new Scanner(System.in);
 		this.repPrinter = new RepPrinter(this.modelRep);
+	}
+
+	@Override
+	public void failedConnectionToServer() {
+		System.out.println("Failed to connect to the server. Try again later.");
+		Client.terminateClient();
+	}
+
+	@Override
+	public void lostConnectionToServer() {
+		System.out.println("Lost connection with the server. Please restart the game.");
+		Client.terminateClient();
 	}
 
 	@Override
