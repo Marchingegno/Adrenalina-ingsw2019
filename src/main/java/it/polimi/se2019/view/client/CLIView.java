@@ -39,56 +39,56 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void failedConnectionToServer() {
-		System.out.println("Failed to connect to the server. Try again later.");
+		Utils.printLine("Failed to connect to the server. Try again later.");
 		Client.terminateClient();
 	}
 
 	@Override
 	public void lostConnectionToServer() {
-		System.out.println("Lost connection with the server. Please restart the game.");
+		Utils.printLine("Lost connection with the server. Please restart the game.");
 		Client.terminateClient();
 	}
 
 	@Override
 	public void askNickname() {
-		System.out.println("Enter your nickname.");
+		Utils.printLine("Enter your nickname.");
 		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
 	}
 
 	@Override
 	public void askNicknameError() {
-		System.out.println("The nickname already exists or is not valid, please use a different one.");
+		Utils.printLine("The nickname already exists or is not valid, please use a different one.");
 		askNickname();
 	}
 
 	@Override
 	public void nicknameIsOk(String nickname) {
-		System.out.println("Nickname set to: \"" + nickname + "\".");
+		Utils.printLine("Nickname set to: \"" + nickname + "\".");
 	}
 
 	@Override
 	public void displayWaitingPlayers(String waitingPlayers) {
-		System.out.println("Players in the waiting room: " + waitingPlayers + ".");
+		Utils.printLine("Players in the waiting room: " + waitingPlayers + ".");
 	}
 
 	@Override
 	public void displayTimerStarted(long delayInMs) {
 		DecimalFormat decimalFormat = new DecimalFormat();
 		decimalFormat.setMaximumFractionDigits(1);
-		System.out.println("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...\n\n");
+		Utils.printLine("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...\n\n");
 	}
 
 	@Override
 	public void displayTimerStopped() {
-		System.out.println(Utils.getColoredString("Timer for starting the match cancelled.", Utils.CharacterColorType.RED));
+		Utils.printLine(Utils.getColoredString("Timer for starting the match cancelled.", Utils.CharacterColorType.RED));
 	}
 
 	@Override
 	public void askMapAndSkullsToUse() {
-		System.out.println("\n\nMatch ready to start. Select your preferred configuration.");
+		Utils.printLine("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
-		System.out.println("Waiting for other clients to answer...\n\n");
+		Utils.printLine("Waiting for other clients to answer...\n\n");
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 		gameConfigMessage.setMapIndex(mapIndex);
 		gameConfigMessage.setSkulls(skulls);
@@ -97,16 +97,16 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
-		System.out.println("Average of voted skulls: " + skulls + ".");
-		System.out.println("Most voted map: " + mapType.getDescription());
-		System.out.println("Match started!");
+		Utils.printLine("Average of voted skulls: " + skulls + ".");
+		Utils.printLine("Most voted map: " + mapType.getDescription());
+		Utils.printLine("Match started!");
 	}
 
 	// TODO remove
 	@Override
 	public void askActionExample() {
-		System.out.println("Asking the user the action...");
-		System.out.println("Select a number between 0 and 2.");
+		Utils.printLine("Asking the user the action...");
+		Utils.printLine("Select a number between 0 and 2.");
 		int answer = askForAnInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new IntMessage(answer, MessageType.EXAMPLE_ACTION, MessageSubtype.ANSWER));
@@ -139,15 +139,15 @@ public class CLIView extends RemoteView {
 	}
 
 	private int askMapToUse() {
-		System.out.println("Select the map you would like to use, available maps:");
+		Utils.printLine("Select the map you would like to use, available maps:");
 		for (GameConstants.MapType map : GameConstants.MapType.values()) {
-			System.out.println(map.ordinal() + ": " + map.getDescription());
+			Utils.printLine(map.ordinal() + ": " + map.getDescription());
 		}
 		return askForAnInteger(0, GameConstants.MapType.values().length - 1);
 	}
 
 	private int askSkullsForGame() {
-		System.out.println("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
+		Utils.printLine("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
 		return askForAnInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
 	}
 
@@ -175,7 +175,7 @@ public class CLIView extends RemoteView {
 				input = -1;
 			} finally {
 				if (input < minInclusive || input > maxInclusive)
-					System.out.println("The value must be between " + minInclusive + " and " + maxInclusive + ".");
+					Utils.printLine("The value must be between " + minInclusive + " and " + maxInclusive + ".");
 			}
 		}
 		return input;
@@ -199,22 +199,22 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		System.out.println("\n");
+		Utils.printLine("\n");
 
 		displayPlayers();
 
-		System.out.println("\n");
+		Utils.printLine("\n");
 
 		displayGameBoard();
 
-		System.out.println("\n");
+		Utils.printLine("\n");
 
 		if (mapToPrint == null)
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
 		updateMapToPrint();
 		displayMap();
 
-		System.out.println("\n");
+		Utils.printLine("\n");
 
 		displayOwnPlayer(modelRep.getPlayersRep().get(0));
 	}
@@ -281,7 +281,7 @@ class RepPrinter {
 	 * Displays the remaining skulls, the kill shot track and the double kills.
 	 */
 	private void displayGameBoard() {
-		System.out.println(getSkullString() + "\n\n" +
+		Utils.printLine(getSkullString() + "\n\n" +
 				getKillShotTrackString() + "\n\n" +
 				getDoubleKillString() + "\n");
 	}
@@ -331,7 +331,7 @@ class RepPrinter {
 			stringBuilder.append("\t\t\t|");
 			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
 
-			System.out.println(stringBuilder.toString());
+			Utils.printLine(stringBuilder.toString());
 			stringBuilder = new StringBuilder();
 		}
 	}
@@ -375,8 +375,8 @@ class RepPrinter {
 	}
 
 	private void displayOwnPlayer(PlayerRep playerRep) {
-		System.out.println(Utils.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Utils.BackgroundColorType.DEFAULT));
-		System.out.println(
+		Utils.printLine(Utils.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Utils.BackgroundColorType.DEFAULT));
+		Utils.printLine(
 				"Move 1 >>>\t\t" +
 						Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
 						" Powerup 1\t\t" +
@@ -389,7 +389,7 @@ class RepPrinter {
 						Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
 						Utils.getColoredString("◼", Utils.CharacterColorType.YELLOW, Utils.BackgroundColorType.DEFAULT) +
 						Utils.getColoredString("◼", Utils.CharacterColorType.DEFAULT, Utils.BackgroundColorType.DEFAULT));
-		System.out.println(
+		Utils.printLine(
 				"Move 2 >>O\t\t" +
 						Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
@@ -402,7 +402,7 @@ class RepPrinter {
 						Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
 						Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT) +
 						Utils.getColoredString("◼", Utils.CharacterColorType.RED, Utils.BackgroundColorType.DEFAULT));
-		System.out.println(
+		Utils.printLine(
 				"Move 3 >>S\t\t" +
 						Utils.getColoredString("◼", Utils.CharacterColorType.BLUE, Utils.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +

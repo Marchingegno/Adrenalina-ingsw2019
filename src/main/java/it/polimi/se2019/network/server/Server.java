@@ -55,7 +55,7 @@ public class Server {
 		new Thread(() -> {
 			String input = "";
 			while (!input.equalsIgnoreCase("close")) {
-				System.out.println("Type \"close\" to stop the server.");
+				Utils.printLine("Type \"close\" to stop the server.");
 				input = new Scanner(System.in).nextLine();
 			}
 			socketServer.close();

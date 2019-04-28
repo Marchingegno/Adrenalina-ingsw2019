@@ -33,6 +33,10 @@ public class Utils {
 		}
 	}
 
+	public static void printLine(String string) {
+		System.out.println(string);
+	}
+
 	public static Logger getGlobalLogger() {
 		return LOGGER;
 	}
