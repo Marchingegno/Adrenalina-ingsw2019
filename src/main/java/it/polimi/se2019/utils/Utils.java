@@ -28,7 +28,7 @@ public class Utils {
 
 	public static void logInfo(String msg) {
 		if(DEBUG) {
-			System.out.println(setColorString(CharacterColorType.RED, BackgroundColorType.BLUE) + "INFO:" + resetColorString() + " " + msg);
+			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + "INFO:" + Color.resetColorString() + " " + msg);
 			//LOGGER.log(Level.INFO, msg);
 		}
 	}
@@ -41,98 +41,21 @@ public class Utils {
 		return LOGGER;
 	}
 
-	public static String getColoredString(String string, CharacterColorType characterColor, BackgroundColorType backgroundColor){
-		return setColorString(characterColor, backgroundColor) + string + resetColorString();
-	}
-
-	public static String getColoredString(String string, CharacterColorType characterColor){
-		return getColoredString(string, characterColor, BackgroundColorType.DEFAULT);
-	}
-
-	public static String getColoredCell(BackgroundColorType backgroundColor){
-		return setColorString(CharacterColorType.DEFAULT, backgroundColor)+ " " + resetColorString();
-	}
-
-	private static String setColorString(CharacterColorType characterColor, BackgroundColorType backgroundColor) {
-		return (char)27 + "[" + characterColor.getCharacterColor() + ";" + backgroundColor.getBackgroundColor() + "m";
-	}
-
-	private static String resetColorString() {
-		return setColorString(CharacterColorType.DEFAULT, BackgroundColorType.DEFAULT);
-	}
-
-	@SuppressWarnings("unused")
-	private static void testColors() {
-		for(CharacterColorType characterColor : CharacterColorType.values()) {
-			for(BackgroundColorType backgroundColor : BackgroundColorType.values()) {
-				System.out.print(setColorString(characterColor, backgroundColor) + " TEST " + resetColorString());
-			}
-			System.out.print("\n");
-		}
-	}
-
 	public static String fillWithSpaces(String inputString, int length) {
-		return fillWithSpacesColored(inputString, length, CharacterColorType.DEFAULT);
+		return fillWithSpacesColored(inputString, length, Color.CharacterColorType.DEFAULT);
 	}
 
-	public static String fillWithSpacesColored(String inputString, int length, Utils.CharacterColorType color) {
+	public static String fillWithSpacesColored(String inputString, int length, Color.CharacterColorType color) {
 		if (inputString.length() >= length) {
 			return inputString;
 		}
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(getColoredString(inputString, color));
+		stringBuilder.append(Color.getColoredString(inputString, color));
 		while (stringBuilder.length() < length - inputString.length()) {
 			stringBuilder.append('0');
 		}
 
 		return stringBuilder.toString();
-	}
-
-
-	public enum CharacterColorType {
-		// NOTE: the color BLACK may be rendered white in different terminals
-		// NOTE: the color WHITE may be rendered grey in different terminals
-		BLACK(30), RED(31), GREEN(32), YELLOW(33), BLUE(34), MAGENTA(35), CYAN(36), WHITE(37), DEFAULT(39);
-
-		private int characterColor;
-
-		CharacterColorType(int characterColor) {
-			this.characterColor = characterColor;
-		}
-
-		public int getCharacterColor() {
-			return characterColor;
-		}
-
-		public static BackgroundColorType convertBackgroundColor(CharacterColorType characterColorToConvert){
-			switch (characterColorToConvert) {
-				case BLACK: return BackgroundColorType.BLACK;
-				case RED: return BackgroundColorType.RED;
-				case GREEN: return BackgroundColorType.GREEN;
-				case YELLOW: return BackgroundColorType.YELLOW;
-				case BLUE: return BackgroundColorType.BLUE;
-				case MAGENTA: return BackgroundColorType.MAGENTA;
-				case CYAN: return BackgroundColorType.CYAN;
-				case WHITE: return BackgroundColorType.WHITE;
-					default: return BackgroundColorType.DEFAULT;
-			}
-		}
-	}
-
-	public enum BackgroundColorType {
-		// NOTE: the color BLACK may be rendered white in different terminals
-		// NOTE: the color WHITE may be rendered grey in different terminals
-		BLACK(40), RED(41), GREEN(42), YELLOW(43), BLUE(44), MAGENTA(45), CYAN(46), WHITE(47), DEFAULT(49);
-
-		private int backgroundColor;
-
-		BackgroundColorType(int backgroundColor) {
-			this.backgroundColor = backgroundColor;
-		}
-
-		public int getBackgroundColor() {
-			return backgroundColor;
-		}
 	}
 
 

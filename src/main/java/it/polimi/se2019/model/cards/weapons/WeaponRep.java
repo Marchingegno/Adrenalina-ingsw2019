@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.Color;
 
 public class WeaponRep {
 
@@ -11,9 +11,9 @@ public class WeaponRep {
 	public WeaponRep(WeaponCard weaponCardToRepresent){
 		this.weaponName = weaponCardToRepresent.getWeaponName();
 		this.weaponDescription = weaponCardToRepresent.getDescription();
-		price = Utils.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(0).getCharacterColorType()) +
-				Utils.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(1).getCharacterColorType()) +
-				Utils.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(2).getCharacterColorType());
+		price = Color.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(0).getCharacterColorType()) +
+				Color.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(1).getCharacterColorType()) +
+				Color.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(2).getCharacterColorType());
 	}
 
 	public String getWeaponName() {

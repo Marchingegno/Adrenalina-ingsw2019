@@ -1,13 +1,13 @@
 package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.Color;
 
 import java.io.Serializable;
 
 public class KillShotRep implements Serializable {
 
 	private String playerName;
-	private Utils.CharacterColorType playerColor;
+	private Color.CharacterColorType playerColor;
 	private boolean overkill;
 
 
@@ -21,7 +21,7 @@ public class KillShotRep implements Serializable {
 		return playerName;
 	}
 
-	public Utils.CharacterColorType getPlayerColor() {
+	public Color.CharacterColorType getPlayerColor() {
 		return playerColor;
 	}
 

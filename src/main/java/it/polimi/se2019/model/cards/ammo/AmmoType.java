@@ -1,23 +1,23 @@
 package it.polimi.se2019.model.cards.ammo;
 
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.Color;
 
 public enum AmmoType {
-	RED_AMMO(Utils.CharacterColorType.RED),
-	YELLOW_AMMO(Utils.CharacterColorType.YELLOW),
-	BLUE_AMMO(Utils.CharacterColorType.BLUE);
+	RED_AMMO(Color.CharacterColorType.RED),
+	YELLOW_AMMO(Color.CharacterColorType.YELLOW),
+	BLUE_AMMO(Color.CharacterColorType.BLUE);
 
-	Utils.CharacterColorType colorType;
+	Color.CharacterColorType colorType;
 
-	AmmoType(Utils.CharacterColorType color){
+	AmmoType(Color.CharacterColorType color){
 		colorType = color;
 	}
 
-	public Utils.BackgroundColorType getBackgroundColorType() {
-		return Utils.CharacterColorType.convertBackgroundColor(colorType);
+	public Color.BackgroundColorType getBackgroundColorType() {
+		return Color.CharacterColorType.convertBackgroundColor(colorType);
 	}
 
-	public Utils.CharacterColorType getCharacterColorType() {
+	public Color.CharacterColorType getCharacterColorType() {
 		return colorType;
 	}
 }

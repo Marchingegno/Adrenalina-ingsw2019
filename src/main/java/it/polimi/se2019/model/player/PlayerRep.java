@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -17,11 +18,11 @@ import java.util.List;
 public class PlayerRep extends Message {
 
 	private String playerName;
-	private Utils.CharacterColorType playerColor;
+	private Color.CharacterColorType playerColor;
 	private int points;
 	private int playerID;
-	private ArrayList<Utils.CharacterColorType> damageBoard;
-	private ArrayList<Utils.CharacterColorType> marks;
+	private ArrayList<Color.CharacterColorType> damageBoard;
+	private ArrayList<Color.CharacterColorType> marks;
 	private boolean[] weaponLoaded;
 	private ArrayList<String> powerupCards;
 	private ArrayList<AmmoType> powerupAmmos;
@@ -134,7 +135,7 @@ public class PlayerRep extends Message {
 	 * Returns the player color.
 	 * @return the player color.
 	 */
-	public Utils.CharacterColorType getPlayerColor() {
+	public Color.CharacterColorType getPlayerColor() {
 		return playerColor;
 	}
 
@@ -153,7 +154,7 @@ public class PlayerRep extends Message {
 	 * Returns the damage board of this player with all the player names that made the damage.
 	 * @return the damage board of this player with all the player names that made the damage.
 	 */
-	public List<Utils.CharacterColorType> getDamageBoard() {
+	public List<Color.CharacterColorType> getDamageBoard() {
 		return damageBoard;
 	}
 
@@ -161,7 +162,7 @@ public class PlayerRep extends Message {
 	 * Returns the marks of this player with all the player names that made the marks.
 	 * @return the marks of this player with all the player names that made the marks.
 	 */
-	public List<Utils.CharacterColorType> getMarks() {
+	public List<Color.CharacterColorType> getMarks() {
 		return marks;
 	}
 
@@ -261,7 +262,7 @@ public class PlayerRep extends Message {
 
 	public String toString(){
 		return ("Player name: " + playerName +"\n" +
-				"Color: " + Utils.getColoredString(" ", playerColor, Utils.BackgroundColorType.DEFAULT) +
+				"Color: " + Color.getColoredString(" ", playerColor, Color.BackgroundColorType.DEFAULT) +
 				"Hidden: " + hidden + "\n" +
 				"PlayerId: " + playerID + "\n" +
 				"PowerupAmmos: " + powerupAmmos + "\n" +

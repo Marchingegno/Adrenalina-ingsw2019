@@ -5,7 +5,7 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.Color;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class GameBoardRep extends Message {
 
 	private int remainingSkulls;
-	private ArrayList<Utils.CharacterColorType> doubleKills;
+	private ArrayList<Color.CharacterColorType> doubleKills;
 	private ArrayList<KillShotRep> killShoots;
 	private String currentPlayer;
 
@@ -38,7 +38,7 @@ public class GameBoardRep extends Message {
 		return remainingSkulls;
 	}
 
-	public ArrayList<Utils.CharacterColorType> getDoubleKills() {
+	public ArrayList<Color.CharacterColorType> getDoubleKills() {
 		return doubleKills;
 	}
 

@@ -1,7 +1,7 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.player.KillShotRep;
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.Color;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -47,7 +47,7 @@ public class GameBoardRepTest {
 
 	@Test
 	public void getDoubleKills_initialState_correctOutput() {
-		List<Utils.CharacterColorType> doubleKills = gameBoardRep.getDoubleKills();
+		List<Color.CharacterColorType> doubleKills = gameBoardRep.getDoubleKills();
 		for (int i = 0; i < doubleKills.size(); i++)
 			assertEquals(gameBoard.getDoubleKills().get(i).getPlayerColor(), doubleKills.get(i));
 	}

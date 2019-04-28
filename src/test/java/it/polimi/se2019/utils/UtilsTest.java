@@ -18,16 +18,6 @@ public class UtilsTest {
 
 	@Test
 	public void getColoredString() {
-		assertEquals((char)27 + "[30;40mTEST" + (char)27 + "[39;49m", Utils.getColoredString("TEST", Utils.CharacterColorType.BLACK, Utils.BackgroundColorType.BLACK));
+		assertEquals((char)27 + "[30;40mTEST" + (char)27 + "[39;49m", Color.getColoredString("TEST", Color.CharacterColorType.BLACK, Color.BackgroundColorType.BLACK));
 	}
-/*
-	@Test
-	public void setColorString_correctInput_correctOutput() {
-		assertEquals((char)27 + "[30;40m", Utils.setColorString(Utils.CharacterColorType.BLACK, Utils.BackgroundColorType.BLACK));
-	}
-
-	@Test
-	public void resetColorString_correctInput_correctOutput() {
-		assertEquals((char)27 + "[39;49m", Utils.resetColorString());
-	}*/
 }

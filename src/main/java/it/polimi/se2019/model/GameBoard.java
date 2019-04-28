@@ -7,6 +7,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class GameBoard extends Observable{
 		int id = 0;
 
 		for (String name : playerNames) {
-			players.add(new Player(name, id, Utils.CharacterColorType.values()[id + 1]));
+			players.add(new Player(name, id, Color.CharacterColorType.values()[id + 1]));
 			id++;
 		}
 
