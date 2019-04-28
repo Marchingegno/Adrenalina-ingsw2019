@@ -4,9 +4,10 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Utils;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class DamageDoneTest {
 

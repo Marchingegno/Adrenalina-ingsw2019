@@ -2,7 +2,6 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.cards.ammo.AmmoDeck;
 import it.polimi.se2019.model.cards.powerups.PowerupDeck;
-import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;

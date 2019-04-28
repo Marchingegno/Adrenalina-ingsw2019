@@ -1,9 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.cards.Card;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class MapSquareRep implements Serializable {
 

@@ -4,7 +4,6 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.view.ViewInterface;
-import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.List;
 

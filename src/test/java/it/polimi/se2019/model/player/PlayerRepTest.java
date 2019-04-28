@@ -8,7 +8,6 @@ import it.polimi.se2019.utils.Utils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.List;
 
 import static org.junit.Assert.*;

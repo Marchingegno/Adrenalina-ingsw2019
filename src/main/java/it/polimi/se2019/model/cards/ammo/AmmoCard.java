@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.ammo;
 
 import it.polimi.se2019.model.cards.Card;
+
 import java.util.ArrayList;
 import java.util.List;
 

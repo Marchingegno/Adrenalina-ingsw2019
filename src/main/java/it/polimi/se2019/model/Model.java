@@ -6,10 +6,10 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.PlayerQueue;
-import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.ViewInterface;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static it.polimi.se2019.utils.GameConstants.*;
 

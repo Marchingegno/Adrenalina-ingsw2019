@@ -1,9 +1,9 @@
 package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
+import it.polimi.se2019.utils.GameConstants;
 
 import java.util.ArrayList;
 import java.util.List;

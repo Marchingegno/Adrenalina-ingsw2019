@@ -1,9 +1,6 @@
 package it.polimi.se2019.utils;
 
-import it.polimi.se2019.model.player.damagestatus.DamageStatus;
-
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * This class contains all the information to execute an action, and it does so by splitting it into atomic actions.

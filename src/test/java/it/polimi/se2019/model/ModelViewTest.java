@@ -1,15 +1,10 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.gamemap.GameMap;
-import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.model.player.PlayerRep;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 
 public class ModelViewTest {
 

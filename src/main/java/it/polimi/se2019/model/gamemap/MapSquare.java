@@ -1,9 +1,5 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.cards.Card;
-import it.polimi.se2019.model.cards.Deck;
-import it.polimi.se2019.model.player.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 

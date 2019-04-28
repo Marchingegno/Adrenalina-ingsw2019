@@ -10,8 +10,6 @@ import it.polimi.se2019.utils.Utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
-
 import static org.junit.Assert.*;
 
 /**
