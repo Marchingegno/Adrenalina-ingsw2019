@@ -74,13 +74,13 @@ public class CLIView extends RemoteView {
 	@Override
 	public void displayTimerStarted(long delayInMs) {
 		DecimalFormat decimalFormat = new DecimalFormat();
-		decimalFormat.setMaximumFractionDigits(2);
-		System.out.println("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds.");
+		decimalFormat.setMaximumFractionDigits(1);
+		System.out.println("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...\n\n");
 	}
 
 	@Override
 	public void displayTimerStopped() {
-		System.out.println("Timer for starting the match cancelled.");
+		System.out.println(Utils.getColoredString("Timer for starting the match cancelled.", Utils.CharacterColorType.RED));
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class CLIView extends RemoteView {
 		System.out.println("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
-		System.out.println("Waiting for other clients to answer...");
+		System.out.println("Waiting for other clients to answer...\n\n");
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 		gameConfigMessage.setMapIndex(mapIndex);
 		gameConfigMessage.setSkulls(skulls);

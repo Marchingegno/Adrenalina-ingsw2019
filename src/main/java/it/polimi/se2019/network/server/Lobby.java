@@ -12,6 +12,7 @@ public class Lobby {
 	private HashMap<ConnectionToClientInterface, Match> playingClients;
 	private HashMap<ConnectionToClientInterface, String> waitingRoom;
 	private long timerDelayForMatchStart;
+	private long timeTimerStart;
 	private Timer timer;
 
 
@@ -39,7 +40,7 @@ public class Lobby {
 		} else {
 			client.sendMessage(new NicknameMessage(nickname, MessageSubtype.OK));
 			waitingRoom.put(client, nickname);
-			checkIfWaitingRoomIsReady();
+			checkIfWaitingRoomIsReady(client);
 		}
 	}
 
@@ -49,7 +50,7 @@ public class Lobby {
 	 */
 	public void removeWaitingClient(ConnectionToClientInterface client) {
 		waitingRoom.remove(client);
-		checkIfWaitingRoomIsReady();
+		checkIfWaitingRoomIsReady(null);
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class Lobby {
 				// Add the participants of the dismantled match to the waiting room.
 				for(Map.Entry<ConnectionToClientInterface, String> participant : participants.entrySet()) {
 					waitingRoom.put(participant.getKey(), participant.getValue());
-					checkIfWaitingRoomIsReady();
+					checkIfWaitingRoomIsReady(participant.getKey());
 				}
 			}
 		}
@@ -96,7 +97,7 @@ public class Lobby {
 	 * Check if the waiting room has reached the minimum number of players (and schedule the timer for the match to start).
 	 * Check if the waiting room has reached the maximum number of players (and start the match immediately).
 	 */
-	private void checkIfWaitingRoomIsReady() {
+	private void checkIfWaitingRoomIsReady(ConnectionToClientInterface newestClient) {
 		// Send a message to all the clients in the waiting room.
 		sendWaitingPlayersMessage();
 
@@ -107,37 +108,32 @@ public class Lobby {
 		} else if(waitingRoom.size() == GameConstants.MIN_PLAYERS) {
 			// Reached the minimum number of players. Start a timer for starting the match if not already started.
 			if(timer == null) {
-				final Lobby lobby = this;
-				timer = new Timer();
-				timer.schedule(new TimerTask() {
-					@Override
-					public void run() {
-						Utils.logInfo("Timer ended. Starting the match...");
-						lobby.startMatchInWaitingRoom();
-					}
-				}, timerDelayForMatchStart);
-				Utils.logInfo("Scheduled a timer for starting the match of " + timerDelayForMatchStart + " milliseconds.");
+				startTimerForMatchStart();
 				sendTimerStartedMessage();
 			}
 		} else if(waitingRoom.size() < GameConstants.MIN_PLAYERS) {
 			// If a timer has been started, cancels it since now the number of players is less than the minimum.
 			if(timer != null) {
-				timer.cancel();
-				timer = null;
+				cancelTimerForMatchStart();
 				sendTimerCanceledMessage();
+			}
+		} else {
+			// Number of players between the minimum and the maximum. Send to the new client the remaining time for starting the match.
+			if(timer != null && newestClient != null) {
+				long timePassedAfterTimerStart = System.currentTimeMillis() - timeTimerStart;
+				long timeRemainingInTimer = timerDelayForMatchStart - timePassedAfterTimerStart;
+				newestClient.sendMessage(new TimerForStartMessage(timeRemainingInTimer, MessageSubtype.INFO));
 			}
 		}
 	}
 
 	/**
-	 * Start the match with the clients in the waiting room.
+	 * Start the match with the clients in the waiting room and cancels the timer.
 	 */
 	private void startMatchInWaitingRoom() {
 		// Stop the timer if it is running, used for example when reaching the maximum number of players.
-		if(timer != null) {
-			timer.cancel();
-			timer = null;
-		}
+		if(timer != null)
+			cancelTimerForMatchStart();
 
 		// Start a new match.
 		Match match = new Match(waitingRoom);
@@ -162,6 +158,25 @@ public class Lobby {
 				client.sendMessage(new WaitingPlayersMessage(stringBuilder.toString()));
 			}
 		}
+	}
+
+	private void startTimerForMatchStart() {
+		timeTimerStart = System.currentTimeMillis();
+		final Lobby lobby = this;
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Utils.logInfo("Timer ended. Starting the match...");
+				lobby.startMatchInWaitingRoom();
+			}
+		}, timerDelayForMatchStart);
+		Utils.logInfo("Scheduled a timer for starting the match of " + timerDelayForMatchStart + " milliseconds.");
+	}
+
+	private void cancelTimerForMatchStart() {
+		timer.cancel();
+		timer = null;
 	}
 
 	private void sendTimerStartedMessage() {

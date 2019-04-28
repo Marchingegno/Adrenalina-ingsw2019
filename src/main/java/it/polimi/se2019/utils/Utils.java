@@ -42,7 +42,7 @@ public class Utils {
 	}
 
 	public static String getColoredString(String string, CharacterColorType characterColor){
-		return setColorString(characterColor, BackgroundColorType.DEFAULT) + string + resetColorString();
+		return getColoredString(string, characterColor, BackgroundColorType.DEFAULT);
 	}
 
 	public static String getColoredCell(BackgroundColorType backgroundColor){
