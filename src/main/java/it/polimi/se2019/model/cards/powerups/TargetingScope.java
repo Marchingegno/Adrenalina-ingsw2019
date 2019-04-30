@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Color;
 
 /**
  * This class implements the Targeting scope powerup
@@ -22,6 +23,10 @@ public class TargetingScope extends PowerupCard {
 		activatingPlayer.getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
 		Player targetPlayer = activatingPlayer; // TODO placeholder, must be targetPlayer.
 		targetPlayer.getPlayerBoard().addDamage(activatingPlayer, GIVEN_DAMAGE);
+	}
+
+	public String toString(){
+		return Color.getColoredString("◼", this.getAssociatedAmmo().getCharacterColorType()) + "Targeting Scope";
 	}
 
 }

@@ -1,8 +1,13 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.cards.ammo.AmmoCard;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
+import it.polimi.se2019.model.gamemap.AmmoSquare;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
+import it.polimi.se2019.model.gamemap.SpawnSquare;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.PlayerQueue;
@@ -141,11 +146,35 @@ public class Model{
 		//gameMap.fillMap(gameBoard.getWeaponDeck(), gameBoard.getAmmoDeck());
 	}
 
-	public void drawPowerupCard(Player player) {
+	public void grabCard(Player player) {
+		AmmoCard ammoCard = (AmmoCard) (gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(0);
+
+		for (AmmoType ammo : ammoCard.getAmmos() ) {
+			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
+		}
+
+		if (ammoCard.hasPowerup()){
+			player.getPlayerBoard().addPowerup(gameBoard.getPowerupDeck().drawCard());
+		}
+
 		updateReps();
 	}
 
-	public void drawWeaponCard(Player player, WeaponCard weapon) {
+	public void discardPowerupCard(Player player, int indexOfThePowerup) {
+
+	}
+
+	public void grabWeaponCard(Player player, int index) {
+		player.getPlayerBoard().addWeapon((WeaponCard) (gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(index));
+		updateReps();
+	}
+
+	public void swapWeapons(Player player, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon){
+		WeaponCard playerWeapon = player.getPlayerBoard().removeWeapon(indexOfThePlayerWeapon);
+		WeaponCard squareWeapon = (WeaponCard)(gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(indexOfTheSpawnWeapon);
+
+		player.getPlayerBoard().addWeapon(squareWeapon);
+		((SpawnSquare) gameMap.getSquare(gameMap.playerCoordinates(player))).addCard(playerWeapon);
 		updateReps();
 	}
 

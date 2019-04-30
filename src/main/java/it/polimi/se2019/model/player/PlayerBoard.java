@@ -183,9 +183,16 @@ public class PlayerBoard {
 	/**
 	 * Returns the weapon cards in player's inventory.
 	 * @return the weapon cards in player's inventory.
+	 * @deprecated
 	 */
 	public List<WeaponCard> getWeaponCards() {
 		return new ArrayList<>(weaponCards);
+	}
+
+	public int numOfWeapons(){return weaponCards.size();}
+
+	public WeaponCard removeWeapon(int indexOfTheWeapon){
+		return weaponCards.remove(indexOfTheWeapon);
 	}
 
 	/**
@@ -207,9 +214,9 @@ public class PlayerBoard {
 	 * @throws InventoryFullException if the inventory is already full.
 	 */
 	public void addPowerup(PowerupCard powerupToAdd) {
+		powerupCards.add(powerupToAdd);
 		if(powerupCards.size() >= GameConstants.MAX_POWERUP_CARDS_PER_PLAYER)
 			throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
-		powerupCards.add(powerupToAdd);
 	}
 
 	/**

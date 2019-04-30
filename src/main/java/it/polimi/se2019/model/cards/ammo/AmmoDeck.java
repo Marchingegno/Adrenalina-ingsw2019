@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.ammo;
 
+import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.utils.Utils;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * This class implements the ammo deck
  * @author MarcerAndrea
  */
-public class AmmoDeck extends Deck<AmmoCard>{
+public class AmmoDeck extends Deck<Card>{
 
 	/**
 	 * Initialize the ammo deck according to the file "AmmoDeck.txt"

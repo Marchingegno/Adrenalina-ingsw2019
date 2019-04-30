@@ -2,11 +2,11 @@ package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
+import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +23,8 @@ public class PlayerRep extends Message {
 	private int playerID;
 	private ArrayList<Color.CharacterColorType> damageBoard;
 	private ArrayList<Color.CharacterColorType> marks;
-	private boolean[] weaponLoaded;
-	private ArrayList<String> powerupCards;
-	private ArrayList<AmmoType> powerupAmmos;
+	//TODO add weapon reps
+	private ArrayList<PowerupCardRep> powerupCards;
 	private int redAmmo;
 	private int yellowAmmo;
 	private int blueAmmo;
@@ -53,24 +52,9 @@ public class PlayerRep extends Message {
 			marks.add(player2.getPlayerColor());
 		}
 
-		if(player.getPlayerBoard().getWeaponCards().isEmpty()){
-			weaponLoaded = null;
-		}
-		else{
-			weaponLoaded = new boolean[player.getPlayerBoard().getWeaponCards().size()];
-			for (int i = 0; i < player.getPlayerBoard().getWeaponCards().size(); i++) {
-				weaponLoaded[i] = player.getPlayerBoard().getWeaponCards().get(i).isLoaded();
-			}
-		}
-
 		powerupCards = new ArrayList<>(player.getPlayerBoard().getPowerupCards().size());
 		for(PowerupCard powerupCard : player.getPlayerBoard().getPowerupCards()) {
-			powerupCards.add(powerupCard.toString());
-		}
-
-		powerupAmmos = new ArrayList<>(player.getPlayerBoard().getPowerupCards().size());
-		for(PowerupCard powerupCard : player.getPlayerBoard().getPowerupCards()) {
-			powerupAmmos.add(powerupCard.getAssociatedAmmo());
+			powerupCards.add(new PowerupCardRep(powerupCard));
 		}
 
 		redAmmo = player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.RED_AMMO);
@@ -97,9 +81,7 @@ public class PlayerRep extends Message {
 		newPlayerRep.points = -1; // hidden
 		newPlayerRep.damageBoard = new ArrayList<>(damageBoard);
 		newPlayerRep.marks = new ArrayList<>(marks);
-		newPlayerRep.weaponLoaded = this.weaponLoaded;
 		newPlayerRep.powerupCards = null; // hidden
-		newPlayerRep.powerupAmmos = null; // hidden
 		newPlayerRep.redAmmo = this.redAmmo;
 		newPlayerRep.yellowAmmo = this.yellowAmmo;
 		newPlayerRep.blueAmmo = this.blueAmmo;
@@ -167,33 +149,14 @@ public class PlayerRep extends Message {
 	}
 
 	/**
-	 * Returns an array of boolean that represents which weapons are loaded in the player's inventory.
-	 * @return an array of boolean that represents which weapons are loaded in the player's inventory.
-	 */
-	public boolean[] getWeaponLoaded() {
-		return weaponLoaded;
-	}
-
-	/**
 	 * Returns the sensitive information of player's powerup cards.
 	 * @return the sensitive information of player's powerup cards.
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
-	public List<String> getPowerupCards() throws HiddenException {
+	public List<PowerupCardRep> getPowerupCards() throws HiddenException {
 		if(isHidden())
 			throw new HiddenException("The value of \"powerupCards\" is hidden in this PlayerRep.");
 		return powerupCards;
-	}
-
-	/**
-	 * Returns the sensitive information of the ammo associated with the player's powerups.
-	 * @return the sensitive information of the ammo associated with the player's powerups.
-	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
-	 */
-	public List<AmmoType> getPowerupAmmos() throws HiddenException {
-		if(isHidden())
-			throw new HiddenException("The value of \"powerupAmmos\" is hidden in this PlayerRep.");
-		return powerupAmmos;
 	}
 
 	/**
@@ -220,61 +183,18 @@ public class PlayerRep extends Message {
 		return blueAmmo;
 	}
 
-	public boolean equals(Object object){
-		if (!(object instanceof PlayerRep))
-			return false;
-
-		boolean temp = true;
-
-
-		if (((PlayerRep) object).isHidden() == hidden && !isHidden()) {
-			try {
-				temp = ((PlayerRep) object).getPowerupAmmos().equals(powerupAmmos) &&
-						((PlayerRep) object).getPowerupCards().equals(powerupCards) &&
-						(((PlayerRep) object).getPoints() == points);
-			} catch (HiddenException e) {
-				Utils.logError("Trying to compare hidden attributes PlayerRep equals()", e);
-			}
-		}
-
-
-		temp = temp &&
-				((PlayerRep) object).getPlayerName().equals(playerName) &&
-				((PlayerRep) object).getPlayerColor().equals(playerColor) &&
-				((PlayerRep) object).playerID == playerID &&
-				((PlayerRep) object).blueAmmo == blueAmmo &&
-				((PlayerRep) object).redAmmo == redAmmo &&
-				((PlayerRep) object).yellowAmmo == yellowAmmo &&
-				((PlayerRep) object).getMarks().equals(marks);
-
-		if(((PlayerRep) object).getWeaponLoaded() != null && weaponLoaded != null && ((PlayerRep) object).getWeaponLoaded().length == weaponLoaded.length){
-			for (int i = 0; i < weaponLoaded.length; i++) {
-				if(((PlayerRep) object).getWeaponLoaded()[i] != weaponLoaded[i])
-					return false;
-			}
-		}
-		else
-			if(((PlayerRep) object).getWeaponLoaded() != null || weaponLoaded != null)
-				temp = false;
-
-		return temp;
-	}
-
 	public String toString(){
 		return ("Player name: " + playerName +"\n" +
 				"Color: " + Color.getColoredString(" ", playerColor, Color.BackgroundColorType.DEFAULT) +
 				"Hidden: " + hidden + "\n" +
 				"PlayerId: " + playerID + "\n" +
-				"PowerupAmmos: " + powerupAmmos + "\n" +
-				"PowerUpCards: " + powerupCards + "\n" +
+				"PowerUpCards: " + powerupCards.toString() + "\n" +
 				"Point: " + points + "\n" +
 				"Blue ammo: " + blueAmmo + "\n" +
 				"Red ammo: " + redAmmo + "\n" +
 				"Yellow ammo: " + yellowAmmo + "\n" +
-				"Loaded: " + weaponLoaded + "\n" +
 				"Marks: " + marks);
 	}
-
 }
 
 /**

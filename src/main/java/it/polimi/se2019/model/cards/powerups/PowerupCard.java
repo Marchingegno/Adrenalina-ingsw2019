@@ -24,4 +24,5 @@ public abstract class PowerupCard extends Card {
 	 */
 	public AmmoType getAssociatedAmmo() {return associatedAmmo;}
 
+	public abstract String toString();
 }

@@ -1,9 +1,13 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
+import it.polimi.se2019.utils.GameConstants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Spawn square associated with an ammo type that represents its color
@@ -12,11 +16,10 @@ import java.util.ArrayList;
 public class SpawnSquare extends MapSquare {
 
 	private AmmoType ammoType;
-	private boolean isFilled;
-	private ArrayList<WeaponCard> weaponCards;
 
-	public SpawnSquare(AmmoType ammoType, int roomID, boolean[] possibleDirections, Coordinates coordinates) {
+	public SpawnSquare(AmmoType ammoType, int roomID, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
 		super(possibleDirections, roomID, coordinates);
+		deck = gameBoard.getWeaponDeck();
 		this.ammoType = ammoType;
 	}
 
@@ -27,52 +30,34 @@ public class SpawnSquare extends MapSquare {
 		return ammoType;
 	}
 
-	public boolean isFilled() {
-		return isFilled;
-	}
-
-	public void setFilled() {
-		isFilled = true;
-	}
-
-	public void setNtoFilled() {
-		isFilled = false;
-	}
-
-	public WeaponCard grabWeaponCard(int index) {
-		WeaponCard removedCard = weaponCards.get(index);
-		weaponCards.remove(index);
-		return removedCard;
-	}
-
-	public void addWeaponCards(WeaponCard weaponCardToAdd) {
-		if (weaponCards.size() < 3) {
-			weaponCards.add(weaponCardToAdd);
-		} else {
-			throw new OutOfCapacityException("Trying to add a new weapon to a spawn with already 3 weapons. SpawnSquare: addWeaponCards()");
+	public void refillCards() {
+		for (int i = 0; i < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE; i++) {
+			cards.add(deck.drawCard());
 		}
+	}
+
+	public void addCard(WeaponCard weapon) {
+		if (cards.size() < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE)
+			cards.add(weapon);
+		else
+			throw new OutOfBoundariesException("Trying to add a weapon to a filled Spawn square: SpawnSquare refillCards(weapon)");
+	}
+
+	public Card grabCard(int index) {
+		if (cards == null)
+			throw new NullPointerException("Ammo Square without ammo card");
+		return cards.remove(index);
 	}
 
 	public String[] getElementsToPrint(){
 		String[] elementsToPrint = new String[3];
-		elementsToPrint[0] = " ";
-		elementsToPrint[1] = " ";
-		elementsToPrint[2] = " ";
+		elementsToPrint[0] = "S";
+		elementsToPrint[1] = "P";
+		elementsToPrint[2] = "W";
 		return elementsToPrint;
 	}
-}
 
-/**
- * Thrown when there are already 3 weapons and is called addWeaponCard
- * @author MarcerAndrea
- */
-class OutOfCapacityException extends RuntimeException {
-
-	/**
-	 * Constructs an OutOfCapacityException with the specified message.
-	 * @param message the detail message.
-	 */
-	public OutOfCapacityException(String message) {
-		super(message);
+	public List<Card> getWeapons(){
+		return new ArrayList<>(cards);
 	}
 }

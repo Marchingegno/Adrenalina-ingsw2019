@@ -6,7 +6,7 @@ public abstract class OptionalFire extends WeaponCard {
 
 
 	public OptionalFire(String description) {
-		super(description);
+		super(" ", description);
 	}
 
 

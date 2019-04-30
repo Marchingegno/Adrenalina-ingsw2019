@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.player;
 
+import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
 import it.polimi.se2019.utils.Color;

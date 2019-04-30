@@ -101,45 +101,6 @@ public class PlayerRepTest {
 	}
 
 	@Test
-	public void getWeaponLoaded_initialState_correctOutput() {
-		PlayerRep playerRep = new PlayerRep(player3);
-		boolean[] weaponLoded = playerRep.getWeaponLoaded();
-		for (int i = 0; i < player3.getPlayerBoard().getWeaponCards().size(); i++) {
-			assertEquals(player3.getPlayerBoard().getWeaponCards().get(i).isLoaded(), weaponLoded[i]);
-		}
-	}
-
-	@Test
-	public void getPowerupCards_initialState_correctOutput() throws HiddenException {
-		PlayerRep playerRep = new PlayerRep(player1);
-		List<String> list = playerRep.getPowerupCards();
-		for (int i = 0; i < list.size(); i++) {
-			assertEquals(list.get(i), player1.getPlayerBoard().getPowerupCards().get(i).toString());
-		}
-	}
-
-	@Test (expected = HiddenException.class)
-	public void getPowerupCards_hiddenState_shouldThrowException() throws HiddenException {
-		PlayerRep playerRep = new PlayerRep(player2).getHiddenPlayerRep();
-		List<String> list = playerRep.getPowerupCards();
-	}
-
-	@Test
-	public void getPowerupAmmos_initialState_correctOutput() throws HiddenException {
-		PlayerRep playerRep = new PlayerRep(player3);
-		List<AmmoType> list = playerRep.getPowerupAmmos();
-		for (int i = 0; i < list.size(); i++) {
-			assertEquals(list.get(i), player3.getPlayerBoard().getPowerupCards().get(i).getAssociatedAmmo());
-		}
-	}
-
-	@Test (expected = HiddenException.class)
-	public void getPowerupAmmos_hiddenState_shouldThrowException() throws HiddenException {
-		PlayerRep playerRep = new PlayerRep(player1).getHiddenPlayerRep();
-		List<AmmoType> list = playerRep.getPowerupAmmos();
-	}
-
-	@Test
 	public void getRedAmmo_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player1);
 		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE + 1, playerRep.getRedAmmo());

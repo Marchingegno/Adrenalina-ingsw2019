@@ -34,4 +34,10 @@ public class KillShotRep implements Serializable {
 				this.playerName.equals(((KillShotRep) object).playerName) &&
 				this.overkill == (((KillShotRep) object).overkill));
 	}
+
+	public int hashCode(){
+		return playerName.hashCode() +
+				playerColor.ordinal() +
+				(overkill? 1 : 0 );
+	}
 }

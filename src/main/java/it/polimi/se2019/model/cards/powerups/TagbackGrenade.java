@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Color;
 
 /**
  * This class implements the Tagback grenade powerup
@@ -22,6 +23,10 @@ public class TagbackGrenade extends PowerupCard {
 		// TODO can be activated when the client receive damage from a player he can see (should this check be performed by the controller or here?).
 		Player targetPlayer = activatingPlayer; // TODO placeholder, must be targetPlayer.
 		targetPlayer.getPlayerBoard().addMarks(activatingPlayer, GIVEN_MARKS); // add marks to the target player.
+	}
+
+	public String toString(){
+		return Color.getColoredString("◼", this.getAssociatedAmmo().getCharacterColorType()) + "Tagback Grenade";
 	}
 
 }

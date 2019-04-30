@@ -1,5 +1,11 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.Deck;
+import it.polimi.se2019.model.cards.ammo.AmmoCard;
+import it.polimi.se2019.model.player.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +19,9 @@ public abstract class MapSquare {
 	private boolean[] possibleDirections;
 	private List<MapSquare> adjacentMapSquares;
 	private Coordinates coordinates;
+	protected List<Card> cards;
+	protected Deck<Card> deck;
+	private boolean isFilled;
 
 	public MapSquare(boolean[] possibleDirections, int roomID, Coordinates coordinates) {
 		adjacentMapSquares = new ArrayList<>();
@@ -49,6 +58,18 @@ public abstract class MapSquare {
 	 */
 	public boolean[] getPossibleDirections() {return possibleDirections.clone();}
 
+	public boolean isFilled() {
+		return isFilled;
+	}
+
+	public void setFilled() {
+		isFilled = true;
+	}
+
+	public void setNotFilled() {
+		isFilled = false;
+	}
+
 	/**
 	 * Adds an adjacent square to the list of adjacent squares.
 	 * @param adjacentMapSquare the adjacent square to add to the list.
@@ -56,6 +77,10 @@ public abstract class MapSquare {
 	public void addAdjacentSquare(MapSquare adjacentMapSquare){
 		adjacentMapSquares.add(adjacentMapSquare);
 	}
+
+	public abstract Card grabCard(int index);
+
+	public abstract void refillCards();
 
 	public abstract String[] getElementsToPrint();
 }

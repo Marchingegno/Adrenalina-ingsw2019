@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Color;
 
 /**
  * This class implements the Newton powerup
@@ -21,6 +22,10 @@ public class Newton extends PowerupCard {
 		// TODO get targetPlayer possible movements (1 or 2 squares in one direction).
 		// TODO ask client where to move giving possible movements.
 		// TODO move targetPlayer.
+	}
+
+	public String toString(){
+		return Color.getColoredString("◼", this.getAssociatedAmmo().getCharacterColorType()) + "Newton";
 	}
 
 }

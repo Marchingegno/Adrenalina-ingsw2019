@@ -84,5 +84,19 @@ public class Color {
 		public int getBackgroundColor() {
 			return backgroundColor;
 		}
+
+		public static CharacterColorType convertBackgroundColor(CharacterColorType characterColorToConvert){
+			switch (characterColorToConvert) {
+				case BLACK: return CharacterColorType.BLACK;
+				case RED: return CharacterColorType.RED;
+				case GREEN: return CharacterColorType.GREEN;
+				case YELLOW: return CharacterColorType.YELLOW;
+				case BLUE: return CharacterColorType.BLUE;
+				case MAGENTA: return CharacterColorType.MAGENTA;
+				case CYAN: return CharacterColorType.CYAN;
+				case WHITE: return CharacterColorType.WHITE;
+				default: return CharacterColorType.DEFAULT;
+			}
+		}
 	}
 }

@@ -42,7 +42,7 @@ public class AmmoCard extends Card {
 	}
 
 	/**
-	 * @return true if and only of the card has a powerup associated
+	 * @return true if and only if the card has a powerup associated
 	 */
 	public boolean hasPowerup() {
 		return hasPowerup;

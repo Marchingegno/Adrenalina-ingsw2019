@@ -4,6 +4,7 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,6 +17,7 @@ public class GameMapRep extends Message {
 	private int	numOfColumns;
 	private MapSquareRep[][] mapRep;
 	private HashMap<String, Coordinates> playersPositions;
+	private ArrayList<Coordinates> spawns;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
 		super(MessageType.GAME_MAP_REP, MessageSubtype.INFO);

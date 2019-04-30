@@ -1,5 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.utils.Color;
 
@@ -8,36 +10,26 @@ import it.polimi.se2019.utils.Color;
  */
 public class AmmoSquare extends MapSquare {
 
-	private AmmoCard ammoCard;
-	private boolean isFilled;
-
-	public AmmoSquare(int roomID, boolean[] possibleDirections, Coordinates coordinates) {
+	public AmmoSquare(int roomID, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
 		super(possibleDirections, roomID, coordinates);
-		isFilled = false;
+		deck = gameBoard.getAmmoDeck();
+		setNotFilled();
 	}
 
-	public AmmoCard grabAmmoCard() {
-		return ammoCard;
+	public void refillCards(){
+		if (!isFilled())
+			cards.add(deck.drawCard());
 	}
 
-	public void setAmmoCard(AmmoCard ammoCard) {
-		this.ammoCard = ammoCard;
-	}
-
-	public boolean isFilled() {
-		return isFilled;
-	}
-
-	public void setFilled() {
-		isFilled = true;
-	}
-
-	public void setNtoFilled() {
-		isFilled = false;
+	public Card grabCard(int index) {
+		if (cards == null)
+			throw new NullPointerException("Ammo Square without ammo card");
+		return cards.remove(index);
 	}
 
 	public String[] getElementsToPrint(){
 		String[] elementsToPrint = new String[3];
+		AmmoCard ammoCard = (AmmoCard) cards.get(0);
 		elementsToPrint[0] = Color.getColoredCell(ammoCard.getAmmos().get(0).getBackgroundColorType());
 		elementsToPrint[1] = Color.getColoredCell(ammoCard.getAmmos().get(1).getBackgroundColorType());
 		elementsToPrint[2] = Color.getColoredCell(ammoCard.hasPowerup()? Color.BackgroundColorType.WHITE : ammoCard.getAmmos().get(2).getBackgroundColorType());

@@ -371,7 +371,6 @@ public class GameMap extends Observable{
 			gameMapRep = new GameMapRep(this);
 			Utils.logInfo("Game board rep updated");
 		}
-
 	}
 
 	public GameMapRep getRep(){

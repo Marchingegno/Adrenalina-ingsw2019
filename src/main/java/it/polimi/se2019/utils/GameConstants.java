@@ -27,6 +27,7 @@ public class GameConstants {
 	public static final int MEDIUM_DAMAGE_THRESHOLD = 3;
 	public static final int HIGH_DAMAGE_THRESHOLD = 6;
 	public static final int MAX_NICKNAME_LENGHT = 16;
+	public static final int MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE = 3;
 
 	public enum MapType {
 		SMALL_MAP("SmallMap.txt", "Small map with 10 squares."),

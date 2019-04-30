@@ -83,11 +83,6 @@ public class CLIViewTest {
 	@Test
 	public void displayMapTest() {
 		ArrayList<String> playersName = new ArrayList<>();
-		/*player1 = new Player("Test 1", 0, Utils.CharacterColorType.MAGENTA);
-		player2 = new Player("Test 2", 1, Utils.CharacterColorType.YELLOW);
-		player3 = new Player("Test 3", 2, Utils.CharacterColorType.BLUE);
-		player4 = new Player("Test 4", 3, Utils.CharacterColorType.CYAN);
-		player5 = new Player("Test 5", 4, Utils.CharacterColorType.RED);*/
 		playersName.add("Bob");
 		playersName.add("Foo");
 		playersName.add("Boo");
@@ -152,6 +147,25 @@ public class CLIViewTest {
 		gameMap.movePlayerTo(players.get(2), new Coordinates(1,3));
 		gameMap.movePlayerTo(players.get(3), new Coordinates(2,1));
 		gameMap.movePlayerTo(players.get(4), new Coordinates(0,0));
+
+		players.get(0).getPlayerBoard().addDamage(players.get(4), 2);
+		players.get(2).getPlayerBoard().addDamage(players.get(0), 1);
+		players.get(2).getPlayerBoard().addDamage(players.get(3), 2);
+		players.get(3).getPlayerBoard().addDamage(players.get(0), 3);
+		players.get(3).getPlayerBoard().addDamage(players.get(4), 2);
+		players.get(4).getPlayerBoard().addDamage(players.get(3), 1);
+		players.get(4).getPlayerBoard().addDamage(players.get(1), 3);
+
+		players.get(0).getPlayerBoard().addMarks(players.get(2), 2);
+		players.get(0).getPlayerBoard().addMarks(players.get(1), 3);
+		players.get(1).getPlayerBoard().addMarks(players.get(0), 3);
+		players.get(1).getPlayerBoard().addMarks(players.get(2), 1);
+		players.get(2).getPlayerBoard().addMarks(players.get(1), 2);
+		players.get(2).getPlayerBoard().addMarks(players.get(0), 1);
+		players.get(3).getPlayerBoard().addMarks(players.get(2), 1);
+		players.get(3).getPlayerBoard().addMarks(players.get(4), 3);
+		players.get(4).getPlayerBoard().addMarks(players.get(1), 3);
+		players.get(4).getPlayerBoard().addMarks(players.get(0), 1);
 
 		cliView.updateGameBoardRep(new GameBoardRep(controller.getModel().getGameBoard()));
 		cliView.updateGameMapRep(new GameMapRep(gameMap));

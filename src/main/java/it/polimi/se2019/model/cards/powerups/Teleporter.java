@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Color;
 
 /**
  * This class implements the Teleporter powerup
@@ -18,6 +19,10 @@ public class Teleporter extends PowerupCard {
 		// TODO can be activated during the client's turn (same as the Newton card).
 		// TODO ask client where to move (can be moved anywhere).
 		// TODO move activatingPlayer.
+	}
+
+	public String toString(){
+		return Color.getColoredString("◼", this.getAssociatedAmmo().getCharacterColorType()) + "Teleporter";
 	}
 
 }
