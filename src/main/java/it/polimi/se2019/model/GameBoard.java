@@ -29,7 +29,7 @@ public class GameBoard extends Observable{
 	private GameBoardRep gameBoardRep;
 
 
-	public GameBoard(String mapPath, List<String> playerNames, int startingSkulls) {
+	public GameBoard(List<String> playerNames, int startingSkulls) {
 		// initialize players
 		players = new ArrayList<>(playerNames.size());
 		int id = 0;
@@ -44,9 +44,6 @@ public class GameBoard extends Observable{
 		// initialize skulls
 		remainingSkulls = startingSkulls;
 
-		// initialize map
-		gameMap = new GameMap(mapPath, players);
-
 		// initialize GameBoard attributes
 		killShots = new ArrayList<>();
 		doubleKills = new ArrayList<>();
@@ -56,6 +53,9 @@ public class GameBoard extends Observable{
 		killShotInThisTurn = false;
 		setChanged();
 	}
+
+	//I don't like it
+	public void setGameMap(GameMap gameMap){ this.gameMap = gameMap;}
 
 	PlayerQueue getPlayerQueue() {
 		return playerQueue;

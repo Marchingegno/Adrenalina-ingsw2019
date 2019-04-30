@@ -1,8 +1,11 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;
@@ -25,10 +28,10 @@ public class GameMap extends Observable{
 	private GameMapRep gameMapRep;
 	private boolean isFilled;
 
-	public GameMap(String mapName, List<Player> players) {
+	public GameMap(String mapName, List<Player> players, GameBoard gameBoard) {
 		isFilled = false;
 
-		generateMap(mapName);
+		generateMap(mapName, gameBoard);
 		connectSquares();
 		addSquaresToRooms();
 
@@ -263,6 +266,10 @@ public class GameMap extends Observable{
 		return isIn(mapSquare.getCoordinates()) &&	map[coordinates.getRow()][coordinates.getColumn()].equals(mapSquare);
 	}
 
+	public Representation getSquareRep(Coordinates coordinates){
+		return map[coordinates.getRow()][coordinates.getColumn()].getRep();
+	}
+
 	/**
 	 * Adds a MapSquare to the map according to the specified coordinates.
 	 * @param coordinatesOfTheSquare: coordinates where the square has to be added
@@ -270,13 +277,13 @@ public class GameMap extends Observable{
 	 * @param roomID: the roomID of the room to which the square belongs to
 	 * @param possibleDirections: array that specify the directions in which the player can move from the square
 	 */
-	private void addSquareToMap(Coordinates coordinatesOfTheSquare, String ammoType, int roomID, boolean[] possibleDirections) {
+	private void addSquareToMap(Coordinates coordinatesOfTheSquare, String ammoType, int roomID, boolean[] possibleDirections, GameBoard gameBoard) {
 		if(!ammoType.equals("NONE")){
-			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new SpawnSquare(AmmoType.valueOf(ammoType), roomID, possibleDirections, coordinatesOfTheSquare);
+			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new SpawnSquare(AmmoType.valueOf(ammoType), roomID, possibleDirections, coordinatesOfTheSquare, gameBoard);
 			spawnSquaresCoordinates.add(coordinatesOfTheSquare);
 		}
 		else
-			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new AmmoSquare(roomID, possibleDirections, coordinatesOfTheSquare);
+			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new AmmoSquare(roomID, possibleDirections, coordinatesOfTheSquare, gameBoard);
 	}
 
 	/**
@@ -324,7 +331,7 @@ public class GameMap extends Observable{
 	 *
 	 * @param mapName: name of the map to load
 	 */
-	private void generateMap(String mapName) {
+	private void generateMap(String mapName, GameBoard gameBoard) {
 
 		String mapPath = System.getProperty("user.dir") + "/src/resources/maps/" + mapName;
 		String line;
@@ -357,7 +364,7 @@ public class GameMap extends Observable{
 					possibleDirections[2] = Boolean.parseBoolean(elements[4]);
 					possibleDirections[3] = Boolean.parseBoolean(elements[5]);
 
-					addSquareToMap(new Coordinates(i, j), elements[0], Integer.parseInt(elements[1]), possibleDirections.clone());
+					addSquareToMap(new Coordinates(i, j), elements[0], Integer.parseInt(elements[1]), possibleDirections.clone(), gameBoard);
 				}
 			}
 

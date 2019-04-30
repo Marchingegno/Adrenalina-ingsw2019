@@ -1,6 +1,8 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.Representable;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.utils.Color;
@@ -8,11 +10,12 @@ import it.polimi.se2019.utils.Color;
 /**
  * Normal square associated with an ammo card
  */
-public class AmmoSquare extends MapSquare {
+public class AmmoSquare extends MapSquare implements Representable {
 
 	public AmmoSquare(int roomID, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
 		super(possibleDirections, roomID, coordinates);
 		deck = gameBoard.getAmmoDeck();
+		isChanged = true;
 		setNotFilled();
 	}
 
@@ -25,6 +28,13 @@ public class AmmoSquare extends MapSquare {
 		if (cards == null)
 			throw new NullPointerException("Ammo Square without ammo card");
 		return cards.remove(index);
+	}
+
+	public Representation getRep(){
+		if (isChanged || squareRep == null){
+			squareRep = new AmmoSquareRep(this);
+		}
+		return squareRep;
 	}
 
 	public String[] getElementsToPrint(){

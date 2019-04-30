@@ -31,7 +31,8 @@ public class Model{
 	private GameMap gameMap;
 
 	public Model(String mapPath, List<String> playerNames, int startingSkulls) {
-		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
+		gameBoard = new GameBoard(playerNames, startingSkulls);
+		gameBoard.setGameMap(new GameMap(mapPath, gameBoard.getPlayers(), gameBoard));
 		gameMap = gameBoard.getGameMap();
 	}
 

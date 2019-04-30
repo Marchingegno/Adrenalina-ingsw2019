@@ -17,7 +17,6 @@ public class GameMapRep extends Message {
 	private int	numOfColumns;
 	private MapSquareRep[][] mapRep;
 	private HashMap<String, Coordinates> playersPositions;
-	private ArrayList<Coordinates> spawns;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
 		super(MessageType.GAME_MAP_REP, MessageSubtype.INFO);
@@ -28,11 +27,7 @@ public class GameMapRep extends Message {
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				try{
-					this.mapRep[i][j] = new MapSquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j)));
-				}catch (OutOfBoundariesException e){
-					this.mapRep[i][j] = new MapSquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j)));
-				}
+				this.mapRep[i][j] = (MapSquareRep) gameMapToRepresent.getSquareRep(new Coordinates(i,j));
 			}
 		}
 

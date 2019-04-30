@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -21,6 +22,7 @@ public class SpawnSquare extends MapSquare {
 		super(possibleDirections, roomID, coordinates);
 		deck = gameBoard.getWeaponDeck();
 		this.ammoType = ammoType;
+		isChanged = true;
 	}
 
 	/**
@@ -49,6 +51,13 @@ public class SpawnSquare extends MapSquare {
 		return cards.remove(index);
 	}
 
+	public Representation getRep(){
+		if (isChanged || squareRep == null){
+			squareRep = new AmmoSquareRep(this);
+		}
+		return squareRep;
+	}
+
 	public String[] getElementsToPrint(){
 		String[] elementsToPrint = new String[3];
 		elementsToPrint[0] = "S";
@@ -57,7 +66,7 @@ public class SpawnSquare extends MapSquare {
 		return elementsToPrint;
 	}
 
-	public List<Card> getWeapons(){
+	public List<Card> get(){
 		return new ArrayList<>(cards);
 	}
 }

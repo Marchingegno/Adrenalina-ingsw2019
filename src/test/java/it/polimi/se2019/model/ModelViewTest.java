@@ -18,8 +18,9 @@ public class ModelViewTest {
 		playerNames.add("Test 1");
 		playerNames.add("Test 2");
 		playerNames.add("Test 3");
-		GameBoard gameBoard = new GameBoard("MediumMap.txt", playerNames, 5);
-		gameMap = gameBoard.getGameMap();
+		gameBoard = new GameBoard(playerNames, 8);
+		gameMap = new GameMap("MediumMap.txt", gameBoard.getPlayers(), gameBoard);
+		gameBoard.setGameMap(gameMap);
 	}
 /**
 	@Test

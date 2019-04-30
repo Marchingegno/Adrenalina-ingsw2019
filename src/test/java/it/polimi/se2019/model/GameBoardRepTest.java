@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.utils.Color;
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class GameBoardRepTest {
 		playerNames.add("Test 1");
 		playerNames.add("Test 2");
 		playerNames.add("Test 3");
-		gameBoard = new GameBoard("MediumMap.txt", playerNames, 5);
+		gameBoard = new GameBoard( playerNames, 8);
 		gameBoard.addKillShot(gameBoard.getCurrentPlayer(), true);
 		gameBoard.addKillShot(gameBoard.getCurrentPlayer(), true); // double kill
 		gameBoard.nextPlayerTurn();

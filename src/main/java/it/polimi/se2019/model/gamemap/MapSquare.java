@@ -1,10 +1,9 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.Representable;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.Deck;
-import it.polimi.se2019.model.cards.ammo.AmmoCard;
-import it.polimi.se2019.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  * Class that represent a square in the map
  * @author MarcerAndrea
  */
-public abstract class MapSquare {
+public abstract class MapSquare implements Representable {
 
 	private int roomID;
 	private boolean[] possibleDirections;
@@ -21,7 +20,10 @@ public abstract class MapSquare {
 	private Coordinates coordinates;
 	protected List<Card> cards;
 	protected Deck<Card> deck;
+	protected boolean isChanged;
 	private boolean isFilled;
+	protected Representation squareRep;
+
 
 	public MapSquare(boolean[] possibleDirections, int roomID, Coordinates coordinates) {
 		adjacentMapSquares = new ArrayList<>();
@@ -81,6 +83,12 @@ public abstract class MapSquare {
 	public abstract Card grabCard(int index);
 
 	public abstract void refillCards();
+
+	public boolean isChanged(){	return isChanged; }
+
+	public List<Card> getCards() { return new ArrayList<>(cards); }
+
+	public abstract Representation getRep();
 
 	public abstract String[] getElementsToPrint();
 }

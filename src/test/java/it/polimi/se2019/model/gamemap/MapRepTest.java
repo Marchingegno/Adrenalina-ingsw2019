@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Color;
 import org.junit.After;
@@ -13,24 +14,21 @@ import static org.junit.Assert.assertEquals;
 
 public class MapRepTest {
 
-	private Player player1, player2, player3, player4, player5;
-	private ArrayList<Player> players;
+	private ArrayList<String> players;
 	GameMap gameMap;
+	GameBoard gameBoard;
 
 	@Before
 	public void setUp() throws Exception {
 		players = new ArrayList<>();
-		player1 = new Player("Test 1", 0, Color.CharacterColorType.GREEN);
-		player2 = new Player("Test 2", 1, Color.CharacterColorType.YELLOW);
-		player3 = new Player("Test 3", 2, Color.CharacterColorType.BLUE);
-		player4 = new Player("Test 4", 3, Color.CharacterColorType.RED);
-		player5 = new Player("Test 5", 4, Color.CharacterColorType.MAGENTA);
-		players.add(player1);
-		players.add(player2);
-		players.add(player3);
-		players.add(player4);
-		players.add(player5);
-		gameMap = new GameMap("MediumMap.txt", players);
+		players.add("Test 1");
+		players.add("Test 2");
+		players.add("Test 3");
+		players.add("Test 4");
+		players.add("Test 5");
+		gameBoard = new GameBoard(players, 8);
+		gameMap = new GameMap("MediumMap.txt", gameBoard.getPlayers(), gameBoard);
+		gameBoard.setGameMap(gameMap);
 	}
 
 	@After
@@ -56,25 +54,20 @@ public class MapRepTest {
 
 		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
 			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
-				mapSquareRep = mapRep[i][j];
-				try{
-					mapSquare = gameMap.getSquare(new Coordinates(i,j));
-				}catch(OutOfBoundariesException e){
-					mapSquare = new AmmoSquare(-1, new boolean[4], new Coordinates(i,j));
-				}
+				MapSquareRep squareRep = (MapSquareRep) gameMap.getSquareRep(new Coordinates(i,j));
 				//mapSquareRep.getCards(); TODO
-				assertEquals(mapSquareRep.getCoordinates(), mapSquare.getCoordinates());
-				assertEquals(mapSquareRep.getRoomID(), mapSquare.getRoomID());
+				assertEquals(mapRep[i][j].getCoordinates(), squareRep.getCoordinates());
+				assertEquals(mapRep[i][j].getRoomID(), squareRep.getRoomID());
 			}
 		}
 	}
 
 	@Test
 	public void getPlayersPositions_correctInput_correctOutput() {
-		gameMap.movePlayerTo(player1, new Coordinates(0,0));
-		gameMap.movePlayerTo(player2, new Coordinates(1,1));
-		gameMap.movePlayerTo(player3, new Coordinates(1,2));
-		gameMap.movePlayerTo(player4, new Coordinates(2,1));
+		gameMap.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(0,0));
+		gameMap.movePlayerTo(gameBoard.getPlayers().get(3), new Coordinates(1,1));
+		gameMap.movePlayerTo(gameBoard.getPlayers().get(2), new Coordinates(1,2));
+		gameMap.movePlayerTo(gameBoard.getPlayers().get(3), new Coordinates(2,1));
 		HashMap<String, Coordinates> playerCoordinates = new GameMapRep(gameMap).getPlayersCoordinates();
 		playerCoordinates.equals(gameMap.getPlayersCoordinates());
 	}
