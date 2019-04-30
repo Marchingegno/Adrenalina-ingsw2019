@@ -2,6 +2,7 @@ package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -21,12 +22,11 @@ public class Lobby {
 
 	/**
 	 * Creates the lobby with the specified delay for starting a match.
-	 * @param timerDelayForMatchStart the delay for starting a match in millisecodns.
 	 */
-	public Lobby(long timerDelayForMatchStart) {
+	public Lobby() {
 		playingClients = new HashMap<>();
 		waitingRoom = new HashMap<>();
-		this.timerDelayForMatchStart = timerDelayForMatchStart;
+		timerDelayForMatchStart = ServerConfigParser.getWaitingTimeInLobbyMs();
 	}
 
 
