@@ -17,7 +17,7 @@ public class ServerMessageHandler {
 
 	public ServerMessageHandler() {
 		clients = new ArrayList<>();
-		lobby = new Lobby(5000L); // TODO get the timer delay from command line or file.
+		lobby = new Lobby();
 	}
 
 
