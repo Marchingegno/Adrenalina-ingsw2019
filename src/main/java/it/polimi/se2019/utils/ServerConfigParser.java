@@ -57,11 +57,11 @@ public class ServerConfigParser {
 		private int moveTimeLimit;
 
 		long getWaitingTimeInLobbyMs() {
-			return waitingTimeInLobby * 1000; // Convert seconds to milliseconds.
+			return waitingTimeInLobby * 1000L; // Convert seconds to milliseconds.
 		}
 
 		long getMoveTimeLimitMs() {
-			return moveTimeLimit * 1000; // Convert seconds to milliseconds.
+			return moveTimeLimit * 1000L; // Convert seconds to milliseconds.
 		}
 	}
 }

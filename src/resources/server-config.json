@@ -1,4 +1,4 @@
 {
-  "waitingTimeInLobby": 5.00,
-  "moveTimeLimit": 15.00
+  "waitingTimeInLobby": 5,
+  "moveTimeLimit": 15
 }
