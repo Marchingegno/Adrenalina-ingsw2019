@@ -33,11 +33,13 @@ public abstract class WeaponCard extends Card {
 	//private ArrayList<AmmoType> grabPrice; It can be deduced by reloadPrice minus the first occurrence.
 	private final List<AmmoType> reloadPrice;
 
+	/*
 	//TODO: Merge constructor
 	public WeaponCard(String weaponName, String description) {
 		super(description);
 		this.weaponName = weaponName;
 	}
+	*/
 
 	public WeaponCard(String description, List<AmmoType> reloadPrice) {
 
