@@ -1,38 +1,41 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * A sharable version of the game map.
  * @author MarcerAndrea
  */
-public class GameMapRep implements Serializable {
+public class GameMapRep extends Message {
 
 	private int numOfRows;
 	private int	numOfColumns;
-	private SquareRep[][] mapRep;
-	private HashMap<Player, Coordinates> playersPositions;
+	private MapSquareRep[][] mapRep;
+	private HashMap<String, Coordinates> playersPositions;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
+		super(MessageType.GAME_MAP_REP, MessageSubtype.INFO);
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
 		this.numOfRows = gameMapToRepresent.getNumOfRows();
 
-		mapRep = new SquareRep[this.numOfRows][this.numOfColumns];
+		mapRep = new MapSquareRep[gameMapToRepresent.getNumOfRows()][gameMapToRepresent.getNumOfColumns()];
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				try{
-					this.mapRep[i][j] = new SquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j)));
+					this.mapRep[i][j] = new MapSquareRep(gameMapToRepresent.getSquare(new Coordinates(i,j)));
 				}catch (OutOfBoundariesException e){
-					mapRep[i][j] = new SquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j)));
+					this.mapRep[i][j] = new MapSquareRep(new AmmoSquare(-1, new boolean[4], new Coordinates(i,j)));
 				}
 			}
 		}
 
-		playersPositions = gameMapToRepresent.getPlayersCoordinates();
+		playersPositions = new HashMap<>();
+		gameMapToRepresent.getPlayersCoordinates().forEach((player, coordinates) -> playersPositions.put(player.getPlayerName(), coordinates));
 	}
 
 	public int getNumOfRows() {
@@ -43,11 +46,29 @@ public class GameMapRep implements Serializable {
 		return numOfColumns;
 	}
 
-	public SquareRep[][] getMapRep() {
+	public MapSquareRep[][] getMapRep() {
 		return mapRep;
 	}
 
-	public HashMap<Player, Coordinates> getPlayersCoordinates() {
+	public HashMap<String, Coordinates> getPlayersCoordinates() {
 		return playersPositions;
+	}
+
+	public boolean equals(Object object){
+		boolean temp = (object instanceof GameMapRep &&
+				this.numOfColumns == ((GameMapRep) object).numOfColumns &&
+				this.numOfRows == ((GameMapRep) object).numOfRows &&
+				this.playersPositions.equals(object));
+		if (!temp)
+			return false;
+		temp = true;
+		MapSquareRep[][] mapRepToCompare = ((GameMapRep) object).mapRep;
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				if(!mapRep[i][j].equals(mapRepToCompare[i][j]))
+					return false;
+			}
+		}
+		return true;
 	}
 }

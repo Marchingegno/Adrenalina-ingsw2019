@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final boolean DEBUG = true;
 
 
 	/**
@@ -21,16 +22,41 @@ public class Utils {
 
 
 	public static void logError(String msg, Throwable e) {
-		LOGGER.log(Level.SEVERE, msg, e);
+		if(DEBUG)
+			LOGGER.log(Level.SEVERE, msg, e);
 	}
 
 	public static void logInfo(String msg) {
-		System.out.println("INFO: " + msg);
-		//LOGGER.log(Level.INFO, msg);
+		if(DEBUG) {
+			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + "INFO:" + Color.resetColorString() + " " + msg);
+			//LOGGER.log(Level.INFO, msg);
+		}
+	}
+
+	public static void printLine(String string) {
+		System.out.println(string);
 	}
 
 	public static Logger getGlobalLogger() {
 		return LOGGER;
 	}
+
+	public static String fillWithSpaces(String inputString, int length) {
+		return fillWithSpacesColored(inputString, length, Color.CharacterColorType.DEFAULT);
+	}
+
+	public static String fillWithSpacesColored(String inputString, int length, Color.CharacterColorType color) {
+		if (inputString.length() >= length) {
+			return inputString;
+		}
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(Color.getColoredString(inputString, color));
+		while (stringBuilder.length() < length - inputString.length()) {
+			stringBuilder.append('0');
+		}
+
+		return stringBuilder.toString();
+	}
+
 
 }

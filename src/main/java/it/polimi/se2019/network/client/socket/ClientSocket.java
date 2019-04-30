@@ -1,54 +1,56 @@
 package it.polimi.se2019.network.client.socket;
 
-import it.polimi.se2019.network.ConnectionInterface;
-import it.polimi.se2019.network.client.ClientMessageSenderInterface;
+import it.polimi.se2019.network.client.ConnectionToServerInterface;
+import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Utils;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
- * Socket that receives messages from the server and sends the to the message handler. Also receives messages from the client and sends them to the server.
+ * Socket that receives messages from the server and forwards them to the message handler.
+ * Also sends client's messages to the server.
  * @author MarcerAndrea
  */
-public class ClientSocket extends Thread  implements ClientMessageSenderInterface {
+public class ClientSocket extends Thread implements ConnectionToServerInterface, Closeable {
 
 	private static final String HOST = "localhost";
 	private static final int PORT = 12345;
 
 	private Socket socketClient;
-	private ConnectionInterface client;
+	private MessageReceiverInterface messageReceiver;
 	private ObjectInputStream objInStream;
 	private ObjectOutputStream objOutStream;
 	private boolean active;
 
 	/**
-	 * Creates a socket to the server
-	 * @param client
+	 * Creates a socket between the client and the server.
+	 * @param messageReceiver the associated interface that will receive the messages.
 	 */
-	public ClientSocket(ConnectionInterface client){
-		this.client = client;
+	public ClientSocket(MessageReceiverInterface messageReceiver){
+		super("CUSTOM: Socket Connection to Server"); // Give a name to the thread for debugging purposes.
+		this.messageReceiver = messageReceiver;
 		try {
 			socketClient = new Socket(HOST, PORT);
 			this.objOutStream = new ObjectOutputStream(this.socketClient.getOutputStream());
 			this.objInStream = new ObjectInputStream(this.socketClient.getInputStream());
 		} catch (IOException e) {
-			Utils.logError("Error in ServerClientSocket: registerClient()", e);
+			Utils.logError("Error in ClientSocket()", e);
 		}
-		active = false;
+		active = true;
+		this.start();
 	}
 
 	/**
 	 * Closes the connection with the server.
 	 */
-	public synchronized void closeConnection() {
+	@Override
+	public void close() {
 		try {
 			socketClient.close();
 		} catch (IOException e) {
-			Utils.logError("Error in ClientSocket: closeConnection()", e);
+			Utils.logError("Error in ClientSocket: close()", e);
 		}
 		active = false;
 	}
@@ -68,24 +70,22 @@ public class ClientSocket extends Thread  implements ClientMessageSenderInterfac
 	public void run() {
 		try{
 			while(isActive()){
-				client.processMessage((Message) objInStream.readObject());
+				Message message = (Message) objInStream.readObject();
+				messageReceiver.processMessage(message);
 			}
+		} catch (EOFException e) {
+			Utils.logInfo("Connection closed by the server.");
 		} catch (IOException | ClassNotFoundException e) {
-			Utils.logError("Error in ServerClientSocket: Run()", e);
+			Utils.logError("Error in ClientSocket: run()", e);
 		}finally{
-			closeConnection();
+			close();
 		}
 	}
 
 	/**
-	 * Activates the communication with the server by starting the listening thread.
+	 * Send a message to the server.
+	 * @param message the message to send.
 	 */
-	@Override
-	public void registerClient(){
-		active = true;
-		this.start();
-	}
-
 	@Override
 	public void sendMessage(Message message) {
 		try {
@@ -93,6 +93,5 @@ public class ClientSocket extends Thread  implements ClientMessageSenderInterfac
 		} catch (IOException e) {
 			Utils.logError("Error in ClientSocket: sendMessage()", e);
 		}
-
 	}
 }

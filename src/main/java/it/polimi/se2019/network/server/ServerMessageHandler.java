@@ -1,23 +1,23 @@
 package it.polimi.se2019.network.server;
 
-import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.ArrayList;
 
-public class ServerMessageHandler implements ServerMessageReceiverInterface {
+public class ServerMessageHandler {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
 
-	private ArrayList<ConnectionInterface> clients;
+	private ArrayList<ConnectionToClientInterface> clients;
 	private Lobby lobby;
 
 
 	public ServerMessageHandler() {
 		clients = new ArrayList<>();
-		lobby = new Lobby();
+		lobby = new Lobby(5000L); // TODO get the timer delay from command line or file.
 	}
 
 
@@ -25,26 +25,37 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	 * Called when the client is registering himself on the server.
 	 * @param client the implementation of the client.
 	 */
-	@Override
-	public void onClientRegistration(ConnectionInterface client) {
+	public synchronized void onClientRegistration(ConnectionToClientInterface client) {
 		clients.add(client);
-		Utils.logInfo("Registered new client.");
-		Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
+		Utils.logInfo("Registered new client. There are " + clients.size() + " client(s) registered.");
+		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
+	}
+
+	/**
+	 * Called when the client lose the connection with the server.
+	 * @param client the client that lost the connection.
+	 */
+	public synchronized void onConnectionLost(ConnectionToClientInterface client) {
+		clients.remove(client);
+		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + clients.size() + " client(s) registered.");
+
+		// Remove the client from the waiting room if present.
+		lobby.removeWaitingClient(client);
+
+		// Report the disconnection of the client to the match.
+		lobby.clientDisconnectedFromMatch(client);
 	}
 
 	/**
 	 * Called when receiving a message from the client.
 	 * @param message the message received.
 	 */
-	@Override
-	public void onMessageReceived(ConnectionInterface client, Message message) {
+	public synchronized void onMessageReceived(ConnectionToClientInterface client, Message message) {
 		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		// Don't process message of not registered clients.
 		if(!clients.contains(client))
 			return;
-
-		// TODO based on the message send it to the controller (or remoteview?)
 
 		switch (message.getMessageType()) {
 			case NICKNAME:
@@ -55,11 +66,14 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 				if(message.getMessageSubtype() == MessageSubtype.ANSWER)
 					gameConfigLogic(client, message);
 				break;
+			default:
+				forwardMessageToVirtualView(client, message);
+				break;
 
 		}
 	}
 
-	private void nicknameLogic(ConnectionInterface client, Message message) {
+	private void nicknameLogic(ConnectionToClientInterface client, Message message) {
 		// Remove spaces in the nickname and set max length.
 		String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s", "");
 		int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
@@ -70,7 +84,7 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 			// Add the client to the lobby, waiting for a match to start.
 			lobby.addWaitingClient(client, nickname);
 		} else {
-			Server.asyncSendMessage(client, new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
+			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		}
 	}
 
@@ -79,11 +93,22 @@ public class ServerMessageHandler implements ServerMessageReceiverInterface {
 	 * @param client the client that send the GameConfigMessage.
 	 * @param message the message.
 	 */
-	private void gameConfigLogic(ConnectionInterface client, Message message) {
+	private void gameConfigLogic(ConnectionToClientInterface client, Message message) {
 		Match match = lobby.getMatchOfClient(client);
 		if(match != null) {
 			GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 			match.addConfigVote(client, gameConfigMessage.getSkulls(), gameConfigMessage.getMapIndex());
+		}
+	}
+
+	private void forwardMessageToVirtualView(ConnectionToClientInterface client, Message message) {
+		Match match = lobby.getMatchOfClient(client);
+		if(match != null) { // If the client is in a match.
+			VirtualView virtualView = match.getVirtualViewOfClient(client);
+			if(virtualView == null)
+				Utils.logError("The lobby thinks the client is in a match but he actually isn't.", new IllegalStateException());
+			else
+				virtualView.onMessageReceived(message);
 		}
 	}
 

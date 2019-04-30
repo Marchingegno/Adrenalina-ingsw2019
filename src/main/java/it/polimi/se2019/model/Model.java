@@ -2,31 +2,38 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gamemap.Coordinates;
+import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.PlayerQueue;
-import it.polimi.se2019.view.ViewInterface;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static it.polimi.se2019.utils.GameConstants.*;
 
 /**
+ * Facade of the game board.
+ * TODO add updateReps to all methods that change the model.
  * @author Marchingegno
  * @author Desno365
+ * @author MarcerAndrea
  */
-public class Model extends Observable {
+public class Model{
 
-	private ViewInterface view;
 	private GameBoard gameBoard;
+	private GameMap gameMap;
 
 	public Model(String mapPath, List<String> playerNames, int startingSkulls) {
 		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
+		gameMap = gameBoard.getGameMap();
 	}
 
-	public void movePlayerTo(Player playerToMove) {
+	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
+		gameMap.movePlayerTo(playerToMove, coordinates);
+		updateReps();
 	}
-
 
 	public PlayerQueue getPlayerQueue()
 	{
@@ -37,8 +44,11 @@ public class Model extends Observable {
 		return gameBoard.getCurrentPlayer();
 	}
 
+	public GameBoard getGameBoard(){return gameBoard;}
+
 	public void nextPlayerTurn(){
 		gameBoard.nextPlayerTurn();
+		updateReps();
 	}
 
 
@@ -49,6 +59,7 @@ public class Model extends Observable {
 
 	public void addMarks(Player shootingPlayer, Player damagedPlayer, int amountOfMarks) {
 		damagedPlayer.getPlayerBoard().addMarks(shootingPlayer, amountOfMarks);
+		updateReps();
 	}
 
 	public void doDamage(Player shootingPlayer, Player damagedPlayer, int amountOfDamage) {
@@ -57,6 +68,7 @@ public class Model extends Observable {
 		if(damagedPlayerBoard.isDead()) {
 			gameBoard.addKillShot(shootingPlayer, damagedPlayerBoard.isOverkilled());
 		}
+		updateReps();
 	}
 
 	public boolean areSkullsFinished() {
@@ -67,6 +79,7 @@ public class Model extends Observable {
 		gameBoard.getPlayers().stream()
 				.filter(item -> item.getPlayerBoard().isDead())
 				.forEach(this::scoreDeadPlayer);
+		updateReps();
 	}
 
 	private void scoreDeadPlayer(Player player) {
@@ -123,33 +136,37 @@ public class Model extends Observable {
 
 		}
 	}
+
+	public void fillGameMap(){
+		//gameMap.fillMap(gameBoard.getWeaponDeck(), gameBoard.getAmmoDeck());
+	}
+
 	public void drawPowerupCard(Player player) {
+		updateReps();
 	}
 
 	public void drawWeaponCard(Player player, WeaponCard weapon) {
+		updateReps();
 	}
 
-	public ArrayList<Coordinates> getReachableCoordinates(Player player, int distance) {
-		return gameBoard.getGameMap().reachableCoordinates(player, distance);
+	public List<Coordinates> getReachableCoordinates(Player player, int distance) {
+		return gameMap.reachableCoordinates(player, distance);
 	}
 
-	public Map<Player, Coordinates> getPlayersCoordinates() { return gameBoard.getGameMap().getPlayersCoordinates();	}
+	public Map<Player, Coordinates> getPlayersCoordinates() { return gameMap.getPlayersCoordinates();	}
 
 	public List<Player> getPlayers(){return gameBoard.getPlayers();}
 
-	public GameBoardRep getGameboardRep() {
-		return null;
+	public void updateReps(){
+		gameBoard.updateRep();
+		gameBoard.notifyObservers();
+		gameMap.updateRep();
+		gameMap.notifyObservers();
+		for (Player player: gameBoard.getPlayers() ) {
+			player.updateRep();
+			player.notifyObservers();
+		}
 	}
-
-	public void notifyMapChange() {
-	}
-
-	public void notifyPlayerChange() {
-	}
-
-	public void notifyGameboardChange() {
-	}
-
 }
 
 /**
@@ -166,10 +183,9 @@ class DamageDone{
 		this.damages = new ArrayList<>();
 	}
 
-	/*
+	/**
 	 * The following two method are for testing purposes only.
 	 */
-
 	public ArrayList<Integer> getDamages() {
 		return new ArrayList<>(damages);
 	}

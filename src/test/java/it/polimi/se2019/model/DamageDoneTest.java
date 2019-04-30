@@ -1,18 +1,20 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Color;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class DamageDoneTest {
 
 	@Test
 	public void damageUp_newPlayer_correctOutput() {
-		Player player1 = new Player("name1", 0, Color.blue);
-		Player player2 = new Player("name2", 1, Color.red);
+		Player player1 = new Player("name1", 0, Color.CharacterColorType.BLUE);
+		Player player2 = new Player("name2", 1, Color.CharacterColorType.RED);
 		DamageDone damageDoneTest = new DamageDone();
 
 		damageDoneTest.damageUp(player1);
@@ -33,10 +35,10 @@ public class DamageDoneTest {
 
 	@Test
 	public void getSortedPlayers_correctArray_correctOutput() {
-		Player player1 = new Player("name1", 0, Color.blue);
-		Player player2 = new Player("name2", 1, Color.red);
-		Player player3 = new Player("name3", 0, Color.yellow);
-		Player player4 = new Player("name4", 1, Color.pink);
+		Player player1 = new Player("name1", 0, Color.CharacterColorType.BLUE);
+		Player player2 = new Player("name2", 1, Color.CharacterColorType.RED);
+		Player player3 = new Player("name3", 0, Color.CharacterColorType.YELLOW);
+		Player player4 = new Player("name4", 1, Color.CharacterColorType.MAGENTA);
 		DamageDone damageDoneTest = new DamageDone();
 
 		damageDoneTest.damageUp(player1);

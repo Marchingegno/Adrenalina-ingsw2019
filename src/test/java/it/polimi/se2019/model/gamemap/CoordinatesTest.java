@@ -1,8 +1,10 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.utils.CardinalDirection;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class CoordinatesTest {
 

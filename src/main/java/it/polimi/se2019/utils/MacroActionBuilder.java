@@ -8,6 +8,7 @@ import java.security.InvalidParameterException;
  */
 public class MacroActionBuilder {
 
+	private String name;
 	private int moveDistance;
 	private boolean grabActive;
 	private boolean reloadActive;
@@ -19,6 +20,8 @@ public class MacroActionBuilder {
 		grabActive = false;
 		reloadActive = false;
 		shootActive = false;
+		name = "placeHolder";
+		//TODO: Implement name.
 	}
 
 
@@ -41,7 +44,7 @@ public class MacroActionBuilder {
 
 	public MacroAction build() {
 		isCorrect();
-		return new MacroAction(moveDistance, grabActive, reloadActive, shootActive);
+		return new MacroAction(moveDistance, grabActive, reloadActive, shootActive, name);
 	}
 
 	private void isCorrect(){

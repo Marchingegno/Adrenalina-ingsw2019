@@ -6,6 +6,7 @@ import it.polimi.se2019.utils.Utils;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Server that listens for new socket clients and creates a ServerClientSocket for each of them
@@ -25,6 +26,7 @@ public class SocketServer extends Thread{
 	 * @param serverMessageHandler the message handler to which all messages are sent
 	 */
 	public SocketServer(ServerMessageHandler serverMessageHandler) {
+		super("CUSTOM: Socket Connection Request Listener"); // Give a name to the thread for debugging purposes.
 		this.serverMessageHandler = serverMessageHandler;
 		startServerSocket();
 	}
@@ -51,6 +53,11 @@ public class SocketServer extends Thread{
 				//The new decorated socket is registered to the server message handler
 				serverMessageHandler.onClientRegistration(newServerClientSocket);
 
+			} catch (SocketException e) {
+				if(e.getMessage().equals("Socket closed") || e.getMessage().equals("Socket is closed"))
+					Utils.logInfo("Connection closed by the server.");
+				else
+					Utils.logError("Error in SocketServer: run()", e);
 			} catch (IOException e) {
 				Utils.logError("Error in SocketServer: run()", e);
 			}
@@ -67,12 +74,12 @@ public class SocketServer extends Thread{
 	 * Closes the server.
 	 */
 	public void close(){
-		active = false;
+
 		try {
 			serverSocket.close();
 		}catch (IOException e){
 			Utils.logError("Error in SocketServer: close()", e);
-		}
+		}active = false;
 	}
 
 	private void startServerSocket(){

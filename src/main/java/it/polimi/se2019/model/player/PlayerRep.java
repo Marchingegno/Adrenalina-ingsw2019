@@ -2,9 +2,12 @@ package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.Utils;
 
-import java.awt.Color;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +15,14 @@ import java.util.List;
  * A sharable version of all the useful Player information.
  * @author Desno365
  */
-public class PlayerRep implements Serializable {
+public class PlayerRep extends Message {
 
 	private String playerName;
-	private Color playerColor;
+	private Color.CharacterColorType playerColor;
 	private int points;
-	private ArrayList<String> damageBoard;
-	private ArrayList<String> marks;
+	private int playerID;
+	private ArrayList<Color.CharacterColorType> damageBoard;
+	private ArrayList<Color.CharacterColorType> marks;
 	private boolean[] weaponLoaded;
 	private ArrayList<String> powerupCards;
 	private ArrayList<AmmoType> powerupAmmos;
@@ -33,23 +37,30 @@ public class PlayerRep implements Serializable {
 	 * @param player the player from which the information are extracted.
 	 */
 	public PlayerRep(Player player) {
+		super(MessageType.PLAYER_REP, MessageSubtype.INFO);
 		playerName = player.getPlayerName();
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
+		playerID = player.getPlayerID();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());
 		for(Player player1 : player.getPlayerBoard().getDamageBoard()) {
-			damageBoard.add(player1.getPlayerName());
+			damageBoard.add(player1.getPlayerColor());
 		}
 
 		marks = new ArrayList<>(player.getPlayerBoard().getMarks().size());
 		for(Player player2 : player.getPlayerBoard().getMarks()) {
-			marks.add(player2.getPlayerName());
+			marks.add(player2.getPlayerColor());
 		}
 
-		weaponLoaded = new boolean[player.getPlayerBoard().getWeaponCards().size()];
-		for (int i = 0; i < player.getPlayerBoard().getWeaponCards().size(); i++) {
-			weaponLoaded[i] = player.getPlayerBoard().getWeaponCards().get(i).isLoaded();
+		if(player.getPlayerBoard().getWeaponCards().isEmpty()){
+			weaponLoaded = null;
+		}
+		else{
+			weaponLoaded = new boolean[player.getPlayerBoard().getWeaponCards().size()];
+			for (int i = 0; i < player.getPlayerBoard().getWeaponCards().size(); i++) {
+				weaponLoaded[i] = player.getPlayerBoard().getWeaponCards().get(i).isLoaded();
+			}
 		}
 
 		powerupCards = new ArrayList<>(player.getPlayerBoard().getPowerupCards().size());
@@ -71,7 +82,9 @@ public class PlayerRep implements Serializable {
 	/**
 	 * Used to create the hidden PlayerRep.
 	 */
-	private PlayerRep() {}
+	private PlayerRep() {
+		super(MessageType.PLAYER_REP, MessageSubtype.INFO);
+	}
 
 	/**
 	 * Returns a PlayerRep that contains only the information that are available also to the other players.
@@ -111,10 +124,18 @@ public class PlayerRep implements Serializable {
 	}
 
 	/**
+	 * Return the player ID.
+	 * @return the player ID.
+	 */
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	/**
 	 * Returns the player color.
 	 * @return the player color.
 	 */
-	public Color getPlayerColor() {
+	public Color.CharacterColorType getPlayerColor() {
 		return playerColor;
 	}
 
@@ -133,7 +154,7 @@ public class PlayerRep implements Serializable {
 	 * Returns the damage board of this player with all the player names that made the damage.
 	 * @return the damage board of this player with all the player names that made the damage.
 	 */
-	public List<String> getDamageBoard() {
+	public List<Color.CharacterColorType> getDamageBoard() {
 		return damageBoard;
 	}
 
@@ -141,7 +162,7 @@ public class PlayerRep implements Serializable {
 	 * Returns the marks of this player with all the player names that made the marks.
 	 * @return the marks of this player with all the player names that made the marks.
 	 */
-	public List<String> getMarks() {
+	public List<Color.CharacterColorType> getMarks() {
 		return marks;
 	}
 
@@ -197,6 +218,61 @@ public class PlayerRep implements Serializable {
 	 */
 	public int getBlueAmmo() {
 		return blueAmmo;
+	}
+
+	public boolean equals(Object object){
+		if (!(object instanceof PlayerRep))
+			return false;
+
+		boolean temp = true;
+
+
+		if (((PlayerRep) object).isHidden() == hidden && !isHidden()) {
+			try {
+				temp = ((PlayerRep) object).getPowerupAmmos().equals(powerupAmmos) &&
+						((PlayerRep) object).getPowerupCards().equals(powerupCards) &&
+						(((PlayerRep) object).getPoints() == points);
+			} catch (HiddenException e) {
+				Utils.logError("Trying to compare hidden attributes PlayerRep equals()", e);
+			}
+		}
+
+
+		temp = temp &&
+				((PlayerRep) object).getPlayerName().equals(playerName) &&
+				((PlayerRep) object).getPlayerColor().equals(playerColor) &&
+				((PlayerRep) object).playerID == playerID &&
+				((PlayerRep) object).blueAmmo == blueAmmo &&
+				((PlayerRep) object).redAmmo == redAmmo &&
+				((PlayerRep) object).yellowAmmo == yellowAmmo &&
+				((PlayerRep) object).getMarks().equals(marks);
+
+		if(((PlayerRep) object).getWeaponLoaded() != null && weaponLoaded != null && ((PlayerRep) object).getWeaponLoaded().length == weaponLoaded.length){
+			for (int i = 0; i < weaponLoaded.length; i++) {
+				if(((PlayerRep) object).getWeaponLoaded()[i] != weaponLoaded[i])
+					return false;
+			}
+		}
+		else
+			if(((PlayerRep) object).getWeaponLoaded() != null || weaponLoaded != null)
+				temp = false;
+
+		return temp;
+	}
+
+	public String toString(){
+		return ("Player name: " + playerName +"\n" +
+				"Color: " + Color.getColoredString(" ", playerColor, Color.BackgroundColorType.DEFAULT) +
+				"Hidden: " + hidden + "\n" +
+				"PlayerId: " + playerID + "\n" +
+				"PowerupAmmos: " + powerupAmmos + "\n" +
+				"PowerUpCards: " + powerupCards + "\n" +
+				"Point: " + points + "\n" +
+				"Blue ammo: " + blueAmmo + "\n" +
+				"Red ammo: " + redAmmo + "\n" +
+				"Yellow ammo: " + yellowAmmo + "\n" +
+				"Loaded: " + weaponLoaded + "\n" +
+				"Marks: " + marks);
 	}
 
 }

@@ -3,15 +3,18 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.cards.ammo.AmmoDeck;
 import it.polimi.se2019.model.cards.powerups.PowerupDeck;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.Utils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class GameBoard {
+public class GameBoard extends Observable{
 
 	private ArrayList<Player> players;
 	private int remainingSkulls;
@@ -23,14 +26,16 @@ public class GameBoard {
 	private GameMap gameMap;
 	private boolean killShotInThisTurn;
 	private PlayerQueue playerQueue;
+	private GameBoardRep gameBoardRep;
 
 
 	public GameBoard(String mapPath, List<String> playerNames, int startingSkulls) {
 		// initialize players
 		players = new ArrayList<>(playerNames.size());
 		int id = 0;
+
 		for (String name : playerNames) {
-			players.add(new Player(name, id, Color.BLACK)); //  TODO Color?
+			players.add(new Player(name, id, Color.CharacterColorType.values()[id + 1]));
 			id++;
 		}
 
@@ -49,6 +54,7 @@ public class GameBoard {
 		ammoDeck = new AmmoDeck();
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
+		setChanged();
 	}
 
 	PlayerQueue getPlayerQueue() {
@@ -57,13 +63,14 @@ public class GameBoard {
 
 	public void nextPlayerTurn(){
 		playerQueue.moveFirstToLast();
+		setChanged();
 	}
 
 	public Player getCurrentPlayer() {
 		return playerQueue.peekFirst();
 	}
 
-	public List<Player> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return new ArrayList<>(players);
 	}
 
@@ -77,6 +84,7 @@ public class GameBoard {
 
 	private void addDoubleKill(Player shootingPlayer) {
 		doubleKills.add(shootingPlayer);
+		setChanged();
 	}
 
 	/**
@@ -96,7 +104,7 @@ public class GameBoard {
 				}
 				killShotInThisTurn = true;
 		}
-
+		setChanged();
 	}
 
 	public List<KillShot> getKillShots() {
@@ -124,6 +132,22 @@ public class GameBoard {
 		return ammoDeck;
 	}
 
+	public void currentPlayerGrabs(int index){
+		Coordinates playerCoordinates = gameMap.getPlayersCoordinates().get(getCurrentPlayer());
+		//gameMap.getSquare(playerCoordinates).grabCard(getCurrentPlayer(), index);
+	}
+
+	public void updateRep(){
+		if (gameBoardRep == null || hasChanged()){
+			gameBoardRep = new GameBoardRep(this);
+			Utils.logInfo("Game board rep updated");
+		}
+
+	}
+
+	public GameBoardRep getRep(){
+		return gameBoardRep;
+	}
 }
 
 class KillShot {

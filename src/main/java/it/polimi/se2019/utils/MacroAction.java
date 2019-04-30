@@ -1,9 +1,6 @@
 package it.polimi.se2019.utils;
 
-import it.polimi.se2019.model.player.damagestatus.DamageStatus;
-
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * This class contains all the information to execute an action, and it does so by splitting it into atomic actions.
@@ -11,18 +8,21 @@ import java.util.Set;
  */
 public class MacroAction {
 
+	private String name;
 	private int numOfMovements;
 	private boolean grab;
 	private boolean reload;
 	private boolean shoot;
-	private Set<DamageStatus> possibleActions; //TODO: Not clear what this attribute is.
 
-	public MacroAction(int numOfMovements, boolean grab, boolean reload, boolean shoot) {
+	public MacroAction(int numOfMovements, boolean grab, boolean reload, boolean shoot, String name) {
 		this.numOfMovements = numOfMovements;
 		this.grab = grab;
 		this.reload = reload;
 		this.shoot = shoot;
+		this.name = name;
 	}
+
+
 
 	public int getNumOfMovements() {
 		return numOfMovements;
@@ -57,4 +57,13 @@ public class MacroAction {
 	public void shoot(int indexOfWeapon, ArrayList<String> playersToShoot) {
 	}
 
+	@Override
+	public String toString() {
+		return  name + "{" +
+				"numOfMovements=" + numOfMovements +
+				", grab=" + grab +
+				", reload=" + reload +
+				", shoot=" + shoot +
+				'}';
+	}
 }

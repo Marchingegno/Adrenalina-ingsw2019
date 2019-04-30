@@ -1,23 +1,21 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.utils.MacroAction;
+
+import java.util.List;
+
 public interface ViewInterface {
 
-	void handleMove(int row, int column);
+	void askActionExample(); // TODO remove
 
-	void handleReload(int indexOfweaponToReload);
+	void displayPossibleActions(List<MacroAction> possibleActions);
 
-	void handleShoot(int indexOfWeapon, String playersToShoot);
+	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);
 
-	void handleSpawn(int indexOfPowerup);
+	void updateGameMapRep(GameMapRep gameMapRepToUpdate);
 
-	void showMessage(String message);
-
-	void showGameBoard();
-
-	int chooseWeapon();
-
-	int chooseAction();
-
-	int choosePowerup();
-
+	void updatePlayerRep(PlayerRep playerRepToUpdate);
 }

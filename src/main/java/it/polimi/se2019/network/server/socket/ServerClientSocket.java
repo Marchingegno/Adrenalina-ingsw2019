@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.server.socket;
 
-import it.polimi.se2019.network.ConnectionInterface;
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.server.ConnectionToClientInterface;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
@@ -14,7 +14,7 @@ import java.net.Socket;
  * Contains the socket to communicate with a client. It sends messages through the output stream and receives them through the input stream.
  * @author MarcerAndrea
  */
-public class ServerClientSocket extends Thread implements ConnectionInterface {
+public class ServerClientSocket extends Thread implements ConnectionToClientInterface {
 
 	private ServerMessageHandler serverMessageHandler;
 	private Socket socket;
@@ -23,6 +23,7 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 	private ObjectOutputStream objOutStream;
 
 	public ServerClientSocket(ServerMessageHandler serverMessageHandler, Socket socket){
+		super("CUSTOM: Socket Connection to Client"); // Give a name to the thread for debugging purposes.
 		this.serverMessageHandler = serverMessageHandler;
 		this.socket = socket;
 
@@ -66,7 +67,8 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 				serverMessageHandler.onMessageReceived(this, (Message) objInStream.readObject());
 			}
 		} catch (IOException | ClassNotFoundException e) {
-			Utils.logError("Error in ServerClientSocket: Run()", e);
+			Utils.logError("Connection lost.", e);
+			serverMessageHandler.onConnectionLost(this);
 		}finally{
 			closeConnection();
 		}
@@ -77,7 +79,7 @@ public class ServerClientSocket extends Thread implements ConnectionInterface {
 	 * @param message the message received.
 	 */
 	@Override
-	public void processMessage(Message message){
+	public void sendMessage(Message message){
 		try {
 			objOutStream.writeObject(message);
 		}catch(IOException e){
