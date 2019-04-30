@@ -21,7 +21,7 @@ public class Match {
 
 	// Game config attributes.
 	private HashMap<ConnectionToClientInterface, Integer> skullsChosen = new HashMap<>();
-	private HashMap<ConnectionToClientInterface, Integer> mapChoosen = new HashMap<>();
+	private HashMap<ConnectionToClientInterface, Integer> mapChosen = new HashMap<>();
 	private int numberOfAnswers = 0;
 
 
@@ -51,8 +51,8 @@ public class Match {
 			if(!skullsChosen.containsKey(client))
 				skullsChosen.put(client, skulls);
 
-			if(!mapChoosen.containsKey(client))
-				mapChoosen.put(client, mapIndex);
+			if(!mapChosen.containsKey(client))
+				mapChosen.put(client, mapIndex);
 
 			numberOfAnswers++;
 			if(numberOfAnswers >= numberOfParticipants)
@@ -148,7 +148,7 @@ public class Match {
 			votes[i] = 0;
 
 		// Add votes.
-		for(Integer votedMap : mapChoosen.values())
+		for(Integer votedMap : mapChosen.values())
 			votes[votedMap]++;
 
 		// search for max.

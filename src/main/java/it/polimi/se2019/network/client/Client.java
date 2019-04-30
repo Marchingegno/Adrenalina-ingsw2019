@@ -29,8 +29,8 @@ public class Client {
 		//TEMP
 		Scanner scanner = new Scanner(System.in);
 
+		Utils.printLine("Do you want CLI? [true/false]");
 		boolean isCLI = Boolean.parseBoolean(scanner.nextLine()); // TODO if user requested CLI use CLI otherwise GUI
-		Utils.printLine("You want CLI? [true/false]");
 		RemoteView remoteView;
 		if(isCLI)
 			remoteView = new CLIView();
@@ -39,8 +39,8 @@ public class Client {
 		client = new Client(remoteView);
 
 
+		Utils.printLine("Do you want RMI? [true/false]");
 		boolean isRMI = Boolean.parseBoolean(scanner.nextLine()); // TODO if user requested RMI start RMI otherwise socket
-		Utils.printLine("You want RMI? [true/false]");
 		if(isRMI)
 			client.startConnectionWithRMI(remoteView);
 		else
