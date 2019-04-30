@@ -12,9 +12,8 @@ import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
-public class GameBoard extends Observable{
+public class GameBoard extends Representable {
 
 	private ArrayList<Player> players;
 	private int remainingSkulls;
@@ -54,14 +53,11 @@ public class GameBoard extends Observable{
 		setChanged();
 	}
 
-	//I don't like it
-	public void setGameMap(GameMap gameMap){ this.gameMap = gameMap;}
-
 	PlayerQueue getPlayerQueue() {
 		return playerQueue;
 	}
 
-	public void nextPlayerTurn(){
+	public void nextPlayerTurn() {
 		playerQueue.moveFirstToLast();
 		setChanged();
 	}
@@ -90,19 +86,19 @@ public class GameBoard extends Observable{
 	/**
 	 * This method award points in the killshot track. It checks whether or not the killshot is an overkill, and
 	 * decreases the number of skulls in the gameBoard.
+	 *
 	 * @param shootingPlayer
 	 * @param overkill
 	 */
 	public void addKillShot(Player shootingPlayer, boolean overkill) {
 		killShots.add(new KillShot(shootingPlayer, overkill));
-		if(shootingPlayer == getCurrentPlayer()) {
-			if(killShotInThisTurn)
+		if (shootingPlayer == getCurrentPlayer()) {
+			if (killShotInThisTurn)
 				addDoubleKill(shootingPlayer);
-			else
-				if(!areSkullsFinished()){
-					remainingSkulls--;
-				}
-				killShotInThisTurn = true;
+			else if (!areSkullsFinished()) {
+				remainingSkulls--;
+			}
+			killShotInThisTurn = true;
 		}
 		setChanged();
 	}
@@ -119,6 +115,10 @@ public class GameBoard extends Observable{
 		return gameMap;
 	}
 
+	//I don't like it
+	public void setGameMap(GameMap gameMap) {
+		this.gameMap = gameMap;
+	}
 
 	public WeaponDeck getWeaponDeck() {
 		return weaponDeck;
@@ -132,20 +132,20 @@ public class GameBoard extends Observable{
 		return ammoDeck;
 	}
 
-	public void currentPlayerGrabs(int index){
+	public void currentPlayerGrabs(int index) {
 		Coordinates playerCoordinates = gameMap.getPlayersCoordinates().get(getCurrentPlayer());
 		//gameMap.getSquare(playerCoordinates).grabCard(getCurrentPlayer(), index);
 	}
 
-	public void updateRep(){
-		if (gameBoardRep == null || hasChanged()){
+	public void updateRep() {
+		if (gameBoardRep == null || hasChanged()) {
 			gameBoardRep = new GameBoardRep(this);
 			Utils.logInfo("Game board rep updated");
 		}
 
 	}
 
-	public GameBoardRep getRep(){
+	public Representation getRep() {
 		return gameBoardRep;
 	}
 }

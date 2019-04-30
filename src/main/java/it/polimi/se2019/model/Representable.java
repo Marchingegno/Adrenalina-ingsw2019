@@ -1,7 +1,7 @@
 package it.polimi.se2019.model;
 
-public interface Representable {
-	boolean isChanged();
-	Representation getRep();
+import java.util.Observable;
 
+public abstract class Representable extends Observable {
+	public abstract Representation getRep();
 }

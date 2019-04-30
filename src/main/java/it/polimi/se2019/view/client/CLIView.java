@@ -40,7 +40,7 @@ public class CLIView extends RemoteView {
 		Utils.printLine("1: RMI");
 		Utils.printLine("2: Socket");
 		int connection = askInteger(1, 2);
-		if(connection == 1)
+		if (connection == 1)
 			Client.startConnectionWithRMI(this);
 		else
 			Client.startConnectionWithSocket(this);
@@ -175,6 +175,7 @@ public class CLIView extends RemoteView {
 	/**
 	 * Ask the user an integer that must be between minInclusive and maxInclusive.
 	 * Repeatedly ask the integer if the input is not in the limits.
+	 *
 	 * @param minInclusive the minimum limit.
 	 * @param maxInclusive the maximum limit.
 	 * @return the integer chosen by the user.
@@ -196,6 +197,7 @@ public class CLIView extends RemoteView {
 
 	/**
 	 * Ask the user a boolean.
+	 *
 	 * @return the boolean chosen by the user.
 	 */
 	private boolean askBoolean() {
@@ -282,9 +284,9 @@ class RepPrinter {
 		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
 
 		if (mapSquareRep.getRoomID() != -1) {
-			mapToPrint[row + 1][column - 1] = Color.getColoredCell(Color.BackgroundColorType.YELLOW);
-			mapToPrint[row + 1][column] = Color.getColoredCell(Color.BackgroundColorType.RED);
-			mapToPrint[row + 1][column + 1] = Color.getColoredCell(Color.BackgroundColorType.WHITE);
+			mapToPrint[row + 1][column - 1] = mapSquareRep.getElementToPrint()[0];
+			mapToPrint[row + 1][column] = mapSquareRep.getElementToPrint()[1];
+			mapToPrint[row + 1][column + 1] = mapSquareRep.getElementToPrint()[2];
 		}
 	}
 

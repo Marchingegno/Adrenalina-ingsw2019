@@ -1,20 +1,20 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * A sharable version of the game map.
+ *
  * @author MarcerAndrea
  */
-public class GameMapRep extends Message {
+public class GameMapRep extends Representation {
 
 	private int numOfRows;
-	private int	numOfColumns;
+	private int numOfColumns;
 	private MapSquareRep[][] mapRep;
 	private HashMap<String, Coordinates> playersPositions;
 
@@ -27,7 +27,7 @@ public class GameMapRep extends Message {
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				this.mapRep[i][j] = (MapSquareRep) gameMapToRepresent.getSquareRep(new Coordinates(i,j));
+				this.mapRep[i][j] = gameMapToRepresent.getSquareRep(new Coordinates(i, j));
 			}
 		}
 
@@ -51,7 +51,7 @@ public class GameMapRep extends Message {
 		return playersPositions;
 	}
 
-	public boolean equals(Object object){
+	public boolean equals(Object object) {
 		boolean temp = (object instanceof GameMapRep &&
 				this.numOfColumns == ((GameMapRep) object).numOfColumns &&
 				this.numOfRows == ((GameMapRep) object).numOfRows &&
@@ -62,7 +62,7 @@ public class GameMapRep extends Message {
 		MapSquareRep[][] mapRepToCompare = ((GameMapRep) object).mapRep;
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				if(!mapRep[i][j].equals(mapRepToCompare[i][j]))
+				if (!mapRep[i][j].equals(mapRepToCompare[i][j]))
 					return false;
 			}
 		}

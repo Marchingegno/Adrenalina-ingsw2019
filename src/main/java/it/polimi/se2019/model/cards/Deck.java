@@ -4,6 +4,7 @@ import java.util.*;
 
 /**
  * Represents the abstract concept of a deck.
+ *
  * @param <C> type of the elements of the deck, must be a Card.
  * @author Desno365
  */
@@ -26,16 +27,18 @@ public abstract class Deck<C extends Card> {
 
 	/**
 	 * Returns the first card on the deck.
+	 *
 	 * @return the first card on the deck.
 	 */
 	public C drawCard() {
-		if(actualDeck.isEmpty())
+		if (actualDeck.isEmpty())
 			throw new NoSuchElementException("Cannot draw a card when the deck is empty.");
-		return actualDeck.pollFirst();
+		return actualDeck.removeFirst();
 	}
 
 	/**
 	 * Returns true if the deck doesn't contain any card.
+	 *
 	 * @return true if the deck doesn't contain any card.
 	 */
 	public boolean isEmpty() {
@@ -53,6 +56,7 @@ public abstract class Deck<C extends Card> {
 
 	/**
 	 * Add the card to the discard deck. The discard deck will be used when refilling the deck with the method refillDeck().
+	 *
 	 * @param cardToDiscard the card to discard.
 	 */
 	public void discardCard(C cardToDiscard) {
@@ -70,6 +74,7 @@ public abstract class Deck<C extends Card> {
 
 	/**
 	 * Add the specified card to the deck. This method is protected because only at initialization cards are added.
+	 *
 	 * @param cardToAdd the card to add to the deck.
 	 */
 	protected void addCard(C cardToAdd) {

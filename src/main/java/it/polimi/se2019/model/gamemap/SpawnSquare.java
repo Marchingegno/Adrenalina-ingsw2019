@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.GameBoard;
-import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -12,6 +11,7 @@ import java.util.List;
 
 /**
  * Spawn square associated with an ammo type that represents its color
+ *
  * @author MarcerAndrea
  */
 public class SpawnSquare extends MapSquare {
@@ -51,14 +51,14 @@ public class SpawnSquare extends MapSquare {
 		return cards.remove(index);
 	}
 
-	public Representation getRep(){
-		if (isChanged || squareRep == null){
-			squareRep = new AmmoSquareRep(this);
+	public MapSquareRep getRep() {
+		if (isChanged || squareRep == null) {
+			squareRep = new MapSquareSpawnRep(this);
 		}
 		return squareRep;
 	}
 
-	public String[] getElementsToPrint(){
+	public String[] getElementsToPrint() {
 		String[] elementsToPrint = new String[3];
 		elementsToPrint[0] = "S";
 		elementsToPrint[1] = "P";
@@ -66,7 +66,7 @@ public class SpawnSquare extends MapSquare {
 		return elementsToPrint;
 	}
 
-	public List<Card> get(){
+	public List<Card> get() {
 		return new ArrayList<>(cards);
 	}
 }

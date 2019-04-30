@@ -2,7 +2,6 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
@@ -11,9 +10,10 @@ import java.util.ArrayList;
 
 /**
  * A sharable version of the game board
+ *
  * @author Desno365
  */
-public class GameBoardRep extends Message {
+public class GameBoardRep extends Representation {
 
 	private int remainingSkulls;
 	private ArrayList<Color.CharacterColorType> doubleKills;
@@ -25,10 +25,10 @@ public class GameBoardRep extends Message {
 		super(MessageType.GAME_BOARD_REP, MessageSubtype.INFO);
 		this.remainingSkulls = gameBoard.getRemainingSkulls();
 		this.doubleKills = new ArrayList<>();
-		for(Player player : gameBoard.getDoubleKills())
+		for (Player player : gameBoard.getDoubleKills())
 			doubleKills.add(player.getPlayerColor());
 		this.killShoots = new ArrayList<>();
-		for(KillShot killShot : gameBoard.getKillShots())
+		for (KillShot killShot : gameBoard.getKillShots())
 			killShoots.add(new KillShotRep(killShot.getPlayer(), killShot.isOverkill()));
 		this.currentPlayer = gameBoard.getCurrentPlayer().getPlayerName();
 	}

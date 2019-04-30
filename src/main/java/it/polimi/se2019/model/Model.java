@@ -2,9 +2,7 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
-import it.polimi.se2019.model.gamemap.AmmoSquare;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.SpawnSquare;
@@ -21,11 +19,12 @@ import static it.polimi.se2019.utils.GameConstants.*;
 /**
  * Facade of the game board.
  * TODO add updateReps to all methods that change the model.
+ *
  * @author Marchingegno
  * @author Desno365
  * @author MarcerAndrea
  */
-public class Model{
+public class Model {
 
 	private GameBoard gameBoard;
 	private GameMap gameMap;
@@ -34,6 +33,7 @@ public class Model{
 		gameBoard = new GameBoard(playerNames, startingSkulls);
 		gameBoard.setGameMap(new GameMap(mapPath, gameBoard.getPlayers(), gameBoard));
 		gameMap = gameBoard.getGameMap();
+		gameMap.fillMap();
 	}
 
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
@@ -41,18 +41,19 @@ public class Model{
 		updateReps();
 	}
 
-	public PlayerQueue getPlayerQueue()
-	{
+	public PlayerQueue getPlayerQueue() {
 		return gameBoard.getPlayerQueue();
 	}
 
-	public Player getCurrentPlayer(){
+	public Player getCurrentPlayer() {
 		return gameBoard.getCurrentPlayer();
 	}
 
-	public GameBoard getGameBoard(){return gameBoard;}
+	public GameBoard getGameBoard() {
+		return gameBoard;
+	}
 
-	public void nextPlayerTurn(){
+	public void nextPlayerTurn() {
 		gameBoard.nextPlayerTurn();
 		updateReps();
 	}
@@ -71,7 +72,7 @@ public class Model{
 	public void doDamage(Player shootingPlayer, Player damagedPlayer, int amountOfDamage) {
 		PlayerBoard damagedPlayerBoard = damagedPlayer.getPlayerBoard();
 		damagedPlayerBoard.addDamage(shootingPlayer, amountOfDamage);
-		if(damagedPlayerBoard.isDead()) {
+		if (damagedPlayerBoard.isDead()) {
 			gameBoard.addKillShot(shootingPlayer, damagedPlayerBoard.isOverkilled());
 		}
 		updateReps();
@@ -97,7 +98,7 @@ public class Model{
 
 		//This will check the damageBoard of the player and award killShot points.
 		killingPlayer = playerBoard.getDamageBoard().get(DEATH_DAMAGE - 1);
-		if(playerBoard.getDamageBoard().lastIndexOf(killingPlayer) == OVERKILL_DAMAGE - 1){
+		if (playerBoard.getDamageBoard().lastIndexOf(killingPlayer) == OVERKILL_DAMAGE - 1) {
 			overkill = true;
 		}
 		gameBoard.addKillShot(killingPlayer, overkill);
@@ -113,20 +114,18 @@ public class Model{
 		player.resetAfterDeath(); //This automatically increases its number of deaths.
 	}
 
-    private synchronized void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers){
+	private synchronized void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers) {
 		int offset = 0;
 
 		//TODO: The implementation is WRONG. A player should give FRENZY_SCORES only if the playerBoard is flipped. @Marchingegno
 
 		//This method relies on the "SCORES" array defined in GameConstants.
-		if(deadPlayerBoard.isFlipped()) {
+		if (deadPlayerBoard.isFlipped()) {
 			for (Player p : sortedPlayers) {
 				p.getPlayerBoard().addPoints(FRENZY_SCORES.get(offset));
 				offset++;
 			}
-		}
-
-		else{
+		} else {
 			//AWARD FIRST BLOOD POINT
 			sortedPlayers.get(0).getPlayerBoard().addPoints(1);
 
@@ -143,18 +142,18 @@ public class Model{
 		}
 	}
 
-	public void fillGameMap(){
+	public void fillGameMap() {
 		//gameMap.fillMap(gameBoard.getWeaponDeck(), gameBoard.getAmmoDeck());
 	}
 
 	public void grabCard(Player player) {
 		AmmoCard ammoCard = (AmmoCard) (gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(0);
 
-		for (AmmoType ammo : ammoCard.getAmmos() ) {
+		for (AmmoType ammo : ammoCard.getAmmos()) {
 			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
 		}
 
-		if (ammoCard.hasPowerup()){
+		if (ammoCard.hasPowerup()) {
 			player.getPlayerBoard().addPowerup(gameBoard.getPowerupDeck().drawCard());
 		}
 
@@ -170,9 +169,9 @@ public class Model{
 		updateReps();
 	}
 
-	public void swapWeapons(Player player, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon){
+	public void swapWeapons(Player player, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
 		WeaponCard playerWeapon = player.getPlayerBoard().removeWeapon(indexOfThePlayerWeapon);
-		WeaponCard squareWeapon = (WeaponCard)(gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(indexOfTheSpawnWeapon);
+		WeaponCard squareWeapon = (WeaponCard) (gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(indexOfTheSpawnWeapon);
 
 		player.getPlayerBoard().addWeapon(squareWeapon);
 		((SpawnSquare) gameMap.getSquare(gameMap.playerCoordinates(player))).addCard(playerWeapon);
@@ -183,16 +182,20 @@ public class Model{
 		return gameMap.reachableCoordinates(player, distance);
 	}
 
-	public Map<Player, Coordinates> getPlayersCoordinates() { return gameMap.getPlayersCoordinates();	}
+	public Map<Player, Coordinates> getPlayersCoordinates() {
+		return gameMap.getPlayersCoordinates();
+	}
 
-	public List<Player> getPlayers(){return gameBoard.getPlayers();}
+	public List<Player> getPlayers() {
+		return gameBoard.getPlayers();
+	}
 
-	public void updateReps(){
+	public void updateReps() {
 		gameBoard.updateRep();
 		gameBoard.notifyObservers();
 		gameMap.updateRep();
 		gameMap.notifyObservers();
-		for (Player player: gameBoard.getPlayers() ) {
+		for (Player player : gameBoard.getPlayers()) {
 			player.updateRep();
 			player.notifyObservers();
 		}
@@ -201,9 +204,10 @@ public class Model{
 
 /**
  * Data structure that helps with counting players and damage done on damage boards.
+ *
  * @author Marchingegno
  */
-class DamageDone{
+class DamageDone {
 	private ArrayList<Player> players;
 	private ArrayList<Integer> damages;
 
@@ -225,7 +229,7 @@ class DamageDone{
 		return new ArrayList<>(players);
 	}
 
-	void damageUp(Player player){
+	void damageUp(Player player) {
 
 		int indexOfPlayer;
 		int oldDamage;
@@ -239,24 +243,23 @@ class DamageDone{
 		damages.set(indexOfPlayer, (oldDamage + 1));
 	}
 
-	private void addPlayer(Player player){
+	private void addPlayer(Player player) {
 		players.add(player);
 		damages.add(0);
 	}
 
-	ArrayList<Player> getSortedPlayers()
-	{
+	ArrayList<Player> getSortedPlayers() {
 		sort();
 		return new ArrayList<Player>(players);
 	}
 
-	private void sort(){
+	private void sort() {
 		Player pToSwap;
 		Integer iToSwap;
 
-		while(!isSorted()) {
-			for (int i = damages.size() - 1; i > 0 ; i--) {
-				if (damages.get(i) > damages.get(i - 1)){
+		while (!isSorted()) {
+			for (int i = damages.size() - 1; i > 0; i--) {
+				if (damages.get(i) > damages.get(i - 1)) {
 					//Swap in damages
 					iToSwap = damages.get(i);
 					damages.set(i, damages.get(i - 1));
@@ -275,7 +278,7 @@ class DamageDone{
 
 	private boolean isSorted() {
 		for (int i = 0; i < damages.size() - 1; i++) {
-			if(damages.get(i) < damages.get(i+1)) {
+			if (damages.get(i) < damages.get(i + 1)) {
 				return false;
 			}
 		}

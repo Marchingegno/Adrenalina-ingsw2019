@@ -1,9 +1,9 @@
 package it.polimi.se2019.model.player;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
@@ -13,9 +13,10 @@ import java.util.List;
 
 /**
  * A sharable version of all the useful Player information.
+ *
  * @author Desno365
  */
-public class PlayerRep extends Message {
+public class PlayerRep extends Representation {
 
 	private String playerName;
 	private Color.CharacterColorType playerColor;
@@ -33,6 +34,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Create a new PlayerRep with all the information of a Player.
+	 *
 	 * @param player the player from which the information are extracted.
 	 */
 	public PlayerRep(Player player) {
@@ -43,17 +45,17 @@ public class PlayerRep extends Message {
 		playerID = player.getPlayerID();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());
-		for(Player player1 : player.getPlayerBoard().getDamageBoard()) {
+		for (Player player1 : player.getPlayerBoard().getDamageBoard()) {
 			damageBoard.add(player1.getPlayerColor());
 		}
 
 		marks = new ArrayList<>(player.getPlayerBoard().getMarks().size());
-		for(Player player2 : player.getPlayerBoard().getMarks()) {
+		for (Player player2 : player.getPlayerBoard().getMarks()) {
 			marks.add(player2.getPlayerColor());
 		}
 
 		powerupCards = new ArrayList<>(player.getPlayerBoard().getPowerupCards().size());
-		for(PowerupCard powerupCard : player.getPlayerBoard().getPowerupCards()) {
+		for (PowerupCard powerupCard : player.getPlayerBoard().getPowerupCards()) {
 			powerupCards.add(new PowerupCardRep(powerupCard));
 		}
 
@@ -72,6 +74,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns a PlayerRep that contains only the information that are available also to the other players.
+	 *
 	 * @return a new PlayerRep without the sensitive information.
 	 */
 	public PlayerRep getHiddenPlayerRep() {
@@ -91,6 +94,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns true if the sensitive information are removed.
+	 *
 	 * @return true if the sensitive information are removed.
 	 */
 	public boolean isHidden() {
@@ -99,6 +103,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Return the player name.
+	 *
 	 * @return the player name.
 	 */
 	public String getPlayerName() {
@@ -107,6 +112,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Return the player ID.
+	 *
 	 * @return the player ID.
 	 */
 	public int getPlayerID() {
@@ -115,6 +121,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns the player color.
+	 *
 	 * @return the player color.
 	 */
 	public Color.CharacterColorType getPlayerColor() {
@@ -123,17 +130,19 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns the sensitive information of player's points.
+	 *
 	 * @return the sensitive information of player's points.
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
 	public int getPoints() throws HiddenException {
-		if(isHidden())
+		if (isHidden())
 			throw new HiddenException("The value of \"points\" is hidden in this PlayerRep.");
 		return points;
 	}
 
 	/**
 	 * Returns the damage board of this player with all the player names that made the damage.
+	 *
 	 * @return the damage board of this player with all the player names that made the damage.
 	 */
 	public List<Color.CharacterColorType> getDamageBoard() {
@@ -142,6 +151,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns the marks of this player with all the player names that made the marks.
+	 *
 	 * @return the marks of this player with all the player names that made the marks.
 	 */
 	public List<Color.CharacterColorType> getMarks() {
@@ -150,17 +160,19 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns the sensitive information of player's powerup cards.
+	 *
 	 * @return the sensitive information of player's powerup cards.
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
 	public List<PowerupCardRep> getPowerupCards() throws HiddenException {
-		if(isHidden())
+		if (isHidden())
 			throw new HiddenException("The value of \"powerupCards\" is hidden in this PlayerRep.");
 		return powerupCards;
 	}
 
 	/**
 	 * Returns the total amount of red ammo this player posses.
+	 *
 	 * @return the total amount of red ammo this player posses.
 	 */
 	public int getRedAmmo() {
@@ -169,6 +181,7 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns the total amount of yellow ammo this player posses.
+	 *
 	 * @return the total amount of yellow ammo this player posses.
 	 */
 	public int getYellowAmmo() {
@@ -177,14 +190,15 @@ public class PlayerRep extends Message {
 
 	/**
 	 * Returns the total amount of blue ammo this player posses.
+	 *
 	 * @return the total amount of blue ammo this player posses.
 	 */
 	public int getBlueAmmo() {
 		return blueAmmo;
 	}
 
-	public String toString(){
-		return ("Player name: " + playerName +"\n" +
+	public String toString() {
+		return ("Player name: " + playerName + "\n" +
 				"Color: " + Color.getColoredString(" ", playerColor, Color.BackgroundColorType.DEFAULT) +
 				"Hidden: " + hidden + "\n" +
 				"PlayerId: " + playerID + "\n" +
@@ -199,12 +213,14 @@ public class PlayerRep extends Message {
 
 /**
  * Thrown when trying to get the value of an attribute that is hidden.
+ *
  * @author Desno365
  */
 class HiddenException extends Exception {
 
 	/**
 	 * Constructs an HiddenException with the specified detail message.
+	 *
 	 * @param message the detail message.
 	 */
 	public HiddenException(String message) {

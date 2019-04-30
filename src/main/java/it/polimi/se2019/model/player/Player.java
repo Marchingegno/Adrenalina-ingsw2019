@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.model.cards.weapons.WeaponCard;
+import it.polimi.se2019.model.Representable;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
 import it.polimi.se2019.utils.Color;
@@ -8,9 +9,8 @@ import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.List;
-import java.util.Observable;
 
-public class Player extends Observable {
+public class Player extends Representable {
 
 	private String playerName;
 	private int playerID;
@@ -53,13 +53,13 @@ public class Player extends Observable {
 		return playerColor;
 	}
 
+	public DamageStatus getDamageStatus() {
+		return damageStatus;
+	}
+
 	public void setDamageStatus(DamageStatus newDamageStatus) {
 		damageStatus = newDamageStatus;
 		setChanged();
-	}
-
-	public DamageStatus getDamageStatus() {
-		return damageStatus;
 	}
 
 	public List<MacroAction> getAvailableActions() {
@@ -91,11 +91,14 @@ public class Player extends Observable {
 		setChanged();
 	}
 
-	public void getDistance(Player target) {}
+	public void getDistance(Player target) {
+	}
 
-	public void isVisible(Player target) {}
+	public void isVisible(Player target) {
+	}
 
-	public void getAllVisiblePlayers() {}
+	public void getAllVisiblePlayers() {
+	}
 
 	public void updateRep() {
 		if (playerRep == null || hasChanged()) {
@@ -105,7 +108,12 @@ public class Player extends Observable {
 
 	}
 
-	public PlayerRep getRep(String playerAsking) {
-		return playerName.equals(playerAsking) ? playerRep : playerRep.getHiddenPlayerRep();
+	public Representation getRep(String playerAsking) {
+		return playerName.equals(playerAsking) ? getRep() : playerRep.getHiddenPlayerRep();
+	}
+
+	@Override
+	public Representation getRep() {
+		return playerRep;
 	}
 }

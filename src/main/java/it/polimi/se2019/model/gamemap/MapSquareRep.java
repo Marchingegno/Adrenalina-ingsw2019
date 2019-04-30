@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class MapSquareRep implements Serializable {
 
+	protected String[] elementsToPrint;
 	private int roomID;
 	private Coordinates coordinates;
 	private boolean[] possibleDirection;
-	private String[] elementToPrint;
 
 	public MapSquareRep(MapSquare mapSquareToRepresent) {
 		this.roomID = mapSquareToRepresent.getRoomID();
@@ -24,7 +24,11 @@ public class MapSquareRep implements Serializable {
 		return coordinates;
 	}
 
-	public boolean[] getPossibleDirection() { return possibleDirection; }
+	public boolean[] getPossibleDirection() {
+		return possibleDirection;
+	}
 
-	public String[] getElementToPrint() {return elementToPrint;}
+	public String[] getElementToPrint() {
+		return elementsToPrint;
+	}
 }

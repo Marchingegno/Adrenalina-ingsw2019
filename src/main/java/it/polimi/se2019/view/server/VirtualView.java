@@ -99,21 +99,21 @@ public class VirtualView implements ViewInterface {
 	private class GameBoardObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updateGameBoardRep(((GameBoard) observable).getRep());
+			updateGameBoardRep((GameBoardRep) ((GameBoard) observable).getRep());
 		}
 	}
 
 	private class GameMapObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updateGameMapRep(((GameMap) observable).getRep());
+			updateGameMapRep((GameMapRep) ((GameMap) observable).getRep());
 		}
 	}
 
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updatePlayerRep(((Player) observable).getRep(playerName));
+			updatePlayerRep((PlayerRep) ((Player) observable).getRep(playerName));
 		}
 	}
 }
