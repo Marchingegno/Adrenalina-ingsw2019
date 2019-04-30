@@ -10,9 +10,9 @@ import java.util.List;
  * @author Marchingegno
  */
 public abstract class DamageStatus {
-	int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
-	int numberOfActionsPerformed; //actions that the player performed in this turn.
-	ArrayList<MacroAction> availableActions;
+	protected int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
+	protected int numberOfActionsPerformed; //actions that the player performed in this turn.
+	List<MacroAction> availableActions;
 
 
 	public List<MacroAction> getAvailableActions(){

@@ -8,11 +8,11 @@ import java.util.ArrayList;
  */
 public class MacroAction {
 
-	private String name;
-	private int numOfMovements;
-	private boolean grab;
-	private boolean reload;
-	private boolean shoot;
+	private final String name;
+	private final int numOfMovements;
+	private final boolean grab;
+	private final boolean reload;
+	private final boolean shoot;
 
 	public MacroAction(int numOfMovements, boolean grab, boolean reload, boolean shoot, String name) {
 		this.numOfMovements = numOfMovements;
@@ -65,5 +65,27 @@ public class MacroAction {
 				", reload=" + reload +
 				", shoot=" + shoot +
 				'}';
+	}
+
+	public String printAction() {
+		StringBuilder myBuilder = new StringBuilder();
+
+		for (int i = 0; i < this.numOfMovements; i++) {
+			myBuilder.append(">");
+		}
+
+		if(isGrab()){
+			myBuilder.append("G");
+		}
+
+		if (isReload()){
+			myBuilder.append("R");
+		}
+
+		if (isShoot()){
+			myBuilder.append("S");
+		}
+
+		return myBuilder.toString();
 	}
 }

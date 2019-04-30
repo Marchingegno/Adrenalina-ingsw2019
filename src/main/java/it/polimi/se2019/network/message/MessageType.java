@@ -3,6 +3,7 @@ package it.polimi.se2019.network.message;
 public enum MessageType {
 	NICKNAME,
 	WAITING_PLAYERS,
+	DAMAGE_STATUS_REP,
 	TIMER_FOR_START,
 	GAME_CONFIG,
 	GAME_MAP_REP,
