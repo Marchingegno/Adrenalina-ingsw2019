@@ -77,6 +77,9 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askActionExample(); // This method will be processed by the CLI or by the GUI.
 				break;
+			default:
+				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
+				break;
 		}
 	}
 
@@ -94,6 +97,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 			throw new IllegalStateException("Before sending any message, a connection must be set!");
 		connectionToServer.sendMessage(message);
 	}
+
+	public abstract void askForConnectionAndStartIt();
 
 	public abstract void failedConnectionToServer();
 

@@ -35,6 +35,18 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
+	public void askForConnectionAndStartIt() {
+		Utils.printLine("[?] Which connection would you like to use?");
+		Utils.printLine("1: RMI");
+		Utils.printLine("2: Socket");
+		int connection = askInteger(1, 2);
+		if(connection == 1)
+			Client.startConnectionWithRMI(this);
+		else
+			Client.startConnectionWithSocket(this);
+	}
+
+	@Override
 	public void failedConnectionToServer() {
 		Utils.printLine("Failed to connect to the server. Try again later.");
 		Client.terminateClient();
@@ -104,7 +116,7 @@ public class CLIView extends RemoteView {
 	public void askActionExample() {
 		Utils.printLine("Asking the user the action...");
 		Utils.printLine("Select a number between 0 and 2.");
-		int answer = askForAnInteger(0, 2);
+		int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new IntMessage(answer, MessageType.EXAMPLE_ACTION, MessageSubtype.ANSWER));
 	}
@@ -135,17 +147,22 @@ public class CLIView extends RemoteView {
 		modelRep.setPlayersRep(playerRepToUpdate);
 	}
 
+	public boolean askForGUI() {
+		Utils.printLine("[?] Would you like to use the Graphical User Interface? [y/n]");
+		return askBoolean();
+	}
+
 	private int askMapToUse() {
 		Utils.printLine("Select the map you would like to use, available maps:");
 		for (GameConstants.MapType map : GameConstants.MapType.values()) {
 			Utils.printLine(map.ordinal() + ": " + map.getDescription());
 		}
-		return askForAnInteger(0, GameConstants.MapType.values().length - 1);
+		return askInteger(0, GameConstants.MapType.values().length - 1);
 	}
 
 	private int askSkullsForGame() {
 		Utils.printLine("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
-		return askForAnInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
+		return askInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
 	}
 
 	/**
@@ -158,12 +175,11 @@ public class CLIView extends RemoteView {
 	/**
 	 * Ask the user an integer that must be between minInclusive and maxInclusive.
 	 * Repeatedly ask the integer if the input is not in the limits.
-	 *
 	 * @param minInclusive the minimum limit.
 	 * @param maxInclusive the maximum limit.
 	 * @return the integer chosen by the user.
 	 */
-	private int askForAnInteger(int minInclusive, int maxInclusive) {
+	private int askInteger(int minInclusive, int maxInclusive) {
 		int input = -1;
 		while (input < minInclusive || input > maxInclusive) {
 			try {
@@ -176,6 +192,20 @@ public class CLIView extends RemoteView {
 			}
 		}
 		return input;
+	}
+
+	/**
+	 * Ask the user a boolean.
+	 * @return the boolean chosen by the user.
+	 */
+	private boolean askBoolean() {
+		String input = "";
+		while (!(input.equals("n") || input.equals("y") || input.equals("yes") || input.equals("no"))) {
+			input = scanner.nextLine().toLowerCase();
+			if (!(input.equals("n") || input.equals("y") || input.equals("yes") || input.equals("no")))
+				Utils.printLine("Please write \"y\" or \"n\".");
+		}
+		return input.equals("y") || input.equals("yes");
 	}
 }
 
