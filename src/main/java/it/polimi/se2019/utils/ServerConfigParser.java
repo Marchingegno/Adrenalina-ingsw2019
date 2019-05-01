@@ -2,8 +2,11 @@ package it.polimi.se2019.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 
 public class ServerConfigParser {
 
@@ -44,7 +47,7 @@ public class ServerConfigParser {
 		try(Reader reader = new FileReader(path)) {
 			Gson gson = new GsonBuilder().create();
 			serverConfig = gson.fromJson(reader, ServerConfig.class);
-		} catch (IOException e) {
+		} catch (IOException | JsonParseException e) {
 			Utils.logError("Cannot parse server-config.json.", e);
 		} finally {
 			triedParsing = true;
