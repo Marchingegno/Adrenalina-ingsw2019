@@ -11,7 +11,7 @@ import java.util.List;
  */
 public abstract class DamageStatus {
 	protected int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
-	protected int numberOfActionsPerformed; //actions that the player performed in this turn.
+	protected int numberOfActionsToPerform; //actions that the player performed in this turn.
 	List<MacroAction> availableActions;
 
 
@@ -25,8 +25,15 @@ public abstract class DamageStatus {
 		return numberOfActionsPerTurn;
 	}
 
-	public int getNumberOfActionsPerformed() {
-		return numberOfActionsPerformed;
+	public int getNumberOfActionsToPerform() {
+		return numberOfActionsToPerform;
+	}
+
+	public void decreaseActionsToPerform(){
+		if(numberOfActionsToPerform == 0)
+			throw new IllegalStateException("numberOfActionsToPerform is already zero!");
+
+		numberOfActionsToPerform--;
 	}
 
 	/**
@@ -34,7 +41,7 @@ public abstract class DamageStatus {
 	 */
 	public void refillActions()
 	{
-		numberOfActionsPerformed = numberOfActionsPerTurn;
+		numberOfActionsToPerform = numberOfActionsPerTurn;
 	}
 
 }

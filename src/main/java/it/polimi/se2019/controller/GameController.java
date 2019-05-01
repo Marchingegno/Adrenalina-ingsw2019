@@ -47,6 +47,8 @@ public class GameController {
 		}
 	}
 
+
+	@Deprecated
 	private void gameLogic() {
 		Utils.logInfo("Iteration of gameLogic");
 		while(!model.areSkullsFinished()){
@@ -89,6 +91,7 @@ public class GameController {
 	private void setCorrectDamageStatus(Player player){
 		List<Player> damageBoard = player.getPlayerBoard().getDamageBoard();
 
+		//If the game is in frenzy mode, then the player already has the right damageStatus.
 		if (frenzyStarted)
 			player.getDamageStatus().refillActions();
 

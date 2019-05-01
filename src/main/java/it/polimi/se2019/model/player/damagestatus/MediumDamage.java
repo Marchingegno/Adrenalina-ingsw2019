@@ -29,7 +29,7 @@ public class MediumDamage extends DamageStatus {
 		availableActions.add(shootPeopleBuilder.build());
 
 		numberOfActionsPerTurn= NUMBER_OF_ACTIONS_PER_TURN;
-		numberOfActionsPerformed = numberOfActionsPerTurn;
+		numberOfActionsToPerform = numberOfActionsPerTurn;
 	}
 
 	@Override

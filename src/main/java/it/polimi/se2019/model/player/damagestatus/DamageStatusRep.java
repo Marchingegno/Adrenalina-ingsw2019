@@ -5,7 +5,6 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.MacroAction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ public class DamageStatusRep extends Message {
 		super(MessageType.DAMAGE_STATUS_REP, MessageSubtype.INFO);
 		this.availableActions = damageStatus.getAvailableActions(); //getAvailableActions already returns a copy of the array.
 		this.numberOfActionsPerTurn = damageStatus.getNumberOfActionsPerTurn();
-		this.numberOfActionsPerformed = damageStatus.getNumberOfActionsPerformed();
+		this.numberOfActionsPerformed = damageStatus.getNumberOfActionsToPerform();
 	}
 
 

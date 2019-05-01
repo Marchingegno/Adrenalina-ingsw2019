@@ -12,6 +12,7 @@ import java.util.List;
 
 public class Player extends Representable {
 
+	private TurnStatus turnStatus;
 	private String playerName;
 	private int playerID;
 	private Color.CharacterColorType playerColor;
@@ -25,7 +26,8 @@ public class Player extends Representable {
 		this.playerID = playerID;
 		this.playerColor = playerColor;
 		playerBoard = new PlayerBoard();
-		damageStatus = new LowDamage();
+		this.damageStatus = new LowDamage();
+		this.turnStatus = TurnStatus.PRE_SPAWN;
 		setChanged();
 	}
 
@@ -33,7 +35,8 @@ public class Player extends Representable {
 		this.playerName = playerName;
 		this.playerID = playerID;
 		playerBoard = new PlayerBoard();
-		damageStatus = new LowDamage();
+		this.damageStatus = new LowDamage();
+		this.turnStatus = TurnStatus.PRE_SPAWN;
 		setChanged();
 	}
 
@@ -60,6 +63,14 @@ public class Player extends Representable {
 	public void setDamageStatus(DamageStatus newDamageStatus) {
 		damageStatus = newDamageStatus;
 		setChanged();
+	}
+
+	public TurnStatus getTurnStatus(){
+		return this.turnStatus;
+	}
+
+	public void setTurnStatus(TurnStatus status){
+		this.turnStatus = turnStatus;
 	}
 
 	public List<MacroAction> getAvailableActions() {

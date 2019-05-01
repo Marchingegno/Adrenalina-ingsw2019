@@ -2,12 +2,20 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.model.player.TurnStatus;
+import it.polimi.se2019.network.client.MessageReceiverInterface;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.view.ViewInterface;
 
-import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class TurnController {
+/**
+ * This class is in a lower level than GameController. It handles the logic relative
+ * This class is a message handler.
+ * @author Marchingegno
+ */
+public class TurnController implements Observer, MessageReceiverInterface {
 
 	private Player currentPlayer;
 	private Model model;
@@ -18,14 +26,14 @@ public class TurnController {
 		this.model = model;
 	}
 
-
+	/**
+	 * Beginning of the turn.
+	 * @param player the current player.
+	 */
 	public void handleTurn(Player player) {
 		currentPlayer = player;
-		List<MacroAction> possibleActions = currentPlayer.getDamageStatus().getAvailableActions();
+		player.setTurnStatus(TurnStatus.YOUR_TURN);
 
-		while(player.getDamageStatus().getNumberOfActionsPerformed() != 0){
-			view.displayPossibleActions(possibleActions);
-		}
 	}
 
 	public void displayPossibleMoves(){
@@ -39,4 +47,27 @@ public class TurnController {
 	public void performMacroaction(int indexOfMacroAction) {
 	}
 
+	/**
+	 * This method is called whenever the observed object is changed. An
+	 * application calls an <tt>Observable</tt> object's
+	 * <code>notifyObservers</code> method to have all the object's
+	 * observers notified of the change.
+	 *
+	 * @param o   the observable object.
+	 * @param arg an argument passed to the <code>notifyObservers</code>
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		processMessage( (Message) arg);
+	}
+
+	@Override
+	public void processMessage(Message message) {
+
+	}
+
+	@Override
+	public void lostConnection() {
+
+	}
 }

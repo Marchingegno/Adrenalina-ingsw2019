@@ -1,9 +1,9 @@
-package it.polimi.se2019.view.client;
+package it.polimi.se2019.model.player;
 
 public enum TurnStatus {
 	PRE_SPAWN,
 	SPAWN,
 	IDLE,
-	TURN,
+	YOUR_TURN,
 	DEAD
 }
