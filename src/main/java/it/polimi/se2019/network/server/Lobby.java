@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Lobby {
 
-	private ArrayList<Match> startedMatches = new ArrayList<>();
+	private ArrayList<Match> matches = new ArrayList<>();
 	private ArrayList<AbstractConnectionToClient> waitingRoom = new ArrayList<>();
 	private long timeTimerStart;
 	private Timer timer;
@@ -23,10 +23,11 @@ public class Lobby {
 	 * Note: the client must have a nickname set!
 	 * @param client the client to add to the waiting room.
 	 */
-	public void addWaitingClient(AbstractConnectionToClient client) {
-		if(isNicknameUsed(client.getNickname())) {
+	public void addWaitingClient(AbstractConnectionToClient client, String nickname) {
+		if(isNicknameUsed(nickname)) {
 			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		} else {
+			client.setNickname(nickname);
 			client.sendMessage(new NicknameMessage(client.getNickname(), MessageSubtype.OK));
 			waitingRoom.add(client);
 			checkIfWaitingRoomIsReady(client);
@@ -60,8 +61,8 @@ public class Lobby {
 				List<AbstractConnectionToClient> participantsOfTheDismantledMatch = match.getParticipants();
 				participantsOfTheDismantledMatch.remove(client); // Remove the disconnected client from this list.
 
-				// Remove the match from the startedMatches list.
-				startedMatches.remove(match);
+				// Remove the match from the matches list.
+				matches.remove(match);
 
 				// Add the participants of the dismantled match to the waiting room.
 				for(AbstractConnectionToClient participant : participantsOfTheDismantledMatch) {
@@ -78,7 +79,7 @@ public class Lobby {
 	 * @return the match in which the client is playing.
 	 */
 	public Match getMatchOfClient(AbstractConnectionToClient client) {
-		for(Match match : startedMatches) {
+		for(Match match : matches) {
 			for(AbstractConnectionToClient clientInMatch : match.getParticipants()) {
 				if(clientInMatch == client)
 					return match;
@@ -100,7 +101,7 @@ public class Lobby {
 		}
 
 		// Check in the started matches.
-		for(Match match : startedMatches) {
+		for(Match match : matches) {
 			for(AbstractConnectionToClient clientInMatch : match.getParticipants()) {
 				if(clientInMatch.getNickname().equals(nickname))
 					return true;
@@ -156,7 +157,7 @@ public class Lobby {
 
 		// Start a new match.
 		Match match = new Match(waitingRoom);
-		startedMatches.add(match);
+		matches.add(match);
 		waitingRoom.clear();
 		match.requestMatchConfig();
 	}

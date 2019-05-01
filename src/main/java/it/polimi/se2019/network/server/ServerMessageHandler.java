@@ -62,8 +62,7 @@ public class ServerMessageHandler {
 	private void nicknameLogic(AbstractConnectionToClient client, Message message) {
 		String nickname = optimizeNickname(((NicknameMessage) message).getContent());
 		if(isNicknameValid(nickname)) {
-			client.setNickname(nickname);
-			lobby.addWaitingClient(client); // Add the client to the lobby, waiting for a match to start.
+			lobby.addWaitingClient(client, nickname); // Add the client to the lobby, waiting for a match to start.
 		} else {
 			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		}
