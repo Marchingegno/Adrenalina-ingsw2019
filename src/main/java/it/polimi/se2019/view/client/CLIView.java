@@ -40,10 +40,10 @@ public class CLIView extends RemoteView {
 		Utils.printLine("1: RMI");
 		Utils.printLine("2: Socket");
 		int connection = askInteger(1, 2);
-		if (connection == 1)
-			Client.startConnectionWithRMI(this);
+		if(connection == 1)
+			startConnectionWithRMI();
 		else
-			Client.startConnectionWithSocket(this);
+			startConnectionWithSocket();
 	}
 
 	@Override

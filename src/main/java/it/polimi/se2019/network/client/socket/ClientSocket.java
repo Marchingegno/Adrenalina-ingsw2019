@@ -28,16 +28,12 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface,
 	 * Creates a socket between the client and the server.
 	 * @param messageReceiver the associated interface that will receive the messages.
 	 */
-	public ClientSocket(MessageReceiverInterface messageReceiver){
+	public ClientSocket(MessageReceiverInterface messageReceiver) throws IOException{
 		super("CUSTOM: Socket Connection to Server"); // Give a name to the thread for debugging purposes.
 		this.messageReceiver = messageReceiver;
-		try {
-			socketClient = new Socket(HOST, PORT);
-			this.objOutStream = new ObjectOutputStream(this.socketClient.getOutputStream());
-			this.objInStream = new ObjectInputStream(this.socketClient.getInputStream());
-		} catch (IOException e) {
-			Utils.logError("Error in ClientSocket()", e);
-		}
+		socketClient = new Socket(HOST, PORT);
+		this.objOutStream = new ObjectOutputStream(this.socketClient.getOutputStream());
+		this.objInStream = new ObjectInputStream(this.socketClient.getInputStream());
 		active = true;
 		this.start();
 	}
