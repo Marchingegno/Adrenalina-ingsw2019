@@ -25,9 +25,9 @@ public class ServerMessageHandler {
 	 * Called when the client is registering himself on the server.
 	 * @param client the implementation of the client.
 	 */
-	public synchronized void onClientRegistration(ConnectionToClientInterface client) {
 		clients.add(client);
 		Utils.logInfo("Registered new client. There are " + clients.size() + " client(s) registered.");
+	public synchronized void onClientConnection(AbstractConnectionToClient client) {
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 

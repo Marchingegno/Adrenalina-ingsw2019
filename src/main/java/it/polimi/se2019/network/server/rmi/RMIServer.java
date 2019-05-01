@@ -44,7 +44,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	public void registerClient(RMIClientInterface rmiClientInterface) throws RemoteException {
 		ServerClientRMI newServerClientRMI = new ServerClientRMI(serverMessageHandler, rmiClientInterface);
 		connections.put(rmiClientInterface, newServerClientRMI);
-		serverMessageHandler.onClientRegistration(newServerClientRMI);
+		serverMessageHandler.onClientConnection(newServerClientRMI);
 		newServerClientRMI.startConnectionListener();
 	}
 

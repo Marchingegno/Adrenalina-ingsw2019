@@ -51,7 +51,7 @@ public class SocketServer extends Thread{
 				newServerClientSocket = new ServerClientSocket(serverMessageHandler, newClientSocket);
 
 				//The new decorated socket is registered to the server message handler
-				serverMessageHandler.onClientRegistration(newServerClientSocket);
+				serverMessageHandler.onClientConnection(newServerClientSocket);
 
 			} catch (SocketException e) {
 				if(e.getMessage().equals("Socket closed") || e.getMessage().equals("Socket is closed"))
