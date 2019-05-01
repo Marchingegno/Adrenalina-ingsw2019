@@ -10,18 +10,19 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Match {
 
-	private HashMap<ConnectionToClientInterface, String> participants;
-	private HashMap<ConnectionToClientInterface, VirtualView> virtualViews = new HashMap<>();
-	private int numberOfParticipants;
+	private final int numberOfParticipants;
+	private final ArrayList<AbstractConnectionToClient> participants;
+	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private Controller controller;
 	private boolean matchStarted = false;
 
 	// Game config attributes.
-	private HashMap<ConnectionToClientInterface, Integer> skullsChosen = new HashMap<>();
-	private HashMap<ConnectionToClientInterface, Integer> mapChosen = new HashMap<>();
+	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
+	private HashMap<AbstractConnectionToClient, Integer> mapChosen = new HashMap<>();
 	private int numberOfAnswers = 0;
 
 
@@ -29,11 +30,11 @@ public class Match {
 	 * Create a new match with the specified clients.
 	 * @param participants a map that contains all the clients for this match and their nicknames.
 	 */
-	public Match(Map<ConnectionToClientInterface, String> participants) {
+	public Match(List<AbstractConnectionToClient> participants) {
 		numberOfParticipants = participants.size();
 		if(numberOfParticipants < GameConstants.MIN_PLAYERS || numberOfParticipants > GameConstants.MAX_PLAYERS)
 			throw new IllegalArgumentException("The number of participants for this match (" + numberOfParticipants + ") is not valid.");
-		this.participants = new HashMap<>(participants);
+		this.participants = new ArrayList<>(participants);
 	}
 
 
@@ -41,13 +42,13 @@ public class Match {
 	 * Send game config request messages to the clients, asking skulls and map type.
 	 */
 	public void requestMatchConfig() {
-		for(ConnectionToClientInterface client : participants.keySet())
+		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 	}
 
 	// TODO start the match also after a timer and not wait every answer?
-	public void addConfigVote(ConnectionToClientInterface client, int skulls, int mapIndex) {
-		if(participants.containsKey(client)) { // Check if the client is in the Match.
+	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
+		if(participants.contains(client)) { // Check if the client is in the Match.
 			if(!skullsChosen.containsKey(client))
 				skullsChosen.put(client, skulls);
 
@@ -64,8 +65,8 @@ public class Match {
 	 * Returns a list with all the participants of this match.
 	 * @return a list with all the participants of this match.
 	 */
-	public Map<ConnectionToClientInterface, String> getParticipants() {
-		return new HashMap<>(participants);
+	public List<AbstractConnectionToClient> getParticipants() {
+		return new ArrayList<>(participants);
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class Match {
 	 * @param client the client.
 	 * @return the VirtualView associated to the client.
 	 */
-	public VirtualView getVirtualViewOfClient(ConnectionToClientInterface client) {
+	public VirtualView getVirtualViewOfClient(AbstractConnectionToClient client) {
 		return virtualViews.get(client);
 	}
 
@@ -89,19 +90,18 @@ public class Match {
 	 * Start the match.
 	 */
 	private void startMatch() {
-		matchStarted = true;
-
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
 		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
 		// start the game.
-		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());
+		List<String> playerNames = participants.stream().map(AbstractConnectionToClient::getNickname).collect(Collectors.toList());
+		controller = new Controller(playerNames, skulls, mapType.getMapName());
 
-		for (Map.Entry<ConnectionToClientInterface, String> client : participants.entrySet()) {
-			Utils.logInfo("Added Virtual View to " + client.getValue());
-			virtualViews.put(client.getKey(), new VirtualView(controller, client.getKey(), client.getValue()));
+		for (AbstractConnectionToClient client : participants) {
+			Utils.logInfo("Added Virtual View to " + client.getNickname());
+			virtualViews.put(client, new VirtualView(controller, client, client.getNickname()));
 		}
 
 		controller.getModel().updateReps();
@@ -112,7 +112,7 @@ public class Match {
 			@Override
 			public void run() {
 				// Send game start message with the voted skulls and map.
-				for(ConnectionToClientInterface client : participants.keySet()) {
+				for(AbstractConnectionToClient client : participants) {
 					GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
 					gameConfigMessage.setSkulls(skulls);
 					gameConfigMessage.setMapIndex(mapType.ordinal());
@@ -122,6 +122,8 @@ public class Match {
 				Utils.logInfo("Timer ended. Starting the match...");
 			}
 		}, 5000L);
+
+		matchStarted = true;
 	}
 
 	/**

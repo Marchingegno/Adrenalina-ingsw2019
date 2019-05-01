@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.server.socket;
 
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.server.ConnectionToClientInterface;
+import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
@@ -14,7 +14,7 @@ import java.net.Socket;
  * Contains the socket to communicate with a client. It sends messages through the output stream and receives them through the input stream.
  * @author MarcerAndrea
  */
-public class ServerClientSocket extends Thread implements ConnectionToClientInterface {
+public class ServerClientSocket extends AbstractConnectionToClient implements Runnable {
 
 	private ServerMessageHandler serverMessageHandler;
 	private Socket socket;
@@ -23,7 +23,6 @@ public class ServerClientSocket extends Thread implements ConnectionToClientInte
 	private ObjectOutputStream objOutStream;
 
 	public ServerClientSocket(ServerMessageHandler serverMessageHandler, Socket socket){
-		super("CUSTOM: Socket Connection to Client"); // Give a name to the thread for debugging purposes.
 		this.serverMessageHandler = serverMessageHandler;
 		this.socket = socket;
 
@@ -34,7 +33,7 @@ public class ServerClientSocket extends Thread implements ConnectionToClientInte
 			Utils.logError("Error in ServerClientSocket()", e);
 		}
 
-		this.start();
+		new Thread(this, "CUSTOM: Socket Connection to Client").start();
 
 		active = true;
 	}

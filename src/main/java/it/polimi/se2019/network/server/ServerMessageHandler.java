@@ -4,30 +4,20 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.ArrayList;
-
 public class ServerMessageHandler {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
 
-	private ArrayList<ConnectionToClientInterface> clients;
-	private Lobby lobby;
-
-
-	public ServerMessageHandler() {
-		clients = new ArrayList<>();
-		lobby = new Lobby();
-	}
+	private Lobby lobby = new Lobby();
 
 
 	/**
 	 * Called when the client is registering himself on the server.
 	 * @param client the implementation of the client.
 	 */
-		clients.add(client);
-		Utils.logInfo("Registered new client. There are " + clients.size() + " client(s) registered.");
 	public synchronized void onClientConnection(AbstractConnectionToClient client) {
+		Utils.logInfo("Started connection with client \"" + client.hashCode() + "\".");
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 
@@ -35,9 +25,8 @@ public class ServerMessageHandler {
 	 * Called when the client lose the connection with the server.
 	 * @param client the client that lost the connection.
 	 */
-	public synchronized void onConnectionLost(ConnectionToClientInterface client) {
-		clients.remove(client);
-		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + clients.size() + " client(s) registered.");
+	public synchronized void onConnectionLost(AbstractConnectionToClient client) {
+		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\".");
 
 		// Remove the client from the waiting room if present.
 		lobby.removeWaitingClient(client);
@@ -48,52 +37,64 @@ public class ServerMessageHandler {
 
 	/**
 	 * Called when receiving a message from the client.
+	 * This method will process messages of type GAME_CONFIG or NICKNAME. Other messages are forwarded to the VirtualView.
 	 * @param message the message received.
 	 */
-	public synchronized void onMessageReceived(ConnectionToClientInterface client, Message message) {
-		Utils.logInfo("The server received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+	public synchronized void onMessageReceived(AbstractConnectionToClient client, Message message) {
+		Utils.logInfo("Processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
-		// Don't process message of not registered clients.
-		if(!clients.contains(client))
-			return;
-
-		switch (message.getMessageType()) {
-			case NICKNAME:
-				if (message.getMessageSubtype() == MessageSubtype.ANSWER)
-					nicknameLogic(client, message);
-				break;
-			case GAME_CONFIG:
-				if(message.getMessageSubtype() == MessageSubtype.ANSWER)
-					gameConfigLogic(client, message);
-				break;
-			default:
+		if(client.isNicknameSet()) {
+			if(message.getMessageType() == MessageType.GAME_CONFIG && message.getMessageSubtype() == MessageSubtype.ANSWER)
+				gameConfigLogic(client, message);
+			else
 				forwardMessageToVirtualView(client, message);
-				break;
-
+		} else {
+			if(message.getMessageType() == MessageType.NICKNAME && message.getMessageSubtype() == MessageSubtype.ANSWER)
+				nicknameLogic(client, message);
 		}
 	}
 
-	private void nicknameLogic(ConnectionToClientInterface client, Message message) {
-		// Remove spaces in the nickname and set max length.
-		String nickname = ((NicknameMessage) message).getContent().replaceAll("\\s", "");
-		int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
-		nickname = nickname.substring(0, maxLength);
-
-		// Check if nickname is not valid (too short).
-		if(nickname.length() >= NICKNAME_MIN_LENGTH) {
-			// Add the client to the lobby, waiting for a match to start.
-			lobby.addWaitingClient(client, nickname);
+	/**
+	 * Implement the logic to handle a NicknameMessage.
+	 * @param client the client that sent the NicknameMessage.
+	 * @param message the message.
+	 */
+	private void nicknameLogic(AbstractConnectionToClient client, Message message) {
+		String nickname = optimizeNickname(((NicknameMessage) message).getContent());
+		if(isNicknameValid(nickname)) {
+			client.setNickname(nickname);
+			lobby.addWaitingClient(client); // Add the client to the lobby, waiting for a match to start.
 		} else {
 			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		}
 	}
 
 	/**
+	 * Returns the nickname with spaces removed and cut at max length if bigger.
+	 * @param nickname the nickname to optimize.
+	 * @return the optimized nickname.
+	 */
+	private String optimizeNickname(String nickname) {
+		nickname = nickname.replaceAll("\\s", "");
+		int maxLength = (nickname.length() < NICKNAME_MAX_LENGTH) ? nickname.length() : NICKNAME_MAX_LENGTH;
+		return nickname.substring(0, maxLength);
+	}
+
+	/**
+	 * Check if nickname is valid (not too short).
+	 * @param nickname the nickname to check.
+	 * @return true if valid.
+	 */
+	private boolean isNicknameValid(String nickname) {
+		return nickname.length() >= NICKNAME_MIN_LENGTH;
+	}
+
+	/**
 	 * Implement the logic to handle a GameConfigMessage.
-	 * @param client the client that send the GameConfigMessage.
+	 * @param client the client that sent the GameConfigMessage.
 	 * @param message the message.
 	 */
-	private void gameConfigLogic(ConnectionToClientInterface client, Message message) {
+	private void gameConfigLogic(AbstractConnectionToClient client, Message message) {
 		Match match = lobby.getMatchOfClient(client);
 		if(match != null) {
 			GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
@@ -101,7 +102,7 @@ public class ServerMessageHandler {
 		}
 	}
 
-	private void forwardMessageToVirtualView(ConnectionToClientInterface client, Message message) {
+	private void forwardMessageToVirtualView(AbstractConnectionToClient client, Message message) {
 		Match match = lobby.getMatchOfClient(client);
 		if(match != null) { // If the client is in a match.
 			VirtualView virtualView = match.getVirtualViewOfClient(client);

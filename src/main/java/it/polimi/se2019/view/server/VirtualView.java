@@ -11,7 +11,7 @@ import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.network.server.ConnectionToClientInterface;
+import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
@@ -22,11 +22,11 @@ import java.util.Observer;
 
 public class VirtualView implements ViewInterface {
 
-	private ConnectionToClientInterface client;
+	private AbstractConnectionToClient client;
 	private Controller controller;
 	private String playerName;
 
-	public VirtualView(Controller controller, ConnectionToClientInterface client, String playerName) {
+	public VirtualView(Controller controller, AbstractConnectionToClient client, String playerName) {
 		this.client = client;
 		this.playerName = playerName;
 		this.controller = controller;

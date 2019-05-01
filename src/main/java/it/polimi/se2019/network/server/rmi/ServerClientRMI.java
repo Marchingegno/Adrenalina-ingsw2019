@@ -2,13 +2,13 @@ package it.polimi.se2019.network.server.rmi;
 
 import it.polimi.se2019.network.client.rmi.RMIClientInterface;
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.server.ConnectionToClientInterface;
+import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.network.server.ServerMessageHandler;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.RemoteException;
 
-public class ServerClientRMI implements ConnectionToClientInterface {
+public class ServerClientRMI extends AbstractConnectionToClient {
 
 	private ServerMessageHandler serverMessageHandler;
 	private RMIClientInterface rmiClientInterface;
