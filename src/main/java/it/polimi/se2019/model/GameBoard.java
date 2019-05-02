@@ -15,6 +15,7 @@ import java.util.List;
 
 public class GameBoard extends Representable {
 
+	private boolean frenzyStarted;
 	private ArrayList<Player> players;
 	private int remainingSkulls;
 	private ArrayList<KillShot> killShots;
@@ -50,6 +51,7 @@ public class GameBoard extends Representable {
 		ammoDeck = new AmmoDeck();
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
+		frenzyStarted = false;
 		setChanged();
 	}
 
@@ -60,6 +62,14 @@ public class GameBoard extends Representable {
 	public void nextPlayerTurn() {
 		playerQueue.moveFirstToLast();
 		setChanged();
+	}
+
+	public boolean isFrenzyStarted() {
+		return frenzyStarted;
+	}
+
+	public void startFrenzy(){
+		this.frenzyStarted = Boolean.TRUE;
 	}
 
 	public Player getCurrentPlayer() {

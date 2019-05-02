@@ -2,6 +2,7 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.*;
 import it.polimi.se2019.utils.Utils;
 
@@ -21,49 +22,33 @@ public class GameController {
 
 	private TurnController turnController;
 	private Model model;
-	private boolean frenzyStarted;
 
 
 	public GameController(Model model) {
 		this.model = model;
 		turnController = new TurnController(model);
-		frenzyStarted = FALSE;
 		Utils.logInfo("Create GameController");
 	}
 
 
 	public void startGame() {
 		Utils.logInfo("GameController: startGame");
-		gameLogic();
+		nextPlayerTurn();
 	}
 
 	public void initialRounds() {
 	}
 
-	public void startFinalRounds() {
-		for (int i = 0; i < model.getPlayers().size(); i++) {
-			startTurn(model.getCurrentPlayer());
-			flipPlayers(model.getPlayers());
-		}
-	}
 
 
-	@Deprecated
-	private void gameLogic() {
-		Utils.logInfo("Iteration of gameLogic");
-		while(!model.areSkullsFinished()){
-			startTurn(model.getCurrentPlayer());
-			endTurn();
-		}
 
-		startFinalRounds();
-	}
-
-	private void flipPlayers(List<Player> playersToFlip){
-		playersToFlip.stream().forEach(Player::flipIfNoDamage);
+	private void flipPlayers(){
+		model.getPlayerQueue().getAsArray().stream()
+				.forEach(Player::flipIfNoDamage);
 
 	}
 
+	//TODO: Revisit the location of the first player. I don't know if he is the player that just ended the turn, or the following.
 	private void startFrenzy() {
 		Player firstPlayer = model.getPlayers().get(0);
 		ArrayList<Player> sortedPlayers = model.getPlayerQueue().getAsArray();
@@ -79,7 +64,7 @@ public class GameController {
 			i++;
 		}
 
-		flipPlayers(sortedPlayers);
+		flipPlayers();
 	}
 
 	public void refillCardsOnMap() {
@@ -92,7 +77,7 @@ public class GameController {
 		List<Player> damageBoard = player.getPlayerBoard().getDamageBoard();
 
 		//If the game is in frenzy mode, then the player already has the right damageStatus.
-		if (frenzyStarted)
+		if (model.isFrenzyStarted())
 			player.getDamageStatus().refillActions();
 
 		else if(damageBoard.size() < MEDIUM_DAMAGE_THRESHOLD)
@@ -105,23 +90,38 @@ public class GameController {
 			player.setDamageStatus(new HighDamage());
 	}
 
-	private void startTurn(Player player) {
-		setCorrectDamageStatus(player);
-		turnController.handleTurn(player);
-	}
 
 	/**
-	 * This method scores dead players, starts frenzy if it needs to be started
+	 * This method ends the turn of a player, scores dead players, starts frenzy if it needs to be started
 	 * and moves to the bottom the first player of playerQueue.
 	 */
 	private void endTurn() {
+		model.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
 		model.scoreDeadPlayers();
 		refillCardsOnMap();
-		model.nextPlayerTurn();
-		if(model.areSkullsFinished() && !frenzyStarted) {
-			frenzyStarted = TRUE;
+		nextPlayerTurn();
+		//This checks if frenzy is to start.
+		if(model.areSkullsFinished() && !model.isFrenzyStarted()) {
+			model.startFrenzy();
 			startFrenzy();
 		}
+
+		//This checks if the frenzy is started and flips the DamageBoard of the players.
+		if(model.isFrenzyStarted()){
+			flipPlayers();
+		}
+
+
+	}
+
+
+	private void nextPlayerTurn() {
+		//Move the next player at the top of the queue.
+		model.nextPlayerTurn();
+		//Set its correct DamageStatus.
+		setCorrectDamageStatus(model.getCurrentPlayer());
+		//Set its TurnStatus.
+		model.getCurrentPlayer().setTurnStatus(TurnStatus.YOUR_TURN);
 	}
 
 }

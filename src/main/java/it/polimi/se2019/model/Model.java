@@ -45,6 +45,14 @@ public class Model {
 		return gameBoard.getPlayerQueue();
 	}
 
+	public Boolean isFrenzyStarted(){
+		return gameBoard.isFrenzyStarted();
+	}
+
+	public void startFrenzy(){
+		gameBoard.startFrenzy();
+	}
+
 	public Player getCurrentPlayer() {
 		return gameBoard.getCurrentPlayer();
 	}

@@ -3,8 +3,6 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.network.client.MessageReceiverInterface;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.Observable;
@@ -15,7 +13,7 @@ import java.util.Observer;
  * This class is a message handler.
  * @author Marchingegno
  */
-public class TurnController implements Observer, MessageReceiverInterface {
+public class TurnController implements Observer {
 
 	private Player currentPlayer;
 	private Model model;
@@ -30,6 +28,7 @@ public class TurnController implements Observer, MessageReceiverInterface {
 	 * Beginning of the turn.
 	 * @param player the current player.
 	 */
+	@Deprecated
 	public void handleTurn(Player player) {
 		currentPlayer = player;
 		player.setTurnStatus(TurnStatus.YOUR_TURN);
@@ -58,16 +57,5 @@ public class TurnController implements Observer, MessageReceiverInterface {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		processMessage( (Message) arg);
-	}
-
-	@Override
-	public void processMessage(Message message) {
-
-	}
-
-	@Override
-	public void lostConnection() {
-
 	}
 }

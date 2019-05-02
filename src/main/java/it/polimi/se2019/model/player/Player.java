@@ -80,6 +80,7 @@ public class Player extends Representable {
 	public void resetAfterDeath() {
 		playerBoard.resetBoardAfterDeath();
 		setDamageStatus(new LowDamage());
+		turnStatus = TurnStatus.SPAWN;
 		setChanged();
 	}
 
