@@ -4,7 +4,13 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
-public class ServerMessageHandler {
+/**
+ * Listen to events produced by a client connected to the server:
+ * - Connection started: processed in onClientConnection;
+ * - Connection lost: processed in onConnectionLost;
+ * - Message received: processed in onMessageReceived.
+ */
+public class ServerEventsListener implements ServerEventsListenerInterface {
 
 	private static final int NICKNAME_MAX_LENGTH = 16;
 	private static final int NICKNAME_MIN_LENGTH = 1;
@@ -13,9 +19,10 @@ public class ServerMessageHandler {
 
 
 	/**
-	 * Called when the client is registering himself on the server.
-	 * @param client the implementation of the client.
+	 * Called when the client start the connection with the server.
+	 * @param client the client starting the connection.
 	 */
+	@Override
 	public synchronized void onClientConnection(AbstractConnectionToClient client) {
 		Utils.logInfo("Started connection with client \"" + client.hashCode() + "\".");
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
@@ -25,6 +32,7 @@ public class ServerMessageHandler {
 	 * Called when the client lose the connection with the server.
 	 * @param client the client that lost the connection.
 	 */
+	@Override
 	public synchronized void onConnectionLost(AbstractConnectionToClient client) {
 		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\".");
 
@@ -40,6 +48,7 @@ public class ServerMessageHandler {
 	 * This method will process messages of type GAME_CONFIG or NICKNAME. Other messages are forwarded to the VirtualView.
 	 * @param message the message received.
 	 */
+	@Override
 	public synchronized void onMessageReceived(AbstractConnectionToClient client, Message message) {
 		Utils.logInfo("Processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
@@ -54,6 +63,7 @@ public class ServerMessageHandler {
 		}
 	}
 
+
 	/**
 	 * Implement the logic to handle a NicknameMessage.
 	 * @param client the client that sent the NicknameMessage.
@@ -62,7 +72,7 @@ public class ServerMessageHandler {
 	private void nicknameLogic(AbstractConnectionToClient client, Message message) {
 		String nickname = optimizeNickname(((NicknameMessage) message).getContent());
 		if(isNicknameValid(nickname)) {
-			lobby.addWaitingClient(client, nickname); // Add the client to the lobby, waiting for a match to start.
+			lobby.registerClient(client, nickname); // Add the client to the lobby, waiting for a match to start.
 		} else {
 			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		}
@@ -101,13 +111,16 @@ public class ServerMessageHandler {
 		}
 	}
 
+	/**
+	 * Forwards the message of the client to its VirtualView (if present).
+	 * @param client the client that sent the message.
+	 * @param message the message.
+	 */
 	private void forwardMessageToVirtualView(AbstractConnectionToClient client, Message message) {
 		Match match = lobby.getMatchOfClient(client);
 		if(match != null) { // If the client is in a match.
 			VirtualView virtualView = match.getVirtualViewOfClient(client);
-			if(virtualView == null)
-				Utils.logError("The lobby thinks the client is in a match but he actually isn't.", new IllegalStateException());
-			else
+			if(virtualView != null)
 				virtualView.onMessageReceived(message);
 		}
 	}

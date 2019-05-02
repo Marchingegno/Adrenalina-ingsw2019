@@ -1,8 +1,9 @@
 package it.polimi.se2019.network.server.socket;
 
-import it.polimi.se2019.network.server.ServerMessageHandler;
+import it.polimi.se2019.network.server.ServerEventsListenerInterface;
 import it.polimi.se2019.utils.Utils;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,22 +13,22 @@ import java.net.SocketException;
  * Server that listens for new socket clients and creates a ServerClientSocket for each of them
  * @author MarcerAndrea
  */
-public class SocketServer extends Thread{
+public class SocketServer extends Thread implements Closeable {
 
 	private final int PORT = 12345;
 
 	private ServerSocket serverSocket; //Server that listens for requests
-	private ServerMessageHandler serverMessageHandler; //General serverMessageHandler that works both with RMI and Socket
+	private ServerEventsListenerInterface serverEventsListener; //General serverEventsListener that works both with RMI and Socket
 
 	private boolean active = false;
 
 	/**
-	 * Starts a thread that listens for new connection requests
-	 * @param serverMessageHandler the message handler to which all messages are sent
+	 * Starts a thread that listens for new connection requests.
+	 * @param serverEventsListener the event listener to which all events are forwarded.
 	 */
-	public SocketServer(ServerMessageHandler serverMessageHandler) {
+	public SocketServer(ServerEventsListenerInterface serverEventsListener) throws IOException {
 		super("CUSTOM: Socket Connection Request Listener"); // Give a name to the thread for debugging purposes.
-		this.serverMessageHandler = serverMessageHandler;
+		this.serverEventsListener = serverEventsListener;
 		startServerSocket();
 	}
 
@@ -48,10 +49,10 @@ public class SocketServer extends Thread{
 				newClientSocket = serverSocket.accept();
 
 				//The socket is decorated with the logic to handle the message communication
-				newServerClientSocket = new ServerClientSocket(serverMessageHandler, newClientSocket);
+				newServerClientSocket = new ServerClientSocket(serverEventsListener, newClientSocket);
 
 				//The new decorated socket is registered to the server message handler
-				serverMessageHandler.onClientConnection(newServerClientSocket);
+				serverEventsListener.onClientConnection(newServerClientSocket);
 
 			} catch (SocketException e) {
 				if(e.getMessage().equals("Socket closed") || e.getMessage().equals("Socket is closed"))
@@ -65,16 +66,10 @@ public class SocketServer extends Thread{
 	}
 
 	/**
-	 * Returns true if and only if the server is active.
-	 * @return true if and only if the server is active.
-	 */
-	public boolean isActive() {	return active;}
-
-	/**
 	 * Closes the server.
 	 */
+	@Override
 	public void close(){
-
 		try {
 			serverSocket.close();
 		}catch (IOException e){
@@ -82,12 +77,15 @@ public class SocketServer extends Thread{
 		}active = false;
 	}
 
-	private void startServerSocket(){
-		try {
-			serverSocket = new ServerSocket(PORT);
-		} catch (IOException e) {
-			Utils.logError("Error in SocketServer()", e);
-		}
+	/**
+	 * Returns true if and only if the server is active.
+	 * @return true if and only if the server is active.
+	 */
+	public boolean isActive() {	return active;}
+
+	private void startServerSocket() throws IOException {
+		serverSocket = new ServerSocket(PORT);
+		this.start();
 		active = true;
 	}
 }

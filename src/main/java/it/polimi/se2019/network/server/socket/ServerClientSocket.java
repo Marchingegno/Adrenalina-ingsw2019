@@ -2,7 +2,7 @@ package it.polimi.se2019.network.server.socket;
 
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
-import it.polimi.se2019.network.server.ServerMessageHandler;
+import it.polimi.se2019.network.server.ServerEventsListenerInterface;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.IOException;
@@ -16,14 +16,14 @@ import java.net.Socket;
  */
 public class ServerClientSocket extends AbstractConnectionToClient implements Runnable {
 
-	private ServerMessageHandler serverMessageHandler;
+	private ServerEventsListenerInterface serverEventsListener;
 	private Socket socket;
 	private boolean active;
 	private ObjectInputStream objInStream;
 	private ObjectOutputStream objOutStream;
 
-	public ServerClientSocket(ServerMessageHandler serverMessageHandler, Socket socket){
-		this.serverMessageHandler = serverMessageHandler;
+	public ServerClientSocket(ServerEventsListenerInterface serverEventsListener, Socket socket){
+		this.serverEventsListener = serverEventsListener;
 		this.socket = socket;
 
 		try {
@@ -63,11 +63,11 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 	public void run() {
 		try{
 			while(isActive()){
-				serverMessageHandler.onMessageReceived(this, (Message) objInStream.readObject());
+				serverEventsListener.onMessageReceived(this, (Message) objInStream.readObject());
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			Utils.logError("Connection lost.", e);
-			serverMessageHandler.onConnectionLost(this);
+			serverEventsListener.onConnectionLost(this);
 		}finally{
 			closeConnection();
 		}

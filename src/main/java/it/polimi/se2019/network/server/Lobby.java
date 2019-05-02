@@ -17,13 +17,13 @@ public class Lobby {
 
 
 	/**
-	 * Add a client to the waiting room.
+	 * Add a client to the lobby.
 	 * If the waiting room has reached the minimum number of players a timer starts and when it ends the game starts.
 	 * If the waiting room has reached the maximum number of players the game starts immediately.
-	 * Note: the client must have a nickname set!
-	 * @param client the client to add to the waiting room.
+	 * @param client the client to add to the lobby.
+	 * @param nickname the nickname the client wants to use.
 	 */
-	public void addWaitingClient(AbstractConnectionToClient client, String nickname) {
+	public void registerClient(AbstractConnectionToClient client, String nickname) {
 		if(isNicknameUsed(nickname)) {
 			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		} else {

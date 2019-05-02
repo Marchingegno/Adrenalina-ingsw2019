@@ -4,6 +4,7 @@ import it.polimi.se2019.network.server.rmi.RMIServer;
 import it.polimi.se2019.network.server.socket.SocketServer;
 import it.polimi.se2019.utils.Utils;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ import java.util.Scanner;
  */
 public class Server {
 
-	private ServerMessageHandler serverMessageHandler;
+	private ServerEventsListenerInterface serverEventsListener = new ServerEventsListener();
 	private SocketServer socketServer;
 	private RMIServer rmiServer;
 
@@ -25,16 +26,12 @@ public class Server {
 		server.closeServerIfRequested();
 	}
 
-	private Server() {
-		serverMessageHandler = new ServerMessageHandler();
-	}
-
 	/**
 	 * Start the RMI server.
 	 */
-	public void startRMIServer() {
+	private void startRMIServer() {
 		try {
-			rmiServer = new RMIServer(serverMessageHandler);
+			rmiServer = new RMIServer(serverEventsListener);
 		} catch (RemoteException e) {
 			Utils.logError("Failed to start RMI server.", e);
 		}
@@ -43,15 +40,18 @@ public class Server {
 	/**
 	 * Start the socket server.
 	 */
-	public void startSocketServer() {
-		socketServer = new SocketServer(serverMessageHandler);
-		socketServer.start();
+	private void startSocketServer() {
+		try {
+			socketServer = new SocketServer(serverEventsListener);
+		} catch (IOException e) {
+			Utils.logError("Failed to start Socket server.", e);
+		}
 	}
 
 	/**
 	 * Listen for a "close" command.
 	 */
-	public void closeServerIfRequested() {
+	private void closeServerIfRequested() {
 		new Thread(() -> {
 			String input = "";
 			while (!input.equalsIgnoreCase("close")) {
