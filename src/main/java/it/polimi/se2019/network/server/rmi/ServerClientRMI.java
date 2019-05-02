@@ -6,6 +6,10 @@ import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.network.server.ServerEventsListenerInterface;
 import it.polimi.se2019.utils.Utils;
 
+/**
+ * Represents an RMI client in the server. By using this class the server can send messages to the client and listen to a lost of connection.
+ * @author Desno365
+ */
 public class ServerClientRMI extends AbstractConnectionToClient {
 
 	private ServerEventsListenerInterface serverEventsListener;
@@ -18,6 +22,10 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 	}
 
 
+	/**
+	 * Send a message to the client.
+	 * @param message the message to send.
+	 */
 	@Override
 	public void sendMessage(Message message) {
 		// Send the message in a thread so the server isn't put in wait.
@@ -25,12 +33,16 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 			try {
 				rmiClientInterface.receiveMessage(message);
 			} catch (Exception e) {
-				Utils.logInfo("Send message to client failed.");
+				Utils.logInfo("RMI: send message to client failed.");
 			}
 		}, "CUSTOM: RMI Message Sending").start();
 	}
 
 
+	/**
+	 * Starts the thread that listens for a connection lost with the client.
+	 * If a lost of connection is found reports it to the event listener.
+	 */
 	public void startConnectionListener() {
 		new Thread(() -> {
 			try {

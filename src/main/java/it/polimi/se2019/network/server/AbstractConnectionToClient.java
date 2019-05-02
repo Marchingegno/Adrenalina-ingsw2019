@@ -40,8 +40,8 @@ public abstract class AbstractConnectionToClient {
 	}
 
 	/**
-	 * Receive and process the message sent by the server both by socket or by RMI.
-	 * @param message the message received.
+	 * Send a message to the client.
+	 * @param message the message to send.
 	 */
 	public abstract void sendMessage(Message message);
 }

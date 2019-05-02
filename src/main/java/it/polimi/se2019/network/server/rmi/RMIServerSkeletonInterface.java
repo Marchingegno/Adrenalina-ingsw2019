@@ -6,6 +6,9 @@ import it.polimi.se2019.network.message.Message;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Represents the methods of the server that can be called remotely by the client.
+ */
 public interface RMIServerSkeletonInterface extends Remote {
 
 	/**

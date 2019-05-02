@@ -21,15 +21,16 @@ public class Server {
 
 	public static void main(String[] args) {
 		Server server = new Server();
-		server.startRMIServer();
-		server.startSocketServer();
-		server.closeServerIfRequested();
+		server.startRMIServerAsynchronously();
+		server.startSocketServerAsynchronously();
+		server.closeServerIfRequestedAsynchronously();
 	}
 
 	/**
-	 * Start the RMI server.
+	 * Starts the RMI server.
+	 * Doesn't stop the calling thread.
 	 */
-	private void startRMIServer() {
+	private void startRMIServerAsynchronously() {
 		try {
 			rmiServer = new RMIServer(serverEventsListener);
 		} catch (RemoteException e) {
@@ -38,9 +39,10 @@ public class Server {
 	}
 
 	/**
-	 * Start the socket server.
+	 * Starts the socket server.
+	 * Doesn't stop the calling thread.
 	 */
-	private void startSocketServer() {
+	private void startSocketServerAsynchronously() {
 		try {
 			socketServer = new SocketServer(serverEventsListener);
 		} catch (IOException e) {
@@ -49,9 +51,10 @@ public class Server {
 	}
 
 	/**
-	 * Listen for a "close" command.
+	 * Listens for a "close" command.
+	 * Doesn't stop the calling thread.
 	 */
-	private void closeServerIfRequested() {
+	private void closeServerIfRequestedAsynchronously() {
 		new Thread(() -> {
 			String input = "";
 			while (!input.equalsIgnoreCase("close")) {

@@ -37,7 +37,7 @@ public class SocketServer extends Thread implements Closeable {
 	 */
 	@Override
 	public void run() {
-		Utils.logInfo("Socket server is listening");
+		Utils.logInfo("Socket server is listening.");
 
 		while(isActive()) {
 
@@ -56,7 +56,7 @@ public class SocketServer extends Thread implements Closeable {
 
 			} catch (SocketException e) {
 				if(e.getMessage().equals("Socket closed") || e.getMessage().equals("Socket is closed"))
-					Utils.logInfo("Connection closed by the server.");
+					Utils.logInfo("Socket connection listening closed by request");
 				else
 					Utils.logError("Error in SocketServer: run()", e);
 			} catch (IOException e) {
@@ -72,9 +72,11 @@ public class SocketServer extends Thread implements Closeable {
 	public void close(){
 		try {
 			serverSocket.close();
+			Utils.logInfo("Socket server stopped.");
 		}catch (IOException e){
 			Utils.logError("Error in SocketServer: close()", e);
-		}active = false;
+		}
+		active = false;
 	}
 
 	/**

@@ -71,6 +71,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 			if(registry != null) {
 				registry.unbind("Server");
 				UnicastRemoteObject.unexportObject(registry, true);
+				Utils.logInfo("RMI server stopped.");
 			}
 		} catch (RemoteException | NotBoundException e) {
 			Utils.logError("Error in RMIServer: close()", e);
@@ -89,7 +90,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 
 
 	/**
-	 * Start the RMI server and register it on the RMI registry,
+	 * Starts the RMI server and register it on the RMI registry,
 	 * @throws RemoteException
 	 */
 	private void startRMIServer() throws RemoteException {

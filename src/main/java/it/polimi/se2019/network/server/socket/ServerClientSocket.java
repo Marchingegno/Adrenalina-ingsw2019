@@ -74,15 +74,15 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 	}
 
 	/**
-	 * TODO
-	 * @param message the message received.
+	 * Send a message to the client.
+	 * @param message the message to send.
 	 */
 	@Override
 	public void sendMessage(Message message){
 		try {
 			objOutStream.writeObject(message);
 		}catch(IOException e){
-			Utils.logError("Error in ServerClientSocket: ProcessMessage()", e);
+			Utils.logInfo("Socket: send message to client failed.");
 		}
 
 	}
