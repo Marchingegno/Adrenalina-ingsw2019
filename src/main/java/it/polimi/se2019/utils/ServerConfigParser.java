@@ -10,7 +10,7 @@ import java.io.Reader;
 
 public class ServerConfigParser {
 
-	private static final String path = System.getProperty("user.dir") + "/src/resources/server-config.json";
+	private static final String PATH = System.getProperty("user.dir") + "/src/resources/server-config.json";
 	private static boolean triedParsing = false;
 	private static ServerConfig serverConfig;
 
@@ -25,7 +25,7 @@ public class ServerConfigParser {
 			return serverConfig.getWaitingTimeInLobbyMs();
 		} else {
 			Utils.logInfo("Returned the default value for waiting time in lobby.");
-			return 5000;
+			return 5000L;
 		}
 	}
 
@@ -39,12 +39,54 @@ public class ServerConfigParser {
 			return serverConfig.getMoveTimeLimitMs();
 		} else {
 			Utils.logInfo("Returned the default value for move time limit.");
-			return 20000;
+			return 20000L;
+		}
+	}
+
+	public static String getHost() {
+		// Parse the file if not already parsed.
+		if (!triedParsing)
+			parseConfig();
+
+		// Return the config or a default value.
+		if (serverConfig != null) {
+			return serverConfig.getHost();
+		} else {
+			Utils.logInfo("Returned the default value for the host.");
+			return "localhost";
+		}
+	}
+
+	public static int getRmiPort() {
+		// Parse the file if not already parsed.
+		if (!triedParsing)
+			parseConfig();
+
+		// Return the config or a default value.
+		if (serverConfig != null) {
+			return serverConfig.getRmiPort();
+		} else {
+			Utils.logInfo("Returned the default value for RMI port.");
+			return 1099;
+		}
+	}
+
+	public static int getSocketPort() {
+		// Parse the file if not already parsed.
+		if (!triedParsing)
+			parseConfig();
+
+		// Return the config or a default value.
+		if (serverConfig != null) {
+			return serverConfig.getSocketPort();
+		} else {
+			Utils.logInfo("Returned the default value for Socket port.");
+			return 12345;
 		}
 	}
 
 	private static void parseConfig() {
-		try(Reader reader = new FileReader(path)) {
+		try(Reader reader = new FileReader(PATH)) {
 			Gson gson = new GsonBuilder().create();
 			serverConfig = gson.fromJson(reader, ServerConfig.class);
 		} catch (IOException | JsonParseException e) {
@@ -58,6 +100,9 @@ public class ServerConfigParser {
 	class ServerConfig {
 		private int waitingTimeInLobby;
 		private int moveTimeLimit;
+		private String host;
+		private int rmiPort;
+		private int socketPort;
 
 		long getWaitingTimeInLobbyMs() {
 			return waitingTimeInLobby * 1000L; // Convert seconds to milliseconds.
@@ -65,6 +110,18 @@ public class ServerConfigParser {
 
 		long getMoveTimeLimitMs() {
 			return moveTimeLimit * 1000L; // Convert seconds to milliseconds.
+		}
+
+		public String getHost() {
+			return host;
+		}
+
+		int getRmiPort() {
+			return rmiPort;
+		}
+
+		int getSocketPort() {
+			return socketPort;
 		}
 	}
 }

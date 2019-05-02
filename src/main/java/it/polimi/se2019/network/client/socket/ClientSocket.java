@@ -3,6 +3,7 @@ package it.polimi.se2019.network.client.socket;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.*;
@@ -14,9 +15,6 @@ import java.net.Socket;
  * @author MarcerAndrea
  */
 public class ClientSocket extends Thread implements ConnectionToServerInterface, Closeable {
-
-	private static final String HOST = "localhost";
-	private static final int PORT = 12345;
 
 	private Socket socketClient;
 	private MessageReceiverInterface messageReceiver;
@@ -31,7 +29,7 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface,
 	public ClientSocket(MessageReceiverInterface messageReceiver) throws IOException{
 		super("CUSTOM: Socket Connection to Server"); // Give a name to the thread for debugging purposes.
 		this.messageReceiver = messageReceiver;
-		socketClient = new Socket(HOST, PORT);
+		socketClient = new Socket(ServerConfigParser.getHost(), ServerConfigParser.getSocketPort());
 		this.objOutStream = new ObjectOutputStream(this.socketClient.getOutputStream());
 		this.objInStream = new ObjectInputStream(this.socketClient.getInputStream());
 		active = true;

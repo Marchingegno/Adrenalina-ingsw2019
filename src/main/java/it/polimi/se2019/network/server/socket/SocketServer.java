@@ -1,6 +1,7 @@
 package it.polimi.se2019.network.server.socket;
 
 import it.polimi.se2019.network.server.ServerEventsListenerInterface;
+import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.Closeable;
@@ -14,8 +15,6 @@ import java.net.SocketException;
  * @author MarcerAndrea
  */
 public class SocketServer extends Thread implements Closeable {
-
-	private final int PORT = 12345;
 
 	private ServerSocket serverSocket; //Server that listens for requests
 	private ServerEventsListenerInterface serverEventsListener; //General serverEventsListener that works both with RMI and Socket
@@ -86,7 +85,7 @@ public class SocketServer extends Thread implements Closeable {
 	public boolean isActive() {	return active;}
 
 	private void startServerSocket() throws IOException {
-		serverSocket = new ServerSocket(PORT);
+		serverSocket = new ServerSocket(ServerConfigParser.getSocketPort());
 		this.start();
 		active = true;
 	}
