@@ -18,10 +18,12 @@ public class TurnController implements Observer {
 	private Player currentPlayer;
 	private Model model;
 	private ViewInterface view;
+	private WeaponController weaponController;
 
 
 	public TurnController(Model model) {
 		this.model = model;
+		this.weaponController = new WeaponController();
 	}
 
 	/**
