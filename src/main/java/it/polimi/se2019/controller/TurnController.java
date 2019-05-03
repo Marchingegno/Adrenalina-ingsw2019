@@ -3,6 +3,8 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.Observable;
@@ -13,15 +15,17 @@ import java.util.Observer;
  * This class is a message handler.
  * @author Marchingegno
  */
-public class TurnController implements Observer {
+public class TurnController{
 
 	private Player currentPlayer;
 	private Model model;
 	private ViewInterface view;
+	private WeaponController weaponController;
 
 
 	public TurnController(Model model) {
 		this.model = model;
+		this.weaponController = new WeaponController();
 	}
 
 	/**
@@ -46,16 +50,11 @@ public class TurnController implements Observer {
 	public void performMacroaction(int indexOfMacroAction) {
 	}
 
-	/**
-	 * This method is called whenever the observed object is changed. An
-	 * application calls an <tt>Observable</tt> object's
-	 * <code>notifyObservers</code> method to have all the object's
-	 * observers notified of the change.
-	 *
-	 * @param o   the observable object.
-	 * @param arg an argument passed to the <code>notifyObservers</code>
-	 */
-	@Override
-	public void update(Observable o, Object arg) {
+	void processMessage(Message message){
+		switch(message.getMessageType()){
+
+
+		}
+
 	}
 }
