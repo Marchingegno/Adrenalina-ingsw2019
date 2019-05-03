@@ -66,7 +66,7 @@ public class PlayerRepTest {
 	@Test
 	public void getPlayerColor_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player2);
-		assertEquals(Color.CharacterColorType.BLUE, playerRep.getPlayerColor());
+		assertEquals(Color.CharacterColorType.GREEN, playerRep.getPlayerColor());
 	}
 
 	@Test
