@@ -29,20 +29,18 @@ public class GameBoard extends Representable {
 	private GameBoardRep gameBoardRep;
 
 
-	public GameBoard(List<String> playerNames, int startingSkulls) {
+	public GameBoard(String mapPath, List<String> playerNames, int startingSkulls) {
+
 		// initialize players
 		players = new ArrayList<>(playerNames.size());
-		int id = 0;
 
+		int id = 0;
 		for (String name : playerNames) {
-			players.add(new Player(name, id, Color.CharacterColorType.values()[id + 1]));
+			players.add(new Player(name, id));
 			id++;
 		}
 
 		playerQueue = new PlayerQueue(players);
-
-		// initialize skulls
-		remainingSkulls = startingSkulls;
 
 		// initialize GameBoard attributes
 		killShots = new ArrayList<>();
@@ -52,6 +50,12 @@ public class GameBoard extends Representable {
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
 		frenzyStarted = false;
+
+		gameMap = new GameMap(mapPath, players, this);
+
+		// initialize skulls
+		remainingSkulls = startingSkulls;
+
 		setChanged();
 	}
 

@@ -30,10 +30,8 @@ public class Model {
 	private GameMap gameMap;
 
 	public Model(String mapPath, List<String> playerNames, int startingSkulls) {
-		gameBoard = new GameBoard(playerNames, startingSkulls);
-		gameBoard.setGameMap(new GameMap(mapPath, gameBoard.getPlayers(), gameBoard));
+		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
 		gameMap = gameBoard.getGameMap();
-		gameMap.fillMap();
 	}
 
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
