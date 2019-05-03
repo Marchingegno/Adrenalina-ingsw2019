@@ -4,6 +4,8 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.*;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -124,4 +126,14 @@ public class GameController {
 		model.getCurrentPlayer().setTurnStatus(TurnStatus.YOUR_TURN);
 	}
 
+
+	void processMessage(Message message){
+		MessageType messageType = message.getMessageType();
+
+		//TODO: Add other cases.
+		switch (messageType) {
+			default: turnController.processMessage(message);
+		}
+
+	}
 }
