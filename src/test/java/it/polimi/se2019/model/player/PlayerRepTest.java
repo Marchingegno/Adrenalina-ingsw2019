@@ -17,9 +17,9 @@ import static org.junit.Assert.*;
  */
 public class PlayerRepTest {
 
-	private static final Player player1 = new Player("Test 1", 0, Color.CharacterColorType.GREEN);
-	private static final Player player2 = new Player("Test 2", 1, Color.CharacterColorType.BLUE);
-	private static final Player player3 = new Player("Test 3", 2, Color.CharacterColorType.RED);
+	private static final Player player1 = new Player("Test 1", 0);
+	private static final Player player2 = new Player("Test 2", 1);
+	private static final Player player3 = new Player("Test 3", 2);
 
 	@BeforeClass
 	public static void oneTimeSetUp() {

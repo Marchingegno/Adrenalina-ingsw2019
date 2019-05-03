@@ -36,6 +36,7 @@ public class GameMap extends Representable {
 		generateMap(mapName, gameBoard);
 		connectSquares();
 		addSquaresToRooms();
+		fillMap();
 
 		for (Player playerToAdd : players) {
 			playersPositions.put(playerToAdd, null);
@@ -44,6 +45,10 @@ public class GameMap extends Representable {
 		setChanged();
 	}
 
+	/**
+	 * For each square in the map if it has an empty slot
+	 * it gets refilled.
+	 */
 	public void fillMap() {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -124,11 +129,24 @@ public class GameMap extends Representable {
 		setChanged();
 	}
 
+	/**
+	 * Returns the list of all reachable coordinates by a player within the specified distance.
+	 * @param player the player that wants to move.
+	 * @param maxDistance distance the player wants to move.
+	 * @return the list of reachable coordinates.
+	 */
 	public List<Coordinates> reachableCoordinates(Player player, int maxDistance) {
 		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
 		return reachableSquares(getSquare(playersPositions.get(player)), maxDistance, reachableCoordinates);
 	}
 
+
+	/**
+	 * Returns the list of all reachable coordinates from the specified coordinates within the specified distance.
+	 * @param coordinates starting coordinates.
+	 * @param maxDistance distance the player wants to move.
+	 * @return the list of reachable coordinates.
+	 */
 	public List<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
 		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
 		return reachableSquares(getSquare(coordinates), maxDistance, reachableCoordinates);
@@ -153,23 +171,6 @@ public class GameMap extends Representable {
 			reachableCoordinates.add(getCoordinates(mapSquare));
 		return reachableCoordinates;
 	}
-
-	/*public void fillMap(WeaponDeck weaponDeck, AmmoDeck ammoDeck){
-		if (!isFilled){
-			for (int row = 0; row < numOfRows; row++) {
-				for (int column = 0; column < numOfColumns; column++) {
-					MapSquare mapSquare = map[row][column];
-					if (!mapSquare.isFilled()){
-						if(isSpawnSquare(new Coordinates(row, column)))
-							mapSquare.fill(weaponDeck);
-						else
-							mapSquare.fill(ammoDeck);
-					}
-				}
-			}
-			setChanged();
-		}
-	}*/
 
 	/**
 	 * Returns the set of all the squares belonging to the same room of the specified mapSquare.
@@ -401,6 +402,9 @@ public class GameMap extends Representable {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public void updateRep() {
 		if (gameMapRep == null || hasChanged()) {
 			gameMapRep = new GameMapRep(this);
@@ -408,6 +412,10 @@ public class GameMap extends Representable {
 		}
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public Representation getRep() {
 		return gameMapRep;
 	}

@@ -26,9 +26,7 @@ public class MapRepTest {
 		players.add("Test 3");
 		players.add("Test 4");
 		players.add("Test 5");
-		gameBoard = new GameBoard(players, 8);
-		gameMap = new GameMap("MediumMap.txt", gameBoard.getPlayers(), gameBoard);
-		gameBoard.setGameMap(gameMap);
+		gameBoard = new GameBoard("MediumMap.txt", players, 8);
 	}
 
 	@After

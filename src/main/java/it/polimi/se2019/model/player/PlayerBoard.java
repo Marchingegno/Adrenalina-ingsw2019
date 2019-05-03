@@ -183,7 +183,6 @@ public class PlayerBoard {
 	/**
 	 * Returns the weapon cards in player's inventory.
 	 * @return the weapon cards in player's inventory.
-	 * @deprecated
 	 */
 	public List<WeaponCard> getWeaponCards() {
 		return new ArrayList<>(weaponCards);

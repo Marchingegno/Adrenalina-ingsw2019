@@ -21,19 +21,10 @@ public class Player extends Representable {
 	private PlayerRep playerRep;
 
 
-	public Player(String playerName, int playerID, Color.CharacterColorType playerColor) {
-		this.playerName = playerName;
-		this.playerID = playerID;
-		this.playerColor = playerColor;
-		playerBoard = new PlayerBoard();
-		this.damageStatus = new LowDamage();
-		this.turnStatus = TurnStatus.PRE_SPAWN;
-		setChanged();
-	}
-
 	public Player(String playerName, int playerID) {
 		this.playerName = playerName;
 		this.playerID = playerID;
+		this.playerColor = Color.CharacterColorType.values()[playerID + 1]; // + 1 to avoid BLACK color
 		playerBoard = new PlayerBoard();
 		this.damageStatus = new LowDamage();
 		this.turnStatus = TurnStatus.PRE_SPAWN;
