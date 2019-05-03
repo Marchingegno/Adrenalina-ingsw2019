@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -34,6 +35,14 @@ public class Model {
 		gameMap = gameBoard.getGameMap();
 	}
 
+	public Player getPlayerFromName(String playerName){
+		for (Player player : gameBoard.getPlayers() ) {
+			if (playerName.equals(player.getPlayerName()))
+				return player;
+		}
+		throw new IllegalArgumentException("No player with name: " + playerName);
+	}
+
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
 		gameMap.movePlayerTo(playerToMove, coordinates);
 		updateReps();
@@ -49,6 +58,7 @@ public class Model {
 
 	public void startFrenzy(){
 		gameBoard.startFrenzy();
+		updateReps();
 	}
 
 	public Player getCurrentPlayer() {
@@ -63,7 +73,6 @@ public class Model {
 		gameBoard.nextPlayerTurn();
 		updateReps();
 	}
-
 
 	public void doDamageAndAddMarks(Player shootingPlayer, Player damagedPlayer, int amountOfDamage, int amountOfMarks) {
 		doDamage(shootingPlayer, damagedPlayer, amountOfDamage);
@@ -149,29 +158,33 @@ public class Model {
 	}
 
 	public void fillGameMap() {
-		//gameMap.fillMap(gameBoard.getWeaponDeck(), gameBoard.getAmmoDeck());
+		gameMap.fillMap();
+		updateReps();
 	}
 
-	public void grabCard(Player player) {
-		AmmoCard ammoCard = (AmmoCard) (gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(0);
+	public Card grabCard(Coordinates coordinates, int index) {
+		return gameMap.getSquare(coordinates).grabCard(index);
+	}
 
-		for (AmmoType ammo : ammoCard.getAmmos()) {
+	public void discardPowerupCard(Player player, int indexOfThePowerup) {
+		player.getPlayerBoard().removePowerup(indexOfThePowerup);
+	}
+
+	public void addAmmoCardTo(Player player, AmmoCard ammoCard){
+		for (AmmoType ammo : ammoCard.getAmmos() ) {
 			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
 		}
 
-		if (ammoCard.hasPowerup()) {
+		if (ammoCard.hasPowerup())
 			player.getPlayerBoard().addPowerup(gameBoard.getPowerupDeck().drawCard());
-		}
+
+		gameBoard.getAmmoDeck().discardCard(ammoCard);
 
 		updateReps();
 	}
 
-	public void discardPowerupCard(Player player, int indexOfThePowerup) {
-
-	}
-
-	public void grabWeaponCard(Player player, int index) {
-		player.getPlayerBoard().addWeapon((WeaponCard) (gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(index));
+	public void addWeaponCardTo(Player player, WeaponCard weaponCard){
+		player.getPlayerBoard().addWeapon(weaponCard);
 		updateReps();
 	}
 

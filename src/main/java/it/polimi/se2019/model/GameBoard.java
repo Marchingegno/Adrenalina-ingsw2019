@@ -50,7 +50,6 @@ public class GameBoard extends Representable {
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
 		frenzyStarted = false;
-
 		gameMap = new GameMap(mapPath, players, this);
 
 		// initialize skulls

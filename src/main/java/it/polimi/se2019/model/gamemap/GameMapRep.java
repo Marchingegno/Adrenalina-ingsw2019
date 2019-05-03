@@ -50,5 +50,5 @@ public class GameMapRep extends Representation {
 	public HashMap<String, Coordinates> getPlayersCoordinates() {
 		return playersPositions;
 	}
-	
+
 }

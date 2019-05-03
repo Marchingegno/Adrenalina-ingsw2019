@@ -247,7 +247,7 @@ public class PlayerBoardTest {
 		playerBoard.addPowerup(newton1);
 		playerBoard.addPowerup(newton2);
 		playerBoard.addPowerup(newton3);
-		playerBoard.removePowerup(newton2);
+		playerBoard.removePowerup(1);
 		playerBoard.addPowerup(newton4);
 		assertNotEquals(-1, playerBoard.getPowerupCards().indexOf(newton1));
 		assertNotEquals(-1, playerBoard.getPowerupCards().indexOf(newton4));

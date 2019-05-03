@@ -2,7 +2,9 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.utils.Color;
 
-public class WeaponRep {
+import java.io.Serializable;
+
+public class WeaponRep implements Serializable {
 
 	private String weaponName;
 	private String weaponDescription;
