@@ -61,7 +61,7 @@ public class Player extends Representable {
 	}
 
 	public void setTurnStatus(TurnStatus status){
-		this.turnStatus = turnStatus;
+		this.turnStatus = status;
 	}
 
 	public List<MacroAction> getAvailableActions() {
