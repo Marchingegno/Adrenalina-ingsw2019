@@ -34,7 +34,7 @@ public abstract class WeaponCard extends Card {
 		return loaded;
 	}
 
-	public void load() {
+	public void reload() {
 	}
 
 	public void getAvailableOptions() {

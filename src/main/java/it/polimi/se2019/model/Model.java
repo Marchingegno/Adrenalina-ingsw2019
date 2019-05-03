@@ -69,6 +69,10 @@ public class Model {
 		return gameBoard;
 	}
 
+	public GameMap getGameMap() {
+		return gameMap;
+	}
+
 	public void nextPlayerTurn() {
 		gameBoard.nextPlayerTurn();
 		updateReps();
@@ -160,6 +164,16 @@ public class Model {
 	public void fillGameMap() {
 		gameMap.fillMap();
 		updateReps();
+	}
+
+	public void grabWeaponCard(Player player, int index) {
+		WeaponCard cardToGrab = (WeaponCard) gameMap.getSquare(gameMap.playerCoordinates(player)).grabCard(index);
+		addWeaponCardTo(player, cardToGrab);
+	}
+
+	public void grabAmmoCard(Player player, int index) {
+		AmmoCard cardToGrab = (AmmoCard) gameMap.getSquare(gameMap.playerCoordinates(player)).grabCard(index);
+		addAmmoCardTo(player, cardToGrab);
 	}
 
 	public Card grabCard(Coordinates coordinates, int index) {

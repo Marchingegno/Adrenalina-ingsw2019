@@ -41,6 +41,10 @@ public class VirtualView implements ViewInterface {
 		}
 	}
 
+	public String getPlayerName() {
+		return playerName;
+	}
+
 	public void onMessageReceived(Message message) {
 		switch (message.getMessageType()) {
 			case EXAMPLE_ACTION: // TODO remove

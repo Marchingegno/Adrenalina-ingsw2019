@@ -90,7 +90,8 @@ public class Player extends Representable {
 		setChanged();
 	}
 
-	public void reload() {
+	public void reload(int indexOfWeaponToReload) {
+		playerBoard.getWeaponCards().get(indexOfWeaponToReload).reload();
 		setChanged();
 	}
 

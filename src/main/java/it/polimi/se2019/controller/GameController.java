@@ -4,9 +4,11 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.*;
+import it.polimi.se2019.network.message.ActionMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +134,14 @@ public class GameController {
 
 		//TODO: Add other cases.
 		switch (messageType) {
+			case END_TURN:
+				VirtualView virtualView = ((ActionMessage)message).getVirtualView();
+				Player player = model.getPlayerFromName(virtualView.getPlayerName());
+				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
+					throw new RuntimeException("It's not your turn!");
+				}
+				endTurn();
+				break;
 			default: turnController.processMessage(message);
 		}
 

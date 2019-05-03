@@ -12,6 +12,7 @@ public class DefaultActionMessage extends ActionMessage{
 		this.index = index;
 	}
 
-
-
+	public int getIndex() {
+		return index;
+	}
 }

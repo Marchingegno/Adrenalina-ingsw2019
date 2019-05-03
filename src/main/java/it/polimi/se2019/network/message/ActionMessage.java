@@ -15,4 +15,8 @@ public class ActionMessage extends Message{
 	public void setVirtualView(VirtualView virtualView) {
 		this.virtualView = virtualView;
 	}
+
+	public VirtualView getVirtualView(){
+		return this.virtualView;
+	}
 }

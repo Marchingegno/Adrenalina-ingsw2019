@@ -9,10 +9,12 @@ public enum MessageType {
 	GAME_MAP_REP,
 	GAME_BOARD_REP,
 	PLAYER_REP,
-	GRAB,
+	GRAB_WEAPON,
+	GRAB_AMMO,
 	MOVE,
 	RELOAD,
 	SHOOT,
+	END_TURN,
 	EXAMPLE_ACTION // TODO remove
 
 }
