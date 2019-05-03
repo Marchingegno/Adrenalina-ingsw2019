@@ -2,6 +2,8 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
+
 import java.util.List;
 import static java.lang.Boolean.FALSE;
 
@@ -10,33 +12,18 @@ import static java.lang.Boolean.FALSE;
  * @author Marchingegno
  */
 public abstract class AlternateFire extends WeaponCard {
-	protected List<DamageAndMarks> secondaryDamagesAndMarks;
+	List<DamageAndMarks> secondaryDamagesAndMarks;
+	Boolean secondaryFireActive;
+
 
 	public AlternateFire(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
+		reset();
+
 	}
 
-
-	/**
-	 * Handling of flags: if the first flag is TRUE then the player chose secondary fire mode.
-	 * @param flags which options the player has chosen.
-	 */
 	@Override
-	protected void handleFire(Boolean[] flags) {
-		List<Player> targetPlayers;
-		List<DamageAndMarks> damageAndMarks;
-
-		if(flags[0] == FALSE){
-			targetPlayers = primaryFire();
-			damageAndMarks = standardDamagesAndMarks;
-		}
-		else {
-			targetPlayers = secondaryFire();
-			damageAndMarks = secondaryDamagesAndMarks;
-		}
-
-		dealDamage(targetPlayers, damageAndMarks);
-		reset();
+	protected void handleFire(Message message) {
 	}
 
 	/**
@@ -52,4 +39,13 @@ public abstract class AlternateFire extends WeaponCard {
 
 
 
+	void secondaryReset(){
+		this.secondaryFireActive = FALSE;
+	}
+
+	@Override
+	void reset() {
+		super.reset();
+		secondaryReset();
+	}
 }

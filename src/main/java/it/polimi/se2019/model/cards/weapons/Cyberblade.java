@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,10 @@ public final class Cyberblade extends OptionalEffect{
 		this.moveDistance = MOVE_DISTANCE;
 	}
 
+
+	@Override
+	protected void handleFire(Message message) {
+	}
 
 	@Override
 	public void getAvailableOptions() {

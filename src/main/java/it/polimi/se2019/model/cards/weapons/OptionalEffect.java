@@ -2,11 +2,11 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Boolean.TRUE;
+import static java.lang.Boolean.FALSE;
 
 
 /**
@@ -16,32 +16,22 @@ import static java.lang.Boolean.TRUE;
  */
 public abstract class OptionalEffect extends WeaponCard {
 
+	private Boolean optional1Active;
+	private Boolean optional2Active;
+
 	public OptionalEffect(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
+		reset();
 	}
 
 	/**
 	 * Standard way of handling weapon with optional effects. The weapon may Override this method if it behaves
 	 * differently than the standard.
-	 * @param flags which options the player has chosen.
+	 * @param message which options the player has chosen.
 	 */
 	@Override
-	protected void handleFire(Boolean[] flags) {
-		List<Player> targetPlayers;
-		List<DamageAndMarks> damageAndMarks = new ArrayList<>(standardDamagesAndMarks);
+	protected void handleFire(Message message) {
 
-		targetPlayers = primaryFire();
-
-		if (flags[0] == TRUE) {
-			optionalEffect1(targetPlayers, damageAndMarks);
-		}
-
-		if (flags[1] == TRUE) {
-			optionalEffect2(targetPlayers, damageAndMarks);
-		}
-
-		dealDamage(targetPlayers, damageAndMarks);
-		reset();
 	}
 
 	@Override
@@ -63,5 +53,15 @@ public abstract class OptionalEffect extends WeaponCard {
 	 */
 	public abstract void optionalEffect2(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList);
 
+	void optionalReset(){
+		this.optional2Active = FALSE;
+		this.optional1Active = FALSE;
+	}
 
+	@Override
+	void reset() {
+		super.reset();
+		optionalReset();
+
+	}
 }

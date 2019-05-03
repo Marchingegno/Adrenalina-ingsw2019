@@ -4,6 +4,7 @@ import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -24,8 +25,10 @@ import static java.lang.Boolean.TRUE;
 public abstract class WeaponCard extends Card {
 
 	GameMap gameMap;
-	boolean moveActive;
-	int moveDistance;
+	int moveDistance; //Standard move for relocation of the player.
+	int step; //Advancement step of the weapon.
+	boolean relocationDone; //If the player has already been relocated.
+	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
 	private Player owner;
 	private boolean loaded;
@@ -44,9 +47,18 @@ public abstract class WeaponCard extends Card {
 	public WeaponCard(String description, List<AmmoType> reloadPrice) {
 
 		super(description);
-		owner = null;
-		loaded = TRUE;
+		this.step = 0;
+		this.owner = null;
+		this.loaded = TRUE;
 		this.reloadPrice = reloadPrice;
+	}
+
+	/**
+	 * Called by the creator to set the actual GameMap for this game.
+	 * @param gameMap map to set.
+	 */
+	protected void setGameMap(GameMap gameMap){
+		this.gameMap = gameMap;
 	}
 
 	/**
@@ -102,7 +114,14 @@ public abstract class WeaponCard extends Card {
 	 * Interacts with player, depending on the characteristic of the weapon. It then collects an array
 	 * of flags which each weapon handles in their own way.
 	 * Most likely will be Overridden.
+	 *
+	 * This will be in the WeaponRep passed to the view, and collects the flag.
+	 * Maybe it doesn't need to be in this class, since it will be called by the view.
+	 * It can create a message to pass to the controller, and then the controller can call handleFire.
+	 * Maybe it can also pass an object useful to the handling of the weapon (for example, the square in which the vortex
+	 * will be created). Then the controller will call handleFire with the flags and the object.
 	 */
+	@Deprecated
 	public void chooseFireMode(){
 		Boolean[] flagsCollected;
 		//Placeholder initialization
@@ -110,14 +129,14 @@ public abstract class WeaponCard extends Card {
 
 		//TODO: Interaction with the view, flags will be modified.
 
-		handleFire(flagsCollected);
+		//handleFire(flagsCollected);
 	}
 
 	/**
 	 * Handles interaction with flags array.
-	 * @param flags which options the player has chosen.
+	 * @param message which options the player has chosen.
 	 */
-	protected abstract void handleFire(Boolean[] flags);
+	protected abstract void handleFire(Message message);
 
 	/**
 	 * This method will be called by the damage-dealer methods of the weapons.
@@ -168,8 +187,8 @@ public abstract class WeaponCard extends Card {
 	 * Deloads the weapon and reset eventually modified parameters.
 	 */
 	void reset(){
-		moveActive = false;
-		loaded = false;
+		this.step = 0;
+		this.loaded = false;
 	}
 
 }
