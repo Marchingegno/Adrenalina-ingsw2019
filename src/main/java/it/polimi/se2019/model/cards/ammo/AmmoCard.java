@@ -64,4 +64,9 @@ public class AmmoCard extends Card {
 		return new ArrayList<>(ammo);
 	}
 
+	@Override
+	public String toString() {
+		return "AmmoCard: " + description;
+	}
+
 }

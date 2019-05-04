@@ -33,4 +33,12 @@ public abstract class PowerupCard extends Card {
 	public AmmoType getAssociatedAmmo() {
 		return associatedAmmo;
 	}
+
+	/**
+	 * Returns the name of the powerup.
+	 *
+	 * @return the name of the powerup.
+	 */
+	@Override
+	public abstract String toString();
 }
