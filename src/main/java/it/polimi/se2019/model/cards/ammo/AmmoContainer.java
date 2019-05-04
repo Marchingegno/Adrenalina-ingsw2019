@@ -71,8 +71,8 @@ public class AmmoContainer {
 		if (numOfAmmoToRemove < 0)
 			throw new IllegalArgumentException("numOfAmmoToRemove cannot be negative.");
 
-		if (numOfAmmoToRemove < ammos[ammoToRemove.ordinal()])
-			throw new IllegalArgumentException("Trying to remove more ammo than the player owns.");
+		if (numOfAmmoToRemove > ammos[ammoToRemove.ordinal()])
+			throw new IllegalArgumentException("Trying to remove more ammo than the player has.");
 
 		ammos[ammoToRemove.ordinal()] -= numOfAmmoToRemove;
 

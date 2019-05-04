@@ -64,13 +64,10 @@ public class AmmoContainerTest {
 		}
 	}
 
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void removeAmmo_removedMoreThanCurrent_shouldGiveZero() {
 		final int ammoToRemoveForTest = GameConstants.MAX_AMMO_PER_AMMO_TYPE + 1;
-		for (AmmoType ammoType : AmmoType.values()) {
-			ammoContainer.removeAmmo(ammoType, ammoToRemoveForTest);
-			assertEquals(0, ammoContainer.getAmmo(ammoType));
-		}
+		ammoContainer.removeAmmo(AmmoType.values()[0], ammoToRemoveForTest);
 	}
 
 	@Test (expected = IllegalArgumentException.class)

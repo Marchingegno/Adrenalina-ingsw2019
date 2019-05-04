@@ -1,31 +1,41 @@
 package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.utils.Color;
 
-public class PowerupCardRep {
+import java.io.Serializable;
+
+public class PowerupCardRep implements Serializable {
 
 	private AmmoType associatedAmmo;
-	private String powerupString;
+	private String powerupName;
 	private String description;
 
-	public PowerupCardRep(PowerupCard powerupCard){
+	public PowerupCardRep(PowerupCard powerupCard) {
 		this.associatedAmmo = powerupCard.getAssociatedAmmo();
-		this.powerupString = powerupCard.toString();
+		this.powerupName = powerupCard.toString();
 		this.description = powerupCard.getDescription();
 	}
 
 	/**
-	 * @return the ammo associated with the card
+	 * Returns the ammo associated with the card.
+	 *
+	 * @return the ammo associated with the card.
 	 */
-	public AmmoType getAssociatedAmmo() {return associatedAmmo;}
+	public AmmoType getAssociatedAmmo() {
+		return associatedAmmo;
+	}
 
+	/**
+	 * Returns the description of the card.
+	 *
+	 * @return the description of the card.
+	 */
 	public String getDescription() {
 		return description;
 	}
 
 	@Override
 	public String toString() {
-		return powerupString;
+		return powerupName;
 	}
 }

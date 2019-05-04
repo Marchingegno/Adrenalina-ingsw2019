@@ -3,6 +3,7 @@ package it.polimi.se2019.model.gamemap;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ public class GameMapTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Utils.setDebug(false);
 		players = new ArrayList<>();
 		players.add("Test 1");
 		players.add("Test 2");

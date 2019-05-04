@@ -9,8 +9,8 @@ import it.polimi.se2019.utils.Color;
  * @author MarcerAndrea
  */
 public enum AmmoType {
-	RED_AMMO(Color.CharacterColorType.RED),
 	YELLOW_AMMO(Color.CharacterColorType.YELLOW),
+	RED_AMMO(Color.CharacterColorType.RED),
 	BLUE_AMMO(Color.CharacterColorType.BLUE);
 
 	Color.CharacterColorType color;

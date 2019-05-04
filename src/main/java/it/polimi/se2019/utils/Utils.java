@@ -10,8 +10,7 @@ import java.util.logging.Logger;
 public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private static final boolean DEBUG = true;
-
+	private static boolean DEBUG = true;
 
 	/**
 	 * Since it's an utility class it can't be instantiated.
@@ -20,6 +19,9 @@ public class Utils {
 		throw new IllegalStateException("Cannot create an instance of this utility class.");
 	}
 
+	public static void setDebug(boolean set){
+		DEBUG = set;
+	}
 
 	public static void logError(String msg, Throwable e) {
 		if(DEBUG)
