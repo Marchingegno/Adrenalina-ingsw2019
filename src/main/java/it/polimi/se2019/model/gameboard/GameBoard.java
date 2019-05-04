@@ -14,13 +14,20 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Class that implements the game board.
+ * @author Marchingegno
+ * @author MarcerAndrea
+ * @author Desno365
+ */
 public class GameBoard extends Representable {
 
 	private boolean frenzyStarted;
-	private ArrayList<Player> players;
+	private List<Player> players;
 	private int remainingSkulls;
-	private ArrayList<KillShot> killShots;
-	private ArrayList<Player> doubleKills;
+	private List<KillShot> killShots;
+	private List<Player> doubleKills;
 	private WeaponDeck weaponDeck;
 	private AmmoDeck ammoDeck;
 	private PowerupDeck powerupDeck;
@@ -44,6 +51,7 @@ public class GameBoard extends Representable {
 		playerQueue = new PlayerQueue(players);
 
 		// initialize GameBoard attributes
+		remainingSkulls = startingSkulls;
 		killShots = new ArrayList<>();
 		doubleKills = new ArrayList<>();
 		weaponDeck = new WeaponDeck();
@@ -53,45 +61,76 @@ public class GameBoard extends Representable {
 		frenzyStarted = false;
 		gameMap = new GameMap(mapPath, players, this);
 
-		// initialize skulls
-		remainingSkulls = startingSkulls;
-
 		setChanged();
 	}
 
+	/**
+	 * Returns the player queue.
+	 * @return the player queue.
+	 */
 	public PlayerQueue getPlayerQueue() {
 		return playerQueue;
 	}
 
+	/**
+	 * The current player is set as last of the turn queue.
+	 */
 	public void nextPlayerTurn() {
 		playerQueue.moveFirstToLast();
 		setChanged();
 	}
 
+	/**
+	 * Returns true if and only if the frenzy is started.
+	 * @return true if and only if the frenzy is started.
+	 */
 	public boolean isFrenzyStarted() {
 		return frenzyStarted;
 	}
 
+	/**
+	 * Starts Frenzy.
+	 */
 	public void startFrenzy(){
 		this.frenzyStarted = Boolean.TRUE;
 	}
 
+	/**
+	 * Returns the reference of the current player.
+	 * @return the reference of the current player.
+	 */
 	public Player getCurrentPlayer() {
 		return playerQueue.peekFirst();
 	}
 
-	public ArrayList<Player> getPlayers() {
+	/**
+	 * Returns the list of all the players.
+	 * @return the list of all the players.
+	 */
+	public List<Player> getPlayers() {
 		return new ArrayList<>(players);
 	}
 
+	/**
+	 * Returns true if and only if there are no skulls on the game board.
+	 * @return true if and only if there are no skulls on the game board.
+	 */
 	public boolean areSkullsFinished() {
 		return remainingSkulls <= 0;
 	}
 
+	/**
+	 * Returns the number of skulls remaining on the game board.
+	 * @return the number of skulls remaining on the game board.
+	 */
 	public int getRemainingSkulls() {
 		return remainingSkulls;
 	}
 
+	/**
+	 * Adds a double kill.
+	 * @param shootingPlayer player that has done the double kill.
+	 */
 	private void addDoubleKill(Player shootingPlayer) {
 		doubleKills.add(shootingPlayer);
 		setChanged();
@@ -101,8 +140,8 @@ public class GameBoard extends Representable {
 	 * This method award points in the killshot track. It checks whether or not the killshot is an overkill, and
 	 * decreases the number of skulls in the gameBoard.
 	 *
-	 * @param shootingPlayer
-	 * @param overkill
+	 * @param shootingPlayer player how has shot.
+	 * @param overkill true if the kill is also an overkill.
 	 */
 	public void addKillShot(Player shootingPlayer, boolean overkill) {
 		killShots.add(new KillShot(shootingPlayer, overkill));
@@ -164,6 +203,10 @@ public class GameBoard extends Representable {
 	}
 }
 
+/**
+ * Class that represent the marks on the kill shot track.
+ * @author Desno365
+ */
 class KillShot {
 
 	private Player player;
@@ -175,11 +218,18 @@ class KillShot {
 		this.overkill = overkill;
 	}
 
-
+	/**
+	 * Returns the Player who has done the kill.
+	 * @return the Player who has done the kill.
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Returns true if and only if the kill is also an overkill.
+	 * @return true if and only if the kill is also an overkill.
+	 */
 	public boolean isOverkill() {
 		return overkill;
 	}

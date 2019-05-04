@@ -29,7 +29,7 @@ public class PlayerQueue extends ArrayDeque<Player> {
 		}
 	}
 
-	public ArrayList<Player> getAsArray(){
+	public List<Player> toList(){
 		return new ArrayList (Arrays.asList(this));
 	}
 

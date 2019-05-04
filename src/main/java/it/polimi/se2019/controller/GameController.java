@@ -47,7 +47,7 @@ public class GameController {
 
 
 	private void flipPlayers(){
-		model.getPlayerQueue().getAsArray().stream()
+		model.getPlayerQueue().toList().stream()
 				.forEach(Player::flipIfNoDamage);
 
 	}
@@ -55,7 +55,7 @@ public class GameController {
 	//TODO: Revisit the location of the first player. I don't know if he is the player that just ended the turn, or the following.
 	private void startFrenzy() {
 		Player firstPlayer = model.getPlayers().get(0);
-		ArrayList<Player> sortedPlayers = model.getPlayerQueue().getAsArray();
+		List<Player> sortedPlayers = model.getPlayerQueue().toList();
 		int i = 0;
 
 		while(sortedPlayers.get(i) != firstPlayer){
