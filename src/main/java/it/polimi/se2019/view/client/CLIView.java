@@ -1,6 +1,6 @@
 package it.polimi.se2019.view.client;
 
-import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.MapSquareRep;

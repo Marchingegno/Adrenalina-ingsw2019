@@ -1,9 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Color;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

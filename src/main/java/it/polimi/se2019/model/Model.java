@@ -4,6 +4,7 @@ import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
+import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.SpawnSquare;
@@ -185,7 +186,7 @@ public class Model {
 	}
 
 	public void addAmmoCardTo(Player player, AmmoCard ammoCard){
-		for (AmmoType ammo : ammoCard.getAmmos() ) {
+		for (AmmoType ammo : ammoCard.getAmmo() ) {
 			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
 		}
 

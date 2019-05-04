@@ -1,5 +1,7 @@
-package it.polimi.se2019.model;
+package it.polimi.se2019.model.gameboard;
 
+import it.polimi.se2019.model.Representable;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoDeck;
 import it.polimi.se2019.model.cards.powerups.PowerupDeck;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
@@ -7,7 +9,6 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
-import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class GameBoard extends Representable {
 		setChanged();
 	}
 
-	PlayerQueue getPlayerQueue() {
+	public PlayerQueue getPlayerQueue() {
 		return playerQueue;
 	}
 

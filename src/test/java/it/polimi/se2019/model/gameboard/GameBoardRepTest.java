@@ -1,6 +1,7 @@
-package it.polimi.se2019.model;
+package it.polimi.se2019.model.gameboard;
 
-import it.polimi.se2019.model.gamemap.GameMap;
+import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.utils.Color;
 import org.junit.Before;
@@ -57,6 +58,7 @@ public class GameBoardRepTest {
 	public void getKillShoots_initialState_correctOutput() {
 		List<KillShotRep> killShotReps = gameBoardRep.getKillShoots();
 		for (int i = 0; i < killShotReps.size(); i++) {
+			gameBoard.getKillShots().get(1);
 			assertEquals(gameBoard.getKillShots().get(i).getPlayer().getPlayerName(), killShotReps.get(i).getPlayerName());
 			assertEquals(gameBoard.getKillShots().get(i).isOverkill(), killShotReps.get(i).isOverkill());
 		}

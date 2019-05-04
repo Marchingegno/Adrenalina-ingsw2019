@@ -1,9 +1,8 @@
 package it.polimi.se2019.view.client;
 
-import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.MacroAction;
 

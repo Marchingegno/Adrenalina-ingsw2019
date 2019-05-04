@@ -1,5 +1,6 @@
-package it.polimi.se2019.model;
+package it.polimi.se2019.model.gameboard;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageSubtype;

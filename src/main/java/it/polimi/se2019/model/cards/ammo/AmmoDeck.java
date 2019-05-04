@@ -20,21 +20,21 @@ public class AmmoDeck extends Deck<Card> {
 	 * Initialize the ammo deck according to the file "AmmoDeck.txt"
 	 * <p>
 	 * FILE FORMAT:
-	 * HAS_POWERUP, NUM_OF_YELLOW_AMMOS, NUM_OF_RED_AMMOS, NUM_OF_BLUE_AMMOS
+	 * HAS_POWERUP, NUM_OF_YELLOW_AMMO, NUM_OF_RED_AMMO, NUM_OF_BLUE_AMMO
 	 */
 	protected void initializeDeck() {
 
 		String ammoDeckPath = System.getProperty("user.dir") + "/src/resources/decks/AmmoDeck.txt";
 		String line;
 		String separator = ",";
-		ArrayList<AmmoType> ammoToAdd;
+		ArrayList<AmmoType> ammoToAdd = new ArrayList<>();
 
 		try (BufferedReader bufReader = new BufferedReader(new FileReader(ammoDeckPath))) {
 
 			while ((line = bufReader.readLine()) != null) {
 
 				String[] elements = line.split(separator);
-				ammoToAdd = new ArrayList<>();
+				ammoToAdd.clear();
 				for (int i = 0; i < Integer.parseInt(elements[1]); i++) {
 					ammoToAdd.add(AmmoType.YELLOW_AMMO);
 				}
@@ -44,7 +44,7 @@ public class AmmoDeck extends Deck<Card> {
 				for (int i = 0; i < Integer.parseInt(elements[3]); i++) {
 					ammoToAdd.add(AmmoType.BLUE_AMMO);
 				}
-
+				Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammoToAdd + (Boolean.parseBoolean(elements[0]) ? " Powerup" : ""));
 				addCard(new AmmoCard(ammoToAdd, Boolean.parseBoolean(elements[0])));
 			}
 		} catch (IOException e) {

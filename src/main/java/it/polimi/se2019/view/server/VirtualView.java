@@ -1,8 +1,8 @@
 package it.polimi.se2019.view.server;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.GameBoard;
-import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;

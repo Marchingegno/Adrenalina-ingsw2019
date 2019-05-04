@@ -6,53 +6,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class implements the ammo card
+ * This class implements the ammo card.
+ *
  * @author MarcerAndrea
  */
 public class AmmoCard extends Card {
 
-	private ArrayList<AmmoType> ammos;
+	private ArrayList<AmmoType> ammo;
 	private boolean hasPowerup;
 
 
-	public AmmoCard(List<AmmoType> ammos, boolean hasPowerup) {
+	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup) {
 
-		super(createDescription(ammos, hasPowerup));
+		super(createDescription(ammo, hasPowerup));
 
-		this.ammos = new ArrayList<>(ammos);
+		this.ammo = new ArrayList<>(ammo);
 		this.hasPowerup = hasPowerup;
 	}
 
 
 	/**
-	 * @param ammos array of the ammos associated with the card
-	 * @param hasPowerup true if the card has a powerup associated
-	 * @return the description of the card
+	 * Generates the description of the card.
+	 *
+	 * @param ammo       array of the ammo associated with the card.
+	 * @param hasPowerup true if the card has a powerup associated.
+	 * @return the description of the card.
 	 */
-	private static String createDescription(List<AmmoType> ammos, boolean hasPowerup){
+	private static String createDescription(List<AmmoType> ammo, boolean hasPowerup) {
 
 		StringBuilder description = new StringBuilder();
 
-		for (AmmoType ammoType:ammos) {	description.append(ammoType.toString()); }
+		for (AmmoType ammoType : ammo) {
+			description.append(ammoType.toString());
+		}
 
-		if(hasPowerup)
-			description.append("and has powerup");
+		if (hasPowerup)
+			description.append("and a Powerup");
 
 		return description.toString();
 	}
 
 	/**
-	 * @return true if and only if the card has a powerup associated
+	 * Returns true if and only if the card has a powerup associated.
+	 *
+	 * @return true if and only if the card has a powerup associated.
 	 */
 	public boolean hasPowerup() {
 		return hasPowerup;
 	}
 
 	/**
-	 * @return a copy of the list of ammos associated with the card
+	 * Returns a copy of the list of ammo associated with the card.
+	 *
+	 * @return a copy of the list of ammo associated with the card.
 	 */
-	public List<AmmoType> getAmmos() {
-		return new ArrayList<>(ammos);
+	public List<AmmoType> getAmmo() {
+		return new ArrayList<>(ammo);
 	}
 
 }

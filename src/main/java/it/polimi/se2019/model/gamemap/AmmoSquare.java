@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.GameBoard;
+import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.utils.Color;
@@ -42,9 +42,9 @@ public class AmmoSquare extends MapSquare {
 	public String[] getElementsToPrint() {
 		String[] elementsToPrint = new String[3];
 		AmmoCard ammoCard = (AmmoCard) cards.get(0);
-		elementsToPrint[0] = Color.getColoredCell(ammoCard.getAmmos().get(0).getBackgroundColorType());
-		elementsToPrint[1] = Color.getColoredCell(ammoCard.getAmmos().get(1).getBackgroundColorType());
-		elementsToPrint[2] = Color.getColoredCell(ammoCard.hasPowerup() ? Color.BackgroundColorType.WHITE : ammoCard.getAmmos().get(2).getBackgroundColorType());
+		elementsToPrint[0] = Color.getColoredCell(ammoCard.getAmmo().get(0).getBackgroundColorType());
+		elementsToPrint[1] = Color.getColoredCell(ammoCard.getAmmo().get(1).getBackgroundColorType());
+		elementsToPrint[2] = Color.getColoredCell(ammoCard.hasPowerup() ? Color.BackgroundColorType.WHITE : ammoCard.getAmmo().get(2).getBackgroundColorType());
 		return elementsToPrint;
 	}
 }

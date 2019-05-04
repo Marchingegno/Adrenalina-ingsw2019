@@ -8,8 +8,8 @@ public class AmmoSquareRep extends MapSquareRep {
 		super(mapSquareToRepresent);
 		elementsToPrint = new String[3];
 		AmmoCard ammoCard = (AmmoCard) mapSquareToRepresent.getCards().get(0);
-		elementsToPrint[0] = Color.getColoredCell(ammoCard.getAmmos().get(0).getBackgroundColorType());
-		elementsToPrint[1] = Color.getColoredCell(ammoCard.getAmmos().get(1).getBackgroundColorType());
-		elementsToPrint[2] = Color.getColoredCell(ammoCard.hasPowerup() ? Color.BackgroundColorType.WHITE : ammoCard.getAmmos().get(2).getBackgroundColorType());
+		elementsToPrint[0] = Color.getColoredCell(ammoCard.getAmmo().get(0).getBackgroundColorType());
+		elementsToPrint[1] = Color.getColoredCell(ammoCard.getAmmo().get(1).getBackgroundColorType());
+		elementsToPrint[2] = Color.getColoredCell(ammoCard.hasPowerup() ? Color.BackgroundColorType.WHITE : ammoCard.getAmmo().get(2).getBackgroundColorType());
 	}
 }
