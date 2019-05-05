@@ -72,7 +72,7 @@ public class PowerupDeck extends Deck<PowerupCard> {
 			//add the correct number of powerups with the i-th color in the enum
 			for (int j = 0; j < Integer.parseInt(numOfPowerupsForEachColor[i]); j++) {
 				addCard(new Teleporter(AmmoType.values()[i - 1]));
-				Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + numOfPowerupsForEachColor[i] + " " + AmmoType.values()[i - 1] + " Teleporter");
+				Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + j + "of" + numOfPowerupsForEachColor[i] + " " + AmmoType.values()[i - 1] + " Teleporter");
 			}
 		}
 

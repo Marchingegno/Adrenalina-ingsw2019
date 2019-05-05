@@ -220,19 +220,19 @@ public class GameBoard extends Representable {
 	}
 
 	/**
-	 * Updates the representation of this.
+	 * Updates the representation of the game board.
 	 */
 	public void updateRep() {
 		if (gameBoardRep == null || hasChanged()) {
 			gameBoardRep = new GameBoardRep(this);
-			Utils.logInfo("GameBoard -> updateRep(): Game board rep updated");
+			Utils.logInfo("GameBoard -> updateRep(): The game board representation has been updated");
 		} else
-			Utils.logInfo("GameBoard -> updateRep(): Game board rep not updated");
+			Utils.logInfo("GameBoard -> updateRep(): The game map representation is already up to date");
 	}
 
 	/**
-	 * Returns the representation of this.
-	 * @return the representation of this.
+	 * Returns the representation of the game board.
+	 * @return the representation of the game board.
 	 */
 	public Representation getRep() {
 		return gameBoardRep;

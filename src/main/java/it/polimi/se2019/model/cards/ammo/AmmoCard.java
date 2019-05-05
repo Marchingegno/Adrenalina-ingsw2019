@@ -37,7 +37,7 @@ public class AmmoCard extends Card {
 		StringBuilder description = new StringBuilder();
 
 		for (AmmoType ammoType : ammo) {
-			description.append(ammoType.toString());
+			description.append(ammoType.toString() + " ");
 		}
 
 		if (hasPowerup)

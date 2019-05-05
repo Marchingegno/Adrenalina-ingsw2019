@@ -431,23 +431,30 @@ public class GameMap extends Representable {
 		}
 	}
 
-	public SquareRep getSquareRep(Coordinates coordinates) {
+	/**
+	 * Returns the squares's representation in the specified coordinates.
+	 *
+	 * @param coordinates coordinates of the square.
+	 * @return the squares's representation in the specified coordinates.
+	 */
+	SquareRep getSquareRep(Coordinates coordinates) {
 		return map[coordinates.getRow()][coordinates.getColumn()].getRep();
 	}
 
 	/**
-	 *
+	 * Updates the game map's representation.
 	 */
 	public void updateRep() {
 		if (gameMapRep == null || hasChanged()) {
 			gameMapRep = new GameMapRep(this);
-			Utils.logInfo("Game board rep updated");
-		}
+			Utils.logInfo("GameMap -> updateRep(): The game map representation has been updated");
+		} else
+			Utils.logInfo("GameBoard -> updateRep(): The game map representation is already up to date");
 	}
 
 	/**
-	 *
-	 * @return
+	 * Returns the representation of the game map.
+	 * @return the representation of the game map.
 	 */
 	public Representation getRep() {
 		return gameMapRep;
