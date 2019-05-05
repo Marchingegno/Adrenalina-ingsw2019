@@ -1,24 +1,24 @@
 package it.polimi.se2019.model.gameboard;
 
 import it.polimi.se2019.model.Representation;
-import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A sharable version of the game board
+ * A sharable version of the game board.
  *
  * @author Desno365
  */
 public class GameBoardRep extends Representation {
 
 	private int remainingSkulls;
-	private ArrayList<Color.CharacterColorType> doubleKills;
-	private ArrayList<KillShotRep> killShoots;
+	private List<Color.CharacterColorType> doubleKills;
+	private List<KillShotRep> killShoots;
 	private String currentPlayer;
 
 
@@ -34,19 +34,37 @@ public class GameBoardRep extends Representation {
 		this.currentPlayer = gameBoard.getCurrentPlayer().getPlayerName();
 	}
 
-
+	/**
+	 * Returns the number of remaining skulls.
+	 *
+	 * @return the number of remaining skulls.
+	 */
 	public int getRemainingSkulls() {
 		return remainingSkulls;
 	}
 
-	public ArrayList<Color.CharacterColorType> getDoubleKills() {
+	/**
+	 * Returns the list of all double kills.
+	 *
+	 * @return the list of all double kills.
+	 */
+	public List<Color.CharacterColorType> getDoubleKills() {
 		return doubleKills;
 	}
 
-	public ArrayList<KillShotRep> getKillShoots() {
+	/**
+	 * Returns the list of all killshoots.
+	 *
+	 * @return the list of all killshoots.
+	 */
+	public List<KillShotRep> getKillShoots() {
 		return killShoots;
 	}
 
+	/**
+	 * Returns the name of the current player.
+	 * @return the name of the current player.
+	 */
 	public String getCurrentPlayer() {
 		return currentPlayer;
 	}

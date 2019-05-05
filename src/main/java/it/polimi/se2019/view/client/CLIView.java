@@ -1,10 +1,10 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.gameboard.GameBoardRep;
+import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.MapSquareRep;
-import it.polimi.se2019.model.player.KillShotRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
@@ -326,7 +326,7 @@ class RepPrinter {
 	}
 
 	private String getKillShotTrackString() {
-		ArrayList<KillShotRep> killShotTrackRep = modelRep.getGameBoardRep().getKillShoots();
+		List<KillShotRep> killShotTrackRep = modelRep.getGameBoardRep().getKillShoots();
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Killshot:\t|");
 		for (KillShotRep killShotRep : killShotTrackRep) {

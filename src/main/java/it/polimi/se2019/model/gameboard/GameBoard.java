@@ -92,7 +92,9 @@ public class GameBoard extends Representable {
 	 * Starts Frenzy.
 	 */
 	public void startFrenzy(){
-		this.frenzyStarted = Boolean.TRUE;
+		this.frenzyStarted = true;
+		setChanged();
+		Utils.logInfo("GameBoard -> startFrenzy(): Starting frenzy");
 	}
 
 	/**
@@ -104,8 +106,8 @@ public class GameBoard extends Representable {
 	}
 
 	/**
-	 * Returns the list of all the players.
-	 * @return the list of all the players.
+	 * Returns a copy of the list of all the players.
+	 * @return a copy of the list of all the players.
 	 */
 	public List<Player> getPlayers() {
 		return new ArrayList<>(players);
@@ -134,6 +136,7 @@ public class GameBoard extends Representable {
 	private void addDoubleKill(Player shootingPlayer) {
 		doubleKills.add(shootingPlayer);
 		setChanged();
+		Utils.logInfo("GameBoard -> addDoubleKill(): adding to the double kill track " + shootingPlayer.getPlayerName());
 	}
 
 	/**
@@ -145,42 +148,68 @@ public class GameBoard extends Representable {
 	 */
 	public void addKillShot(Player shootingPlayer, boolean overkill) {
 		killShots.add(new KillShot(shootingPlayer, overkill));
+		Utils.logInfo("GameBoard -> addKillShot(): adding to the killshot track " + shootingPlayer.getPlayerName() + (overkill ? " with overkill" : ""));
 		if (shootingPlayer == getCurrentPlayer()) {
-			if (killShotInThisTurn)
+			if (killShotInThisTurn) {
 				addDoubleKill(shootingPlayer);
-			else if (!areSkullsFinished()) {
-				remainingSkulls--;
 			}
+
+			if (!areSkullsFinished()) {
+				remainingSkulls--;
+				Utils.logInfo("GameBoard -> addKillShot(): decreasing num of skulls to " + remainingSkulls);
+			}
+
 			killShotInThisTurn = true;
 		}
+
 		setChanged();
 	}
 
+	/**
+	 * Returns a copy of the kill shot track.
+	 *
+	 * @return a copy of the kill shot track.
+	 */
 	public List<KillShot> getKillShots() {
 		return new ArrayList<>(killShots);
 	}
 
+	/**
+	 * Returns a copy of the double kills.
+	 * @return a copy of the double kills.
+	 */
 	public List<Player> getDoubleKills() {
 		return new ArrayList<>(doubleKills);
 	}
 
+	/**
+	 * Returns the game map.
+	 * @return the game map.
+	 */
 	public GameMap getGameMap() {
 		return gameMap;
 	}
 
-	//I don't like it
-	public void setGameMap(GameMap gameMap) {
-		this.gameMap = gameMap;
-	}
-
+	/**
+	 * Returns the weapon deck.
+	 * @return the weapon deck.
+	 */
 	public WeaponDeck getWeaponDeck() {
 		return weaponDeck;
 	}
 
+	/**
+	 * Returns the powerup deck.
+	 * @return the powerup deck.
+	 */
 	public PowerupDeck getPowerupDeck() {
 		return powerupDeck;
 	}
 
+	/**
+	 * Returns the ammo deck.
+	 * @return the ammo deck.
+	 */
 	public AmmoDeck getAmmoDeck() {
 		return ammoDeck;
 	}
@@ -190,47 +219,23 @@ public class GameBoard extends Representable {
 		//gameMap.getSquare(playerCoordinates).grabCard(getCurrentPlayer(), index);
 	}
 
+	/**
+	 * Updates the representation of this.
+	 */
 	public void updateRep() {
 		if (gameBoardRep == null || hasChanged()) {
 			gameBoardRep = new GameBoardRep(this);
-			Utils.logInfo("Game board rep updated");
-		}
-
+			Utils.logInfo("GameBoard -> updateRep(): Game board rep updated");
+		} else
+			Utils.logInfo("GameBoard -> updateRep(): Game board rep not updated");
 	}
 
+	/**
+	 * Returns the representation of this.
+	 * @return the representation of this.
+	 */
 	public Representation getRep() {
 		return gameBoardRep;
 	}
 }
 
-/**
- * Class that represent the marks on the kill shot track.
- * @author Desno365
- */
-class KillShot {
-
-	private Player player;
-	private boolean overkill;
-
-
-	public KillShot(Player shootingPlayer, boolean overkill) {
-		player = shootingPlayer;
-		this.overkill = overkill;
-	}
-
-	/**
-	 * Returns the Player who has done the kill.
-	 * @return the Player who has done the kill.
-	 */
-	public Player getPlayer() {
-		return player;
-	}
-
-	/**
-	 * Returns true if and only if the kill is also an overkill.
-	 * @return true if and only if the kill is also an overkill.
-	 */
-	public boolean isOverkill() {
-		return overkill;
-	}
-}
