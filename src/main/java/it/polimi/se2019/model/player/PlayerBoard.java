@@ -4,12 +4,10 @@ import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 /**
  * Represents the player board and all the players information.
@@ -17,14 +15,15 @@ import static java.lang.Boolean.TRUE;
  */
 public class PlayerBoard {
 
-	private ArrayList<Player> damageBoard;
-	private ArrayList<Player> marks;
+	private List<Player> damageBoard;
+	private List<Player> marks;
 	private int numberOfDeaths;
 	private int points;
 	private boolean isFlipped; //Indicates if the damageBoard is flipped to the frenzy side.
 	private AmmoContainer ammoContainer;
-	private ArrayList<PowerupCard> powerupCards;
-	private ArrayList<WeaponCard> weaponCards;
+	private List<PowerupCard> powerupCards;
+	private List<WeaponCard> weaponCards;
+	private boolean hasChanged;
 
 
 	/**
@@ -38,7 +37,8 @@ public class PlayerBoard {
 		ammoContainer = new AmmoContainer();
 		powerupCards = new ArrayList<>();
 		weaponCards = new ArrayList<>();
-		isFlipped = FALSE;
+		isFlipped = false;
+		hasChanged = true;
 	}
 
 
@@ -57,21 +57,20 @@ public class PlayerBoard {
 			if(damageBoard.size() < GameConstants.OVERKILL_DAMAGE)
 				damageBoard.add(shootingPlayer);
 
-		// Add marks
-		for (int i = 0; i < GameConstants.MAX_MARKS_PER_PLAYER; i++) {
-			int index = marks.indexOf(shootingPlayer);
-			if(index == -1) {
-				break;
-			} else {
+		int i;
+		for (i = 0; i < marks.size(); i++) {
+			if (marks.get(i).getPlayerName().equals(shootingPlayer.getPlayerName()) && damageBoard.size() < GameConstants.OVERKILL_DAMAGE) {
 				damageBoard.add(shootingPlayer);
-				marks.remove(index);
+				marks.remove(i);
 			}
 		}
+		Utils.logInfo("PlayerBoard -> addDamage(): Recorded to the player board that " + shootingPlayer.getPlayerName() + " dealt " + amountOfDamage + " direct damage and " + i + " mark damage");
+		setChanged();
 	}
 
 	/**
-	 * Returns the current damageBoard board of the player.
-	 * @return the List of damages done to the player.
+	 * Returns a copy of the current damageBoard board of the player.
+	 * @return a copy of the List of damages done to the player.
 	 */
 	public List<Player> getDamageBoard() {
 		return new ArrayList<>(damageBoard);
@@ -83,6 +82,11 @@ public class PlayerBoard {
 		return false;
 	}
 
+	/**
+	 * Returns true if and only if the board is flipped.
+	 *
+	 * @return true if and only if the board is flipped.
+	 */
 	public boolean isFlipped() {
 		return isFlipped;
 	}
@@ -101,11 +105,14 @@ public class PlayerBoard {
 			// check if the shooting player doesn't have the max number of marks on the target player.
 			if(marks.stream().filter(player -> player == shootingPlayer).count() < GameConstants.MAX_MARKS_PER_PLAYER)
 				marks.add(shootingPlayer);
+
+		Utils.logInfo("PlayerBoard -> addMarks(): Added " + amountOfMarks + " marks");
+		setChanged();
 	}
 
 	/**
-	 * Returns the current marks of the player.
-	 * @return the List of marks done to the player.
+	 * Returns a copy of the current marks of the player.
+	 * @return a copy of the the List of marks done to the player.
 	 */
 	public List<Player> getMarks() {
 		return new ArrayList<>(marks);
@@ -137,6 +144,8 @@ public class PlayerBoard {
 			throw new IllegalArgumentException("pointsToAdd cannot be negative.");
 
 		points += pointsToAdd;
+		Utils.logInfo("PlayerBoard -> addPoints(): Added " + pointsToAdd + " points");
+		setChanged();
 	}
 
 	/**
@@ -149,16 +158,18 @@ public class PlayerBoard {
 
 	/**
 	 * Reset the PlayerBoard after the player death and increments its deaths.
+	 * @throws UnsupportedOperationException when the player is not dead and this method is called.
 	 */
 	public void resetBoardAfterDeath() {
-		if(isDead()) {
-			numberOfDeaths++;
-			resetDamageBoard();
-		}
-	}
+		if (!isDead())
+			throw new UnsupportedOperationException("The player is not dead");
 
-	private void resetDamageBoard() {
+		numberOfDeaths++;
+
+		//resets the damage board
 		damageBoard = new ArrayList<>();
+		Utils.logInfo("PlayerBoard -> resetBoardAfterDeath(): Damage board has been reset after death, now tha player has " + numberOfDeaths + " deaths");
+		setChanged();
 	}
 
 	/**
@@ -178,33 +189,53 @@ public class PlayerBoard {
 		if(weaponCards.size() >= GameConstants.MAX_WEAPON_CARDS_PER_PLAYER)
 			throw new InventoryFullException("Cannot add another weapon card since the inventory is full. Use swapWeapon to setChanged the weapon.");
 		weaponCards.add(weaponToAdd);
+		Utils.logInfo("PlayerBoard -> addWeapon(): Added to the player " + weaponToAdd.getWeaponName());
+		setChanged();
 	}
 
 	/**
-	 * Returns the weapon cards in player's inventory.
-	 * @return the weapon cards in player's inventory.
+	 * Returns a copy of the list of weapon cards in player's inventory.
+	 * @return a copy of the list of weapon cards in player's inventory.
 	 */
 	public List<WeaponCard> getWeaponCards() {
 		return new ArrayList<>(weaponCards);
 	}
 
-	public int numOfWeapons(){return weaponCards.size();}
+	/**
+	 * Returns the number of weapons.
+	 * @return the number of weapons.
+	 */
+	public int numOfWeapons(){return weaponCards.size();
+	}
 
-	public WeaponCard removeWeapon(int indexOfTheWeapon){
+	/**
+	 * Removes the weapon in the specified index.
+	 * @param indexOfTheWeapon index of the weapon to remove.
+	 * @return the weapon card removed.
+	 * @throws IllegalArgumentException when the index is out of the list of weapons.
+	 */
+	public WeaponCard removeWeapon(int indexOfTheWeapon) {
+		if (indexOfTheWeapon < 0 || indexOfTheWeapon > numOfWeapons())
+			throw new IllegalArgumentException("Illegal index");
+		Utils.logInfo("PlayerBoard -> removeWeapon(): Removing " + weaponCards.get(indexOfTheWeapon));
 		return weaponCards.remove(indexOfTheWeapon);
 	}
 
 	/**
-	 * Remove weaponCardToDrop from the inventory while adding weaponToGrab.
+	 * Remove and returns the weaponCardToDrop from the inventory while adding weaponToGrab.
 	 * @param weaponToGrab weapon card to add to the inventory.
-	 * @param weaponCardToDrop weapon card to remove from the inventory.
+	 * @param indexOfTheWeaponCardToDrop index of the weapon card to remove from the inventory.
+	 * @return the weapon card to drop.
 	 * @throws IllegalArgumentException if the weapon to remove is not present in the player's inventory.
 	 */
-	public void swapWeapon(WeaponCard weaponToGrab, WeaponCard weaponCardToDrop) {
-		int index = weaponCards.indexOf(weaponCardToDrop);
-		if(index < 0)
+	public WeaponCard swapWeapon(WeaponCard weaponToGrab, int indexOfTheWeaponCardToDrop) {
+		if (indexOfTheWeaponCardToDrop < 0 || indexOfTheWeaponCardToDrop > numOfWeapons())
 			throw new IllegalArgumentException("weaponCardToDrop is not owned by the player.");
-		weaponCards.set(index, weaponToGrab);
+		WeaponCard weaponToDrop = weaponCards.remove(indexOfTheWeaponCardToDrop);
+		weaponCards.add(weaponToGrab);
+		Utils.logInfo("PlayerBoard -> swapWeapon(): Swaped " + weaponToDrop.getWeaponName() + " with " + weaponToGrab.getWeaponName());
+		setChanged();
+		return weaponToDrop;
 	}
 
 	/**
@@ -217,11 +248,13 @@ public class PlayerBoard {
 			throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
 		}
 		powerupCards.add(powerupToAdd);
+		Utils.logInfo("PlayerBoard -> addPowerup(): Added to the player " + powerupToAdd);
+		setChanged();
 	}
 
 	/**
-	 * Return the powerup cards in player's inventory.
-	 * @return the powerup cards in player's inventory.
+	 * Returns a copy of the powerup cards in player's inventory.
+	 * @return a copy of the powerup cards in player's inventory.
 	 */
 	public List<PowerupCard> getPowerupCards() {
 		return new ArrayList<>(powerupCards);
@@ -232,7 +265,9 @@ public class PlayerBoard {
 	 * @param indexOfPowerCardToRemove index of the powerup card to remove from the inventory.
 	 */
 	public void removePowerup(int indexOfPowerCardToRemove) {
+		Utils.logInfo("PlayerBoard -> removePowerup(): Removing " + powerupCards.get(indexOfPowerCardToRemove));
 		powerupCards.remove(indexOfPowerCardToRemove);
+		setChanged();
 	}
 
 	/**
@@ -244,14 +279,39 @@ public class PlayerBoard {
 	}
 
 	/**
-	 * Set isFlipped to TRUE if the player has no damage on the damageBoard.
+	 * Set isFlipped to true if the player has no damage on the damageBoard.
 	 * @return isFlipped.
 	 */
-	public boolean flipIfNoDamage(){
-		if(damageBoard.size() == 0) {
-			isFlipped = TRUE;
+	public boolean flipIfNoDamage() {
+		if (damageBoard.isEmpty()) {
+			isFlipped = true;
+			setChanged();
+			Utils.logInfo("PlayerBoard -> flipIfNoDamage(): Board has been flipped");
 		}
 		return isFlipped;
+	}
+
+	/**
+	 * Sets the square as changed.
+	 */
+	public void setChanged() {
+		hasChanged = true;
+	}
+
+	/**
+	 * Sets the square as not changed.
+	 */
+	public void setNotChanged() {
+		hasChanged = false;
+	}
+
+	/**
+	 * Returns true if and only if the player board has changed.
+	 *
+	 * @return true if and only if the player board has changed.
+	 */
+	public boolean hasChanged() {
+		return hasChanged;
 	}
 }
 

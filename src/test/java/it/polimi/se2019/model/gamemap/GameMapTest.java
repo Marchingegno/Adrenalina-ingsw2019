@@ -19,7 +19,7 @@ public class GameMapTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Utils.setDebug(true);
+		Utils.setDebug(false);
 		players = new ArrayList<>();
 		players.add("Test 1");
 		players.add("Test 2");

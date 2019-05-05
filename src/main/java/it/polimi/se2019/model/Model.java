@@ -204,11 +204,9 @@ public class Model {
 
 	public void swapWeapons(Player player, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
 		Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
-		Card playerWeapon = player.getPlayerBoard().removeWeapon(indexOfThePlayerWeapon);
 		WeaponCard squareWeapon = (WeaponCard) (gameMap.grabCard(playerCoordinates, indexOfTheSpawnWeapon));
 
-		player.getPlayerBoard().addWeapon(squareWeapon);
-		gameMap.addCard(playerCoordinates, playerWeapon);
+		gameMap.addCard(playerCoordinates, player.getPlayerBoard().swapWeapon(squareWeapon, indexOfThePlayerWeapon));
 		updateReps();
 	}
 

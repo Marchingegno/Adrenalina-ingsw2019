@@ -10,13 +10,10 @@ import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.HIGH_DAMAGE_THRESHOLD;
 import static it.polimi.se2019.utils.GameConstants.MEDIUM_DAMAGE_THRESHOLD;
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 /**
  * This class is in a lower level than Controller. It handles the logic relative to the game.
@@ -47,7 +44,7 @@ public class GameController {
 
 
 	private void flipPlayers(){
-		model.getPlayerQueue().toList().stream()
+		model.getPlayers().stream()
 				.forEach(Player::flipIfNoDamage);
 
 	}
@@ -55,19 +52,15 @@ public class GameController {
 	//TODO: Revisit the location of the first player. I don't know if he is the player that just ended the turn, or the following.
 	private void startFrenzy() {
 		Player firstPlayer = model.getPlayers().get(0);
-		List<Player> sortedPlayers = model.getPlayerQueue().toList();
-		int i = 0;
 
-		while(sortedPlayers.get(i) != firstPlayer){
-			sortedPlayers.get(i).setDamageStatus(new FrenzyBefore());
-			i++;
+		boolean isAfterFirstPlayer = false;
+		for (Player player : model.getPlayerQueue()) {
+			//The first must also receive the Frenzy After damage status
+			if (player.getPlayerName().equals(firstPlayer.getPlayerName()))
+				isAfterFirstPlayer = true;
+
+			player.setDamageStatus(isAfterFirstPlayer ? new FrenzyAfter() : new FrenzyBefore());
 		}
-
-		while(i < sortedPlayers.size()){
-			sortedPlayers.get(i).setDamageStatus(new FrenzyAfter());
-			i++;
-		}
-
 		flipPlayers();
 	}
 
