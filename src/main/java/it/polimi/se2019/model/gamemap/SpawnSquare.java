@@ -35,23 +35,29 @@ public class SpawnSquare extends Square {
 	/**
 	 * Refills the card slot with weapon cards.
 	 */
+	@Override
 	public void refillCards() {
-		for (int i = 0; i < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE; i++) {
-			cards.add(deck.drawCard());
-		}
-		setFilled();
-		setChanged();
-		Utils.logInfo("SpawnSquare -> refillCards(): The spawn square has been refilled");
+		if (!isFilled()) {
+			for (int i = cards.size(); i < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE; i++) {
+				Utils.logInfo("SpawnSquare -> refillCards(): Refilling the spawn square in " + getCoordinates());
+				cards.add(deck.drawCard());
+			}
+			setFilled();
+			setChanged();
+		} else
+			Utils.logInfo("SpawnSquare -> refillCards(): The spawn square is already filled");
 	}
 
 	/**
 	 * Removes the weapon card from the square and returns it.
 	 * @param index index of the card to grab.
-	 * @return the weapon card in the square
+	 * @return the weapon card in the square.
+	 * @throws IllegalArgumentException when the index is negative.
 	 */
+	@Override
 	public Card grabCard(int index) {
-		if (cards == null)
-			throw new NullPointerException("Ammo Square without ammo card");
+		if (index < 0)
+			throw new IllegalArgumentException("Index should be positive: " + index);
 		setNotFilled();
 		setChanged();
 		Utils.logInfo("SpawnSquare -> grabCard(): Grabbing " + ((WeaponCard) cards.get(index)).getWeaponName() + " from the square");
@@ -61,15 +67,20 @@ public class SpawnSquare extends Square {
 	/**
 	 * Adds a weapon to the card slot.
 	 *
-	 * @param weapon weapon to add to the square.
+	 * @param cardToAdd weapon to add to the square.
+	 * @throws IllegalArgumentException when the card slot is full and this method is called.
+	 * @throws NullPointerException when the card to add is null.
 	 */
-	public void addCard(WeaponCard weapon) {
+	@Override
+	public void addCard(Card cardToAdd) {
+		if (cardToAdd == null)
+			throw new NullPointerException("The card to add is null");
 		if (cards.size() < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE) {
-			cards.add(weapon);
+			cards.add(cardToAdd);
 			setChanged();
-			Utils.logInfo("SpawnSquare -> addCard(): Added " + weapon.getWeaponName());
+			Utils.logInfo("SpawnSquare -> addCard(): Added " + ((WeaponCard) cardToAdd).getWeaponName());
 		} else
-			throw new OutOfBoundariesException("Trying to add a weapon to a filled Spawn square: SpawnSquare refillCards(weapon)");
+			throw new IllegalArgumentException("Trying to add a weapon to a filled Spawn square: SpawnSquare refillCards(weapon)");
 	}
 
 	/**
@@ -77,6 +88,7 @@ public class SpawnSquare extends Square {
 	 *
 	 * @return the spawn square's representation.
 	 */
+	@Override
 	public SquareRep getRep() {
 		if (hasChanged || squareRep == null) {
 			squareRep = new SquareSpawnRep(this);

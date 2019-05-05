@@ -7,7 +7,6 @@ import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
-import it.polimi.se2019.model.gamemap.SpawnSquare;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.PlayerQueue;
@@ -168,17 +167,17 @@ public class Model {
 	}
 
 	public void grabWeaponCard(Player player, int index) {
-		WeaponCard cardToGrab = (WeaponCard) gameMap.getSquare(gameMap.playerCoordinates(player)).grabCard(index);
+		WeaponCard cardToGrab = (WeaponCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
 		addWeaponCardTo(player, cardToGrab);
 	}
 
 	public void grabAmmoCard(Player player, int index) {
-		AmmoCard cardToGrab = (AmmoCard) gameMap.getSquare(gameMap.playerCoordinates(player)).grabCard(index);
+		AmmoCard cardToGrab = (AmmoCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
 		addAmmoCardTo(player, cardToGrab);
 	}
 
 	public Card grabCard(Coordinates coordinates, int index) {
-		return gameMap.getSquare(coordinates).grabCard(index);
+		return gameMap.grabCard(coordinates, index);
 	}
 
 	public void discardPowerupCard(Player player, int indexOfThePowerup) {
@@ -204,11 +203,12 @@ public class Model {
 	}
 
 	public void swapWeapons(Player player, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
-		WeaponCard playerWeapon = player.getPlayerBoard().removeWeapon(indexOfThePlayerWeapon);
-		WeaponCard squareWeapon = (WeaponCard) (gameMap.getSquare(gameMap.playerCoordinates(player))).grabCard(indexOfTheSpawnWeapon);
+		Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
+		Card playerWeapon = player.getPlayerBoard().removeWeapon(indexOfThePlayerWeapon);
+		WeaponCard squareWeapon = (WeaponCard) (gameMap.grabCard(playerCoordinates, indexOfTheSpawnWeapon));
 
 		player.getPlayerBoard().addWeapon(squareWeapon);
-		((SpawnSquare) gameMap.getSquare(gameMap.playerCoordinates(player))).addCard(playerWeapon);
+		gameMap.addCard(playerCoordinates, playerWeapon);
 		updateReps();
 	}
 

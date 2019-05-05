@@ -53,7 +53,7 @@ public class GameMapTest {
 		Model model = new Model("MediumMap.txt", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
-		map.playerCoordinates(gameBoard.getPlayers().get(0));
+		map.getPlayerCoordinates(gameBoard.getPlayers().get(0));
 	}
 
 	@Test(expected = PlayerNotInTheMapException.class)
@@ -61,7 +61,7 @@ public class GameMapTest {
 Model model = new Model("MediumMap.txt", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
-		map.playerCoordinates(gameBoard.getPlayers().get(3));
+		map.getPlayerCoordinates(gameBoard.getPlayers().get(3));
 	}
 
 	@Test
@@ -70,7 +70,7 @@ Model model = new Model("MediumMap.txt", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(2, 3));
-		assertEquals(new Coordinates(2, 3), map.playerCoordinates(gameBoard.getPlayers().get(0)));
+		assertEquals(new Coordinates(2, 3), map.getPlayerCoordinates(gameBoard.getPlayers().get(0)));
 	}
 
 	@Test(expected = PlayerNotInTheMapException.class)
@@ -78,7 +78,7 @@ GameMap map = gameBoard.getGameMap();
 Model model = new Model("MediumMap.txt", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
-		map.playerSquare(gameBoard.getPlayers().get(0));
+		map.getPlayerSquare(gameBoard.getPlayers().get(0));
 	}
 
 	@Test(expected = PlayerNotInTheMapException.class)
@@ -86,7 +86,7 @@ GameMap map = gameBoard.getGameMap();
 		Model model = new Model("MediumMap.txt", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
-		map.playerCoordinates(gameBoard.getPlayers().get(3));
+		map.getPlayerCoordinates(gameBoard.getPlayers().get(3));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ GameMap map = gameBoard.getGameMap();
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(2, 3));
-		assertEquals(map.getSquare(new Coordinates(2, 3)), map.playerSquare(gameBoard.getPlayers().get(0)));
+		assertEquals(map.getSquare(new Coordinates(2, 3)), map.getPlayerSquare(gameBoard.getPlayers().get(0)));
 	}
 
 	@Test
@@ -109,11 +109,11 @@ GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(3), new Coordinates(2, 3));
 		map.movePlayerTo(gameBoard.getPlayers().get(2), new Coordinates(1, 1));
 		map.movePlayerTo(gameBoard.getPlayers().get(4), new Coordinates(2, 1));
-		assertEquals(new Coordinates(1, 1), map.playerCoordinates(gameBoard.getPlayers().get(0)));
-		assertEquals(new Coordinates(0, 0), map.playerCoordinates(gameBoard.getPlayers().get(1)));
-		assertEquals(new Coordinates(1, 1), map.playerCoordinates(gameBoard.getPlayers().get(2)));
-		assertEquals(new Coordinates(2, 3), map.playerCoordinates(gameBoard.getPlayers().get(3)));
-		assertEquals(new Coordinates(2, 1), map.playerCoordinates(gameBoard.getPlayers().get(4)));
+		assertEquals(new Coordinates(1, 1), map.getPlayerCoordinates(gameBoard.getPlayers().get(0)));
+		assertEquals(new Coordinates(0, 0), map.getPlayerCoordinates(gameBoard.getPlayers().get(1)));
+		assertEquals(new Coordinates(1, 1), map.getPlayerCoordinates(gameBoard.getPlayers().get(2)));
+		assertEquals(new Coordinates(2, 3), map.getPlayerCoordinates(gameBoard.getPlayers().get(3)));
+		assertEquals(new Coordinates(2, 1), map.getPlayerCoordinates(gameBoard.getPlayers().get(4)));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -638,7 +638,7 @@ Model model = new Model("MediumMap.txt", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(2, 3));
-		assertEquals(new Coordinates(2, 3), map.getCoordinates(map.playerSquare(gameBoard.getPlayers().get(0))));
+		assertEquals(new Coordinates(2, 3), map.getCoordinates(map.getPlayerSquare(gameBoard.getPlayers().get(0))));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -671,7 +671,7 @@ Model model = new Model("MediumMap.txt", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(1, 2));
-		assertEquals(map.playerSquare(gameBoard.getPlayers().get(0)), map.getSquare(new Coordinates(1, 2)));
+		assertEquals(map.getPlayerSquare(gameBoard.getPlayers().get(0)), map.getSquare(new Coordinates(1, 2)));
 	}
 
 	@Test

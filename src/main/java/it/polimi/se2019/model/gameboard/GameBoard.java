@@ -216,7 +216,7 @@ public class GameBoard extends Representable {
 
 	public void currentPlayerGrabs(int index) {
 		Coordinates playerCoordinates = gameMap.getPlayersCoordinates().get(getCurrentPlayer());
-		//gameMap.getSquare(playerCoordinates).grabCard(getCurrentPlayer(), index);
+		//gameMap.getSquare(getPlayerCoordinates).grabCard(getCurrentPlayer(), index);
 	}
 
 	/**

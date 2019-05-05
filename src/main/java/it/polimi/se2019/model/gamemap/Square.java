@@ -108,6 +108,13 @@ public abstract class Square {
 	public abstract Card grabCard(int index);
 
 	/**
+	 * Adds the card to the square cards slot.
+	 *
+	 * @param cardToAdd Card to add to the square.
+	 */
+	public abstract void addCard(Card cardToAdd);
+
+	/**
 	 * If square card slot is not full it gets refilled.
 	 */
 	public abstract void refillCards();

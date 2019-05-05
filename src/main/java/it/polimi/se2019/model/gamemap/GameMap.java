@@ -2,6 +2,7 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
@@ -56,6 +57,7 @@ public class GameMap extends Representable {
 				map[i][j].refillCards();
 			}
 		}
+		Utils.logInfo("GameMap -> fillMap(): Map completely filled");
 	}
 
 	/**
@@ -92,12 +94,12 @@ public class GameMap extends Representable {
 	 * @return the player's coordinates
 	 * @throws PlayerNotInTheMapException when the player is not in the map
 	 */
-	public Coordinates playerCoordinates(Player playerToFind) {
+	public Coordinates getPlayerCoordinates(Player playerToFind) {
 		Coordinates playerCoordinates = playersPositions.get(playerToFind);
 		if (playerCoordinates != null)
 			return playerCoordinates;
 		else
-			throw new PlayerNotInTheMapException("player position not in the map");
+			throw new PlayerNotInTheMapException("player position is null");
 	}
 
 	/**
@@ -107,12 +109,12 @@ public class GameMap extends Representable {
 	 * @return the player's square
 	 * @throws PlayerNotInTheMapException when the player is not in the map
 	 */
-	public Square playerSquare(Player playerToFind) {
+	public Square getPlayerSquare(Player playerToFind) {
 		Coordinates playerCoordinates = playersPositions.get(playerToFind);
 		if (playerCoordinates != null)
 			return map[playerCoordinates.getRow()][playerCoordinates.getColumn()];
 		else
-			throw new PlayerNotInTheMapException("player position not in the map");
+			throw new PlayerNotInTheMapException("player position is null");
 	}
 
 	/**
@@ -123,11 +125,13 @@ public class GameMap extends Representable {
 	 * @throws OutOfBoundariesException when the player is moved to a square not in the map
 	 */
 	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
-		if (isIn(coordinates))
+		if (isIn(coordinates)) {
 			playersPositions.replace(playerToMove, coordinates);
+			setChanged();
+			Utils.logInfo("GameMap -> movePlayerTo(): " + playerToMove.getPlayerName() + " moved to " + coordinates);
+		}
 		else
 			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
-		setChanged();
 	}
 
 	/**
@@ -137,8 +141,10 @@ public class GameMap extends Representable {
 	 * @return the list of reachable coordinates.
 	 */
 	public List<Coordinates> reachableCoordinates(Player player, int maxDistance) {
-		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
-		return reachableSquares(getSquare(playersPositions.get(player)), maxDistance, reachableCoordinates);
+		List<Coordinates> reachableCoordinates = new ArrayList<>();
+		reachableSquares(getSquare(playersPositions.get(player)), maxDistance, reachableCoordinates);
+		Utils.logInfo("GameMap -> reachableCoordinates(): " + player.getPlayerName() + " can reach in " + maxDistance + " moves: " + reachableCoordinates);
+		return reachableCoordinates;
 	}
 
 
@@ -150,7 +156,9 @@ public class GameMap extends Representable {
 	 */
 	public List<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
 		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
-		return reachableSquares(getSquare(coordinates), maxDistance, reachableCoordinates);
+		reachableSquares(getSquare(coordinates), maxDistance, reachableCoordinates);
+		Utils.logInfo("GameMap -> reachableCoordinates(): From " + coordinates + " is possible to reach in " + maxDistance + " moves: " + reachableCoordinates);
+		return reachableCoordinates;
 	}
 
 	/**
@@ -160,7 +168,7 @@ public class GameMap extends Representable {
 	 * @param maxDistance maximum distance
 	 * @return the set of all reachable squares from the coordinates and distance at most max distance
 	 */
-	private ArrayList<Coordinates> reachableSquares(Square square, int maxDistance, ArrayList<Coordinates> reachableCoordinates) {
+	private List<Coordinates> reachableSquares(Square square, int maxDistance, List<Coordinates> reachableCoordinates) {
 
 		if (maxDistance != 0) {
 			for (Square adjacentSquare : square.getAdjacentSquares()) {
@@ -193,7 +201,6 @@ public class GameMap extends Representable {
 	 * @param coordinates a coordinates
 	 * @return the set of all the squares belonging to the same room of the specified square
 	 * @throws OutOfBoundariesException the coordinates do not belong to the map
-	 * @deprecated
 	 */
 	public List<Coordinates> getRoomCoordinates(Coordinates coordinates) {
 		if (isIn(coordinates))
@@ -213,15 +220,19 @@ public class GameMap extends Representable {
 		Square squarePlayer1 = getSquare(playersPositions.get(player1));
 		Square squarePlayer2 = getSquare(playersPositions.get(player2));
 
-		Utils.logInfo("GameMap -> isVisible(): Player1 in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " and Player2 in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
-
-		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID())
+		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID()) {
+			Utils.logInfo("GameMap -> isVisible(): Player1 in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see Player2 in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
 			return true;
+		}
+
 
 		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
-			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID())
+			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID()) {
+				Utils.logInfo("GameMap -> isVisible(): Player1 in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see Player2 in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
 				return true;
+			}
 		}
+		Utils.logInfo("GameMap -> isVisible():  Player1 in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " cannot see Player2 in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
 		return false;
 	}
 
@@ -240,13 +251,38 @@ public class GameMap extends Representable {
 	}
 
 	/**
+	 * Used to know if in some coordinates there is a spawn square
+	 *
+	 * @param coordinates coordinates of the square to check
+	 * @return true if and only if at the coordinates there is a Spawn square
+	 */
+	public boolean isSpawnSquare(Coordinates coordinates) {
+		return spawnSquaresCoordinates.contains(coordinates);
+	}
+
+	/**
+	 * Removes from the square where the player is the card in the specified index.
+	 *
+	 * @param coordinates coordinates of the square.
+	 * @param index       index of the card's solt to grab.
+	 * @return the card grabbed.
+	 */
+	public Card grabCard(Coordinates coordinates, int index) {
+		return getSquare(coordinates).grabCard(index);
+	}
+
+	public void addCard(Coordinates coordinates, Card cardToAdd) {
+		getSquare(coordinates).addCard(cardToAdd);
+	}
+
+	/**
 	 * Given the square returns its coordinates in the map.
 	 *
 	 * @param square square we want to know thw coordinates of
 	 * @return the coordinates of the square
 	 * @throws OutOfBoundariesException if the square does not belong to the map.
 	 */
-	public Coordinates getCoordinates(Square square) {
+	Coordinates getCoordinates(Square square) {
 		if (isIn(square))
 			return square.getCoordinates();
 		else
@@ -260,21 +296,11 @@ public class GameMap extends Representable {
 	 * @return the square in the specified coordinates
 	 * @throws OutOfBoundariesException if the coordinates do not belong to the map
 	 */
-	public Square getSquare(Coordinates coordinates) {
+	Square getSquare(Coordinates coordinates) {
 		if (isIn(coordinates))
 			return map[coordinates.getRow()][coordinates.getColumn()];
 		else
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
-	}
-
-	/**
-	 * Used to know if in some coordinates there is a spawn square
-	 *
-	 * @param coordinates coordinates of the square to check
-	 * @return true if and only if at the coordinates there is a Spawn square
-	 */
-	public boolean isSpawnSquare(Coordinates coordinates) {
-		return spawnSquaresCoordinates.contains(coordinates);
 	}
 
 	/**
