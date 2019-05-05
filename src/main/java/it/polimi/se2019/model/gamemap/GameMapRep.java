@@ -15,7 +15,7 @@ public class GameMapRep extends Representation {
 
 	private int numOfRows;
 	private int numOfColumns;
-	private MapSquareRep[][] mapRep;
+	private SquareRep[][] mapRep;
 	private HashMap<String, Coordinates> playersPositions;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
@@ -23,7 +23,7 @@ public class GameMapRep extends Representation {
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
 		this.numOfRows = gameMapToRepresent.getNumOfRows();
 
-		mapRep = new MapSquareRep[gameMapToRepresent.getNumOfRows()][gameMapToRepresent.getNumOfColumns()];
+		mapRep = new SquareRep[gameMapToRepresent.getNumOfRows()][gameMapToRepresent.getNumOfColumns()];
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -43,7 +43,7 @@ public class GameMapRep extends Representation {
 		return numOfColumns;
 	}
 
-	public MapSquareRep[][] getMapRep() {
+	public SquareRep[][] getMapRep() {
 		return mapRep;
 	}
 

@@ -1,7 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.gameboard.GameBoard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,13 +47,13 @@ public class MapRepTest {
 	@Test
 	public void getMapRep_correctInput_correctOutput() {
 		GameMapRep gameMapRep = new GameMapRep(gameMap);
-		MapSquareRep[][] mapRep = gameMapRep.getMapRep();
-		MapSquareRep mapSquareRep;
-		MapSquare mapSquare;
+		SquareRep[][] mapRep = gameMapRep.getMapRep();
+		SquareRep mapSquareRep;
+		Square square;
 
 		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
 			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
-				MapSquareRep squareRep = (MapSquareRep) gameMap.getSquareRep(new Coordinates(i,j));
+				SquareRep squareRep = gameMap.getSquareRep(new Coordinates(i, j));
 				//mapSquareRep.getCards(); TODO
 				assertEquals(mapRep[i][j].getCoordinates(), squareRep.getCoordinates());
 				assertEquals(mapRep[i][j].getRoomID(), squareRep.getRoomID());

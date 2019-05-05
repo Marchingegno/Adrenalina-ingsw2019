@@ -4,7 +4,7 @@ import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
-import it.polimi.se2019.model.gamemap.MapSquareRep;
+import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
@@ -253,7 +253,7 @@ class RepPrinter {
 	 */
 	private void updateMapToPrint() {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
-		MapSquareRep[][] mapRep = gameMapRep.getMapRep();
+		SquareRep[][] mapRep = gameMapRep.getMapRep();
 		ArrayList<PlayerRep> playersRep = modelRep.getPlayersRep();
 
 		for (int i = 0; i < mapRep.length; i++) {
@@ -277,27 +277,28 @@ class RepPrinter {
 	/**
 	 * Adds to the map to print in the correct square the ammos of the ammo card.
 	 *
-	 * @param mapSquareRep
+	 * @param squareRep
 	 */
-	private void fillCards(MapSquareRep mapSquareRep) {
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
+	private void fillCards(SquareRep squareRep) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
+		String[] cards = squareRep.getElementsToPrint();
 
-		if (mapSquareRep.getRoomID() != -1) {
-			mapToPrint[row + 1][column - 1] = mapSquareRep.getElementToPrint()[0];
-			mapToPrint[row + 1][column] = mapSquareRep.getElementToPrint()[1];
-			mapToPrint[row + 1][column + 1] = mapSquareRep.getElementToPrint()[2];
+		if (squareRep.getRoomID() != -1) {
+			mapToPrint[row + 1][column - 1] = cards[0];
+			mapToPrint[row + 1][column] = cards[1];
+			mapToPrint[row + 1][column + 1] = cards[2];
 		}
 	}
 
 	/**
 	 * Resets all the cells in a square.
 	 *
-	 * @param mapSquareRep
+	 * @param squareRep
 	 */
-	private void fillEmpty(MapSquareRep mapSquareRep) {
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
+	private void fillEmpty(SquareRep squareRep) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 
 		for (int i = -1; i < 2; i++) {
 			for (int j = -2; j < 3; j++) {
@@ -446,7 +447,7 @@ class RepPrinter {
 						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
 	}
 
-	private String[][] initializeMapToPrint(MapSquareRep[][] map) {
+	private String[][] initializeMapToPrint(SquareRep[][] map) {
 		int numOfRows = map.length;
 		int numOfColumns = map[0].length;
 
@@ -465,19 +466,19 @@ class RepPrinter {
 		return new Coordinates(2 + coordinatesToConvert.getRow() * 5, 4 + coordinatesToConvert.getColumn() * 9);
 	}
 
-	private void fillSquare(MapSquareRep mapSquareRep, String[][] mapToPrint) {
+	private void fillSquare(SquareRep squareRep, String[][] mapToPrint) {
 
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 
-		fillEmpty(mapSquareRep);
+		fillEmpty(squareRep);
 
-		if (mapSquareRep.getRoomID() != -1) {
-			fillSquareCorners(mapSquareRep);
-			fillUpDoor(mapSquareRep);
-			fillRightDoor(mapSquareRep);
-			fillDownDoor(mapSquareRep);
-			fillLeftDoor(mapSquareRep);
+		if (squareRep.getRoomID() != -1) {
+			fillSquareCorners(squareRep);
+			fillUpDoor(squareRep);
+			fillRightDoor(squareRep);
+			fillDownDoor(squareRep);
+			fillLeftDoor(squareRep);
 		} else {
 			for (int i = -2; i < 3; i++) {
 				for (int j = -4; j < 5; j++) {
@@ -489,80 +490,72 @@ class RepPrinter {
 
 	}
 
-	private void fillSquareCorners(MapSquareRep mapSquareRep) {
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
-		int roomID = mapSquareRep.getRoomID();
+	private void fillSquareCorners(SquareRep squareRep) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
+		Color.CharacterColorType squareColor = squareRep.getSquareColor();
 
-		mapToPrint[row - 2][column - 4] = Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column - 3] = Color.getColoredString("╔", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 4] = Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 3] = Color.getColoredString("╗", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column - 4] = Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column - 3] = Color.getColoredString("╚", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 4] = Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 3] = Color.getColoredString("╝", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column - 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column - 3] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column + 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column + 3] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column - 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column - 3] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column + 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column + 3] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
 	}
 
-	private void fillUpDoor(MapSquareRep mapSquareRep) {
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
-		int roomID = mapSquareRep.getRoomID();
-		boolean isUpPossible = mapSquareRep.getPossibleDirection()[CardinalDirection.UP.ordinal()];
+	private void fillUpDoor(SquareRep squareRep) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
+		Color.CharacterColorType squareColor = squareRep.getSquareColor();
+		boolean isUpPossible = squareRep.getPossibleDirection()[CardinalDirection.UP.ordinal()];
 
-		mapToPrint[row - 2][column - 2] = isUpPossible ? Color.getColoredString("╝", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column - 1] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 1] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 2] = isUpPossible ? Color.getColoredString("╚", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column - 2] = isUpPossible ? Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column - 1] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column + 1] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 2][column + 2] = isUpPossible ? Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 	}
 
-	private void fillRightDoor(MapSquareRep mapSquareRep) {
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
-		int roomID = mapSquareRep.getRoomID();
-		boolean isRightPossible = mapSquareRep.getPossibleDirection()[CardinalDirection.RIGHT.ordinal()];
+	private void fillRightDoor(SquareRep squareRep) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
+		Color.CharacterColorType squareColor = squareRep.getSquareColor();
+		boolean isRightPossible = squareRep.getPossibleDirection()[CardinalDirection.RIGHT.ordinal()];
 
-		mapToPrint[row - 1][column + 3] = isRightPossible ? Color.getColoredString("╚", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 1][column + 4] = isRightPossible ? Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row][column + 3] = isRightPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row][column + 4] = isRightPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 1][column + 3] = isRightPossible ? Color.getColoredString("╔", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 1][column + 4] = isRightPossible ? Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 1][column + 3] = isRightPossible ? Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 1][column + 4] = isRightPossible ? Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row][column + 3] = isRightPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row][column + 4] = isRightPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 1][column + 3] = isRightPossible ? Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 1][column + 4] = isRightPossible ? Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
 	}
 
-	private void fillDownDoor(MapSquareRep mapSquareRep) {
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
-		int roomID = mapSquareRep.getRoomID();
-		boolean isDownPossible = mapSquareRep.getPossibleDirection()[CardinalDirection.DOWN.ordinal()];
+	private void fillDownDoor(SquareRep squareRep) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
+		Color.CharacterColorType squareColor = squareRep.getSquareColor();
+		boolean isDownPossible = squareRep.getPossibleDirection()[CardinalDirection.DOWN.ordinal()];
 
-		mapToPrint[row + 2][column - 2] = isDownPossible ? Color.getColoredString("╗", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column - 1] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 1] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 2] = isDownPossible ? Color.getColoredString("╔", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column - 2] = isDownPossible ? Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column - 1] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column + 1] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 2][column + 2] = isDownPossible ? Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 	}
 
-	private void fillLeftDoor(MapSquareRep mapSquareRep) {
-		int row = convertCoordinates(mapSquareRep.getCoordinates()).getRow();
-		int column = convertCoordinates(mapSquareRep.getCoordinates()).getColumn();
-		int roomID = mapSquareRep.getRoomID();
-		boolean isLeftPossible = mapSquareRep.getPossibleDirection()[CardinalDirection.LEFT.ordinal()];
+	private void fillLeftDoor(SquareRep squareRep) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
+		Color.CharacterColorType squareColor = squareRep.getSquareColor();
+		boolean isLeftPossible = squareRep.getPossibleDirection()[CardinalDirection.LEFT.ordinal()];
 
-		mapToPrint[row - 1][column - 3] = isLeftPossible ? Color.getColoredString("╝", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 1][column - 4] = isLeftPossible ? Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row][column - 3] = isLeftPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row][column - 4] = isLeftPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 1][column - 3] = isLeftPossible ? Color.getColoredString("╗", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 1][column - 4] = isLeftPossible ? Color.getColoredString("═", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", getCharacterColorFromRoomID(roomID), Color.BackgroundColorType.DEFAULT);
-	}
-
-	private Color.BackgroundColorType getBackgroundColorForRoomID(int roomID) {
-		return Color.BackgroundColorType.values()[Color.BackgroundColorType.CYAN.ordinal() - roomID];
-	}
-
-	private Color.CharacterColorType getCharacterColorFromRoomID(int roomID) {
-		return Color.CharacterColorType.values()[Color.CharacterColorType.CYAN.ordinal() - roomID];
+		mapToPrint[row - 1][column - 3] = isLeftPossible ? Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - 1][column - 4] = isLeftPossible ? Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row][column - 3] = isLeftPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row][column - 4] = isLeftPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 1][column - 3] = isLeftPossible ? Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + 1][column - 4] = isLeftPossible ? Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
 	}
 }
