@@ -6,6 +6,8 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.ServerConfigParser;
+import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -19,6 +21,7 @@ public class Match {
 	private final ArrayList<AbstractConnectionToClient> participants;
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
+	private SingleTimer singleTimer = new SingleTimer();
 
 	// Game config attributes.
 	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
@@ -42,12 +45,19 @@ public class Match {
 	 * Send game config request messages to the clients, asking skulls and map type.
 	 */
 	public void requestMatchConfig() {
+		if(isMatchStarted())
+			return;
+
 		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
+
+		singleTimer.start(this::startMatch, ServerConfigParser.getMoveTimeLimitMs());
 	}
 
-	// TODO start the match also after a timer and not wait every answer?
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
+		if(isMatchStarted())
+			return;
+
 		if(participants.contains(client)) { // Check if the client is in the Match.
 			if(!skullsChosen.containsKey(client))
 				skullsChosen.put(client, skulls);
@@ -90,6 +100,8 @@ public class Match {
 	 * Start the match.
 	 */
 	private void startMatch() {
+		singleTimer.cancel();
+
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();

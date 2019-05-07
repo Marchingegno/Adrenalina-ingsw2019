@@ -52,7 +52,7 @@ public class VirtualView extends Observable implements ViewInterface {
 					IntMessage intMessage = (IntMessage) message;
 					int answer = intMessage.getContent();
 					Utils.logInfo("Received answer for Example Action: " + answer + ".");
-					//controller.doExampleAction(answer);
+					notifyObservers(/* MESSAGE HERE */);
 				}
 				break;
 			case ACTION:
