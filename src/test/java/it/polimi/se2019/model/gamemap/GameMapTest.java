@@ -34,7 +34,7 @@ public class GameMapTest {
 
 	@Test
 	public void getNumOfRows_correctInput_correcntOutput() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		assertEquals(3, map.getNumOfRows());
@@ -42,7 +42,7 @@ public class GameMapTest {
 
 	@Test
 	public void getNumOfColumn_correctInput_correcntOutput() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		assertEquals(4, map.getNumOfColumns());
@@ -50,7 +50,7 @@ public class GameMapTest {
 
 	@Test(expected = PlayerNotInTheMapException.class)
 	public void playerCoordinates_playerNotYetPlaced1_throwsPlayerNotInTheMapException() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.getPlayerCoordinates(gameBoard.getPlayers().get(0));
@@ -58,7 +58,7 @@ public class GameMapTest {
 
 	@Test(expected = PlayerNotInTheMapException.class)
 	public void playerCoordinates_playerNotYetPlaced4_throwsPlayerNotInTheMapException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.getPlayerCoordinates(gameBoard.getPlayers().get(3));
@@ -66,7 +66,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void playerCoordinates_playerMoved_correctOutput() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(2, 3));
@@ -75,7 +75,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = PlayerNotInTheMapException.class)
 	public void playerSquare_playerNotYetPlaced1_throwsPlayerNotInTheMapException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.getPlayerSquare(gameBoard.getPlayers().get(0));
@@ -83,7 +83,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = PlayerNotInTheMapException.class)
 	public void playerSquare_playerNotYetPlaced4_throwsPlayerNotInTheMapException() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.getPlayerCoordinates(gameBoard.getPlayers().get(3));
@@ -91,7 +91,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void playerSquare_playerMoved_correctOutput() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(2, 3));
@@ -100,7 +100,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void movePlayerTo_correctInput_correctOutput() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(1, 1));
@@ -118,7 +118,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void movePlayerTo_playerOutOfColumn_throwsOutOfBoundaryException() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(1, 5));
@@ -126,7 +126,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void movePlayerTo_playerOutOfRow_throwsOutOfBoundaryException() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(9, 1));
@@ -134,7 +134,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void movePlayerTo_playerOutOfMap_throwsOutOfBoundaryException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(2, 0));
@@ -142,7 +142,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void reachableCoordinates_zeroDistance_correctOutput() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		ArrayList<Coordinates> correctReachableSquares = new ArrayList<>();
@@ -152,7 +152,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void reachableCoordinates_oneDistance_correctOutput() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		ArrayList<Coordinates> correctOutput = new ArrayList<>();
@@ -172,7 +172,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void reachableCoordinates_maxDistance1_correctOutput() {
-		Model model = new Model("BigMap.txt", players, 8);
+		Model model = new Model("BigMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		ArrayList<Coordinates> correctOutput = new ArrayList<>();
@@ -202,7 +202,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void reachableCoordinates_maxDistance2_correctOutput() {
-		Model model = new Model("BigMap.txt", players, 8);
+		Model model = new Model("BigMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		ArrayList<Coordinates> correctOutput = new ArrayList<>();
@@ -232,7 +232,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void reachableCoordinates_maxDistance3_correctOutput() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		ArrayList<Coordinates> correctOutput = new ArrayList<>();
@@ -258,7 +258,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void reachableCoordinates_overMaxDistance_correctOutput() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		ArrayList<Coordinates> correctOutput = new ArrayList<>();
@@ -286,7 +286,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void getRoomCoordinates_MediumMapCoordinates_correctOutput() {
-		Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 
@@ -356,7 +356,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void getRoomCoordinates_BigMapSquare_correctOutput() {
-		Model model = new Model("BigMap.txt", players, 8);
+		Model model = new Model("BigMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 
@@ -439,7 +439,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapCoordinatesOutOfTheMap_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.getRoomCoordinates(new Coordinates(5, 3));
@@ -447,7 +447,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapBlackCoordinates_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.getRoomCoordinates(new Coordinates(0, 3));
@@ -455,7 +455,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapBlackSquare_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -468,7 +468,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapSquareOutOfTheMap1_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -481,7 +481,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapSquareOutOfTheMap2_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -494,7 +494,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapSquareOutOfTheMap3_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -507,7 +507,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapSquareOutOfTheMap4_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -520,7 +520,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapSquareOutOfTheMap_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -534,7 +534,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getRoomCoordinates_SmallMapNewSquare_throwsOutOfBoundaryException() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -547,7 +547,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void visible_playersInTheSameSquare_correctOutput() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(1, 1));
@@ -557,7 +557,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void visible_playersNotVisible_correctOutput() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 
@@ -568,7 +568,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void visible_playersOnTheEdge_correctOutput() {
-		Model model = new Model("SmallMap.txt", players, 8);
+		Model model = new Model("SmallMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 
@@ -585,7 +585,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void getSpawnSquare_allAmmoTypes_allSpawnCoordinates() {
-		Model model = new Model("BigMap.txt", players, 8);
+		Model model = new Model("BigMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		assertEquals(new Coordinates(2, 3), map.getSpawnSquare(AmmoType.YELLOW_AMMO));
@@ -595,7 +595,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getCoordinates_squareNotInTheMap_throwsOutOfBoundariesException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -608,7 +608,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getCoordinates_squareOutOfBoundaries_throwsOutOfBoundariesException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -621,7 +621,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getCoordinates_blackSquare_throwsOutOfBoundariesException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		boolean[] possibleDirection = new boolean[4];
@@ -634,7 +634,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void getCoordinates_squareInTheMap_correctOutput() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(2, 3));
@@ -643,7 +643,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getSquare_coordinatesOutOfTheMap1_throwsOutOfBoundariesException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.getSquare(new Coordinates(9, 2));
@@ -651,7 +651,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getSquare_coordinatesOutOfTheMap2_throwsOutOfBoundariesException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.getSquare(new Coordinates(1, 5));
@@ -659,7 +659,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test(expected = OutOfBoundariesException.class)
 	public void getSquare_blackCoordinates_throwsOutOfBoundariesException() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.getSquare(new Coordinates(2, 0));
@@ -667,7 +667,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void getSquare_coordinatesInTheMap_correctOutput() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		map.movePlayerTo(gameBoard.getPlayers().get(0), new Coordinates(1, 2));
@@ -676,7 +676,7 @@ GameMap map = gameBoard.getGameMap();
 
 	@Test
 	public void isSpawnSquare() {
-Model model = new Model("MediumMap.txt", players, 8);
+		Model model = new Model("MediumMap", players, 8);
 GameBoard gameBoard = model.getGameBoard();
 GameMap map = gameBoard.getGameMap();
 		assertTrue(map.isSpawnSquare(new Coordinates(0, 2)));
