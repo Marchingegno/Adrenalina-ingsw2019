@@ -24,7 +24,7 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getWaitingTimeInLobbyMs();
 		} else {
-			Utils.logInfo("Returned the default value for waiting time in lobby.");
+			Utils.logWarning("Returned the default value for waiting time in lobby.");
 			return 5000L;
 		}
 	}
@@ -38,7 +38,7 @@ public class ServerConfigParser {
 		if(serverConfig != null) {
 			return serverConfig.getTurnTimeLimitMs();
 		} else {
-			Utils.logInfo("Returned the default value for move time limit.");
+			Utils.logWarning("Returned the default value for move time limit.");
 			return 20000L;
 		}
 	}
@@ -52,7 +52,7 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getHost();
 		} else {
-			Utils.logInfo("Returned the default value for the host.");
+			Utils.logWarning("Returned the default value for the host.");
 			return "localhost";
 		}
 	}
@@ -66,7 +66,7 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getRmiPort();
 		} else {
-			Utils.logInfo("Returned the default value for RMI port.");
+			Utils.logWarning("Returned the default value for RMI port.");
 			return 1099;
 		}
 	}
@@ -80,7 +80,7 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getSocketPort();
 		} else {
-			Utils.logInfo("Returned the default value for Socket port.");
+			Utils.logWarning("Returned the default value for Socket port.");
 			return 12345;
 		}
 	}

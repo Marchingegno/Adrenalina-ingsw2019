@@ -28,6 +28,12 @@ public class Utils {
 			LOGGER.log(Level.SEVERE, msg, e);
 	}
 
+	public static void logWarning(String msg) {
+		if(DEBUG) {
+			System.out.println(Color.setColorString(Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.YELLOW) + "WARNING:" + Color.resetColorString() + " " + msg);
+		}
+	}
+
 	public static void logInfo(String msg) {
 		if(DEBUG) {
 			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + "INFO:" + Color.resetColorString() + " " + msg);
