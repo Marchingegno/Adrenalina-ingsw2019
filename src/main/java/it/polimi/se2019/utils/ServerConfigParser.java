@@ -24,21 +24,21 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getWaitingTimeInLobbyMs();
 		} else {
-			Utils.logInfo("Returned the default value for waiting time in lobby.");
+			Utils.logWarning("Returned the default value for waiting time in lobby.");
 			return 5000L;
 		}
 	}
 
-	public static long getMoveTimeLimitMs() {
+	public static long getTurnTimeLimitMs() {
 		// Parse the file if not already parsed.
 		if(!triedParsing)
 			parseConfig();
 
 		// Return the config or a default value.
 		if(serverConfig != null) {
-			return serverConfig.getMoveTimeLimitMs();
+			return serverConfig.getTurnTimeLimitMs();
 		} else {
-			Utils.logInfo("Returned the default value for move time limit.");
+			Utils.logWarning("Returned the default value for move time limit.");
 			return 20000L;
 		}
 	}
@@ -52,7 +52,7 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getHost();
 		} else {
-			Utils.logInfo("Returned the default value for the host.");
+			Utils.logWarning("Returned the default value for the host.");
 			return "localhost";
 		}
 	}
@@ -66,7 +66,7 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getRmiPort();
 		} else {
-			Utils.logInfo("Returned the default value for RMI port.");
+			Utils.logWarning("Returned the default value for RMI port.");
 			return 1099;
 		}
 	}
@@ -80,7 +80,7 @@ public class ServerConfigParser {
 		if (serverConfig != null) {
 			return serverConfig.getSocketPort();
 		} else {
-			Utils.logInfo("Returned the default value for Socket port.");
+			Utils.logWarning("Returned the default value for Socket port.");
 			return 12345;
 		}
 	}
@@ -99,7 +99,7 @@ public class ServerConfigParser {
 
 	class ServerConfig {
 		private int waitingTimeInLobby;
-		private int moveTimeLimit;
+		private int turnTimeLimit;
 		private String host;
 		private int rmiPort;
 		private int socketPort;
@@ -108,8 +108,8 @@ public class ServerConfigParser {
 			return waitingTimeInLobby * 1000L; // Convert seconds to milliseconds.
 		}
 
-		long getMoveTimeLimitMs() {
-			return moveTimeLimit * 1000L; // Convert seconds to milliseconds.
+		long getTurnTimeLimitMs() {
+			return turnTimeLimit * 1000L; // Convert seconds to milliseconds.
 		}
 
 		String getHost() {

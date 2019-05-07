@@ -58,7 +58,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 					showMapAndSkullsInUse(gameConfigMessage.getSkulls(), GameConstants.MapType.values()[gameConfigMessage.getMapIndex()]);
-					displayGame();
 				}
 				break;
 			case GAME_MAP_REP:

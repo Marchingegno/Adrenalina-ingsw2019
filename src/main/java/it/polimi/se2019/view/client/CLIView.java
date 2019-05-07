@@ -139,7 +139,12 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askGrab() {
-
+		//TODO: Check whether the player is in a spawn square or a weapon square.
+		Utils.printLine("Choose an action!");
+		Utils.printLine("Select a number between 0 and 2.");
+		int answer = askInteger(0, 2);
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new DefaultActionMessage(answer, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -154,12 +159,20 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askReload() {
-
+		Utils.printLine("Which weapon do you want to reload?");
+		Utils.printLine("Select a number between 0 and 2.");
+		int answer = askInteger(0, 2);
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new DefaultActionMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
 	}
 
 	@Override
 	public void askSpawn() {
-
+		Utils.printLine("Select the Powerup card to use.");
+		Utils.printLine("Select a number between 0 and 3.");
+		int answer = askInteger(0, 3);
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new DefaultActionMessage(answer, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@Override

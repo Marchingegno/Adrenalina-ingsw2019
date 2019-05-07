@@ -10,7 +10,6 @@ import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
 public class LowDamage extends DamageStatus {
 	public final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
-	private ArrayList<MacroAction> availableActions;
 
 	public LowDamage(){
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
@@ -28,7 +27,7 @@ public class LowDamage extends DamageStatus {
 		shootPeopleBuilder.setShootAction(true);
 		availableActions.add(shootPeopleBuilder.build());
 
-		numberOfActionsPerTurn= NUMBER_OF_ACTIONS_PER_TURN;
+		numberOfActionsPerTurn = NUMBER_OF_ACTIONS_PER_TURN;
 		numberOfActionsToPerform = numberOfActionsPerTurn;
 	}
 

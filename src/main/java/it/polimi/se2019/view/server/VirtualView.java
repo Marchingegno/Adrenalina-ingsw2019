@@ -22,12 +22,10 @@ import java.util.Observer;
 public class VirtualView extends Observable implements ViewInterface {
 
 	private AbstractConnectionToClient client;
-	private String playerName;
 
 
-	public VirtualView(AbstractConnectionToClient client, String playerName) {
+	public VirtualView(AbstractConnectionToClient client) {
 		this.client = client;
-		this.playerName = playerName;
 	}
 
 
@@ -44,7 +42,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public String getPlayerName() {
-		return playerName;
+		return client.getNickname();
 	}
 
 	public void onMessageReceived(Message message) {
@@ -54,7 +52,7 @@ public class VirtualView extends Observable implements ViewInterface {
 					IntMessage intMessage = (IntMessage) message;
 					int answer = intMessage.getContent();
 					Utils.logInfo("Received answer for Example Action: " + answer + ".");
-					//controller.doExampleAction(answer);
+					notifyObservers(/* MESSAGE HERE */);
 				}
 				break;
 			case ACTION:
@@ -118,19 +116,19 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
-		Utils.logInfo("Sending Game Board rep to " + playerName);
+		Utils.logInfo("Sending Game Board rep to " + getPlayerName());
 		client.sendMessage(gameBoardRepToUpdate);
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
-		Utils.logInfo("Sending Game Map rep to " + playerName);
+		Utils.logInfo("Sending Game Map rep to " + getPlayerName());
 		client.sendMessage(gameMapRepToUpdate);
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
-		Utils.logInfo("Sending Player rep to " + playerName);
+		Utils.logInfo("Sending Player rep to " + getPlayerName());
 		client.sendMessage(playerRepToUpdate);
 	}
 
@@ -152,7 +150,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updatePlayerRep((PlayerRep) ((Player) observable).getRep(playerName));
+			updatePlayerRep((PlayerRep) ((Player) observable).getRep(getPlayerName()));
 		}
 	}
 }

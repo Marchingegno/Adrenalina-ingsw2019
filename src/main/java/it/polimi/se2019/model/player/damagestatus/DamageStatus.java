@@ -12,6 +12,7 @@ import java.util.List;
 public abstract class DamageStatus {
 	protected int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
 	protected int numberOfActionsToPerform; //actions that the player performed in this turn.
+	private int currentActionIndex; //Action currently in execution.
 	List<MacroAction> availableActions;
 
 

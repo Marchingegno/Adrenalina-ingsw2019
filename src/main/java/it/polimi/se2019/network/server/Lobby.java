@@ -3,6 +3,7 @@ package it.polimi.se2019.network.server;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.ServerConfigParser;
+import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -13,7 +14,7 @@ public class Lobby {
 	private ArrayList<Match> matches = new ArrayList<>();
 	private ArrayList<AbstractConnectionToClient> waitingRoom = new ArrayList<>();
 	private long timeTimerStart;
-	private Timer timer;
+	private SingleTimer singleTimer = new SingleTimer();
 
 
 	/**
@@ -127,19 +128,19 @@ public class Lobby {
 			startMatchInWaitingRoom();
 		} else if(waitingRoom.size() == GameConstants.MIN_PLAYERS) {
 			// Reached the minimum number of players. Start a timer for starting the match if not already started.
-			if(timer == null) {
+			if(!singleTimer.isRunning()) {
 				startTimerForMatchStart();
 				sendTimerStartedMessages();
 			}
 		} else if(waitingRoom.size() < GameConstants.MIN_PLAYERS) {
 			// If a timer has been started, cancels it since now the number of players is less than the minimum.
-			if(timer != null) {
-				cancelTimerForMatchStart();
+			if(singleTimer.isRunning()) {
+				singleTimer.cancel();
 				sendTimerCanceledMessages();
 			}
 		} else {
 			// Number of players between the minimum and the maximum. Send to the new client the remaining time for starting the match.
-			if(timer != null && newestClient != null) {
+			if(singleTimer.isRunning() && newestClient != null) {
 				long timePassedAfterTimerStart = System.currentTimeMillis() - timeTimerStart;
 				long timeRemainingInTimer = ServerConfigParser.getWaitingTimeInLobbyMs() - timePassedAfterTimerStart;
 				newestClient.sendMessage(new TimerForStartMessage(timeRemainingInTimer, MessageSubtype.INFO));
@@ -152,8 +153,7 @@ public class Lobby {
 	 */
 	private void startMatchInWaitingRoom() {
 		// Stop the timer if it is running, used when reaching the maximum number of players.
-		if(timer != null)
-			cancelTimerForMatchStart();
+		singleTimer.cancel();
 
 		// Start a new match.
 		Match match = new Match(waitingRoom);
@@ -180,20 +180,10 @@ public class Lobby {
 	private void startTimerForMatchStart() {
 		timeTimerStart = System.currentTimeMillis();
 		final Lobby lobby = this;
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Utils.logInfo("Timer ended. Starting the match...");
-				lobby.startMatchInWaitingRoom();
-			}
+		singleTimer.start(() -> {
+			Utils.logInfo("Timer ended => Starting the match...");
+			lobby.startMatchInWaitingRoom();
 		}, ServerConfigParser.getWaitingTimeInLobbyMs());
-		Utils.logInfo("Scheduled a timer for starting the match of " + ServerConfigParser.getWaitingTimeInLobbyMs() + " milliseconds.");
-	}
-
-	private void cancelTimerForMatchStart() {
-		timer.cancel();
-		timer = null;
 	}
 
 	private void sendTimerStartedMessages() {

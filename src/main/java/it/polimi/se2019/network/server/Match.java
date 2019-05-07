@@ -1,20 +1,19 @@
 package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.ServerConfigParser;
+import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Match {
 
@@ -22,6 +21,7 @@ public class Match {
 	private final ArrayList<AbstractConnectionToClient> participants;
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
+	private SingleTimer singleTimer = new SingleTimer();
 
 	// Game config attributes.
 	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
@@ -45,12 +45,19 @@ public class Match {
 	 * Send game config request messages to the clients, asking skulls and map type.
 	 */
 	public void requestMatchConfig() {
+		if(isMatchStarted())
+			return;
+
 		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
+
+		singleTimer.start(this::startMatch, ServerConfigParser.getTurnTimeLimitMs());
 	}
 
-	// TODO start the match also after a timer and not wait every answer?
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
+		if(isMatchStarted())
+			return;
+
 		if(participants.contains(client)) { // Check if the client is in the Match.
 			if(!skullsChosen.containsKey(client))
 				skullsChosen.put(client, skulls);
@@ -93,6 +100,8 @@ public class Match {
 	 * Start the match.
 	 */
 	private void startMatch() {
+		singleTimer.cancel();
+
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
@@ -101,15 +110,15 @@ public class Match {
 		// Send messages with votes.
 		sendVotesResultMessages(skulls, mapType);
 
-		// Create a list of player names.
-		List<String> playerNames = participants.stream().map(AbstractConnectionToClient::getNickname).collect(Collectors.toList());
+		// Create virtualViews.
+		for (AbstractConnectionToClient client : participants) {
+			Utils.logInfo("Added Virtual View to " + client.getNickname());
+			VirtualView virtualView =  new VirtualView(client);
+			virtualViews.put(client, virtualView);
+		}
 
-		// Create Model and Controller.
-		Model model = new Model(mapType.getMapName(), playerNames, skulls);
-		Controller controller = new Controller(model);
-
-		// Create a VirtualView for every client and add its observers.
-		createVirtualViewsAndAddObservers(model, controller);
+		// Create Controller.
+		Controller controller = new Controller(mapType, virtualViews.values(), skulls);
 
 		// Start the game.
 		controller.startGame();
@@ -165,33 +174,6 @@ public class Match {
 			gameConfigMessage.setSkulls(skulls);
 			gameConfigMessage.setMapIndex(mapType.ordinal());
 			client.sendMessage(gameConfigMessage);
-		}
-	}
-
-	/**
-	 * Create a VirtualView for every client and add its observers.
-	 * @param model the Model of this game.
-	 * @param controller the Controller of this game.
-	 */
-	private void createVirtualViewsAndAddObservers(Model model, Controller controller) {
-		for (AbstractConnectionToClient client : participants) {
-			// Create VirtualView.
-			Utils.logInfo("Added Virtual View to " + client.getNickname());
-			VirtualView virtualView =  new VirtualView(client, client.getNickname());
-			virtualViews.put(client, virtualView);
-
-			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
-			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
-			Utils.logInfo(client.getNickname() + " now observes Game Board");
-			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
-			Utils.logInfo(client.getNickname() + " now observes Game Map");
-			for (Player player : model.getPlayers()) {
-				player.addObserver(virtualView.getPlayerObserver());
-				Utils.logInfo(client.getNickname() + " now observes " + player.getPlayerName());
-			}
-
-			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
-			virtualView.addObserver(controller);
 		}
 	}
 
