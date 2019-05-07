@@ -29,12 +29,12 @@ public class Model {
 	private GameBoard gameBoard;
 	private GameMap gameMap;
 
-	public Model(String mapPath, List<String> playerNames, int startingSkulls) {
+	public Model(String mapName, List<String> playerNames, int startingSkulls) {
 		if(startingSkulls < GameConstants.MIN_SKULLS || startingSkulls > GameConstants.MAX_SKULLS)
 			throw new IllegalArgumentException("Invalid number of skulls!");
 		if(playerNames.size() > GameConstants.MAX_PLAYERS || playerNames.size() < GameConstants.MIN_PLAYERS)
 			throw new IllegalArgumentException("Invalid number of players!");
-		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
+		gameBoard = new GameBoard(mapName, playerNames, startingSkulls);
 		gameMap = gameBoard.getGameMap();
 	}
 

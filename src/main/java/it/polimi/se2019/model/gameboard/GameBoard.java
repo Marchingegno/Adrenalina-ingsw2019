@@ -37,7 +37,7 @@ public class GameBoard extends Representable {
 	private GameBoardRep gameBoardRep;
 
 
-	public GameBoard(String mapPath, List<String> playerNames, int startingSkulls) {
+	public GameBoard(String mapName, List<String> playerNames, int startingSkulls) {
 
 		// initialize players
 		players = new ArrayList<>(playerNames.size());
@@ -59,7 +59,7 @@ public class GameBoard extends Representable {
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
 		frenzyStarted = false;
-		gameMap = new GameMap(mapPath, players, this);
+		gameMap = new GameMap(mapName, players, this);
 
 		setChanged();
 	}
