@@ -83,6 +83,10 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askActionExample(); // This method will be processed by the CLI or by the GUI.
 				break;
+			case ACTION:
+				if(message.getMessageType() == MessageType.ACTION){
+					askAction();
+				}
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
 				break;

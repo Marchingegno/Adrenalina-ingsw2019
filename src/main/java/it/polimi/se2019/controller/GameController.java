@@ -34,7 +34,11 @@ public class GameController {
 
 	public void startGame() {
 		Utils.logInfo("GameController: startGame");
-		nextPlayerTurn();
+		//Set its correct DamageStatus.
+		setCorrectDamageStatus(model.getCurrentPlayer());
+		//Set its TurnStatus.
+		model.getCurrentPlayer().setTurnStatus(TurnStatus.YOUR_TURN);
+		//nextPlayerTurn();
 	}
 
 	public void initialRounds() {
@@ -71,20 +75,7 @@ public class GameController {
 	}
 
 	private void setCorrectDamageStatus(Player player){
-		List<Player> damageBoard = player.getPlayerBoard().getDamageBoard();
-
-		//If the game is in frenzy mode, then the player already has the right damageStatus.
-		if (model.isFrenzyStarted())
-			player.getDamageStatus().refillActions();
-
-		else if(damageBoard.size() < MEDIUM_DAMAGE_THRESHOLD)
-			player.setDamageStatus(new LowDamage());
-
-		else if(damageBoard.size() < HIGH_DAMAGE_THRESHOLD)
-			player.setDamageStatus(new MediumDamage());
-
-		else
-			player.setDamageStatus(new HighDamage());
+		model.setCorrectDamageStatus(player);
 	}
 
 
@@ -117,7 +108,7 @@ public class GameController {
 		model.nextPlayerTurn();
 		//Set its correct DamageStatus.
 		setCorrectDamageStatus(model.getCurrentPlayer());
-		//Set its TurnStatus.
+		//Set its TurnStatus. TODO: Delegate to model.
 		model.getCurrentPlayer().setTurnStatus(TurnStatus.YOUR_TURN);
 	}
 

@@ -11,6 +11,16 @@ public interface ViewInterface {
 
 	void askActionExample(); // TODO remove
 
+	void askAction();
+
+	void askGrab();
+
+	void askMove();
+
+	void askShoot();
+
+	void askReload();
+
 	void displayPossibleActions(List<MacroAction> possibleActions);
 
 	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);

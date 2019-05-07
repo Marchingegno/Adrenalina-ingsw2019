@@ -15,6 +15,7 @@ public enum MessageType {
 	RELOAD,
 	SHOOT,
 	END_TURN,
+	ACTION,
 	EXAMPLE_ACTION // TODO remove
 
 }

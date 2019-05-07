@@ -127,6 +127,37 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
+	public void askAction() {
+		Utils.printLine("Asking the user the action...");
+		Utils.printLine("Choose an action!");
+		Utils.printLine("Select a number between 0 and 2.");
+		int answer = askInteger(0, 2);
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
+
+	}
+
+	@Override
+	public void askGrab() {
+
+	}
+
+	@Override
+	public void askMove() {
+
+	}
+
+	@Override
+	public void askShoot() {
+
+	}
+
+	@Override
+	public void askReload() {
+
+	}
+
+	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		if (gameMapRepToUpdate == null)
 			throw new NullPointerException();

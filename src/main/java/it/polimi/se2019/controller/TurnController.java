@@ -48,6 +48,8 @@ public class TurnController{
 		}
 
 		switch(message.getMessageType()){
+			case ACTION:
+				VirtualView vw = ((ActionMessage) message).getVirtualView();
 			case GRAB_AMMO:
 				model.grabAmmoCard(player, ((DefaultActionMessage)message).getIndex());
 				break;

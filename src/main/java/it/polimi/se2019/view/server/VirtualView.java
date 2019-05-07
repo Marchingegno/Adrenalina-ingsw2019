@@ -57,6 +57,8 @@ public class VirtualView extends Observable implements ViewInterface {
 					//controller.doExampleAction(answer);
 				}
 				break;
+			case ACTION:
+				//notify(message)
 			default:
 				Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
 				break;
@@ -75,6 +77,32 @@ public class VirtualView extends Observable implements ViewInterface {
 		// Send a message that represents asking the "example action". The client will process it in the RemoteView class.
 		client.sendMessage(new Message(MessageType.EXAMPLE_ACTION, MessageSubtype.REQUEST));
 	}
+
+	@Override
+	public void askAction() {
+
+	}
+
+	@Override
+	public void askGrab() {
+
+	}
+
+	@Override
+	public void askMove() {
+
+	}
+
+	@Override
+	public void askShoot() {
+
+	}
+
+	@Override
+	public void askReload() {
+
+	}
+
 
 	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {

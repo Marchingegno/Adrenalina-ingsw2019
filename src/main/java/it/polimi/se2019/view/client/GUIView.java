@@ -86,6 +86,31 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askAction() {
+
+	}
+
+	@Override
+	public void askGrab() {
+
+	}
+
+	@Override
+	public void askMove() {
+
+	}
+
+	@Override
+	public void askShoot() {
+
+	}
+
+	@Override
+	public void askReload() {
+
+	}
+
+	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 
 	}

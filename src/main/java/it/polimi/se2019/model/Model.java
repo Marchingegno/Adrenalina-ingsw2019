@@ -10,6 +10,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.utils.GameConstants;
 
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class Model {
 		updateReps();
 	}
 
+
 	public Player getCurrentPlayer() {
 		return gameBoard.getCurrentPlayer();
 	}
@@ -79,6 +81,12 @@ public class Model {
 	public void nextPlayerTurn() {
 		gameBoard.nextPlayerTurn();
 		updateReps();
+	}
+
+	public void setCorrectDamageStatus(Player player){
+		gameBoard.setCorrectDamageStatus(player);
+		updateReps();
+
 	}
 
 	public void doDamageAndAddMarks(Player shootingPlayer, Player damagedPlayer, int amountOfDamage, int amountOfMarks) {

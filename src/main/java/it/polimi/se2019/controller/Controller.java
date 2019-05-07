@@ -29,6 +29,7 @@ public class Controller implements Observer {
 
 
 	public void startGame() {
+		model.updateReps();
 		Utils.logInfo("Controller: startGame");
 		gameController.startGame();
 	}

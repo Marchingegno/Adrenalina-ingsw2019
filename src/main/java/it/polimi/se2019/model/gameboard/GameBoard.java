@@ -9,6 +9,11 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.model.player.TurnStatus;
+import it.polimi.se2019.model.player.damagestatus.HighDamage;
+import it.polimi.se2019.model.player.damagestatus.LowDamage;
+import it.polimi.se2019.model.player.damagestatus.MediumDamage;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -76,7 +81,9 @@ public class GameBoard extends Representable {
 	 * The current player is set as last of the turn queue.
 	 */
 	public void nextPlayerTurn() {
+		playerQueue.peekFirst().setTurnStatus(TurnStatus.IDLE);
 		playerQueue.moveFirstToLast();
+		playerQueue.peekFirst().setTurnStatus(TurnStatus.YOUR_TURN);
 		setChanged();
 	}
 
@@ -236,6 +243,23 @@ public class GameBoard extends Representable {
 	 */
 	public Representation getRep() {
 		return gameBoardRep;
+	}
+
+	public void setCorrectDamageStatus(Player player) {
+		List<Player> damageBoard = player.getPlayerBoard().getDamageBoard();
+
+		//If the game is in frenzy mode, then the player already has the right damageStatus.
+		if (isFrenzyStarted())
+			player.getDamageStatus().refillActions();
+
+		else if(damageBoard.size() < GameConstants.MEDIUM_DAMAGE_THRESHOLD)
+			player.setDamageStatus(new LowDamage());
+
+		else if(damageBoard.size() < GameConstants.HIGH_DAMAGE_THRESHOLD)
+			player.setDamageStatus(new MediumDamage());
+
+		else
+			player.setDamageStatus(new HighDamage());
 	}
 }
 

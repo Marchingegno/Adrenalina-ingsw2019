@@ -20,6 +20,7 @@ import java.util.List;
 public class Player extends Representable {
 
 	private TurnStatus turnStatus;
+	private boolean actionRequested; //If the player is already executing an action.
 	private String playerName;
 	private int playerID;
 	private Color.CharacterColorType playerColor;
@@ -36,6 +37,10 @@ public class Player extends Representable {
 		this.damageStatus = new LowDamage();
 		this.turnStatus = TurnStatus.PRE_SPAWN;
 		setChanged();
+	}
+
+	public boolean isActionRequested() {
+		return actionRequested;
 	}
 
 	/**
@@ -87,6 +92,16 @@ public class Player extends Representable {
 		Utils.logInfo("Player -> setdamageStatus(): " + playerName + "'s damage status set to " + newDamageStatus);
 		setChanged();
 	}
+
+	/**
+	 * Sets the action requested parameter.
+	 * @param bool the parameter to set to the player.
+	 */
+	public void setActionRequested(boolean bool){
+		this.actionRequested = bool;
+	}
+
+
 
 	/**
 	 * Returns the turn status.
