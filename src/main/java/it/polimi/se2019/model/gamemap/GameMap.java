@@ -11,7 +11,6 @@ import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -67,7 +66,7 @@ public class GameMap extends Representable {
 	 *
 	 * @return the number of rows
 	 */
-	public int getNumOfRows() {
+	int getNumOfRows() {
 		return numOfRows;
 	}
 
@@ -76,7 +75,7 @@ public class GameMap extends Representable {
 	 *
 	 * @return the number of columns
 	 */
-	public int getNumOfColumns() {
+	int getNumOfColumns() {
 		return numOfColumns;
 	}
 
@@ -329,20 +328,29 @@ public class GameMap extends Representable {
 
 	/**
 	 * Adds a Square to the map according to the specified coordinates.
-	 *
-	 * @param coordinatesOfTheSquare coordinates where the square has to be added
-	 * @param ammoType               ammo associated with the square
-	 * @param squareColor:           the color of the rooms the square belongs to
-	 * @param possibleDirections     array that specify the directions in which the player can move from the square
+	 * @param square JsonObject to parse.
 	 */
-	private void addSquareToMap(Coordinates coordinatesOfTheSquare, String ammoType, String squareColor, boolean[] possibleDirections, GameBoard gameBoard) {
-		//if (!ammoType.equals("NONE")) {
-		//	map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new SpawnSquare(AmmoType.valueOf(ammoType), Color.CharacterColorType.valueOf(squareColor), possibleDirections, coordinatesOfTheSquare, gameBoard);
-		//	spawnSquaresCoordinates.add(coordinatesOfTheSquare);
-		//} else {
-		//	map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new AmmoSquare(Color.CharacterColorType.valueOf(squareColor), possibleDirections, coordinatesOfTheSquare, gameBoard);
-		//}
-		//Utils.logInfo("GameMap -> addSquareToMap(): Added " + (ammoType.equals("NONE") ? "ammo square" : ammoType + " spawn square") + " in " + coordinatesOfTheSquare + " with ID " + map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()].getRoomID());
+	private void addSquareToMap(JsonObject square, GameBoard gameBoard) throws IOException {
+
+		Coordinates squareCoordinates = new Coordinates(square.get("row").getAsInt(), square.get("column").getAsInt());
+
+		switch (square.get("type").getAsString()) {
+			case "AmmoSquare":
+				map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new AmmoSquare(square.get("roomID").getAsInt(), Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()), getBooleanArray(square.getAsJsonArray("possibleDirection")), squareCoordinates, gameBoard);
+				break;
+
+			case "SpawnSquare":
+				map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new SpawnSquare(square.get("roomID").getAsInt(), AmmoType.valueOf(square.get("ammoType").getAsString()), Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()), getBooleanArray(square.getAsJsonArray("possibleDirection")), squareCoordinates, gameBoard);
+				spawnSquaresCoordinates.add(squareCoordinates);
+				break;
+
+			case "VoidSquare":
+				map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new VoidSquare(squareCoordinates);
+				break;
+
+			default:
+				throw new IOException("failed to add the map");
+		}
 	}
 
 	/**
@@ -376,6 +384,11 @@ public class GameMap extends Representable {
 		}
 	}
 
+	/**
+	 * Receives the name of the map to generate and initialize the squares according to the file.
+	 *
+	 * @param mapName: name of the map to load
+	 */
 	private void generateMapJson(String mapName, GameBoard gameBoard) {
 
 		try (Reader reader = new FileReader(System.getProperty("user.dir") + "/src/resources/maps/" + mapName + ".json")) {
@@ -391,29 +404,7 @@ public class GameMap extends Representable {
 
 			JsonArray squares = rootObject.getAsJsonArray("squares");
 			for (JsonElement entry : squares) {
-				JsonObject square = entry.getAsJsonObject();
-
-				Coordinates squareCoordinates = new Coordinates(square.get("row").getAsInt(), square.get("column").getAsInt());
-
-
-				switch (square.get("type").getAsString()) {
-					case "AmmoSquare":
-						System.out.println(square.get("roomID").getAsInt() + Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()).toString() + getBooleanArray(square.getAsJsonArray("possibleDirection")) + squareCoordinates);
-						map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new AmmoSquare(square.get("roomID").getAsInt(), Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()), getBooleanArray(square.getAsJsonArray("possibleDirection")), squareCoordinates, gameBoard);
-						break;
-
-					case "SpawnSquare":
-						map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new SpawnSquare(square.get("roomID").getAsInt(), AmmoType.valueOf(square.get("ammoType").getAsString()), Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()), getBooleanArray(square.getAsJsonArray("possibleDirection")), squareCoordinates, gameBoard);
-						break;
-
-					case "VoidSquare":
-						map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new VoidSquare(squareCoordinates);
-						break;
-
-					default:
-						throw new IOException("failed to reed " + mapName);
-				}
-
+				addSquareToMap(entry.getAsJsonObject(), gameBoard);
 			}
 		} catch (IOException | JsonParseException e) {
 			Utils.logError("Cannot parse " + mapName, e);
@@ -425,67 +416,9 @@ public class GameMap extends Representable {
 
 		for (int i = 0; i < ja.size(); i++) {
 			result[i] = ja.get(i).getAsBoolean();
-			System.out.println(result[i] + " " + i);
 		}
 
 		return result;
-	}
-
-	/**
-	 * Receives the name of the map to generate and initialize the squares according to the file.
-	 * <p>
-	 * FILE FORMAT:
-	 * NUM_OF_ROWS, NUM_OF_COLUMNS
-	 * NUM_OF_ROOMS
-	 * AMMO_TYPE_ASSOCIATED, ROOMID, CAN_MOVE_UP, CAN_MOVE_RIGHT, CAN_MOVE_DOWN, CAN_MOVE_LEFT <= for each square
-	 * <p>
-	 * <p>
-	 * The declaration of squares follows this order: [0,0], [0,1], ...., [0,NUM_OF_COLUMNS], [1,0], ..., [NUM_OF_ROWS, NUM_OF_COLUMNS].
-	 * <p>
-	 * To declare that in a position there is no square the roomID has to be '-1'.
-	 * <p>
-	 * If the square is a Ammo square the ammo type associated is "NONE", otherwise if it is a spawn square the AMMO_TYPE_ASSOCIATED is the color of the spawn.
-	 *
-	 * @param mapName: name of the map to load
-	 */
-	private void generateMap(String mapName, GameBoard gameBoard) {
-
-		String mapPath = System.getProperty("user.dir") + "/src/resources/maps/" + mapName;
-		String line;
-		String separator = ",";
-		boolean[] possibleDirections = new boolean[4];
-
-		try (BufferedReader bufReader = new BufferedReader(new FileReader(mapPath))) {
-
-			line = bufReader.readLine();
-			String[] elements = line.split(separator);
-
-			numOfRows = Integer.parseInt(elements[0]);
-			numOfColumns = Integer.parseInt(elements[1]);
-
-			map = new Square[numOfRows][numOfColumns];
-
-			for (int i = 0; i < Color.CharacterColorType.values().length; i++)
-				rooms.add(new ArrayList<>());
-
-			for (int i = 0; i < numOfRows; i++) {
-				for (int j = 0; j < numOfColumns; j++) {
-
-					line = bufReader.readLine();
-					elements = line.split(separator);
-
-					possibleDirections[0] = Boolean.parseBoolean(elements[2]);
-					possibleDirections[1] = Boolean.parseBoolean(elements[3]);
-					possibleDirections[2] = Boolean.parseBoolean(elements[4]);
-					possibleDirections[3] = Boolean.parseBoolean(elements[5]);
-
-					addSquareToMap(new Coordinates(i, j), elements[0], elements[1], possibleDirections.clone(), gameBoard);
-				}
-			}
-
-		} catch (IOException e) {
-			Utils.logError("Error in generateMap()", e);
-		}
 	}
 
 	/**
