@@ -261,5 +261,9 @@ public class GameBoard extends Representable {
 		else
 			player.setDamageStatus(new HighDamage());
 	}
+
+	public void setTurnStatus(Player player, TurnStatus turnStatus) {
+		player.setTurnStatus(turnStatus);
+	}
 }
 

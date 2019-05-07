@@ -86,7 +86,11 @@ public class Model {
 	public void setCorrectDamageStatus(Player player){
 		gameBoard.setCorrectDamageStatus(player);
 		updateReps();
+	}
 
+	public void setTurnStatus(Player player, TurnStatus turnStatus){
+		gameBoard.setTurnStatus(player, turnStatus);
+		updateReps();
 	}
 
 	public void doDamageAndAddMarks(Player shootingPlayer, Player damagedPlayer, int amountOfDamage, int amountOfMarks) {

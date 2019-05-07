@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.se2019.utils.GameConstants.*;
-
 /**
  * This class is the top level controller. Its jobs are to delegate the model initialization and to start the game.
  * @author Marchingegno
