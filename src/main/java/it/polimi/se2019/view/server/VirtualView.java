@@ -1,6 +1,5 @@
 package it.polimi.se2019.view.server;
 
-import it.polimi.se2019.controller.Controller;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMap;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class VirtualView implements ViewInterface {
+public class VirtualView extends Observable implements ViewInterface {
 
 	private AbstractConnectionToClient client;
 	private String playerName;

@@ -99,34 +99,17 @@ public class Match {
 		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
 		// Send messages with votes.
-		for(AbstractConnectionToClient client : participants) {
-			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
-			gameConfigMessage.setSkulls(skulls);
-			gameConfigMessage.setMapIndex(mapType.ordinal());
-			client.sendMessage(gameConfigMessage);
-		}
+		sendVotesResultMessages(skulls, mapType);
 
-		// Create list of player names.
+		// Create a list of player names.
 		List<String> playerNames = participants.stream().map(AbstractConnectionToClient::getNickname).collect(Collectors.toList());
 
-		// Create Model and Controller
+		// Create Model and Controller.
 		Model model = new Model(mapType.getMapName(), playerNames, skulls);
 		Controller controller = new Controller(model);
 
-		// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
-		for (AbstractConnectionToClient client : participants) {
-			Utils.logInfo("Added Virtual View to " + client.getNickname());
-			VirtualView virtualView =  new VirtualView(client, client.getNickname());
-			virtualViews.put(client, virtualView);
-			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
-			Utils.logInfo(client.getNickname() + " now observes Game Board");
-			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
-			Utils.logInfo(client.getNickname() + " now observes Game Map");
-			for (Player player : model.getPlayers()) {
-				player.addObserver(virtualView.getPlayerObserver());
-				Utils.logInfo(client.getNickname() + " now observes " + player.getPlayerName());
-			}
-		}
+		// Create a VirtualView for every client and add its observers.
+		createVirtualViewsAndAddObservers(model, controller);
 
 		// Start the game.
 		controller.startGame();
@@ -145,8 +128,8 @@ public class Match {
 	}
 
 	/**
-	 * Find the most voted map, if votes are tied it chooses the smaller map.
-	 * @return the map name of the most voted map.
+	 * Find the most voted map, if votes are tied it chooses the map with the smaller ordinal.
+	 * @return the map type of the most voted map.
 	 */
 	private GameConstants.MapType findVotedMap() {
 		// Create array of votes.
@@ -169,6 +152,47 @@ public class Match {
 
 		// Return corresponding map.
 		return GameConstants.MapType.values()[indexOfMax];
+	}
+
+	/**
+	 * Send a message with the result of the poll.
+	 * @param skulls average number of skulls voted.
+	 * @param mapType most voted map type.
+	 */
+	private void sendVotesResultMessages(int skulls, GameConstants.MapType mapType) {
+		for(AbstractConnectionToClient client : participants) {
+			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
+			gameConfigMessage.setSkulls(skulls);
+			gameConfigMessage.setMapIndex(mapType.ordinal());
+			client.sendMessage(gameConfigMessage);
+		}
+	}
+
+	/**
+	 * Create a VirtualView for every client and add its observers.
+	 * @param model the Model of this game.
+	 * @param controller the Controller of this game.
+	 */
+	private void createVirtualViewsAndAddObservers(Model model, Controller controller) {
+		for (AbstractConnectionToClient client : participants) {
+			// Create VirtualView.
+			Utils.logInfo("Added Virtual View to " + client.getNickname());
+			VirtualView virtualView =  new VirtualView(client, client.getNickname());
+			virtualViews.put(client, virtualView);
+
+			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
+			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
+			Utils.logInfo(client.getNickname() + " now observes Game Board");
+			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
+			Utils.logInfo(client.getNickname() + " now observes Game Map");
+			for (Player player : model.getPlayers()) {
+				player.addObserver(virtualView.getPlayerObserver());
+				Utils.logInfo(client.getNickname() + " now observes " + player.getPlayerName());
+			}
+
+			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
+			virtualView.addObserver(controller);
+		}
 	}
 
 }
