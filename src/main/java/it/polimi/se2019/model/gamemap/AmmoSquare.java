@@ -12,8 +12,8 @@ import it.polimi.se2019.utils.Utils;
  */
 public class AmmoSquare extends Square {
 
-	public AmmoSquare(Color.CharacterColorType squareColor, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
-		super(possibleDirections, squareColor, coordinates);
+	public AmmoSquare(int roomID, Color.CharacterColorType squareColor, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
+		super(roomID, possibleDirections, squareColor, coordinates);
 		deck = gameBoard.getAmmoDeck();
 		hasChanged = true;
 		setNotFilled();

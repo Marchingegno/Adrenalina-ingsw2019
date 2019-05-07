@@ -17,8 +17,8 @@ public class SpawnSquare extends Square {
 
 	private AmmoType ammoType;
 
-	public SpawnSquare(AmmoType ammoType, Color.CharacterColorType squareColor, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
-		super(possibleDirections, squareColor, coordinates);
+	public SpawnSquare(int roomID, AmmoType ammoType, Color.CharacterColorType squareColor, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
+		super(roomID, possibleDirections, squareColor, coordinates);
 		deck = gameBoard.getWeaponDeck();
 		this.ammoType = ammoType;
 		hasChanged = true;

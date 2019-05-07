@@ -14,21 +14,21 @@ import java.util.List;
  */
 public abstract class Square {
 
-	protected Color.CharacterColorType squareColor;
+	protected int roomID;
 	protected boolean hasChanged;
 	protected SquareRep squareRep;
 	private Coordinates coordinates;
 	protected List<Card> cards;
 	protected Deck<Card> deck;
-	private int roomID;
-	private boolean[] possibleDirections;
+	protected boolean[] possibleDirections;
+	private Color.CharacterColorType squareColor;
 	private boolean isFilled;
 	private List<Square> adjacentSquares;
 
 
-	public Square(boolean[] possibleDirections, Color.CharacterColorType squareColor, Coordinates coordinates) {
+	public Square(int roomID, boolean[] possibleDirections, Color.CharacterColorType squareColor, Coordinates coordinates) {
 		this.coordinates = coordinates;
-		this.roomID = squareColor.equals(Color.CharacterColorType.DEFAULT) ? -1 : squareColor.ordinal();
+		this.roomID = roomID;
 		this.possibleDirections = possibleDirections;
 		adjacentSquares = new ArrayList<>();
 		this.cards = new ArrayList<>();

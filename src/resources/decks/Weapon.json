@@ -1,0 +1,169 @@
+{
+	"weapons": [
+		{
+			"name": "LOCK RIFLE",
+			"imagePath": "lock_rifle.png",
+			"price": [
+				"BLUE_AMMO",
+				"BLUE_AMMO"
+			]
+		},
+		{
+			"name": "ELECTROSCYTE",
+			"imagePath": "electroscythe.png",
+			"price": [
+				"BLUE_AMMO"
+			]
+		},
+		{
+			"name": "MACHINE GUN",
+			"imagePath": "machine_gun.png",
+			"price": [
+				"BLUE_AMMO",
+				"RED_AMMO"
+			]
+		},
+		{
+			"name": "TRACTOR BEAM",
+			"imagePath": "tractor_beam.png",
+			"price": [
+				"BLUE_AMMO"
+			]
+		},
+		{
+			"name": "T.H.O.R.",
+			"imagePath": "thor.png",
+			"price": [
+				"BLUE_AMMO",
+				"RED_AMMO"
+			]
+		},
+		{
+			"name": "PLASMA GUN",
+			"imagePath": "plasma_gun.png",
+			"price": [
+				"BLUE_AMMO",
+				"YELLOW_AMMO"
+			]
+		},
+		{
+			"name": "WHISPER",
+			"imagePath": "whisper.png",
+			"price": [
+				"BLUE_AMMO",
+				"BLUE_AMMO",
+				"YELLOW_AMMO"
+			]
+		},
+		{
+			"name": "VORTEX CANNON",
+			"imagePath": "vortex_cannon.png",
+			"price": [
+				"RED_AMMO",
+				"BLUE_AMMO"
+			]
+		},
+		{
+			"name": "FURNACE",
+			"imagePath": "furnace.png",
+			"price": [
+				"RED_AMMO",
+				"BLUE_AMMO"
+			]
+		},
+		{
+			"name": "HEAT SEEKER",
+			"imagePath": "heat_seeker.png",
+			"price": [
+				"RED_AMMO",
+				"RED_AMMO",
+				"YELLOW_AMMO"
+			]
+		},
+		{
+			"name": "HELLION",
+			"imagePath": "hellion.png",
+			"price": [
+				"RED_AMMO",
+				"YELLOW_AMMO"
+			]
+		},
+		{
+			"name": "FLAMETHROWER",
+			"imagePath": "flamethrower.png",
+			"price": [
+				"RED_AMMO"
+			]
+		},
+		{
+			"name": "GRENADE LAUNCHER",
+			"imagePath": "grenade_launcher.png",
+			"price": [
+				"RED_AMMO"
+			]
+		},
+		{
+			"name": "ROCKET LAUNCHER",
+			"imagePath": "rocket_launcher.png",
+			"price": [
+				"RED_AMMO",
+				"RED_AMMO"
+			]
+		},
+		{
+			"name": "ZX-2",
+			"imagePath": "zx-2.png",
+			"price": [
+				"YELLOW_AMMO",
+				"RED_AMMO"
+			]
+		},
+		{
+			"name": "SHOTGUN",
+			"imagePath": "shotgun.png",
+			"price": [
+				"YELLOW_AMMO",
+				"YELLOW_AMMO"
+			]
+		},
+		{
+			"name": "POWER GLOVE",
+			"imagePath": "power_glove.png",
+			"price": [
+				"YELLOW_AMMO",
+				"BLUE_AMMO"
+			]
+		},
+		{
+			"name": "RAILGUN",
+			"imagePath": "railgun.png",
+			"price": [
+				"YELLOW_AMMO",
+				"YELLOW_AMMO",
+				"BLUE_AMMO"
+			]
+		},
+		{
+			"name": "SHOCKWAVE",
+			"imagePath": "shockwave.png",
+			"price": [
+				"YELLOW_AMMO"
+			]
+		},
+		{
+			"name": "CYBERBLADE",
+			"imagePath": "cyberblade.png",
+			"price": [
+				"YELLOW_AMMO",
+				"RED_AMMO"
+			]
+		},
+		{
+			"name": "SLEDGEHAMMER",
+			"imagePath": "sledgehammer.png",
+			"price": [
+				"YELLOW_AMMO"
+			]
+		}
+	]
+}

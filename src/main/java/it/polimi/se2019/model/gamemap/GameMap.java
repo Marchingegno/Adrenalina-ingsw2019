@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import com.google.gson.*;
 import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
@@ -13,6 +14,7 @@ import it.polimi.se2019.utils.Utils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +37,7 @@ public class GameMap extends Representable {
 
 	public GameMap(String mapName, List<Player> players, GameBoard gameBoard) {
 
-		generateMap(mapName, gameBoard);
+		generateMapJson(mapName, gameBoard);
 		connectSquares();
 		addSquaresToRooms();
 		fillMap();
@@ -334,13 +336,13 @@ public class GameMap extends Representable {
 	 * @param possibleDirections     array that specify the directions in which the player can move from the square
 	 */
 	private void addSquareToMap(Coordinates coordinatesOfTheSquare, String ammoType, String squareColor, boolean[] possibleDirections, GameBoard gameBoard) {
-		if (!ammoType.equals("NONE")) {
-			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new SpawnSquare(AmmoType.valueOf(ammoType), Color.CharacterColorType.valueOf(squareColor), possibleDirections, coordinatesOfTheSquare, gameBoard);
-			spawnSquaresCoordinates.add(coordinatesOfTheSquare);
-		} else {
-			map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new AmmoSquare(Color.CharacterColorType.valueOf(squareColor), possibleDirections, coordinatesOfTheSquare, gameBoard);
-		}
-		Utils.logInfo("GameMap -> addSquareToMap(): Added " + (ammoType.equals("NONE") ? "ammo square" : ammoType + " spawn square") + " in " + coordinatesOfTheSquare + " with ID " + map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()].getRoomID());
+		//if (!ammoType.equals("NONE")) {
+		//	map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new SpawnSquare(AmmoType.valueOf(ammoType), Color.CharacterColorType.valueOf(squareColor), possibleDirections, coordinatesOfTheSquare, gameBoard);
+		//	spawnSquaresCoordinates.add(coordinatesOfTheSquare);
+		//} else {
+		//	map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()] = new AmmoSquare(Color.CharacterColorType.valueOf(squareColor), possibleDirections, coordinatesOfTheSquare, gameBoard);
+		//}
+		//Utils.logInfo("GameMap -> addSquareToMap(): Added " + (ammoType.equals("NONE") ? "ammo square" : ammoType + " spawn square") + " in " + coordinatesOfTheSquare + " with ID " + map[coordinatesOfTheSquare.getRow()][coordinatesOfTheSquare.getColumn()].getRoomID());
 	}
 
 	/**
@@ -372,6 +374,62 @@ public class GameMap extends Representable {
 				}
 			}
 		}
+	}
+
+	private void generateMapJson(String mapName, GameBoard gameBoard) {
+
+
+		try (Reader reader = new FileReader(System.getProperty("user.dir") + "/src/resources/maps/SmallMap.json")) {
+			JsonParser parser = new JsonParser();
+			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
+			numOfRows = rootObject.get("row").getAsInt();
+			numOfColumns = rootObject.get("column").getAsInt();
+
+			map = new Square[numOfRows][numOfColumns];
+
+			for (int i = 0; i < Color.CharacterColorType.values().length; i++)
+				rooms.add(new ArrayList<>());
+
+			JsonArray squares = rootObject.getAsJsonArray("squares");
+			for (JsonElement entry : squares) {
+				JsonObject square = entry.getAsJsonObject();
+
+				Coordinates squareCoordinates = new Coordinates(square.get("row").getAsInt(), square.get("column").getAsInt());
+
+
+				switch (square.get("type").getAsString()) {
+					case "AmmoSquare":
+						System.out.println(square.get("roomID").getAsInt() + Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()).toString() + getBooleanArray(square.getAsJsonArray("possibleDirection")) + squareCoordinates);
+						map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new AmmoSquare(square.get("roomID").getAsInt(), Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()), getBooleanArray(square.getAsJsonArray("possibleDirection")), squareCoordinates, gameBoard);
+						break;
+
+					case "SpawnSquare":
+						map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new SpawnSquare(square.get("roomID").getAsInt(), AmmoType.valueOf(square.get("ammoType").getAsString()), Color.CharacterColorType.valueOf(square.get("squareColor").getAsString()), getBooleanArray(square.getAsJsonArray("possibleDirection")), squareCoordinates, gameBoard);
+						break;
+
+					case "VoidSquare":
+						map[squareCoordinates.getRow()][squareCoordinates.getColumn()] = new VoidSquare(squareCoordinates);
+						break;
+
+					default:
+						throw new IOException("failed to reed " + mapName);
+				}
+
+			}
+		} catch (IOException | JsonParseException e) {
+			Utils.logError("Cannot parse " + mapName, e);
+		}
+	}
+
+	private boolean[] getBooleanArray(JsonArray ja) {
+		boolean[] result = new boolean[4];
+
+		for (int i = 0; i < ja.size(); i++) {
+			result[i] = ja.get(i).getAsBoolean();
+			System.out.println(result[i] + " " + i);
+		}
+
+		return result;
 	}
 
 	/**

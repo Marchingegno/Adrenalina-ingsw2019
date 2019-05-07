@@ -89,7 +89,7 @@ public class CLIViewTest {
 		playersName.add("Boo");
 		playersName.add("Pippo");
 		playersName.add("Pluto");
-		Model model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersName, 5);
+		Model model = new Model(GameConstants.MapType.SMALL_MAP.getMapName(), playersName, 5);
 		Controller controller = new Controller(model);
 		GameMap gameMap = model.getGameBoard().getGameMap();
 		List<Player> players = model.getPlayers();

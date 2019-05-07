@@ -463,7 +463,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 2), gameBoard));
+		map.getRoomCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 2), gameBoard));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -476,7 +476,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 9), gameBoard));
+		map.getRoomCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 9), gameBoard));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -489,7 +489,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.DEFAULT, possibleDirection, new Coordinates(0, 0), gameBoard));
+		map.getRoomCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.DEFAULT, possibleDirection, new Coordinates(0, 0), gameBoard));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -502,7 +502,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 0), gameBoard));
+		map.getRoomCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 0), gameBoard));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -515,7 +515,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.DEFAULT, possibleDirection, new Coordinates(9, 9), gameBoard));
+		map.getRoomCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.DEFAULT, possibleDirection, new Coordinates(9, 9), gameBoard));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -528,7 +528,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(9, 1), gameBoard));
+		map.getRoomCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(9, 1), gameBoard));
 	}
 
 
@@ -542,7 +542,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getRoomCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 1), gameBoard));
+		map.getRoomCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(0, 1), gameBoard));
 	}
 
 	@Test
@@ -603,7 +603,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(2, 1), gameBoard));
+		map.getCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(2, 1), gameBoard));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -616,7 +616,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(5, 1), gameBoard));
+		map.getCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.YELLOW, possibleDirection, new Coordinates(5, 1), gameBoard));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)
@@ -629,7 +629,7 @@ GameMap map = gameBoard.getGameMap();
 		possibleDirection[1] = true;
 		possibleDirection[2] = true;
 		possibleDirection[3] = true;
-		map.getCoordinates(new SpawnSquare(AmmoType.RED_AMMO, Color.CharacterColorType.DEFAULT, possibleDirection, new Coordinates(2, 1), gameBoard));
+		map.getCoordinates(new SpawnSquare(0, AmmoType.RED_AMMO, Color.CharacterColorType.DEFAULT, possibleDirection, new Coordinates(2, 1), gameBoard));
 	}
 
 	@Test
