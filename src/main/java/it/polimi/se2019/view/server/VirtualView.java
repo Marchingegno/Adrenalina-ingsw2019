@@ -103,6 +103,10 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	}
 
+	@Override
+	public void askSpawn() {
+
+	}
 
 	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {

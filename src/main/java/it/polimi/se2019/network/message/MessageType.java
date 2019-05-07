@@ -16,6 +16,7 @@ public enum MessageType {
 	SHOOT,
 	END_TURN,
 	ACTION,
+	SPAWN,
 	EXAMPLE_ACTION // TODO remove
 
 }

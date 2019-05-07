@@ -111,6 +111,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askSpawn() {
+
+	}
+
+	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 
 	}

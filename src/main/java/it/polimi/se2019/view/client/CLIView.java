@@ -158,6 +158,11 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
+	public void askSpawn() {
+
+	}
+
+	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		if (gameMapRepToUpdate == null)
 			throw new NullPointerException();

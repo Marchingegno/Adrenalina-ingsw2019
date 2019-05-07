@@ -7,6 +7,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupDeck;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
+import it.polimi.se2019.model.gamemap.Square;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
 import it.polimi.se2019.model.player.TurnStatus;
@@ -264,6 +265,21 @@ public class GameBoard extends Representable {
 
 	public void setTurnStatus(Player player, TurnStatus turnStatus) {
 		player.setTurnStatus(turnStatus);
+	}
+
+	public void spawnPlayer(Player player, int indexOfCard) {
+		//Move player to spawn square
+		Coordinates spawningCoordinates = gameMap.getSpawnSquare(player.getPlayerBoard().getPowerupCards().get(indexOfCard).getAssociatedAmmo());
+		gameMap.movePlayerTo(player, spawningCoordinates);
+
+		//Remove card from player
+		player.getPlayerBoard().removePowerup(indexOfCard);
+		//Set its turn status
+		player.setTurnStatus(TurnStatus.IDLE);
+	}
+
+	public void addPowerupCardTo(Player player) {
+		player.getPlayerBoard().getPowerupCards().add(powerupDeck.drawCard());
 	}
 }
 

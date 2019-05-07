@@ -49,7 +49,7 @@ public class TurnController{
 
 		switch(message.getMessageType()){
 			case ACTION:
-				VirtualView vw = ((ActionMessage) message).getVirtualView();
+				//VirtualView vw = ((ActionMessage) message).getVirtualView();
 			case GRAB_AMMO:
 				model.grabAmmoCard(player, ((DefaultActionMessage)message).getIndex());
 				break;
@@ -62,6 +62,15 @@ public class TurnController{
 			case RELOAD:
 				player.reload(((DefaultActionMessage)message).getIndex());
 				break;
+			case SPAWN:
+				//If the player requests to spawn, make it draw a powerup card and request the choice.
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST){
+					model.addPowerupCardTo(player);
+					virtualView.askSpawn();
+				}
+				else if(message.getMessageSubtype() == MessageSubtype.ANSWER){
+					model.spawnPlayer(player, ((DefaultActionMessage) message).getIndex());
+				}
 			default: throw new RuntimeException("Received wrong type of message.");
 		}
 

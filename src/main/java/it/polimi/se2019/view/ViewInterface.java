@@ -21,6 +21,8 @@ public interface ViewInterface {
 
 	void askReload();
 
+	void askSpawn();
+
 	void displayPossibleActions(List<MacroAction> possibleActions);
 
 	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);

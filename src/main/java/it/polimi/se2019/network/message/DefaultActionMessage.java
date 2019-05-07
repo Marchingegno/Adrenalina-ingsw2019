@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.message;
 
 /**
- * Used for grab, shoot and reload.
+ * Used for action requesting, grab, spawn, shoot and reload.
  * @author Marchingegno
  */
 public class DefaultActionMessage extends ActionMessage{

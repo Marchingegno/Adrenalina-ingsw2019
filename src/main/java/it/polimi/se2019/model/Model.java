@@ -65,6 +65,17 @@ public class Model {
 		updateReps();
 	}
 
+	public void spawnPlayer(Player player, int indexOfCard){
+		gameBoard.spawnPlayer(player, indexOfCard);
+		updateReps();
+	}
+
+	public void addPowerupCardTo(Player player)
+	{
+		gameBoard.addPowerupCardTo(player);
+		updateReps();
+	}
+
 
 	public Player getCurrentPlayer() {
 		return gameBoard.getCurrentPlayer();
