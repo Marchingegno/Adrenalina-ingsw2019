@@ -3,7 +3,6 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
@@ -32,7 +31,7 @@ public class Controller implements Observer {
 
 		this.model = new Model(mapType.getMapName(), playerNames, skulls);
 		setObservers();
-		gameController = new GameController(model);
+		gameController = new GameController(model, this.virtualViews);
 		Utils.logInfo("Created controller.");
 	}
 
@@ -42,6 +41,8 @@ public class Controller implements Observer {
 		Utils.logInfo("Controller: startGame");
 		gameController.startGame();
 	}
+
+
 
 
 	/**
@@ -73,5 +74,13 @@ public class Controller implements Observer {
 			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
 			virtualView.addObserver(this);
 		}
+	}
+
+	static VirtualView getVirtualViewFromPlayer(Player player, List<VirtualView> virtualViews){
+		String playerName = player.getPlayerName();
+		return virtualViews.stream()
+				.filter(item -> item.getPlayerName().equals(playerName))
+				.findFirst()
+				.orElseThrow(() -> new RuntimeException("Player not found!"));
 	}
 }

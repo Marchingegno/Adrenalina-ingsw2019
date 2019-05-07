@@ -135,7 +135,7 @@ public class Player extends Representable {
 	public void resetAfterDeath() {
 		playerBoard.resetBoardAfterDeath();
 		setDamageStatus(new LowDamage());
-		turnStatus = TurnStatus.IDLE;
+		//turnStatus = TurnStatus.IDLE;
 		setChanged();
 	}
 

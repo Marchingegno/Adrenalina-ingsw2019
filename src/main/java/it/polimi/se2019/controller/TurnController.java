@@ -7,6 +7,8 @@ import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.view.server.VirtualView;
 
+import java.util.List;
+
 /**
  * This class is in a lower level than GameController. It handles the logic relative
  * This class is a message handler.
@@ -17,12 +19,13 @@ public class TurnController{
 	private Model model;
 	private GameMap gameMap;
 	private WeaponController weaponController;
+	private List<VirtualView> virtualViews;
 
-
-	public TurnController(Model model) {
+	public TurnController(Model model, List<VirtualView> virtualViews) {
 		this.model = model;
 		this.weaponController = new WeaponController();
 		this.gameMap = model.getGameMap();
+		this.virtualViews = virtualViews;
 	}
 
 
@@ -46,6 +49,7 @@ public class TurnController{
 		switch(message.getMessageType()){
 			case ACTION:
 				//VirtualView vw = ((ActionMessage) message).getVirtualView();
+				break;
 			case GRAB_AMMO:
 				model.grabAmmoCard(player, ((DefaultActionMessage)message).getIndex());
 				break;
@@ -58,15 +62,6 @@ public class TurnController{
 			case RELOAD:
 				player.reload(((DefaultActionMessage)message).getIndex());
 				break;
-			case SPAWN:
-				//If the player requests to spawn, make it draw a powerup card and request the choice.
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST){
-					model.addPowerupCardTo(player);
-					virtualView.askSpawn();
-				}
-				else if(message.getMessageSubtype() == MessageSubtype.ANSWER){
-					model.spawnPlayer(player, ((DefaultActionMessage) message).getIndex());
-				}
 			default: throw new RuntimeException("Received wrong type of message.");
 		}
 

@@ -1,6 +1,9 @@
 package it.polimi.se2019.utils;
 
+import it.polimi.se2019.network.message.MessageType;
+
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * This class contains all the information to execute an action, and it does so by splitting it into atomic actions.
@@ -13,6 +16,10 @@ public class MacroAction {
 	private final boolean grab;
 	private final boolean reload;
 	private final boolean shoot;
+	private boolean moved;
+	private boolean grabbed;
+	private boolean reloaded;
+	private boolean shot;
 
 	public MacroAction(int numOfMovements, boolean grab, boolean reload, boolean shoot, String name) {
 		this.numOfMovements = numOfMovements;
@@ -45,17 +52,19 @@ public class MacroAction {
 	}
 
 
-	public void move(int row, int column) {
+	public void move() {
 	}
 
-	public void grab(int row, int column) {
+	public void grab() {
 	}
 
-	public void reload(int indexOfWeapon) {
+	public void reload() {
 	}
 
-	public void shoot(int indexOfWeapon, ArrayList<String> playersToShoot) {
+	public void shoot() {
 	}
+
+
 
 	@Override
 	public String toString() {

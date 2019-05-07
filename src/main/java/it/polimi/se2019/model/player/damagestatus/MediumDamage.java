@@ -10,7 +10,6 @@ import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
 public class MediumDamage extends DamageStatus {
 	public final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
-	private ArrayList<MacroAction> availableActions;
 
 	public MediumDamage(){
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
