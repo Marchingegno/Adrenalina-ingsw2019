@@ -43,10 +43,6 @@ public class TurnController{
 		VirtualView virtualView = ((ActionMessage)message).getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
-		if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-			throw new RuntimeException("It's not your turn!");
-		}
-
 		switch(message.getMessageType()){
 			case ACTION:
 				//VirtualView vw = ((ActionMessage) message).getVirtualView();

@@ -38,7 +38,6 @@ public class GameController {
 		setCorrectDamageStatus(model.getCurrentPlayer());
 		//Set its TurnStatus.
 		model.setTurnStatus(model.getCurrentPlayer(), TurnStatus.YOUR_TURN);
-		//model.getCurrentPlayer().setTurnStatus(TurnStatus.YOUR_TURN);
 	}
 
 
