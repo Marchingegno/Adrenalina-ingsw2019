@@ -6,10 +6,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
@@ -46,6 +43,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
+		((ActionMessage)message).setVirtualView(this);
 		switch (message.getMessageType()) {
 			case EXAMPLE_ACTION: // TODO remove
 				if (message.getMessageSubtype() == MessageSubtype.ANSWER) {
@@ -56,9 +54,10 @@ public class VirtualView extends Observable implements ViewInterface {
 				}
 				break;
 			case ACTION:
-				//notify(message)
+
 			default:
-				Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
+				notifyObservers(message);
+				//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
 				break;
 
 		}
@@ -78,37 +77,37 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askAction() {
-
+		client.sendMessage(new ActionMessage(MessageType.ACTION, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askGrab() {
-
+		client.sendMessage(new ActionMessage(MessageType.GRAB_AMMO, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askMove() {
-
+		client.sendMessage(new ActionMessage(MessageType.MOVE, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askShoot() {
-
+		client.sendMessage(new ActionMessage(MessageType.SHOOT, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askReload() {
-
+		client.sendMessage(new ActionMessage(MessageType.RELOAD, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askSpawn() {
-
+		client.sendMessage(new ActionMessage(MessageType.SPAWN, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askEnd() {
-
+		client.sendMessage(new ActionMessage(MessageType.END_TURN, MessageSubtype.REQUEST));
 	}
 
 
