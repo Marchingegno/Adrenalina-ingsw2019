@@ -23,22 +23,25 @@ import java.util.Observer;
 public class VirtualView implements ViewInterface {
 
 	private AbstractConnectionToClient client;
-	private Controller controller;
 	private String playerName;
 
-	public VirtualView(Controller controller, AbstractConnectionToClient client, String playerName) {
+
+	public VirtualView(AbstractConnectionToClient client, String playerName) {
 		this.client = client;
 		this.playerName = playerName;
-		this.controller = controller;
+	}
 
-		this.controller.getModel().getGameBoard().addObserver(new GameBoardObserver());
-		Utils.logInfo(playerName + " now observes Game Board");
-		this.controller.getModel().getGameBoard().getGameMap().addObserver(new GameMapObserver());
-		Utils.logInfo(playerName + " now observes Game Map");
-		for (Player player : this.controller.getModel().getPlayers()) {
-			player.addObserver(new PlayerObserver());
-			Utils.logInfo(playerName + " now observes " + player.getPlayerName());
-		}
+
+	public GameBoardObserver getGameBoardObserver() {
+		return new GameBoardObserver();
+	}
+
+	public GameMapObserver getGameMapObserver() {
+		return new GameMapObserver();
+	}
+
+	public PlayerObserver getPlayerObserver() {
+		return new PlayerObserver();
 	}
 
 	public String getPlayerName() {
@@ -65,6 +68,7 @@ public class VirtualView implements ViewInterface {
 	public void onClientDisconnected() {
 		// TODO inform controller/model and supend the player
 	}
+
 
 	// TODO remove
 	@Override

@@ -72,6 +72,12 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 		messageReceiver.processMessage(message);
 	}
 
+	/**
+	 * Called by the RMI server to check for a connection lost.
+	 * When this method interrupts the server knows the connection has been lost.
+	 * @throws RemoteException
+	 * @throws InterruptedException
+	 */
 	@Override
 	public synchronized void connectionListenerSubject() throws RemoteException, InterruptedException {
 		wait();

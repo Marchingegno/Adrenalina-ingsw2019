@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.controller.Controller;
+import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
@@ -88,9 +89,10 @@ public class CLIViewTest {
 		playersName.add("Boo");
 		playersName.add("Pippo");
 		playersName.add("Pluto");
-		Controller controller = new Controller(playersName, 5, GameConstants.MapType.MEDIUM_MAP.getMapName());
-		GameMap gameMap = controller.getModel().getGameBoard().getGameMap();
-		List<Player> players = controller.getModel().getPlayers();
+		Model model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersName, 5);
+		Controller controller = new Controller(model);
+		GameMap gameMap = model.getGameBoard().getGameMap();
+		List<Player> players = model.getPlayers();
 
 		gameMap.movePlayerTo(players.get(0), new Coordinates(2,2));
 		gameMap.movePlayerTo(players.get(1), new Coordinates(1,2));
@@ -123,16 +125,16 @@ public class CLIViewTest {
 		players.get(4).getPlayerBoard().addMarks(players.get(3), 3);
 		players.get(4).getPlayerBoard().addMarks(players.get(2), 1);
 
-		controller.getModel().getGameBoard().addKillShot(players.get(0), false);
-		controller.getModel().getGameBoard().addKillShot(players.get(1),true);
-		controller.getModel().getGameBoard().addKillShot(players.get(3), false);
-		controller.getModel().getGameBoard().addKillShot(players.get(4), true);
-		controller.getModel().getGameBoard().addKillShot(players.get(0), true);
-		controller.getModel().getGameBoard().addKillShot(players.get(2), false);
+		model.getGameBoard().addKillShot(players.get(0), false);
+		model.getGameBoard().addKillShot(players.get(1),true);
+		model.getGameBoard().addKillShot(players.get(3), false);
+		model.getGameBoard().addKillShot(players.get(4), true);
+		model.getGameBoard().addKillShot(players.get(0), true);
+		model.getGameBoard().addKillShot(players.get(2), false);
 
 		CLIView cliView= new CLIView();
 
-		cliView.updateGameBoardRep(new GameBoardRep(controller.getModel().getGameBoard()));
+		cliView.updateGameBoardRep(new GameBoardRep(model.getGameBoard()));
 		cliView.updateGameMapRep(new GameMapRep(gameMap));
 		cliView.updatePlayerRep(new PlayerRep(players.get(0)));
 		cliView.updatePlayerRep(new PlayerRep(players.get(1)));
@@ -167,7 +169,7 @@ public class CLIViewTest {
 		players.get(4).getPlayerBoard().addMarks(players.get(1), 3);
 		players.get(4).getPlayerBoard().addMarks(players.get(0), 1);
 
-		cliView.updateGameBoardRep(new GameBoardRep(controller.getModel().getGameBoard()));
+		cliView.updateGameBoardRep(new GameBoardRep(model.getGameBoard()));
 		cliView.updateGameMapRep(new GameMapRep(gameMap));
 		cliView.updatePlayerRep(new PlayerRep(players.get(0)));
 		cliView.updatePlayerRep(new PlayerRep(players.get(1)));

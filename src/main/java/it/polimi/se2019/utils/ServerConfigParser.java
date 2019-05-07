@@ -112,7 +112,7 @@ public class ServerConfigParser {
 			return moveTimeLimit * 1000L; // Convert seconds to milliseconds.
 		}
 
-		public String getHost() {
+		String getHost() {
 			return host;
 		}
 

@@ -10,12 +10,11 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.PlayerQueue;
+import it.polimi.se2019.utils.GameConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static it.polimi.se2019.utils.GameConstants.*;
 
 /**
  * Facade of the game board.
@@ -31,6 +30,10 @@ public class Model {
 	private GameMap gameMap;
 
 	public Model(String mapPath, List<String> playerNames, int startingSkulls) {
+		if(startingSkulls < GameConstants.MIN_SKULLS || startingSkulls > GameConstants.MAX_SKULLS)
+			throw new IllegalArgumentException("Invalid number of skulls!");
+		if(playerNames.size() > GameConstants.MAX_PLAYERS || playerNames.size() < GameConstants.MIN_PLAYERS)
+			throw new IllegalArgumentException("Invalid number of players!");
 		gameBoard = new GameBoard(mapPath, playerNames, startingSkulls);
 		gameMap = gameBoard.getGameMap();
 	}
@@ -116,8 +119,8 @@ public class Model {
 		boolean overkill = false;
 
 		//This will check the damageBoard of the player and award killShot points.
-		killingPlayer = playerBoard.getDamageBoard().get(DEATH_DAMAGE - 1);
-		if (playerBoard.getDamageBoard().lastIndexOf(killingPlayer) == OVERKILL_DAMAGE - 1) {
+		killingPlayer = playerBoard.getDamageBoard().get(GameConstants.DEATH_DAMAGE - 1);
+		if (playerBoard.getDamageBoard().lastIndexOf(killingPlayer) == GameConstants.OVERKILL_DAMAGE - 1) {
 			overkill = true;
 		}
 		gameBoard.addKillShot(killingPlayer, overkill);
@@ -141,7 +144,7 @@ public class Model {
 		//This method relies on the "SCORES" array defined in GameConstants.
 		if (deadPlayerBoard.isFlipped()) {
 			for (Player p : sortedPlayers) {
-				p.getPlayerBoard().addPoints(FRENZY_SCORES.get(offset));
+				p.getPlayerBoard().addPoints(GameConstants.FRENZY_SCORES.get(offset));
 				offset++;
 			}
 		} else {
@@ -149,7 +152,7 @@ public class Model {
 			sortedPlayers.get(0).getPlayerBoard().addPoints(1);
 
 			for (Player p : sortedPlayers) {
-				p.getPlayerBoard().addPoints(SCORES.get(deadPlayerBoard.getNumberOfDeaths() + offset));
+				p.getPlayerBoard().addPoints(GameConstants.SCORES.get(deadPlayerBoard.getNumberOfDeaths() + offset));
 				offset++;
 				/*Se con questa morte si attiva la frenzy, o la frenzy è già attivata,
 				 *si deve swappare la damageBoard e il damageStatus del player.

@@ -21,30 +21,10 @@ public class Controller implements Observer {
 	private Model model;
 
 
-	public Controller(List<String> playerNames, int skulls, String mapPath) {
-		if(skulls < MIN_SKULLS || skulls > MAX_SKULLS)
-			throw new IllegalArgumentException("Invalid number of skulls!");
-		if(playerNames.size() > MAX_PLAYERS || playerNames.size() < MIN_PLAYERS)
-			throw new IllegalArgumentException("Invalid number of players!");
-
-
-		this.model = new Model(mapPath, playerNames, skulls);
+	public Controller(Model model) {
+		this.model = model;
 		gameController = new GameController(model);
 		Utils.logInfo("Created controller.");
-	}
-
-	public Model getModel(){
-		return model;
-	}
-
-	@Deprecated
-	private void initializeModel(String mapPath, ArrayList<String> playerNames, int skulls) {
-		if(skulls < MIN_SKULLS || skulls > MAX_SKULLS)
-			throw new IllegalArgumentException("Invalid number of skulls!");
-		if(playerNames.size() > MAX_PLAYERS || playerNames.size() < MIN_PLAYERS)
-			throw new IllegalArgumentException("Invalid number of players!");
-
-		this.model = new Model (mapPath, playerNames, skulls);
 	}
 
 

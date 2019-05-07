@@ -1,6 +1,8 @@
 package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.controller.Controller;
+import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
@@ -9,7 +11,9 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Match {
@@ -17,7 +21,6 @@ public class Match {
 	private final int numberOfParticipants;
 	private final ArrayList<AbstractConnectionToClient> participants;
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
-	private Controller controller;
 	private boolean matchStarted = false;
 
 	// Game config attributes.
@@ -95,34 +98,38 @@ public class Match {
 		GameConstants.MapType mapType = findVotedMap();
 		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
-		// start the game.
-		List<String> playerNames = participants.stream().map(AbstractConnectionToClient::getNickname).collect(Collectors.toList());
-		controller = new Controller(playerNames, skulls, mapType.getMapName());
-
-		for (AbstractConnectionToClient client : participants) {
-			Utils.logInfo("Added Virtual View to " + client.getNickname());
-			virtualViews.put(client, new VirtualView(controller, client, client.getNickname()));
+		// Send messages with votes.
+		for(AbstractConnectionToClient client : participants) {
+			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
+			gameConfigMessage.setSkulls(skulls);
+			gameConfigMessage.setMapIndex(mapType.ordinal());
+			client.sendMessage(gameConfigMessage);
 		}
 
-		controller.getModel().updateReps();
+		// Create list of player names.
+		List<String> playerNames = participants.stream().map(AbstractConnectionToClient::getNickname).collect(Collectors.toList());
 
-		// TODO no need for a timer here
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				// Send game start message with the voted skulls and map.
-				for(AbstractConnectionToClient client : participants) {
-					GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
-					gameConfigMessage.setSkulls(skulls);
-					gameConfigMessage.setMapIndex(mapType.ordinal());
-					client.sendMessage(gameConfigMessage);
-				}
+		// Create Model and Controller
+		Model model = new Model(mapType.getMapName(), playerNames, skulls);
+		Controller controller = new Controller(model);
 
-				Utils.logInfo("Timer ended. Starting the match...");
+		// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
+		for (AbstractConnectionToClient client : participants) {
+			Utils.logInfo("Added Virtual View to " + client.getNickname());
+			VirtualView virtualView =  new VirtualView(client, client.getNickname());
+			virtualViews.put(client, virtualView);
+			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
+			Utils.logInfo(client.getNickname() + " now observes Game Board");
+			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
+			Utils.logInfo(client.getNickname() + " now observes Game Map");
+			for (Player player : model.getPlayers()) {
+				player.addObserver(virtualView.getPlayerObserver());
+				Utils.logInfo(client.getNickname() + " now observes " + player.getPlayerName());
 			}
-		}, 5000L);
+		}
 
+		// Start the game.
+		controller.startGame();
 		matchStarted = true;
 	}
 
