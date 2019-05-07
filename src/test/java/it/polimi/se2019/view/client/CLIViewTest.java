@@ -9,6 +9,7 @@ import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.view.server.VirtualView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,7 +91,6 @@ public class CLIViewTest {
 		playersName.add("Pippo");
 		playersName.add("Pluto");
 		Model model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersName, 5);
-		Controller controller = new Controller(model);
 		GameMap gameMap = model.getGameBoard().getGameMap();
 		List<Player> players = model.getPlayers();
 

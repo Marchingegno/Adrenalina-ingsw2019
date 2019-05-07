@@ -1,8 +1,6 @@
 package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
@@ -14,7 +12,6 @@ import it.polimi.se2019.view.server.VirtualView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Match {
 
@@ -101,15 +98,15 @@ public class Match {
 		// Send messages with votes.
 		sendVotesResultMessages(skulls, mapType);
 
-		// Create a list of player names.
-		List<String> playerNames = participants.stream().map(AbstractConnectionToClient::getNickname).collect(Collectors.toList());
+		// Create virtualViews.
+		for (AbstractConnectionToClient client : participants) {
+			Utils.logInfo("Added Virtual View to " + client.getNickname());
+			VirtualView virtualView =  new VirtualView(client);
+			virtualViews.put(client, virtualView);
+		}
 
-		// Create Model and Controller.
-		Model model = new Model(mapType.getMapName(), playerNames, skulls);
-		Controller controller = new Controller(model);
-
-		// Create a VirtualView for every client and add its observers.
-		createVirtualViewsAndAddObservers(model, controller);
+		// Create Controller.
+		Controller controller = new Controller(mapType, virtualViews.values(), skulls);
 
 		// Start the game.
 		controller.startGame();
@@ -165,33 +162,6 @@ public class Match {
 			gameConfigMessage.setSkulls(skulls);
 			gameConfigMessage.setMapIndex(mapType.ordinal());
 			client.sendMessage(gameConfigMessage);
-		}
-	}
-
-	/**
-	 * Create a VirtualView for every client and add its observers.
-	 * @param model the Model of this game.
-	 * @param controller the Controller of this game.
-	 */
-	private void createVirtualViewsAndAddObservers(Model model, Controller controller) {
-		for (AbstractConnectionToClient client : participants) {
-			// Create VirtualView.
-			Utils.logInfo("Added Virtual View to " + client.getNickname());
-			VirtualView virtualView =  new VirtualView(client, client.getNickname());
-			virtualViews.put(client, virtualView);
-
-			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
-			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
-			Utils.logInfo(client.getNickname() + " now observes Game Board");
-			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
-			Utils.logInfo(client.getNickname() + " now observes Game Map");
-			for (Player player : model.getPlayers()) {
-				player.addObserver(virtualView.getPlayerObserver());
-				Utils.logInfo(client.getNickname() + " now observes " + player.getPlayerName());
-			}
-
-			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
-			virtualView.addObserver(controller);
 		}
 	}
 

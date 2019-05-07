@@ -1,13 +1,15 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.server.AbstractConnectionToClient;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class is the top level controller. Its jobs are to delegate the model initialization and to start the game.
@@ -15,12 +17,21 @@ import java.util.Observer;
  */
 public class Controller implements Observer {
 
+	private List<VirtualView> virtualViews;
 	private GameController gameController;
 	private Model model;
 
 
-	public Controller(Model model) {
-		this.model = model;
+	public Controller(GameConstants.MapType mapType, Collection<VirtualView> virtualViews, int skulls) {
+		this.virtualViews = new ArrayList<>(virtualViews);
+
+		// Create a list of player names.
+		List<String> playerNames = virtualViews.stream()
+				.map(VirtualView::getPlayerName)
+				.collect(Collectors.toList());
+
+		this.model = new Model(mapType.getMapName(), playerNames, skulls);
+		setObservers();
 		gameController = new GameController(model);
 		Utils.logInfo("Created controller.");
 	}
@@ -45,5 +56,22 @@ public class Controller implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		gameController.processMessage( (Message) arg);
+	}
+
+	private void setObservers() {
+		for (VirtualView virtualView : virtualViews) {
+			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
+			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Board");
+			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Map");
+			for (Player player : model.getPlayers()) {
+				player.addObserver(virtualView.getPlayerObserver());
+				Utils.logInfo(virtualView.getPlayerName() + " now observes " + player.getPlayerName());
+			}
+
+			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
+			virtualView.addObserver(this);
+		}
 	}
 }
