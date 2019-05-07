@@ -176,6 +176,11 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
+	public void askEnd() {
+		sendMessage(new ActionMessage(MessageType.END_TURN, MessageSubtype.ANSWER));
+	}
+
+	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		if (gameMapRepToUpdate == null)
 			throw new NullPointerException();

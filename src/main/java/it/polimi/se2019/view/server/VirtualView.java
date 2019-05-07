@@ -107,6 +107,12 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
+	public void askEnd() {
+
+	}
+
+
+	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 		for (MacroAction macroAction : possibleActions) {
 			Utils.logInfo(macroAction.toString());

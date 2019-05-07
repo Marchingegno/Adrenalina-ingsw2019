@@ -31,13 +31,4 @@ public class LowDamage extends DamageStatus {
 		numberOfActionsToPerform = numberOfActionsPerTurn;
 	}
 
-	@Override
-	public List<MacroAction> getAvailableActions() {
-		return new ArrayList<>(availableActions);
-	}
-
-	@Override
-	public void doAction() {
-	}
-
 }

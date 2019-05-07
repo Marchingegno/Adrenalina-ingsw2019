@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.player.damagestatus;
 
+import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.MacroAction;
 
 import java.util.ArrayList;
@@ -10,8 +11,8 @@ import java.util.List;
  * @author Marchingegno
  */
 public abstract class DamageStatus {
-	protected int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
-	protected int numberOfActionsToPerform; //actions that the player performed in this turn.
+	int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
+	int numberOfActionsToPerform; //actions that the player performed in this turn.
 	private int currentActionIndex; //Action currently in execution.
 	List<MacroAction> availableActions;
 
@@ -20,13 +21,11 @@ public abstract class DamageStatus {
 		return new ArrayList<>(availableActions);
 	}
 
-	abstract void doAction();
-
-	public int getNumberOfActionsPerTurn() {
+	int getNumberOfActionsPerTurn() {
 		return numberOfActionsPerTurn;
 	}
 
-	public int getNumberOfActionsToPerform() {
+	int getNumberOfActionsToPerform() {
 		return numberOfActionsToPerform;
 	}
 
@@ -35,6 +34,18 @@ public abstract class DamageStatus {
 			throw new IllegalStateException("numberOfActionsToPerform is already zero!");
 
 		numberOfActionsToPerform--;
+	}
+
+	public void setCurrentActionIndex(int currentActionIndex) {
+		this.currentActionIndex = currentActionIndex;
+	}
+
+	public int getCurrentActionIndex() {
+		return currentActionIndex;
+	}
+
+	public ActionType executeAction(){
+		return availableActions.get(currentActionIndex).execute();
 	}
 
 	/**

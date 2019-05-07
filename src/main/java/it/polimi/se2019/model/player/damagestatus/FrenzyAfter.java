@@ -27,8 +27,4 @@ public class FrenzyAfter extends DamageStatus {
 		numberOfActionsToPerform = FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
 	}
 
-	@Override
-	public void doAction() {
-	}
-
 }

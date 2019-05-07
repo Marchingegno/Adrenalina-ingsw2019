@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.List;
@@ -48,22 +49,55 @@ public class TurnController{
 
 		switch(message.getMessageType()){
 			case ACTION:
-				//VirtualView vw = ((ActionMessage) message).getVirtualView();
+				player.getDamageStatus().decreaseActionsToPerform();
+				player.getDamageStatus().setCurrentActionIndex(((DefaultActionMessage)message).getIndex());
+				handleAction(player, virtualView);
 				break;
 			case GRAB_AMMO:
 				model.grabAmmoCard(player, ((DefaultActionMessage)message).getIndex());
+				handleAction(player,virtualView);
 				break;
 			case GRAB_WEAPON:
 				model.grabWeaponCard(player, ((DefaultActionMessage)message).getIndex());
+				handleAction(player,virtualView);
 				break;
 			case MOVE:
 				model.movePlayerTo(player, ((MoveActionMessage)message).getCoordinates());
+				handleAction(player,virtualView);
 				break;
 			case RELOAD:
 				player.reload(((DefaultActionMessage)message).getIndex());
+				handleAction(player,virtualView);
 				break;
 			default: throw new RuntimeException("Received wrong type of message.");
 		}
+
+	}
+
+	private void handleAction(Player player, VirtualView virtualView) {
+		ActionType actionType = player.getDamageStatus().executeAction();
+		switch (actionType){
+			case MOVE:
+				virtualView.askMove();
+				break;
+			case GRAB:
+				virtualView.askGrab();
+				break;
+			case RELOAD:
+				virtualView.askReload();
+				break;
+			case SHOOT:
+				virtualView.askShoot();
+				break;
+			case END:
+				//The MacroAction is already refilled.
+				handleEnd(player, virtualView);
+
+		}
+	}
+
+	private void handleEnd(Player player, VirtualView virtualView) {
+		//End turn.
 
 	}
 }

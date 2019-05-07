@@ -116,6 +116,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askEnd() {
+
+	}
+
+	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
 
 	}

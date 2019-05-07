@@ -35,6 +35,12 @@ public class MacroAction {
 		return numOfMovements;
 	}
 
+	public boolean isMove(){
+		if(numOfMovements == 0)
+			return false;
+		return true;
+	}
+
 	public boolean isGrab() {
 		return grab;
 	}
@@ -48,20 +54,36 @@ public class MacroAction {
 	}
 
 
-	public void execute() {
+	public ActionType execute() {
+		if(!moved){
+			moved = true;
+			return ActionType.MOVE;
+		}
+		else if(!grabbed){
+			grabbed = true;
+			return ActionType.GRAB;
+		}
+		else if(!reloaded){
+			reloaded = true;
+			return ActionType.RELOAD;
+		}
+		else if(!shot){
+			shot = true;
+			return ActionType.SHOOT;
+		}
+		refill();
+		return ActionType.END;
 	}
 
-
-	public void move() {
-	}
-
-	public void grab() {
-	}
-
-	public void reload() {
-	}
-
-	public void shoot() {
+	private void refill(){
+		if(isMove())
+			moved = false;
+		if(isGrab())
+			grabbed = false;
+		if(isReload())
+			reloaded = false;
+		if(isShoot())
+			shot = false;
 	}
 
 
