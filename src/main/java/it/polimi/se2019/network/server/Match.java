@@ -130,10 +130,15 @@ public class Match {
 	 * @return the average of voted skulls.
 	 */
 	private int findVotedNumberOfSkulls() {
+		// If there are no votes gives a default value.
+		if(skullsChosen.size() == 0)
+			return GameConstants.MIN_SKULLS;
+
+		// Calculates the average.
 		float average = 0f;
 		for(Integer votedSkulls : skullsChosen.values())
 			average += votedSkulls;
-		return  Math.round(average / skullsChosen.values().size());
+		return Math.round(average / skullsChosen.values().size());
 	}
 
 	/**
