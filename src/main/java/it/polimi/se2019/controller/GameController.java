@@ -31,11 +31,18 @@ public class GameController {
 
 	void startGame() {
 		Utils.logInfo("GameController: startGame");
+		Player firstPlayer = model.getCurrentPlayer();
 		//Set its correct DamageStatus.
-		model.setCorrectDamageStatus(model.getCurrentPlayer());
+		model.setCorrectDamageStatus(firstPlayer);
+
+		//Check if the player is to be spawned.
+		if(firstPlayer.getTurnStatus() == TurnStatus.DEAD){
+			Controller.getVirtualViewFromPlayer(firstPlayer, virtualViews).askSpawn();
+			return;
+		}
 		//Set its TurnStatus.
-		model.setTurnStatus(model.getCurrentPlayer(), TurnStatus.YOUR_TURN);
-		Controller.getVirtualViewFromPlayer(model.getCurrentPlayer(), virtualViews).askAction();
+		model.setTurnStatus(firstPlayer, TurnStatus.YOUR_TURN);
+		Controller.getVirtualViewFromPlayer(firstPlayer, virtualViews).askAction();
 	}
 
 	private void flipPlayers(){
@@ -96,7 +103,23 @@ public class GameController {
 		if(model.isFrenzyStarted()){
 			flipPlayers();
 		}
+	}
 
+	private void startTurn(){
+		Player player = model.getCurrentPlayer();
+
+		//Check if the player is to be spawned.
+		//Which should be only in its beginning turns.
+		if(player.getTurnStatus() == TurnStatus.PRE_SPAWN){
+			model.setTurnStatus(player, TurnStatus.YOUR_TURN);
+			model.setCorrectDamageStatus(player);
+			Controller.getVirtualViewFromPlayer(player, virtualViews).askSpawn();
+			return;
+		}
+
+		model.setCorrectDamageStatus(player);
+		model.setTurnStatus(player, TurnStatus.YOUR_TURN);
+		Controller.getVirtualViewFromPlayer(player, virtualViews).askAction();
 
 	}
 
@@ -104,9 +127,8 @@ public class GameController {
 	private void nextPlayerTurn() {
 		//Move the next player at the top of the queue.
 		model.nextPlayerTurn();
-		//Set its correct DamageStatus.
-		model.setCorrectDamageStatus(model.getCurrentPlayer());
-		model.setTurnStatus(model.getCurrentPlayer(), TurnStatus.YOUR_TURN);
+		//start its turn.
+		startTurn();
 	}
 
 
