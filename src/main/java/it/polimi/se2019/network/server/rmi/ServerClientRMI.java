@@ -40,6 +40,11 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 		}, "CUSTOM: RMI Message Sending").start();
 	}
 
+	@Override
+	public void closeConnectionWithClient() {
+		active = false;
+	}
+
 
 	/**
 	 * Starts the thread that listens for a connection lost with the client.
@@ -49,20 +54,27 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 		new Thread(() -> {
 			try {
 				rmiClientInterface.connectionListenerSubjectInClient();
+
+				// Executed when the client closes the connection manually, without generating any error.
+				Utils.logWarning("Connection closed by the client.");
+				closeConnectionWithClient();
+				serverEventsListener.onConnectionLost(this);
 			} catch (Exception e) {
-				Utils.logError("Connection lost for an exception.", e);
-			} finally {
+				Utils.logError("Lost connection with the client.", e);
+
+				// Executed when the connection with the server has been lost.
+				closeConnectionWithClient();
 				serverEventsListener.onConnectionLost(this);
 			}
 		}, "CUSTOM: RMI Connection Listener").start();
 	}
 
-	public boolean isActive() {
+	public boolean isConnectionActive() {
 		return active;
 	}
 
 	public synchronized void connectionListenerSubjectInServer() throws InterruptedException {
-		while(isActive())
+		while(isConnectionActive())
 			wait();
 	}
 }

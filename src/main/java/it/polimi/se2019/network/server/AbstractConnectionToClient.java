@@ -44,4 +44,9 @@ public abstract class AbstractConnectionToClient {
 	 * @param message the message to send.
 	 */
 	public abstract void sendMessage(Message message);
+
+	/**
+	 * Closes the connection with the client.
+	 */
+	public abstract void closeConnectionWithClient();
 }

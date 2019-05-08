@@ -4,6 +4,8 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
+import java.util.ArrayList;
+
 /**
  * Listen to events produced by a client connected to the server:
  * - Connection started: processed in onClientConnection;
@@ -16,6 +18,7 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	private static final int NICKNAME_MIN_LENGTH = 1;
 
 	private Lobby lobby = new Lobby();
+	private ArrayList<AbstractConnectionToClient> connectedClients = new ArrayList<>();
 
 
 	/**
@@ -24,7 +27,8 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	 */
 	@Override
 	public synchronized void onClientConnection(AbstractConnectionToClient client) {
-		Utils.logInfo("Started connection with client \"" + client.hashCode() + "\".");
+		Utils.logInfo("Started connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
+		connectedClients.add(client);
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 
@@ -34,7 +38,10 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	 */
 	@Override
 	public synchronized void onConnectionLost(AbstractConnectionToClient client) {
-		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\".");
+		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
+
+		// Remove client from the connected clients list.
+		connectedClients.remove(client);
 
 		// Remove the client from the waiting room if present.
 		lobby.removeWaitingClient(client);
@@ -50,7 +57,11 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	 */
 	@Override
 	public synchronized void onMessageReceived(AbstractConnectionToClient client, Message message) {
-		Utils.logInfo("Processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		// Discard messages of not registered clients.
+		if(!connectedClients.contains(client))
+			return;
+
+		Utils.logInfo("Received a message from " + client.hashCode() + " of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		if(client.isNicknameSet()) {
 			if(message.getMessageType() == MessageType.GAME_CONFIG && message.getMessageSubtype() == MessageSubtype.ANSWER)
@@ -60,6 +71,13 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		} else {
 			if(message.getMessageType() == MessageType.NICKNAME && message.getMessageSubtype() == MessageSubtype.ANSWER)
 				nicknameLogic(client, message);
+		}
+	}
+
+
+	public void closeAllConnections() {
+		for(AbstractConnectionToClient client : connectedClients) {
+			client.closeConnectionWithClient();
 		}
 	}
 

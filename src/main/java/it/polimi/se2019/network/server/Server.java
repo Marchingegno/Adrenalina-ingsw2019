@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class Server {
 
-	private ServerEventsListenerInterface serverEventsListener = new ServerEventsListener();
+	private ServerEventsListener serverEventsListener = new ServerEventsListener();
 	private SocketServer socketServer;
 	private RMIServer rmiServer;
 
@@ -62,6 +62,7 @@ public class Server {
 				input = new Scanner(System.in).nextLine();
 			}
 
+			serverEventsListener.closeAllConnections();
 			if(socketServer != null)
 				socketServer.close();
 			if(rmiServer != null)

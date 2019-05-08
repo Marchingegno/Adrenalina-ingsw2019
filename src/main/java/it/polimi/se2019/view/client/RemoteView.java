@@ -134,7 +134,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public void closeProgram() {
 		Utils.logInfo("Closing the program...");
 		if(connectionToServer != null)
-			connectionToServer.closeConnection();
+			connectionToServer.closeConnectionWithServer();
 		Client.terminateClient();
 	}
 

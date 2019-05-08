@@ -86,12 +86,12 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	 * Closes the connection with the server.
 	 */
 	@Override // Of ConnectionToServerInterface.
-	public void closeConnection() {
+	public void closeConnectionWithServer() {
 		active = false;
 		try {
 			UnicastRemoteObject.unexportObject(this, true);
 		} catch (NoSuchObjectException e) {
-			Utils.logError("Error in RMIClient: closeConnection()", e);
+			Utils.logError("Error in RMIClient: closeConnectionWithServer()", e);
 		}
 	}
 
@@ -127,15 +127,15 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 			try {
 				rmiServerSkeleton.connectionListenerSubjectInServer(stub); // Thread waits here if server is connected.
 
-				// Executed when the server close the connection manually, without generating any error.
+				// Executed when the server closes the connection manually, without generating any error.
 				Utils.logWarning("Connection closed by the server.");
-				closeConnection();
+				closeConnectionWithServer();
 				messageReceiver.lostConnection();
 			} catch (Exception e) {
 				Utils.logError("Lost connection with the server.", e);
 
 				// Executed when the connection with the server has been lost.
-				closeConnection();
+				closeConnectionWithServer();
 				messageReceiver.lostConnection();
 			}
 		}, "CUSTOM: RMI Connection Listener").start();

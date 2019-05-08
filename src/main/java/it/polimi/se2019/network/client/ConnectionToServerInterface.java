@@ -22,6 +22,6 @@ public interface ConnectionToServerInterface {
 	/**
 	 * Closes the connection with the server.
 	 */
-	void closeConnection();
+	void closeConnectionWithServer();
 
 }

@@ -23,38 +23,25 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 	private ObjectOutputStream objOutStream;
 
 	public ServerClientSocket(ServerEventsListenerInterface serverEventsListener, Socket socket){
+		active = true;
 		this.serverEventsListener = serverEventsListener;
 		this.socket = socket;
 
 		try {
-			this.objOutStream = new ObjectOutputStream(this.socket.getOutputStream());
-			this.objInStream = new ObjectInputStream(this.socket.getInputStream());
+			objOutStream = new ObjectOutputStream(socket.getOutputStream());
+			objInStream = new ObjectInputStream(socket.getInputStream());
+			new Thread(this, "CUSTOM: Socket Connection to Client").start();
 		} catch (IOException e) {
 			Utils.logError("Error in ServerClientSocket()", e);
+			active = false;
 		}
-
-		new Thread(this, "CUSTOM: Socket Connection to Client").start();
-
-		active = true;
-	}
-
-	/**
-	 * Closes the connection with the client.
-	 */
-	public synchronized void closeConnection() {
-		try {
-			socket.close();
-		} catch (IOException e) {
-			Utils.logError("Error in closeConnection", e);
-		}
-		active = false;
 	}
 
 	/**
 	 * Returns true if and only if the socket is active.
 	 * @return true if and only if the socket is active.
 	 */
-	public boolean isActive(){ return active; }
+	public boolean isConnectionActive(){ return active; }
 
 	/**
 	 * Thread that listens for new messages from the client.
@@ -62,14 +49,14 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 	@Override
 	public void run() {
 		try{
-			while(isActive()){
+			while(isConnectionActive()){
 				serverEventsListener.onMessageReceived(this, (Message) objInStream.readObject());
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			Utils.logError("Connection lost.", e);
 			serverEventsListener.onConnectionLost(this);
 		}finally{
-			closeConnection();
+			closeConnectionWithClient();
 		}
 	}
 
@@ -84,6 +71,18 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 		}catch(IOException e){
 			Utils.logError("Socket: send message to client failed.", e);
 		}
+	}
 
+	/**
+	 * Closes the connection with the client.
+	 */
+	@Override
+	public void closeConnectionWithClient() {
+		active = false;
+		try {
+			socket.close();
+		} catch (IOException e) {
+			Utils.logError("Error in closeConnectionWithClient", e);
+		}
 	}
 }

@@ -71,12 +71,12 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 	 * Closes the connection with the server.
 	 */
 	@Override // Of ConnectionToServerInterface.
-	public void closeConnection() {
+	public void closeConnectionWithServer() {
 		active = false;
 		try {
 			socketClient.close();
 		} catch (IOException e) {
-			Utils.logError("Error in ClientSocket: closeConnection()", e);
+			Utils.logError("Error in ClientSocket: closeConnectionWithServer()", e);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			Utils.logError("Connection closed by the server.", e);
-			closeConnection();
+			closeConnectionWithServer();
 			messageReceiver.lostConnection();
 		}
 	}

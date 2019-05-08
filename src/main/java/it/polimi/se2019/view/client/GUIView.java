@@ -3,6 +3,7 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
@@ -57,11 +58,13 @@ public class GUIView extends RemoteView {
 	@Override
 	public void failedConnectionToServer() {
 		JOptionPane.showMessageDialog(null, "Failed to connect to the server. Try again later.", "Failed Connection", JOptionPane.ERROR_MESSAGE);
+		Client.terminateClient();
 	}
 
 	@Override
 	public void lostConnectionToServer() {
 		JOptionPane.showMessageDialog(null, "Lost connection with the server. Please restart the game.", "Lost Connection", JOptionPane.ERROR_MESSAGE);
+		Client.terminateClient();
 	}
 
 	@Override
