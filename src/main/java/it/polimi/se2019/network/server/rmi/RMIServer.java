@@ -70,9 +70,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 * @throws InterruptedException
 	 */
 	@Override // Of RMIServerSkeletonInterface.
-	public synchronized void connectionListenerSubjectInServer() throws RemoteException, InterruptedException {
-		while(isActive())
-			wait();
+	public void connectionListenerSubjectInServer(RMIClientInterface rmiClientInterface) throws RemoteException, InterruptedException {
+		connections.get(rmiClientInterface).connectionListenerSubjectInServer(); // Blocks the thread if active.
 	}
 
 	/**

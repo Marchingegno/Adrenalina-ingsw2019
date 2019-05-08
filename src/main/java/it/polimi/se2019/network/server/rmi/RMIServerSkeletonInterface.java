@@ -31,5 +31,5 @@ public interface RMIServerSkeletonInterface extends Remote {
 	 * @throws RemoteException
 	 * @throws InterruptedException
 	 */
-	void connectionListenerSubjectInServer() throws RemoteException, InterruptedException;
+	void connectionListenerSubjectInServer(RMIClientInterface rmiClientInterface) throws RemoteException, InterruptedException;
 }

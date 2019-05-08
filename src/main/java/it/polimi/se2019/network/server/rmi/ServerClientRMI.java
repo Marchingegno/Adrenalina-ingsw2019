@@ -14,9 +14,11 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 
 	private ServerEventsListenerInterface serverEventsListener;
 	private RMIClientInterface rmiClientInterface;
+	private boolean active;
 
 
 	public ServerClientRMI(ServerEventsListenerInterface serverEventsListener, RMIClientInterface rmiClientInterface) {
+		active = true;
 		this.serverEventsListener = serverEventsListener;
 		this.rmiClientInterface = rmiClientInterface;
 	}
@@ -53,5 +55,14 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 				serverEventsListener.onConnectionLost(this);
 			}
 		}, "CUSTOM: RMI Connection Listener").start();
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public synchronized void connectionListenerSubjectInServer() throws InterruptedException {
+		while(isActive())
+			wait();
 	}
 }
