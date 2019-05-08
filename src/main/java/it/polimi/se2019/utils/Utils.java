@@ -30,7 +30,7 @@ public class Utils {
 
 	public static void logWarning(String msg) {
 		if(DEBUG) {
-			System.out.println(Color.setColorString(Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.YELLOW) + "WARNING:" + Color.resetColorString() + " " + msg);
+			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.YELLOW) + "WARNING:" + Color.resetColorString() + " " + msg);
 		}
 	}
 

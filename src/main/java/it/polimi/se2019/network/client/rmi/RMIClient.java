@@ -7,6 +7,7 @@ import it.polimi.se2019.network.server.rmi.RMIServerSkeletonInterface;
 import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -24,6 +25,7 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	private RMIServerSkeletonInterface rmiServerSkeleton;
 	private MessageReceiverInterface messageReceiver;
 	private RMIClientInterface stub;
+	private boolean active;
 
 
 	/**
@@ -46,19 +48,43 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 		rmiServerSkeleton.registerClient(stub);
 
 		Utils.logInfo("Client remote object is ready.");
+		active = true;
 	}
 
 	/**
 	 * Sends a message to the server.
 	 * @param message the message to send.
 	 */
-	@Override
+	@Override // Of ConnectionToServerInterface.
 	public void sendMessage(Message message) {
 		try {
 			rmiServerSkeleton.receiveMessage(stub, message);
 		} catch (RemoteException e) {
-			Utils.logInfo("Lost connection with the server.");
+			Utils.logWarning("Lost connection with the server.");
+			closeConnection();
 			messageReceiver.lostConnection();
+		}
+	}
+
+	/**
+	 * Returns true if and only if the connection is active.
+	 * @return true if and only if the connection is active.
+	 */
+	@Override // Of ConnectionToServerInterface.
+	public boolean isConnectionActive() {
+		return active;
+	}
+
+	/**
+	 * Closes the connection with the server.
+	 */
+	@Override // Of ConnectionToServerInterface.
+	public void closeConnection() {
+		active = false;
+		try {
+			UnicastRemoteObject.unexportObject(this, true);
+		} catch (NoSuchObjectException e) {
+			Utils.logError("Error in RMIClient: closeConnection()", e);
 		}
 	}
 
@@ -67,7 +93,7 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	 * @param message the message sent by the server.
 	 * @throws RemoteException
 	 */
-	@Override
+	@Override // Of RMIClientInterface.
 	public void receiveMessage(Message message) throws RemoteException {
 		messageReceiver.processMessage(message);
 	}
@@ -78,8 +104,9 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	 * @throws RemoteException
 	 * @throws InterruptedException
 	 */
-	@Override
+	@Override // Of RMIClientInterface.
 	public synchronized void connectionListenerSubject() throws RemoteException, InterruptedException {
-		wait();
+		while(isConnectionActive())
+			wait();
 	}
 }

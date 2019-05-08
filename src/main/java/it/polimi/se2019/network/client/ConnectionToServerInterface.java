@@ -13,4 +13,15 @@ public interface ConnectionToServerInterface {
 	 */
 	void sendMessage(Message message);
 
+	/**
+	 * Returns true if and only if the connection is active.
+	 * @return true if and only if the connection is active.
+	 */
+	boolean isConnectionActive();
+
+	/**
+	 * Closes the connection with the server.
+	 */
+	void closeConnection();
+
 }
