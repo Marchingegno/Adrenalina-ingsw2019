@@ -84,7 +84,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 		try {
 			if(registry != null) {
 				registry.unbind("Server");
-				UnicastRemoteObject.unexportObject(registry, true);
+				UnicastRemoteObject.unexportObject(this, true);
 				Utils.logInfo("RMI server stopped.");
 			}
 		} catch (RemoteException | NotBoundException e) {
