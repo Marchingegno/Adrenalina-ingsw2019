@@ -125,7 +125,7 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	private void startConnectionListener() {
 		new Thread(() -> {
 			try {
-				rmiServerSkeleton.connectionListenerSubjectInServer(); // Thread waits here if server is connected.
+				rmiServerSkeleton.connectionListenerSubjectInServer(stub); // Thread waits here if server is connected.
 
 				// Executed when the server close the connection manually, without generating any error.
 				Utils.logWarning("Connection closed by the server.");
