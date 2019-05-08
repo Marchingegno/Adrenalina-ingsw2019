@@ -87,8 +87,12 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 	public void run() {
 		try{
 			while(isConnectionActive()){
-				Message message = (Message) objInStream.readObject();
-				messageReceiver.processMessage(message);
+				final Message message = (Message) objInStream.readObject();
+
+				// Run in another thread so the processing of a message,
+				// that includes waiting for user input,
+				// doesn't stop the reception of other messages or a connection lost event.
+				new Thread(() -> messageReceiver.processMessage(message), "CUSTOM: Socket Message Processing").start();
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			Utils.logError("Connection closed by the server.", e);
