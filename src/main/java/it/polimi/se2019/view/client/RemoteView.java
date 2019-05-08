@@ -3,6 +3,7 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
@@ -11,10 +12,6 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
-
-import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
 
@@ -92,6 +89,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	}
 
 	/**
+	 * Called when the connection with the server (by socket or by RMI) has failed.
+	 */
+	@Override
+	public void failedConnection() {
+		failedConnectionToServer();
+	}
+
+	/**
 	 * Called when the connection with the server (by socket or by RMI) has been lost.
 	 */
 	@Override
@@ -103,24 +108,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	 * Start a connection with the server, using RMI.
 	 */
 	public void startConnectionWithRMI() {
-		try {
-			connectionToServer = new RMIClient(this);
-		} catch (RemoteException | NotBoundException e) {
-			Utils.logError("Failed to connect to the server.", e);
-			failedConnectionToServer();
-		}
+		connectionToServer = new RMIClient(this);
 	}
 
 	/**
 	 * Start a connection with the server, using socket.
 	 */
 	public void startConnectionWithSocket() {
-		try {
-			connectionToServer = new ClientSocket(this);
-		} catch (IOException e) {
-			Utils.logError("Failed to connect to the server.", e);
-			failedConnectionToServer();
-		}
+		connectionToServer = new ClientSocket(this);
 	}
 
 	/**
@@ -131,6 +126,16 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		if(connectionToServer == null)
 			throw new IllegalStateException("Before sending any message, a connection must be started!");
 		connectionToServer.sendMessage(message);
+	}
+
+	/**
+	 * Closes the program.
+	 */
+	public void closeProgram() {
+		Utils.logInfo("Closing the program...");
+		if(connectionToServer != null)
+			connectionToServer.closeConnection();
+		Client.terminateClient();
 	}
 
 	public abstract void askForConnectionAndStartIt();
@@ -146,8 +151,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public abstract void nicknameIsOk(String nickname);
 
 	public abstract void displayWaitingPlayers(String waitingPlayers);
-
-	public abstract void displayGame();
 
 	public abstract void displayTimerStarted(long delayInMs);
 

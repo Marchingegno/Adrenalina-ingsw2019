@@ -48,7 +48,8 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 			try {
 				rmiClientInterface.connectionListenerSubjectInClient();
 			} catch (Exception e) {
-				Utils.logError("Connection lost.", e);
+				Utils.logError("Connection lost for an exception.", e);
+			} finally {
 				serverEventsListener.onConnectionLost(this);
 			}
 		}, "CUSTOM: RMI Connection Listener").start();

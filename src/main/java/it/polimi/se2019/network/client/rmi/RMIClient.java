@@ -31,27 +31,32 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	/**
 	 * Creates a new instance of a RMIClient and starts the connection with the server.
 	 * @param messageReceiver the interface on which messages will be forwarded.
-	 * @throws RemoteException
-	 * @throws NotBoundException
 	 */
-	public RMIClient(MessageReceiverInterface messageReceiver) throws RemoteException, NotBoundException {
+	public RMIClient(MessageReceiverInterface messageReceiver) {
 		this.messageReceiver = messageReceiver;
-
-		// Get Server remote object.
-		Registry registry = LocateRegistry.getRegistry(ServerConfigParser.getHost(), ServerConfigParser.getRmiPort());
-		rmiServerSkeleton = (RMIServerSkeletonInterface) registry.lookup("Server");
-
-		// Create stub from client.
-		stub = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 0);
-
-		// Register client's stub to the server.
-		rmiServerSkeleton.registerClient(stub);
-
-		// Starts listener for connection interruption.
-		startConnectionListener();
-
-		Utils.logInfo("Client remote object is ready.");
 		active = true;
+
+		try {
+			// Get Server remote object.
+			Registry registry = LocateRegistry.getRegistry(ServerConfigParser.getHost(), ServerConfigParser.getRmiPort());
+			rmiServerSkeleton = (RMIServerSkeletonInterface) registry.lookup("Server");
+
+			// Create stub from client.
+			stub = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 0);
+
+			// Register client's stub to the server.
+			rmiServerSkeleton.registerClient(stub);
+
+			// Starts listener for connection interruption.
+			startConnectionListener();
+
+			Utils.logInfo("Client remote object is ready.");
+			active = true;
+		} catch (RemoteException | NotBoundException e) {
+			Utils.logError("Failed to connect to the server.", e);
+			active = false;
+			messageReceiver.failedConnection();
+		}
 	}
 
 
@@ -120,10 +125,16 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	private void startConnectionListener() {
 		new Thread(() -> {
 			try {
-				rmiServerSkeleton.connectionListenerSubjectInServer();
+				rmiServerSkeleton.connectionListenerSubjectInServer(); // Thread waits here if server is connected.
+
+				// Executed when the server close the connection manually, without generating any error.
+				Utils.logWarning("Connection closed by the server.");
+				closeConnection();
+				messageReceiver.lostConnection();
 			} catch (Exception e) {
-				Utils.logError("Connection closed by the server.", e);
-			} finally {
+				Utils.logError("Lost connection with the server.", e);
+
+				// Executed when the connection with the server has been lost.
 				closeConnection();
 				messageReceiver.lostConnection();
 			}

@@ -61,8 +61,11 @@ public class Server {
 				Utils.printLine("Type \"close\" to stop the server.");
 				input = new Scanner(System.in).nextLine();
 			}
-			socketServer.close();
-			rmiServer.close();
+
+			if(socketServer != null)
+				socketServer.close();
+			if(rmiServer != null)
+				rmiServer.close();
 			System.exit(0);
 		}, "CUSTOM: Input Listener").start();
 	}
