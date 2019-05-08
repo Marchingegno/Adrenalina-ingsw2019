@@ -10,6 +10,7 @@ import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
 
+import javax.rmi.CORBA.Util;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,12 +150,19 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askMove() {
-
+		Utils.printLine("Enter the coordinates in which you want to move.");
+		Utils.printLine("Enter X coordinate 0-4");
+		int x = askInteger(0,4);
+		Utils.printLine("Enter Y coordinate 0-4");
+		int y = askInteger(0,4);
+		Coordinates coordinates = new Coordinates(x,y);
+		sendMessage(new MoveActionMessage(coordinates, MessageSubtype.ANSWER));
 	}
 
 	@Override
 	public void askShoot() {
-
+		Utils.printLine("LOL");
+		askEnd();
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class MacroAction {
 		this.reload = reload;
 		this.shoot = shoot;
 		this.name = name;
+		refill();
 	}
 
 

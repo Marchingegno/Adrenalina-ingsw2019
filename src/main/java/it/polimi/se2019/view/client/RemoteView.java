@@ -82,6 +82,27 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 			case ACTION:
 				askAction();
 				break;
+			case SHOOT:
+				askShoot();
+				break;
+			case RELOAD:
+				askReload();
+				break;
+			case MOVE:
+				askMove();
+				break;
+			case END_TURN:
+				askEnd();
+				break;
+			case GRAB_AMMO:
+				askGrab();
+				break;
+			case GRAB_WEAPON:
+				askGrab();
+				break;
+			case SPAWN:
+				askSpawn();
+				break;
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
 				break;

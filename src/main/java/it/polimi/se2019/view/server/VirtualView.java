@@ -53,12 +53,11 @@ public class VirtualView extends Observable implements ViewInterface {
 					notifyObservers(/* MESSAGE HERE */);
 				}
 				break;
-			case ACTION:
-
-			default:
-				notifyObservers(message);
-				//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
-				break;
+		default:
+			Utils.logInfo("Received an " + message.getMessageType().toString() + "of subtype " + message.getMessageSubtype().toString());
+			notifyObservers(message);
+			//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
+			break;
 
 		}
 	}
