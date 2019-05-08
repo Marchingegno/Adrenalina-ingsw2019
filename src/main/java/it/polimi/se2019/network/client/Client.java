@@ -4,6 +4,8 @@ import it.polimi.se2019.view.client.CLIView;
 import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
 
+import java.util.Locale;
+
 
 /**
  * Implements the Client.
@@ -13,6 +15,9 @@ import it.polimi.se2019.view.client.RemoteView;
 public class Client {
 
 	public static void main(String[] args) {
+		// Set English language.
+		Locale.setDefault(Locale.ENGLISH);
+
 		// Start with CLI and ask if the user wants to use CLI or GUI.
 		CLIView cliView = new CLIView();
 		boolean isGUI = cliView.askForGUI();
