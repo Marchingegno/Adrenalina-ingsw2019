@@ -47,9 +47,13 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 		// Register client's stub to the server.
 		rmiServerSkeleton.registerClient(stub);
 
+		// Starts listener for connection interruption.
+		startConnectionListener();
+
 		Utils.logInfo("Client remote object is ready.");
 		active = true;
 	}
+
 
 	/**
 	 * Sends a message to the server.
@@ -60,9 +64,7 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 		try {
 			rmiServerSkeleton.receiveMessage(stub, message);
 		} catch (RemoteException e) {
-			Utils.logWarning("Lost connection with the server.");
-			closeConnection();
-			messageReceiver.lostConnection();
+			Utils.logError("Error in RMIClient: sendMessage()", e);
 		}
 	}
 
@@ -105,8 +107,26 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	 * @throws InterruptedException
 	 */
 	@Override // Of RMIClientInterface.
-	public synchronized void connectionListenerSubject() throws RemoteException, InterruptedException {
+	public synchronized void connectionListenerSubjectInClient() throws RemoteException, InterruptedException {
 		while(isConnectionActive())
 			wait();
+	}
+
+
+	/**
+	 * Starts the thread that listens for a connection lost with the server.
+	 * If a lost of connection is found reports it to the message receiver.
+	 */
+	private void startConnectionListener() {
+		new Thread(() -> {
+			try {
+				rmiServerSkeleton.connectionListenerSubjectInServer();
+			} catch (Exception e) {
+				Utils.logError("Connection closed by the server.", e);
+			} finally {
+				closeConnection();
+				messageReceiver.lostConnection();
+			}
+		}, "CUSTOM: RMI Connection Listener").start();
 	}
 }

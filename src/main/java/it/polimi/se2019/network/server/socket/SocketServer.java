@@ -34,7 +34,7 @@ public class SocketServer extends Thread implements Closeable {
 	/**
 	 * Listens for client connection requests and creates a socket for each client. The socket is added to the
 	 */
-	@Override
+	@Override // Of Thread.
 	public void run() {
 		Utils.logInfo("Socket server is listening.");
 
@@ -67,15 +67,15 @@ public class SocketServer extends Thread implements Closeable {
 	/**
 	 * Closes the server.
 	 */
-	@Override
+	@Override // Of Closeable.
 	public void close(){
+		active = false;
 		try {
 			serverSocket.close();
 			Utils.logInfo("Socket server stopped.");
 		}catch (IOException e){
 			Utils.logError("Error in SocketServer: close()", e);
 		}
-		active = false;
 	}
 
 	/**

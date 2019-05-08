@@ -84,7 +84,7 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 				messageReceiver.processMessage(message);
 			}
 		} catch (IOException | ClassNotFoundException e) {
-			Utils.logWarning("Connection closed by the server.");
+			Utils.logError("Connection closed by the server.", e);
 			closeConnection();
 			messageReceiver.lostConnection();
 		}

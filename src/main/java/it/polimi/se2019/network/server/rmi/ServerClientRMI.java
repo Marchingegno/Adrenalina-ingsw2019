@@ -33,7 +33,7 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 			try {
 				rmiClientInterface.receiveMessage(message);
 			} catch (Exception e) {
-				Utils.logInfo("RMI: send message to client failed.");
+				Utils.logError("RMI: send message to client failed.", e);
 			}
 		}, "CUSTOM: RMI Message Sending").start();
 	}
@@ -46,7 +46,7 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 	public void startConnectionListener() {
 		new Thread(() -> {
 			try {
-				rmiClientInterface.connectionListenerSubject();
+				rmiClientInterface.connectionListenerSubjectInClient();
 			} catch (Exception e) {
 				Utils.logError("Connection lost.", e);
 				serverEventsListener.onConnectionLost(this);

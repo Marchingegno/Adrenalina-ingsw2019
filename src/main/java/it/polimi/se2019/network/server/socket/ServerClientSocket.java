@@ -82,7 +82,7 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 		try {
 			objOutStream.writeObject(message);
 		}catch(IOException e){
-			Utils.logInfo("Socket: send message to client failed.");
+			Utils.logError("Socket: send message to client failed.", e);
 		}
 
 	}

@@ -23,7 +23,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	private transient ServerEventsListenerInterface serverEventsListener;
 	private transient Registry registry;
 	private transient HashMap<RMIClientInterface, ServerClientRMI> connections = new HashMap<>();
-
+	private boolean active;
 
 	/**
 	 * Creates a new instance of a RMIServer and start it.
@@ -42,7 +42,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 * @param rmiClientInterface the RMI implementation of the client.
 	 * @throws RemoteException
 	 */
-	@Override
+	@Override // Of RMIServerSkeletonInterface.
 	public void registerClient(RMIClientInterface rmiClientInterface) throws RemoteException {
 		ServerClientRMI newServerClientRMI = new ServerClientRMI(serverEventsListener, rmiClientInterface);
 		connections.put(rmiClientInterface, newServerClientRMI);
@@ -55,7 +55,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	 * @param message the message received from the client.
 	 * @throws RemoteException
 	 */
-	@Override
+	@Override // Of RMIServerSkeletonInterface.
 	public void receiveMessage(RMIClientInterface rmiClientInterface, Message message) throws RemoteException {
 		final ServerClientRMI serverClientRMI = connections.get(rmiClientInterface);
 
@@ -64,10 +64,23 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	}
 
 	/**
+	 * Called by the RMI client to check for a connection lost.
+	 * When this method interrupts the client knows the connection has been lost.
+	 * @throws RemoteException
+	 * @throws InterruptedException
+	 */
+	@Override // Of RMIServerSkeletonInterface.
+	public synchronized void connectionListenerSubjectInServer() throws RemoteException, InterruptedException {
+		while(isActive())
+			wait();
+	}
+
+	/**
 	 * Closes this stream and releases any system resources associated with it.
 	 */
-	@Override
+	@Override // Of Closeable.
 	public void close() {
+		active = false;
 		try {
 			if(registry != null) {
 				registry.unbind("Server");
@@ -79,14 +92,23 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 		}
 	}
 
-	@Override
+	@Override // Of UnicastRemoteObject.
 	public boolean equals(Object object) {
 		return super.equals(object);
 	}
 
-	@Override
+	@Override // Of UnicastRemoteObject.
 	public int hashCode() {
 		return super.hashCode();
+	}
+
+
+	/**
+	 * Returns true if and only if the server is active.
+	 * @return true if and only if the server is active.
+	 */
+	public boolean isActive() {
+		return active;
 	}
 
 
@@ -101,5 +123,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 		registry.rebind("Server", this);
 
 		Utils.logInfo("RMI server is ready.");
+		active = true;
 	}
 }

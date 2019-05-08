@@ -23,5 +23,5 @@ public interface RMIClientInterface extends Remote {
 	 * @throws RemoteException
 	 * @throws InterruptedException
 	 */
-	void connectionListenerSubject() throws RemoteException, InterruptedException;
+	void connectionListenerSubjectInClient() throws RemoteException, InterruptedException;
 }

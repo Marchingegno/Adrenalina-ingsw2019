@@ -24,4 +24,12 @@ public interface RMIServerSkeletonInterface extends Remote {
 	 * @throws RemoteException
 	 */
 	void receiveMessage(RMIClientInterface rmiClientInterface, Message message) throws RemoteException;
+
+	/**
+	 * Called by the RMI client to check for a connection lost.
+	 * When this method interrupts the client knows the connection has been lost.
+	 * @throws RemoteException
+	 * @throws InterruptedException
+	 */
+	void connectionListenerSubjectInServer() throws RemoteException, InterruptedException;
 }
