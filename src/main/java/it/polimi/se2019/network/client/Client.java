@@ -1,5 +1,6 @@
 package it.polimi.se2019.network.client;
 
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.CLIView;
 import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
@@ -18,13 +19,18 @@ public class Client {
 		// Set English language.
 		Locale.setDefault(Locale.ENGLISH);
 
+		if (Utils.BYPASS) {
+			RemoteView remoteView = new CLIView();
+			remoteView.startConnectionWithRMI();
+			return;
+		}
 		// Start with CLI and ask if the user wants to use CLI or GUI.
 		CLIView cliView = new CLIView();
 		boolean isGUI = cliView.askForGUI();
 
 		// Start GUI if requested.
 		RemoteView remoteView;
-		if(isGUI)
+		if (isGUI)
 			remoteView = new GUIView();
 		else
 			remoteView = cliView;

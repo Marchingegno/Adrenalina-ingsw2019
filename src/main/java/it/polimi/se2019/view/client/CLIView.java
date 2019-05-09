@@ -11,9 +11,7 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,6 +58,11 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askNickname() {
+		if(Utils.BYPASS){
+			String nickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
+			sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+			return;
+		}
 		Utils.printLine("Enter your nickname.");
 		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
 	}
@@ -94,6 +97,13 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askMapAndSkullsToUse() {
+		if(Utils.BYPASS){
+			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
+			gameConfigMessage.setMapIndex(0);
+			gameConfigMessage.setSkulls(5);
+			sendMessage(gameConfigMessage);
+			return;
+		}
 		Utils.printLine("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
