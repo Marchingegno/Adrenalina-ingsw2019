@@ -27,7 +27,7 @@ public class FrenzyBefore extends DamageStatus {
 		availableActions.add(grabStuffBuilder.build());
 
 		numberOfActionsPerTurn= FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN;
-		numberOfActionsToPerform = numberOfActionsPerTurn;
+		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}
 
 }

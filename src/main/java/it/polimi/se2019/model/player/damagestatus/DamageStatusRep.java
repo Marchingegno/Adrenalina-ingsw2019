@@ -23,7 +23,7 @@ public class DamageStatusRep extends Message {
 		super(MessageType.DAMAGE_STATUS_REP, MessageSubtype.INFO);
 		this.availableActions = damageStatus.getAvailableActions(); //getAvailableActions already returns a copy of the array.
 		this.numberOfActionsPerTurn = damageStatus.getNumberOfActionsPerTurn();
-		this.numberOfActionsPerformed = damageStatus.getNumberOfActionsToPerform();
+		this.numberOfActionsPerformed = damageStatus.getNumberOfActionsPerformed();
 	}
 
 

@@ -1,10 +1,8 @@
 package it.polimi.se2019.model.player.damagestatus;
 
-import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.MacroActionBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
@@ -28,7 +26,7 @@ public class LowDamage extends DamageStatus {
 		availableActions.add(shootPeopleBuilder.build());
 
 		numberOfActionsPerTurn = NUMBER_OF_ACTIONS_PER_TURN;
-		numberOfActionsToPerform = numberOfActionsPerTurn;
+		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}
 
 }

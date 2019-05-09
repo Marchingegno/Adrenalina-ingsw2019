@@ -56,19 +56,19 @@ public class MacroAction {
 
 
 	public ActionType execute() {
-		if(!moved){
+		if(isMove() && !moved){
 			moved = true;
 			return ActionType.MOVE;
 		}
-		else if(!grabbed){
+		else if(isGrab() && !grabbed){
 			grabbed = true;
 			return ActionType.GRAB;
 		}
-		else if(!reloaded){
+		else if(isReload() && !reloaded){
 			reloaded = true;
 			return ActionType.RELOAD;
 		}
-		else if(!shot){
+		else if(isShoot() && !shot){
 			shot = true;
 			return ActionType.SHOOT;
 		}

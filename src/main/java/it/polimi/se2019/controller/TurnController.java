@@ -101,6 +101,11 @@ public class TurnController{
 	}
 
 	private void handleEnd(Player player, VirtualView virtualView) {
-		virtualView.askEnd();
+		if(player.getDamageStatus().hasActionLeft()){
+			virtualView.askAction();
+		}
+		else {
+			virtualView.askEnd();
+		}
 	}
 }
