@@ -27,8 +27,8 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	 */
 	@Override
 	public synchronized void onClientConnection(AbstractConnectionToClient client) {
-		Utils.logInfo("Started connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
 		connectedClients.add(client);
+		Utils.logInfo("Started connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 
@@ -38,10 +38,9 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	 */
 	@Override
 	public synchronized void onConnectionLost(AbstractConnectionToClient client) {
-		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
-
 		// Remove client from the connected clients list.
 		connectedClients.remove(client);
+		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
 
 		// Remove the client from the waiting room if present.
 		lobby.removeWaitingClient(client);
