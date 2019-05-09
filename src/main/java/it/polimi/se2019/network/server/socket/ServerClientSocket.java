@@ -66,6 +66,7 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 	 */
 	@Override
 	public void sendMessage(Message message){
+		Utils.logInfo("ServerClientSocket -> sendMessage(): sending a message to \"" + hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 		try {
 			objOutStream.writeObject(message);
 		}catch(IOException e){

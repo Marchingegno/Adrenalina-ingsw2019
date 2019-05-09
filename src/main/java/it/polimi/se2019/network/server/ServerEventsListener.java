@@ -28,7 +28,7 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	@Override
 	public synchronized void onClientConnection(AbstractConnectionToClient client) {
 		connectedClients.add(client);
-		Utils.logInfo("Started connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
+		Utils.logInfo("ServerEventsListener -> onClientConnection(): started connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
 		client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.REQUEST));
 	}
 
@@ -40,7 +40,7 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	public synchronized void onConnectionLost(AbstractConnectionToClient client) {
 		// Remove client from the connected clients list.
 		connectedClients.remove(client);
-		Utils.logInfo("Lost connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
+		Utils.logInfo("ServerEventsListener -> onConnectionLost(): lost connection with client \"" + client.hashCode() + "\". There are " + connectedClients.size() + " clients registered.");
 
 		// Remove the client from the waiting room if present.
 		lobby.removeWaitingClient(client);
@@ -60,7 +60,7 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(!connectedClients.contains(client))
 			return;
 
-		Utils.logInfo("Received a message from " + client.hashCode() + " of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Utils.logInfo("ServerEventsListener -> onMessageReceived(): received a message from \"" + client.hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		if(client.isNicknameSet()) {
 			if(message.getMessageType() == MessageType.GAME_CONFIG && message.getMessageSubtype() == MessageSubtype.ANSWER)
@@ -91,6 +91,7 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(isNicknameValid(nickname)) {
 			lobby.registerClient(client, nickname); // Add the client to the lobby, waiting for a match to start.
 		} else {
+			Utils.logInfo("\tNickname not valid, asking a new nickname.");
 			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		}
 	}
@@ -137,8 +138,10 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		Match match = lobby.getMatchOfClient(client);
 		if(match != null) { // If the client is in a match.
 			VirtualView virtualView = match.getVirtualViewOfClient(client);
-			if(virtualView != null)
+			if(virtualView != null) {
+				Utils.logInfo("\tForwarding the message to the VirtualView.");
 				virtualView.onMessageReceived(message);
+			}
 		}
 	}
 

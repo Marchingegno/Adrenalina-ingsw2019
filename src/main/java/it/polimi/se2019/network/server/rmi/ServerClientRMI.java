@@ -30,6 +30,7 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 	 */
 	@Override
 	public void sendMessage(Message message) {
+		Utils.logInfo("ServerClientRMI -> sendMessage(): sending a message to \"" + hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 		// Send the message in a thread so the server isn't put in wait.
 		new Thread(() -> {
 			try {

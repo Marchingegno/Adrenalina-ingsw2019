@@ -55,19 +55,22 @@ public class Match {
 	}
 
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
-		if(isMatchStarted())
+		if(isMatchStarted()) {
+			Utils.logInfo("\tMatch already started, GameConfigMessage ignored.");
 			return;
+		}
 
-		if(participants.contains(client)) { // Check if the client is in the Match.
-			if(!skullsChosen.containsKey(client))
-				skullsChosen.put(client, skulls);
+		if(participants.contains(client) && !skullsChosen.containsKey(client) && !mapChosen.containsKey(client)) { // Check if the client is in the Match and if he didn't already vote.
+			Utils.logInfo("\tAdding game config vote with skulls " + skulls + ", map index " + mapIndex + ".");
 
-			if(!mapChosen.containsKey(client))
-				mapChosen.put(client, mapIndex);
+			skullsChosen.put(client, skulls);
+			mapChosen.put(client, mapIndex);
 
 			numberOfAnswers++;
-			if(numberOfAnswers >= numberOfParticipants)
+			if(numberOfAnswers >= numberOfParticipants) {
+				Utils.logInfo("\t\tAll participants sent their votes. Starting the game.");
 				startMatch();
+			}
 		}
 	}
 
@@ -105,7 +108,7 @@ public class Match {
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
-		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
+		Utils.logInfo("Starting a new game with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
 		// Send messages with votes.
 		sendVotesResultMessages(skulls, mapType);

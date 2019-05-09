@@ -26,8 +26,10 @@ public class Lobby {
 	 */
 	public void registerClient(AbstractConnectionToClient client, String nickname) {
 		if(isNicknameUsed(nickname)) {
+			Utils.logInfo("\tNickname already used, asking a new nickname.");
 			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
 		} else {
+			Utils.logInfo("\tNickname of client \"" + client.hashCode() + "\" set to \"" + nickname + "\".");
 			client.setNickname(nickname);
 			client.sendMessage(new NicknameMessage(client.getNickname(), MessageSubtype.OK));
 			waitingRoom.add(client);
@@ -51,8 +53,8 @@ public class Lobby {
 	 */
 	public void clientDisconnectedFromMatch(AbstractConnectionToClient client) {
 		Match match = getMatchOfClient(client);
-		if(match != null) { // The client was a participant of a match.
-			if(match.isMatchStarted()) { // The client was a participant in an already started match. Forward the message to the virtual view.
+		if(match != null) { // If the client was a participant of a match.
+			if(match.isMatchStarted()) { // If client was a participant in an already started match forward the message to the VirtualView.
 				VirtualView virtualView = match.getVirtualViewOfClient(client);
 				if(virtualView == null)
 					Utils.logError("The VirtualView should always be set if the match is started.", new IllegalStateException());
