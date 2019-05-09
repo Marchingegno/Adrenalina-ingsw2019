@@ -6,6 +6,7 @@ import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.*;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.List;
@@ -132,9 +133,10 @@ public class GameController {
 	}
 
 
-	void processMessage(Message message){
-		MessageType messageType = message.getMessageType();
-		VirtualView virtualView = ((ActionMessage)message).getVirtualView();
+	void processMessage(Event event){
+		MessageType messageType = event.getMessage().getMessageType();
+		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
+		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
 		//TODO: Add other cases.
@@ -147,15 +149,16 @@ public class GameController {
 				break;
 			case SPAWN:
 				//If the player requests to spawn, make it draw a powerup card and request the choice.
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST){
+				if(messageSubtype == MessageSubtype.REQUEST){
 					model.addPowerupCardTo(player);
 					virtualView.askSpawn();
 				}
-				else if(message.getMessageSubtype() == MessageSubtype.ANSWER){
-					model.spawnPlayer(player, ((DefaultActionMessage) message).getIndex());
+				else if(messageSubtype == MessageSubtype.ANSWER){
+					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
+					model.spawnPlayer(player, defaultActionMessage.getContent());
 				}
 				break;
-			default: turnController.processMessage(message);
+			default: turnController.processMessage(event);
 		}
 
 	}

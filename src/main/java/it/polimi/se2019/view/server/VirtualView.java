@@ -43,7 +43,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
-		((ActionMessage)message).setVirtualView(this);
+		Event event = new Event(this, message);
 		switch (message.getMessageType()) {
 			case EXAMPLE_ACTION: // TODO remove
 				if (message.getMessageSubtype() == MessageSubtype.ANSWER) {
@@ -55,7 +55,7 @@ public class VirtualView extends Observable implements ViewInterface {
 				break;
 		default:
 			Utils.logInfo("Received an " + message.getMessageType().toString() + "of subtype " + message.getMessageSubtype().toString());
-			notifyObservers(message);
+			notifyObservers(event);
 			//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
 			break;
 
@@ -76,37 +76,37 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askAction() {
-		client.sendMessage(new ActionMessage(MessageType.ACTION, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.ACTION, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askGrab() {
-		client.sendMessage(new ActionMessage(MessageType.GRAB_AMMO, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.GRAB_AMMO, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askMove() {
-		client.sendMessage(new ActionMessage(MessageType.MOVE, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.MOVE, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askShoot() {
-		client.sendMessage(new ActionMessage(MessageType.SHOOT, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.SHOOT, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askReload() {
-		client.sendMessage(new ActionMessage(MessageType.RELOAD, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askSpawn() {
-		client.sendMessage(new ActionMessage(MessageType.SPAWN, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.SPAWN, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askEnd() {
-		client.sendMessage(new ActionMessage(MessageType.END_TURN, MessageSubtype.REQUEST));
+		client.sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
 	}
 
 
