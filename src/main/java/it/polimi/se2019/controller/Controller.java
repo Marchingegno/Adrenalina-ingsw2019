@@ -56,7 +56,7 @@ public class Controller implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		gameController.processMessage((Event) arg);
+		gameController.processEvent((Event) arg);
 	}
 
 	private void setObservers() {

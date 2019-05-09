@@ -41,7 +41,7 @@ public class TurnController{
 	public void performMacroaction(int indexOfMacroAction) {
 	}
 
-	void processMessage(Event event) {
+	void processEvent(Event event) {
 		//TODO: Control veridicity of the message.
 
 		VirtualView virtualView = event.getVirtualView();

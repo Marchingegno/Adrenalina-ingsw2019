@@ -133,7 +133,7 @@ public class GameController {
 	}
 
 
-	void processMessage(Event event){
+	void processEvent(Event event){
 		MessageType messageType = event.getMessage().getMessageType();
 		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
 		VirtualView virtualView = event.getVirtualView();
@@ -158,7 +158,7 @@ public class GameController {
 					model.spawnPlayer(player, defaultActionMessage.getContent());
 				}
 				break;
-			default: turnController.processMessage(event);
+			default: turnController.processEvent(event);
 		}
 
 	}
