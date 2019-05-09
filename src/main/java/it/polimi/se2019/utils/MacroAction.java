@@ -1,10 +1,5 @@
 package it.polimi.se2019.utils;
 
-import it.polimi.se2019.network.message.MessageType;
-
-import java.util.ArrayList;
-import java.util.Optional;
-
 /**
  * This class contains all the information to execute an action, and it does so by splitting it into atomic actions.
  * @author Marchingegno
