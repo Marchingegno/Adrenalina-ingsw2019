@@ -84,12 +84,12 @@ public class GameController {
 			model.startFrenzy();
 			startFrenzy();
 		}
-		nextPlayerTurn();
-
 		//This checks if the frenzy is started and flips the DamageBoard of the players.
 		if(model.isFrenzyStarted()){
 			flipPlayers();
 		}
+
+		nextPlayerTurn();//
 	}
 
 	private void startTurn(){

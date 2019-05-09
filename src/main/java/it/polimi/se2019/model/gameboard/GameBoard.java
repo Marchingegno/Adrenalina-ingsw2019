@@ -84,7 +84,7 @@ public class GameBoard extends Representable {
 	public void nextPlayerTurn() {
 		playerQueue.peekFirst().setTurnStatus(TurnStatus.IDLE);
 		playerQueue.moveFirstToLast();
-		playerQueue.peekFirst().setTurnStatus(TurnStatus.YOUR_TURN);
+		//playerQueue.peekFirst().setTurnStatus(TurnStatus.YOUR_TURN);
 		setChanged();
 	}
 
