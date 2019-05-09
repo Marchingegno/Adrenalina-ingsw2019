@@ -51,4 +51,10 @@ public class GameMapRep extends Representation {
 		return playersPositions;
 	}
 
+	public Coordinates getPlayerCoordinates(String playerName) {
+		return playersPositions.get(playerName);
+	}
+
+
+
 }

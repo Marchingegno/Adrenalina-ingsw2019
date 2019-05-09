@@ -143,6 +143,7 @@ public class GameController {
 		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
+		Utils.logInfo("GameController: processing an event: "+ event.toString());
 		//TODO: Add other cases.
 		switch (messageType) {
 			case END_TURN:
@@ -158,7 +159,13 @@ public class GameController {
 				}
 				else if(messageSubtype == MessageSubtype.ANSWER){
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
-					model.spawnPlayer(player, defaultActionMessage.getContent());
+
+					try {
+						model.spawnPlayer(player, defaultActionMessage.getContent());
+					} catch (Exception e){
+						Utils.logError("Error spawning player", e);
+						e.printStackTrace();
+					}
 					virtualView.askAction();
 				}
 				break;

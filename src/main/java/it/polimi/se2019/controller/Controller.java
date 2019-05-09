@@ -56,6 +56,7 @@ public class Controller implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
+		Utils.logInfo("Controller: received an event:" + arg.toString());
 		gameController.processEvent((Event) arg);
 	}
 
@@ -73,6 +74,7 @@ public class Controller implements Observer {
 
 			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
 			virtualView.addObserver(this);
+			Utils.logInfo("Controller now observes virtual View of "+virtualView.getPlayerName());
 		}
 	}
 

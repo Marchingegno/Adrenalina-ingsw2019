@@ -43,7 +43,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
-		Utils.logInfo("\tThe VirtualView of \n" + getPlayerName() + "\" is processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Utils.logInfo("\tThe VirtualView of " + getPlayerName() + "\" is processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 		Event event = new Event(this, message);
 		switch (message.getMessageType()) {
 			case EXAMPLE_ACTION: // TODO remove
@@ -55,7 +55,8 @@ public class VirtualView extends Observable implements ViewInterface {
 				}
 				break;
 		default:
-			Utils.logInfo("Virtual View : Received a message of type " + message.getMessageType().toString() + "and subtype " + message.getMessageSubtype().toString());
+			Utils.logInfo("Virtual View : Received a message of type " + message.getMessageType().toString() + " and subtype " + message.getMessageSubtype().toString());
+			setChanged();
 			notifyObservers(event);
 			//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
 			break;

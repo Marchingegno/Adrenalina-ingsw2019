@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * This class is in a lower level than GameController. It handles the logic relative
- * This class is a message handler.
  * @author Marchingegno
  */
 public class TurnController{
@@ -48,6 +47,7 @@ public class TurnController{
 		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
+		Utils.printLine("TurnController: processing this event " + event.toString());
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
 				player.getDamageStatus().decreaseActionsToPerform();

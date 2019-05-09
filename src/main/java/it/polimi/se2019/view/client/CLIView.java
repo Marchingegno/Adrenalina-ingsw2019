@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class CLIView extends RemoteView {
 
+	private String nickname;
 	private ModelRep modelRep;
 	private Scanner scanner;
 	private RepPrinter repPrinter;
@@ -61,10 +62,12 @@ public class CLIView extends RemoteView {
 		if(Utils.BYPASS){
 			String nickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
 			sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+			this.nickname = nickname;
 			return;
 		}
 		Utils.printLine("Enter your nickname.");
 		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
+		this.nickname = nickname;
 	}
 
 	@Override
@@ -150,11 +153,13 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askGrab() {
 		//TODO: Check whether the player is in a spawn square or a weapon square.
-		Utils.printLine("Choose an action!");
+		modelRep.getGameMapRep().getPlayerCoordinates(nickname);
+		Utils.printLine("You chose to grab.");
 		Utils.printLine("Select a number between 0 and 2.");
-		int answer = askInteger(0, 2);
+		Utils.printLine("You chose 0! <:)");
+		//int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+		sendMessage(new DefaultActionMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -279,6 +284,10 @@ public class CLIView extends RemoteView {
 				Utils.printLine("Please write \"y\" or \"n\".");
 		}
 		return input.equals("y") || input.equals("yes");
+	}
+
+	private String getNickname(){
+		return nickname;
 	}
 }
 
@@ -436,6 +445,7 @@ class RepPrinter {
 			stringBuilder = new StringBuilder();
 		}
 	}
+
 
 	private String getDamageBoard(List<Color.CharacterColorType> damageBoard) {
 		ArrayList<String> strings = new ArrayList<>();
