@@ -179,7 +179,7 @@ public class CLIView extends RemoteView {
 		Utils.printLine("Select a number between 0 and 3.");
 		int answer = askInteger(0, 3);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
 	}
 
 	@Override

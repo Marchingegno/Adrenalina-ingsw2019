@@ -247,6 +247,11 @@ public class GameBoard extends Representable {
 	}
 
 	public void setCorrectDamageStatus(Player player) {
+		if(player.getTurnStatus().equals(TurnStatus.PRE_SPAWN)){
+			player.setDamageStatus(new LowDamage());
+			return;
+		}
+
 		List<Player> damageBoard = player.getPlayerBoard().getDamageBoard();
 
 		//If the game is in frenzy mode, then the player already has the right damageStatus.

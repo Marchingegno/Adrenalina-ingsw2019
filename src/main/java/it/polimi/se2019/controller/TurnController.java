@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -69,12 +70,12 @@ public class TurnController{
 				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player,virtualView);
 				break;
-			default: throw new RuntimeException("Received wrong type of message.");
+			default: throw new RuntimeException("Received wrong type of message: "+ event.toString());
 		}
 
 	}
 
-	private void handleAction(Player player, VirtualView virtualView) {
+	void handleAction(Player player, VirtualView virtualView) {
 		ActionType actionType = player.getDamageStatus().executeAction();
 		switch (actionType){
 			case MOVE:
@@ -92,12 +93,14 @@ public class TurnController{
 			case END:
 				//The MacroAction is already refilled.
 				handleEnd(player, virtualView);
-
+				break;
+			default:
+				Utils.printLine("WTF");
+				break;
 		}
 	}
 
 	private void handleEnd(Player player, VirtualView virtualView) {
-		//End turn.
-
+		virtualView.askEnd();
 	}
 }

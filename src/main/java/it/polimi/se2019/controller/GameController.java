@@ -32,18 +32,7 @@ public class GameController {
 
 	void startGame() {
 		Utils.logInfo("GameController: startGame");
-		Player firstPlayer = model.getCurrentPlayer();
-		//Set its correct DamageStatus.
-		model.setCorrectDamageStatus(firstPlayer);
-
-		//Check if the player is to be spawned.
-		if(firstPlayer.getTurnStatus() == TurnStatus.DEAD){
-			Controller.getVirtualViewFromPlayer(firstPlayer, virtualViews).askSpawn();
-			return;
-		}
-		//Set its TurnStatus.
-		model.setTurnStatus(firstPlayer, TurnStatus.YOUR_TURN);
-		Controller.getVirtualViewFromPlayer(firstPlayer, virtualViews).askAction();
+		startTurn();
 	}
 
 	private void flipPlayers(){
@@ -71,16 +60,13 @@ public class GameController {
 		model.fillGameMap();
 	}
 
+
 	private void spawnPlayers(){
 		for (Player item : model.getPlayers()) {
 			if (item.getTurnStatus() == TurnStatus.DEAD) {
-				spawnPlayer(item);
+				askToSpawn(item);
 			}
 		}
-	}
-
-	private void spawnPlayer(Player player) {
-		Controller.getVirtualViewFromPlayer(player, virtualViews).askSpawn();
 	}
 
 
@@ -112,9 +98,9 @@ public class GameController {
 		//Check if the player is to be spawned.
 		//Which should be only in its beginning turns.
 		if(player.getTurnStatus() == TurnStatus.PRE_SPAWN){
-			model.setTurnStatus(player, TurnStatus.YOUR_TURN);
 			model.setCorrectDamageStatus(player);
-			Controller.getVirtualViewFromPlayer(player, virtualViews).askSpawn();
+			model.setTurnStatus(player, TurnStatus.YOUR_TURN);
+			askToSpawn(player);
 			return;
 		}
 
@@ -130,6 +116,24 @@ public class GameController {
 		model.nextPlayerTurn();
 		//start its turn.
 		startTurn();
+	}
+
+	/**
+	 * Make the player draw a card and ask which card to use to spawn.
+	 * @param player the player to be spawned.
+	 * @param virtualView the virtual view of the player.
+	 */
+	private void askToSpawn(Player player, VirtualView virtualView){
+		model.addPowerupCardTo(player);
+		virtualView.askSpawn();
+	}
+
+	/**
+	 * Calls askToSpawn with the view.
+	 * @param player the player to be spawned.
+	 */
+	private void askToSpawn(Player player) {
+		askToSpawn(player, Controller.getVirtualViewFromPlayer(player, virtualViews));
 	}
 
 
@@ -150,15 +154,16 @@ public class GameController {
 			case SPAWN:
 				//If the player requests to spawn, make it draw a powerup card and request the choice.
 				if(messageSubtype == MessageSubtype.REQUEST){
-					model.addPowerupCardTo(player);
-					virtualView.askSpawn();
+					askToSpawn(player, virtualView);
 				}
 				else if(messageSubtype == MessageSubtype.ANSWER){
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
 					model.spawnPlayer(player, defaultActionMessage.getContent());
+					virtualView.askAction();
 				}
 				break;
 			default: turnController.processEvent(event);
+				break;
 		}
 
 	}

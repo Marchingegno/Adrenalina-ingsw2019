@@ -21,4 +21,9 @@ public class Event {
 	public Message getMessage() {
 		return message;
 	}
+
+	@Override
+	public String toString() {
+		return "Event of message type " + message.getMessageType() + "and subtype" + message.getMessageSubtype();
+	}
 }
