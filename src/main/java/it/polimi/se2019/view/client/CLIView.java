@@ -10,7 +10,6 @@ import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
 
-import javax.rmi.CORBA.Util;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -185,7 +184,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askEnd() {
-		sendMessage(new ActionMessage(MessageType.END_TURN, MessageSubtype.ANSWER));
+		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
 	}
 
 	@Override

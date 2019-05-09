@@ -2,9 +2,9 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.*;
@@ -56,7 +56,7 @@ public class Controller implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		gameController.processMessage( (Message) arg);
+		gameController.processEvent((Event) arg);
 	}
 
 	private void setObservers() {

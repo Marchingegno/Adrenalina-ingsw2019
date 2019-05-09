@@ -3,9 +3,9 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
+import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.List;
@@ -41,32 +41,32 @@ public class TurnController{
 	public void performMacroaction(int indexOfMacroAction) {
 	}
 
-	void processMessage(Message message) {
+	void processEvent(Event event) {
 		//TODO: Control veridicity of the message.
 
-		VirtualView virtualView = ((ActionMessage)message).getVirtualView();
+		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
-		switch(message.getMessageType()){
+		switch(event.getMessage().getMessageType()){
 			case ACTION:
 				player.getDamageStatus().decreaseActionsToPerform();
-				player.getDamageStatus().setCurrentActionIndex(((DefaultActionMessage)message).getIndex());
+				player.getDamageStatus().setCurrentActionIndex(((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player, virtualView);
 				break;
 			case GRAB_AMMO:
-				model.grabAmmoCard(player, ((DefaultActionMessage)message).getIndex());
+				model.grabAmmoCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player,virtualView);
 				break;
 			case GRAB_WEAPON:
-				model.grabWeaponCard(player, ((DefaultActionMessage)message).getIndex());
+				model.grabWeaponCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player,virtualView);
 				break;
 			case MOVE:
-				model.movePlayerTo(player, ((MoveActionMessage)message).getCoordinates());
+				model.movePlayerTo(player, ((MoveActionMessage)event.getMessage()).getCoordinates());
 				handleAction(player,virtualView);
 				break;
 			case RELOAD:
-				player.reload(((DefaultActionMessage)message).getIndex());
+				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player,virtualView);
 				break;
 			default: throw new RuntimeException("Received wrong type of message.");
