@@ -36,26 +36,19 @@ public class SocketServer extends Thread implements Closeable {
 	 */
 	@Override // Of Thread.
 	public void run() {
-		Utils.logInfo("Socket server is listening.");
-
 		while(isActive()) {
-
-			Socket newClientSocket;
-			ServerClientSocket newServerClientSocket;
-
 			try {
 				//The server receives a new connection requests, accepts it and returns the socket associated.
-				newClientSocket = serverSocket.accept();
+				Socket newClientSocket = serverSocket.accept();
 
 				//The socket is decorated with the logic to handle the message communication
-				newServerClientSocket = new ServerClientSocket(serverEventsListener, newClientSocket);
+				ServerClientSocket newServerClientSocket = new ServerClientSocket(serverEventsListener, newClientSocket);
 
 				//The new decorated socket is registered to the server message handler
 				serverEventsListener.onClientConnection(newServerClientSocket);
-
 			} catch (SocketException e) {
 				if(e.getMessage().equals("Socket closed") || e.getMessage().equals("Socket is closed"))
-					Utils.logInfo("Socket connection listening closed by request");
+					Utils.logInfo("SocketServer => run(): Socket connection listening closed by request.");
 				else
 					Utils.logError("Error in SocketServer: run()", e);
 			} catch (IOException e) {
@@ -72,7 +65,7 @@ public class SocketServer extends Thread implements Closeable {
 		active = false;
 		try {
 			serverSocket.close();
-			Utils.logInfo("Socket server stopped.");
+			Utils.logInfo("SocketServer => close(): Socket server stopped.");
 		}catch (IOException e){
 			Utils.logError("Error in SocketServer: close()", e);
 		}
@@ -86,7 +79,8 @@ public class SocketServer extends Thread implements Closeable {
 
 	private void startServerSocket() throws IOException {
 		serverSocket = new ServerSocket(ServerConfigParser.getSocketPort());
-		this.start();
 		active = true;
+		start(); // Starts the Thread.
+		Utils.logInfo("SocketServer => startServerSocket(): Socket server is ready.");
 	}
 }

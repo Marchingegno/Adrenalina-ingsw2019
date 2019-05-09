@@ -31,6 +31,7 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 			objOutStream = new ObjectOutputStream(socket.getOutputStream());
 			objInStream = new ObjectInputStream(socket.getInputStream());
 			new Thread(this, "CUSTOM: Socket Connection to Client").start();
+			Utils.logInfo("ServerClientSocket => ServerClientSocket(): a new connection to a client has been created with Socket.");
 		} catch (IOException e) {
 			Utils.logError("Error in ServerClientSocket()", e);
 			active = false;

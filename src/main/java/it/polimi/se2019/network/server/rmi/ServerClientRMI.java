@@ -21,6 +21,7 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 		active = true;
 		this.serverEventsListener = serverEventsListener;
 		this.rmiClientInterface = rmiClientInterface;
+		Utils.logInfo("ServerClientRMI => ServerClientRMI(): a new connection to a client has been created with RMI.");
 	}
 
 
