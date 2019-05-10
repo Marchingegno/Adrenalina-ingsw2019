@@ -1,6 +1,6 @@
 package it.polimi.se2019.view.client;
 
-import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
@@ -37,15 +37,17 @@ public class ModelRep{
 		this.gameMapRep = gameMapRep;
 	}
 
-	public void setPlayersRep(PlayerRep playerRep) {
-		if(!(playersRep.contains(playerRep))){
-			playersRep.add(playerRep);
-		}
-		else
-			for (int i = 0; i < playersRep.size(); i++) {
-				if(playersRep.equals(playerRep))
-					playersRep.add(i, playerRep);
+	public void setPlayersRep(PlayerRep playerRepToSet) {
+		int numOfPlayersRep = playersRep.size();
+		for (int i = 0; i < numOfPlayersRep; i++) {
+			if (playersRep.get(i).getPlayerName().equals(playerRepToSet.getPlayerName())) {
+				playersRep.set(i, playerRepToSet);
+				return;
 			}
+		}
+
+		//There is no PlayerRep for this player so I add it
+		playersRep.add(playerRepToSet);
 	}
 
 	private ArrayList<PlayerRep> generatePlayersRep(ArrayList<Player> players){

@@ -5,7 +5,6 @@ import it.polimi.se2019.model.cards.powerups.Newton;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.Cyberblade;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
-import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +16,9 @@ import static org.junit.Assert.*;
  */
 public class PlayerBoardTest {
 
-	private static final Player player1 = new Player("Test 1", 0, Color.CharacterColorType.GREEN);
-	private static final Player player2 = new Player("Test 2", 1, Color.CharacterColorType.BLUE);
-	private static final Player player3 = new Player("Test 3", 2, Color.CharacterColorType.RED);
+	private static final Player player1 = new Player("Test 1", 0);
+	private static final Player player2 = new Player("Test 2", 1);
+	private static final Player player3 = new Player("Test 3", 2);
 
 	private PlayerBoard playerBoard;
 
@@ -144,9 +143,6 @@ public class PlayerBoardTest {
 		playerBoard.addDamage(player2, 12);
 		playerBoard.resetBoardAfterDeath();
 		assertEquals(2, playerBoard.getNumberOfDeaths());
-		playerBoard.addDamage(player2, 2);
-		playerBoard.resetBoardAfterDeath();
-		assertEquals(2, playerBoard.getNumberOfDeaths());
 	}
 
 	@Test
@@ -188,7 +184,7 @@ public class PlayerBoardTest {
 		playerBoard.addWeapon(cyberblade1);
 		playerBoard.addWeapon(cyberblade2);
 		playerBoard.addWeapon(cyberblade3);
-		playerBoard.swapWeapon(cyberblade4, cyberblade2);
+		playerBoard.swapWeapon(cyberblade4, 1);
 		assertNotEquals(-1, playerBoard.getWeaponCards().indexOf(cyberblade1));
 		assertNotEquals(-1, playerBoard.getWeaponCards().indexOf(cyberblade4));
 		assertNotEquals(-1, playerBoard.getWeaponCards().indexOf(cyberblade3));
@@ -201,11 +197,10 @@ public class PlayerBoardTest {
 		WeaponCard cyberblade2 = new Cyberblade("Desc2");
 		WeaponCard cyberblade3 = new Cyberblade("Desc3");
 		WeaponCard cyberblade4 = new Cyberblade("Desc4");
-		WeaponCard cyberblade5 = new Cyberblade("Desc4");
 		playerBoard.addWeapon(cyberblade1);
 		playerBoard.addWeapon(cyberblade2);
 		playerBoard.addWeapon(cyberblade3);
-		playerBoard.swapWeapon(cyberblade4, cyberblade5);
+		playerBoard.swapWeapon(cyberblade4, -1);
 	}
 
 	@Test
@@ -247,7 +242,7 @@ public class PlayerBoardTest {
 		playerBoard.addPowerup(newton1);
 		playerBoard.addPowerup(newton2);
 		playerBoard.addPowerup(newton3);
-		playerBoard.removePowerup(newton2);
+		playerBoard.removePowerup(1);
 		playerBoard.addPowerup(newton4);
 		assertNotEquals(-1, playerBoard.getPowerupCards().indexOf(newton1));
 		assertNotEquals(-1, playerBoard.getPowerupCards().indexOf(newton4));

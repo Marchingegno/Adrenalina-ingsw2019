@@ -1,46 +1,84 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.cards.ammo.AmmoCard;
+import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.Utils;
 
 /**
  * Normal square associated with an ammo card
+ *
+ * @author MarcerAndrea
  */
-public class AmmoSquare extends MapSquare {
+public class AmmoSquare extends Square {
 
-	private AmmoCard ammoCard;
-	private boolean isFilled;
-
-	public AmmoSquare(int roomID, boolean[] possibleDirections, Coordinates coordinates) {
-		super(possibleDirections, roomID, coordinates);
-		isFilled = false;
+	public AmmoSquare(int roomID, Color.CharacterColorType squareColor, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
+		super(roomID, possibleDirections, squareColor, coordinates);
+		deck = gameBoard.getAmmoDeck();
+		hasChanged = true;
+		setNotFilled();
 	}
 
-	public AmmoCard grabAmmoCard() {
-		return ammoCard;
+	/**
+	 * Refills the card slot with an ammo card.
+	 */
+	@Override
+	public void refillCards() {
+		if (!isFilled()) {
+			Utils.logInfo("AmmoSquare -> refillCards(): Refilling the ammo square in " + getCoordinates());
+			cards.add(deck.drawCard());
+			setFilled();
+			setChanged();
+		} else
+			Utils.logInfo("AmmoSquare -> refillCards(): The ammo square is already filled");
 	}
 
-	public void setAmmoCard(AmmoCard ammoCard) {
-		this.ammoCard = ammoCard;
+	/**
+	 * Removes the ammo card from the square and returns it.
+	 * @param index index of the card to grab.
+	 * @return the ammo card in the square
+	 * @throws IllegalArgumentException if the index is different from 0. there should be only a card in the ammo square.
+	 */
+	@Override
+	public Card grabCard(int index) {
+		if (index != 0)
+			throw new IllegalArgumentException("This is an ammo square, index can be only 0 and you are asking " + index);
+		setNotFilled();
+		setChanged();
+		return cards.remove(index);
 	}
 
-	public boolean isFilled() {
-		return isFilled;
+
+	/**
+	 * Adds the specified card to the ammo square.
+	 *
+	 * @param cardToAdd Card to add to the square.
+	 * @throws IllegalArgumentException when the card slot is full and this method is called.
+	 * @throws NullPointerException     when the card to add is null.
+	 */
+	@Override
+	public void addCard(Card cardToAdd) {
+		if (cardToAdd == null)
+			throw new NullPointerException("The card to add is null");
+		if (!isFilled()) {
+			cards.add(cardToAdd);
+			Utils.logInfo("AmmoSquare -> addCard(): Adding to the ammo square " + cardToAdd);
+		} else
+			throw new IllegalArgumentException("The square inventory is full");
 	}
 
-	public void setFilled() {
-		isFilled = true;
-	}
-
-	public void setNtoFilled() {
-		isFilled = false;
-	}
-
-	public String[] getElementsToPrint(){
-		String[] elementsToPrint = new String[3];
-		elementsToPrint[0] = Color.getColoredCell(ammoCard.getAmmos().get(0).getBackgroundColorType());
-		elementsToPrint[1] = Color.getColoredCell(ammoCard.getAmmos().get(1).getBackgroundColorType());
-		elementsToPrint[2] = Color.getColoredCell(ammoCard.hasPowerup()? Color.BackgroundColorType.WHITE : ammoCard.getAmmos().get(2).getBackgroundColorType());
-		return elementsToPrint;
+	/**
+	 * Returns the ammo square's representation.
+	 *
+	 * @return the ammo square's representation.
+	 */
+	@Override
+	public SquareRep getRep() {
+		if (hasChanged || squareRep == null) {
+			squareRep = new AmmoSquareRep(this);
+			setNotChanged();
+			Utils.logInfo("AmmoSquare -> getRep(): Updated the square's representation");
+		}
+		return squareRep;
 	}
 }

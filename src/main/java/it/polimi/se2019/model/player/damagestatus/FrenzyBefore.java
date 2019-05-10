@@ -30,9 +30,4 @@ public class FrenzyBefore extends DamageStatus {
 		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}
 
-
-	@Override
-	public void doAction() {
-	}
-
 }

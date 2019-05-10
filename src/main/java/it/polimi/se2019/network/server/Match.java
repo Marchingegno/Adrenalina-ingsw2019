@@ -6,22 +6,26 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.ServerConfigParser;
+import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Match {
 
-	private HashMap<ConnectionToClientInterface, String> participants;
-	private HashMap<ConnectionToClientInterface, VirtualView> virtualViews = new HashMap<>();
-	private int numberOfParticipants;
-	private Controller controller;
+	private final int numberOfParticipants;
+	private final ArrayList<AbstractConnectionToClient> participants;
+	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
+	private SingleTimer singleTimer = new SingleTimer();
 
 	// Game config attributes.
-	private HashMap<ConnectionToClientInterface, Integer> skullsChosen = new HashMap<>();
-	private HashMap<ConnectionToClientInterface, Integer> mapChosen = new HashMap<>();
+	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
+	private HashMap<AbstractConnectionToClient, Integer> mapChosen = new HashMap<>();
 	private int numberOfAnswers = 0;
 
 
@@ -29,11 +33,11 @@ public class Match {
 	 * Create a new match with the specified clients.
 	 * @param participants a map that contains all the clients for this match and their nicknames.
 	 */
-	public Match(Map<ConnectionToClientInterface, String> participants) {
+	public Match(List<AbstractConnectionToClient> participants) {
 		numberOfParticipants = participants.size();
 		if(numberOfParticipants < GameConstants.MIN_PLAYERS || numberOfParticipants > GameConstants.MAX_PLAYERS)
 			throw new IllegalArgumentException("The number of participants for this match (" + numberOfParticipants + ") is not valid.");
-		this.participants = new HashMap<>(participants);
+		this.participants = new ArrayList<>(participants);
 	}
 
 
@@ -41,22 +45,32 @@ public class Match {
 	 * Send game config request messages to the clients, asking skulls and map type.
 	 */
 	public void requestMatchConfig() {
-		for(ConnectionToClientInterface client : participants.keySet())
+		if(isMatchStarted())
+			return;
+
+		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
+
+		singleTimer.start(this::startMatch, ServerConfigParser.getTurnTimeLimitMs());
 	}
 
-	// TODO start the match also after a timer and not wait every answer?
-	public void addConfigVote(ConnectionToClientInterface client, int skulls, int mapIndex) {
-		if(participants.containsKey(client)) { // Check if the client is in the Match.
-			if(!skullsChosen.containsKey(client))
-				skullsChosen.put(client, skulls);
+	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
+		if(isMatchStarted()) {
+			Utils.logInfo("\tMatch already started, GameConfigMessage ignored.");
+			return;
+		}
 
-			if(!mapChosen.containsKey(client))
-				mapChosen.put(client, mapIndex);
+		if(participants.contains(client) && !skullsChosen.containsKey(client) && !mapChosen.containsKey(client)) { // Check if the client is in the Match and if he didn't already vote.
+			Utils.logInfo("\tAdding game config vote with skulls " + skulls + ", map index " + mapIndex + ".");
+
+			skullsChosen.put(client, skulls);
+			mapChosen.put(client, mapIndex);
 
 			numberOfAnswers++;
-			if(numberOfAnswers >= numberOfParticipants)
+			if(numberOfAnswers >= numberOfParticipants) {
+				Utils.logInfo("\t\tAll participants sent their votes. Starting the game.");
 				startMatch();
+			}
 		}
 	}
 
@@ -64,8 +78,8 @@ public class Match {
 	 * Returns a list with all the participants of this match.
 	 * @return a list with all the participants of this match.
 	 */
-	public Map<ConnectionToClientInterface, String> getParticipants() {
-		return new HashMap<>(participants);
+	public List<AbstractConnectionToClient> getParticipants() {
+		return new ArrayList<>(participants);
 	}
 
 	/**
@@ -73,7 +87,7 @@ public class Match {
 	 * @param client the client.
 	 * @return the VirtualView associated to the client.
 	 */
-	public VirtualView getVirtualViewOfClient(ConnectionToClientInterface client) {
+	public VirtualView getVirtualViewOfClient(AbstractConnectionToClient client) {
 		return virtualViews.get(client);
 	}
 
@@ -89,39 +103,29 @@ public class Match {
 	 * Start the match.
 	 */
 	private void startMatch() {
-		matchStarted = true;
+		singleTimer.cancel();
 
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
-		Utils.logInfo("Starting a new match with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
+		Utils.logInfo("Starting a new game with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
-		// start the game.
-		controller = new Controller(new ArrayList<>(participants.values()), skulls, mapType.getMapName());
+		// Send messages with votes.
+		sendVotesResultMessages(skulls, mapType);
 
-		for (Map.Entry<ConnectionToClientInterface, String> client : participants.entrySet()) {
-			Utils.logInfo("Added Virtual View to " + client.getValue());
-			virtualViews.put(client.getKey(), new VirtualView(controller, client.getKey(), client.getValue()));
+		// Create virtualViews.
+		for (AbstractConnectionToClient client : participants) {
+			Utils.logInfo("Added Virtual View to " + client.getNickname());
+			VirtualView virtualView =  new VirtualView(client);
+			virtualViews.put(client, virtualView);
 		}
 
-		controller.getModel().updateReps();
+		// Create Controller.
+		Controller controller = new Controller(mapType, virtualViews.values(), skulls);
 
-		// TODO no need for a timer here
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				// Send game start message with the voted skulls and map.
-				for(ConnectionToClientInterface client : participants.keySet()) {
-					GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
-					gameConfigMessage.setSkulls(skulls);
-					gameConfigMessage.setMapIndex(mapType.ordinal());
-					client.sendMessage(gameConfigMessage);
-				}
-
-				Utils.logInfo("Timer ended. Starting the match...");
-			}
-		}, 5000L);
+		// Start the game.
+		controller.startGame();
+		matchStarted = true;
 	}
 
 	/**
@@ -129,15 +133,20 @@ public class Match {
 	 * @return the average of voted skulls.
 	 */
 	private int findVotedNumberOfSkulls() {
+		// If there are no votes gives a default value.
+		if(skullsChosen.size() == 0)
+			return GameConstants.MIN_SKULLS;
+
+		// Calculates the average.
 		float average = 0f;
 		for(Integer votedSkulls : skullsChosen.values())
 			average += votedSkulls;
-		return  Math.round(average / skullsChosen.values().size());
+		return Math.round(average / skullsChosen.values().size());
 	}
 
 	/**
-	 * Find the most voted map, if votes are tied it chooses the smaller map.
-	 * @return the map name of the most voted map.
+	 * Find the most voted map, if votes are tied it chooses the map with the smaller ordinal.
+	 * @return the map type of the most voted map.
 	 */
 	private GameConstants.MapType findVotedMap() {
 		// Create array of votes.
@@ -160,6 +169,20 @@ public class Match {
 
 		// Return corresponding map.
 		return GameConstants.MapType.values()[indexOfMax];
+	}
+
+	/**
+	 * Send a message with the result of the poll.
+	 * @param skulls average number of skulls voted.
+	 * @param mapType most voted map type.
+	 */
+	private void sendVotesResultMessages(int skulls, GameConstants.MapType mapType) {
+		for(AbstractConnectionToClient client : participants) {
+			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
+			gameConfigMessage.setSkulls(skulls);
+			gameConfigMessage.setMapIndex(mapType.ordinal());
+			client.sendMessage(gameConfigMessage);
+		}
 	}
 
 }

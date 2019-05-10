@@ -1,8 +1,6 @@
 package it.polimi.se2019.model.player;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,13 +26,4 @@ public class PlayerQueue extends ArrayDeque<Player> {
 			addLast(removeFirst());
 		}
 	}
-
-	public ArrayList<Player> getAsArray(){
-		return new ArrayList (Arrays.asList(this));
-	}
-
-
-
-
-
 }

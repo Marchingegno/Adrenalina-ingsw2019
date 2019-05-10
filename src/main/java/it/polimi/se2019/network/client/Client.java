@@ -1,15 +1,12 @@
 package it.polimi.se2019.network.client;
 
-import it.polimi.se2019.network.client.rmi.RMIClient;
-import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.client.CLIPrinter;
 import it.polimi.se2019.view.client.CLIView;
 import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.Scanner;
+import java.util.Locale;
 
 
 /**
@@ -19,65 +16,36 @@ import java.util.Scanner;
  */
 public class Client {
 
-	private ConnectionToServerInterface clientMessageSender;
-	private RemoteView view;
-
-
 	public static void main(String[] args) {
-		Client client;
+		// Set English language.
+		Locale.setDefault(Locale.ENGLISH);
 
-		//TEMP
-		Scanner scanner = new Scanner(System.in);
+		CLIPrinter.printLoginScrean();
 
-		Utils.printLine("Do you want CLI? [true/false]");
-		boolean isCLI = Boolean.parseBoolean(scanner.nextLine()); // TODO if user requested CLI use CLI otherwise GUI
-		RemoteView remoteView;
-		if(isCLI)
-			remoteView = new CLIView();
-		else
-			remoteView = new GUIView();
-		client = new Client(remoteView);
-
-
-		Utils.printLine("Do you want RMI? [true/false]");
-		boolean isRMI = Boolean.parseBoolean(scanner.nextLine()); // TODO if user requested RMI start RMI otherwise socket
-		if(isRMI)
-			client.startConnectionWithRMI(remoteView);
-		else
-			client.startConnectionWithSocket(remoteView);
-	}
-
-
-	/**
-	 * Create a new client and associate it with the view.
-	 * @param view the view to be associated with the client.
-	 */
-	private Client(RemoteView view) {
-		this.view = view;
-	}
-
-
-	/**
-	 * Start a connection with the server, using RMI.
-	 */
-	public void startConnectionWithRMI(MessageReceiverInterface messageReceiver) {
-		try {
-			clientMessageSender = new RMIClient(messageReceiver);
-			view.setConnectionToServer(clientMessageSender);
-		} catch (RemoteException | NotBoundException e) {
-			Utils.logError("Failed to connect to the server.", e);
-			view.failedConnectionToServer();
+		if (Utils.BYPASS) {
+			RemoteView remoteView = new CLIView();
+			remoteView.startConnectionWithRMI();
+			return;
 		}
+		// Start with CLI and ask if the user wants to use CLI or GUI.
+		CLIView cliView = new CLIView();
+		boolean isGUI = cliView.askForGUI();
+
+		// Start GUI if requested.
+		RemoteView remoteView;
+		if (isGUI)
+			remoteView = new GUIView();
+		else
+			remoteView = cliView;
+
+		// Ask which connection to use and start it.
+		remoteView.askForConnectionAndStartIt();
 	}
+
 
 	/**
-	 * Start a connection with the server, using socket.
+	 * Terminate the client.
 	 */
-	public void startConnectionWithSocket(MessageReceiverInterface messageReceiver) {
-		clientMessageSender = new ClientSocket(messageReceiver);
-		view.setConnectionToServer(clientMessageSender);
-	}
-
 	public static void terminateClient() {
 		System.exit(0);
 	}

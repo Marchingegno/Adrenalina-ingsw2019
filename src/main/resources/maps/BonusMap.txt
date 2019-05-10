@@ -1,0 +1,13 @@
+3,4
+NONE,RED,false,true,true,false
+NONE,BLUE,false,true,true,true
+BLUE_AMMO,BLUE,false,false,true,true
+NONE,DEFAULT,false,false,false,false
+RED_AMMO,RED,true,false,true,false
+NONE,MAGENTA,true,true,true,false
+NONE,MAGENTA,true,true,false,true
+NONE,YELLOW,false,false,true,true
+NONE,WHITE,true,true,false,false
+NONE,WHITE,true,true,false,true
+NONE,WHITE,false,true,false,true
+YELLOW_AMMO,YELLOW,true,false,false,true

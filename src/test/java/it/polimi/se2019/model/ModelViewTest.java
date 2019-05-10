@@ -1,5 +1,6 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import org.junit.Before;
@@ -18,8 +19,7 @@ public class ModelViewTest {
 		playerNames.add("Test 1");
 		playerNames.add("Test 2");
 		playerNames.add("Test 3");
-		GameBoard gameBoard = new GameBoard("MediumMap.txt", playerNames, 5);
-		gameMap = gameBoard.getGameMap();
+		gameBoard = new GameBoard("MediumMap.txt",playerNames, 8);
 	}
 /**
 	@Test

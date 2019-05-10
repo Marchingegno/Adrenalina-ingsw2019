@@ -1,17 +1,13 @@
 package it.polimi.se2019.view.server;
 
-import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.model.GameBoard;
-import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.network.server.ConnectionToClientInterface;
+import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
@@ -20,40 +16,50 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class VirtualView implements ViewInterface {
+public class VirtualView extends Observable implements ViewInterface {
 
-	private ConnectionToClientInterface client;
-	private Controller controller;
-	private String playerName;
+	private AbstractConnectionToClient client;
 
-	public VirtualView(Controller controller, ConnectionToClientInterface client, String playerName) {
+
+	public VirtualView(AbstractConnectionToClient client) {
 		this.client = client;
-		this.playerName = playerName;
-		this.controller = controller;
+	}
 
-		this.controller.getModel().getGameBoard().addObserver(new GameBoardObserver());
-		Utils.logInfo(playerName + " now observes Game Board");
-		this.controller.getModel().getGameBoard().getGameMap().addObserver(new GameMapObserver());
-		Utils.logInfo(playerName + " now observes Game Map");
-		for (Player player : this.controller.getModel().getPlayers()) {
-			player.addObserver(new PlayerObserver());
-			Utils.logInfo(playerName + " now observes " + player.getPlayerName());
-		}
+
+	public GameBoardObserver getGameBoardObserver() {
+		return new GameBoardObserver();
+	}
+
+	public GameMapObserver getGameMapObserver() {
+		return new GameMapObserver();
+	}
+
+	public PlayerObserver getPlayerObserver() {
+		return new PlayerObserver();
+	}
+
+	public String getPlayerName() {
+		return client.getNickname();
 	}
 
 	public void onMessageReceived(Message message) {
+		Utils.logInfo("\tThe VirtualView of " + getPlayerName() + "\" is processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Event event = new Event(this, message);
 		switch (message.getMessageType()) {
 			case EXAMPLE_ACTION: // TODO remove
 				if (message.getMessageSubtype() == MessageSubtype.ANSWER) {
 					IntMessage intMessage = (IntMessage) message;
 					int answer = intMessage.getContent();
 					Utils.logInfo("Received answer for Example Action: " + answer + ".");
-					//controller.doExampleAction(answer);
+					notifyObservers(/* MESSAGE HERE */);
 				}
 				break;
-			default:
-				Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
-				break;
+		default:
+			Utils.logInfo("Virtual View : Received a message of type " + message.getMessageType().toString() + " and subtype " + message.getMessageSubtype().toString());
+			setChanged();
+			notifyObservers(event);
+			//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
+			break;
 
 		}
 	}
@@ -62,12 +68,49 @@ public class VirtualView implements ViewInterface {
 		// TODO inform controller/model and supend the player
 	}
 
+
 	// TODO remove
 	@Override
 	public void askActionExample() { // This method in overridden from the ViewInterface.
 		// Send a message that represents asking the "example action". The client will process it in the RemoteView class.
 		client.sendMessage(new Message(MessageType.EXAMPLE_ACTION, MessageSubtype.REQUEST));
 	}
+
+	@Override
+	public void askAction() {
+		client.sendMessage(new Message(MessageType.ACTION, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askGrab() {
+		client.sendMessage(new Message(MessageType.GRAB_AMMO, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askMove() {
+		client.sendMessage(new Message(MessageType.MOVE, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askShoot() {
+		client.sendMessage(new Message(MessageType.SHOOT, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askReload() {
+		client.sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askSpawn() {
+		client.sendMessage(new Message(MessageType.SPAWN, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askEnd() {
+		client.sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
+	}
+
 
 	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {
@@ -79,19 +122,19 @@ public class VirtualView implements ViewInterface {
 
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
-		Utils.logInfo("Sending Game Board rep to " + playerName);
+		Utils.logInfo("Sending Game Board rep to " + getPlayerName());
 		client.sendMessage(gameBoardRepToUpdate);
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
-		Utils.logInfo("Sending Game Map rep to " + playerName);
+		Utils.logInfo("Sending Game Map rep to " + getPlayerName());
 		client.sendMessage(gameMapRepToUpdate);
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
-		Utils.logInfo("Sending Player rep to " + playerName);
+		Utils.logInfo("Sending Player rep to " + getPlayerName());
 		client.sendMessage(playerRepToUpdate);
 	}
 
@@ -99,21 +142,21 @@ public class VirtualView implements ViewInterface {
 	private class GameBoardObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updateGameBoardRep(((GameBoard) observable).getRep());
+			updateGameBoardRep((GameBoardRep) ((GameBoard) observable).getRep());
 		}
 	}
 
 	private class GameMapObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updateGameMapRep(((GameMap) observable).getRep());
+			updateGameMapRep((GameMapRep) ((GameMap) observable).getRep());
 		}
 	}
 
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updatePlayerRep(((Player) observable).getRep(playerName));
+			updatePlayerRep((PlayerRep) ((Player) observable).getRep(getPlayerName()));
 		}
 	}
 }

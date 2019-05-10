@@ -2,7 +2,9 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.utils.Color;
 
-public class WeaponRep {
+import java.io.Serializable;
+
+public class WeaponRep implements Serializable {
 
 	private String weaponName;
 	private String weaponDescription;
@@ -11,9 +13,13 @@ public class WeaponRep {
 	public WeaponRep(WeaponCard weaponCardToRepresent){
 		this.weaponName = weaponCardToRepresent.getWeaponName();
 		this.weaponDescription = weaponCardToRepresent.getDescription();
+		price = Color.getColoredString("◼", Color.CharacterColorType.RED) +
+				Color.getColoredString("◼", Color.CharacterColorType.YELLOW ) +
+				Color.getColoredString("◼", Color.CharacterColorType.DEFAULT );
+		/*
 		price = Color.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(0).getCharacterColorType()) +
 				Color.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(1).getCharacterColorType()) +
-				Color.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(2).getCharacterColorType());
+				Color.getColoredString("◼", weaponCardToRepresent.getReloadPrice().get(2).getCharacterColorType());*/
 	}
 
 	public String getWeaponName() {

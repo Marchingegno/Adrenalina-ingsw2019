@@ -3,10 +3,20 @@ package it.polimi.se2019.network.message;
 public enum MessageType {
 	NICKNAME,
 	WAITING_PLAYERS,
+	DAMAGE_STATUS_REP,
 	TIMER_FOR_START,
 	GAME_CONFIG,
 	GAME_MAP_REP,
 	GAME_BOARD_REP,
 	PLAYER_REP,
+	GRAB_WEAPON,
+	GRAB_AMMO,
+	MOVE,
+	RELOAD,
+	SHOOT,
+	END_TURN,
+	ACTION,
+	SPAWN,
 	EXAMPLE_ACTION // TODO remove
+
 }

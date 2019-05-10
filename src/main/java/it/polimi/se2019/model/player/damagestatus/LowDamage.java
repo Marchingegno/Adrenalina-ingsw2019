@@ -1,16 +1,13 @@
 package it.polimi.se2019.model.player.damagestatus;
 
-import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.MacroActionBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
 public class LowDamage extends DamageStatus {
 	public final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
-	private ArrayList<MacroAction> availableActions;
 
 	public LowDamage(){
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
@@ -28,17 +25,8 @@ public class LowDamage extends DamageStatus {
 		shootPeopleBuilder.setShootAction(true);
 		availableActions.add(shootPeopleBuilder.build());
 
-		numberOfActionsPerTurn= NUMBER_OF_ACTIONS_PER_TURN;
+		numberOfActionsPerTurn = NUMBER_OF_ACTIONS_PER_TURN;
 		numberOfActionsPerformed = numberOfActionsPerTurn;
-	}
-
-	@Override
-	public List<MacroAction> getAvailableActions() {
-		return new ArrayList<>(availableActions);
-	}
-
-	@Override
-	public void doAction() {
 	}
 
 }

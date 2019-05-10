@@ -1,10 +1,13 @@
 package it.polimi.se2019.view.client;
 
-import it.polimi.se2019.model.GameBoardRep;
+import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
+import it.polimi.se2019.network.client.rmi.RMIClient;
+import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
@@ -52,7 +55,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 					showMapAndSkullsInUse(gameConfigMessage.getSkulls(), GameConstants.MapType.values()[gameConfigMessage.getMapIndex()]);
-					displayGame();
 				}
 				break;
 			case GAME_MAP_REP:
@@ -77,23 +79,87 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askActionExample(); // This method will be processed by the CLI or by the GUI.
 				break;
+			case ACTION:
+				askAction();
+				break;
+			case SHOOT:
+				askShoot();
+				break;
+			case RELOAD:
+				askReload();
+				break;
+			case MOVE:
+				askMove();
+				break;
+			case END_TURN:
+				askEnd();
+				break;
+			case GRAB_AMMO:
+				askGrab();
+				break;
+			case GRAB_WEAPON:
+				askGrab();
+				break;
+			case SPAWN:
+				askSpawn();
+				break;
+			default:
+				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
+				break;
 		}
 	}
 
+	/**
+	 * Called when the connection with the server (by socket or by RMI) has failed.
+	 */
+	@Override
+	public void failedConnection() {
+		failedConnectionToServer();
+	}
+
+	/**
+	 * Called when the connection with the server (by socket or by RMI) has been lost.
+	 */
 	@Override
 	public void lostConnection() {
 		lostConnectionToServer();
 	}
 
-	public void setConnectionToServer(ConnectionToServerInterface connectionToServer) {
-		this.connectionToServer = connectionToServer;
+	/**
+	 * Start a connection with the server, using RMI.
+	 */
+	public void startConnectionWithRMI() {
+		connectionToServer = new RMIClient(this);
 	}
 
+	/**
+	 * Start a connection with the server, using socket.
+	 */
+	public void startConnectionWithSocket() {
+		connectionToServer = new ClientSocket(this);
+	}
+
+	/**
+	 * Sends a message to the server.
+	 * @param message the message to send.
+	 */
 	public void sendMessage(Message message) {
 		if(connectionToServer == null)
-			throw new IllegalStateException("Before sending any message, a connection must be set!");
+			throw new IllegalStateException("Before sending any message, a connection must be started!");
 		connectionToServer.sendMessage(message);
 	}
+
+	/**
+	 * Closes the program.
+	 */
+	public void closeProgram() {
+		Utils.logInfo("Closing the program...");
+		if(connectionToServer != null)
+			connectionToServer.closeConnectionWithServer();
+		Client.terminateClient();
+	}
+
+	public abstract void askForConnectionAndStartIt();
 
 	public abstract void failedConnectionToServer();
 
@@ -106,8 +172,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public abstract void nicknameIsOk(String nickname);
 
 	public abstract void displayWaitingPlayers(String waitingPlayers);
-
-	public abstract  void displayGame();
 
 	public abstract void displayTimerStarted(long delayInMs);
 
