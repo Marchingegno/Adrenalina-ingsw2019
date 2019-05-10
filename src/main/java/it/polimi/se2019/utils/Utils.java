@@ -44,7 +44,6 @@ public class Utils {
 	public static void logInfo(String msg) {
 		if(debug) {
 			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + "INFO:" + Color.resetColorString() + " " + msg);
-			//LOGGER.log(Level.INFO, msg);
 		}
 	}
 
@@ -78,7 +77,7 @@ public class Utils {
 
 class ServerConfigParser {
 
-	private final String FILE = "server-config.json";
+	private static final String FILE = "server-config.json";
 
 	public ServerConfig parseConfig() {
 		InputStream in = getClass().getResourceAsStream("/" + FILE);

@@ -70,7 +70,7 @@ public class TurnController{
 				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player,virtualView);
 				break;
-			default: throw new RuntimeException("Received wrong type of message: "+ event.toString());
+			default: throw new IllegalArgumentException("Received wrong type of message: "+ event.toString());
 		}
 
 	}

@@ -148,7 +148,7 @@ public class GameController {
 		switch (messageType) {
 			case END_TURN:
 				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-					throw new RuntimeException("It's not your turn!");
+					throw new IllegalStateException("It's not your turn!");
 				}
 				endTurn();
 				break;
@@ -164,7 +164,6 @@ public class GameController {
 						model.spawnPlayer(player, defaultActionMessage.getContent());
 					} catch (Exception e){
 						Utils.logError("Error spawning player", e);
-						e.printStackTrace();
 					}
 					virtualView.askAction();
 				}

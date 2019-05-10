@@ -7,7 +7,6 @@ import it.polimi.se2019.model.cards.powerups.PowerupDeck;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
-import it.polimi.se2019.model.gamemap.Square;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerQueue;
 import it.polimi.se2019.model.player.TurnStatus;
@@ -234,8 +233,9 @@ public class GameBoard extends Representable {
 		if (gameBoardRep == null || hasChanged()) {
 			gameBoardRep = new GameBoardRep(this);
 			Utils.logInfo("GameBoard -> updateRep(): The game board representation has been updated");
-		} else
+		} else {
 			Utils.logInfo("GameBoard -> updateRep(): The game map representation is already up to date");
+		}
 	}
 
 	/**

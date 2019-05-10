@@ -6,6 +6,7 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModelRep{
 
@@ -25,7 +26,7 @@ public class ModelRep{
 		return gameMapRep;
 	}
 
-	public ArrayList<PlayerRep> getPlayersRep() {
+	public List<PlayerRep> getPlayersRep() {
 		return playersRep;
 	}
 

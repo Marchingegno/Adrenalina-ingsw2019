@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -67,7 +67,7 @@ public class MapRepTest {
 		gameMap.movePlayerTo(gameBoard.getPlayers().get(3), new Coordinates(1,1));
 		gameMap.movePlayerTo(gameBoard.getPlayers().get(2), new Coordinates(1,2));
 		gameMap.movePlayerTo(gameBoard.getPlayers().get(3), new Coordinates(2,1));
-		HashMap<String, Coordinates> playerCoordinates = new GameMapRep(gameMap).getPlayersCoordinates();
+		Map<String, Coordinates> playerCoordinates = new GameMapRep(gameMap).getPlayersCoordinates();
 		playerCoordinates.equals(gameMap.getPlayersCoordinates());
 	}
 }

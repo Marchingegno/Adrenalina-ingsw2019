@@ -25,7 +25,6 @@ public class CLIView extends RemoteView {
 	private ModelRep modelRep;
 	private Scanner scanner;
 	private RepPrinter repPrinter;
-	private Logger logger = Logger.getLogger(CLIView.class.getName());
 
 	public CLIView() {
 		this.modelRep = new ModelRep();
@@ -60,14 +59,13 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askNickname() {
 		if(Utils.BYPASS){
-			String nickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
-			sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
-			this.nickname = nickname;
+			String randomNickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
+			sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
+			this.nickname = randomNickname;
 			return;
 		}
 		printLine("Enter your nickname.");
 		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
-		this.nickname = nickname;
 	}
 
 	@Override
@@ -339,7 +337,7 @@ class RepPrinter {
 	private void updateMapToPrint() {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		SquareRep[][] mapRep = gameMapRep.getMapRep();
-		ArrayList<PlayerRep> playersRep = modelRep.getPlayersRep();
+		List<PlayerRep> playersRep = modelRep.getPlayersRep();
 
 		for (int i = 0; i < mapRep.length; i++) {
 			for (int j = 0; j < mapRep[0].length; j++) {
