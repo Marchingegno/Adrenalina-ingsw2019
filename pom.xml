@@ -52,18 +52,40 @@
     <build>
         <plugins>
 
-            <!-- Export the project as a runnable JAR, with the provided mainClass -->
+            <!-- Export the project as runnable JARs, with the provided mainClass -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>it.polimi.se2019.network.client.Client</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>server</id>
+                        <goals><goal>jar</goal></goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <finalName>Server</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>it.polimi.se2019.network.server.Server</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>client</id>
+                        <goals><goal>jar</goal></goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <finalName>Client</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>it.polimi.se2019.network.client.Client</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Jacoco is a code coverage library that allows basic report creation -->
