@@ -11,6 +11,7 @@ import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -391,7 +392,7 @@ public class GameMap extends Representable {
 	 */
 	private void generateMapJson(String mapName, GameBoard gameBoard) {
 
-		try (Reader reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/maps/" + mapName + ".json")) {
+		try (Reader reader = new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("maps/" + mapName + ".json").getFile()))) {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 			numOfRows = rootObject.get("row").getAsInt();

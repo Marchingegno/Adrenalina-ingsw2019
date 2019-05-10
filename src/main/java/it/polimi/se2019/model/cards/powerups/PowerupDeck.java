@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -24,12 +25,11 @@ public class PowerupDeck extends Deck<PowerupCard> {
 	 */
 	protected void initializeDeck() {
 
-		String powerupDeckPath = System.getProperty("user.dir") + "/src/main/resources/decks/PowerupDeck.txt";
 		String line;
 		String separator = ",";
 		int numOfLineRead = 0;
 
-		try (BufferedReader bufReader = new BufferedReader(new FileReader(powerupDeckPath))) {
+		try (BufferedReader bufReader = new BufferedReader(new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("decks/PowerupDeck.txt").getFile())))) {
 
 			while ((line = bufReader.readLine()) != null) {
 

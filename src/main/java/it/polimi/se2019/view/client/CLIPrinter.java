@@ -2,10 +2,7 @@ package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
-import sun.java2d.pipe.OutlineTextRenderer;
 
-import javax.imageio.IIOException;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class CLIPrinter {

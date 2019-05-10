@@ -11,7 +11,7 @@ public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	private static boolean DEBUG = true;
-	public static boolean BYPASS = false;
+	public static boolean BYPASS = true;
 	/**
 	 * Since it's an utility class it can't be instantiated.
 	 */

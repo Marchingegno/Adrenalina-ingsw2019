@@ -1,8 +1,6 @@
 package it.polimi.se2019.utils;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,7 +9,7 @@ import java.io.Reader;
 
 public class ServerConfigParser {
 
-	private static final String PATH = System.getProperty("user.dir") + "\\src\\main\\resources\\server-config.json";
+	private static final String FILE = "server-config.json";
 	private static boolean triedParsing = false;
 	private static ServerConfig serverConfig;
 
@@ -45,7 +43,7 @@ public class ServerConfigParser {
 
 	public static String getHost() {
 		// Parse the file if not already parsed.
-		System.out.println("refvef" + System.getProperty("user.dir"));
+
 		if (!triedParsing)
 			parseConfig();
 
@@ -60,6 +58,7 @@ public class ServerConfigParser {
 
 	public static int getRmiPort() {
 		// Parse the file if not already parsed.
+
 		if (!triedParsing)
 			parseConfig();
 
@@ -87,7 +86,8 @@ public class ServerConfigParser {
 	}
 
 	private static void parseConfig() {
-		try(Reader reader = new FileReader(PATH)) {
+		File file = new File(Thread.currentThread().getContextClassLoader().getResource(FILE).getFile());
+		try (Reader reader = new FileReader(file)) {
 			Gson gson = new com.google.gson.GsonBuilder().create();
 			serverConfig = gson.fromJson(reader, ServerConfig.class);
 		} catch (IOException | com.google.gson.JsonParseException e) {
