@@ -55,13 +55,11 @@
             <!-- Export the project as runnable JARs, with the provided mainClass -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-
+                <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>server</id>
-                        <goals><goal>jar</goal></goals>
+                        <goals><goal>single</goal></goals>
                         <phase>package</phase>
                         <configuration>
                             <finalName>Server</finalName>
@@ -70,12 +68,15 @@
                                     <mainClass>it.polimi.se2019.network.server.Server</mainClass>
                                 </manifest>
                             </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                         </configuration>
                     </execution>
 
                     <execution>
                         <id>client</id>
-                        <goals><goal>jar</goal></goals>
+                        <goals><goal>single</goal></goals>
                         <phase>package</phase>
                         <configuration>
                             <finalName>Client</finalName>
@@ -84,6 +85,9 @@
                                     <mainClass>it.polimi.se2019.network.client.Client</mainClass>
                                 </manifest>
                             </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                         </configuration>
                     </execution>
                 </executions>
