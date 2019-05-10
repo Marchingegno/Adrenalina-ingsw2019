@@ -58,7 +58,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askNickname() {
-		if(Utils.BYPASS){
+		if(Utils.DEBUG_BYPASS_CONFIGURATION){
 			String randomNickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
 			sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
 			this.nickname = randomNickname;
@@ -98,7 +98,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askMapAndSkullsToUse() {
-		if(Utils.BYPASS){
+		if(Utils.DEBUG_BYPASS_CONFIGURATION){
 			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 			gameConfigMessage.setMapIndex(0);
 			gameConfigMessage.setSkulls(5);

@@ -22,7 +22,7 @@ public class Client {
 
 		CLIPrinter.printLoginScrean();
 
-		if (Utils.BYPASS) {
+		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
 			RemoteView remoteView = new CLIView();
 			remoteView.startConnectionWithRMI();
 			return;

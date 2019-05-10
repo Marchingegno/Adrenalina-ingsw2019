@@ -15,9 +15,10 @@ import java.util.logging.Logger;
 public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private static boolean debug = true;
-	public static final boolean BYPASS = false;
+	public static final boolean DEBUG_BYPASS_CONFIGURATION = false;
 	private static final ServerConfig serverConfig = new ServerConfigParser().parseConfig();
+	
+	private static boolean logEnabled = true;
 
 	/**
 	 * Since it's an utility class it can't be instantiated.
@@ -26,23 +27,23 @@ public class Utils {
 		throw new IllegalStateException("Cannot create an instance of this utility class.");
 	}
 
-	public static void setDebug(boolean debug){
-		Utils.debug = debug;
+	public static void setLogEnabled(boolean logEnabled){
+		Utils.logEnabled = logEnabled;
 	}
 
 	public static void logError(String msg, Throwable e) {
-		if(debug)
+		if(logEnabled)
 			LOGGER.log(Level.SEVERE, msg, e);
 	}
 
 	public static void logWarning(String msg) {
-		if(debug) {
+		if(logEnabled) {
 			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.YELLOW) + "WARNING:" + Color.resetColorString() + " " + msg);
 		}
 	}
 
 	public static void logInfo(String msg) {
-		if(debug) {
+		if(logEnabled) {
 			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + "INFO:" + Color.resetColorString() + " " + msg);
 		}
 	}
