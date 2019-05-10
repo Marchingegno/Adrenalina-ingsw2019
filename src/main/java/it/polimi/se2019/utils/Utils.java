@@ -10,8 +10,9 @@ import java.util.logging.Logger;
 public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private static boolean DEBUG = true;
-	public static boolean BYPASS = true;
+	private static boolean debug = true;
+	public static final boolean BYPASS = false;
+
 	/**
 	 * Since it's an utility class it can't be instantiated.
 	 */
@@ -19,30 +20,26 @@ public class Utils {
 		throw new IllegalStateException("Cannot create an instance of this utility class.");
 	}
 
-	public static void setDebug(boolean set){
-		DEBUG = set;
+	public static void setDebug(boolean debug){
+		Utils.debug = debug;
 	}
 
 	public static void logError(String msg, Throwable e) {
-		if(DEBUG)
+		if(debug)
 			LOGGER.log(Level.SEVERE, msg, e);
 	}
 
 	public static void logWarning(String msg) {
-		if(DEBUG) {
+		if(debug) {
 			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.YELLOW) + "WARNING:" + Color.resetColorString() + " " + msg);
 		}
 	}
 
 	public static void logInfo(String msg) {
-		if(DEBUG) {
+		if(debug) {
 			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + "INFO:" + Color.resetColorString() + " " + msg);
 			//LOGGER.log(Level.INFO, msg);
 		}
-	}
-
-	public static void printLine(String string) {
-		System.out.println(string);
 	}
 
 	public static Logger getGlobalLogger() {
