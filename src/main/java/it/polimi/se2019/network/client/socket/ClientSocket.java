@@ -35,7 +35,7 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 		active = true;
 
 		try {
-			socketClient = new Socket(ServerConfigParser.getHost(), ServerConfigParser.getSocketPort());
+			socketClient = new Socket(new ServerConfigParser().getHost(), new ServerConfigParser().getSocketPort());
 			objOutStream = new ObjectOutputStream(socketClient.getOutputStream());
 			objInStream = new ObjectInputStream(socketClient.getInputStream());
 			this.start();

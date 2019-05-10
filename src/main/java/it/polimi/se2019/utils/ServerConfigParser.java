@@ -2,10 +2,9 @@ package it.polimi.se2019.utils;
 
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class ServerConfigParser {
 
@@ -13,7 +12,7 @@ public class ServerConfigParser {
 	private static boolean triedParsing = false;
 	private static ServerConfig serverConfig;
 
-	public static long getWaitingTimeInLobbyMs() {
+	public long getWaitingTimeInLobbyMs() {
 		// Parse the file if not already parsed.
 		if (!triedParsing)
 			parseConfig();
@@ -27,7 +26,7 @@ public class ServerConfigParser {
 		}
 	}
 
-	public static long getTurnTimeLimitMs() {
+	public long getTurnTimeLimitMs() {
 		// Parse the file if not already parsed.
 		if(!triedParsing)
 			parseConfig();
@@ -41,7 +40,7 @@ public class ServerConfigParser {
 		}
 	}
 
-	public static String getHost() {
+	public String getHost() {
 		// Parse the file if not already parsed.
 
 		if (!triedParsing)
@@ -56,7 +55,7 @@ public class ServerConfigParser {
 		}
 	}
 
-	public static int getRmiPort() {
+	public int getRmiPort() {
 		// Parse the file if not already parsed.
 
 		if (!triedParsing)
@@ -71,7 +70,7 @@ public class ServerConfigParser {
 		}
 	}
 
-	public static int getSocketPort() {
+	public int getSocketPort() {
 		// Parse the file if not already parsed.
 		if (!triedParsing)
 			parseConfig();
@@ -85,12 +84,13 @@ public class ServerConfigParser {
 		}
 	}
 
-	private static void parseConfig() {
-		File file = new File(Thread.currentThread().getContextClassLoader().getResource(FILE).getFile());
-		try (Reader reader = new FileReader(file)) {
+	private void parseConfig() {
+		InputStream in = getClass().getResourceAsStream("/" + FILE);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		try {
 			Gson gson = new com.google.gson.GsonBuilder().create();
 			serverConfig = gson.fromJson(reader, ServerConfig.class);
-		} catch (IOException | com.google.gson.JsonParseException e) {
+		} catch (com.google.gson.JsonParseException e) {
 			Utils.logError("Cannot parse server-config.json.", e);
 		} finally {
 			triedParsing = true;

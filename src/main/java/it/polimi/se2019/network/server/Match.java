@@ -51,7 +51,7 @@ public class Match {
 		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 
-		singleTimer.start(this::startMatch, ServerConfigParser.getTurnTimeLimitMs());
+		singleTimer.start(this::startMatch, (new ServerConfigParser()).getTurnTimeLimitMs());
 	}
 
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {

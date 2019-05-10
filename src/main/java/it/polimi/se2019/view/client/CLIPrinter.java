@@ -1,14 +1,13 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.utils.Color;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.Scanner;
 
 public class CLIPrinter {
 
 	public static void cleanConsole(){
-		Utils.printLine("\033[2J ");
+		System.out.println("\033[2J ");
 	}
 
 	public CLIPrinter(){}
@@ -28,7 +27,7 @@ public class CLIPrinter {
 		System.out.print("\033[H");
 
 
-		Utils.printLine("" +
+		System.out.println("" +
 				"\n" + Color.getColoredString("" +
 				"		     ___       _______  .______       _______ .__   __.      ___       __       __  .__   __.      ___      \n" +
 				"		    /   \\     |       \\ |   _  \\     |   ____||  \\ |  |     /   \\     |  |     |  | |  \\ |  |     /   \\     \n" +
@@ -47,7 +46,7 @@ public class CLIPrinter {
 				"                                  " + Color.getColoredString("                                                       ", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.CYAN) + "\n"
 				);
 
-		Utils.printLine("\u001b[u");
+		System.out.println("\u001b[u");
 		Scanner scanner = new Scanner(System.in);
 		String input = scanner.nextLine();
 

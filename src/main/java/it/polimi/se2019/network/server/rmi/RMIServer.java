@@ -118,7 +118,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	private void startRMIServer() throws RemoteException {
 		// Register server.
 		System.setProperty("java.rmi.server.hostname", "localhost");
-		registry = LocateRegistry.createRegistry(ServerConfigParser.getRmiPort());
+		registry = LocateRegistry.createRegistry(new ServerConfigParser().getRmiPort());
 		registry.rebind("Server", this);
 
 		Utils.logInfo("RMIServer => startRMISocket(): RMI server is ready.");

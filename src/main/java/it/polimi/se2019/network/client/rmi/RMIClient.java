@@ -38,7 +38,7 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 
 		try {
 			// Get Server remote object.
-			Registry registry = LocateRegistry.getRegistry(ServerConfigParser.getHost(), ServerConfigParser.getRmiPort());
+			Registry registry = LocateRegistry.getRegistry(new ServerConfigParser().getHost(), new ServerConfigParser().getRmiPort());
 			rmiServerSkeleton = (RMIServerSkeletonInterface) registry.lookup("Server");
 
 			// Create stub from client.
