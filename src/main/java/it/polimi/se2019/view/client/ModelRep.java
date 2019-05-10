@@ -12,11 +12,7 @@ public class ModelRep{
 
 	private GameBoardRep gameBoardRep;
 	private GameMapRep gameMapRep;
-	private ArrayList<PlayerRep> playersRep;
-
-	public ModelRep() {
-		playersRep = new ArrayList<>();
-	}
+	private ArrayList<PlayerRep> playersRep = new ArrayList<>();
 
 	public GameBoardRep getGameBoardRep() {
 		return gameBoardRep;
@@ -49,6 +45,14 @@ public class ModelRep{
 
 		//There is no PlayerRep for this player so I add it
 		playersRep.add(playerRepToSet);
+	}
+
+	/**
+	 * Returns true if this ModelRep has all the information needed to be displayed.
+	 * @return true if this ModelRep has all the information needed to be displayed.
+	 */
+	public boolean isModelRepReadyToBeDisplayed() {
+		return gameBoardRep != null && gameMapRep != null && playersRep.size() >= gameBoardRep.getNumberOfPlayers();
 	}
 
 	private ArrayList<PlayerRep> generatePlayersRep(ArrayList<Player> players){
