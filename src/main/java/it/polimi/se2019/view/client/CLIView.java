@@ -22,15 +22,10 @@ import java.util.logging.Logger;
 public class CLIView extends RemoteView {
 
 	private String nickname;
-	private ModelRep modelRep;
-	private Scanner scanner;
-	private RepPrinter repPrinter;
+	private ModelRep modelRep = new ModelRep();
+	private Scanner scanner = new Scanner(System.in);
+	private RepPrinter repPrinter = new RepPrinter(modelRep);
 
-	public CLIView() {
-		this.modelRep = new ModelRep();
-		this.scanner = new Scanner(System.in);
-		this.repPrinter = new RepPrinter(this.modelRep);
-	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
@@ -119,7 +114,9 @@ public class CLIView extends RemoteView {
 	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
 		printLine("Average of voted skulls: " + skulls + ".");
 		printLine("Most voted map: " + mapType.getDescription());
-		printLine("Match started!");
+		printLine("Game ready to start.");
+		printLine("Press Enter to start.");
+		scanner.nextLine();
 	}
 
 	// TODO remove
@@ -205,6 +202,7 @@ public class CLIView extends RemoteView {
 		if (gameMapRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setGameMapRep(gameMapRepToUpdate);
+		displayGame();
 	}
 
 	@Override
@@ -212,6 +210,7 @@ public class CLIView extends RemoteView {
 		if (gameBoardRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
+		displayGame();
 	}
 
 	@Override
@@ -219,6 +218,7 @@ public class CLIView extends RemoteView {
 		if (playerRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setPlayersRep(playerRepToUpdate);
+		displayGame();
 	}
 
 	public boolean askForGUI() {
@@ -247,7 +247,10 @@ public class CLIView extends RemoteView {
 	 * Displays the main game board
 	 */
 	public void displayGame() {
-		repPrinter.displayGame();
+		if(modelRep.isModelRepReadyToBeDisplayed())
+			repPrinter.displayGame();
+		else
+			Utils.logInfo("CLIView => displayGame(): Rep not ready to be displayed.");
 	}
 
 	/**
