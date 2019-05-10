@@ -24,7 +24,7 @@ public class PowerupDeck extends Deck<PowerupCard> {
 	 */
 	protected void initializeDeck() {
 
-		String powerupDeckPath = System.getProperty("user.dir") + "/src/resources/decks/PowerupDeck.txt";
+		String powerupDeckPath = System.getProperty("user.dir") + "/src/main/resources/decks/PowerupDeck.txt";
 		String line;
 		String separator = ",";
 		int numOfLineRead = 0;

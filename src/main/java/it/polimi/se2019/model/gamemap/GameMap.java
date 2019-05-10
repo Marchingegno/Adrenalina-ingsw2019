@@ -391,7 +391,7 @@ public class GameMap extends Representable {
 	 */
 	private void generateMapJson(String mapName, GameBoard gameBoard) {
 
-		try (Reader reader = new FileReader(System.getProperty("user.dir") + "/src/resources/maps/" + mapName + ".json")) {
+		try (Reader reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/maps/" + mapName + ".json")) {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 			numOfRows = rootObject.get("row").getAsInt();

@@ -1,6 +1,7 @@
 package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.client.CLIPrinter;
 import it.polimi.se2019.view.client.CLIView;
 import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
@@ -18,6 +19,8 @@ public class Client {
 	public static void main(String[] args) {
 		// Set English language.
 		Locale.setDefault(Locale.ENGLISH);
+
+		CLIPrinter.printLoginScrean();
 
 		if (Utils.BYPASS) {
 			RemoteView remoteView = new CLIView();

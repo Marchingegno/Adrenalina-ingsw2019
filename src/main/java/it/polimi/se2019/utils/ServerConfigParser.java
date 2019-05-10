@@ -10,10 +10,9 @@ import java.io.Reader;
 
 public class ServerConfigParser {
 
-	private static final String PATH = System.getProperty("user.dir") + "/src/resources/server-config.json";
+	private static final String PATH = System.getProperty("user.dir") + "\\src\\main\\resources\\server-config.json";
 	private static boolean triedParsing = false;
 	private static ServerConfig serverConfig;
-
 
 	public static long getWaitingTimeInLobbyMs() {
 		// Parse the file if not already parsed.
@@ -45,6 +44,7 @@ public class ServerConfigParser {
 
 	public static String getHost() {
 		// Parse the file if not already parsed.
+		System.out.println("refvef" + System.getProperty("user.dir"));
 		if (!triedParsing)
 			parseConfig();
 
@@ -87,9 +87,9 @@ public class ServerConfigParser {
 
 	private static void parseConfig() {
 		try(Reader reader = new FileReader(PATH)) {
-			Gson gson = new GsonBuilder().create();
+			Gson gson = new com.google.gson.GsonBuilder().create();
 			serverConfig = gson.fromJson(reader, ServerConfig.class);
-		} catch (IOException | JsonParseException e) {
+		} catch (IOException | com.google.gson.JsonParseException e) {
 			Utils.logError("Cannot parse server-config.json.", e);
 		} finally {
 			triedParsing = true;

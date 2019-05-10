@@ -291,6 +291,7 @@ public class CLIView extends RemoteView {
 	}
 }
 
+
 /**
  * Helps printing the information.
  */
