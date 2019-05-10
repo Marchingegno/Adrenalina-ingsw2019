@@ -35,9 +35,9 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askForConnectionAndStartIt() {
-		Utils.printLine("[?] Which connection would you like to use?");
-		Utils.printLine("1: RMI");
-		Utils.printLine("2: Socket");
+		printLine("[?] Which connection would you like to use?");
+		printLine("1: RMI");
+		printLine("2: Socket");
 		int connection = askInteger(1, 2);
 		if(connection == 1)
 			startConnectionWithRMI();
@@ -47,13 +47,13 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void failedConnectionToServer() {
-		Utils.printLine("Failed to connect to the server. Try again later.");
+		printLine("Failed to connect to the server. Try again later.");
 		Client.terminateClient();
 	}
 
 	@Override
 	public void lostConnectionToServer() {
-		Utils.printLine("Lost connection with the server. Please restart the game.");
+		printLine("Lost connection with the server. Please restart the game.");
 		Client.terminateClient();
 	}
 
@@ -65,37 +65,37 @@ public class CLIView extends RemoteView {
 			this.nickname = nickname;
 			return;
 		}
-		Utils.printLine("Enter your nickname.");
+		printLine("Enter your nickname.");
 		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
 		this.nickname = nickname;
 	}
 
 	@Override
 	public void askNicknameError() {
-		Utils.printLine("The nickname already exists or is not valid, please use a different one.");
+		printLine("The nickname already exists or is not valid, please use a different one.");
 		askNickname();
 	}
 
 	@Override
 	public void nicknameIsOk(String nickname) {
-		Utils.printLine("Nickname set to: \"" + nickname + "\".");
+		printLine("Nickname set to: \"" + nickname + "\".");
 	}
 
 	@Override
 	public void displayWaitingPlayers(String waitingPlayers) {
-		Utils.printLine("Players in the waiting room: " + waitingPlayers + ".");
+		printLine("Players in the waiting room: " + waitingPlayers + ".");
 	}
 
 	@Override
 	public void displayTimerStarted(long delayInMs) {
 		DecimalFormat decimalFormat = new DecimalFormat();
 		decimalFormat.setMaximumFractionDigits(1);
-		Utils.printLine("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
+		printLine("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
 	}
 
 	@Override
 	public void displayTimerStopped() {
-		Utils.printLine(Color.getColoredString("Timer for starting the match cancelled.", Color.CharacterColorType.RED));
+		printLine(Color.getColoredString("Timer for starting the match cancelled.", Color.CharacterColorType.RED));
 	}
 
 	@Override
@@ -107,10 +107,10 @@ public class CLIView extends RemoteView {
 			sendMessage(gameConfigMessage);
 			return;
 		}
-		Utils.printLine("\n\nMatch ready to start. Select your preferred configuration.");
+		printLine("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
-		Utils.printLine("Waiting for other clients to answer...\n\n");
+		printLine("Waiting for other clients to answer...\n\n");
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 		gameConfigMessage.setMapIndex(mapIndex);
 		gameConfigMessage.setSkulls(skulls);
@@ -119,16 +119,16 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
-		Utils.printLine("Average of voted skulls: " + skulls + ".");
-		Utils.printLine("Most voted map: " + mapType.getDescription());
-		Utils.printLine("Match started!");
+		printLine("Average of voted skulls: " + skulls + ".");
+		printLine("Most voted map: " + mapType.getDescription());
+		printLine("Match started!");
 	}
 
 	// TODO remove
 	@Override
 	public void askActionExample() {
-		Utils.printLine("Asking the user the action...");
-		Utils.printLine("Select a number between 0 and 2.");
+		printLine("Asking the user the action...");
+		printLine("Select a number between 0 and 2.");
 		int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new IntMessage(answer, MessageType.EXAMPLE_ACTION, MessageSubtype.ANSWER));
@@ -141,9 +141,9 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askAction() {
-		Utils.printLine("Asking the user the action...");
-		Utils.printLine("Choose an action!");
-		Utils.printLine("Select a number between 0 and 2.");
+		printLine("Asking the user the action...");
+		printLine("Choose an action!");
+		printLine("Select a number between 0 and 2.");
 		int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
@@ -154,9 +154,9 @@ public class CLIView extends RemoteView {
 	public void askGrab() {
 		//TODO: Check whether the player is in a spawn square or a weapon square.
 		modelRep.getGameMapRep().getPlayerCoordinates(nickname);
-		Utils.printLine("You chose to grab.");
-		Utils.printLine("Select a number between 0 and 2.");
-		Utils.printLine("You chose 0! <:)");
+		printLine("You chose to grab.");
+		printLine("Select a number between 0 and 2.");
+		printLine("You chose 0! <:)");
 		//int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
@@ -164,10 +164,10 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askMove() {
-		Utils.printLine("Enter the coordinates in which you want to move.");
-		Utils.printLine("Enter X coordinate 0-4");
+		printLine("Enter the coordinates in which you want to move.");
+		printLine("Enter X coordinate 0-4");
 		int x = askInteger(0,4);
-		Utils.printLine("Enter Y coordinate 0-4");
+		printLine("Enter Y coordinate 0-4");
 		int y = askInteger(0,4);
 		Coordinates coordinates = new Coordinates(x,y);
 		sendMessage(new MoveActionMessage(coordinates, MessageSubtype.ANSWER));
@@ -175,14 +175,14 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askShoot() {
-		Utils.printLine("LOL");
+		printLine("LOL");
 		askEnd();
 	}
 
 	@Override
 	public void askReload() {
-		Utils.printLine("Which weapon do you want to reload?");
-		Utils.printLine("Select a number between 0 and 2.");
+		printLine("Which weapon do you want to reload?");
+		printLine("Select a number between 0 and 2.");
 		int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
@@ -190,8 +190,8 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askSpawn() {
-		Utils.printLine("Select the Powerup card to use.");
-		Utils.printLine("Select a number between 0 and 3.");
+		printLine("Select the Powerup card to use.");
+		printLine("Select a number between 0 and 3.");
 		int answer = askInteger(0, 3);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
@@ -224,20 +224,24 @@ public class CLIView extends RemoteView {
 	}
 
 	public boolean askForGUI() {
-		Utils.printLine("[?] Would you like to use the Graphical User Interface? [y/n]");
+		printLine("[?] Would you like to use the Graphical User Interface? [y/n]");
 		return askBoolean();
 	}
 
 	private int askMapToUse() {
-		Utils.printLine("Select the map you would like to use, available maps:");
+		printLine("Select the map you would like to use, available maps:");
 		for (GameConstants.MapType map : GameConstants.MapType.values()) {
-			Utils.printLine(map.ordinal() + ": " + map.getDescription());
+			printLine(map.ordinal() + ": " + map.getDescription());
 		}
 		return askInteger(0, GameConstants.MapType.values().length - 1);
 	}
 
+	public static void printLine(String string) {
+		System.out.println(string);
+	}
+
 	private int askSkullsForGame() {
-		Utils.printLine("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
+		printLine("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
 		return askInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
 	}
 
@@ -265,7 +269,7 @@ public class CLIView extends RemoteView {
 				input = -1;
 			} finally {
 				if (input < minInclusive || input > maxInclusive)
-					Utils.printLine("The value must be between " + minInclusive + " and " + maxInclusive + ".");
+					printLine("The value must be between " + minInclusive + " and " + maxInclusive + ".");
 			}
 		}
 		return input;
@@ -281,7 +285,7 @@ public class CLIView extends RemoteView {
 		while (!(input.equals("n") || input.equals("y") || input.equals("yes") || input.equals("no"))) {
 			input = scanner.nextLine().toLowerCase();
 			if (!(input.equals("n") || input.equals("y") || input.equals("yes") || input.equals("no")))
-				Utils.printLine("Please write \"y\" or \"n\".");
+				printLine("Please write \"y\" or \"n\".");
 		}
 		return input.equals("y") || input.equals("yes");
 	}
@@ -309,22 +313,22 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		Utils.printLine("\n");
+		CLIView.printLine("\n");
 
 		displayPlayers();
 
-		Utils.printLine("\n");
+		CLIView.printLine("\n");
 
 		displayGameBoard();
 
-		Utils.printLine("\n");
+		CLIView.printLine("\n");
 
 		if (mapToPrint == null)
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
 		updateMapToPrint();
 		displayMap();
 
-		Utils.printLine("\n");
+		CLIView.printLine("\n");
 
 		displayOwnPlayer(modelRep.getPlayersRep().get(0));
 	}
@@ -392,7 +396,7 @@ class RepPrinter {
 	 * Displays the remaining skulls, the kill shot track and the double kills.
 	 */
 	private void displayGameBoard() {
-		Utils.printLine(getSkullString() + "\n\n" +
+		CLIView.printLine(getSkullString() + "\n\n" +
 				getKillShotTrackString() + "\n\n" +
 				getDoubleKillString() + "\n");
 	}
@@ -442,7 +446,7 @@ class RepPrinter {
 			stringBuilder.append("\t\t\t|");
 			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
 
-			Utils.printLine(stringBuilder.toString());
+			CLIView.printLine(stringBuilder.toString());
 			stringBuilder = new StringBuilder();
 		}
 	}
@@ -487,8 +491,8 @@ class RepPrinter {
 	}
 
 	private void displayOwnPlayer(PlayerRep playerRep) {
-		Utils.printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
-		Utils.printLine(
+		CLIView.printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
+		CLIView.printLine(
 				"Move 1 >>>\t\t" +
 						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 1\t\t" +
@@ -501,7 +505,7 @@ class RepPrinter {
 						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
-		Utils.printLine(
+		CLIView.printLine(
 				"Move 2 >>O\t\t" +
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
@@ -514,7 +518,7 @@ class RepPrinter {
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
-		Utils.printLine(
+		CLIView.printLine(
 				"Move 3 >>S\t\t" +
 						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +

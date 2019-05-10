@@ -47,7 +47,7 @@ public class TurnController{
 		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
-		Utils.printLine("TurnController: processing this event " + event.toString());
+		Utils.logInfo("TurnController: processing this event " + event.toString());
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
 				player.getDamageStatus().decreaseActionsToPerform();
@@ -95,7 +95,7 @@ public class TurnController{
 				handleEnd(player, virtualView);
 				break;
 			default:
-				Utils.printLine("WTF");
+				Utils.logWarning("WTF");
 				break;
 		}
 	}
