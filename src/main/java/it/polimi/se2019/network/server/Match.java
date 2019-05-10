@@ -6,7 +6,6 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
@@ -51,7 +50,7 @@ public class Match {
 		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 
-		singleTimer.start(this::startMatch, ServerConfigParser.getTurnTimeLimitMs());
+		singleTimer.start(this::startMatch, (Utils.getServerConfig()).getTurnTimeLimitMs());
 	}
 
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {

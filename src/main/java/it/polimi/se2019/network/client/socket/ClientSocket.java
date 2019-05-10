@@ -3,7 +3,6 @@ package it.polimi.se2019.network.client.socket;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.IOException;
@@ -35,15 +34,13 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 		active = true;
 
 		try {
-			socketClient = new Socket(ServerConfigParser.getHost(), ServerConfigParser.getSocketPort());
+			socketClient = new Socket(Utils.getServerConfig().getHost(), Utils.getServerConfig().getSocketPort());
 			objOutStream = new ObjectOutputStream(socketClient.getOutputStream());
 			objInStream = new ObjectInputStream(socketClient.getInputStream());
 			this.start();
 		} catch (IOException e) {
 			Utils.logError("Failed to connect to the server.", e);
 			active = false;
-		} finally {
-			System.out.println("erighierg");
 		}
 	}
 

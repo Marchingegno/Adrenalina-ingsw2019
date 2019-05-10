@@ -1,7 +1,6 @@
 package it.polimi.se2019.network.server.socket;
 
 import it.polimi.se2019.network.server.ServerEventsListenerInterface;
-import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.Closeable;
@@ -78,7 +77,7 @@ public class SocketServer extends Thread implements Closeable {
 	public boolean isActive() {	return active;}
 
 	private void startServerSocket() throws IOException {
-		serverSocket = new ServerSocket(ServerConfigParser.getSocketPort());
+		serverSocket = new ServerSocket(Utils.getServerConfig().getSocketPort());
 		active = true;
 		start(); // Starts the Thread.
 		Utils.logInfo("SocketServer => startServerSocket(): Socket server is ready.");
