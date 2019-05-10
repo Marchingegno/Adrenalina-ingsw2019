@@ -9,6 +9,7 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -111,6 +112,10 @@ public class VirtualView extends Observable implements ViewInterface {
 		client.sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
 	}
 
+	@Override
+	public void askWeapon(Pair intString) {
+		client.sendMessage(new WeaponMessage(intString, MessageSubtype.REQUEST));
+	}
 
 	@Override
 	public void displayPossibleActions(List<MacroAction> possibleActions) {

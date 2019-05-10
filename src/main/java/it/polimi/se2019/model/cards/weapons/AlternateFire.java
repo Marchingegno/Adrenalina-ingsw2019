@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 import static java.lang.Boolean.FALSE;
@@ -12,8 +12,9 @@ import static java.lang.Boolean.FALSE;
  * @author Marchingegno
  */
 public abstract class AlternateFire extends WeaponCard {
+	int alternateSteps;
 	List<DamageAndMarks> secondaryDamagesAndMarks;
-	Boolean secondaryFireActive;
+	Boolean alternateFireActive;
 
 
 	public AlternateFire(String description, List<AmmoType> reloadPrice) {
@@ -21,10 +22,17 @@ public abstract class AlternateFire extends WeaponCard {
 		reset();
 
 	}
+	@Override
+	public void registerChoice(int choice) {
+		if (choice == 2)
+			alternateFireActive = true;
+	}
 
 	@Override
-	protected void handleFire(Message message) {
+	public Pair handleFire() {
 	}
+
+
 
 	/**
 	 * Secondary mode of firing.
@@ -40,7 +48,7 @@ public abstract class AlternateFire extends WeaponCard {
 
 
 	void secondaryReset(){
-		this.secondaryFireActive = FALSE;
+		this.alternateFireActive = FALSE;
 	}
 
 	@Override

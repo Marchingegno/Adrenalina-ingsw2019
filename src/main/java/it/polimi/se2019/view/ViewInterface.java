@@ -4,6 +4,7 @@ import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 

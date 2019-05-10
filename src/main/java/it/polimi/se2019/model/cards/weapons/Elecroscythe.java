@@ -21,6 +21,7 @@ public final class Elecroscythe extends AlternateFire {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 	}
 
+	h
 
 	public List<Player> primaryFire() {
 		//Deal damage to everyone on your square
@@ -34,8 +35,7 @@ public final class Elecroscythe extends AlternateFire {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		//Get player in the same square
-		return null;
+
 	}
 
 	@Override

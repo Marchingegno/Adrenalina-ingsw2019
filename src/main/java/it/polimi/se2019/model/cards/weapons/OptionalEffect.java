@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
@@ -27,11 +27,28 @@ public abstract class OptionalEffect extends WeaponCard {
 	/**
 	 * Standard way of handling weapon with optional effects. The weapon may Override this method if it behaves
 	 * differently than the standard.
-	 * @param message which options the player has chosen.
+	 * @return
 	 */
 	@Override
-	protected void handleFire(Message message) {
+	public Pair handleFire() {
 
+	}
+
+	@Override
+	public void registerChoice(int choice) {
+		switch (choice){
+			case 1:
+				optional1Active = true;
+				break;
+			case 2:
+				optional2Active = true;
+				break;
+			case 3:
+				optional1Active = true;
+				optional2Active = true;
+				break;
+			default:
+		}
 	}
 
 	@Override

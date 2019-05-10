@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 /**
  * @author MarcerAndrea
  * @author Desno365
+ * @author Marchingegno
  */
 public class CLIView extends RemoteView {
 
@@ -195,6 +196,13 @@ public class CLIView extends RemoteView {
 		int answer = askInteger(0, 3);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public void askChoice(int number, String stringToAsk) {
+		printLine(stringToAsk);
+		int answer = askInteger(1,number);
+		sendMessage(new IntMessage(answer, MessageType.WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@Override

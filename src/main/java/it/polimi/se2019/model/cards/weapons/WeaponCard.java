@@ -4,7 +4,7 @@ import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -26,31 +26,37 @@ public abstract class WeaponCard extends Card {
 
 	GameMap gameMap;
 	int moveDistance; //Standard move for relocation of the player.
-	int step; //Advancement step of the weapon.
+	int maximumSteps; //Maximum advancement steps.
+	int currentStep; //Advancement step of the weapon.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
 	private Player owner;
 	private boolean loaded;
 	private String weaponName;
-	//private ArrayList<AmmoType> grabPrice; It can be deduced by reloadPrice minus the first occurrence.
 	private final List<AmmoType> reloadPrice;
 
-	/*
-	//TODO: Merge constructor
-	public WeaponCard(String weaponName, String description) {
-		super(description);
-		this.weaponName = weaponName;
-	}
-	*/
 
 	public WeaponCard(String description, List<AmmoType> reloadPrice) {
 
 		super(description);
-		this.step = 0;
+		this.currentStep = 0;
 		this.owner = null;
 		this.loaded = TRUE;
 		this.reloadPrice = reloadPrice;
+		this.weaponName = "placeHolder";
+	}
+
+	public boolean doneFiring(){
+		if(currentStep == maximumSteps){
+			reset();
+			return true;
+		}
+		return false;
+	}
+
+	public String getWeaponName(){
+		return weaponName;
 	}
 
 	/**
@@ -133,10 +139,21 @@ public abstract class WeaponCard extends Card {
 	}
 
 	/**
-	 * Handles interaction with flags array.
-	 * @param message which options the player has chosen.
+	 * This will be called by the view to be displayed to the player.
+	 * @return
 	 */
-	protected abstract void handleFire(Message message);
+	public String askingMessage(){
+		//Do you wanna use alternate/optional fire? ecc ecc
+		return "PlaceHolder";
+	}
+
+	public abstract void registerChoice(int choice);
+
+	/**
+	 * Handles interaction with flags array.
+	 * @return
+	 */
+	public abstract Pair handleFire();
 
 	/**
 	 * This method will be called by the damage-dealer methods of the weapons.
@@ -187,7 +204,7 @@ public abstract class WeaponCard extends Card {
 	 * Deloads the weapon and reset eventually modified parameters.
 	 */
 	void reset(){
-		this.step = 0;
+		this.currentStep = 0;
 		this.loaded = false;
 	}
 

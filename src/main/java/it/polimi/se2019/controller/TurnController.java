@@ -70,6 +70,14 @@ public class TurnController{
 				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player,virtualView);
 				break;
+			case WEAPON:
+				if(player.getFiringWeapon().doneFiring()){
+					handleAction(player,virtualView);
+				}
+				else {
+					weaponController.processFiring(player, event);
+				}
+
 			default: throw new RuntimeException("Received wrong type of message: "+ event.toString());
 		}
 

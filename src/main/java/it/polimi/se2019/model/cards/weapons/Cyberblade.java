@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public final class Cyberblade extends OptionalEffect{
 
 
 	@Override
-	protected void handleFire(Message message) {
+	public Pair handleFire() {
 	}
 
 	@Override

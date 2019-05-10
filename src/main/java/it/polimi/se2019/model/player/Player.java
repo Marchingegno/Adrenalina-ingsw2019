@@ -2,6 +2,7 @@ package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
 import it.polimi.se2019.utils.Color;
@@ -27,6 +28,7 @@ public class Player extends Representable {
 	private PlayerBoard playerBoard;
 	private DamageStatus damageStatus;
 	private PlayerRep playerRep;
+	private int firingWeapon; //The current weapon that the player is firing with.
 
 
 	public Player(String playerName, int playerID) {
@@ -36,7 +38,12 @@ public class Player extends Representable {
 		playerBoard = new PlayerBoard();
 		this.damageStatus = new LowDamage();
 		this.turnStatus = TurnStatus.PRE_SPAWN;
+		this.firingWeapon = -1;
 		setChanged();
+	}
+
+	public int getIndexOfFiringWeapon() {
+		return firingWeapon;
 	}
 
 	public boolean isActionRequested() {
@@ -155,8 +162,13 @@ public class Player extends Representable {
 	}
 
 	public void reload(int indexOfWeaponToReload) {
-		playerBoard.getWeaponCards().get(indexOfWeaponToReload).reload();
+		playerBoard.getWeaponCards().get(indexOfWeaponToReload).load();
 		setChanged();
+	}
+
+	public WeaponCard getFiringWeapon(){
+		if(firingWeapon == -1) throw new RuntimeException("No weapon firing!");
+		return this.getPlayerBoard().getWeaponCards().get(this.firingWeapon);
 	}
 
 	/**

@@ -103,11 +103,17 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 			case SPAWN:
 				askSpawn();
 				break;
+			case WEAPON:
+				int number = ((WeaponMessage)message).getContent();
+				String stringToAsk = ((WeaponMessage)message).getString();
+				askChoice(number,stringToAsk);
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
 				break;
 		}
 	}
+
+	public abstract void askChoice(int number,String stringToAsk);
 
 	/**
 	 * Called when the connection with the server (by socket or by RMI) has failed.
