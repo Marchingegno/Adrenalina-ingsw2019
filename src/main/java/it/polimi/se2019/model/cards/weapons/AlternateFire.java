@@ -12,9 +12,10 @@ import static java.lang.Boolean.FALSE;
  * @author Marchingegno
  */
 public abstract class AlternateFire extends WeaponCard {
-	int alternateSteps;
+	int maximumAlternateSteps;
 	List<DamageAndMarks> secondaryDamagesAndMarks;
-	Boolean alternateFireActive;
+	boolean alternateFireActive;
+	static final int INITIAL_CHOICES = 2;
 
 
 	public AlternateFire(String description, List<AmmoType> reloadPrice) {
@@ -22,6 +23,11 @@ public abstract class AlternateFire extends WeaponCard {
 		reset();
 
 	}
+
+	List<DamageAndMarks> getSecondaryDamagesAndMarks() {
+		return secondaryDamagesAndMarks;
+	}
+
 	@Override
 	public void registerChoice(int choice) {
 		if (choice == 2)
@@ -29,15 +35,25 @@ public abstract class AlternateFire extends WeaponCard {
 	}
 
 	@Override
-	public Pair handleFire() {
+	public boolean doneFiring() {
+		if (isAlternateFireActive()){
+			return getCurrentStep() == getMaximumAlternateSteps();
+		}
+		else return super.doneFiring();
 	}
 
+	abstract Pair handleSecondaryFire();
 
+
+	@Override
+	public String askingMessage() {
+		return "Which fire mode do you want to use?\nPress 1 for standard fire.\nPress 2 for alternate fire.";
+	}
 
 	/**
 	 * Secondary mode of firing.
 	 */
-	public abstract List<Player> secondaryFire();
+	public abstract void secondaryFire();
 
 	/**
 	 * Get the targets of the secondary mode of fire for this weapon.
@@ -52,8 +68,17 @@ public abstract class AlternateFire extends WeaponCard {
 	}
 
 	@Override
-	void reset() {
+	public void reset() {
 		super.reset();
 		secondaryReset();
+	}
+
+
+	int getMaximumAlternateSteps() {
+		return maximumAlternateSteps;
+	}
+
+	boolean isAlternateFireActive() {
+		return alternateFireActive;
 	}
 }

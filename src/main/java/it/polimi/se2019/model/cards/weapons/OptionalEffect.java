@@ -28,10 +28,11 @@ public abstract class OptionalEffect extends WeaponCard {
 	 * Standard way of handling weapon with optional effects. The weapon may Override this method if it behaves
 	 * differently than the standard.
 	 * @return
+	 * @param choice
 	 */
 	@Override
-	public Pair handleFire() {
-
+	public Pair handleFire(int choice) {
+		return null;
 	}
 
 	@Override
@@ -52,8 +53,7 @@ public abstract class OptionalEffect extends WeaponCard {
 	}
 
 	@Override
-	public List<Player> primaryFire() {
-		return null;
+	public void primaryFire() {
 	}
 
 	/**
@@ -76,7 +76,7 @@ public abstract class OptionalEffect extends WeaponCard {
 	}
 
 	@Override
-	void reset() {
+	public void reset() {
 		super.reset();
 		optionalReset();
 

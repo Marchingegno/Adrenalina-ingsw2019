@@ -1,11 +1,8 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.player.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class FlameThrower extends AlternateFire {
 	private final int PRIMARY_DAMAGE = 1;
@@ -25,10 +22,10 @@ public final class FlameThrower extends AlternateFire {
 	}
 
 
-	public List<Player> primaryFire() {
+	public void primaryFire() {
 	}
 
-	public List<Player> secondaryFire() {
+	public void secondaryFire() {
 
 	}
 

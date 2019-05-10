@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
+import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -71,13 +72,15 @@ public class TurnController{
 				handleAction(player,virtualView);
 				break;
 			case WEAPON:
+				Pair intString = player.getFiringWeapon().handleFire(((DefaultActionMessage)event.getMessage()).getContent());
 				if(player.getFiringWeapon().doneFiring()){
+					player.getFiringWeapon().reset();
 					handleAction(player,virtualView);
 				}
 				else {
-					weaponController.processFiring(player, event);
+					virtualView.askWeapon(intString);
 				}
-
+				break;
 			default: throw new RuntimeException("Received wrong type of message: "+ event.toString());
 		}
 

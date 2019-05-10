@@ -27,7 +27,7 @@ public final class Cyberblade extends OptionalEffect{
 
 
 	@Override
-	public Pair handleFire() {
+	public Pair handleFire(int choice) {
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public final class Cyberblade extends OptionalEffect{
 
 
 	@Override
-	public List<Player> primaryFire () {
+	public void primaryFire () {
 		List<Player> targetPlayers = new ArrayList<>();
 		List<Player> targettablePlayers = getPrimaryTargets();
 		//Asks the player which target to fire at

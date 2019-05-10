@@ -12,7 +12,7 @@ public final class LockRifle extends OptionalEffect {
 	}
 
 
-	public List<Player> primaryFire() {
+	public void primaryFire() {
 	}
 
 	public void optionalEffect1(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {

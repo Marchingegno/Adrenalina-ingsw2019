@@ -1,10 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
-import it.polimi.se2019.model.player.Player;
-
-import java.util.List;
-
 public final class TractorBeam extends AlternateFire {
 
 	public TractorBeam(String description, ArrayList<AmmoType> reloadPrice) {
@@ -12,10 +8,10 @@ public final class TractorBeam extends AlternateFire {
 	}
 
 
-	public List<Player> primaryFire() {
+	public void primaryFire() {
 	}
 
-	public List<Player> secondaryFire() {
+	public void secondaryFire() {
 	}
 
 

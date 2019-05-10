@@ -10,8 +10,6 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Boolean.TRUE;
-
 /**
  * Abstract class that defines the structure of a weapon card. Every subtype of weapon must extend this.
  * The interaction with the player starts with chooseFireMode(), that asks the player whether or not does he want to use
@@ -24,10 +22,10 @@ import static java.lang.Boolean.TRUE;
  */
 public abstract class WeaponCard extends Card {
 
-	GameMap gameMap;
-	int moveDistance; //Standard move for relocation of the player.
-	int maximumSteps; //Maximum advancement steps.
-	int currentStep; //Advancement step of the weapon.
+	private GameMap gameMap;
+	private int moveDistance; //Standard move for relocation of the player.
+	private int maximumSteps; //Maximum advancement steps.
+	private int currentStep; //Advancement step of the weapon.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
@@ -35,6 +33,7 @@ public abstract class WeaponCard extends Card {
 	private boolean loaded;
 	private String weaponName;
 	private final List<AmmoType> reloadPrice;
+	List<Player> currentTargets;
 
 
 	public WeaponCard(String description, List<AmmoType> reloadPrice) {
@@ -42,18 +41,18 @@ public abstract class WeaponCard extends Card {
 		super(description);
 		this.currentStep = 0;
 		this.owner = null;
-		this.loaded = TRUE;
+		this.loaded = true;
 		this.reloadPrice = reloadPrice;
 		this.weaponName = "placeHolder";
 	}
 
 	public boolean doneFiring(){
 		if(currentStep == maximumSteps){
-			reset();
 			return true;
 		}
 		return false;
 	}
+
 
 	public String getWeaponName(){
 		return weaponName;
@@ -129,9 +128,9 @@ public abstract class WeaponCard extends Card {
 	 */
 	@Deprecated
 	public void chooseFireMode(){
-		Boolean[] flagsCollected;
+		boolean[] flagsCollected;
 		//Placeholder initialization
-		flagsCollected = new Boolean[]{ false, false};
+		flagsCollected = new boolean[]{ false, false};
 
 		//TODO: Interaction with the view, flags will be modified.
 
@@ -152,8 +151,9 @@ public abstract class WeaponCard extends Card {
 	/**
 	 * Handles interaction with flags array.
 	 * @return
+	 * @param choice
 	 */
-	public abstract Pair handleFire();
+	public abstract Pair handleFire(int choice);
 
 	/**
 	 * This method will be called by the damage-dealer methods of the weapons.
@@ -177,7 +177,7 @@ public abstract class WeaponCard extends Card {
 	/**
 	 * Primary method of firing of the weapon. It interacts with the view and collects targeted players for its mode.
 	 */
-	public abstract List<Player> primaryFire();
+	public abstract void primaryFire();
 
 	public void getAvailableOptions(){
 		Utils.logInfo(getDescription());
@@ -203,9 +203,36 @@ public abstract class WeaponCard extends Card {
 	/**
 	 * Deloads the weapon and reset eventually modified parameters.
 	 */
-	void reset(){
+	public void reset(){
 		this.currentStep = 0;
 		this.loaded = false;
+		this.currentTargets = null;
+	}
+
+	List<DamageAndMarks> getStandardDamagesAndMarks() {
+		return standardDamagesAndMarks;
+	}
+
+	int getMoveDistance() {
+		return moveDistance;
+	}
+
+	int getCurrentStep() {
+		return currentStep;
+	}
+
+	int getMaximumSteps() {
+		return maximumSteps;
+	}
+
+	GameMap getGameMap() {
+		return gameMap;
+	}
+
+	void incrementStep(){
+		if(currentStep == maximumSteps)
+			throw new IllegalStateException("Trying to increment steps already at maximum.");
+		currentStep++;
 	}
 
 }

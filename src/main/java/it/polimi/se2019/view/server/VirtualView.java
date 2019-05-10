@@ -112,7 +112,6 @@ public class VirtualView extends Observable implements ViewInterface {
 		client.sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
 	}
 
-	@Override
 	public void askWeapon(Pair intString) {
 		client.sendMessage(new WeaponMessage(intString, MessageSubtype.REQUEST));
 	}
