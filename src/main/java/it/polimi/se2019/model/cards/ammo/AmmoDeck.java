@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,12 +25,11 @@ public class AmmoDeck extends Deck<Card> {
 	 */
 	protected void initializeDeck() {
 
-		String ammoDeckPath = System.getProperty("user.dir") + "/src/resources/decks/AmmoDeck.txt";
 		String line;
 		String separator = ",";
 		ArrayList<AmmoType> ammoToAdd = new ArrayList<>();
 
-		try (BufferedReader bufReader = new BufferedReader(new FileReader(ammoDeckPath))) {
+		try (BufferedReader bufReader = new BufferedReader(new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("decks/AmmoDeck.txt").getFile())))) {
 
 			while ((line = bufReader.readLine()) != null) {
 

@@ -6,7 +6,9 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
@@ -40,7 +42,8 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 		} catch (IOException e) {
 			Utils.logError("Failed to connect to the server.", e);
 			active = false;
-			messageReceiver.failedConnection();
+		} finally {
+			System.out.println("erighierg");
 		}
 	}
 
