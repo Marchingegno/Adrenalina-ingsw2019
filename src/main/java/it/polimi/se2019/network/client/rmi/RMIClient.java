@@ -4,7 +4,6 @@ import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.rmi.RMIServerSkeletonInterface;
-import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
 import java.rmi.NoSuchObjectException;
@@ -38,7 +37,7 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 
 		try {
 			// Get Server remote object.
-			Registry registry = LocateRegistry.getRegistry(new ServerConfigParser().getHost(), new ServerConfigParser().getRmiPort());
+			Registry registry = LocateRegistry.getRegistry(Utils.getServerConfig().getHost(), Utils.getServerConfig().getRmiPort());
 			rmiServerSkeleton = (RMIServerSkeletonInterface) registry.lookup("Server");
 
 			// Create stub from client.

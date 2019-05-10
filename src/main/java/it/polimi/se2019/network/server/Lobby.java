@@ -2,7 +2,6 @@ package it.polimi.se2019.network.server;
 
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
@@ -149,7 +148,7 @@ public class Lobby {
 			// Number of players between the minimum and the maximum. Send to the new client the remaining time for starting the match.
 			if(singleTimer.isRunning() && newestClient != null) {
 				long timePassedAfterTimerStart = System.currentTimeMillis() - timeTimerStart;
-				long timeRemainingInTimer = new ServerConfigParser().getWaitingTimeInLobbyMs() - timePassedAfterTimerStart;
+				long timeRemainingInTimer = Utils.getServerConfig().getWaitingTimeInLobbyMs() - timePassedAfterTimerStart;
 				newestClient.sendMessage(new TimerForStartMessage(timeRemainingInTimer, MessageSubtype.INFO));
 			}
 		}
@@ -190,11 +189,11 @@ public class Lobby {
 		singleTimer.start(() -> {
 			Utils.logInfo("Timer ended => Starting the match...");
 			lobby.startMatchInWaitingRoom();
-		}, new ServerConfigParser().getWaitingTimeInLobbyMs());
+		}, Utils.getServerConfig().getWaitingTimeInLobbyMs());
 	}
 
 	private void sendTimerStartedMessages() {
-		waitingRoom.forEach(client -> client.sendMessage(new TimerForStartMessage(new ServerConfigParser().getWaitingTimeInLobbyMs(), MessageSubtype.INFO)));
+		waitingRoom.forEach(client -> client.sendMessage(new TimerForStartMessage(Utils.getServerConfig().getWaitingTimeInLobbyMs(), MessageSubtype.INFO)));
 	}
 
 	private void sendTimerCanceledMessages() {

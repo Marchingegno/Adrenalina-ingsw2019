@@ -3,7 +3,6 @@ package it.polimi.se2019.network.server.rmi;
 import it.polimi.se2019.network.client.rmi.RMIClientInterface;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.server.ServerEventsListenerInterface;
-import it.polimi.se2019.utils.ServerConfigParser;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.Closeable;
@@ -118,7 +117,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerSkeletonI
 	private void startRMIServer() throws RemoteException {
 		// Register server.
 		System.setProperty("java.rmi.server.hostname", "localhost");
-		registry = LocateRegistry.createRegistry(new ServerConfigParser().getRmiPort());
+		registry = LocateRegistry.createRegistry(Utils.getServerConfig().getRmiPort());
 		registry.rebind("Server", this);
 
 		Utils.logInfo("RMIServer => startRMISocket(): RMI server is ready.");
