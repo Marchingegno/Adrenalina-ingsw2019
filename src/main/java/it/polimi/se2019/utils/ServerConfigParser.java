@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
 public class ServerConfigParser {
 
-	private static final String PATH = System.getProperty("user.dir") + "/src/resources/server-config.json";
+	private static final String PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator + "resources" + File.separator + "server-config.json";
 	private static boolean triedParsing = false;
 	private static ServerConfig serverConfig;
 
