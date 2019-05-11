@@ -98,7 +98,7 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseNickname() {
-
+		cleanConsole();
 		setCursorHome();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
@@ -110,7 +110,7 @@ public class CLIPrinter {
 				"											║                                                                ║\n" +
 				"											║                                                                ║\n" +
 				"											╚════════════════════════════════════════════════════════════════╝\n");
-		moveCursorUP(3);
+		moveCursorTo(36, 70);
 	}
 
 	public static void printChooseMap() {
@@ -118,7 +118,8 @@ public class CLIPrinter {
 		setCursorHome();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
-				"											║                                                                ║\n");
+				"											║                                                                ║\n" +
+				"											║                 Choose a map:                                  ║\n");
 
 		GameConstants.MapType[] maps = GameConstants.MapType.values();
 		for (int i = 0; i < maps.length; i++) {
@@ -127,7 +128,8 @@ public class CLIPrinter {
 		print("											║                                                                ║\n " +
 				"											║                                                                ║\n" +
 				"											╚════════════════════════════════════════════════════════════════╝\n");
-		moveCursorUP(3);
+		moveCursorUP(2);
+		moveCursorLEFT(100);
 	}
 
 	public static void printChooseSkulls() {
@@ -143,7 +145,7 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
-		moveCursorTo(36, 70);
+		moveCursorUP(3);
 	}
 
 	public static void printWaitingRoom(List<String> waitingPlayers) {
@@ -170,17 +172,17 @@ public class CLIPrinter {
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
-				"											║                      The match will start in                   ║\n" +
+				"											║                     The match will start in                    ║\n" +
 				"											║                                                                ║\n" +
 				"											║                                                                ║\n " +
 				"											║                                                                ║\n" +
 				"											║                                                                ║\n" +
 				"											╚════════════════════════════════════════════════════════════════╝\n");
 
+
 		for (long i = milliSeconds / 1000; i >= 0; i--) {
-			moveCursorUP(4);
-			moveCursorLEFT(1000);
-			print("											║                              " + Utils.fillWithSpaces(Long.toString(i), 34) + "║\n");
+			moveCursorTo(29, 0);
+			print("											║                                " + Utils.fillWithSpaces(Long.toString(i), 32) + "║\n");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
