@@ -114,7 +114,7 @@ public class CLIView extends RemoteView {
 			sendMessage(gameConfigMessage);
 			return;
 		}
-		printLine("\n\nMatch ready to start. Select your preferred configuration.");
+		Utils.logInfo("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
 		ArrayList<String> players = new ArrayList<>();
@@ -498,7 +498,7 @@ class RepPrinter {
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);
 			}
-			CLIView."\n");
+			CLIView.print("\n");
 		}
 	}
 
