@@ -3,7 +3,6 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -137,7 +136,7 @@ public class CLIPrinter {
 		loadCursorPosition();
 	}
 
-	public static void printWaitingRoom(ArrayList<String> players) {
+	public static void printWaitingRoom(List<String> waitingPlayers) {
 		cleanConsole();
 		setCursorHome();
 		print(TITLE +
@@ -145,10 +144,10 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║              Waiting for other clients to answer...            ║ \n" +
 				"											║                                                                ║ \n");
-		for (int i = 0; i < players.size(); i++) {
-			print("											║                   " + Utils.fillWithSpaces("[" + i + "] " + players.get(i), 45) + "║ \n");
+		for (int i = 0; i < waitingPlayers.size(); i++) {
+			print("											║                   " + Utils.fillWithSpaces("[" + i + "] " + waitingPlayers.get(i), 45) + "║ \n");
 		}
-		for (int i = players.size(); i <= GameConstants.MAX_PLAYERS; i++) {
+		for (int i = waitingPlayers.size(); i <= GameConstants.MAX_PLAYERS; i++) {
 			print("											║                                                                ║ \n");
 		}
 		print("											║                                                                ║ \n" +

@@ -1,9 +1,19 @@
 package it.polimi.se2019.network.message;
 
-public class WaitingPlayersMessage extends StringMessage {
+import java.util.ArrayList;
+import java.util.List;
 
-	public WaitingPlayersMessage(String waitingPlayers) {
-		super(waitingPlayers, MessageType.WAITING_PLAYERS, MessageSubtype.INFO);
+public class WaitingPlayersMessage extends Message {
+
+	private ArrayList<String> waitingPlayersNames;
+
+	public WaitingPlayersMessage(List<String> waitingPlayersNames) {
+		super(MessageType.WAITING_PLAYERS, MessageSubtype.INFO);
+		this.waitingPlayersNames = new ArrayList<>(waitingPlayersNames);
+	}
+
+	public ArrayList<String> getWaitingPlayersNames() {
+		return waitingPlayersNames;
 	}
 
 }
