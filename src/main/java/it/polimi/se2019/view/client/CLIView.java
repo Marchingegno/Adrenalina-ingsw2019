@@ -96,7 +96,8 @@ public class CLIView extends RemoteView {
 	public void displayTimerStarted(long delayInMs) {
 		DecimalFormat decimalFormat = new DecimalFormat();
 		decimalFormat.setMaximumFractionDigits(1);
-		printLine("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
+		printWaitingMatchStart();
+		//printLine("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
 	}
 
 	@Override

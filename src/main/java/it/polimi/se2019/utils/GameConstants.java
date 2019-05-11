@@ -18,7 +18,7 @@ public class GameConstants {
 	public static final int INITIAL_AMMO_PER_AMMO_TYPE = 1;
 	public static final int MIN_SKULLS = 5;
 	public static final int MAX_SKULLS = 8;
-	public static final int MIN_PLAYERS = 3;
+	public static final int MIN_PLAYERS = 1;
 	public static final int NUMBER_OF_ACTIONS_PER_TURN = 2;
 	public static final int FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN = 1;
 	public static final int FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN = 1;
@@ -28,12 +28,20 @@ public class GameConstants {
 	public static final int HIGH_DAMAGE_THRESHOLD = 6;
 	public static final int MAX_NICKNAME_LENGHT = 16;
 	public static final int MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE = 3;
+	public static final int TIMER_BEFORE_START = 10;
 
 	public enum MapType {
 		SMALL_MAP("SmallMap", "Small map with 10 squares."),
 		MEDIUM_MAP("MediumMap", "Medium map with 11 squares."),
 		BIG_MAP("BigMap", "Big map with 12 squares."),
-		BONUS_MAP("BonusMap", "Bonus map with 11 squares.");
+		BONUS_MAP("BonusMap", "Bonus map with 11 squares."),
+
+		//test only
+		BONUS_MAP1("BonusMap1", "Bonus map with 11 squares."),
+		BONUS_MAP2("BonusMap2", "Bonus map with 11 squares."),
+		BONUS_MAP3("BonusMap3", "Bonus map with 11 squares."),
+		BONUS_MAP4("BonusMap4", "Bonus map with 11 squares."),
+		BONUS_MAP5("BonusMap5", "Bonus map with 11 squares.");
 
 		private String mapName;
 

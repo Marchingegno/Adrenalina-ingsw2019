@@ -64,7 +64,7 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                           [1] GUI                              ║ \n" +
 				"											║                           [2] CLI                              ║ \n" +
-				"											║                           " + saveCursorPosition() + "                                     ║\n " +
+				"											║                              " + saveCursorPosition() + "                                  ║\n " +
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
@@ -80,7 +80,7 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                           [1] RMI                              ║ \n" +
 				"											║                           [2] Socket                           ║ \n" +
-				"											║                           " + saveCursorPosition() + "                                     ║\n " +
+				"											║                              " + saveCursorPosition() + "                                  ║\n " +
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
@@ -94,9 +94,9 @@ public class CLIPrinter {
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
-				"											║                             NICKNAME                           ║ \n" +
+				"											║                           NICKNAME                             ║ \n" +
 				"											║                                                                ║ \n" +
-				"											║                             " + saveCursorPosition() + "                                   ║\n " +
+				"											║                          " + saveCursorPosition() + "                                      ║\n " +
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
@@ -114,7 +114,7 @@ public class CLIPrinter {
 		for (int i = 0; i < maps.length; i++) {
 			print("											║                   " + Utils.fillWithSpaces("[" + (i + 1) + "] " + maps[i].getMapName(), 45) + "║ \n");
 		}
-		print("											║                             " + saveCursorPosition() + "                                   ║\n " +
+		print("											║                              " + saveCursorPosition() + "                                  ║\n " +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
 		loadCursorPosition();
@@ -127,9 +127,9 @@ public class CLIPrinter {
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
-				"											║                             SKULLS [" + GameConstants.MIN_SKULLS + "-" + GameConstants.MIN_SKULLS + "]                       ║ \n" +
+				"											║                        SKULLS [" + GameConstants.MIN_SKULLS + "-" + GameConstants.MAX_SKULLS + "]                            ║ \n" +
 				"											║                                                                ║ \n" +
-				"											║                             " + saveCursorPosition() + "                                   ║\n " +
+				"											║                              " + saveCursorPosition() + "                                  ║\n " +
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
@@ -155,13 +155,39 @@ public class CLIPrinter {
 		loadCursorPosition();
 	}
 
+	public static void printWaitingMatchStart() {
+		cleanConsole();
+		setCursorHome();
+		print(TITLE +
+				"											╔════════════════════════════════════════════════════════════════╗ \n" +
+				"											║                                                                ║ \n" +
+				"											║                      The match will start in                   ║ \n" +
+				"											║                                                                ║ \n" +
+				"											║                              " + saveCursorPosition() + "                                  ║\n " +
+				"											║                                                                ║ \n" +
+				"											║                                                                ║ \n" +
+				"											╚════════════════════════════════════════════════════════════════╝ \n");
+
+		for (int i = GameConstants.TIMER_BEFORE_START; i >= 0; i--) {
+			loadCursorPosition();
+			print(moveCursorLEFT(1000) + "											║                              " + Utils.fillWithSpaces(Integer.toString(i), 34) + "║\n");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				Utils.logInfo("Error in match countdown");
+			}
+
+		}
+	}
+
 
 	public static String waitForChoiceInMenu(List<String> possibleChoices) {
+		scanner.reset();
 		if (possibleChoices == null || possibleChoices.isEmpty())
 			throw new IllegalArgumentException("No options to chose from");
 		String choice = scanner.nextLine();
 		while (!possibleChoices.contains(choice)) {
-			print(moveCursorUP(1) + moveCursorLEFT(10) + "											║                           " + saveCursorPosition() + "                                     ║");
+			print(moveCursorUP(1) + moveCursorLEFT(10) + "											║                             " + saveCursorPosition() + "                                   ║");
 			loadCursorPosition();
 			choice = scanner.nextLine();
 		}
