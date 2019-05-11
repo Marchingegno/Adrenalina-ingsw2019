@@ -13,6 +13,8 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
+import java.util.List;
+
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
 
 	private ConnectionToServerInterface connectionToServer;
@@ -36,8 +38,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case WAITING_PLAYERS:
 				if(message.getMessageSubtype() == MessageSubtype.INFO) {
-					StringMessage stringMessage = (StringMessage) message;
-					displayWaitingPlayers(stringMessage.getContent());
+					WaitingPlayersMessage waitingPlayersMessage = (WaitingPlayersMessage) message;
+					displayWaitingPlayers(waitingPlayersMessage.getWaitingPlayersNames());
 				}
 				break;
 			case TIMER_FOR_START:
@@ -171,7 +173,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	public abstract void nicknameIsOk(String nickname);
 
-	public abstract void displayWaitingPlayers(String waitingPlayers);
+	public abstract void displayWaitingPlayers(List<String> waitingPlayers);
 
 	public abstract void displayTimerStarted(long delayInMs);
 

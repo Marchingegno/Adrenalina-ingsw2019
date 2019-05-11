@@ -88,9 +88,8 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void displayWaitingPlayers(String waitingPlayers) {
-		//printWaitingRoom(waitingPlayers);
-		Utils.logInfo("Players in the waiting room: " + waitingPlayers + ".");
+	public void displayWaitingPlayers(List<String> waitingPlayers) {
+		printWaitingRoom(waitingPlayers);
 	}
 
 	@Override
