@@ -1,0 +1,214 @@
+{
+	"ammocards": [
+		{
+			"name": "B_R_R",
+			"ammo": [
+				"BLUE_AMMO",
+				"RED_AMMO",
+				"RED_AMMO"
+			],
+			"power": false,
+			"path": "B_R_R.png"
+		},
+		{
+			"name": "B_R_R",
+			"ammo": [
+				"BLUE_AMMO",
+				"RED_AMMO",
+				"RED_AMMO"
+			],
+			"power": false,
+			"path": "B_R_R.png"
+		},
+		{
+			"name": "B_Y_Y",
+			"ammo": [
+				"BLUE_AMMO",
+				"YELLOW_AMMO",
+				"YELLOW_AMMO"
+			],
+			"power": false,
+			"path": "B_Y_Y.png"
+		},
+		{
+			"name": "B_Y_Y",
+			"ammo": [
+				"BLUE_AMMO",
+				"YELLOW_AMMO",
+				"YELLOW_AMMO"
+			],
+			"power": false,
+			"path": "B_Y_Y.png"
+		},
+		{
+			"name": "P_B_B",
+			"ammo": [
+				"BLUE_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": true,
+			"path": "P_B_B.png"
+		},
+		{
+			"name": "P_R_B",
+			"ammo": [
+				"RED_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": true,
+			"path": "P_B_B.png"
+		},
+		{
+			"name": "P_R_R",
+			"ammo": [
+				"RED_AMMO",
+				"RED_AMMO"
+			],
+			"power": true,
+			"path": "P_R_R.png"
+		},
+		{
+			"name": "P_R_R",
+			"ammo": [
+				"RED_AMMO",
+				"RED_AMMO"
+			],
+			"power": true,
+			"path": "P_R_R.png"
+		},
+		{
+			"name": "P_Y_B",
+			"ammo": [
+				"YELLOW_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": true,
+			"path": "P_Y_B.png"
+		},
+		{
+			"name": "P_Y_B",
+			"ammo": [
+				"YELLOW_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": true,
+			"path": "P_Y_B.png"
+		},
+		{
+			"name": "P_Y_R",
+			"ammo": [
+				"YELLOW_AMMO",
+				"RED_AMMO"
+			],
+			"power": true,
+			"path": "P_Y_R.png"
+		},
+		{
+			"name": "P_Y_R",
+			"ammo": [
+				"YELLOW_AMMO",
+				"RED_AMMO"
+			],
+			"power": true,
+			"path": "P_Y_R.png"
+		},
+		{
+			"name": "P_Y_Y",
+			"ammo": [
+				"YELLOW_AMMO",
+				"YELLOW_AMMO"
+			],
+			"power": true,
+			"path": "P_Y_Y.png"
+		},
+		{
+			"name": "P_Y_Y",
+			"ammo": [
+				"YELLOW_AMMO",
+				"YELLOW_AMMO"
+			],
+			"power": true,
+			"path": "P_Y_Y.png"
+		},
+		{
+			"name": "R_B_B",
+			"ammo": [
+				"RED_AMMO",
+				"BLUE_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": false,
+			"path": "R_B_B.png"
+		},
+		{
+			"name": "R_B_B",
+			"ammo": [
+				"RED_AMMO",
+				"BLUE_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": false,
+			"path": "R_B_B.png"
+		},
+		{
+			"name": "R_Y_Y",
+			"ammo": [
+				"RED_AMMO",
+				"YELLOW_AMMO",
+				"YELLOW_AMMO"
+			],
+			"power": false,
+			"path": "R_Y_Y.png"
+		},
+		{
+			"name": "R_Y_Y",
+			"ammo": [
+				"RED_AMMO",
+				"YELLOW_AMMO",
+				"YELLOW_AMMO"
+			],
+			"power": false,
+			"path": "R_Y_Y.png"
+		},
+		{
+			"name": "Y_B_B",
+			"ammo": [
+				"YELLOW_AMMO",
+				"BLUE_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": false,
+			"path": "Y_B_B.png"
+		},
+		{
+			"name": "Y_B_B",
+			"ammo": [
+				"YELLOW_AMMO",
+				"BLUE_AMMO",
+				"BLUE_AMMO"
+			],
+			"power": false,
+			"path": "Y_B_B.png"
+		},
+		{
+			"name": "Y_R_R",
+			"ammo": [
+				"YELLOW_AMMO",
+				"RED_AMMO",
+				"RED_AMMO"
+			],
+			"power": false,
+			"path": "Y_R_R.png"
+		},
+		{
+			"name": "Y_R_R",
+			"ammo": [
+				"YELLOW_AMMO",
+				"RED_AMMO",
+				"RED_AMMO"
+			],
+			"power": false,
+			"path": "Y_R_R.png"
+		}
+	]
+}
