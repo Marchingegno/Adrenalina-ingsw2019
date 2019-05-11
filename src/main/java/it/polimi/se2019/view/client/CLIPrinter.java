@@ -31,7 +31,7 @@ public class CLIPrinter {
 
 	public CLIPrinter(){}
 
-	public static boolean printChooseView() {
+	public static void printChooseView() {
 
 		cleanConsole();
 		setCursorHome();
@@ -44,15 +44,6 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
-
-		loadCursorPosition();
-		Scanner scanner = new Scanner(System.in);
-		String line = scanner.nextLine();
-		while ((!line.equals("1") && !line.equals("2"))) {
-			System.out.print("\u001b[1A								║                           " + saveCursorPosition() + "                                     ║" + "\u001b[u");
-			line = scanner.nextLine();
-		}
-		return line.equals("1");
 	}
 
 	public static int printChooseConnection() {

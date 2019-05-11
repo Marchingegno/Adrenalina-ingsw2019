@@ -11,7 +11,10 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,12 +28,6 @@ public class CLIView extends RemoteView {
 	private ModelRep modelRep = new ModelRep();
 	private Scanner scanner = new Scanner(System.in);
 	private RepPrinter repPrinter = new RepPrinter(modelRep);
-
-	public CLIView() {
-		this.modelRep = new ModelRep();
-		this.scanner = new Scanner(System.in);
-		this.repPrinter = new RepPrinter(this.modelRep);
-	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
