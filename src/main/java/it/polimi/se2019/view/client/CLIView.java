@@ -365,7 +365,7 @@ class RepPrinter {
 		for (PlayerRep playerRep : playersRep) {
 			try {
 				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName()));
-				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("⧫", playerRep.getPlayerColor());
+				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("▲", playerRep.getPlayerColor());
 			} catch (NullPointerException e) {
 				logger.log(Level.SEVERE, "{0} has no position", playerRep.getPlayerName());
 			}
@@ -419,7 +419,7 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Skulls:\t\t");
 		for (int i = 0; i < GameConstants.MAX_SKULLS; i++) {
-			stringBuilder.append(Color.getColoredString("◼", i < (GameConstants.MAX_SKULLS - skulls) ? Color.CharacterColorType.DEFAULT : Color.CharacterColorType.RED));
+			stringBuilder.append(Color.getColoredString("●", i < (GameConstants.MAX_SKULLS - skulls) ? Color.CharacterColorType.DEFAULT : Color.CharacterColorType.RED));
 		}
 		return stringBuilder.toString();
 	}
@@ -429,7 +429,7 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Killshot:\t|");
 		for (KillShotRep killShotRep : killShotTrackRep) {
-			stringBuilder.append(Color.getColoredString(killShotRep.isOverkill() ? "◼◼" : "◼", killShotRep.getPlayerColor()));
+			stringBuilder.append(Color.getColoredString(killShotRep.isOverkill() ? "●●" : "●", killShotRep.getPlayerColor()));
 			stringBuilder.append("|");
 		}
 		return stringBuilder.toString();
@@ -439,7 +439,7 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("DoubleKill:\t|");
 		for (Color.CharacterColorType doubleKiller : modelRep.getGameBoardRep().getDoubleKills()) {
-			stringBuilder.append(Color.getColoredString("◼", doubleKiller));
+			stringBuilder.append(Color.getColoredString("●", doubleKiller));
 			stringBuilder.append("|");
 		}
 		return stringBuilder.toString();
@@ -448,7 +448,7 @@ class RepPrinter {
 	private void displayPlayers() {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
-			stringBuilder.append(Color.getColoredString("◼ ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.BLACK : Color.CharacterColorType.DEFAULT));
+			stringBuilder.append(Color.getColoredString("● ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.BLACK : Color.CharacterColorType.DEFAULT));
 			stringBuilder.append(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
 			for (int i = 0; i < GameConstants.MAX_NICKNAME_LENGHT - playerRep.getPlayerName().length(); i++) {
 				stringBuilder.append(" ");
@@ -470,10 +470,10 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		strings.add("|");
 		for (Color.CharacterColorType damage : damageBoard) {
-			strings.add(Color.getColoredString("◼", damage));
+			strings.add(Color.getColoredString("●", damage));
 		}
 		for (int i = damageBoard.size(); i < 11; i++) {
-			strings.add("◼");
+			strings.add("●");
 		}
 		strings.add("|");
 
@@ -488,7 +488,7 @@ class RepPrinter {
 	private String getMarksBoard(List<Color.CharacterColorType> damageBoard) {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (Color.CharacterColorType damage : damageBoard) {
-			stringBuilder.append(Color.getColoredString("◼", damage));
+			stringBuilder.append(Color.getColoredString("●", damage));
 		}
 		stringBuilder.append("|");
 		return stringBuilder.toString();
@@ -507,43 +507,43 @@ class RepPrinter {
 		CLIView.print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
 		CLIView.print(
 				"Move 1 >>>\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 1\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.WHITE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.WHITE, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 1\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
 		CLIView.print(
 				"Move 2 >>O\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 2\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
 		CLIView.print(
 				"Move 3 >>S\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 3\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
+						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
 	}
 
 	private String[][] initializeMapToPrint(SquareRep[][] map) {
