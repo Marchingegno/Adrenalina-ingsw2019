@@ -11,6 +11,12 @@ import static it.polimi.se2019.view.client.CLIView.print;
 
 public class CLIPrinter {
 
+	private static final String ESC = (char) 27 + "[";
+	private static final String CLEAN = ESC + "2J";
+	private static final String HOME = ESC + "H";
+	private static final String SAVE = ESC + "s";
+	private static final String LOAD = ESC + "u";
+
 	private static final Scanner scanner = new Scanner(System.in);
 	private static final String TITLE = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\u001b[33;49m" +
 			"								       ___       _______  .______       _______ .__   __.      ___       __       __  .__   __. _______ \n" +
@@ -18,24 +24,24 @@ public class CLIPrinter {
 			"								     /  ^  \\    |  .--.  ||  |_)  |    |  |__   |   \\|  |    /  ^  \\    |  |     |  | |   \\|  ||  |__    \n" +
 			"								    /  /_\\  \\   |  |  |  ||      /     |   __|  |  . `  |   /  /_\\  \\   |  |     |  | |  . `  ||   __|   \n" +
 			"								   /  _____  \\  |  '--'  ||  |\\  \\----.|  |____ |  |\\   |  /  _____  \\  |  `----.|  | |  |\\   ||  |____  \n" +
-			"								  /__/     \\__\\ |_______/ | _| `._____||_______||__| \\__| /__/     \\__\\ |_______||__| |__| \\__||_______| \n\u001b[39;49m";
+			"								  /__/     \\__\\ |_______/ | _| `._____||_______||__| \\__| /__/     \\__\\ |_______||__| |__| \\__||_______| \n\n\n\u001b[39;49m";
 
 
 	public static void cleanConsole(){
-		print("\u001b[2J");
+		print(CLEAN);
 		System.out.flush();
 	}
 
 	public static void setCursorHome() {
-		print("\u001b[H");
+		print(HOME);
 	}
 
 	public static String saveCursorPosition() {
-		return "\u001b[s";
+		return SAVE;
 	}
 
 	public static void loadCursorPosition() {
-		print("\u001b[u");
+		print(LOAD);
 	}
 
 	public static String moveCursorUP(int numOfLines) {
