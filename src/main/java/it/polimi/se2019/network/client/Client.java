@@ -6,9 +6,12 @@ import it.polimi.se2019.view.client.CLIView;
 import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
-import java.util.Scanner;
+
+import static it.polimi.se2019.view.client.CLIPrinter.printChooseView;
+import static it.polimi.se2019.view.client.CLIPrinter.waitForChoiceInMenu;
 
 
 /**
@@ -33,15 +36,11 @@ public class Client {
 			return;
 		}
 		// Start with CLI and ask if the user wants to use CLI or GUI.
-		CLIPrinter.printChooseView();
-		CLIPrinter.loadCursorPosition();
-		Scanner scanner = new Scanner(System.in);
-		String line = scanner.nextLine();
-		while ((!line.equals("1") && !line.equals("2"))) {
-			System.out.print("\u001b[1A								║                           " + CLIPrinter.saveCursorPosition() + "                                     ║" + "\u001b[u");
-			line = scanner.nextLine();
-		}
-		boolean isGUI = line.equals("1");
+		printChooseView();
+		ArrayList<String> possibleChoices = new ArrayList<>();
+		possibleChoices.add("1");
+		possibleChoices.add("2");
+		boolean isGUI = waitForChoiceInMenu(possibleChoices).equals("1");
 
 		// Start GUI if requested.
 		RemoteView remoteView;

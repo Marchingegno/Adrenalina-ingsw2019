@@ -64,16 +64,12 @@ public class Utils {
 		if (inputString.length() >= length) {
 			return inputString;
 		}
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(Color.getColoredString(inputString, color));
-		while (stringBuilder.length() < length - inputString.length()) {
-			stringBuilder.append('0');
+		StringBuilder stringBuilder = new StringBuilder(inputString);
+		while (stringBuilder.length() < length) {
+			stringBuilder.append(" ");
 		}
-
-		return stringBuilder.toString();
+		return Color.getColoredString(stringBuilder.toString(), color);
 	}
-
-
 }
 
 class ServerConfigParser {
