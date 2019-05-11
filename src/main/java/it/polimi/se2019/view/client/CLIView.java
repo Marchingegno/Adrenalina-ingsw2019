@@ -61,12 +61,10 @@ public class CLIView extends RemoteView {
 		if(Utils.DEBUG_BYPASS_CONFIGURATION){
 			String randomNickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
 			sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
-			this.nickname = randomNickname;
 			return;
 		}
 		String chosenNickname = CLIPrinter.printChooseNickname();
 		sendMessage(new NicknameMessage(chosenNickname, MessageSubtype.ANSWER));
-		this.nickname = chosenNickname;
 	}
 
 	@Override
@@ -84,6 +82,7 @@ public class CLIView extends RemoteView {
 	@Override
 	public void nicknameIsOk(String nickname) {
 		print("Nickname set to: \"" + nickname + "\".");
+		this.nickname = nickname;
 	}
 
 	@Override
