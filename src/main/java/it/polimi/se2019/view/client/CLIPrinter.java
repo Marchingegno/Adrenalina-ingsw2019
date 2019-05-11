@@ -170,12 +170,13 @@ public class CLIPrinter {
 		for (long i = milliSeconds / 1000; i >= 0; i--) {
 			loadCursorPosition();
 			print(moveCursorLEFT(1000) + "											║                              " + Utils.fillWithSpaces(Long.toString(i), 34) + "║\n");
+
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				Utils.logInfo("Error in match countdown");
+				Thread.currentThread().interrupt();
 			}
-
 		}
 	}
 
