@@ -2,9 +2,11 @@ package it.polimi.se2019.view.client;
 
 import java.util.Scanner;
 
+import static it.polimi.se2019.view.client.CLIView.print;
+
 public class CLIPrinter {
 
-	private static final String title = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\u001b[33;49m" +
+	private static final String TITLE = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\u001b[33;49m" +
 			"								       ___       _______  .______       _______ .__   __.      ___       __       __  .__   __.      ___      \n" +
 			"								      /   \\     |       \\ |   _  \\     |   ____||  \\ |  |     /   \\     |  |     |  | |  \\ |  |     /   \\     \n" +
 			"								     /  ^  \\    |  .--.  ||  |_)  |    |  |__   |   \\|  |    /  ^  \\    |  |     |  | |   \\|  |    /  ^  \\    \n" +
@@ -14,11 +16,11 @@ public class CLIPrinter {
 
 
 	public static void cleanConsole(){
-		System.out.print("\u001b[2J ");
+		print("\u001b[2J");
 	}
 
 	public static void setCursorHome() {
-		System.out.print("\u001b[H ");
+		print("\u001b[H");
 	}
 
 	public static String saveCursorPosition() {
@@ -26,16 +28,31 @@ public class CLIPrinter {
 	}
 
 	public static void loadCursorPosition() {
-		System.out.print("\u001b[u");
+		print("\u001b[u");
+	}
+
+	public static String moveCursorUP(int numOfLines) {
+		return "\u001b[" + numOfLines + "A";
+	}
+
+	public static String moveCursorDOWN(int numOfLines) {
+		return "\u001b[" + numOfLines + "B";
+	}
+
+	public static String moveCursorRIGHT(int numOfLines) {
+		return "\u001b[" + numOfLines + "C";
+	}
+
+	public static String moveCursorLEFT(int numOfLines) {
+		return "\u001b[" + numOfLines + "D";
 	}
 
 	public CLIPrinter(){}
 
 	public static void printChooseView() {
-
 		cleanConsole();
 		setCursorHome();
-		System.out.print(title +
+		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
 				"											║                           [1] GUI                              ║ \n" +
@@ -44,13 +61,13 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
+		loadCursorPosition();
 	}
 
-	public static int printChooseConnection() {
-
+	public static void printChooseConnection() {
 		cleanConsole();
 		setCursorHome();
-		System.out.print(title +
+		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
 				"											║                           [1] RMI                              ║ \n" +
@@ -59,22 +76,13 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
-
-		System.out.print("\u001b[u");
-		Scanner scanner = new Scanner(System.in);
-		String line = scanner.nextLine();
-		while ((!line.equals("1") && !line.equals("2"))) {
-			System.out.print("\u001b[1A								║                           " + saveCursorPosition() + "                                     ║\u001b[u");
-			line = scanner.nextLine();
-		}
-		return Integer.parseInt(line);
+		loadCursorPosition();
 	}
 
 	public static String printChooseNickname() {
-
 		cleanConsole();
 		setCursorHome();
-		System.out.print(title +
+		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
 				"											║                             NICKNAME                           ║ \n" +
@@ -83,8 +91,8 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
+		loadCursorPosition();
 
-		System.out.print("\u001b[u");
 		Scanner scanner = new Scanner(System.in);
 		String line = scanner.nextLine();
 		return line;
