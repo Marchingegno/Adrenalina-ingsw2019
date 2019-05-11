@@ -25,9 +25,9 @@ public final class Elecroscythe extends AlternateFire {
 	public Pair handleFire(int choice) {
 		incrementStep();
 		if (getCurrentStep() == 1) {
-			return new Pair(INITIAL_CHOICES, askingMessage());
+			return askingPair();
 		} else if (isAlternateFireActive()) {
-			return handleSecondaryFire();
+			return handleSecondaryFire(choice);
 		} else {
 			primaryFire();
 		}
@@ -36,7 +36,7 @@ public final class Elecroscythe extends AlternateFire {
 	}
 
 	@Override
-	Pair handleSecondaryFire() {
+	Pair handleSecondaryFire(int choice) {
 		secondaryFire();
 		return null;
 	}

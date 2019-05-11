@@ -42,12 +42,12 @@ public abstract class AlternateFire extends WeaponCard {
 		else return super.doneFiring();
 	}
 
-	abstract Pair handleSecondaryFire();
+	abstract Pair handleSecondaryFire(int choice);
 
 
 	@Override
-	public String askingMessage() {
-		return "Which fire mode do you want to use?\nPress 1 for standard fire.\nPress 2 for alternate fire.";
+	public Pair askingPair() {
+		return new Pair(2, "Which fire mode do you want to use?\nPress 1 for standard fire.\nPress 2 for alternate fire.");
 	}
 
 	/**

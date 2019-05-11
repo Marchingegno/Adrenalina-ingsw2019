@@ -141,9 +141,9 @@ public abstract class WeaponCard extends Card {
 	 * This will be called by the view to be displayed to the player.
 	 * @return
 	 */
-	public String askingMessage(){
+	public Pair askingPair(){
 		//Do you wanna use alternate/optional fire? ecc ecc
-		return "PlaceHolder";
+		return null;
 	}
 
 	public abstract void registerChoice(int choice);
