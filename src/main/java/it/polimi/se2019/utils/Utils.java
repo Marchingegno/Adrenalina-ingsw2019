@@ -70,6 +70,14 @@ public class Utils {
 		}
 		return Color.getColoredString(stringBuilder.toString(), color);
 	}
+
+	public static boolean contains(String[] array, String element) {
+		for (String str : array) {
+			if (str.equals(element))
+				return true;
+		}
+		return false;
+	}
 }
 
 class ServerConfigParser {

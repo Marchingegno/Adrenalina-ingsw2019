@@ -33,14 +33,7 @@ public class GameConstants {
 		SMALL_MAP("SmallMap", "Small map with 10 squares."),
 		MEDIUM_MAP("MediumMap", "Medium map with 11 squares."),
 		BIG_MAP("BigMap", "Big map with 12 squares."),
-		BONUS_MAP("BonusMap", "Bonus map with 11 squares."),
-
-		//test only
-		BONUS_MAP1("BonusMap1", "Bonus map with 11 squares."),
-		BONUS_MAP2("BonusMap2", "Bonus map with 11 squares."),
-		BONUS_MAP3("BonusMap3", "Bonus map with 11 squares."),
-		BONUS_MAP4("BonusMap4", "Bonus map with 11 squares."),
-		BONUS_MAP5("BonusMap5", "Bonus map with 11 squares.");
+		BONUS_MAP("BonusMap", "Bonus map with 11 squares.");
 
 		private String mapName;
 

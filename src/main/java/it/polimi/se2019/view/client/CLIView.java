@@ -42,10 +42,7 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askForConnectionAndStartIt() {
 		printChooseConnection();
-		ArrayList<String> possibleChoices = new ArrayList<>();
-		possibleChoices.add("1");
-		possibleChoices.add("2");
-		if (Integer.parseInt(waitForChoiceInMenu(possibleChoices)) == 1)
+		if (Integer.parseInt(waitForChoiceInMenu("1", "2")) == 1)
 			startConnectionWithRMI();
 		else
 			startConnectionWithSocket();

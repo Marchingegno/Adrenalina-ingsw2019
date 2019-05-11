@@ -3,6 +3,7 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -180,13 +181,27 @@ public class CLIPrinter {
 		}
 	}
 
-
-	public static String waitForChoiceInMenu(List<String> possibleChoices) {
+	public static String waitForChoiceInMenu(ArrayList<String> possibleChoices) {
 		scanner.reset();
 		if (possibleChoices == null || possibleChoices.isEmpty())
 			throw new IllegalArgumentException("No options to chose from");
 		String choice = scanner.nextLine();
 		while (!possibleChoices.contains(choice)) {
+			print(moveCursorUP(1) + moveCursorLEFT(10) + "											║                             " + saveCursorPosition() + "                                   ║");
+			loadCursorPosition();
+			choice = scanner.nextLine();
+		}
+		cleanConsole();
+		setCursorHome();
+		return choice;
+	}
+
+	public static String waitForChoiceInMenu(String... possibleChoices) {
+		scanner.reset();
+		if (possibleChoices == null || possibleChoices.length == 0)
+			throw new IllegalArgumentException("No options to chose from");
+		String choice = scanner.nextLine();
+		while (!Utils.contains(possibleChoices, choice)) {
 			print(moveCursorUP(1) + moveCursorLEFT(10) + "											║                             " + saveCursorPosition() + "                                   ║");
 			loadCursorPosition();
 			choice = scanner.nextLine();
