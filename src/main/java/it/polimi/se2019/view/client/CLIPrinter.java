@@ -88,7 +88,7 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseNickname() {
-		cleanConsole();
+
 		setCursorHome();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
@@ -152,10 +152,9 @@ public class CLIPrinter {
 		}
 		print("											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
-		loadCursorPosition();
 	}
 
-	public static void printWaitingMatchStart() {
+	public static void printWaitingMatchStart(long milliSeconds) {
 		cleanConsole();
 		setCursorHome();
 		print(TITLE +
@@ -168,9 +167,9 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
 
-		for (int i = GameConstants.TIMER_BEFORE_START; i >= 0; i--) {
+		for (long i = milliSeconds / 1000; i >= 0; i--) {
 			loadCursorPosition();
-			print(moveCursorLEFT(1000) + "											║                              " + Utils.fillWithSpaces(Integer.toString(i), 34) + "║\n");
+			print(moveCursorLEFT(1000) + "											║                              " + Utils.fillWithSpaces(Long.toString(i), 34) + "║\n");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
