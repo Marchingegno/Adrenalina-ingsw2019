@@ -6,16 +6,13 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModelRep{
 
 	private GameBoardRep gameBoardRep;
 	private GameMapRep gameMapRep;
-	private ArrayList<PlayerRep> playersRep;
-
-	public ModelRep() {
-		playersRep = new ArrayList<>();
-	}
+	private ArrayList<PlayerRep> playersRep = new ArrayList<>();
 
 	public GameBoardRep getGameBoardRep() {
 		return gameBoardRep;
@@ -25,7 +22,7 @@ public class ModelRep{
 		return gameMapRep;
 	}
 
-	public ArrayList<PlayerRep> getPlayersRep() {
+	public List<PlayerRep> getPlayersRep() {
 		return playersRep;
 	}
 
@@ -48,6 +45,14 @@ public class ModelRep{
 
 		//There is no PlayerRep for this player so I add it
 		playersRep.add(playerRepToSet);
+	}
+
+	/**
+	 * Returns true if this ModelRep has all the information needed to be displayed.
+	 * @return true if this ModelRep has all the information needed to be displayed.
+	 */
+	public boolean isModelRepReadyToBeDisplayed() {
+		return gameBoardRep != null && gameMapRep != null && playersRep.size() >= gameBoardRep.getNumberOfPlayers();
 	}
 
 	private ArrayList<PlayerRep> generatePlayersRep(ArrayList<Player> players){

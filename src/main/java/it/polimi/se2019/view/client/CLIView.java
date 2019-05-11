@@ -11,10 +11,7 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,10 +22,9 @@ import java.util.logging.Logger;
 public class CLIView extends RemoteView {
 
 	private String nickname;
-	private ModelRep modelRep;
-	private Scanner scanner;
-	private RepPrinter repPrinter;
-	private Logger logger = Logger.getLogger(CLIView.class.getName());
+	private ModelRep modelRep = new ModelRep();
+	private Scanner scanner = new Scanner(System.in);
+	private RepPrinter repPrinter = new RepPrinter(modelRep);
 
 	public CLIView() {
 		this.modelRep = new ModelRep();
@@ -58,10 +54,10 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askNickname() {
-		if(Utils.BYPASS){
-			String nickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
-			sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
-			this.nickname = nickname;
+		if(Utils.DEBUG_BYPASS_CONFIGURATION){
+			String randomNickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
+			sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
+			this.nickname = randomNickname;
 			return;
 		}
 		String chosenNickname = CLIPrinter.printChooseNickname();
@@ -99,7 +95,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askMapAndSkullsToUse() {
-		if(Utils.BYPASS){
+		if(Utils.DEBUG_BYPASS_CONFIGURATION){
 			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 			gameConfigMessage.setMapIndex(0);
 			gameConfigMessage.setSkulls(5);
@@ -120,7 +116,9 @@ public class CLIView extends RemoteView {
 	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
 		printLine("Average of voted skulls: " + skulls + ".");
 		printLine("Most voted map: " + mapType.getDescription());
-		printLine("Match started!");
+		printLine("Game ready to start.");
+		printLine("Press Enter to start.");
+		scanner.nextLine();
 	}
 
 	// TODO remove
@@ -248,7 +246,10 @@ public class CLIView extends RemoteView {
 	 * Displays the main game board
 	 */
 	public void displayGame() {
-		repPrinter.displayGame();
+		if(modelRep.isModelRepReadyToBeDisplayed())
+			repPrinter.displayGame();
+		else
+			Utils.logInfo("CLIView => displayGame(): Rep not ready to be displayed.");
 	}
 
 	/**
@@ -338,7 +339,7 @@ class RepPrinter {
 	private void updateMapToPrint() {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		SquareRep[][] mapRep = gameMapRep.getMapRep();
-		ArrayList<PlayerRep> playersRep = modelRep.getPlayersRep();
+		List<PlayerRep> playersRep = modelRep.getPlayersRep();
 
 		for (int i = 0; i < mapRep.length; i++) {
 			for (int j = 0; j < mapRep[0].length; j++) {

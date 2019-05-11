@@ -278,12 +278,12 @@ class DamageDone {
 	/**
 	 * The following two method are for testing purposes only.
 	 */
-	public ArrayList<Integer> getDamages() {
+	public List<Integer> getDamages() {
 		return new ArrayList<>(damages);
 	}
 
 
-	public ArrayList<Player> getPlayers() {
+	public List<Player> getPlayers() {
 		return new ArrayList<>(players);
 	}
 
@@ -308,7 +308,7 @@ class DamageDone {
 
 	ArrayList<Player> getSortedPlayers() {
 		sort();
-		return new ArrayList<Player>(players);
+		return new ArrayList<>(players);
 	}
 
 	private void sort() {

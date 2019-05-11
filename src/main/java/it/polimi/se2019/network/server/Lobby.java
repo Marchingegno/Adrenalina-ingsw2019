@@ -129,7 +129,7 @@ public class Lobby {
 			// Reached the maximum number of players. Cancel the timer and start the match.
 			startMatchInWaitingRoom();
 		} else if(waitingRoom.size() == GameConstants.MIN_PLAYERS) {
-			if(Utils.BYPASS){
+			if(Utils.DEBUG_BYPASS_CONFIGURATION){
 				startMatchInWaitingRoom();
 				return;
 			}

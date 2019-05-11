@@ -59,20 +59,20 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case GAME_MAP_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					Utils.logInfo("RemoteView => processMessage(): Updating Game Map rep");
 					updateGameMapRep((GameMapRep) message);
-					Utils.logInfo("Updated Game Map rep");
 				}
 				break;
 			case GAME_BOARD_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					Utils.logInfo("RemoteView => processMessage(): Updating Game Board rep");
 					updateGameBoardRep((GameBoardRep) message);
-					Utils.logInfo("Updated Game Board rep");
 				}
 				break;
 			case PLAYER_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					Utils.logInfo("RemoteView => processMessage(): Updating " + ((PlayerRep) message).getPlayerName() + " rep");
 					updatePlayerRep((PlayerRep) message);
-					Utils.logInfo("Updated " + ((PlayerRep) message).getPlayerName() + " rep");
 				}
 				break;
 			case EXAMPLE_ACTION: // TODO remove

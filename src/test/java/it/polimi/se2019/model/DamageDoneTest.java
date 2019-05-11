@@ -1,10 +1,10 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Color;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -21,8 +21,8 @@ public class DamageDoneTest {
 		damageDoneTest.damageUp(player1);
 		damageDoneTest.damageUp(player2);
 
-		ArrayList<Player> players = damageDoneTest.getPlayers();
-		ArrayList<Integer> damages = damageDoneTest.getDamages();
+		List<Player> players = damageDoneTest.getPlayers();
+		List<Integer> damages = damageDoneTest.getDamages();
 
 		assertEquals(player1, players.get(0));
 		assertEquals(player2, players.get(1));

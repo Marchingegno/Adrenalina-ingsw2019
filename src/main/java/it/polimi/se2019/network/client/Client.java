@@ -7,6 +7,7 @@ import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
 
 import java.util.Locale;
+import java.util.Random;
 
 
 /**
@@ -20,21 +21,26 @@ public class Client {
 		// Set English language.
 		Locale.setDefault(Locale.ENGLISH);
 
-		if (Utils.BYPASS) {
+		CLIPrinter.printLoginScrean();
+
+		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
 			RemoteView remoteView = new CLIView();
-			remoteView.startConnectionWithRMI();
+			if(new Random().nextBoolean())
+				remoteView.startConnectionWithRMI();
+			else
+				remoteView.startConnectionWithSocket();
 			return;
 		}
-
 		// Start with CLI and ask if the user wants to use CLI or GUI.
-		boolean isGUI = CLIPrinter.printChooseView();
+		CLIView cliView = new CLIView();
+		boolean isGUI = cliView.askForGUI();
 
 		// Start GUI if requested.
 		RemoteView remoteView;
 		if (isGUI)
 			remoteView = new GUIView();
 		else
-			remoteView = new CLIView();
+			remoteView = cliView;
 
 		// Ask which connection to use and start it.
 		remoteView.askForConnectionAndStartIt();
