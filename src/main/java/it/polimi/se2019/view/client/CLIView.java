@@ -11,7 +11,10 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,11 +38,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askForConnectionAndStartIt() {
-		printLine("[?] Which connection would you like to use?");
-		printLine("1: RMI");
-		printLine("2: Socket");
-		int connection = askInteger(1, 2);
-		if(connection == 1)
+		if (CLIPrinter.printChooseConnection() == 1)
 			startConnectionWithRMI();
 		else
 			startConnectionWithSocket();
@@ -65,9 +64,9 @@ public class CLIView extends RemoteView {
 			this.nickname = nickname;
 			return;
 		}
-		printLine("Enter your nickname.");
-		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
-		this.nickname = nickname;
+		String chosenNickname = CLIPrinter.printChooseNickname();
+		sendMessage(new NicknameMessage(chosenNickname, MessageSubtype.ANSWER));
+		this.nickname = chosenNickname;
 	}
 
 	@Override

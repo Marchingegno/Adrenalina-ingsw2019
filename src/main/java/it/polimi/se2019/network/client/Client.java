@@ -20,23 +20,21 @@ public class Client {
 		// Set English language.
 		Locale.setDefault(Locale.ENGLISH);
 
-		CLIPrinter.printLoginScrean();
-
 		if (Utils.BYPASS) {
 			RemoteView remoteView = new CLIView();
 			remoteView.startConnectionWithRMI();
 			return;
 		}
+
 		// Start with CLI and ask if the user wants to use CLI or GUI.
-		CLIView cliView = new CLIView();
-		boolean isGUI = cliView.askForGUI();
+		boolean isGUI = CLIPrinter.printChooseView();
 
 		// Start GUI if requested.
 		RemoteView remoteView;
 		if (isGUI)
 			remoteView = new GUIView();
 		else
-			remoteView = cliView;
+			remoteView = new CLIView();
 
 		// Ask which connection to use and start it.
 		remoteView.askForConnectionAndStartIt();
