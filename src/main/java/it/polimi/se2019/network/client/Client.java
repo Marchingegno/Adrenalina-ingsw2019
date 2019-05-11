@@ -1,12 +1,10 @@
 package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.client.CLIPrinter;
 import it.polimi.se2019.view.client.CLIView;
 import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -25,7 +23,7 @@ public class Client {
 		// Set English language.
 		Locale.setDefault(Locale.ENGLISH);
 
-		CLIPrinter.printChooseView();
+		printChooseView();
 
 		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
 			RemoteView remoteView = new CLIView();
@@ -36,11 +34,8 @@ public class Client {
 			return;
 		}
 		// Start with CLI and ask if the user wants to use CLI or GUI.
-		printChooseView();
-		ArrayList<String> possibleChoices = new ArrayList<>();
-		possibleChoices.add("1");
-		possibleChoices.add("2");
-		boolean isGUI = waitForChoiceInMenu(possibleChoices).equals("1");
+
+		boolean isGUI = waitForChoiceInMenu("1", "2").equals("1");
 
 		// Start GUI if requested.
 		RemoteView remoteView;

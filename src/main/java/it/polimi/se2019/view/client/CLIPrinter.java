@@ -3,7 +3,6 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,20 +43,24 @@ public class CLIPrinter {
 		print(LOAD);
 	}
 
-	public static String moveCursorUP(int numOfLines) {
-		return "\u001b[" + numOfLines + "A";
+	public static void moveCursorTo(int row, int column) {
+		print(ESC + row + ";" + column + "H");
+	}
+
+	public static void moveCursorUP(int numOfLines) {
+		print(ESC + numOfLines + "A");
 	}
 
 	public static String moveCursorDOWN(int numOfLines) {
 		return "\u001b[" + numOfLines + "B";
 	}
 
-	public static String moveCursorRIGHT(int numOfLines) {
-		return "\u001b[" + numOfLines + "C";
+	public static void moveCursorRIGHT(int numOfLines) {
+		print(ESC + numOfLines + "C");
 	}
 
-	public static String moveCursorLEFT(int numOfLines) {
-		return "\u001b[" + numOfLines + "D";
+	public static void moveCursorLEFT(int numOfLines) {
+		print(ESC + numOfLines + "D");
 	}
 
 	public CLIPrinter(){}
@@ -66,65 +69,65 @@ public class CLIPrinter {
 		cleanConsole();
 		setCursorHome();
 		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗ \n" +
-				"											║                                                                ║ \n" +
-				"											║                                                                ║ \n" +
-				"											║                           [1] GUI                              ║ \n" +
-				"											║                           [2] CLI                              ║ \n" +
-				"											║                              " + saveCursorPosition() + "                                  ║\n " +
-				"											║                                                                ║ \n" +
-				"											║                                                                ║ \n" +
-				"											╚════════════════════════════════════════════════════════════════╝ \n");
-		loadCursorPosition();
+				"											╔════════════════════════════════════════════════════════════════╗\n" +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n" +
+				"											║                           [1] GUI                              ║\n" +
+				"											║                           [2] CLI                              ║\n" +
+				"											║                                                                ║\n " +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n" +
+				"											╚════════════════════════════════════════════════════════════════╝\n");
+		moveCursorUP(3);
 	}
 
 	public static void printChooseConnection() {
 		cleanConsole();
 		setCursorHome();
 		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗ \n" +
-				"											║                                                                ║ \n" +
-				"											║                                                                ║ \n" +
-				"											║                           [1] RMI                              ║ \n" +
-				"											║                           [2] Socket                           ║ \n" +
-				"											║                              " + saveCursorPosition() + "                                  ║\n " +
-				"											║                                                                ║ \n" +
-				"											║                                                                ║ \n" +
-				"											╚════════════════════════════════════════════════════════════════╝ \n");
-		loadCursorPosition();
+				"											╔════════════════════════════════════════════════════════════════╗\n" +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n" +
+				"											║                           [1] RMI                              ║\n" +
+				"											║                           [2] Socket                           ║\n" +
+				"											║                                                                ║\n " +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n" +
+				"											╚════════════════════════════════════════════════════════════════╝\n");
+		moveCursorUP(3);
 	}
 
 	public static void printChooseNickname() {
 
 		setCursorHome();
 		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗ \n" +
-				"											║                                                                ║ \n" +
-				"											║                                                                ║ \n" +
-				"											║                           NICKNAME                             ║ \n" +
-				"											║                                                                ║ \n" +
-				"											║                          " + saveCursorPosition() + "                                      ║\n " +
-				"											║                                                                ║ \n" +
-				"											║                                                                ║ \n" +
-				"											╚════════════════════════════════════════════════════════════════╝ \n");
-		loadCursorPosition();
+				"											╔════════════════════════════════════════════════════════════════╗\n" +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n" +
+				"											║                           NICKNAME                             ║\n" +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n " +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n" +
+				"											╚════════════════════════════════════════════════════════════════╝\n");
+		moveCursorUP(3);
 	}
 
 	public static void printChooseMap() {
 		cleanConsole();
 		setCursorHome();
 		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗ \n" +
-				"											║                                                                ║ \n");
+				"											╔════════════════════════════════════════════════════════════════╗\n" +
+				"											║                                                                ║\n");
 
 		GameConstants.MapType[] maps = GameConstants.MapType.values();
 		for (int i = 0; i < maps.length; i++) {
-			print("											║                   " + Utils.fillWithSpaces("[" + (i + 1) + "] " + maps[i].getMapName(), 45) + "║ \n");
+			print("											║                   " + Utils.fillWithSpaces("[" + (i + 1) + "] " + maps[i].getMapName(), 45) + "║\n");
 		}
-		print("											║                              " + saveCursorPosition() + "                                  ║\n " +
-				"											║                                                                ║ \n" +
-				"											╚════════════════════════════════════════════════════════════════╝ \n");
-		loadCursorPosition();
+		print("											║                                                                ║\n " +
+				"											║                                                                ║\n" +
+				"											╚════════════════════════════════════════════════════════════════╝\n");
+		moveCursorUP(3);
 	}
 
 	public static void printChooseSkulls() {
@@ -136,48 +139,48 @@ public class CLIPrinter {
 				"											║                                                                ║ \n" +
 				"											║                        SKULLS [" + GameConstants.MIN_SKULLS + "-" + GameConstants.MAX_SKULLS + "]                            ║ \n" +
 				"											║                                                                ║ \n" +
-				"											║                              " + saveCursorPosition() + "                                  ║\n " +
+				"											║                                                                ║\n " +
 				"											║                                                                ║ \n" +
 				"											║                                                                ║ \n" +
 				"											╚════════════════════════════════════════════════════════════════╝ \n");
-		loadCursorPosition();
+		moveCursorTo(36, 70);
 	}
 
 	public static void printWaitingRoom(List<String> waitingPlayers) {
 		cleanConsole();
 		setCursorHome();
 		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗ \n" +
-				"											║                                                                ║ \n" +
-				"											║              Waiting for other clients to answer...            ║ \n" +
-				"											║                                                                ║ \n");
+				"											╔════════════════════════════════════════════════════════════════╗\n" +
+				"											║                                                                ║\n" +
+				"											║              Waiting for other clients to answer...            ║\n" +
+				"											║                                                                ║\n");
 		for (int i = 0; i < waitingPlayers.size(); i++) {
 			print("											║                   " + Utils.fillWithSpaces("[" + i + "] " + waitingPlayers.get(i), 45) + "║ \n");
 		}
 		for (int i = waitingPlayers.size(); i <= GameConstants.MAX_PLAYERS; i++) {
-			print("											║                                                                ║ \n");
+			print("											║                                                                ║\n");
 		}
-		print("											║                                                                ║ \n" +
-				"											╚════════════════════════════════════════════════════════════════╝ \n");
+		print("											║                                                                ║\n" +
+				"											╚════════════════════════════════════════════════════════════════╝\n");
 	}
 
 	public static void printWaitingMatchStart(long milliSeconds) {
 		cleanConsole();
 		setCursorHome();
 		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗ \n" +
-				"											║                                                                ║ \n" +
-				"											║                      The match will start in                   ║ \n" +
-				"											║                                                                ║ \n" +
-				"											║                              " + saveCursorPosition() + "                                  ║\n " +
-				"											║                                                                ║ \n" +
-				"											║                                                                ║ \n" +
-				"											╚════════════════════════════════════════════════════════════════╝ \n");
+				"											╔════════════════════════════════════════════════════════════════╗\n" +
+				"											║                                                                ║\n" +
+				"											║                      The match will start in                   ║\n" +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n " +
+				"											║                                                                ║\n" +
+				"											║                                                                ║\n" +
+				"											╚════════════════════════════════════════════════════════════════╝\n");
 
 		for (long i = milliSeconds / 1000; i >= 0; i--) {
-			loadCursorPosition();
-			print(moveCursorLEFT(1000) + "											║                              " + Utils.fillWithSpaces(Long.toString(i), 34) + "║\n");
-
+			moveCursorUP(4);
+			moveCursorLEFT(1000);
+			print("											║                              " + Utils.fillWithSpaces(Long.toString(i), 34) + "║\n");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -187,18 +190,17 @@ public class CLIPrinter {
 		}
 	}
 
-	public static String waitForChoiceInMenu(ArrayList<String> possibleChoices) {
+	public static String waitForChoiceInMenu(List<String> possibleChoices) {
 		scanner.reset();
 		if (possibleChoices == null || possibleChoices.isEmpty())
 			throw new IllegalArgumentException("No options to chose from");
-		String choice = scanner.nextLine();
-		while (!possibleChoices.contains(choice)) {
-			print(moveCursorUP(1) + moveCursorLEFT(10) + "											║                             " + saveCursorPosition() + "                                   ║");
-			loadCursorPosition();
+		String choice;
+		do {
+			moveCursorUP(1);
+			print("											║                                                                ║");
+			moveCursorLEFT(34);
 			choice = scanner.nextLine();
-		}
-		cleanConsole();
-		setCursorHome();
+		} while (!possibleChoices.contains(choice));
 		return choice;
 	}
 
@@ -206,14 +208,13 @@ public class CLIPrinter {
 		scanner.reset();
 		if (possibleChoices == null || possibleChoices.length == 0)
 			throw new IllegalArgumentException("No options to chose from");
-		String choice = scanner.nextLine();
-		while (!Utils.contains(possibleChoices, choice)) {
-			print(moveCursorUP(1) + moveCursorLEFT(10) + "											║                             " + saveCursorPosition() + "                                   ║");
-			loadCursorPosition();
+		String choice;
+		do {
+			moveCursorUP(1);
+			print("											║                                                                ║");
+			moveCursorLEFT(34);
 			choice = scanner.nextLine();
-		}
-		cleanConsole();
-		setCursorHome();
+		} while (!Utils.contains(possibleChoices, choice));
 		return choice;
 	}
 
