@@ -130,6 +130,7 @@ public class CLIView extends RemoteView {
 		Utils.logInfo("Game ready to start.");
 		Utils.logInfo("Press Enter to start.");
 		scanner.nextLine();
+		displayGame();
 	}
 
 	@Override
@@ -206,6 +207,7 @@ public class CLIView extends RemoteView {
 		if (gameMapRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setGameMapRep(gameMapRepToUpdate);
+		displayGame();
 	}
 
 	@Override
@@ -213,6 +215,7 @@ public class CLIView extends RemoteView {
 		if (gameBoardRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
+		displayGame();
 	}
 
 	@Override
@@ -220,6 +223,7 @@ public class CLIView extends RemoteView {
 		if (playerRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setPlayersRep(playerRepToUpdate);
+		displayGame();
 	}
 
 	@Override
