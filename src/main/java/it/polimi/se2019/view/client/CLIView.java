@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static it.polimi.se2019.view.client.CLIPrinter.*;
-import static it.polimi.se2019.view.client.CLIView.print;
 
 /**
  * @author MarcerAndrea
@@ -63,12 +62,11 @@ public class CLIView extends RemoteView {
 		if(Utils.DEBUG_BYPASS_CONFIGURATION){
 			String randomNickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
 			sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
-			this.nickname = randomNickname;
 			return;
 		}
 		printChooseNickname();
-		nickname = scanner.nextLine();
-		sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
+		String chosenNickname = scanner.nextLine();
+		sendMessage(new NicknameMessage(chosenNickname, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -86,6 +84,7 @@ public class CLIView extends RemoteView {
 	@Override
 	public void nicknameIsOk(String nickname) {
 		Utils.logInfo("Nickname set to: \"" + nickname + "\".");
+		this.nickname = nickname;
 	}
 
 	@Override
@@ -326,22 +325,22 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		print("\n");
+		CLIView.print("\n");
 
 		displayPlayers();
 
-		print("\n");
+		CLIView.print("\n");
 
 		displayGameBoard();
 
-		print("\n");
+		CLIView.print("\n");
 
 		if (mapToPrint == null)
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
 		updateMapToPrint();
 		displayMap();
 
-		print("\n");
+		CLIView.print("\n");
 
 		displayOwnPlayer(modelRep.getPlayersRep().get(0));
 	}
@@ -459,7 +458,7 @@ class RepPrinter {
 			stringBuilder.append("\t\t\t|");
 			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
 
-			print(stringBuilder.toString());
+			CLIView.print(stringBuilder.toString());
 			stringBuilder = new StringBuilder();
 		}
 	}
@@ -497,15 +496,15 @@ class RepPrinter {
 	private void displayMap() {
 		for (int i = 0; i < mapToPrint.length; i++) {
 			for (int j = 0; j < mapToPrint[0].length; j++) {
-				print(mapToPrint[i][j]);
+				CLIView.print(mapToPrint[i][j]);
 			}
-			print("\n");
+			CLIView."\n");
 		}
 	}
 
 	private void displayOwnPlayer(PlayerRep playerRep) {
-		print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
-		print(
+		CLIView.print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
+		CLIView.print(
 				"Move 1 >>>\t\t" +
 						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 1\t\t" +
@@ -518,7 +517,7 @@ class RepPrinter {
 						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
-		print(
+		CLIView.print(
 				"Move 2 >>O\t\t" +
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
@@ -531,7 +530,7 @@ class RepPrinter {
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
-		print(
+		CLIView.print(
 				"Move 3 >>S\t\t" +
 						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +
