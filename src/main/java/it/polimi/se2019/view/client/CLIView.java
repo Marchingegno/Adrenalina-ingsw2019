@@ -229,8 +229,9 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askSpawn() {
 		try {
-
-			List<PowerupCardRep> powerupCards =modelRep.getClientPlayerRep().getPowerupCards();
+			//TODO remove sleep
+			Thread.sleep(4000);
+			List<PowerupCardRep> powerupCards = modelRep.getClientPlayerRep().getPowerupCards();
 			printLine("Select the Powerup card to use.");
 			for (int i = 0; i < powerupCards.size(); i++)
 				printLine(i + ") " + powerupCards.get(i).toString());
@@ -241,6 +242,8 @@ public class CLIView extends RemoteView {
 
 		} catch (HiddenException e) {
 			Utils.logError("The client rep shouldn't be hidden.", e);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
