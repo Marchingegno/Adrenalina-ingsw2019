@@ -13,6 +13,8 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
+import java.util.List;
+
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
 
 	private ConnectionToServerInterface connectionToServer;
@@ -36,8 +38,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case WAITING_PLAYERS:
 				if(message.getMessageSubtype() == MessageSubtype.INFO) {
-					StringMessage stringMessage = (StringMessage) message;
-					displayWaitingPlayers(stringMessage.getContent());
+					WaitingPlayersMessage waitingPlayersMessage = (WaitingPlayersMessage) message;
+					displayWaitingPlayers(waitingPlayersMessage.getWaitingPlayersNames());
 				}
 				break;
 			case TIMER_FOR_START:
@@ -59,20 +61,20 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case GAME_MAP_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					Utils.logInfo("RemoteView => processMessage(): Updating Game Map rep");
 					updateGameMapRep((GameMapRep) message);
-					Utils.logInfo("Updated Game Map rep");
 				}
 				break;
 			case GAME_BOARD_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					Utils.logInfo("RemoteView => processMessage(): Updating Game Board rep");
 					updateGameBoardRep((GameBoardRep) message);
-					Utils.logInfo("Updated Game Board rep");
 				}
 				break;
 			case PLAYER_REP:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
+					Utils.logInfo("RemoteView => processMessage(): Updating " + ((PlayerRep) message).getPlayerName() + " rep");
 					updatePlayerRep((PlayerRep) message);
-					Utils.logInfo("Updated " + ((PlayerRep) message).getPlayerName() + " rep");
 				}
 				break;
 			case EXAMPLE_ACTION: // TODO remove
@@ -177,7 +179,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	public abstract void nicknameIsOk(String nickname);
 
-	public abstract void displayWaitingPlayers(String waitingPlayers);
+	public abstract void displayWaitingPlayers(List<String> waitingPlayers);
 
 	public abstract void displayTimerStarted(long delayInMs);
 

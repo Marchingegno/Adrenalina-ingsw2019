@@ -132,13 +132,18 @@ public class CLIViewTest {
 
 		CLIView cliView= new CLIView();
 
-		cliView.updateGameBoardRep(new GameBoardRep(model.getGameBoard()));
-		cliView.updateGameMapRep(new GameMapRep(gameMap));
-		cliView.updatePlayerRep(new PlayerRep(players.get(0)));
-		cliView.updatePlayerRep(new PlayerRep(players.get(1)));
-		cliView.updatePlayerRep(new PlayerRep(players.get(2)));
-		cliView.updatePlayerRep(new PlayerRep(players.get(3)));
-		cliView.updatePlayerRep(new PlayerRep(players.get(4)));
+		try {
+			cliView.updateGameBoardRep(new GameBoardRep(model.getGameBoard()));
+			cliView.updateGameMapRep(new GameMapRep(gameMap));
+			cliView.updatePlayerRep(new PlayerRep(players.get(0)));
+			cliView.updatePlayerRep(new PlayerRep(players.get(1)));
+			cliView.updatePlayerRep(new PlayerRep(players.get(2)));
+			cliView.updatePlayerRep(new PlayerRep(players.get(3)));
+			cliView.updatePlayerRep(new PlayerRep(players.get(4)));
+		} catch (IllegalStateException e) {
+			// Since the a connection hasn't been set it's normal to have an exception here.
+			// Note: The reps are still updated.
+		}
 
 		cliView.displayGame();
 

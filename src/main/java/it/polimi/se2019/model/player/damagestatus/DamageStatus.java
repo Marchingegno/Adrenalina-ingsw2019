@@ -3,7 +3,6 @@ package it.polimi.se2019.model.player.damagestatus;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.MacroAction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

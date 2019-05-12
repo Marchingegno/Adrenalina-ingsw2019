@@ -1,14 +1,16 @@
 package it.polimi.se2019.model.cards.ammo;
 
+import com.google.gson.*;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.utils.Utils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class implements the ammo deck
@@ -18,38 +20,28 @@ import java.util.ArrayList;
 public class AmmoDeck extends Deck<Card> {
 
 	/**
-	 * Initialize the ammo deck according to the file "AmmoDeck.txt"
-	 * <p>
-	 * FILE FORMAT:
-	 * HAS_POWERUP, NUM_OF_YELLOW_AMMO, NUM_OF_RED_AMMO, NUM_OF_BLUE_AMMO
+	 * Initialize the ammo deck according to the file "AmmoDeck.json"
 	 */
 	protected void initializeDeck() {
 
-		String line;
-		String separator = ",";
-		ArrayList<AmmoType> ammoToAdd = new ArrayList<>();
+		try (Reader reader = new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("decks/AmmoDeck.json").getFile()))) {
+			JsonParser parser = new JsonParser();
+			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 
-		try (BufferedReader bufReader = new BufferedReader(new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("decks/AmmoDeck.txt").getFile())))) {
+			JsonArray ammoCards = rootObject.getAsJsonArray("ammocards");
+			for (JsonElement entry : ammoCards) {
+				JsonObject cardToAdd = entry.getAsJsonObject();
 
-			while ((line = bufReader.readLine()) != null) {
+				List<AmmoType> ammo = new ArrayList<>();
 
-				String[] elements = line.split(separator);
-				ammoToAdd.clear();
-				for (int i = 0; i < Integer.parseInt(elements[1]); i++) {
-					ammoToAdd.add(AmmoType.YELLOW_AMMO);
+				for (JsonElement ammoToAdd : cardToAdd.getAsJsonArray("ammo")) {
+					ammo.add(AmmoType.valueOf(ammoToAdd.getAsString()));
 				}
-				for (int i = 0; i < Integer.parseInt(elements[2]); i++) {
-					ammoToAdd.add(AmmoType.RED_AMMO);
-				}
-				for (int i = 0; i < Integer.parseInt(elements[3]); i++) {
-					ammoToAdd.add(AmmoType.BLUE_AMMO);
-				}
-				Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammoToAdd + (Boolean.parseBoolean(elements[0]) ? " Powerup" : ""));
-				addCard(new AmmoCard(ammoToAdd, Boolean.parseBoolean(elements[0])));
+				Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammo + (cardToAdd.get("powerup").getAsBoolean() ? " Powerup" : ""));
+				addCard(new AmmoCard(ammo, cardToAdd.get("powerup").getAsBoolean(), cardToAdd.get("name").getAsString()));
 			}
-		} catch (IOException e) {
-			Utils.logError("Error in initializeDeck()", e);
+		} catch (IOException | JsonParseException e) {
+			Utils.logError("Cannot parse ammo cards", e);
 		}
 	}
-
 }

@@ -8,6 +8,7 @@ import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Lobby {
 
@@ -129,7 +130,7 @@ public class Lobby {
 			// Reached the maximum number of players. Cancel the timer and start the match.
 			startMatchInWaitingRoom();
 		} else if(waitingRoom.size() == GameConstants.MIN_PLAYERS) {
-			if(Utils.BYPASS){
+			if(Utils.DEBUG_BYPASS_CONFIGURATION){
 				startMatchInWaitingRoom();
 				return;
 			}
@@ -170,16 +171,13 @@ public class Lobby {
 
 	private void sendWaitingPlayersMessages() {
 		if(!waitingRoom.isEmpty()) {
-			// Create a String of all the nicknames of the players.
-			StringBuilder stringBuilder = new StringBuilder();
-			for (AbstractConnectionToClient client : waitingRoom) {
-				if(stringBuilder.length() != 0)
-					stringBuilder.append(", ");
-				stringBuilder.append(client.getNickname());
-			}
+			// Create a list of player names.
+			List<String> playersNames = waitingRoom.stream()
+					.map(AbstractConnectionToClient::getNickname)
+					.collect(Collectors.toList());
 
 			// Send the message with all nicknames.
-			waitingRoom.forEach(client -> client.sendMessage(new WaitingPlayersMessage(stringBuilder.toString())));
+			waitingRoom.forEach(client -> client.sendMessage(new WaitingPlayersMessage(playersNames)));
 		}
 	}
 

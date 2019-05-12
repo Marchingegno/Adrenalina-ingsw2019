@@ -81,7 +81,7 @@ public class TurnController{
 					virtualView.askWeapon(intString);
 				}
 				break;
-			default: throw new RuntimeException("Received wrong type of message: "+ event.toString());
+			default: throw new IllegalArgumentException("Received wrong type of message: "+ event.toString());
 		}
 
 	}

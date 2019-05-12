@@ -5,6 +5,7 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A sharable version of the game map.
@@ -47,7 +48,7 @@ public class GameMapRep extends Representation {
 		return mapRep;
 	}
 
-	public HashMap<String, Coordinates> getPlayersCoordinates() {
+	public Map<String, Coordinates> getPlayersCoordinates() {
 		return playersPositions;
 	}
 

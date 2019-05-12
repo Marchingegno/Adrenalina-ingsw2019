@@ -20,6 +20,7 @@ public class GameBoardRep extends Representation {
 	private List<Color.CharacterColorType> doubleKills;
 	private List<KillShotRep> killShoots;
 	private String currentPlayer;
+	private int numberOfPlayers;
 
 
 	public GameBoardRep(GameBoard gameBoard) {
@@ -32,6 +33,7 @@ public class GameBoardRep extends Representation {
 		for (KillShot killShot : gameBoard.getKillShots())
 			killShoots.add(new KillShotRep(killShot.getPlayer(), killShot.isOverkill()));
 		this.currentPlayer = gameBoard.getCurrentPlayer().getPlayerName();
+		this.numberOfPlayers = gameBoard.getPlayers().size();
 	}
 
 	/**
@@ -67,6 +69,10 @@ public class GameBoardRep extends Representation {
 	 */
 	public String getCurrentPlayer() {
 		return currentPlayer;
+	}
+
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
 	}
 }
 

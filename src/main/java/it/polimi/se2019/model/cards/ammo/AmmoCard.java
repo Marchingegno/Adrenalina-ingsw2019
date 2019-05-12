@@ -12,13 +12,16 @@ import java.util.List;
  */
 public class AmmoCard extends Card {
 
+	private String name;
 	private ArrayList<AmmoType> ammo;
 	private boolean hasPowerup;
 
 
-	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup) {
+	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup, String name) {
 
 		super(createDescription(ammo, hasPowerup));
+
+		this.name = name;
 
 		this.ammo = new ArrayList<>(ammo);
 		this.hasPowerup = hasPowerup;

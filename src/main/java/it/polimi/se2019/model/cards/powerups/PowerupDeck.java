@@ -1,14 +1,14 @@
 package it.polimi.se2019.model.cards.powerups;
 
+import com.google.gson.*;
 import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.utils.Utils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
+import java.io.Reader;
 
 /**
  * This class implements the powerup deck
@@ -18,106 +18,46 @@ import java.text.ParseException;
 public class PowerupDeck extends Deck<PowerupCard> {
 
 	/**
-	 * Initialize the Powerup deck according to the file "PowerupDeck.txt".
-	 * <p>
-	 * FILE FORMAT:
-	 * POWERUP_CARD_NAME, NUM_OF_YELLOW_AMMOS, NUM_OF_RED_AMMOS, NUM_OF_BLUE_AMMOS
+	 * Initialize the Powerup deck according to the file "PowerupDeck.json".
 	 */
 	protected void initializeDeck() {
 
-		String line;
-		String separator = ",";
-		int numOfLineRead = 0;
+		try (Reader reader = new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("decks/PowerupDeck.json").getFile()))) {
+			JsonParser parser = new JsonParser();
+			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 
-		try (BufferedReader bufReader = new BufferedReader(new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("decks/PowerupDeck.txt").getFile())))) {
+			JsonArray powerupsToAdd = rootObject.getAsJsonArray("powerups");
+			for (JsonElement entry : powerupsToAdd) {
+				JsonObject powerupToAdd = entry.getAsJsonObject();
 
-			while ((line = bufReader.readLine()) != null) {
-
-				numOfLineRead++;
-				String[] elements = line.split(separator);
-
-				switch (elements[0]) {
-					case "TELEPORTER":
-						addTeleporter(elements);
+				switch (powerupToAdd.get("name").getAsString()) {
+					case "Teleporter":
+						addCard(new Teleporter(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Teleporter");
 						break;
 
-					case "NEWTON":
-						addNewton(elements);
+					case "Newton":
+						addCard(new Newton(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Newton");
 						break;
 
-					case "TARGETING_SCOPE":
-						addTargetingScope(elements);
+					case "Targetting scope":
+						addCard(new TargetingScope(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Targetting scope");
 						break;
 
-					case "TACKBACK_GRENADE":
-						addTagbackGrenade(elements);
+					case "Tagback grenade":
+						addCard(new TagbackGrenade(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Tagback grenade");
 						break;
 
 					default:
-						throw new ParseException("Error parsing powerups", numOfLineRead);
+						throw new JsonParseException("No such powerup");
 				}
 			}
-		} catch (IOException e) {
-			Utils.logError("Error in initializeDeck()", e);
-		} catch (ParseException e) {
-			Utils.logError("Error while parsing PowerupDeck at line " + e.getErrorOffset(), e);
-		}
-	}
-
-	private void addTeleporter(String[] numOfPowerupsForEachColor) {
-
-		//Iterates om every ammo type
-		for (int i = 1; i < numOfPowerupsForEachColor.length; i++) {
-
-			//add the correct number of powerups with the i-th color in the enum
-			for (int j = 0; j < Integer.parseInt(numOfPowerupsForEachColor[i]); j++) {
-				addCard(new Teleporter(AmmoType.values()[i - 1]));
-				Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + j + "of" + numOfPowerupsForEachColor[i] + " " + AmmoType.values()[i - 1] + " Teleporter");
-			}
+		} catch (IOException | JsonParseException e) {
+			Utils.logError("Cannot parse powerup cards", e);
 		}
 
 	}
-
-	private void addNewton(String[] numOfPowerupsForEachColor) {
-
-		//Iterates om every ammo type
-		for (int i = 1; i < numOfPowerupsForEachColor.length; i++) {
-
-			//add the correct number of powerups with the i-th color in the enum
-			for (int j = 0; j < Integer.parseInt(numOfPowerupsForEachColor[i]); j++) {
-				addCard(new Newton(AmmoType.values()[i - 1]));
-				Utils.logInfo("PowerupDeck -> addNewton(): Added " + numOfPowerupsForEachColor[i] + " " + AmmoType.values()[i - 1] + " Newton");
-			}
-		}
-
-	}
-
-	private void addTargetingScope(String[] numOfPowerupsForEachColor) {
-
-		//Iterates om every ammo type
-		for (int i = 1; i < numOfPowerupsForEachColor.length; i++) {
-
-			//add the correct number of powerups with the i-th color in the enum
-			for (int j = 0; j < Integer.parseInt(numOfPowerupsForEachColor[i]); j++) {
-				addCard(new TargetingScope(AmmoType.values()[i - 1]));
-				Utils.logInfo("PowerupDeck -> addTargetingScope(): Added " + numOfPowerupsForEachColor[i] + " " + AmmoType.values()[i - 1] + " TargetingScope");
-			}
-		}
-
-	}
-
-	private void addTagbackGrenade(String[] numOfPowerupsForEachColor) {
-
-		//Iterates om every ammo type
-		for (int i = 1; i < numOfPowerupsForEachColor.length; i++) {
-
-			//add the correct number of powerups with the i-th color in the enum
-			for (int j = 0; j < Integer.parseInt(numOfPowerupsForEachColor[i]); j++) {
-				addCard(new TagbackGrenade(AmmoType.values()[i - 1]));
-				Utils.logInfo("PowerupDeck -> addTagbackGrenade(): Added " + numOfPowerupsForEachColor[i] + " " + AmmoType.values()[i - 1] + " TagbackGrenade");
-			}
-		}
-
-	}
-
 }

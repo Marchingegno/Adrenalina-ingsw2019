@@ -15,6 +15,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2019.view.client.CLIPrinter.*;
+
 /**
  * @author MarcerAndrea
  * @author Desno365
@@ -23,24 +25,23 @@ import java.util.logging.Logger;
 public class CLIView extends RemoteView {
 
 	private String nickname;
-	private ModelRep modelRep;
-	private Scanner scanner;
-	private RepPrinter repPrinter;
-	private Logger logger = Logger.getLogger(CLIView.class.getName());
+	private ModelRep modelRep = new ModelRep();
+	private Scanner scanner = new Scanner(System.in);
+	private RepPrinter repPrinter = new RepPrinter(modelRep);
+	private boolean clientReadyToPlay = false;
 
-	public CLIView() {
-		this.modelRep = new ModelRep();
-		this.scanner = new Scanner(System.in);
-		this.repPrinter = new RepPrinter(this.modelRep);
+	public static void print(String string) {
+		System.out.print(string);
+	}
+
+	public static void printLine(String string) {
+		System.out.println(string);
 	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
-		printLine("[?] Which connection would you like to use?");
-		printLine("1: RMI");
-		printLine("2: Socket");
-		int connection = askInteger(1, 2);
-		if(connection == 1)
+		printChooseConnection();
+		if (Integer.parseInt(waitForChoiceInMenu("1", "2")) == 1)
 			startConnectionWithRMI();
 		else
 			startConnectionWithSocket();
@@ -48,27 +49,26 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void failedConnectionToServer() {
-		printLine("Failed to connect to the server. Try again later.");
+		print("Failed to connect to the server. Try again later.");
 		Client.terminateClient();
+	}
+
+	@Override
+	public void askNickname() {
+		if(Utils.DEBUG_BYPASS_CONFIGURATION){
+			String randomNickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
+			sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
+			return;
+		}
+		printChooseNickname();
+		String chosenNickname = scanner.nextLine();
+		sendMessage(new NicknameMessage(chosenNickname, MessageSubtype.ANSWER));
 	}
 
 	@Override
 	public void lostConnectionToServer() {
 		printLine("Lost connection with the server. Please restart the game.");
 		Client.terminateClient();
-	}
-
-	@Override
-	public void askNickname() {
-		if(Utils.BYPASS){
-			String nickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
-			sendMessage(new NicknameMessage(nickname, MessageSubtype.ANSWER));
-			this.nickname = nickname;
-			return;
-		}
-		printLine("Enter your nickname.");
-		sendMessage(new NicknameMessage(scanner.nextLine(), MessageSubtype.ANSWER));
-		this.nickname = nickname;
 	}
 
 	@Override
@@ -79,19 +79,21 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void nicknameIsOk(String nickname) {
-		printLine("Nickname set to: \"" + nickname + "\".");
+		Utils.logInfo("Nickname set to: \"" + nickname + "\".");
+		this.nickname = nickname;
 	}
 
 	@Override
-	public void displayWaitingPlayers(String waitingPlayers) {
-		printLine("Players in the waiting room: " + waitingPlayers + ".");
+	public void displayWaitingPlayers(List<String> waitingPlayers) {
+		printWaitingRoom(waitingPlayers);
 	}
 
 	@Override
 	public void displayTimerStarted(long delayInMs) {
 		DecimalFormat decimalFormat = new DecimalFormat();
 		decimalFormat.setMaximumFractionDigits(1);
-		printLine("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
+		printWaitingMatchStart(delayInMs);
+		//printLine("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
 	}
 
 	@Override
@@ -101,17 +103,19 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askMapAndSkullsToUse() {
-		if(Utils.BYPASS){
+		if(Utils.DEBUG_BYPASS_CONFIGURATION){
 			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 			gameConfigMessage.setMapIndex(0);
 			gameConfigMessage.setSkulls(5);
 			sendMessage(gameConfigMessage);
 			return;
 		}
-		printLine("\n\nMatch ready to start. Select your preferred configuration.");
+		Utils.logInfo("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
-		printLine("Waiting for other clients to answer...\n\n");
+		ArrayList<String> players = new ArrayList<>();
+		players.add(nickname);
+		printWaitingRoom(players);
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 		gameConfigMessage.setMapIndex(mapIndex);
 		gameConfigMessage.setSkulls(skulls);
@@ -120,9 +124,12 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
-		printLine("Average of voted skulls: " + skulls + ".");
-		printLine("Most voted map: " + mapType.getDescription());
-		printLine("Match started!");
+		Utils.logInfo("CLIView => showMapAndSkullsInUse(): Average of voted skulls: " + skulls + ", most voted map " + mapType.toString() + ".");
+	}
+
+	@Override
+	public void displayPossibleActions(List<MacroAction> possibleActions) {
+
 	}
 
 	// TODO remove
@@ -133,11 +140,6 @@ public class CLIView extends RemoteView {
 		int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new IntMessage(answer, MessageType.EXAMPLE_ACTION, MessageSubtype.ANSWER));
-	}
-
-	@Override
-	public void displayPossibleActions(List<MacroAction> possibleActions) {
-
 	}
 
 	@Override
@@ -189,14 +191,6 @@ public class CLIView extends RemoteView {
 		sendMessage(new DefaultActionMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
 	}
 
-	@Override
-	public void askSpawn() {
-		printLine("Select the Powerup card to use.");
-		printLine("Select a number between 0 and 3.");
-		int answer = askInteger(0, 3);
-		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
-	}
 
 	@Override
 	public void askChoice(int number, String stringToAsk) {
@@ -215,6 +209,8 @@ public class CLIView extends RemoteView {
 		if (gameMapRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setGameMapRep(gameMapRepToUpdate);
+		displayGame();
+		sendReadyMessageIfReady();
 	}
 
 	@Override
@@ -222,6 +218,8 @@ public class CLIView extends RemoteView {
 		if (gameBoardRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
+		displayGame();
+		sendReadyMessageIfReady();
 	}
 
 	@Override
@@ -229,35 +227,57 @@ public class CLIView extends RemoteView {
 		if (playerRepToUpdate == null)
 			throw new NullPointerException();
 		modelRep.setPlayersRep(playerRepToUpdate);
+		displayGame();
+		sendReadyMessageIfReady();
 	}
 
-	public boolean askForGUI() {
-		printLine("[?] Would you like to use the Graphical User Interface? [y/n]");
-		return askBoolean();
+	@Override
+	public void askSpawn() {
+		printLine("Select the Powerup card to use.");
+		printLine("Select a number between 0 and 3.");
+		int answer = askInteger(0, 3);
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
 	}
 
 	private int askMapToUse() {
-		printLine("Select the map you would like to use, available maps:");
-		for (GameConstants.MapType map : GameConstants.MapType.values()) {
-			printLine(map.ordinal() + ": " + map.getDescription());
+		printChooseMap();
+		ArrayList<String> possibleChoices = new ArrayList<>();
+		for (int i = 1; i <= GameConstants.MapType.values().length; i++) {
+			possibleChoices.add(Integer.toString(i));
 		}
-		return askInteger(0, GameConstants.MapType.values().length - 1);
-	}
-
-	public static void printLine(String string) {
-		System.out.println(string);
+		return Integer.parseInt(waitForChoiceInMenu(possibleChoices));
+		//return askInteger(0, GameConstants.MapType.values().length - 1);
 	}
 
 	private int askSkullsForGame() {
-		printLine("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
-		return askInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
+		printChooseSkulls();
+		ArrayList<String> possibleChoices = new ArrayList<>();
+		for (int i = GameConstants.MIN_SKULLS; i <= GameConstants.MAX_SKULLS; i++)
+			possibleChoices.add(Integer.toString(i));
+		return Integer.parseInt(waitForChoiceInMenu(possibleChoices));
+		//printLine("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
+		//return askInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
 	}
 
 	/**
 	 * Displays the main game board
 	 */
 	public void displayGame() {
-		repPrinter.displayGame();
+		if(modelRep.isModelRepReadyToBeDisplayed())
+			repPrinter.displayGame();
+		else
+			Utils.logInfo("CLIView => displayGame(): Rep not ready to be displayed.");
+	}
+
+	private void sendReadyMessageIfReady() {
+		if(clientReadyToPlay) // If client is already ready no need to send the message.
+			return;
+
+		if(modelRep.isModelRepReadyToBeDisplayed()) { // If the client is now ready.
+			clientReadyToPlay = true; // Set it as ready.
+			sendMessage(new Message(MessageType.CLIENT_READY, MessageSubtype.OK));
+		}
 	}
 
 	/**
@@ -321,22 +341,22 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		CLIView.printLine("\n");
+		CLIView.print("\n");
 
 		displayPlayers();
 
-		CLIView.printLine("\n");
+		CLIView.print("\n");
 
 		displayGameBoard();
 
-		CLIView.printLine("\n");
+		CLIView.print("\n");
 
 		if (mapToPrint == null)
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
 		updateMapToPrint();
 		displayMap();
 
-		CLIView.printLine("\n");
+		CLIView.print("\n");
 
 		displayOwnPlayer(modelRep.getPlayersRep().get(0));
 	}
@@ -347,7 +367,7 @@ class RepPrinter {
 	private void updateMapToPrint() {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		SquareRep[][] mapRep = gameMapRep.getMapRep();
-		ArrayList<PlayerRep> playersRep = modelRep.getPlayersRep();
+		List<PlayerRep> playersRep = modelRep.getPlayersRep();
 
 		for (int i = 0; i < mapRep.length; i++) {
 			for (int j = 0; j < mapRep[0].length; j++) {
@@ -360,7 +380,7 @@ class RepPrinter {
 		for (PlayerRep playerRep : playersRep) {
 			try {
 				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName()));
-				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("⧫", playerRep.getPlayerColor());
+				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("▲", playerRep.getPlayerColor());
 			} catch (NullPointerException e) {
 				logger.log(Level.SEVERE, "{0} has no position", playerRep.getPlayerName());
 			}
@@ -414,7 +434,7 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Skulls:\t\t");
 		for (int i = 0; i < GameConstants.MAX_SKULLS; i++) {
-			stringBuilder.append(Color.getColoredString("◼", i < (GameConstants.MAX_SKULLS - skulls) ? Color.CharacterColorType.DEFAULT : Color.CharacterColorType.RED));
+			stringBuilder.append(Color.getColoredString("●", i < (GameConstants.MAX_SKULLS - skulls) ? Color.CharacterColorType.DEFAULT : Color.CharacterColorType.RED));
 		}
 		return stringBuilder.toString();
 	}
@@ -424,7 +444,7 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Killshot:\t|");
 		for (KillShotRep killShotRep : killShotTrackRep) {
-			stringBuilder.append(Color.getColoredString(killShotRep.isOverkill() ? "◼◼" : "◼", killShotRep.getPlayerColor()));
+			stringBuilder.append(Color.getColoredString(killShotRep.isOverkill() ? "●●" : "●", killShotRep.getPlayerColor()));
 			stringBuilder.append("|");
 		}
 		return stringBuilder.toString();
@@ -434,7 +454,7 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("DoubleKill:\t|");
 		for (Color.CharacterColorType doubleKiller : modelRep.getGameBoardRep().getDoubleKills()) {
-			stringBuilder.append(Color.getColoredString("◼", doubleKiller));
+			stringBuilder.append(Color.getColoredString("●", doubleKiller));
 			stringBuilder.append("|");
 		}
 		return stringBuilder.toString();
@@ -443,7 +463,7 @@ class RepPrinter {
 	private void displayPlayers() {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
-			stringBuilder.append(Color.getColoredString("◼ ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.BLACK : Color.CharacterColorType.DEFAULT));
+			stringBuilder.append(Color.getColoredString("● ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.BLACK : Color.CharacterColorType.DEFAULT));
 			stringBuilder.append(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
 			for (int i = 0; i < GameConstants.MAX_NICKNAME_LENGHT - playerRep.getPlayerName().length(); i++) {
 				stringBuilder.append(" ");
@@ -454,7 +474,7 @@ class RepPrinter {
 			stringBuilder.append("\t\t\t|");
 			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
 
-			CLIView.printLine(stringBuilder.toString());
+			CLIView.print(stringBuilder.toString());
 			stringBuilder = new StringBuilder();
 		}
 	}
@@ -465,10 +485,10 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		strings.add("|");
 		for (Color.CharacterColorType damage : damageBoard) {
-			strings.add(Color.getColoredString("◼", damage));
+			strings.add(Color.getColoredString("●", damage));
 		}
 		for (int i = damageBoard.size(); i < 11; i++) {
-			strings.add("◼");
+			strings.add("●");
 		}
 		strings.add("|");
 
@@ -483,7 +503,7 @@ class RepPrinter {
 	private String getMarksBoard(List<Color.CharacterColorType> damageBoard) {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (Color.CharacterColorType damage : damageBoard) {
-			stringBuilder.append(Color.getColoredString("◼", damage));
+			stringBuilder.append(Color.getColoredString("●", damage));
 		}
 		stringBuilder.append("|");
 		return stringBuilder.toString();
@@ -492,53 +512,53 @@ class RepPrinter {
 	private void displayMap() {
 		for (int i = 0; i < mapToPrint.length; i++) {
 			for (int j = 0; j < mapToPrint[0].length; j++) {
-				System.out.print(mapToPrint[i][j]);
+				CLIView.print(mapToPrint[i][j]);
 			}
-			System.out.print("\n");
+			CLIView.print("\n");
 		}
 	}
 
 	private void displayOwnPlayer(PlayerRep playerRep) {
-		CLIView.printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
-		CLIView.printLine(
+		CLIView.print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
+		CLIView.print(
 				"Move 1 >>>\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 1\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.WHITE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.WHITE, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 1\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
-		CLIView.printLine(
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
+		CLIView.print(
 				"Move 2 >>O\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 2\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
-		CLIView.printLine(
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
+		CLIView.print(
 				"Move 3 >>S\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 3\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
-						Color.getColoredString("◼", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("◼", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
+						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
 	}
 
 	private String[][] initializeMapToPrint(SquareRep[][] map) {

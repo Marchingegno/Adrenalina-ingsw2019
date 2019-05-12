@@ -4,7 +4,7 @@ import it.polimi.se2019.utils.Color;
 
 public class VoidSquareRep extends SquareRep {
 
-	protected String[] elementsToPrint;
+	private String[] elementsToPrint;
 	private int roomID;
 	private Color.CharacterColorType squareColor;
 	private Coordinates coordinates;

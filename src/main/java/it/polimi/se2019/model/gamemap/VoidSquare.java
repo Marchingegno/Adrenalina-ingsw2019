@@ -12,17 +12,17 @@ public class VoidSquare extends Square {
 
 	@Override
 	public Card grabCard(int index) {
-		return null;
+		throw new UnsupportedOperationException("Can't call grabCard() in a VoidSquare");
 	}
 
 	@Override
 	public void addCard(Card cardToAdd) {
-
+		throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
 	}
 
 	@Override
 	public void refillCards() {
-
+		Utils.logInfo("No refill needed in a VoidSquare.");
 	}
 
 	/**

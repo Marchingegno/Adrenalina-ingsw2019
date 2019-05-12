@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
 public class HighDamage extends DamageStatus {
-	public final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
+	public static final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
 
 	public HighDamage(){
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();

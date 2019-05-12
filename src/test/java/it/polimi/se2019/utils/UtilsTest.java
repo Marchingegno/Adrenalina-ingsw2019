@@ -20,4 +20,15 @@ public class UtilsTest {
 	public void getColoredString() {
 		assertEquals((char)27 + "[30;40mTEST" + (char)27 + "[39;49m", Color.getColoredString("TEST", Color.CharacterColorType.BLACK, Color.BackgroundColorType.BLACK));
 	}
+
+	@Test
+	public void fillWithSpaces_test() {
+		System.out.println(Utils.fillWithSpaces("p", 45));
+		System.out.println(Utils.fillWithSpaces("pp", 45));
+		System.out.println(Utils.fillWithSpaces("ppp", 45));
+		System.out.println(Utils.fillWithSpaces("pppp", 45));
+		System.out.println(Utils.fillWithSpaces("ppppp", 45));
+		System.out.println(Utils.fillWithSpacesColored("pppppp", 45, Color.CharacterColorType.RED));
+		System.out.println(Utils.fillWithSpaces("pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", 45));
+	}
 }

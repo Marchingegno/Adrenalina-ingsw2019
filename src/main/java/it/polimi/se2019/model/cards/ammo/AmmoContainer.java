@@ -48,7 +48,7 @@ public class AmmoContainer {
 
 		if (ammos[ammoToAdd.ordinal()] > GameConstants.MAX_AMMO_PER_AMMO_TYPE)
 			ammos[ammoToAdd.ordinal()] = GameConstants.MAX_AMMO_PER_AMMO_TYPE;
-		Utils.logInfo("AmmoContainer -> addAmmo(): Added" + numOfAmmoToAdd + " " + ammoToAdd.toString());
+		Utils.logInfo("AmmoContainer -> addAmmo(): Added " + numOfAmmoToAdd + " " + ammoToAdd.toString());
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class AmmoContainer {
 
 		ammos[ammoToRemove.ordinal()] -= numOfAmmoToRemove;
 
-		Utils.logInfo("AmmoContainer -> removeAmmo(): Removed" + numOfAmmoToRemove + " " + ammoToRemove.toString());
+		Utils.logInfo("AmmoContainer -> removeAmmo(): Removed " + numOfAmmoToRemove + " " + ammoToRemove.toString());
 	}
 
 	/**

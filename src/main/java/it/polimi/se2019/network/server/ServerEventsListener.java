@@ -65,6 +65,8 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(client.isNicknameSet()) {
 			if(message.getMessageType() == MessageType.GAME_CONFIG && message.getMessageSubtype() == MessageSubtype.ANSWER)
 				gameConfigLogic(client, message);
+			else if(message.getMessageType() == MessageType.CLIENT_READY && message.getMessageSubtype() == MessageSubtype.OK)
+				clientReadyLogic(client, message);
 			else
 				forwardMessageToVirtualView(client, message);
 		} else {
@@ -126,6 +128,13 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(match != null) {
 			GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 			match.addConfigVote(client, gameConfigMessage.getSkulls(), gameConfigMessage.getMapIndex());
+		}
+	}
+
+	private void clientReadyLogic(AbstractConnectionToClient client, Message message) {
+		Match match = lobby.getMatchOfClient(client);
+		if(match != null) {
+			match.addReadyClient(client);
 		}
 	}
 

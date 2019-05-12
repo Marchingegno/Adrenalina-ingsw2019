@@ -94,11 +94,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void displayWaitingPlayers(String waitingPlayers) {
+	public void displayWaitingPlayers(List<String> waitingPlayers) {
 		if(waitingRoomFrame == null)
 			showWaitingRoomFrame();
 
-		waitingPlayersTextWaitingRoom.setText("Players in the waiting room: " + waitingPlayers + ".");
+		waitingPlayersTextWaitingRoom.setText("Players in the waiting room: " + waitingPlayers.toString() + ".");
 		waitingRoomFrame.pack();
 	}
 

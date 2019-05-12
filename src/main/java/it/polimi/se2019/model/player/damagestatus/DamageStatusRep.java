@@ -5,6 +5,7 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.MacroAction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,16 +13,16 @@ import java.util.List;
  * @author Marchingegno
  */
 public class DamageStatusRep extends Message {
-	int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
-	int numberOfActionsPerformed; //actions that the player performed in this turn.
-	List<MacroAction> availableActions;
+	private int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
+	private int numberOfActionsPerformed; //actions that the player performed in this turn.
+	private ArrayList<MacroAction> availableActions;
 	/*Note: availableActions contains the reference of the MacroActions. In the current state of the project, there is
 	no need no clone them, since they are immutable.*/
 
 
 	public DamageStatusRep(DamageStatus damageStatus) {
 		super(MessageType.DAMAGE_STATUS_REP, MessageSubtype.INFO);
-		this.availableActions = damageStatus.getAvailableActions(); //getAvailableActions already returns a copy of the array.
+		this.availableActions = new ArrayList<>(damageStatus.getAvailableActions()); //getAvailableActions already returns a copy of the array.
 		this.numberOfActionsPerTurn = damageStatus.getNumberOfActionsPerTurn();
 		this.numberOfActionsPerformed = damageStatus.getNumberOfActionsPerformed();
 	}

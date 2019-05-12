@@ -32,9 +32,7 @@ public class MacroAction {
 	}
 
 	public boolean isMove(){
-		if(numOfMovements == 0)
-			return false;
-		return true;
+		return numOfMovements >= 0;
 	}
 
 	public boolean isGrab() {
