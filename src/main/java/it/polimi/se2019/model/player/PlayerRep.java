@@ -7,6 +7,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.exceptions.HiddenException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -210,22 +211,5 @@ public class PlayerRep extends Representation {
 				"Red ammo: " + redAmmo + "\n" +
 				"Yellow ammo: " + yellowAmmo + "\n" +
 				"Marks: " + marks);
-	}
-}
-
-/**
- * Thrown when trying to get the value of an attribute that is hidden.
- *
- * @author Desno365
- */
-class HiddenException extends Exception {
-
-	/**
-	 * Constructs an HiddenException with the specified detail message.
-	 *
-	 * @param message the detail message.
-	 */
-	public HiddenException(String message) {
-		super(message);
 	}
 }
