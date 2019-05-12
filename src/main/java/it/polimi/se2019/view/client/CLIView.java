@@ -345,8 +345,8 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		CLIPrinter.cleanConsole();
 		CLIPrinter.setCursorHome();
+		CLIPrinter.cleanConsole();
 
 		CLIView.print("\n");
 
@@ -366,6 +366,8 @@ class RepPrinter {
 		CLIView.print("\n\n\n");
 
 		displayOwnPlayer(modelRep.getPlayersRep().get(0));
+
+		CLIView.print("\n\n\n");
 	}
 
 	/**
