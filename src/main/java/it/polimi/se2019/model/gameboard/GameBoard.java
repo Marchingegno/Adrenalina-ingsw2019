@@ -65,6 +65,10 @@ public class GameBoard extends Representable {
 		killShotInThisTurn = false;
 		frenzyStarted = false;
 		gameMap = new GameMap(mapName, players, this);
+		for(Player player : players) {
+			player.getPlayerBoard().addPowerup(powerupDeck.drawCard());
+			player.getPlayerBoard().addPowerup(powerupDeck.drawCard());
+		}
 
 		setChanged();
 	}
