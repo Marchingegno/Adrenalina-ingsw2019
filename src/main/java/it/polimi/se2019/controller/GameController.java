@@ -148,7 +148,7 @@ public class GameController {
 		switch (messageType) {
 			case END_TURN:
 				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-					throw new IllegalStateException("It's not your turn!");
+					Utils.logWarning("Not the turn of " + player.getPlayerName() + ".");
 				}
 				endTurn();
 				break;
