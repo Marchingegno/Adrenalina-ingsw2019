@@ -30,6 +30,7 @@ public class CLIView extends RemoteView {
 	private ModelRep modelRep = new ModelRep();
 	private Scanner scanner = new Scanner(System.in);
 	private RepPrinter repPrinter = new RepPrinter(modelRep);
+	private boolean clientReadyToPlay = false;
 
 	public static void print(String string) {
 		System.out.print(string);
@@ -125,12 +126,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
-		Utils.logInfo("Average of voted skulls: " + skulls + ".");
-		Utils.logInfo("Most voted map: " + mapType.getDescription());
-		Utils.logInfo("Game ready to start.");
-		Utils.logInfo("Press Enter to start.");
-		scanner.nextLine();
-		displayGame();
+		Utils.logInfo("CLIView => showMapAndSkullsInUse(): Average of voted skulls: " + skulls + ", most voted map " + mapType.toString() + ".");
 	}
 
 	@Override
@@ -208,6 +204,7 @@ public class CLIView extends RemoteView {
 			throw new NullPointerException();
 		modelRep.setGameMapRep(gameMapRepToUpdate);
 		displayGame();
+		sendReadyMessageIfReady();
 	}
 
 	@Override
@@ -216,6 +213,7 @@ public class CLIView extends RemoteView {
 			throw new NullPointerException();
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
 		displayGame();
+		sendReadyMessageIfReady();
 	}
 
 	@Override
@@ -224,6 +222,7 @@ public class CLIView extends RemoteView {
 			throw new NullPointerException();
 		modelRep.setPlayersRep(playerRepToUpdate);
 		displayGame();
+		sendReadyMessageIfReady();
 	}
 
 	@Override
@@ -263,6 +262,16 @@ public class CLIView extends RemoteView {
 			repPrinter.displayGame();
 		else
 			Utils.logInfo("CLIView => displayGame(): Rep not ready to be displayed.");
+	}
+
+	private void sendReadyMessageIfReady() {
+		if(clientReadyToPlay) // If client is already ready no need to send the message.
+			return;
+
+		if(modelRep.isModelRepReadyToBeDisplayed()) { // If the client is now ready.
+			clientReadyToPlay = true; // Set it as ready.
+			sendMessage(new Message(MessageType.CLIENT_READY, MessageSubtype.OK));
+		}
 	}
 
 	/**
