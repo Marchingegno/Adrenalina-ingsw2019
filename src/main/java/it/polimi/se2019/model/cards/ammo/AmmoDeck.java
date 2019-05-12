@@ -5,9 +5,8 @@ import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.utils.Utils;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,8 @@ public class AmmoDeck extends Deck<Card> {
 	 * Initialize the ammo deck according to the file "AmmoDeck.json"
 	 */
 	protected void initializeDeck() {
-
-		try (Reader reader = new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("decks/AmmoDeck.json").getFile()))) {
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/AmmoDeck.json")));
+		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 
@@ -40,7 +39,7 @@ public class AmmoDeck extends Deck<Card> {
 				Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammo + (cardToAdd.get("powerup").getAsBoolean() ? " Powerup" : ""));
 				addCard(new AmmoCard(ammo, cardToAdd.get("powerup").getAsBoolean(), cardToAdd.get("name").getAsString()));
 			}
-		} catch (IOException | JsonParseException e) {
+		} catch (JsonParseException e) {
 			Utils.logError("Cannot parse ammo cards", e);
 		}
 	}
