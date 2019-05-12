@@ -163,7 +163,10 @@ public class Player extends Representable {
 	 * Updates the player's representation.
 	 */
 	public void updateRep() {
-		if (hasChanged() || playerBoard.hasChanged() || playerRep == null) {
+		if (playerBoard.hasChanged())
+			setChanged();
+		
+		if (hasChanged() || playerRep == null) {
 			playerRep = new PlayerRep(this);
 			playerBoard.setNotChanged();
 			Utils.logInfo("Player -> updateRep(): " + playerName + "'s representation has been updated");

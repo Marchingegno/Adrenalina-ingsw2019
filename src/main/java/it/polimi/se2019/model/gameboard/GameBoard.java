@@ -234,7 +234,7 @@ public class GameBoard extends Representable {
 			gameBoardRep = new GameBoardRep(this);
 			Utils.logInfo("GameBoard -> updateRep(): The game board representation has been updated");
 		} else {
-			Utils.logInfo("GameBoard -> updateRep(): The game map representation is already up to date");
+			Utils.logInfo("GameBoard -> updateRep(): The game board representation is already up to date");
 		}
 	}
 

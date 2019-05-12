@@ -111,7 +111,7 @@ public class CLIPrinter {
 				"											║                                                                ║\n" +
 				"											╚════════════════════════════════════════════════════════════════╝\n");
 		moveCursorUP(3);
-		moveCursorRIGHT(140);
+		moveCursorRIGHT(120);
 	}
 
 	public static void printChooseMap() {

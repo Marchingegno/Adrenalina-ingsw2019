@@ -84,6 +84,7 @@ public class PlayerRep extends Representation {
 		PlayerRep newPlayerRep = new PlayerRep();
 		newPlayerRep.playerName = this.playerName;
 		newPlayerRep.playerColor = this.playerColor;
+		newPlayerRep.playerID = this.playerID;
 		newPlayerRep.points = -1; // hidden
 		newPlayerRep.damageBoard = new ArrayList<>(damageBoard);
 		newPlayerRep.marks = new ArrayList<>(marks);

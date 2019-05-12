@@ -391,13 +391,13 @@ class RepPrinter {
 				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName()));
 				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("▲", playerRep.getPlayerColor());
 			} catch (NullPointerException e) {
-				Utils.logInfo(playerRep.getPlayerName() + "{0} has no position");
+				Utils.logInfo(playerRep.getPlayerName() + " has no position");
 			}
 		}
 	}
 
 	/**
-	 * Adds to the map to print in the correct square the ammos of the ammo card.
+	 * Adds to the map to print in the correct square the ammo of the ammo card.
 	 *
 	 * @param squareRep
 	 */
@@ -539,7 +539,7 @@ class RepPrinter {
 						" Weapon 1\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
@@ -548,7 +548,7 @@ class RepPrinter {
 				"Grab 2 >>O\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 2\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
@@ -564,8 +564,8 @@ class RepPrinter {
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 3\t" +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
