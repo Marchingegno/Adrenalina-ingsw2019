@@ -44,17 +44,6 @@ public class GameBoard extends Representable {
 
 	public GameBoard(String mapName, List<String> playerNames, int startingSkulls) {
 
-		// initialize players
-		players = new ArrayList<>(playerNames.size());
-
-		int id = 0;
-		for (String name : playerNames) {
-			players.add(new Player(name, id));
-			id++;
-		}
-
-		playerQueue = new PlayerQueue(players);
-
 		// initialize GameBoard attributes
 		remainingSkulls = startingSkulls;
 		killShots = new ArrayList<>();
@@ -64,11 +53,16 @@ public class GameBoard extends Representable {
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
 		frenzyStarted = false;
-		gameMap = new GameMap(mapName, players, this);
-		for(Player player : players) {
-			player.getPlayerBoard().addPowerup(powerupDeck.drawCard());
-			player.getPlayerBoard().addPowerup(powerupDeck.drawCard());
+
+		players = new ArrayList<>(playerNames.size());
+		int id = 0;
+		for (String name : playerNames) {
+			players.add(new Player(name, id));
+			id++;
 		}
+		players.forEach(player -> player.getPlayerBoard().addPowerup(powerupDeck.drawCard()));
+		playerQueue = new PlayerQueue(players);
+		gameMap = new GameMap(mapName, players, this);
 
 		setChanged();
 	}
@@ -284,11 +278,15 @@ public class GameBoard extends Representable {
 		//Remove card from player
 		player.getPlayerBoard().removePowerup(indexOfCard);
 		//Set its turn status
-		player.setTurnStatus(TurnStatus.IDLE);
+		if (player.getTurnStatus() == TurnStatus.PRE_SPAWN) {
+			player.setTurnStatus(TurnStatus.YOUR_TURN);
+		} else {
+			player.setTurnStatus(TurnStatus.IDLE);
+		}
 	}
 
 	public void addPowerupCardTo(Player player) {
-		player.getPlayerBoard().getPowerupCards().add(powerupDeck.drawCard());
+		player.getPlayerBoard().addPowerup(powerupDeck.drawCard());
 	}
 }
 
