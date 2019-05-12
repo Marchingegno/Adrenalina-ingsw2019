@@ -6,6 +6,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.Cyberblade;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.exceptions.InventoryFullException;
 import org.junit.Before;
 import org.junit.Test;
 

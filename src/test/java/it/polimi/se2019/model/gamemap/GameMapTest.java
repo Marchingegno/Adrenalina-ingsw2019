@@ -5,6 +5,8 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.exceptions.OutOfBoundariesException;
+import it.polimi.se2019.utils.exceptions.PlayerNotInTheMapException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

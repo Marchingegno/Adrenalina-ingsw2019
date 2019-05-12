@@ -10,6 +10,8 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.exceptions.OutOfBoundariesException;
+import it.polimi.se2019.utils.exceptions.PlayerNotInTheMapException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -481,36 +483,3 @@ public class GameMap extends Representable {
 	}
 }
 
-/**
- * Thrown when some coordinates are out of the map.
- *
- * @author MarcerAndrea
- */
-class OutOfBoundariesException extends RuntimeException {
-
-	/**
-	 * Constructs an OutOfBoundariesException with the specified message.
-	 *
-	 * @param message the detail message.
-	 */
-	public OutOfBoundariesException(String message) {
-		super(message);
-	}
-}
-
-/**
- * Thrown when a player is not in the Map.
- *
- * @author MarcerAndrea
- */
-class PlayerNotInTheMapException extends RuntimeException {
-
-	/**
-	 * Constructs an PlayerNotInTheMapException with the specified message.
-	 *
-	 * @param message the detail message.
-	 */
-	public PlayerNotInTheMapException(String message) {
-		super(message);
-	}
-}
