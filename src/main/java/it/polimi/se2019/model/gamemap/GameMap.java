@@ -305,6 +305,35 @@ public class GameMap extends Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
+
+	public List<Player> reachablePlayers(Player player, int distance) {
+		List<Player> reachablePlayers = new ArrayList<>();
+		List<Coordinates> reachableCoordinates = reachableCoordinates(player, distance);
+		for (Coordinates coordinates : reachableCoordinates) {
+			reachablePlayers.addAll(getPlayersFromCoordinates(coordinates));
+		}
+		return reachablePlayers;
+	}
+
+	public List<Player> reachableAndVisiblePlayers(Player player, int distance) {
+		List<Player> reachablePlayers = reachablePlayers(player, distance);
+		List<Player> reachableAndVisiblePlayers = new ArrayList<>();
+		for (Player otherPlayer : reachablePlayers) {
+			if (isVisible(player, otherPlayer))
+				reachableAndVisiblePlayers.add(otherPlayer);
+		}
+		return reachableAndVisiblePlayers;
+	}
+
+	public List<Player> getPlayersFromCoordinates(Coordinates coordinates) {
+		List<Player> players = new ArrayList<>();
+		for (Map.Entry position : playersPositions.entrySet()) {
+			if (position.getValue().equals(coordinates))
+				players.add((Player) position.getKey());
+		}
+		return players;
+	}
+
 	/**
 	 * Returns true if and only if the coordinates belong to the map
 	 *
