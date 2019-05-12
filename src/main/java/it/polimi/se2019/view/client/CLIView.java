@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.client;
 
+import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -9,6 +10,7 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
+import it.polimi.se2019.utils.exceptions.HiddenException;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -227,11 +229,20 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askSpawn() {
-		printLine("Select the Powerup card to use.");
-		printLine("Select a number between 0 and 3.");
-		int answer = askInteger(0, 3);
-		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
+		try {
+
+			List<PowerupCardRep> powerupCards =modelRep.getClientPlayerRep().getPowerupCards();
+			printLine("Select the Powerup card to use.");
+			for (int i = 0; i < powerupCards.size(); i++)
+				printLine(i + ") " + powerupCards.get(i).toString());
+			int answer = askInteger(0, powerupCards.size() - 1);
+
+			// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+			sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
+
+		} catch (HiddenException e) {
+			Utils.logError("The client rep shouldn't be hidden.", e);
+		}
 	}
 
 	private int askMapToUse() {
