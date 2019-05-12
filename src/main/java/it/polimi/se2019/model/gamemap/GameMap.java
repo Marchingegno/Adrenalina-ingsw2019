@@ -422,7 +422,7 @@ public class GameMap extends Representable {
 	 * @param mapName: name of the map to load
 	 */
 	private void generateMapJson(String mapName, GameBoard gameBoard) {
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("maps/" + mapName + ".json")));
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/maps/" + mapName + ".json")));
 		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
