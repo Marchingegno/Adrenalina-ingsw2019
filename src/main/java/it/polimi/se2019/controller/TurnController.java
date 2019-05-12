@@ -70,7 +70,7 @@ public class TurnController{
 				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
 				handleAction(player,virtualView);
 				break;
-			default: throw new IllegalArgumentException("Received wrong type of message: "+ event.toString());
+			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
 		}
 
 	}
@@ -95,7 +95,7 @@ public class TurnController{
 				handleEnd(player, virtualView);
 				break;
 			default:
-				Utils.logWarning("WTF");
+				Utils.logError("This action type cannot be processed.", new IllegalStateException());
 				break;
 		}
 	}

@@ -25,7 +25,6 @@ public class GameController {
 		this.virtualViews = virtualViews;
 		this.model = model;
 		turnController = new TurnController(model, virtualViews);
-		Utils.logInfo("Create GameController");
 	}
 
 
@@ -141,8 +140,7 @@ public class GameController {
 		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
-		Utils.logInfo("GameController: processing an event: "+ event.toString());
-		//TODO: Add other cases.
+		Utils.logInfo("GameController -> processing an event: "+ event.toString());
 		switch (messageType) {
 			case END_TURN:
 				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){

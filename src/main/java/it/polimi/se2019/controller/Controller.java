@@ -40,7 +40,7 @@ public class Controller implements Observer {
 
 
 	public void startGame() {
-		Utils.logInfo("Controller: startGame");
+		Utils.logInfo("Controller -> startGame");
 		gameController.startGame();
 	}
 
@@ -85,6 +85,6 @@ public class Controller implements Observer {
 		return virtualViews.stream()
 				.filter(item -> item.getPlayerName().equals(playerName))
 				.findFirst()
-				.orElseThrow(() -> new RuntimeException("Player not found!"));
+				.orElseThrow(() -> new RuntimeException(playerName + " not found!"));
 	}
 }
