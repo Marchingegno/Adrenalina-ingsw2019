@@ -26,6 +26,15 @@ public class ModelRep{
 		return playersRep;
 	}
 
+	public PlayerRep getClientPlayerRep() {
+		for (PlayerRep playerRep : playersRep) {
+			if(!playerRep.isHidden())
+				return playerRep;
+		}
+
+		throw new IllegalStateException("Player rep of Client not found.");
+	}
+
 	public void setGameBoardRep(GameBoardRep gameBoardRep) {
 		this.gameBoardRep = gameBoardRep;
 	}
