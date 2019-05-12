@@ -20,10 +20,7 @@ import java.util.List;
 public class AmmoDeck extends Deck<Card> {
 
 	/**
-	 * Initialize the ammo deck according to the file "AmmoDeck.txt"
-	 * <p>
-	 * FILE FORMAT:
-	 * HAS_POWERUP, NUM_OF_YELLOW_AMMO, NUM_OF_RED_AMMO, NUM_OF_BLUE_AMMO
+	 * Initialize the ammo deck according to the file "AmmoDeck.json"
 	 */
 	protected void initializeDeck() {
 
@@ -40,7 +37,7 @@ public class AmmoDeck extends Deck<Card> {
 				for (JsonElement ammoToAdd : cardToAdd.getAsJsonArray("ammo")) {
 					ammo.add(AmmoType.valueOf(ammoToAdd.getAsString()));
 				}
-
+				Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammo + (cardToAdd.get("powerup").getAsBoolean() ? " Powerup" : ""));
 				addCard(new AmmoCard(ammo, cardToAdd.get("powerup").getAsBoolean(), cardToAdd.get("name").getAsString()));
 			}
 		} catch (IOException | JsonParseException e) {
