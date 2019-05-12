@@ -38,14 +38,17 @@ public class PowerupDeck extends Deck<PowerupCard> {
 
 					case "Newton":
 						addCard(new Newton(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Newton");
 						break;
 
 					case "Targetting scope":
 						addCard(new TargetingScope(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Targetting scope");
 						break;
 
 					case "Tagback grenade":
 						addCard(new TagbackGrenade(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Tagback grenade");
 						break;
 
 					default:
