@@ -24,15 +24,20 @@ public final class Elecroscythe extends AlternateFire {
 	@Override
 	public Pair handleFire(int choice) {
 		incrementStep();
-		if (getCurrentStep() == 1) {
-			return askingPair();
-		} else if (isAlternateFireActive()) {
-			return handleSecondaryFire(choice);
-		} else {
-			primaryFire();
-		}
+		Pair alternatePair = super.handleFire(choice);
 
-		return null;
+		if (alternatePair == null) {
+			if (isAlternateFireActive()) {
+				return handleSecondaryFire(choice);
+			} else {
+				switch (getCurrentStep()) {
+					case 2:
+
+				}
+				primaryFire();
+			}
+			return null;
+		}
 	}
 
 	@Override
@@ -53,8 +58,10 @@ public final class Elecroscythe extends AlternateFire {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		//Get player in the square
-		return null;
+		List<Player> targets = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner()));
+		targets.remove(getOwner());
+		currentTargets = targets;
+		return currentTargets;
 	}
 
 	@Override

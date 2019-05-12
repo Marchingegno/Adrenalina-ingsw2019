@@ -23,7 +23,7 @@ import java.util.List;
 public abstract class WeaponCard extends Card {
 
 	private GameMap gameMap;
-	private int moveDistance; //Standard move for relocation of the player.
+	int moveDistance; //Standard move for relocation of the player.
 	private int maximumSteps; //Maximum advancement steps.
 	private int currentStep; //Advancement step of the weapon.
 	boolean relocationDone; //If the player has already been relocated.
