@@ -6,7 +6,6 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -20,13 +19,16 @@ public class Match {
 	private final ArrayList<AbstractConnectionToClient> participants;
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
-	private SingleTimer singleTimer = new SingleTimer();
+	//private SingleTimer singleTimer = new SingleTimer();
+	private Controller controller;
 
 	// Game config attributes.
 	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
 	private HashMap<AbstractConnectionToClient, Integer> mapChosen = new HashMap<>();
 	private int numberOfAnswers = 0;
 
+	// Clients ready attributes.
+	private ArrayList<AbstractConnectionToClient> clientsReady = new ArrayList<>();
 
 	/**
 	 * Create a new match with the specified clients.
@@ -50,7 +52,7 @@ public class Match {
 		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 
-		singleTimer.start(this::startMatch, (Utils.getServerConfig()).getTurnTimeLimitMs());
+		//singleTimer.start(this::initializeGame, (Utils.getServerConfig()).getTurnTimeLimitMs());
 	}
 
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
@@ -67,8 +69,20 @@ public class Match {
 
 			numberOfAnswers++;
 			if(numberOfAnswers >= numberOfParticipants) {
-				Utils.logInfo("\t\tAll participants sent their votes. Starting the game.");
-				startMatch();
+				Utils.logInfo("\t\tAll participants sent their votes. Initializing the game.");
+				initializeGame();
+			}
+		}
+	}
+
+	public void addReadyClient(AbstractConnectionToClient client) {
+		if(participants.contains(client) && !clientsReady.contains(client)) { // Check if the client is in the match and if he hasn't be already reported as ready.
+			Utils.logInfo("\tClient \"" + client.getNickname() + "\" has been reported as ready to start.");
+			clientsReady.add(client);
+
+			if(clientsReady.size() == participants.size()) {
+				Utils.logInfo("\t\tAll clients are ready! Starting the game.");
+				startGame();
 			}
 		}
 	}
@@ -101,28 +115,29 @@ public class Match {
 	/**
 	 * Start the match.
 	 */
-	private void startMatch() {
-		singleTimer.cancel();
+	private void initializeGame() {
+		//singleTimer.cancel();
 
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
-		Utils.logInfo("Starting a new game with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
+		Utils.logInfo("Match => initializeGame(): initializing a new game with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
 		// Send messages with votes.
 		sendVotesResultMessages(skulls, mapType);
 
 		// Create virtualViews.
 		for (AbstractConnectionToClient client : participants) {
-			Utils.logInfo("Added Virtual View to " + client.getNickname());
+			Utils.logInfo("Match => initializeGame(): Added Virtual View to " + client.getNickname());
 			VirtualView virtualView =  new VirtualView(client);
 			virtualViews.put(client, virtualView);
 		}
 
 		// Create Controller.
-		Controller controller = new Controller(mapType, virtualViews.values(), skulls);
+		controller = new Controller(mapType, virtualViews.values(), skulls);
+	}
 
-		// Start the game.
+	private void startGame() {
 		controller.startGame();
 		matchStarted = true;
 	}
@@ -177,7 +192,7 @@ public class Match {
 	 */
 	private void sendVotesResultMessages(int skulls, GameConstants.MapType mapType) {
 		for(AbstractConnectionToClient client : participants) {
-			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.OK);
+			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.INFO);
 			gameConfigMessage.setSkulls(skulls);
 			gameConfigMessage.setMapIndex(mapType.ordinal());
 			client.sendMessage(gameConfigMessage);

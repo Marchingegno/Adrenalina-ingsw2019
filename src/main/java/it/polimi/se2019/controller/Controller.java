@@ -33,11 +33,13 @@ public class Controller implements Observer {
 		setObservers();
 		gameController = new GameController(model, this.virtualViews);
 		Utils.logInfo("Created controller.");
+
+		// Send reps of the created Model.
+		model.updateReps();
 	}
 
 
 	public void startGame() {
-		model.updateReps();
 		Utils.logInfo("Controller: startGame");
 		gameController.startGame();
 	}
