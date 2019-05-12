@@ -8,7 +8,6 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
-
 import java.util.List;
 
 /**
@@ -147,7 +146,7 @@ public class GameController {
 		switch (messageType) {
 			case END_TURN:
 				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-						throw new IllegalStateException("It's not the turn of " + player.getPlayerName() + "!");
+					Utils.logError("It's not the turn of "+player.getPlayerName()+"!", new IllegalStateException());
 				}
 				endTurn();
 				break;
