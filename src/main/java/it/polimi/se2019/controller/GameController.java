@@ -99,7 +99,6 @@ public class GameController {
 		//Which should be only in its beginning turns.
 		if(player.getTurnStatus() == TurnStatus.PRE_SPAWN){
 			model.setCorrectDamageStatus(player);
-			model.setTurnStatus(player, TurnStatus.YOUR_TURN);
 			askToSpawn(player);
 			return;
 		}
@@ -148,7 +147,7 @@ public class GameController {
 		switch (messageType) {
 			case END_TURN:
 				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-					Utils.logWarning("Not the turn of " + player.getPlayerName() + ".");
+						throw new IllegalStateException("It's not the turn of " + player.getPlayerName() + "!");
 				}
 				endTurn();
 				break;

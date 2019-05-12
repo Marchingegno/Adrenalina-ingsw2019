@@ -115,7 +115,9 @@ public class GameBoard extends Representable {
 	 * @return a copy of the list of all the players.
 	 */
 	public List<Player> getPlayers() {
-		return new ArrayList<>(players);
+		//return new ArrayList<>(players);
+		return players;
+		//return players;
 	}
 
 	/**
@@ -279,9 +281,9 @@ public class GameBoard extends Representable {
 		player.getPlayerBoard().removePowerup(indexOfCard);
 		//Set its turn status
 		if (player.getTurnStatus() == TurnStatus.PRE_SPAWN) {
-			player.setTurnStatus(TurnStatus.YOUR_TURN);
+			setTurnStatus(player, TurnStatus.YOUR_TURN);
 		} else {
-			player.setTurnStatus(TurnStatus.IDLE);
+			setTurnStatus(player, TurnStatus.IDLE);
 		}
 	}
 
