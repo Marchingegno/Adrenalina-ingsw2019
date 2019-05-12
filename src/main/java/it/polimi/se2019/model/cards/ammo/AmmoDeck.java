@@ -22,7 +22,7 @@ public class AmmoDeck extends Deck<Card> {
 	 * Initialize the ammo deck according to the file "AmmoDeck.json"
 	 */
 	protected void initializeDeck() {
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/AmmoDeck.json")));
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("decks/AmmoDeck.json")));
 		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();

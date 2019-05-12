@@ -13,9 +13,9 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.utils.exceptions.OutOfBoundariesException;
 import it.polimi.se2019.utils.exceptions.PlayerNotInTheMapException;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -422,8 +422,8 @@ public class GameMap extends Representable {
 	 * @param mapName: name of the map to load
 	 */
 	private void generateMapJson(String mapName, GameBoard gameBoard) {
-
-		try (Reader reader = new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("maps/" + mapName + ".json").getFile()))) {
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("maps/" + mapName + ".json")));
+		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 			numOfRows = rootObject.get("row").getAsInt();

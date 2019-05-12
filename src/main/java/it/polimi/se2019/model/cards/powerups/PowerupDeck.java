@@ -20,7 +20,7 @@ public class PowerupDeck extends Deck<PowerupCard> {
 	 * Initialize the Powerup deck according to the file "PowerupDeck.json".
 	 */
 	protected void initializeDeck() {
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/PowerupDeck.json")));
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("decks/PowerupDeck.json")));
 		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
