@@ -229,8 +229,6 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askSpawn() {
 		try {
-			//TODO remove sleep
-			Thread.sleep(4000);
 			List<PowerupCardRep> powerupCards = modelRep.getClientPlayerRep().getPowerupCards();
 			printLine("Select the Powerup card to use.");
 			for (int i = 0; i < powerupCards.size(); i++)
@@ -242,8 +240,6 @@ public class CLIView extends RemoteView {
 
 		} catch (HiddenException e) {
 			Utils.logError("The client rep shouldn't be hidden.", e);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -348,8 +344,8 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		CLIPrinter.setCursorHome();
-		CLIPrinter.cleanConsole();
+//		CLIPrinter.setCursorHome();
+//		CLIPrinter.cleanConsole();
 
 		CLIView.print("\n");
 
@@ -368,7 +364,7 @@ class RepPrinter {
 
 		CLIView.print("\n\n\n");
 
-		displayOwnPlayer(modelRep.getPlayersRep().get(0));
+		displayOwnPlayer(modelRep.getClientPlayerRep());
 
 		CLIView.print("\n\n\n");
 	}

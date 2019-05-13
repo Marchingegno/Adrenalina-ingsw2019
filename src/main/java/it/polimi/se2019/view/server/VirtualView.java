@@ -6,10 +6,14 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.network.message.IntMessage;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.exceptions.HiddenException;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.List;
@@ -135,6 +139,11 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		Utils.logInfo("Sending Player rep to " + getPlayerName());
+		try {
+			System.out.println("------------------------------------------------------------------------------" + playerRepToUpdate.getPowerupCards().size());
+		} catch (HiddenException e) {
+			e.printStackTrace();
+		}
 		client.sendMessage(playerRepToUpdate);
 	}
 

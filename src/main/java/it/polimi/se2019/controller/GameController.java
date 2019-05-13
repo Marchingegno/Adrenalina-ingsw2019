@@ -3,11 +3,15 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.model.player.damagestatus.*;
-import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
+import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
+import it.polimi.se2019.network.message.DefaultActionMessage;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
+
 import java.util.List;
 
 /**
@@ -122,6 +126,7 @@ public class GameController {
 	 */
 	private void askToSpawn(Player player, VirtualView virtualView){
 		model.addPowerupCardTo(player);
+
 		virtualView.askSpawn();
 	}
 
