@@ -339,6 +339,7 @@ public class GameMap extends Representable {
 		for (Coordinates coordinates : reachableCoordinates) {
 			reachablePlayers.addAll(getPlayersFromCoordinates(coordinates));
 		}
+		reachablePlayers.remove(player);
 		return reachablePlayers;
 	}
 
