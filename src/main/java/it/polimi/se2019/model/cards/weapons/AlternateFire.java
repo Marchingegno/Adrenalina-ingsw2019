@@ -17,7 +17,10 @@ public abstract class AlternateFire extends WeaponCard {
 	List<DamageAndMarks> secondaryDamagesAndMarks;
 	List<AmmoType> secondaryCost;
 	boolean alternateFireActive;
-	static final int INITIAL_CHOICES = 2;
+	int PRIMARY_DAMAGE ;
+	int PRIMARY_MARKS;
+	int SECONDARY_DAMAGE;
+	int SECONDARY_MARKS;
 
 	public AlternateFire(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);

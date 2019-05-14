@@ -181,7 +181,7 @@ public abstract class WeaponCard extends Card {
 	}
 
 	/**
-	 * Get the targets of the primary mode of fire for this weapon.
+	 * Get the targets of the primary mode of fire for this weapon. robe
 	 * @return the targettable players.
 	 */
 	public abstract List<Player> getPrimaryTargets();
@@ -231,6 +231,13 @@ public abstract class WeaponCard extends Card {
 		if(currentStep == maximumSteps)
 			throw new IllegalStateException("Trying to increment steps already at maximum.");
 		currentStep++;
+	}
+
+	public static Pair getTargetPlayersQuestionAndOptions(List<Player> targets){
+		String question = "Which of the following players do you want to target?";
+		List<String> options = new ArrayList<>();
+		targets.forEach(target-> options.add(target.getPlayerName()));
+		return new Pair<>(question, options);
 	}
 
 }

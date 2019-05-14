@@ -9,15 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Elecroscythe extends AlternateFire {
-	private final int PRIMARY_DAMAGE = 1;
-	private final int PRIMARY_MARKS = 0;
-	private final int SECONDARY_DAMAGE = 2;
-	private final int SECONDARY_MARKS = 0;
 
 	public Elecroscythe(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
+		this.PRIMARY_DAMAGE = 1;
+		this.PRIMARY_MARKS = 0;
+		this.SECONDARY_DAMAGE = 2;
+		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumAlternateSteps = 2;
 		this.maximumSteps = 2;
