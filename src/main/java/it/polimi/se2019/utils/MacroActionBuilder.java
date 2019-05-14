@@ -42,6 +42,12 @@ public class MacroActionBuilder {
 		this.shootActive = active;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
 	public MacroAction build() {
 		isCorrect();
 		Utils.logInfo("MacroActionBuilder -> build(): Building " + name + ": moves=" + moveDistance + (grabActive ? " grab" : "") + (reloadActive ? " reload" : "") + (shootActive ? " shoot" : ""));

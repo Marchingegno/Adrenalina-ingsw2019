@@ -16,14 +16,17 @@ public class HighDamage extends DamageStatus {
 		availableActions = new ArrayList<>();
 
 		runAroundBuilder.setMovementDistance(3);
+		runAroundBuilder.setName("Move");
 		availableActions.add(runAroundBuilder.build());
 
 		grabStuffBuilder.setMovementDistance(2);
 		grabStuffBuilder.setGrabAction(true);
+		grabStuffBuilder.setName("Grab");
 		availableActions.add(grabStuffBuilder.build());
 
 		shootPeopleBuilder.setMovementDistance(1);
 		shootPeopleBuilder.setShootAction(true);
+		shootPeopleBuilder.setName("Shoot");
 		availableActions.add(shootPeopleBuilder.build());
 
 		numberOfActionsPerTurn= NUMBER_OF_ACTIONS_PER_TURN;

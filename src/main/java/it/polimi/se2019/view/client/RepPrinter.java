@@ -223,7 +223,8 @@ class RepPrinter {
 
 	private void displayOwnPlayer() {
 		PlayerRep playerRep = modelRep.getClientPlayerRep();
-		CLIView.printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
+		CLIView.print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
+		CLIView.printLine(" [" + playerRep.getPoints() + "]");
 		for (int i = 0; i < getNumOfLine(playerRep); i++) {
 			printOwnPlayerLine(playerRep, i);
 		}
@@ -240,24 +241,31 @@ class RepPrinter {
 	private void printOwnPlayerLine(PlayerRep playerRep, int lineIndex) {
 		StringBuilder stringBuilder = new StringBuilder();
 		DamageStatusRep damageStatusRep = playerRep.getDamageStatusRep();
+
+		//Possible move
 		if (lineIndex + 1 <= damageStatusRep.numOfMacroActions()) {
-			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 5));
-			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionName(lineIndex), 10));
+			stringBuilder.append(" [" + (lineIndex + 1) + "] ");
+			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionName(lineIndex), 8));
+			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 7));
 		}
 
-		if (lineIndex + 1 <= playerRep.getPowerupCards().size()) {
-			stringBuilder.append(Color.getColoredString("●", playerRep.getPowerupCards().get(lineIndex).getAssociatedAmmo().getCharacterColorType()));
-			stringBuilder.append(Utils.fillWithSpaces(" " + playerRep.getPowerupCards().get(lineIndex).getPowerupName(), 15));
-		} else
-			stringBuilder.append(Utils.fillWithSpaces(15));
+		//Powerups
+		stringBuilder.append(Color.getColoredString("● ", lineIndex + 1 <= playerRep.getPowerupCards().size() ?
+				playerRep.getPowerupCards().get(lineIndex).getAssociatedAmmo().getCharacterColorType() :
+				Color.CharacterColorType.BLACK));
+		stringBuilder.append(Utils.fillWithSpaces(lineIndex + 1 <= playerRep.getPowerupCards().size() ?
+				playerRep.getPowerupCards().get(lineIndex).getPowerupName() :
+				"", 20));
 
+		//Weapons
 		stringBuilder.append(
-						" Weapon 1\t" +
+				"Weapon 1\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-								"\t\t\t");
+						"\t");
 
+		//Ammo
 		if (lineIndex + 1 <= AmmoType.values().length) {
 			AmmoType ammoType = AmmoType.values()[lineIndex];
 			for (int i = 0; i < playerRep.getAmmo(ammoType); i++) {
