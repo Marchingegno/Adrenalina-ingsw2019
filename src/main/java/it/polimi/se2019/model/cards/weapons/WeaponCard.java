@@ -23,16 +23,16 @@ import java.util.List;
 public abstract class WeaponCard extends Card {
 
 	private GameMap gameMap;
-	int moveDistance; //Standard move for relocation of the player.
-	int maximumSteps; //Maximum advancement steps.
 	private int currentStep; //Advancement step of the weapon.
-	boolean relocationDone; //If the player has already been relocated.
-	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
-	List<DamageAndMarks> standardDamagesAndMarks;
 	private Player owner;
 	private boolean loaded;
 	private String weaponName;
 	private final List<AmmoType> reloadPrice;
+	int moveDistance; //Standard move for relocation of the player.
+	int maximumSteps; //Maximum advancement steps.
+	boolean relocationDone; //If the player has already been relocated.
+	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
+	List<DamageAndMarks> standardDamagesAndMarks;
 	List<Player> currentTargets;
 
 
