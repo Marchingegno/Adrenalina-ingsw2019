@@ -287,9 +287,9 @@ public class GUIView extends RemoteView {
 		downPanel.add(new JLabel("Skulls:"));
 		downPanel.add(new JLabel("Map:"));
 		downPanel.add(new JLabel(" "));
-		JComboBox skullsComboBox = new JComboBox(skullsOptions);
+		JComboBox skullsComboBox = new JComboBox<>(skullsOptions);
 		downPanel.add(skullsComboBox);
-		JComboBox mapComboBox = new JComboBox(mapOptions);
+		JComboBox mapComboBox = new JComboBox<>(mapOptions);
 		mapComboBox.setPreferredSize(skullsComboBox.getPreferredSize()); // Make the same dimension as the skulls options.
 		downPanel.add(mapComboBox);
 		JButton doneButton = new JButton("Done");
