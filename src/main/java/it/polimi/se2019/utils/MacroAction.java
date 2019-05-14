@@ -80,7 +80,9 @@ public class MacroAction {
 			shot = false;
 	}
 
-
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public String toString() {
