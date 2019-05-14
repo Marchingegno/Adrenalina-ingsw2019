@@ -201,6 +201,7 @@ public class PlayerRep extends Representation {
 		return blueAmmo;
 	}
 
+	@Override
 	public String toString() {
 		return ("Player name: " + playerName + "\n" +
 				"Color: " + Color.getColoredString(" ", playerColor, Color.BackgroundColorType.DEFAULT) +

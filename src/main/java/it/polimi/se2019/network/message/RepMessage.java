@@ -9,10 +9,10 @@ import java.util.List;
 
 public class RepMessage extends Message {
 
-	public Message message = null;
-	public GameMapRep gameMapRep = null;
-	public GameBoardRep gameBoardRep = null;
-	public List<PlayerRep> playersRep = new ArrayList<>();
+	private Message message = null;
+	private GameMapRep gameMapRep = null;
+	private GameBoardRep gameBoardRep = null;
+	private List<PlayerRep> playersRep = new ArrayList<>();
 	private boolean hasReps = false;
 
 	public RepMessage() {

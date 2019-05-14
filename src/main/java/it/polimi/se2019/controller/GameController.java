@@ -102,6 +102,7 @@ public class GameController {
 		if(player.getTurnStatus() == TurnStatus.PRE_SPAWN){
 			model.setCorrectDamageStatus(player);
 			askToSpawn(player);
+			Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
 			return;
 		}
 		model.setCorrectDamageStatus(player);

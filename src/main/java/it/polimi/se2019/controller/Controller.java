@@ -33,10 +33,6 @@ public class Controller implements Observer {
 		setObservers();
 		gameController = new GameController(model, this.virtualViews);
 		Utils.logInfo("Created controller.");
-
-		// Send reps of the created Model.
-		model.updateReps();
-		sendUpdatedReps(this.virtualViews);
 	}
 
 
@@ -88,6 +84,7 @@ public class Controller implements Observer {
 
 	static void sendUpdatedReps(List<VirtualView> virtualViews) {
 		for (VirtualView virtualView : virtualViews) {
+			Utils.logInfo("Controller -> sendUpdatedReps(): sending latest rep for " + virtualView.getPlayerName() + ".");
 			virtualView.sendReps();
 		}
 	}
