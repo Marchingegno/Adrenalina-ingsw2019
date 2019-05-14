@@ -200,7 +200,7 @@ public class CLIView extends RemoteView {
 	public void askChoice(int number, String stringToAsk) {
 		printLine(stringToAsk);
 		int answer = askInteger(1,number);
-		sendMessage(new DefaultActionMessage((answer, MessageType.WEAPON, MessageSubtype.ANSWER));
+		sendMessage(new DefaultActionMessage(answer, MessageType.WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@Override

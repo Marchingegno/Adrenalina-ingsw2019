@@ -24,7 +24,7 @@ public abstract class WeaponCard extends Card {
 
 	private GameMap gameMap;
 	int moveDistance; //Standard move for relocation of the player.
-	private int maximumSteps; //Maximum advancement steps.
+	int maximumSteps; //Maximum advancement steps.
 	private int currentStep; //Advancement step of the weapon.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
@@ -47,10 +47,7 @@ public abstract class WeaponCard extends Card {
 	}
 
 	public boolean doneFiring(){
-		if(currentStep == maximumSteps){
-			return true;
-		}
-		return false;
+		return getCurrentStep() == getMaximumSteps();
 	}
 
 

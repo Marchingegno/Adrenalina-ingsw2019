@@ -14,14 +14,19 @@ import static java.lang.Boolean.FALSE;
 public abstract class AlternateFire extends WeaponCard {
 	int maximumAlternateSteps;
 	List<DamageAndMarks> secondaryDamagesAndMarks;
+	List<AmmoType> secondaryCost;
 	boolean alternateFireActive;
 	static final int INITIAL_CHOICES = 2;
-
 
 	public AlternateFire(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		reset();
+	}
 
+	public AlternateFire(String description, List<AmmoType> reloadPrice, List<AmmoType> secondaryCost) {
+		this(description, reloadPrice);
+		this.secondaryCost = secondaryCost;
+		reset();
 	}
 
 	List<DamageAndMarks> getSecondaryDamagesAndMarks() {

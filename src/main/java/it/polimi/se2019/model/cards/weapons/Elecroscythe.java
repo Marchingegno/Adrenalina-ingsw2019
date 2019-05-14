@@ -19,29 +19,36 @@ public final class Elecroscythe extends AlternateFire {
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.maximumAlternateSteps = 2;
+		this.maximumSteps = 2;
+	}
+
+	@Override
+	public boolean doneFiring() {
+		return super.doneFiring();
 	}
 
 	@Override
 	public Pair handleFire(int choice) {
 		incrementStep();
-		Pair alternatePair = super.handleFire(choice);
+		Pair alternatePair = super.handleFire(choice); //Here the choice is registered.
 
 		if (alternatePair == null) {
 			if (isAlternateFireActive()) {
 				return handleSecondaryFire(choice);
 			} else {
-				switch (getCurrentStep()) {
-					case 2:
-
+				if(getCurrentStep() == 2) {
+						currentTargets = getPrimaryTargets();
+						primaryFire();
 				}
-				primaryFire();
 			}
-			return null;
 		}
+		return null;
 	}
 
 	@Override
 	Pair handleSecondaryFire(int choice) {
+		currentTargets = getSecondaryTargets();
 		secondaryFire();
 		return null;
 	}
@@ -49,19 +56,27 @@ public final class Elecroscythe extends AlternateFire {
 	@Override
 	public void primaryFire() {
 		//Deal damage to everyone on your square
-		dealDamage(currentTargets, getStandardDamagesAndMarks());
+		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getStandardDamagesAndMarks());
+		for (int i = 0; i < currentTargets.size() - 1; i++) {
+			damageAndMarksList.add(getStandardDamagesAndMarks().get(0));
+		}
+		dealDamage(currentTargets, damageAndMarksList);
 	}
 
+	@Override
 	public void secondaryFire() {
-		dealDamage(currentTargets, getSecondaryDamagesAndMarks());
+		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getSecondaryDamagesAndMarks());
+		for (int i = 0; i < currentTargets.size() - 1; i++) {
+			damageAndMarksList.add(getSecondaryDamagesAndMarks().get(0));
+		}
+		dealDamage(currentTargets, damageAndMarksList);
 	}
 
 	@Override
 	public List<Player> getPrimaryTargets() {
 		List<Player> targets = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner()));
 		targets.remove(getOwner());
-		currentTargets = targets;
-		return currentTargets;
+		return targets;
 	}
 
 	@Override

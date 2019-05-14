@@ -1,7 +1,9 @@
 package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.cards.ammo.AmmoContainer;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
+import it.polimi.se2019.model.cards.weapons.Elecroscythe;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
@@ -40,6 +42,11 @@ public class PlayerBoard {
 		weaponCards = new ArrayList<>();
 		isFlipped = false;
 		hasChanged = true;
+//		//TODO:DEBUG@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//		ArrayList<AmmoType> prova = new ArrayList<>();
+//		prova.add(AmmoType.BLUE_AMMO);
+//		this.weaponCards.add(new Elecroscythe("STA ROBA",prova));
+//		//TODO:DEBUG@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	}
 
 
