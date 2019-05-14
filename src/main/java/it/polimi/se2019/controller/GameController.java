@@ -104,11 +104,10 @@ public class GameController {
 			askToSpawn(player);
 			return;
 		}
-
 		model.setCorrectDamageStatus(player);
 		model.setTurnStatus(player, TurnStatus.YOUR_TURN);
 		Controller.getVirtualViewFromPlayer(player, virtualViews).askAction();
-
+		Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
 	}
 
 
@@ -126,7 +125,6 @@ public class GameController {
 	 */
 	private void askToSpawn(Player player, VirtualView virtualView){
 		model.addPowerupCardTo(player);
-
 		virtualView.askSpawn();
 	}
 
@@ -167,6 +165,7 @@ public class GameController {
 						Utils.logError("Error spawning player", e);
 					}
 					virtualView.askAction();
+					Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
 				}
 				break;
 			default: turnController.processEvent(event);

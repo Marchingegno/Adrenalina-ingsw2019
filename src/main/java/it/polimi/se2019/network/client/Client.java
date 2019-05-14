@@ -25,16 +25,21 @@ public class Client {
 
 		printChooseView();
 
+		// Bypass server configuration for debug.
 		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
-			RemoteView remoteView = new CLIView();
+			RemoteView remoteView;
+			if(Utils.DEBUG_BYPASS_USE_GUI)
+				remoteView = new GUIView();
+			else
+				remoteView = new CLIView();
 			if(new Random().nextBoolean())
 				remoteView.startConnectionWithRMI();
 			else
 				remoteView.startConnectionWithSocket();
 			return;
 		}
-		// Start with CLI and ask if the user wants to use CLI or GUI.
 
+		// Start with CLI and ask if the user wants to use CLI or GUI.
 		boolean isGUI = waitForChoiceInMenu("1", "2").equals("1");
 
 		// Start GUI if requested.

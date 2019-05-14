@@ -2,8 +2,6 @@ package it.polimi.se2019.model.gameboard;
 
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ public class GameBoardRep extends Representation {
 
 
 	public GameBoardRep(GameBoard gameBoard) {
-		super(MessageType.GAME_BOARD_REP, MessageSubtype.INFO);
 		this.remainingSkulls = gameBoard.getRemainingSkulls();
 		this.doubleKills = new ArrayList<>();
 		for (Player player : gameBoard.getDoubleKills())
@@ -68,7 +65,13 @@ public class GameBoardRep extends Representation {
 	 * @return the name of the current player.
 	 */
 	public String getCurrentPlayer() {
-		return currentPlayer;
+		try {
+			return currentPlayer;
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public int getNumberOfPlayers() {

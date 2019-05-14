@@ -36,6 +36,7 @@ public class Controller implements Observer {
 
 		// Send reps of the created Model.
 		model.updateReps();
+		sendUpdatedReps(this.virtualViews);
 	}
 
 
@@ -43,9 +44,6 @@ public class Controller implements Observer {
 		Utils.logInfo("Controller -> startGame");
 		gameController.startGame();
 	}
-
-
-
 
 	/**
 	 * This method is called whenever the observed object is changed. An
@@ -86,5 +84,11 @@ public class Controller implements Observer {
 				.filter(item -> item.getPlayerName().equals(playerName))
 				.findFirst()
 				.orElseThrow(() -> new RuntimeException(playerName + " not found!"));
+	}
+
+	static void sendUpdatedReps(List<VirtualView> virtualViews) {
+		for (VirtualView virtualView : virtualViews) {
+			virtualView.sendReps();
+		}
 	}
 }

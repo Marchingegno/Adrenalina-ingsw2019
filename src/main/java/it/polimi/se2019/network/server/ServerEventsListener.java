@@ -65,8 +65,6 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(client.isNicknameSet()) {
 			if(message.getMessageType() == MessageType.GAME_CONFIG && message.getMessageSubtype() == MessageSubtype.ANSWER)
 				gameConfigLogic(client, message);
-			else if(message.getMessageType() == MessageType.CLIENT_READY && message.getMessageSubtype() == MessageSubtype.OK)
-				clientReadyLogic(client, message);
 			else
 				forwardMessageToVirtualView(client, message);
 		} else {
@@ -131,13 +129,6 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		}
 	}
 
-	private void clientReadyLogic(AbstractConnectionToClient client, Message message) {
-		Match match = lobby.getMatchOfClient(client);
-		if(match != null) {
-			match.addReadyClient(client);
-		}
-	}
-
 	/**
 	 * Forwards the message of the client to its VirtualView (if present).
 	 * @param client the client that sent the message.
@@ -151,7 +142,8 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 				Utils.logInfo("\tForwarding the message to the VirtualView.");
 				virtualView.onMessageReceived(message);
 			}
-		}
+		} else
+			Utils.logError("Client has no match", new NullPointerException());
 	}
 
 }

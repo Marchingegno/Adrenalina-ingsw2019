@@ -4,8 +4,6 @@ import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.exceptions.HiddenException;
 
@@ -40,7 +38,6 @@ public class PlayerRep extends Representation {
 	 * @param player the player from which the information are extracted.
 	 */
 	public PlayerRep(Player player) {
-		super(MessageType.PLAYER_REP, MessageSubtype.INFO);
 		playerName = player.getPlayerName();
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
@@ -72,7 +69,6 @@ public class PlayerRep extends Representation {
 	 * Used to create the hidden PlayerRep.
 	 */
 	private PlayerRep() {
-		super(MessageType.PLAYER_REP, MessageSubtype.INFO);
 	}
 
 	/**

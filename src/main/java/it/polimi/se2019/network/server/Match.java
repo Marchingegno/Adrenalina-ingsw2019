@@ -20,15 +20,11 @@ public class Match {
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
 	//private SingleTimer singleTimer = new SingleTimer();
-	private Controller controller;
 
 	// Game config attributes.
 	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
 	private HashMap<AbstractConnectionToClient, Integer> mapChosen = new HashMap<>();
 	private int numberOfAnswers = 0;
-
-	// Clients ready attributes.
-	private ArrayList<AbstractConnectionToClient> clientsReady = new ArrayList<>();
 
 	/**
 	 * Create a new match with the specified clients.
@@ -71,18 +67,6 @@ public class Match {
 			if(numberOfAnswers >= numberOfParticipants) {
 				Utils.logInfo("\t\tAll participants sent their votes. Initializing the game.");
 				initializeGame();
-			}
-		}
-	}
-
-	public void addReadyClient(AbstractConnectionToClient client) {
-		if(participants.contains(client) && !clientsReady.contains(client)) { // Check if the client is in the match and if he hasn't be already reported as ready.
-			Utils.logInfo("\tClient \"" + client.getNickname() + "\" has been reported as ready to start.");
-			clientsReady.add(client);
-
-			if(clientsReady.size() == participants.size()) {
-				Utils.logInfo("\t\tAll clients are ready! Starting the game.");
-				startGame();
 			}
 		}
 	}
@@ -134,12 +118,10 @@ public class Match {
 		}
 
 		// Create Controller.
-		controller = new Controller(mapType, virtualViews.values(), skulls);
-	}
+		(new Controller(mapType, virtualViews.values(), skulls)).startGame();
 
-	private void startGame() {
-		controller.startGame();
 		matchStarted = true;
+
 	}
 
 	/**

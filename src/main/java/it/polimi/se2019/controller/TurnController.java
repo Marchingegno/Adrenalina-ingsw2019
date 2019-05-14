@@ -3,7 +3,8 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.network.message.DefaultActionMessage;
+import it.polimi.se2019.network.message.MoveActionMessage;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
@@ -57,18 +58,22 @@ public class TurnController{
 				break;
 			case GRAB_AMMO:
 				model.grabAmmoCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
+				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
 				break;
 			case GRAB_WEAPON:
 				model.grabWeaponCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
+				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
 				break;
 			case MOVE:
 				model.movePlayerTo(player, ((MoveActionMessage)event.getMessage()).getCoordinates());
+				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
 				break;
 			case RELOAD:
 				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
+				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
 				break;
 			case WEAPON:
