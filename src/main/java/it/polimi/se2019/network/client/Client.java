@@ -6,6 +6,7 @@ import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
 
 import java.util.Locale;
+import java.util.Random;
 
 import static it.polimi.se2019.view.client.CLIPrinter.printChooseView;
 import static it.polimi.se2019.view.client.CLIPrinter.waitForChoiceInMenu;
@@ -24,17 +25,21 @@ public class Client {
 
 		printChooseView();
 
+		// Bypass server configuration for debug.
 		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
-			RemoteView remoteView = new CLIView();
-			remoteView.startConnectionWithRMI();
-//			if(new Random().nextBoolean())
-//				remoteView.startConnectionWithRMI();
-//			else
-//				remoteView.startConnectionWithSocket();
+			RemoteView remoteView;
+			if(true)
+				remoteView = new GUIView();
+			else
+				remoteView = new CLIView();
+			if(new Random().nextBoolean())
+				remoteView.startConnectionWithRMI();
+			else
+				remoteView.startConnectionWithSocket();
 			return;
 		}
-		// Start with CLI and ask if the user wants to use CLI or GUI.
 
+		// Start with CLI and ask if the user wants to use CLI or GUI.
 		boolean isGUI = waitForChoiceInMenu("1", "2").equals("1");
 
 		// Start GUI if requested.

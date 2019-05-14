@@ -14,6 +14,7 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.List;
+import java.util.UUID;
 
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
 
@@ -30,8 +31,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		Utils.logInfo("Processing: " + message.getMessageType() + "of subtype" + message.getMessageSubtype());
 		switch (message.getMessageType()) {
 			case NICKNAME:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					if (Utils.DEBUG_BYPASS_CONFIGURATION) {
+						String randomNickname = UUID.randomUUID().toString().substring(0, 3).replace("-", "");
+						sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
+						return;
+					}
 					askNickname();
+				}
 				if(message.getMessageSubtype() == MessageSubtype.ERROR)
 					askNicknameError();
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
@@ -56,8 +63,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case GAME_CONFIG:
 				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					if(Utils.DEBUG_BYPASS_CONFIGURATION){
+						GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
+						gameConfigMessage.setMapIndex(0);
+						gameConfigMessage.setSkulls(5);
+						sendMessage(gameConfigMessage);
+						return;
+					}
 					askMapAndSkullsToUse();
-					System.out.println("Asked the skulls and map");
 				}
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
@@ -72,14 +85,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 						processMessage(((RepMessage) message).getMessage());
 				}
 				break;
-//			case CLIENT_READY:
-//				if (message.getMessageSubtype() == MessageSubtype.INFO){
-//					Utils.logInfo("RemoteView -> processMessage(): Updating reps");
-//					updateReps((RepMessage) message);
-//					if (((RepMessage) message).getMessage() != null)
-//						processMessage(((RepMessage) message).getMessage());
-//				}
-//				break;
 			case EXAMPLE_ACTION: // TODO remove
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askActionExample(); // This method will be processed by the CLI or by the GUI.

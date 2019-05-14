@@ -4,10 +4,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
-import it.polimi.se2019.utils.Color;
-import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.MacroAction;
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.*;
 import it.polimi.se2019.utils.exceptions.HiddenException;
 
 import java.text.DecimalFormat;
@@ -110,9 +107,7 @@ public class CLIView extends RemoteView {
 		}
 		Utils.logInfo("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
-		System.out.println("Asked skuklls");
 		int skulls = askSkullsForGame();
-		System.out.println("Asked map");
 		ArrayList<String> players = new ArrayList<>();
 		players.add(nickname);
 		printWaitingRoom(players);

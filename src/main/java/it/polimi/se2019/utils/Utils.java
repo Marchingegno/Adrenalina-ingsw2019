@@ -15,6 +15,7 @@ public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static final boolean DEBUG_BYPASS_CONFIGURATION = true;
+	public static final boolean DEBUG_BYPASS_USE_GUI = true;
 	private static final ServerConfig serverConfig = new ServerConfigParser().parseConfig();
 
 	private static boolean logEnabled = true;
