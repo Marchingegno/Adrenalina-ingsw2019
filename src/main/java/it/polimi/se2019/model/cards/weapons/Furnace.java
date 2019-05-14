@@ -42,12 +42,12 @@ public final class Furnace extends AlternateFire {
 			return getTargetCoordinatesQnO(targettableCoordinates);
 		}
 		else if(getCurrentStep() == 3){
-			List<Coordinates> roomCoordinates = getGameMap().getRoomCoordinates(targettableCoordinates.get(choice));
-			targettableCoordinates = roomCoordinates;
+			targettableCoordinates = getPrimaryCoordinates();
 			currentTargets = getPrimaryTargets();
 			primaryFire();
 		}
 		return null;
+		//TODO:Revisit
 	}
 
 	/**
@@ -96,7 +96,6 @@ public final class Furnace extends AlternateFire {
 	 */
 	@Override
 	public List<Player> getPrimaryTargets() {
-		//TODO: Merge master and use newly implemented method from gamemap.
 		return null;
 	}
 
@@ -112,6 +111,7 @@ public final class Furnace extends AlternateFire {
 
 	private List<Coordinates> getPrimaryCoordinates(){
 		//Get coordinates of the entire room.
+		return null;
 	}
 
 	private List<Coordinates> getSecondaryCoordinates(){
