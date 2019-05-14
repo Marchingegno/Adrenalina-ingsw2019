@@ -104,9 +104,9 @@ public class GameController {
 			askToSpawn(player);
 			return;
 		}
-
 		model.setCorrectDamageStatus(player);
 		model.setTurnStatus(player, TurnStatus.YOUR_TURN);
+		Controller.updateReps(virtualViews);
 		Controller.getVirtualViewFromPlayer(player, virtualViews).askAction();
 	}
 
@@ -164,6 +164,7 @@ public class GameController {
 					} catch (Exception e){
 						Utils.logError("Error spawning player", e);
 					}
+					Controller.updateReps(virtualViews);
 					virtualView.askAction();
 				}
 				break;

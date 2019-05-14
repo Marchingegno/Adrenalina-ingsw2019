@@ -16,7 +16,6 @@ public class CLIPrinter {
 	private static final String SAVE = ESC + "s";
 	private static final String LOAD = ESC + "u";
 
-	private static final Scanner scanner = new Scanner(System.in);
 	private static final String TITLE = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\u001b[33;49m" +
 			"								       ___       _______  .______       _______ .__   __.      ___       __       __  .__   __. _______ \n" +
 			"								      /   \\     |       \\ |   _  \\     |   ____||  \\ |  |     /   \\     |  |     |  | |  \\ |  ||   ____| \n" +
@@ -194,7 +193,7 @@ public class CLIPrinter {
 	}
 
 	public static String waitForChoiceInMenu(List<String> possibleChoices) {
-		scanner.reset();
+		Scanner scanner = new Scanner(System.in);
 		if (possibleChoices == null || possibleChoices.isEmpty())
 			throw new IllegalArgumentException("No options to chose from");
 		String choice;
@@ -208,7 +207,7 @@ public class CLIPrinter {
 	}
 
 	public static String waitForChoiceInMenu(String... possibleChoices) {
-		scanner.reset();
+		Scanner scanner = new Scanner(System.in);
 		if (possibleChoices == null || possibleChoices.length == 0)
 			throw new IllegalArgumentException("No options to chose from");
 		String choice;
