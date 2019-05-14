@@ -37,13 +37,13 @@ public final class TractorBeam extends AlternateFire {
 				currentTargets = getPrimaryTargets();
 				if(currentTargets == null)
 					Utils.logError("currentTargets is null! See TractorBeam", new IllegalStateException());
-				return getTargetPlayersQuestionAndOptions(currentTargets);
+				return getTargetPlayersQnO(currentTargets);
 			case 3:
 				List<Player> target = new ArrayList<>();
 				target.add(currentTargets.get(choice));
 				currentTargets = target;
 				enemyRelocationCoordinates = getGameMap().getVisibleCoordinates(getOwner());
-				return getMoveCoordinatesTargetPlayerQuestionAndOptions(currentTargets.get(0), enemyRelocationCoordinates);
+				return getMovingTargetEnemyCoordinatesQnO(currentTargets.get(0), enemyRelocationCoordinates);
 			case 4:
 				getGameMap().movePlayerTo(currentTargets.get(0), enemyRelocationCoordinates.get(choice));
 				primaryFire();
@@ -57,7 +57,7 @@ public final class TractorBeam extends AlternateFire {
 		switch (getCurrentStep()){
 			case 2:
 				currentTargets = getSecondaryTargets();
-				return getTargetPlayersQuestionAndOptions(currentTargets);
+				return getTargetPlayersQnO(currentTargets);
 			case 3:
 				List<Player> target = new ArrayList<>();
 				target.add(currentTargets.get(choice));

@@ -187,7 +187,7 @@ public abstract class WeaponCard extends Card {
 	}
 
 	/**
-	 * Get the targets of the primary mode of fire for this weapon. robe
+	 * Get the targets of the primary mode of fire for this weapon.
 	 * @return the targettable players.
 	 */
 	public abstract List<Player> getPrimaryTargets();
@@ -242,15 +242,22 @@ public abstract class WeaponCard extends Card {
 		currentStep++;
 	}
 
-	public static Pair getTargetPlayersQuestionAndOptions(List<Player> targets){
+	public static Pair getTargetPlayersQnO(List<Player> targets){
 		String question = "Which of the following players do you want to target?";
 		List<String> options = new ArrayList<>();
 		targets.forEach(target-> options.add(target.getPlayerName()));
 		return new Pair<>(question, options);
 	}
 
-	public static Pair getMoveCoordinatesTargetPlayerQuestionAndOptions(Player targetPlayer, List<Coordinates> coordinates){
+	public static Pair getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates){
 		String question = "Where do you want to move " + targetPlayer.getPlayerName() + "?";
+		List<String> options = new ArrayList<>();
+		coordinates.forEach(coordinate -> options.add(coordinate.toString()));
+		return new Pair<>(question, options);
+	}
+
+	public static Pair getTargetCoordinatesQnO(List<Coordinates> coordinates){
+		String question = "Where do you want to fire?";
 		List<String> options = new ArrayList<>();
 		coordinates.forEach(coordinate -> options.add(coordinate.toString()));
 		return new Pair<>(question, options);
