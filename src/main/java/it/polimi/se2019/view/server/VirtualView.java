@@ -127,11 +127,15 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	private void sendMessage(Message message) {
 		if (repMessage.hasReps()) {
+			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with the message for " + getPlayerName() + ".");
 			repMessage.addMessage(message);
 			client.sendMessage(repMessage);
 			repMessage = new RepMessage();
 		} else if(message != null) {
+			Utils.logInfo("VirtualView -> sendMessage(): no reps to send for " + getPlayerName() + ".");
 			client.sendMessage(message);
+		} else {
+			Utils.logInfo("VirtualView -> sendMessage(): nothing to send for " + getPlayerName() + " (null message and no reps).");
 		}
 	}
 

@@ -28,7 +28,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	 */
 	@Override
 	public synchronized void processMessage(Message message) {
-		Utils.logInfo("RemoteView -> processMessage(): Received received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Utils.logInfo("RemoteView -> processMessage(): Received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 		switch (message.getMessageType()) {
 			case NICKNAME:
 				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
@@ -80,9 +80,10 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 			case UPDATE_REPS:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
 					Utils.logInfo("\tRemoteView -> processMessage(): Updating reps.");
-					updateReps((RepMessage) message);
-					if (((RepMessage) message).getMessage() != null)
-						processMessage(((RepMessage) message).getMessage());
+					RepMessage repMessage = (RepMessage) message;
+					updateReps(repMessage);
+					if (repMessage.getMessage() != null)
+						processMessage(repMessage.getMessage());
 				}
 				break;
 			case EXAMPLE_ACTION: // TODO remove

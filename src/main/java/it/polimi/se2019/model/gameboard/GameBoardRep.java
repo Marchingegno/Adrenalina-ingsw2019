@@ -65,13 +65,7 @@ public class GameBoardRep extends Representation {
 	 * @return the name of the current player.
 	 */
 	public String getCurrentPlayer() {
-		try {
-			return currentPlayer;
-
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return currentPlayer;
 	}
 
 	public int getNumberOfPlayers() {
