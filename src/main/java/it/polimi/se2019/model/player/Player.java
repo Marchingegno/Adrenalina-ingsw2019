@@ -180,7 +180,7 @@ public class Player extends Representable {
 	 * @return the player's representation.
 	 */
 	public Representation getRep(String playerAsking) {
-		return playerName.equals(playerAsking) ? playerRep : playerRep.getHiddenPlayerRep();
+		return playerName.equals(playerAsking) ? new PlayerRep(this) : (new PlayerRep(this)).getHiddenPlayerRep();
 	}
 
 	/**

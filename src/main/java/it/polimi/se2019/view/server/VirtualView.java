@@ -6,14 +6,10 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.utils.exceptions.HiddenException;
 import it.polimi.se2019.view.ViewInterface;
 
 import java.util.List;
@@ -23,9 +19,10 @@ import java.util.Observer;
 public class VirtualView extends Observable implements ViewInterface {
 
 	private AbstractConnectionToClient client;
-
+	private RepMessage repMessage;
 
 	public VirtualView(AbstractConnectionToClient client) {
+		repMessage = new RepMessage();
 		this.client = client;
 	}
 
@@ -58,12 +55,12 @@ public class VirtualView extends Observable implements ViewInterface {
 					notifyObservers(/* MESSAGE HERE */);
 				}
 				break;
-		default:
-			Utils.logInfo("Virtual View : Received a message of type " + message.getMessageType().toString() + " and subtype " + message.getMessageSubtype().toString());
-			setChanged();
-			notifyObservers(event);
-			//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
-			break;
+			default:
+				Utils.logInfo("Virtual View : Received a message of type " + message.getMessageType().toString() + " and subtype " + message.getMessageSubtype().toString());
+				setChanged();
+				notifyObservers(event);
+				//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
+				break;
 
 		}
 	}
@@ -80,39 +77,43 @@ public class VirtualView extends Observable implements ViewInterface {
 		client.sendMessage(new Message(MessageType.EXAMPLE_ACTION, MessageSubtype.REQUEST));
 	}
 
+	public void sendReps() {
+		sendMessage(null); // if i want to send only the reps the message must be null
+	}
+
 	@Override
 	public void askAction() {
-		client.sendMessage(new Message(MessageType.ACTION, MessageSubtype.REQUEST));
+		sendMessage(new Message(MessageType.ACTION, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askGrab() {
-		client.sendMessage(new Message(MessageType.GRAB_AMMO, MessageSubtype.REQUEST));
+		sendMessage(new Message(MessageType.GRAB_AMMO, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askMove() {
-		client.sendMessage(new Message(MessageType.MOVE, MessageSubtype.REQUEST));
+		sendMessage(new Message(MessageType.MOVE, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askShoot() {
-		client.sendMessage(new Message(MessageType.SHOOT, MessageSubtype.REQUEST));
+		sendMessage(new Message(MessageType.SHOOT, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askReload() {
-		client.sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
+		sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askSpawn() {
-		client.sendMessage(new Message(MessageType.SPAWN, MessageSubtype.REQUEST));
+		sendMessage(new Message(MessageType.SPAWN, MessageSubtype.REQUEST));
 	}
 
 	@Override
 	public void askEnd() {
-		client.sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
+		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
 	}
 
 
@@ -124,27 +125,31 @@ public class VirtualView extends Observable implements ViewInterface {
 		// TODO send a message with the possible actions
 	}
 
+	private void sendMessage(Message message) {
+		if (repMessage.hasReps()) {
+			repMessage.addMessage(message);
+			client.sendMessage(repMessage);
+			repMessage = new RepMessage();
+		} else
+			client.sendMessage(message);
+	}
+
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
-		Utils.logInfo("Sending Game Board rep to " + getPlayerName());
-		client.sendMessage(gameBoardRepToUpdate);
+		repMessage.addGameBoardRep(gameBoardRepToUpdate);
+		Utils.logInfo("Added to " + getPlayerName() + "'s packet the Game Board rep");
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
-		Utils.logInfo("Sending Game Map rep to " + getPlayerName());
-		client.sendMessage(gameMapRepToUpdate);
+		repMessage.addGameMapRep(gameMapRepToUpdate);
+		Utils.logInfo("Added to " + getPlayerName() + "'s packet the Game Board rep");
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
-		Utils.logInfo("Sending Player rep to " + getPlayerName());
-		try {
-			System.out.println("------------------------------------------------------------------------------" + playerRepToUpdate.getPowerupCards().size());
-		} catch (HiddenException e) {
-			e.printStackTrace();
-		}
-		client.sendMessage(playerRepToUpdate);
+		repMessage.addPlayersRep(playerRepToUpdate);
+		Utils.logInfo("Added to " + getPlayerName() + "'s packet the Player rep of " + playerRepToUpdate.getPlayerName());
 	}
 
 

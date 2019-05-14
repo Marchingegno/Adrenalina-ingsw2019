@@ -18,6 +18,8 @@ import java.util.List;
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
 
 	private ConnectionToServerInterface connectionToServer;
+	protected boolean clientReadyToPlay = false;
+	ModelRep modelRep = new ModelRep();
 
 	/**
 	 * Receive and process the message sent by the server both by socket or by RMI.
@@ -25,6 +27,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	 */
 	@Override
 	public synchronized void processMessage(Message message) {
+		Utils.logInfo("Processing: " + message.getMessageType() + "of subtype" + message.getMessageSubtype());
 		switch (message.getMessageType()) {
 			case NICKNAME:
 				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
@@ -52,31 +55,31 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				}
 				break;
 			case GAME_CONFIG:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
 					askMapAndSkullsToUse();
+					System.out.println("Asked the skulls and map");
+				}
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 					showMapAndSkullsInUse(gameConfigMessage.getSkulls(), GameConstants.MapType.values()[gameConfigMessage.getMapIndex()]);
 				}
 				break;
-			case GAME_MAP_REP:
+			case UPDATE_REPS:
 				if (message.getMessageSubtype() == MessageSubtype.INFO){
-					Utils.logInfo("RemoteView => processMessage(): Updating Game Map rep");
-					updateGameMapRep((GameMapRep) message);
+					Utils.logInfo("RemoteView -> processMessage(): Updating reps");
+					updateReps((RepMessage) message);
+					if (((RepMessage) message).getMessage() != null)
+						processMessage(((RepMessage) message).getMessage());
 				}
 				break;
-			case GAME_BOARD_REP:
-				if (message.getMessageSubtype() == MessageSubtype.INFO){
-					Utils.logInfo("RemoteView => processMessage(): Updating Game Board rep");
-					updateGameBoardRep((GameBoardRep) message);
-				}
-				break;
-			case PLAYER_REP:
-				if (message.getMessageSubtype() == MessageSubtype.INFO){
-					Utils.logInfo("RemoteView => processMessage(): Updating " + ((PlayerRep) message).getPlayerName() + " rep");
-					updatePlayerRep((PlayerRep) message);
-				}
-				break;
+//			case CLIENT_READY:
+//				if (message.getMessageSubtype() == MessageSubtype.INFO){
+//					Utils.logInfo("RemoteView -> processMessage(): Updating reps");
+//					updateReps((RepMessage) message);
+//					if (((RepMessage) message).getMessage() != null)
+//						processMessage(((RepMessage) message).getMessage());
+//				}
+//				break;
 			case EXAMPLE_ACTION: // TODO remove
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askActionExample(); // This method will be processed by the CLI or by the GUI.
@@ -109,6 +112,35 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
 				break;
 		}
+	}
+
+	public abstract void updateDisplay();
+
+	public void updateReps(RepMessage repMessage) {
+		updateGameMapRep(repMessage.getGameMapRep());
+		updateGameBoardRep(repMessage.getGameBoardRep());
+		for (PlayerRep playerRep : repMessage.getPlayersRep()) {
+			updatePlayerRep(playerRep);
+		}
+		updateDisplay();
+	}
+
+	@Override
+	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
+		if (gameBoardRepToUpdate != null)
+			modelRep.setGameBoardRep(gameBoardRepToUpdate);
+	}
+
+	@Override
+	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
+		if (gameMapRepToUpdate != null)
+			modelRep.setGameMapRep(gameMapRepToUpdate);
+	}
+
+	@Override
+	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+		if (playerRepToUpdate != null)
+			modelRep.setPlayerRep(playerRepToUpdate);
 	}
 
 	/**

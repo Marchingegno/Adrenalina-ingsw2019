@@ -135,11 +135,16 @@ public class Match {
 
 		// Create Controller.
 		controller = new Controller(mapType, virtualViews.values(), skulls);
+
+		for (VirtualView virtualView : virtualViews.values()) {
+			virtualView.sendReps();
+		}
+		startGame();
 	}
 
 	private void startGame() {
-		controller.startGame();
 		matchStarted = true;
+		controller.startGame();
 	}
 
 	/**

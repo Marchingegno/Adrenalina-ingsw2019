@@ -243,7 +243,7 @@ public class GameBoard extends Representable {
 	 * @return the representation of the game board.
 	 */
 	public Representation getRep() {
-		return gameBoardRep;
+		return new GameBoardRep(this);
 	}
 
 	public void setCorrectDamageStatus(Player player) {

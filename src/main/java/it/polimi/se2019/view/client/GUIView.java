@@ -138,6 +138,11 @@ public class GUIView extends RemoteView {
 		JOptionPane.showMessageDialog(null, message, "Starting Match...", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	@Override
+	public void updateDisplay() {
+
+	}
+
 	// TODO remove
 	@Override
 	public void askActionExample() {

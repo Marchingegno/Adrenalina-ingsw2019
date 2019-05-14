@@ -1,8 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representation;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +18,6 @@ public class GameMapRep extends Representation {
 	private HashMap<String, Coordinates> playersPositions;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
-		super(MessageType.GAME_MAP_REP, MessageSubtype.INFO);
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
 		this.numOfRows = gameMapToRepresent.getNumOfRows();
 

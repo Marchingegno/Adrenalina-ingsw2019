@@ -66,8 +66,8 @@ public class CLIPrinter {
 	public CLIPrinter(){}
 
 	public static void printChooseView() {
-		setCursorHome();
-		cleanConsole();
+//		setCursorHome();
+//		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -82,8 +82,8 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseConnection() {
-		setCursorHome();
-		cleanConsole();
+//		setCursorHome();
+//		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -98,8 +98,8 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseNickname() {
-		setCursorHome();
-		cleanConsole();
+//		setCursorHome();
+//		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -115,8 +115,8 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseMap() {
-		setCursorHome();
-		cleanConsole();
+//		setCursorHome();
+//		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -134,8 +134,8 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseSkulls() {
-		setCursorHome();
-		cleanConsole();
+//		setCursorHome();
+//		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
@@ -150,8 +150,8 @@ public class CLIPrinter {
 	}
 
 	public static void printWaitingRoom(List<String> waitingPlayers) {
-		setCursorHome();
-		cleanConsole();
+//		setCursorHome();
+//		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -168,8 +168,8 @@ public class CLIPrinter {
 	}
 
 	public static void printWaitingMatchStart(long milliSeconds) {
-		setCursorHome();
-		cleanConsole();
+//		setCursorHome();
+//		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +

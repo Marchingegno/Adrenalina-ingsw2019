@@ -145,7 +145,7 @@ public class CLIViewTest {
 			// Note: The reps are still updated.
 		}
 
-		cliView.displayGame();
+		cliView.updateDisplay();
 
 		gameMap.movePlayerTo(players.get(0), new Coordinates(1,2));
 		gameMap.movePlayerTo(players.get(1), new Coordinates(0,3));
@@ -180,7 +180,7 @@ public class CLIViewTest {
 		cliView.updatePlayerRep(new PlayerRep(players.get(3)));
 		cliView.updatePlayerRep(new PlayerRep(players.get(4)));
 
-		cliView.displayGame();
+		cliView.updateDisplay();
 
 	}
 }

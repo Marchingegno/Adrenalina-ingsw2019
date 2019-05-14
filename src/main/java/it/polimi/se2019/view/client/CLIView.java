@@ -1,7 +1,6 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
-import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
@@ -28,10 +27,8 @@ import static it.polimi.se2019.view.client.CLIPrinter.*;
 public class CLIView extends RemoteView {
 
 	private String nickname;
-	private ModelRep modelRep = new ModelRep();
 	private Scanner scanner = new Scanner(System.in);
 	private RepPrinter repPrinter = new RepPrinter(modelRep);
-	private boolean clientReadyToPlay = false;
 
 	public static void print(String string) {
 		System.out.print(string);
@@ -115,7 +112,9 @@ public class CLIView extends RemoteView {
 		}
 		Utils.logInfo("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
+		System.out.println("Asked skuklls");
 		int skulls = askSkullsForGame();
+		System.out.println("Asked map");
 		ArrayList<String> players = new ArrayList<>();
 		players.add(nickname);
 		printWaitingRoom(players);
@@ -200,33 +199,6 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
-		if (gameMapRepToUpdate == null)
-			throw new NullPointerException();
-		modelRep.setGameMapRep(gameMapRepToUpdate);
-		displayGame();
-		sendReadyMessageIfReady();
-	}
-
-	@Override
-	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
-		if (gameBoardRepToUpdate == null)
-			throw new NullPointerException();
-		modelRep.setGameBoardRep(gameBoardRepToUpdate);
-		displayGame();
-		sendReadyMessageIfReady();
-	}
-
-	@Override
-	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
-		if (playerRepToUpdate == null)
-			throw new NullPointerException();
-		modelRep.setPlayersRep(playerRepToUpdate);
-		displayGame();
-		sendReadyMessageIfReady();
-	}
-
-	@Override
 	public void askSpawn() {
 		try {
 			List<PowerupCardRep> powerupCards = modelRep.getClientPlayerRep().getPowerupCards();
@@ -266,21 +238,8 @@ public class CLIView extends RemoteView {
 	/**
 	 * Displays the main game board
 	 */
-	public void displayGame() {
-		if(modelRep.isModelRepReadyToBeDisplayed())
-			repPrinter.displayGame();
-		else
-			Utils.logInfo("CLIView => displayGame(): Rep not ready to be displayed.");
-	}
-
-	private void sendReadyMessageIfReady() {
-		if(clientReadyToPlay) // If client is already ready no need to send the message.
-			return;
-
-		if(modelRep.isModelRepReadyToBeDisplayed()) { // If the client is now ready.
-			clientReadyToPlay = true; // Set it as ready.
-			sendMessage(new Message(MessageType.CLIENT_READY, MessageSubtype.OK));
-		}
+	public void updateDisplay() {
+		repPrinter.displayGame();
 	}
 
 	/**
@@ -334,6 +293,9 @@ class RepPrinter {
 
 	private ModelRep modelRep;
 	private String[][] mapToPrint;
+	/**
+	 * @deprecated
+	 */
 	private Logger logger = Logger.getLogger(RepPrinter.class.getName());
 
 	RepPrinter(ModelRep modelRep) {
@@ -344,6 +306,7 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
+		//TODO remove
 //		CLIPrinter.setCursorHome();
 //		CLIPrinter.cleanConsole();
 
@@ -471,6 +434,17 @@ class RepPrinter {
 
 	private void displayPlayers() {
 		StringBuilder stringBuilder = new StringBuilder();
+		try {
+			System.out.println(modelRep.getPlayersRep().size());
+			System.out.println(modelRep);
+			System.out.println(modelRep.getGameBoardRep());
+			System.out.println(modelRep.getGameBoardRep().getCurrentPlayer());
+			System.out.println(modelRep.getPlayersRep().get(0).getPlayerName());
+			System.out.println(modelRep.getPlayersRep().get(1).getPlayerName());
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
 			stringBuilder.append(Color.getColoredString("● ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.WHITE : Color.CharacterColorType.BLACK));
 			stringBuilder.append(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));

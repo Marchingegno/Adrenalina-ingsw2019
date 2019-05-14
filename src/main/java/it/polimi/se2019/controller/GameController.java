@@ -108,7 +108,6 @@ public class GameController {
 		model.setCorrectDamageStatus(player);
 		model.setTurnStatus(player, TurnStatus.YOUR_TURN);
 		Controller.getVirtualViewFromPlayer(player, virtualViews).askAction();
-
 	}
 
 
@@ -126,7 +125,6 @@ public class GameController {
 	 */
 	private void askToSpawn(Player player, VirtualView virtualView){
 		model.addPowerupCardTo(player);
-
 		virtualView.askSpawn();
 	}
 

@@ -479,7 +479,7 @@ public class GameMap extends Representable {
 	 * @return the representation of the game map.
 	 */
 	public Representation getRep() {
-		return gameMapRep;
+		return new GameMapRep(this);
 	}
 }
 
