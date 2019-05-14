@@ -246,7 +246,7 @@ class RepPrinter {
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT));
 		CLIView.printLine(
-				Utils.fillWithSpaces(playerRep.getDamageStatusRep().getMacroActionStrings().get(0), 6) +
+				Utils.fillWithSpaces(playerRep.getDamageStatusRep().getMacroActionStrings().get(1), 6) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
@@ -259,7 +259,7 @@ class RepPrinter {
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
 		CLIView.printLine(
-				Utils.fillWithSpaces(playerRep.getDamageStatusRep().getMacroActionStrings().get(0), 6) +
+				Utils.fillWithSpaces(playerRep.getDamageStatusRep().getMacroActionStrings().get(2), 6) +
 						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +

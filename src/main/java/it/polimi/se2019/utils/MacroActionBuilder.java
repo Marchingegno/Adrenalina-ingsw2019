@@ -20,8 +20,8 @@ public class MacroActionBuilder {
 		grabActive = false;
 		reloadActive = false;
 		shootActive = false;
-		name = "placeHolder";
 		//TODO: Implement name.
+		name = "placeHolder";
 	}
 
 
@@ -44,6 +44,7 @@ public class MacroActionBuilder {
 
 	public MacroAction build() {
 		isCorrect();
+		Utils.logInfo("MacroActionBuilder -> build(): Building " + name + ": moves=" + moveDistance + (grabActive ? " grab" : "") + (reloadActive ? " reload" : "") + (shootActive ? " shoot" : ""));
 		return new MacroAction(moveDistance, grabActive, reloadActive, shootActive, name);
 	}
 
