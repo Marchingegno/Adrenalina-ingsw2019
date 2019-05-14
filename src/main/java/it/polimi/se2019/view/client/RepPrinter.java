@@ -233,7 +233,7 @@ class RepPrinter {
 	private void displayOwnPlayer(PlayerRep playerRep) {
 		CLIView.printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
 		CLIView.printLine(
-				"Move 1 >>>\t\t" +
+				Utils.fillWithSpaces(playerRep.getDamageStatusRep().getMacroActionStrings().get(0), 6) +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 1\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.WHITE, Color.BackgroundColorType.DEFAULT) +
@@ -246,7 +246,7 @@ class RepPrinter {
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT));
 		CLIView.printLine(
-				"Grab 2 >>O\t\t" +
+				Utils.fillWithSpaces(playerRep.getDamageStatusRep().getMacroActionStrings().get(0), 6) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
@@ -259,7 +259,7 @@ class RepPrinter {
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
 		CLIView.printLine(
-				"Shoo 3 >>S\t\t" +
+				Utils.fillWithSpaces(playerRep.getDamageStatusRep().getMacroActionStrings().get(0), 6) +
 						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +

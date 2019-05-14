@@ -133,6 +133,15 @@ public class PlayerRep extends Representation {
 	}
 
 	/**
+	 * Return the damage status representation.
+	 *
+	 * @return the damage status representation.
+	 */
+	public DamageStatusRep getDamageStatusRep() {
+		return damageStatusRep;
+	}
+
+	/**
 	 * Returns the sensitive information of player's points.
 	 *
 	 * @return the sensitive information of player's points.
