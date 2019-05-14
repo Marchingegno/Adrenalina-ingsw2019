@@ -36,8 +36,7 @@ public class Controller implements Observer {
 
 		// Send reps of the created Model.
 		model.updateReps();
-
-		updateReps(this.virtualViews);
+		sendUpdatedReps(this.virtualViews);
 	}
 
 
@@ -87,7 +86,7 @@ public class Controller implements Observer {
 				.orElseThrow(() -> new RuntimeException(playerName + " not found!"));
 	}
 
-	static void updateReps(List<VirtualView> virtualViews) {
+	static void sendUpdatedReps(List<VirtualView> virtualViews) {
 		for (VirtualView virtualView : virtualViews) {
 			virtualView.sendReps();
 		}

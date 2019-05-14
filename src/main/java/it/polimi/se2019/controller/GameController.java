@@ -106,8 +106,8 @@ public class GameController {
 		}
 		model.setCorrectDamageStatus(player);
 		model.setTurnStatus(player, TurnStatus.YOUR_TURN);
-		Controller.updateReps(virtualViews);
 		Controller.getVirtualViewFromPlayer(player, virtualViews).askAction();
+		Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
 	}
 
 
@@ -164,8 +164,8 @@ public class GameController {
 					} catch (Exception e){
 						Utils.logError("Error spawning player", e);
 					}
-					Controller.updateReps(virtualViews);
 					virtualView.askAction();
+					Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
 				}
 				break;
 			default: turnController.processEvent(event);

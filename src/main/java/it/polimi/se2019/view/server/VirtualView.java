@@ -130,8 +130,9 @@ public class VirtualView extends Observable implements ViewInterface {
 			repMessage.addMessage(message);
 			client.sendMessage(repMessage);
 			repMessage = new RepMessage();
-		} else
+		} else if(message != null) {
 			client.sendMessage(message);
+		}
 	}
 
 	@Override
