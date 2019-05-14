@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.client;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
@@ -240,21 +241,29 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		DamageStatusRep damageStatusRep = playerRep.getDamageStatusRep();
 		if (lineIndex + 1 <= damageStatusRep.numOfMacroActions()) {
-			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 7));
-			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionName(lineIndex), 5));
+			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 5));
+			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionName(lineIndex), 10));
 		}
+
+		if (lineIndex + 1 <= playerRep.getPowerupCards().size()) {
+			stringBuilder.append(Color.getColoredString("●", playerRep.getPowerupCards().get(lineIndex).getAssociatedAmmo().getCharacterColorType()));
+			stringBuilder.append(Utils.fillWithSpaces(" " + playerRep.getPowerupCards().get(lineIndex).getPowerupName(), 15));
+		} else
+			stringBuilder.append(Utils.fillWithSpaces(15));
+
 		stringBuilder.append(
-				Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						" Powerup 1\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.WHITE, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 1\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						"\t\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT));
+								"\t\t\t");
+
+		if (lineIndex + 1 <= AmmoType.values().length) {
+			AmmoType ammoType = AmmoType.values()[lineIndex];
+			for (int i = 0; i < playerRep.getAmmo(ammoType); i++) {
+				stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
+			}
+		}
 		CLIView.printLine(stringBuilder.toString());
 	}
 

@@ -5,7 +5,7 @@ package it.polimi.se2019.utils.exceptions;
  *
  * @author Desno365
  */
-public class HiddenException extends Exception {
+public class HiddenException extends RuntimeException {
 
 	/**
 	 * Constructs an HiddenException with the specified detail message.

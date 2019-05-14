@@ -332,6 +332,7 @@ public class GameMap extends Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
+	//TODO remove current room
 	public List<Coordinates> getAdjacentRooms(Coordinates coordinates) {
 		List<Coordinates> coordinatesOfAdjacentRooms = new ArrayList<>();
 		List<Integer> adjacentRooms = new ArrayList<>();

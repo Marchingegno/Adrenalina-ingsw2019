@@ -25,6 +25,10 @@ public class PowerupCardRep implements Serializable {
 		return associatedAmmo;
 	}
 
+	public String getPowerupName() {
+		return powerupName;
+	}
+
 	/**
 	 * Returns the description of the card.
 	 *

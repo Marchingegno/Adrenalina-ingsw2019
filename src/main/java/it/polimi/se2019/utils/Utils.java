@@ -57,6 +57,10 @@ public class Utils {
 		return fillWithSpacesColored(inputString, length, Color.CharacterColorType.DEFAULT);
 	}
 
+	public static String fillWithSpaces(int length) {
+		return fillWithSpacesColored("", length, Color.CharacterColorType.DEFAULT);
+	}
+
 	public static ServerConfig getServerConfig() {
 		return serverConfig;
 	}

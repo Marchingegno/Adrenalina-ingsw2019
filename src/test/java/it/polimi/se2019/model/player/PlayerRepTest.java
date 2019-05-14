@@ -104,18 +104,18 @@ public class PlayerRepTest {
 	@Test
 	public void getRedAmmo_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player1);
-		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE + 1, playerRep.getRedAmmo());
+		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE + 1, playerRep.getAmmo(AmmoType.RED_AMMO));
 	}
 
 	@Test
 	public void getYellowAmmo_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player2);
-		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE, playerRep.getYellowAmmo());
+		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE, playerRep.getAmmo(AmmoType.YELLOW_AMMO));
 	}
 
 	@Test
 	public void getBlueAmmo_initialState_correctOutput() {
 		PlayerRep playerRep = new PlayerRep(player3);
-		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE, playerRep.getBlueAmmo());
+		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE, playerRep.getAmmo(AmmoType.BLUE_AMMO));
 	}
 }

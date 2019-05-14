@@ -28,9 +28,7 @@ public class PlayerRep extends Representation {
 	private DamageStatusRep damageStatusRep;
 	//TODO add weapon reps
 	private ArrayList<PowerupCardRep> powerupCards;
-	private int redAmmo;
-	private int yellowAmmo;
-	private int blueAmmo;
+	private int[] ammo;
 	private boolean hidden;
 
 
@@ -62,9 +60,11 @@ public class PlayerRep extends Representation {
 			powerupCards.add(new PowerupCardRep(powerupCard));
 		}
 
-		redAmmo = player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.RED_AMMO);
-		yellowAmmo = player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.YELLOW_AMMO);
-		blueAmmo = player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.BLUE_AMMO);
+		ammo = new int[AmmoType.values().length];
+		for (AmmoType ammoType : AmmoType.values()) {
+			ammo[ammoType.ordinal()] = player.getPlayerBoard().getAmmoContainer().getAmmo(ammoType);
+		}
+
 		hidden = false;
 	}
 
@@ -89,9 +89,7 @@ public class PlayerRep extends Representation {
 		newPlayerRep.marks = new ArrayList<>(marks);
 		newPlayerRep.damageStatusRep = null;//hidden
 		newPlayerRep.powerupCards = null; // hidden
-		newPlayerRep.redAmmo = this.redAmmo;
-		newPlayerRep.yellowAmmo = this.yellowAmmo;
-		newPlayerRep.blueAmmo = this.blueAmmo;
+		newPlayerRep.ammo = this.ammo.clone();
 		newPlayerRep.hidden = true;
 		return newPlayerRep;
 	}
@@ -147,7 +145,7 @@ public class PlayerRep extends Representation {
 	 * @return the sensitive information of player's points.
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
-	public int getPoints() throws HiddenException {
+	public int getPoints() {
 		if (isHidden())
 			throw new HiddenException("The value of \"points\" is hidden in this PlayerRep.");
 		return points;
@@ -177,7 +175,7 @@ public class PlayerRep extends Representation {
 	 * @return the sensitive information of player's powerup cards.
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
-	public List<PowerupCardRep> getPowerupCards() throws HiddenException {
+	public List<PowerupCardRep> getPowerupCards() {
 		if (isHidden())
 			throw new HiddenException("The value of \"powerupCards\" is hidden in this PlayerRep.");
 		return powerupCards;
@@ -188,39 +186,7 @@ public class PlayerRep extends Representation {
 	 *
 	 * @return the total amount of red ammo this player posses.
 	 */
-	public int getRedAmmo() {
-		return redAmmo;
-	}
-
-	/**
-	 * Returns the total amount of yellow ammo this player posses.
-	 *
-	 * @return the total amount of yellow ammo this player posses.
-	 */
-	public int getYellowAmmo() {
-		return yellowAmmo;
-	}
-
-	/**
-	 * Returns the total amount of blue ammo this player posses.
-	 *
-	 * @return the total amount of blue ammo this player posses.
-	 */
-	public int getBlueAmmo() {
-		return blueAmmo;
-	}
-
-	@Override
-	public String toString() {
-		return ("Player name: " + playerName + "\n" +
-				"Color: " + Color.getColoredString(" ", playerColor, Color.BackgroundColorType.DEFAULT) +
-				"Hidden: " + hidden + "\n" +
-				"PlayerId: " + playerID + "\n" +
-				"PowerUpCards: " + powerupCards.toString() + "\n" +
-				"Point: " + points + "\n" +
-				"Blue ammo: " + blueAmmo + "\n" +
-				"Red ammo: " + redAmmo + "\n" +
-				"Yellow ammo: " + yellowAmmo + "\n" +
-				"Marks: " + marks);
+	public int getAmmo(AmmoType ammoType) {
+		return ammo[ammoType.ordinal()];
 	}
 }
