@@ -332,6 +332,18 @@ public class GameMap extends Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
+	public List<Coordinates> getAdjacentRooms(Coordinates coordinates) {
+		List<Coordinates> coordinatesOfAdjacentRooms = new ArrayList<>();
+		List<Integer> adjacentRooms = new ArrayList<>();
+		for (Square square : getSquare(coordinates).getAdjacentSquares()) {
+			if (!adjacentRooms.contains(square.getRoomID()))
+				adjacentRooms.add(square.getRoomID());
+		}
+		for (Integer roomID : adjacentRooms) {
+			coordinatesOfAdjacentRooms.addAll(rooms.get(roomID));
+		}
+		return coordinatesOfAdjacentRooms;
+	}
 
 	public List<Player> reachablePlayers(Player player, int distance) {
 		List<Player> reachablePlayers = new ArrayList<>();
