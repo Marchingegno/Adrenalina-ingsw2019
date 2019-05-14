@@ -36,7 +36,7 @@ public abstract class AlternateFire extends WeaponCard {
 
 	@Override
 	public void registerChoice(int choice) {
-		if (choice == 2)
+		if (choice == 1)
 			alternateFireActive = true;
 	}
 
@@ -78,7 +78,6 @@ public abstract class AlternateFire extends WeaponCard {
 	 * @return the targettable players.
 	 */
 	public abstract List<Player> getSecondaryTargets();
-
 
 
 	void secondaryReset(){

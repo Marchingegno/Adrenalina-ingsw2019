@@ -166,7 +166,7 @@ public abstract class WeaponCard extends Card {
 	protected void dealDamage(List<Player> playersToShoot, List<DamageAndMarks> damagesAndMarks){
 		for (int i = 0; i < playersToShoot.size(); i++) {
 			playersToShoot.get(i).getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getDamage());
-			playersToShoot.get(i).getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getMarks());
+			playersToShoot.get(i).getPlayerBoard().addMarks(owner, damagesAndMarks.get(i).getMarks());
 		}
 	}
 
@@ -196,6 +196,7 @@ public abstract class WeaponCard extends Card {
 		return getPrimaryTargets();
 	}
 
+	abstract Pair handlePrimaryFire(int choice);
 
 	/**
 	 * Deloads the weapon and reset eventually modified parameters.

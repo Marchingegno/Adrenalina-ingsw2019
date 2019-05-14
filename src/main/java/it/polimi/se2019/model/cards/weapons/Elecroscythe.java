@@ -18,7 +18,7 @@ public final class Elecroscythe extends AlternateFire {
 		super(description, reloadPrice);
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumAlternateSteps = 2;
 		this.maximumSteps = 2;
 	}
@@ -37,19 +37,27 @@ public final class Elecroscythe extends AlternateFire {
 			if (isAlternateFireActive()) {
 				return handleSecondaryFire(choice);
 			} else {
-				if(getCurrentStep() == 2) {
-						currentTargets = getPrimaryTargets();
-						primaryFire();
-				}
+				handlePrimaryFire(choice);
 			}
 		}
 		return null;
 	}
 
 	@Override
+	Pair handlePrimaryFire(int choice) {
+		if(getCurrentStep() == 2) {
+			currentTargets = getPrimaryTargets();
+			primaryFire();
+		}
+		return null;
+	}
+
+	@Override
 	Pair handleSecondaryFire(int choice) {
-		currentTargets = getSecondaryTargets();
-		secondaryFire();
+		if(getCurrentStep() == 2) {
+			currentTargets = getSecondaryTargets();
+			secondaryFire();
+		}
 		return null;
 	}
 
@@ -58,7 +66,7 @@ public final class Elecroscythe extends AlternateFire {
 		//Deal damage to everyone on your square
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getStandardDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
-			damageAndMarksList.add(getStandardDamagesAndMarks().get(0));
+			damageAndMarksList.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		}
 		dealDamage(currentTargets, damageAndMarksList);
 	}
@@ -67,7 +75,8 @@ public final class Elecroscythe extends AlternateFire {
 	public void secondaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getSecondaryDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
-			damageAndMarksList.add(getSecondaryDamagesAndMarks().get(0));
+//			damageAndMarksList.add(getSecondaryDamagesAndMarks().get(0));
+			damageAndMarksList.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		}
 		dealDamage(currentTargets, damageAndMarksList);
 	}
