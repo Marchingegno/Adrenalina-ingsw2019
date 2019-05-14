@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.client;
 
+import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -9,10 +10,13 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.*;
+import it.polimi.se2019.utils.exceptions.HiddenException;
 
 import java.text.DecimalFormat;
-import java.util.*;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import static it.polimi.se2019.view.client.CLIPrinter.*;
@@ -233,11 +237,19 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askSpawn() {
-		printLine("Select the Powerup card to use.");
-		printLine("Select a number between 0 and 3.");
-		int answer = askInteger(0, 3);
-		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
+		try {
+			List<PowerupCardRep> powerupCards = modelRep.getClientPlayerRep().getPowerupCards();
+			printLine("Select the Powerup card to use.");
+			for (int i = 0; i < powerupCards.size(); i++)
+				printLine(i + ") " + powerupCards.get(i).toString());
+			int answer = askInteger(0, powerupCards.size() - 1);
+
+			// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+			sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
+
+		} catch (HiddenException e) {
+			Utils.logError("The client rep shouldn't be hidden.", e);
+		}
 	}
 
 	private int askMapToUse() {
@@ -341,6 +353,9 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
+//		CLIPrinter.setCursorHome();
+//		CLIPrinter.cleanConsole();
+
 		CLIView.print("\n");
 
 		displayPlayers();
@@ -349,16 +364,18 @@ class RepPrinter {
 
 		displayGameBoard();
 
-		CLIView.print("\n");
+		CLIView.print("\n\n\n");
 
 		if (mapToPrint == null)
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
 		updateMapToPrint();
 		displayMap();
 
-		CLIView.print("\n");
+		CLIView.print("\n\n\n");
 
-		displayOwnPlayer(modelRep.getPlayersRep().get(0));
+		displayOwnPlayer(modelRep.getClientPlayerRep());
+
+		CLIView.print("\n\n\n");
 	}
 
 	/**
@@ -382,13 +399,13 @@ class RepPrinter {
 				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName()));
 				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("▲", playerRep.getPlayerColor());
 			} catch (NullPointerException e) {
-				logger.log(Level.SEVERE, "{0} has no position", playerRep.getPlayerName());
+				Utils.logInfo(playerRep.getPlayerName() + " has no position");
 			}
 		}
 	}
 
 	/**
-	 * Adds to the map to print in the correct square the ammos of the ammo card.
+	 * Adds to the map to print in the correct square the ammo of the ammo card.
 	 *
 	 * @param squareRep
 	 */
@@ -424,7 +441,8 @@ class RepPrinter {
 	 * Displays the remaining skulls, the kill shot track and the double kills.
 	 */
 	private void displayGameBoard() {
-		CLIView.printLine(getSkullString() + "\n\n" +
+		CLIView.printLine("\n\n" +
+				getSkullString() + "\n\n" +
 				getKillShotTrackString() + "\n\n" +
 				getDoubleKillString() + "\n");
 	}
@@ -434,7 +452,7 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Skulls:\t\t");
 		for (int i = 0; i < GameConstants.MAX_SKULLS; i++) {
-			stringBuilder.append(Color.getColoredString("●", i < (GameConstants.MAX_SKULLS - skulls) ? Color.CharacterColorType.DEFAULT : Color.CharacterColorType.RED));
+			stringBuilder.append(Color.getColoredString("●", i < (GameConstants.MAX_SKULLS - skulls) ? Color.CharacterColorType.BLACK : Color.CharacterColorType.RED));
 		}
 		return stringBuilder.toString();
 	}
@@ -463,7 +481,7 @@ class RepPrinter {
 	private void displayPlayers() {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
-			stringBuilder.append(Color.getColoredString("● ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.BLACK : Color.CharacterColorType.DEFAULT));
+			stringBuilder.append(Color.getColoredString("● ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.WHITE : Color.CharacterColorType.BLACK));
 			stringBuilder.append(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
 			for (int i = 0; i < GameConstants.MAX_NICKNAME_LENGHT - playerRep.getPlayerName().length(); i++) {
 				stringBuilder.append(" ");
@@ -474,7 +492,7 @@ class RepPrinter {
 			stringBuilder.append("\t\t\t|");
 			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
 
-			CLIView.print(stringBuilder.toString());
+			CLIView.printLine(stringBuilder.toString());
 			stringBuilder = new StringBuilder();
 		}
 	}
@@ -511,6 +529,7 @@ class RepPrinter {
 
 	private void displayMap() {
 		for (int i = 0; i < mapToPrint.length; i++) {
+			CLIView.print("\t\t\t\t\t\t\t\t\t\t");
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);
 			}
@@ -519,8 +538,8 @@ class RepPrinter {
 	}
 
 	private void displayOwnPlayer(PlayerRep playerRep) {
-		CLIView.print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
-		CLIView.print(
+		CLIView.printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
+		CLIView.printLine(
 				"Move 1 >>>\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 1\t\t" +
@@ -528,13 +547,13 @@ class RepPrinter {
 						" Weapon 1\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
-		CLIView.print(
-				"Move 2 >>O\t\t" +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT));
+		CLIView.printLine(
+				"Grab 2 >>O\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 2\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
@@ -546,19 +565,19 @@ class RepPrinter {
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
-		CLIView.print(
-				"Move 3 >>S\t\t" +
+		CLIView.printLine(
+				"Shoo 3 >>S\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
 						" Powerup 3\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						" Weapon 3\t" +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
 						"\t\t\t" +
 						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.DEFAULT, Color.BackgroundColorType.DEFAULT));
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
+						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT));
 	}
 
 	private String[][] initializeMapToPrint(SquareRep[][] map) {

@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.powerups.Newton;
 import it.polimi.se2019.model.cards.weapons.Cyberblade;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.exceptions.HiddenException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

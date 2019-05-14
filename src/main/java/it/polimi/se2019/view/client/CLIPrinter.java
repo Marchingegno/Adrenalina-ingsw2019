@@ -11,7 +11,7 @@ import static it.polimi.se2019.view.client.CLIView.print;
 public class CLIPrinter {
 
 	private static final String ESC = (char) 27 + "[";
-	private static final String CLEAN = ESC + "2J";
+	private static final String CLEAN = ESC + "J";
 	private static final String HOME = ESC + "H";
 	private static final String SAVE = ESC + "s";
 	private static final String LOAD = ESC + "u";
@@ -66,8 +66,8 @@ public class CLIPrinter {
 	public CLIPrinter(){}
 
 	public static void printChooseView() {
-		cleanConsole();
 		setCursorHome();
+		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -82,8 +82,8 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseConnection() {
-		cleanConsole();
 		setCursorHome();
+		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -98,8 +98,8 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseNickname() {
-		cleanConsole();
 		setCursorHome();
+		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -110,12 +110,13 @@ public class CLIPrinter {
 				"											║                                                                ║\n" +
 				"											║                                                                ║\n" +
 				"											╚════════════════════════════════════════════════════════════════╝\n");
-		moveCursorTo(36, 70);
+		moveCursorUP(3);
+		moveCursorRIGHT(120);
 	}
 
 	public static void printChooseMap() {
-		cleanConsole();
 		setCursorHome();
+		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -133,8 +134,8 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseSkulls() {
-		cleanConsole();
 		setCursorHome();
+		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
@@ -149,8 +150,8 @@ public class CLIPrinter {
 	}
 
 	public static void printWaitingRoom(List<String> waitingPlayers) {
-		cleanConsole();
 		setCursorHome();
+		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -167,8 +168,8 @@ public class CLIPrinter {
 	}
 
 	public static void printWaitingMatchStart(long milliSeconds) {
-		cleanConsole();
 		setCursorHome();
+		cleanConsole();
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +

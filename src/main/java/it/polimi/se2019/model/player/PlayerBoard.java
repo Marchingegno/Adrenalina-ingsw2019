@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.exceptions.InventoryFullException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -316,17 +317,3 @@ public class PlayerBoard {
 }
 
 
-/**
- * Thrown when a new item hasn't be added because the inventory has reached the max capacity.
- * @author Desno365
- */
-class InventoryFullException extends RuntimeException {
-
-	/**
-	 * Constructs an InventoryFullException with the specified detail message.
-	 * @param message the detail message.
-	 */
-	public InventoryFullException(String message) {
-		super(message);
-	}
-}

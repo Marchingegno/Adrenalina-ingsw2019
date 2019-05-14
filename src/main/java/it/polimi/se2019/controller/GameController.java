@@ -3,8 +3,11 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.model.player.damagestatus.*;
-import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
+import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
+import it.polimi.se2019.network.message.DefaultActionMessage;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -26,7 +29,6 @@ public class GameController {
 		this.virtualViews = virtualViews;
 		this.model = model;
 		turnController = new TurnController(model, virtualViews);
-		Utils.logInfo("Create GameController");
 	}
 
 
@@ -99,7 +101,6 @@ public class GameController {
 		//Which should be only in its beginning turns.
 		if(player.getTurnStatus() == TurnStatus.PRE_SPAWN){
 			model.setCorrectDamageStatus(player);
-			model.setTurnStatus(player, TurnStatus.YOUR_TURN);
 			askToSpawn(player);
 			return;
 		}
@@ -125,6 +126,7 @@ public class GameController {
 	 */
 	private void askToSpawn(Player player, VirtualView virtualView){
 		model.addPowerupCardTo(player);
+
 		virtualView.askSpawn();
 	}
 
@@ -143,12 +145,11 @@ public class GameController {
 		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
-		Utils.logInfo("GameController: processing an event: "+ event.toString());
-		//TODO: Add other cases.
+		Utils.logInfo("GameController -> processing an event: "+ event.toString());
 		switch (messageType) {
 			case END_TURN:
 				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-					throw new IllegalStateException("It's not your turn!");
+					Utils.logError("It's not the turn of "+player.getPlayerName()+"!", new IllegalStateException());
 				}
 				endTurn();
 				break;

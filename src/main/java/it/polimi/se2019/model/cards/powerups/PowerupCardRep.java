@@ -36,6 +36,6 @@ public class PowerupCardRep implements Serializable {
 
 	@Override
 	public String toString() {
-		return powerupName;
+		return powerupName + " " + associatedAmmo;
 	}
 }

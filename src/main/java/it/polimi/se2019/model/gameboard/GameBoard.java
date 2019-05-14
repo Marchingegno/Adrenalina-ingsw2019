@@ -44,17 +44,6 @@ public class GameBoard extends Representable {
 
 	public GameBoard(String mapName, List<String> playerNames, int startingSkulls) {
 
-		// initialize players
-		players = new ArrayList<>(playerNames.size());
-
-		int id = 0;
-		for (String name : playerNames) {
-			players.add(new Player(name, id));
-			id++;
-		}
-
-		playerQueue = new PlayerQueue(players);
-
 		// initialize GameBoard attributes
 		remainingSkulls = startingSkulls;
 		killShots = new ArrayList<>();
@@ -64,6 +53,15 @@ public class GameBoard extends Representable {
 		powerupDeck = new PowerupDeck();
 		killShotInThisTurn = false;
 		frenzyStarted = false;
+
+		players = new ArrayList<>(playerNames.size());
+		int id = 0;
+		for (String name : playerNames) {
+			players.add(new Player(name, id));
+			id++;
+		}
+		players.forEach(player -> player.getPlayerBoard().addPowerup(powerupDeck.drawCard()));
+		playerQueue = new PlayerQueue(players);
 		gameMap = new GameMap(mapName, players, this);
 
 		setChanged();
@@ -117,7 +115,9 @@ public class GameBoard extends Representable {
 	 * @return a copy of the list of all the players.
 	 */
 	public List<Player> getPlayers() {
-		return new ArrayList<>(players);
+		//return new ArrayList<>(players);
+		return players;
+		//return players;
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class GameBoard extends Representable {
 			gameBoardRep = new GameBoardRep(this);
 			Utils.logInfo("GameBoard -> updateRep(): The game board representation has been updated");
 		} else {
-			Utils.logInfo("GameBoard -> updateRep(): The game map representation is already up to date");
+			Utils.logInfo("GameBoard -> updateRep(): The game board representation is already up to date");
 		}
 	}
 
@@ -280,11 +280,15 @@ public class GameBoard extends Representable {
 		//Remove card from player
 		player.getPlayerBoard().removePowerup(indexOfCard);
 		//Set its turn status
-		player.setTurnStatus(TurnStatus.IDLE);
+		if (player.getTurnStatus() == TurnStatus.PRE_SPAWN) {
+			setTurnStatus(player, TurnStatus.YOUR_TURN);
+		} else {
+			setTurnStatus(player, TurnStatus.IDLE);
+		}
 	}
 
 	public void addPowerupCardTo(Player player) {
-		player.getPlayerBoard().getPowerupCards().add(powerupDeck.drawCard());
+		player.getPlayerBoard().addPowerup(powerupDeck.drawCard());
 	}
 }
 

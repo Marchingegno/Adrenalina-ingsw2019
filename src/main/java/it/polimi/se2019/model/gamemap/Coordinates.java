@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.utils.CardinalDirection;
+import it.polimi.se2019.utils.exceptions.NegativeCoordinatesException;
 
 import java.io.Serializable;
 
@@ -88,19 +89,4 @@ public class Coordinates implements Serializable {
 	 */
 	@Override
 	public int hashCode(){	return (int)(pow( (double)2, (double)(row - 1)) * (2 * column - 1));}
-}
-
-/**
- * Thrown when coordinates is initialized with negative indexes.
- * @author MarcerAndrea
- */
-class NegativeCoordinatesException extends RuntimeException {
-
-	/**
-	 * Constructs an NegativeCoordinatesException with the specified message.
-	 * @param message the detail message.
-	 */
-	NegativeCoordinatesException(String message) {
-		super(message);
-	}
 }

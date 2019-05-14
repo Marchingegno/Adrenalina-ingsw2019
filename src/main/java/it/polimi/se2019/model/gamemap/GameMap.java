@@ -10,10 +10,12 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.exceptions.OutOfBoundariesException;
+import it.polimi.se2019.utils.exceptions.PlayerNotInTheMapException;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -420,8 +422,8 @@ public class GameMap extends Representable {
 	 * @param mapName: name of the map to load
 	 */
 	private void generateMapJson(String mapName, GameBoard gameBoard) {
-
-		try (Reader reader = new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("maps/" + mapName + ".json").getFile()))) {
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/maps/" + mapName + ".json")));
+		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 			numOfRows = rootObject.get("row").getAsInt();
@@ -469,7 +471,7 @@ public class GameMap extends Representable {
 			gameMapRep = new GameMapRep(this);
 			Utils.logInfo("GameMap -> updateRep(): The game map representation has been updated");
 		} else
-			Utils.logInfo("GameBoard -> updateRep(): The game map representation is already up to date");
+			Utils.logInfo("GameMap -> updateRep(): The game map representation is already up to date");
 	}
 
 	/**
@@ -481,36 +483,3 @@ public class GameMap extends Representable {
 	}
 }
 
-/**
- * Thrown when some coordinates are out of the map.
- *
- * @author MarcerAndrea
- */
-class OutOfBoundariesException extends RuntimeException {
-
-	/**
-	 * Constructs an OutOfBoundariesException with the specified message.
-	 *
-	 * @param message the detail message.
-	 */
-	public OutOfBoundariesException(String message) {
-		super(message);
-	}
-}
-
-/**
- * Thrown when a player is not in the Map.
- *
- * @author MarcerAndrea
- */
-class PlayerNotInTheMapException extends RuntimeException {
-
-	/**
-	 * Constructs an PlayerNotInTheMapException with the specified message.
-	 *
-	 * @param message the detail message.
-	 */
-	public PlayerNotInTheMapException(String message) {
-		super(message);
-	}
-}
