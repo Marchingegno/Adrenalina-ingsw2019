@@ -56,7 +56,7 @@ public class Model {
 		return gameBoard.getPlayerQueue();
 	}
 
-	public Boolean isFrenzyStarted(){
+	public boolean isFrenzyStarted(){
 		return gameBoard.isFrenzyStarted();
 	}
 
@@ -248,7 +248,7 @@ public class Model {
 		return gameBoard.getPlayers();
 	}
 
-	public void updateReps() {
+	private void updateReps() {
 		gameBoard.updateRep();
 		gameBoard.notifyObservers();
 		gameMap.updateRep();

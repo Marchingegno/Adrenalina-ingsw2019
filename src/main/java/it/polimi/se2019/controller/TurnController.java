@@ -57,23 +57,23 @@ public class TurnController{
 				break;
 			case GRAB_AMMO:
 				model.grabAmmoCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
-				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
+				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case GRAB_WEAPON:
 				model.grabWeaponCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
-				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
+				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case MOVE:
 				model.movePlayerTo(player, ((MoveActionMessage)event.getMessage()).getCoordinates());
-				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
+				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case RELOAD:
 				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
-				Controller.sendUpdatedReps(virtualViews);
 				handleAction(player,virtualView);
+				Controller.sendUpdatedReps(virtualViews);
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
 		}

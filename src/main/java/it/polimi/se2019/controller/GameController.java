@@ -7,7 +7,6 @@ import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.network.message.DefaultActionMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -38,7 +37,7 @@ public class GameController {
 	}
 
 	private void flipPlayers(){
-		model.getPlayers().stream()
+		model.getPlayers()
 				.forEach(Player::flipIfNoDamage);
 
 	}
@@ -139,25 +138,23 @@ public class GameController {
 
 
 	void processEvent(Event event){
-		MessageType messageType = event.getMessage().getMessageType();
 		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
 		VirtualView virtualView = event.getVirtualView();
 		Player player = model.getPlayerFromName(virtualView.getPlayerName());
 
 		Utils.logInfo("GameController -> processing an event: "+ event.toString());
-		switch (messageType) {
+		switch (event.getMessage().getMessageType()) {
 			case END_TURN:
-				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-					Utils.logError("It's not the turn of "+player.getPlayerName()+"!", new IllegalStateException());
-				}
-				endTurn();
+				if(player.getTurnStatus() == TurnStatus.YOUR_TURN)
+					endTurn();
+				else
+					Utils.logError("It's not the turn of " + virtualView.getPlayerName() + "!", new IllegalStateException());
 				break;
 			case SPAWN:
 				//If the player requests to spawn, make it draw a powerup card and request the choice.
 				if(messageSubtype == MessageSubtype.REQUEST){
 					askToSpawn(player, virtualView);
-				}
-				else if(messageSubtype == MessageSubtype.ANSWER){
+				} else if(messageSubtype == MessageSubtype.ANSWER) {
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
 
 					try {

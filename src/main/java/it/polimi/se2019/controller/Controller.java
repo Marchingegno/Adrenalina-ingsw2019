@@ -82,6 +82,11 @@ public class Controller implements Observer {
 				.orElseThrow(() -> new RuntimeException(playerName + " not found!"));
 	}
 
+	/**
+	 * Sends the updated reps contained in the VirtualView and sent by the model.
+	 * Note: if an action is requested to the player this methods mustn't be called before the request (otherwise two messages will be sent)!
+	 * @param virtualViews the VirtualViews that have the reps.
+	 */
 	static void sendUpdatedReps(List<VirtualView> virtualViews) {
 		for (VirtualView virtualView : virtualViews) {
 			Utils.logInfo("Controller -> sendUpdatedReps(): sending latest rep for " + virtualView.getPlayerName() + ".");
