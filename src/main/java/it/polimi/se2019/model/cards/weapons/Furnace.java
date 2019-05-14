@@ -4,14 +4,13 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Furnace extends AlternateFire {
 
-	List<Coordinates> targettableCoordinates;
+	private List<Coordinates> targettableCoordinates;
 
 	public Furnace(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
@@ -112,11 +111,11 @@ public final class Furnace extends AlternateFire {
 	 */
 	@Override
 	public List<Player> getSecondaryTargets() {
-		return getPrimaryTargets();
+		return getGameMap().getPlayersFromCoordinates(targettableCoordinates.get(0));
 	}
 
 	private List<Coordinates> getPrimaryCoordinates(){
-		//Get coordinates of the entire room.
+		//TODO: Get entry point of the adjacent rooms.
 		return null;
 	}
 
