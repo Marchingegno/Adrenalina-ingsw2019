@@ -52,12 +52,17 @@ public abstract class AlternateFire extends WeaponCard {
 
 	@Override
 	public Pair handleFire(int choice) {
+		incrementStep();
 		if (getCurrentStep() == 1) {
 			return askingPair();
 		} else if(getCurrentStep() == 2){
 			registerChoice(choice);
 		}
-		return null;
+		if (isAlternateFireActive()) {
+			return handleSecondaryFire(choice);
+		} else {
+			return handlePrimaryFire(choice);
+		}
 	}
 
 	@Override
