@@ -13,6 +13,9 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.se2019.view.client.CLIPrinter.cleanConsole;
+import static it.polimi.se2019.view.client.CLIPrinter.setCursorHome;
+
 /**
  * Helps printing the information.
  */
@@ -30,8 +33,10 @@ class RepPrinter {
 	 */
 	void displayGame() {
 		//TODO remove
-//		CLIPrinter.setCursorHome();
-//		CLIPrinter.cleanConsole();
+		if (Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
 
 		CLIView.print("\n");
 

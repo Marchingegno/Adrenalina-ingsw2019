@@ -65,8 +65,10 @@ public class CLIPrinter {
 	public CLIPrinter(){}
 
 	public static void printChooseView() {
-//		setCursorHome();
-//		cleanConsole();
+		if (!Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -81,8 +83,10 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseConnection() {
-//		setCursorHome();
-//		cleanConsole();
+		if (!Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -97,8 +101,10 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseNickname() {
-//		setCursorHome();
-//		cleanConsole();
+		if (!Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -114,8 +120,10 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseMap() {
-//		setCursorHome();
-//		cleanConsole();
+		if (!Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
@@ -133,8 +141,10 @@ public class CLIPrinter {
 	}
 
 	public static void printChooseSkulls() {
-//		setCursorHome();
-//		cleanConsole();
+		if (!Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗ \n" +
 				"											║                                                                ║ \n" +
@@ -149,15 +159,17 @@ public class CLIPrinter {
 	}
 
 	public static void printWaitingRoom(List<String> waitingPlayers) {
-//		setCursorHome();
-//		cleanConsole();
+		if (!Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
 				"											║              Waiting for other clients to answer...            ║\n" +
 				"											║                                                                ║\n");
 		for (int i = 0; i < waitingPlayers.size(); i++) {
-			print("											║                   " + Utils.fillWithSpaces("[" + i + "] " + waitingPlayers.get(i), 45) + "║ \n");
+			print("											║                   " + Utils.fillWithSpaces("[" + i + "] " + waitingPlayers.get(i + 1), 45) + "║ \n");
 		}
 		for (int i = waitingPlayers.size(); i <= GameConstants.MAX_PLAYERS; i++) {
 			print("											║                                                                ║\n");
@@ -167,22 +179,9 @@ public class CLIPrinter {
 	}
 
 	public static void printWaitingMatchStart(long milliSeconds) {
-//		setCursorHome();
-//		cleanConsole();
-		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗\n" +
-				"											║                                                                ║\n" +
-				"											║                     The match will start in                    ║\n" +
-				"											║                                                                ║\n" +
-				"											║                                                                ║\n " +
-				"											║                                                                ║\n" +
-				"											║                                                                ║\n" +
-				"											╚════════════════════════════════════════════════════════════════╝\n");
-
-
 		for (long i = milliSeconds / 1000; i >= 0; i--) {
-			moveCursorTo(29, 0);
-			print("											║                                " + Utils.fillWithSpaces(Long.toString(i), 32) + "║\n");
+			moveCursorTo(27, 0);
+			print("											║              The match will start in " + Utils.fillWithSpaces(Long.toString(i), 26) + "║\n");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
