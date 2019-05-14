@@ -2,6 +2,8 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
@@ -22,10 +24,10 @@ import java.util.List;
  */
 public abstract class WeaponCard extends Card {
 
-	private GameMap gameMap;
 	private int currentStep; //Advancement step of the weapon.
 	private Player owner;
 	private boolean loaded;
+	private GameBoard gameBoard;
 	private String weaponName;
 	private final List<AmmoType> reloadPrice;
 	int moveDistance; //Standard move for relocation of the player.
@@ -55,12 +57,16 @@ public abstract class WeaponCard extends Card {
 		return weaponName;
 	}
 
-	/**
-	 * Called by the creator to set the actual GameMap for this game.
-	 * @param gameMap map to set.
-	 */
-	protected void setGameMap(GameMap gameMap){
-		this.gameMap = gameMap;
+	GameMap getGameMap() {
+		return gameBoard.getGameMap();
+	}
+
+	public void setGameBoard(GameBoard gameBoard) {
+		this.gameBoard = gameBoard;
+	}
+
+	List<Player> getAllPlayers(){
+		return gameBoard.getPlayers();
 	}
 
 	/**
@@ -196,6 +202,13 @@ public abstract class WeaponCard extends Card {
 		return getPrimaryTargets();
 	}
 
+	/**
+	 * Advances the weapon.
+	 * This will be called if currentStep is at least 2.
+	 *
+	 * @param choice the choice of the player.
+	 * @return the asking pair.
+	 */
 	abstract Pair handlePrimaryFire(int choice);
 
 	/**
@@ -223,10 +236,6 @@ public abstract class WeaponCard extends Card {
 		return maximumSteps;
 	}
 
-	GameMap getGameMap() {
-		return gameMap;
-	}
-
 	void incrementStep(){
 		if(currentStep == maximumSteps)
 			throw new IllegalStateException("Trying to increment steps already at maximum.");
@@ -237,6 +246,13 @@ public abstract class WeaponCard extends Card {
 		String question = "Which of the following players do you want to target?";
 		List<String> options = new ArrayList<>();
 		targets.forEach(target-> options.add(target.getPlayerName()));
+		return new Pair<>(question, options);
+	}
+
+	public static Pair getMoveCoordinatesTargetPlayerQuestionAndOptions(Player targetPlayer, List<Coordinates> coordinates){
+		String question = "Where do you want to move " + targetPlayer.getPlayerName() + "?";
+		List<String> options = new ArrayList<>();
+		coordinates.forEach(coordinate -> options.add(coordinate.toString()));
 		return new Pair<>(question, options);
 	}
 

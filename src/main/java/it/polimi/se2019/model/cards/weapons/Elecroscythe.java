@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
 
@@ -22,11 +23,6 @@ public final class Elecroscythe extends AlternateFire {
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumAlternateSteps = 2;
 		this.maximumSteps = 2;
-	}
-
-	@Override
-	public boolean doneFiring() {
-		return super.doneFiring();
 	}
 
 	@Override

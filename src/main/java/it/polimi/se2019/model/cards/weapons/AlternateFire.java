@@ -27,12 +27,6 @@ public abstract class AlternateFire extends WeaponCard {
 		reset();
 	}
 
-	public AlternateFire(String description, List<AmmoType> reloadPrice, List<AmmoType> secondaryCost) {
-		this(description, reloadPrice);
-		this.secondaryCost = secondaryCost;
-		reset();
-	}
-
 	List<DamageAndMarks> getSecondaryDamagesAndMarks() {
 		return secondaryDamagesAndMarks;
 	}
@@ -51,6 +45,13 @@ public abstract class AlternateFire extends WeaponCard {
 		else return super.doneFiring();
 	}
 
+	/**
+	 * Advances the weapon.
+	 * This will be called if currentStep is at least 2.
+	 *
+	 * @param choice the choice of the player.
+	 * @return the asking pair.
+	 */
 	abstract Pair handleSecondaryFire(int choice);
 
 	@Override
