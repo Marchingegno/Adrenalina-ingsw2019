@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
+import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.exceptions.HiddenException;
 
@@ -22,8 +23,9 @@ public class PlayerRep extends Representation {
 	private Color.CharacterColorType playerColor;
 	private int points;
 	private int playerID;
-	private ArrayList<Color.CharacterColorType> damageBoard;
-	private ArrayList<Color.CharacterColorType> marks;
+	private List<Color.CharacterColorType> damageBoard;
+	private List<Color.CharacterColorType> marks;
+	private DamageStatusRep damageStatusRep;
 	//TODO add weapon reps
 	private ArrayList<PowerupCardRep> powerupCards;
 	private int redAmmo;
@@ -42,6 +44,7 @@ public class PlayerRep extends Representation {
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
 		playerID = player.getPlayerID();
+		damageStatusRep = player.getDamageStatus().getRep();
 		this.actionRequested = player.isActionRequested();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());
@@ -84,6 +87,7 @@ public class PlayerRep extends Representation {
 		newPlayerRep.points = -1; // hidden
 		newPlayerRep.damageBoard = new ArrayList<>(damageBoard);
 		newPlayerRep.marks = new ArrayList<>(marks);
+		newPlayerRep.damageStatusRep = null;//hidden
 		newPlayerRep.powerupCards = null; // hidden
 		newPlayerRep.redAmmo = this.redAmmo;
 		newPlayerRep.yellowAmmo = this.yellowAmmo;

@@ -92,7 +92,7 @@ public class MacroAction {
 				'}';
 	}
 
-	public String printAction() {
+	public String getMacroActionString() {
 		StringBuilder myBuilder = new StringBuilder();
 
 		for (int i = 0; i < this.numOfMovements; i++) {

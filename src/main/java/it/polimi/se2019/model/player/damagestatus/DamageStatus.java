@@ -13,6 +13,7 @@ public abstract class DamageStatus {
 	int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
 	int numberOfActionsPerformed; //actions that the player performed in this turn.
 	private int currentActionIndex; //Action currently in execution.
+	private DamageStatusRep damageStatusRep;
 	List<MacroAction> availableActions;
 
 	public boolean hasActionLeft(){
@@ -58,4 +59,9 @@ public abstract class DamageStatus {
 		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}
 
+	public DamageStatusRep getRep() {
+		if (damageStatusRep == null)
+			damageStatusRep = new DamageStatusRep(this);
+		return damageStatusRep;
+	}
 }

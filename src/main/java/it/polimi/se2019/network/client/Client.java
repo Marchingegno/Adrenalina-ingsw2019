@@ -33,7 +33,7 @@ public class Client {
 			else
 				remoteView = new CLIView();
 			if(new Random().nextBoolean())
-				remoteView.startConnectionWithRMI();
+				remoteView.startConnectionWithSocket();
 			else
 				remoteView.startConnectionWithSocket();
 			return;
