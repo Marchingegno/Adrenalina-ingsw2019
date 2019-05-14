@@ -37,7 +37,7 @@ public final class Elecroscythe extends AlternateFire {
 			if (isAlternateFireActive()) {
 				return handleSecondaryFire(choice);
 			} else {
-				handlePrimaryFire(choice);
+				return handlePrimaryFire(choice);
 			}
 		}
 		return null;
