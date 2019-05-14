@@ -4,6 +4,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import static java.lang.Boolean.FALSE;
 
@@ -61,7 +62,10 @@ public abstract class AlternateFire extends WeaponCard {
 
 	@Override
 	public Pair askingPair() {
-		return new Pair(2, "Which fire mode do you want to use?\nPress 1 for standard fire.\nPress 2 for alternate fire.");
+		List<String> options = new ArrayList<>();
+		options.add("Standard fire.");
+		options.add("Alternate fire.");
+		return new Pair<>("Which fire mode do you want to use?", options);
 	}
 
 	/**

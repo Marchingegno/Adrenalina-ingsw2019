@@ -72,13 +72,13 @@ public class TurnController{
 				handleAction(player,virtualView);
 				break;
 			case WEAPON:
-				Pair intString = player.getFiringWeapon().handleFire(((DefaultActionMessage)event.getMessage()).getContent());
+				Pair stringListString = player.getFiringWeapon().handleFire(((DefaultActionMessage)event.getMessage()).getContent());
 				if(player.getFiringWeapon().doneFiring()){
 					player.getFiringWeapon().reset();
 					handleAction(player,virtualView);
 				}
 				else {
-					virtualView.askWeapon(intString);
+					virtualView.askWeapon(stringListString);
 				}
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());

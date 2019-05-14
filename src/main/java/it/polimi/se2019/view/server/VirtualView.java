@@ -6,10 +6,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Pair;
@@ -116,8 +113,12 @@ public class VirtualView extends Observable implements ViewInterface {
 		client.sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
 	}
 
-	public void askWeapon(Pair intString) {
-		client.sendMessage(new WeaponMessage(intString, MessageSubtype.REQUEST));
+//	public void askWeapon(Pair intString) {
+//		client.sendMessage(new WeaponMessage(intString, MessageSubtype.REQUEST));
+//	}
+
+	public void askWeapon(Pair optionPair){
+		client.sendMessage(new AskOptionsMessage((String)optionPair.getFirst(), (List<String>)optionPair.getSecond(), MessageType.WEAPON));
 	}
 
 	@Override
