@@ -28,7 +28,7 @@ public class Client {
 		// Bypass server configuration for debug.
 		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
 			RemoteView remoteView;
-			if(true)
+			if(Utils.DEBUG_BYPASS_USE_GUI)
 				remoteView = new GUIView();
 			else
 				remoteView = new CLIView();

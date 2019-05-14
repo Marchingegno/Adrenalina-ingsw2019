@@ -4,14 +4,16 @@ import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
-import it.polimi.se2019.utils.*;
+import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.utils.exceptions.HiddenException;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 import static it.polimi.se2019.view.client.CLIPrinter.*;
 
@@ -50,11 +52,6 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askNickname() {
-		if(Utils.DEBUG_BYPASS_CONFIGURATION){
-			String randomNickname = UUID.randomUUID().toString().substring(0,3).replace("-","");
-			sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
-			return;
-		}
 		printChooseNickname();
 		String chosenNickname = scanner.nextLine();
 		sendMessage(new NicknameMessage(chosenNickname, MessageSubtype.ANSWER));
@@ -98,13 +95,6 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askMapAndSkullsToUse() {
-		if(Utils.DEBUG_BYPASS_CONFIGURATION){
-			GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
-			gameConfigMessage.setMapIndex(0);
-			gameConfigMessage.setSkulls(5);
-			sendMessage(gameConfigMessage);
-			return;
-		}
 		Utils.logInfo("\n\nMatch ready to start. Select your preferred configuration.");
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
