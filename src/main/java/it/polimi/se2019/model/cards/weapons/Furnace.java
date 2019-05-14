@@ -42,12 +42,13 @@ public final class Furnace extends AlternateFire {
 			return getTargetCoordinatesQnO(targettableCoordinates);
 		}
 		else if(getCurrentStep() == 3){
-			targettableCoordinates = getPrimaryCoordinates();
+			List<Coordinates> swap = new ArrayList<>();
+			swap.add(targettableCoordinates.get(choice));
+			targettableCoordinates = swap;
 			currentTargets = getPrimaryTargets();
 			primaryFire();
 		}
 		return null;
-		//TODO:Revisit
 	}
 
 	/**
@@ -96,7 +97,12 @@ public final class Furnace extends AlternateFire {
 	 */
 	@Override
 	public List<Player> getPrimaryTargets() {
-		return null;
+		List<Coordinates> roomCoordinates = getGameMap().getRoomCoordinates(targettableCoordinates.get(0));
+		List<Player> playersInTheRoom = new ArrayList<>();
+		for (Coordinates coordinates : roomCoordinates) {
+			playersInTheRoom.addAll(getGameMap().getPlayersFromCoordinates(coordinates));
+		}
+		return playersInTheRoom;
 	}
 
 	/**
@@ -106,7 +112,7 @@ public final class Furnace extends AlternateFire {
 	 */
 	@Override
 	public List<Player> getSecondaryTargets() {
-		return getGameMap().getPlayersFromCoordinates(targettableCoordinates.get(0));
+		return getPrimaryTargets();
 	}
 
 	private List<Coordinates> getPrimaryCoordinates(){
