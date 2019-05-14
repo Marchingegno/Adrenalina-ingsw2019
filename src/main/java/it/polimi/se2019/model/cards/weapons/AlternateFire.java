@@ -17,8 +17,6 @@ public abstract class AlternateFire extends WeaponCard {
 	List<DamageAndMarks> secondaryDamagesAndMarks;
 	List<AmmoType> secondaryCost;
 	boolean alternateFireActive;
-	int PRIMARY_DAMAGE ;
-	int PRIMARY_MARKS;
 	int SECONDARY_DAMAGE;
 	int SECONDARY_MARKS;
 
@@ -31,7 +29,6 @@ public abstract class AlternateFire extends WeaponCard {
 		return secondaryDamagesAndMarks;
 	}
 
-	@Override
 	public void registerChoice(int choice) {
 		if (choice == 1)
 			alternateFireActive = true;

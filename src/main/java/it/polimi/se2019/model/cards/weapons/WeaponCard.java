@@ -36,6 +36,8 @@ public abstract class WeaponCard extends Card {
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
 	List<Player> currentTargets;
+	int PRIMARY_DAMAGE;
+	int PRIMARY_MARKS;
 
 
 	public WeaponCard(String description, List<AmmoType> reloadPrice) {
@@ -149,7 +151,6 @@ public abstract class WeaponCard extends Card {
 		return null;
 	}
 
-	public abstract void registerChoice(int choice);
 
 	/**
 	 * Handles interaction with flags array.
@@ -218,6 +219,8 @@ public abstract class WeaponCard extends Card {
 		this.currentStep = 0;
 		this.loaded = false;
 		this.currentTargets = null;
+		this.relocationDone = false;
+		this.enemyRelocationDone = false;
 	}
 
 	List<DamageAndMarks> getStandardDamagesAndMarks() {
