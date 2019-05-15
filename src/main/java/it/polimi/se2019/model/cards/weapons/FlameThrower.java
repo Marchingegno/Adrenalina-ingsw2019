@@ -2,14 +2,22 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class FlameThrower extends AlternateFire {
 	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int SECONDARY_FOLLOWING_MARKS;
+	private CardinalDirection chosenDirection;
+	Player firstSquareTarget;
+	Player secondSquareTarget;
+	List<Player> secondSquareTargets;
 
 	public FlameThrower(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
@@ -25,6 +33,8 @@ public final class FlameThrower extends AlternateFire {
 		secondaryDamagesAndMarks = new ArrayList<>();
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
+		this.maximumSteps = 5;
+		this.maximumAlternateSteps = 3;
 	}
 
 
@@ -37,6 +47,44 @@ public final class FlameThrower extends AlternateFire {
 	 */
 	@Override
 	Pair handlePrimaryFire(int choice) {
+		switch (getCurrentStep()){
+			case 2:
+				return handleDirectionChoice(choice);
+			case 3:
+				handleDirectionChoice(choice);
+				currentTargets = getPrimaryTargets();
+				//If there are no targets on the first square, ask second square target.
+				//So I increment the step and re-call this method.
+				if (currentTargets.isEmpty()){
+					incrementStep();
+					return handlePrimaryFire(0);
+				}
+				return getTargetPlayersQnO(currentTargets);
+			case 4:
+				try{
+					firstSquareTarget = currentTargets.get(choice);
+				} catch (IndexOutOfBoundsException e){
+					Utils.logInfo("There are no players in the first square chosen by " + getOwner().getPlayerName() +".");
+					firstSquareTarget = null;
+				}
+
+				currentTargets = getSecondSquareTargets();
+				if (currentTargets.isEmpty()){
+					incrementStep();
+					return handlePrimaryFire(0);
+				}
+
+				return getTargetPlayersQnO(currentTargets);
+			case 5:
+				try{
+					secondSquareTarget = currentTargets.get(choice);
+				}catch (IndexOutOfBoundsException e){
+					Utils.logInfo("There are no players in the second square chosen by " + getOwner().getPlayerName() +".");
+					secondSquareTarget = null;
+				}
+				primaryFire();
+				break;
+		}
 		return null;
 	}
 
@@ -49,6 +97,26 @@ public final class FlameThrower extends AlternateFire {
 	 */
 	@Override
 	Pair handleSecondaryFire(int choice) {
+		switch (getCurrentStep()) {
+			case 2:
+				return handleDirectionChoice(choice);
+			case 3:
+				handleDirectionChoice(choice);
+				currentTargets = getSecondaryTargets();
+				secondSquareTargets = getSecondSquareTargets();
+				secondaryFire();
+				break;
+		}
+		return null;
+	}
+
+	private Pair handleDirectionChoice(int choice){
+		if(getCurrentStep() == 2) {
+			return getCardinalQnO();
+		}
+		else if(getCurrentStep() == 3){
+			chosenDirection = CardinalDirection.values()[choice];
+		}
 		return null;
 	}
 
@@ -57,7 +125,11 @@ public final class FlameThrower extends AlternateFire {
 	 */
 	@Override
 	void primaryFire() {
-
+		List<Player> theTwoTargets = new ArrayList<>();
+		//One of the following element, or both, could be null!
+		theTwoTargets.add(firstSquareTarget);
+		theTwoTargets.add(secondSquareTarget);
+		dealDamage(theTwoTargets, standardDamagesAndMarks);
 	}
 
 	/**
@@ -65,7 +137,17 @@ public final class FlameThrower extends AlternateFire {
 	 */
 	@Override
 	public void secondaryFire() {
+		List<DamageAndMarks> firstSquareDamage = new ArrayList<>();
+		List<DamageAndMarks> secondSquareDamage = new ArrayList<>();
+		for (int i = 0; i < currentTargets.size(); i++) {
+			firstSquareDamage.add(secondaryDamagesAndMarks.get(0));
+		}
+		for (int i = 0; i < secondSquareTargets.size(); i++) {
+			firstSquareDamage.add(secondaryDamagesAndMarks.get(1));
+		}
 
+		dealDamage(currentTargets, firstSquareDamage);
+		dealDamage(secondSquareTargets, secondSquareDamage);
 	}
 
 	/**
@@ -75,6 +157,12 @@ public final class FlameThrower extends AlternateFire {
 	 */
 	@Override
 	public List<Player> getPrimaryTargets() {
+		//TODO: Implement when methods from GameMap become available.
+		return null;
+	}
+
+	private List<Player> getSecondSquareTargets() {
+		//TODO: Implement when methods from GameMap become available.
 		return null;
 	}
 
@@ -85,6 +173,13 @@ public final class FlameThrower extends AlternateFire {
 	 */
 	@Override
 	public List<Player> getSecondaryTargets() {
+		//TODO: Implement when methods from GameMap become available.
 		return null;
+	}
+
+	private Pair getCardinalQnO(){
+		String question = "In which direction do you wish to fire?";
+		List<String> options = 	Arrays.stream(CardinalDirection.values()).map(Enum::toString).collect(Collectors.toList());
+		return new Pair<>(question,options);
 	}
 }

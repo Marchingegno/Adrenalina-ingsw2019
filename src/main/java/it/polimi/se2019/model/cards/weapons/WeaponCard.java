@@ -179,7 +179,7 @@ public abstract class WeaponCard extends Card {
 
 
 	/**
-	 * Primary method of firing of the weapon. It interacts with the view and collects targeted players for its mode.
+	 * Primary method of firing of the weapon.
 	 */
 	abstract void primaryFire();
 
