@@ -83,8 +83,13 @@ public class Shotgun extends AlternateFire {
 
 	@Override
 	public List<Player> getSecondaryTargets() {
-		//TODO:Implement
-		List<Coordinates> adjacentCoordinates = getGameMap().
+		List<Coordinates> listAdjacentCoordinates = getGameMap().reachableCoordinates(getOwner(), 1);
+		listAdjacentCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
+		List<Player> adjacentPlayers = new ArrayList<>();
+		for (Coordinates adjacentCoordinate: listAdjacentCoordinates) {
+			adjacentPlayers.addAll(getGameMap().getPlayersFromCoordinates(adjacentCoordinate));
+		}
+		return adjacentPlayers;
 	}
 
 
