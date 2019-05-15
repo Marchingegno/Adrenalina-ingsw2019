@@ -126,7 +126,7 @@ public class Player extends Representable {
 	 * @return the available actions of the player according to his damage status.
 	 */
 	public List<MacroAction> getAvailableActions() {
-		return damageStatus.getAvailableActions();
+		return damageStatus.getAvailableMacroActions();
 	}
 
 	/**

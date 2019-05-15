@@ -207,7 +207,7 @@ public class Model {
 	}
 
 	public boolean doesThePlayerHaveActionsLeft(String playerName) {
-		return getPlayerFromName(playerName).getDamageStatus().hasActionLeft();
+		return getPlayerFromName(playerName).getDamageStatus().hasMacroActionLeft();
 	}
 
 	public ActionType getNextActionToExecute(String playerName) {
@@ -217,8 +217,8 @@ public class Model {
 
 	public void setNextMacroAction(String playerName, int indexOfMacroAction) {
 		Player player = getPlayerFromName(playerName);
-		player.getDamageStatus().decreaseActionsToPerform();
-		player.getDamageStatus().setCurrentActionIndex(indexOfMacroAction);
+		player.getDamageStatus().decreaseMacroActionsToPerform();
+		player.getDamageStatus().setCurrentMacroActionIndex(indexOfMacroAction);
 	}
 
 

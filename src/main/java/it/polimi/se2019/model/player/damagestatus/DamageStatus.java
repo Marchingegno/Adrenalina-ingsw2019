@@ -16,34 +16,34 @@ public abstract class DamageStatus {
 	private DamageStatusRep damageStatusRep;
 	List<MacroAction> availableActions;
 
-	public boolean hasActionLeft(){
+	public boolean hasMacroActionLeft(){
 		return (numberOfActionsPerformed > 0);
 	}
 
-	public List<MacroAction> getAvailableActions(){
+	public List<MacroAction> getAvailableMacroActions(){
 		return availableActions;
 	}
 
-	int getNumberOfActionsPerTurn() {
+	int getNumberOfMacroActionsPerTurn() {
 		return numberOfActionsPerTurn;
 	}
 
-	int getNumberOfActionsPerformed() {
+	int getNumberOfMacroActionsPerformed() {
 		return numberOfActionsPerformed;
 	}
 
-	public void decreaseActionsToPerform(){
+	public void decreaseMacroActionsToPerform(){
 		if(numberOfActionsPerformed == 0)
 			throw new IllegalStateException("numberOfActionsPerformed is already zero!");
 
 		numberOfActionsPerformed--;
 	}
 
-	public void setCurrentActionIndex(int currentActionIndex) {
+	public void setCurrentMacroActionIndex(int currentActionIndex) {
 		this.currentActionIndex = currentActionIndex;
 	}
 
-	public int getCurrentActionIndex() {
+	public int getCurrentMacroActionIndex() {
 		return currentActionIndex;
 	}
 
@@ -54,7 +54,7 @@ public abstract class DamageStatus {
 	/**
 	 * This method will be called at the start of a turn if there is no need to setChanged the status of the player.
 	 */
-	public void refillActions()
+	public void refillMacroActions()
 	{
 		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}

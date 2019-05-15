@@ -256,7 +256,7 @@ public class GameBoard extends Representable {
 
 		//If the game is in frenzy mode, then the player already has the right damageStatus.
 		if (isFrenzyStarted())
-			player.getDamageStatus().refillActions();
+			player.getDamageStatus().refillMacroActions();
 
 		else if(damageBoard.size() < GameConstants.MEDIUM_DAMAGE_THRESHOLD)
 			player.setDamageStatus(new LowDamage());

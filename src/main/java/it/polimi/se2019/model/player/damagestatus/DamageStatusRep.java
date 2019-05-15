@@ -26,16 +26,16 @@ public class DamageStatusRep extends Representation {
 			macroActionString.add(macroAction.getMacroActionString());
 			macroActionNames.add(macroAction.getName());
 		}
-		this.numberOfActionsPerTurn = damageStatus.getNumberOfActionsPerTurn();
-		this.numberOfActionsPerformed = damageStatus.getNumberOfActionsPerformed();
+		this.numberOfActionsPerTurn = damageStatus.getNumberOfMacroActionsPerTurn();
+		this.numberOfActionsPerformed = damageStatus.getNumberOfMacroActionsPerformed();
 	}
 
 
-	public int getNumberOfActionsPerTurn() {
+	public int getNumberOfMacroActionsPerTurn() {
 		return numberOfActionsPerTurn;
 	}
 
-	public int getNumberOfActionsPerformed() {
+	public int getNumberOfMacroActionsPerformed() {
 		return numberOfActionsPerformed;
 	}
 
