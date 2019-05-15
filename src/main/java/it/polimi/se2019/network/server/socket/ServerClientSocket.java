@@ -1,6 +1,7 @@
 package it.polimi.se2019.network.server.socket;
 
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.network.server.ServerEventsListenerInterface;
 import it.polimi.se2019.utils.Utils;
@@ -67,7 +68,8 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 	 */
 	@Override
 	public void sendMessage(Message message){
-		Utils.logInfo("ServerClientSocket -> sendMessage(): sending a message to \"" + hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Utils.logInfo("ServerClientSocket -> sendMessage(): sending a message to \"" + hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + "." +
+				(message.getMessageType().equals(MessageType.UPDATE_REPS) ? " inner message " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() : ""));
 		try {
 			objOutStream.writeObject(message);
 		}catch(IOException e){

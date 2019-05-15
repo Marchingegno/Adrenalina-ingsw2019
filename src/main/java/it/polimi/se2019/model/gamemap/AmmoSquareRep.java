@@ -14,7 +14,10 @@ public class AmmoSquareRep extends SquareRep {
 
 	AmmoSquareRep(Square squareToRepresent) {
 		super(squareToRepresent);
-		ammoCardRep = (AmmoCardRep) (squareToRepresent.cards.get(0)).getRep();
+		if (!squareToRepresent.cards.isEmpty()) {
+			ammoCardRep = (AmmoCardRep) (squareToRepresent.cards.get(0)).getRep();
+		} else
+			ammoCardRep = null;
 	}
 
 	@Override

@@ -170,17 +170,20 @@ public class Model {
 		Player player = getPlayerFromName(playerName);
 		WeaponCard cardToGrab = (WeaponCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
 		addWeaponCardToPlayer(player, cardToGrab);
+		updateReps();
 	}
 
 	public void grabAmmoCard(String playerName, int index) {
 		Player player = getPlayerFromName(playerName);
 		AmmoCard cardToGrab = (AmmoCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
 		addAmmoCardToPlayer(player, cardToGrab);
+		updateReps();
 	}
 
 	public void discardPowerupCard(String playerName, int indexOfThePowerup) {
 		Player player = getPlayerFromName(playerName);
 		player.getPlayerBoard().removePowerup(indexOfThePowerup);
+		updateReps();
 	}
 
 	public void swapWeapons(String playerName, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
@@ -195,6 +198,7 @@ public class Model {
 	public void reloadWeapon(String playerName, int indexOfTheWeapon) {
 		Player player = getPlayerFromName(playerName);
 		player.reload(indexOfTheWeapon);
+		updateReps();
 	}
 
 	public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
@@ -204,6 +208,7 @@ public class Model {
 
 	public void flipPlayers() {
 		gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
+		updateReps();
 	}
 
 	public boolean doesThePlayerHaveActionsLeft(String playerName) {
@@ -219,6 +224,7 @@ public class Model {
 		Player player = getPlayerFromName(playerName);
 		player.getDamageStatus().decreaseMacroActionsToPerform();
 		player.getDamageStatus().setCurrentMacroActionIndex(indexOfMacroAction);
+		updateReps();
 	}
 
 
@@ -278,6 +284,7 @@ public class Model {
 		awardPoints(playerBoard, sortedPlayers);
 
 		player.resetAfterDeath(); //This automatically increases its number of deaths.
+		updateReps();
 	}
 
 	private void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers) {
@@ -306,6 +313,7 @@ public class Model {
 			}
 
 		}
+		updateReps();
 	}
 
 	private void setTurnStatus(String playerName, TurnStatus turnStatus){

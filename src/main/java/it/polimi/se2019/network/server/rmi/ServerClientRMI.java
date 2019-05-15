@@ -2,6 +2,8 @@ package it.polimi.se2019.network.server.rmi;
 
 import it.polimi.se2019.network.client.rmi.RMIClientInterface;
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.RepMessage;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.network.server.ServerEventsListenerInterface;
 import it.polimi.se2019.utils.Utils;
@@ -31,7 +33,8 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 	 */
 	@Override
 	public void sendMessage(Message message) {
-		Utils.logInfo("ServerClientRMI -> sendMessage(): sending a message to \"" + hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Utils.logInfo("ServerClientSocket -> sendMessage(): sending a message to \"" + hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + "." +
+				((message.getMessageType().equals(MessageType.UPDATE_REPS) && ((RepMessage) message).getMessage() != null) ? " inner message " + ((RepMessage) message).getMessage().getMessageType() + ", and subtype: " + ((RepMessage) message).getMessage().getMessageSubtype() : ""));
 		// Send the message in a thread so the server isn't put in wait.
 		new Thread(() -> {
 			try {

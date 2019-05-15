@@ -61,6 +61,7 @@ public class GameMap extends Representable {
 				map[i][j].refillCards();
 			}
 		}
+		setChanged();
 		Utils.logInfo("GameMap -> fillMap(): Map completely filled");
 	}
 
@@ -308,10 +309,12 @@ public class GameMap extends Representable {
 	 * @return the card grabbed.
 	 */
 	public Card grabCard(Coordinates coordinates, int index) {
+		setChanged();
 		return getSquare(coordinates).grabCard(index);
 	}
 
 	public void addCard(Coordinates coordinates, Card cardToAdd) {
+		setChanged();
 		getSquare(coordinates).addCard(cardToAdd);
 	}
 
