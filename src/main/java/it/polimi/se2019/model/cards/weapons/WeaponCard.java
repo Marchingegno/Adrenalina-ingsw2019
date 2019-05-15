@@ -181,7 +181,16 @@ public abstract class WeaponCard extends Card {
 	/**
 	 * Primary method of firing of the weapon. It interacts with the view and collects targeted players for its mode.
 	 */
-	public abstract void primaryFire();
+	abstract void primaryFire();
+
+	/**
+	 * Advances the weapon.
+	 * This will be called if currentStep is at least 2.
+	 *
+	 * @param choice the choice of the player.
+	 * @return the asking pair.
+	 */
+	abstract Pair handlePrimaryFire(int choice);
 
 	public void getAvailableOptions(){
 		Utils.logInfo(getDescription());
@@ -202,15 +211,6 @@ public abstract class WeaponCard extends Card {
 		//TODO: Interaction with view.
 		return getPrimaryTargets();
 	}
-
-	/**
-	 * Advances the weapon.
-	 * This will be called if currentStep is at least 2.
-	 *
-	 * @param choice the choice of the player.
-	 * @return the asking pair.
-	 */
-	abstract Pair handlePrimaryFire(int choice);
 
 	/**
 	 * Deloads the weapon and reset eventually modified parameters.

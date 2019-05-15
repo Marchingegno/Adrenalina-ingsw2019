@@ -2,7 +2,6 @@ package it.polimi.se2019.model.cards.weapons;
 
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
 
@@ -57,7 +56,6 @@ public final class Elecroscythe extends AlternateFire {
 	public void secondaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getSecondaryDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
-//			damageAndMarksList.add(getSecondaryDamagesAndMarks().get(0));
 			damageAndMarksList.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		}
 		dealDamage(currentTargets, damageAndMarksList);
