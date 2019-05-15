@@ -118,7 +118,6 @@ public class GameBoard extends Observable implements Representable {
 	public List<Player> getPlayers() {
 		//return new ArrayList<>(players);
 		return players;
-		//return players;
 	}
 
 	/**
@@ -220,11 +219,6 @@ public class GameBoard extends Observable implements Representable {
 	 */
 	public AmmoDeck getAmmoDeck() {
 		return ammoDeck;
-	}
-
-	public void currentPlayerGrabs(int index) {
-		Coordinates playerCoordinates = gameMap.getPlayersCoordinates().get(getCurrentPlayer());
-		//gameMap.getSquare(getPlayerCoordinates).grabCard(getCurrentPlayer(), index);
 	}
 
 	/**

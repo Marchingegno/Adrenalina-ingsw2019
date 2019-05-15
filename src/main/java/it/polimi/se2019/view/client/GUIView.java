@@ -18,16 +18,12 @@ import java.util.List;
 
 public class GUIView extends RemoteView {
 
-	private ModelRep modelRep;
 	private JFrame waitingRoomFrame;
 	private JLabel waitingPlayersTextWaitingRoom;
 	private JLabel timerTextWaitingRoom;
 	private JFrame gameConfigFrame;
 	private JDialog gameConfigWaitingDialog;
 
-	public GUIView() {
-		this.modelRep = new ModelRep();
-	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
