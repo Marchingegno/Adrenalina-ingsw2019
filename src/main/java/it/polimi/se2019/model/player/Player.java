@@ -9,6 +9,7 @@ import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Class that implements the player.
@@ -17,7 +18,7 @@ import java.util.List;
  * @author MarcerAndrea
  * @author Marchingegno
  */
-public class Player extends Representable {
+public class Player extends Observable implements Representable {
 
 	private TurnStatus turnStatus;
 	private boolean actionRequested; //If the player is already executing an action.

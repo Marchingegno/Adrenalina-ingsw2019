@@ -8,7 +8,7 @@ import it.polimi.se2019.model.Representation;
  *
  * @author MarcerAndrea
  */
-public abstract class Card extends Representable {
+public abstract class Card implements Representable {
 
 	private String description;
 	private String cardName;
