@@ -27,9 +27,6 @@ public final class Heatseeker extends WeaponCard {
 		return handlePrimaryFire(choice);
 	}
 
-	/**
-	 * Primary method of firing of the weapon. It interacts with the view and collects targeted players for its mode.
-	 */
 	@Override
 	public void primaryFire() {
 		List<Player> target = new ArrayList<>();
@@ -37,11 +34,7 @@ public final class Heatseeker extends WeaponCard {
 		dealDamage(target, standardDamagesAndMarks);
 	}
 
-	/**
-	 * Get the targets of the primary mode of fire for this weapon.
-	 *
-	 * @return the targettable players.
-	 */
+
 	@Override
 	public List<Player> getPrimaryTargets() {
 		List<Player> nonVisiblePlayers = getAllPlayers();
@@ -49,13 +42,6 @@ public final class Heatseeker extends WeaponCard {
 		return nonVisiblePlayers;
 	}
 
-	/**
-	 * Advances the weapon.
-	 * This will be called if currentStep is at least 2.
-	 *
-	 * @param choice the choice of the player.
-	 * @return the asking pair.
-	 */
 	@Override
 	Pair handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 1){

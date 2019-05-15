@@ -43,11 +43,11 @@ public abstract class AlternateFire extends WeaponCard {
 	}
 
 	/**
-	 * Advances the weapon.
+	 * Handles the secondary mode of fire of weapon.
 	 * This will be called if currentStep is at least 2.
 	 *
 	 * @param choice the choice of the player.
-	 * @return the asking pair.
+	 * @return the "Question" Pair.
 	 */
 	abstract Pair handleSecondaryFire(int choice);
 

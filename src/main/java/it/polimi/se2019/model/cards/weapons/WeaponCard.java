@@ -126,7 +126,9 @@ public abstract class WeaponCard extends Card {
 	 * Creates a "Question" Pair to be passed to the view.
 	 * @return the "Question" Pair.
 	 */
-	public abstract Pair askingPair();
+	public Pair askingPair(){
+		return null;
+	}
 
 
 	/**

@@ -28,13 +28,6 @@ public final class Furnace extends AlternateFire {
 	}
 
 
-	/**
-	 * Advances the weapon.
-	 * This will be called if currentStep is at least 2.
-	 *
-	 * @param choice the choice of the player.
-	 * @return the asking pair.
-	 */
 	@Override
 	Pair handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 2){
@@ -49,13 +42,6 @@ public final class Furnace extends AlternateFire {
 		return null;
 	}
 
-	/**
-	 * Advances the weapon.
-	 * This will be called if currentStep is at least 2.
-	 *
-	 * @param choice the choice of the player.
-	 * @return the asking pair.
-	 */
 	@Override
 	Pair handleSecondaryFire(int choice) {
 		if(getCurrentStep() == 2){
@@ -86,11 +72,6 @@ public final class Furnace extends AlternateFire {
 		dealDamage(currentTargets, damageAndMarksList);
 	}
 
-	/**
-	 * Get the targets of the primary mode of fire for this weapon.
-	 *
-	 * @return the targettable players.
-	 */
 	@Override
 	public List<Player> getPrimaryTargets() {
 		List<Coordinates> roomCoordinates = getGameMap().getRoomCoordinates(targetCoordinate);
@@ -101,11 +82,6 @@ public final class Furnace extends AlternateFire {
 		return playersInTheRoom;
 	}
 
-	/**
-	 * Get the targets of the secondary mode of fire for this weapon.
-	 *
-	 * @return the targettable players.
-	 */
 	@Override
 	public List<Player> getSecondaryTargets() {
 		return getGameMap().getPlayersFromCoordinates(targetCoordinate);

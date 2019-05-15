@@ -69,27 +69,17 @@ public final class TractorBeam extends AlternateFire {
 		return null;
 	}
 
-	/**
-	 * Primary method of firing of the weapon. It interacts with the view and collects targeted players for its mode.
-	 */
 	@Override
 	public void primaryFire() {
 		dealDamage(currentTargets, standardDamagesAndMarks);
 	}
 
-	/**
-	 * Secondary mode of firing.
-	 */
 	@Override
 	public void secondaryFire() {
 		dealDamage(currentTargets, secondaryDamagesAndMarks);
 	}
 
-	/**
-	 * Get the targets of the primary mode of fire for this weapon.
-	 *
-	 * @return the targettable players.
-	 */
+
 	@Override
 	public List<Player> getPrimaryTargets() {
 		List<Coordinates> visibleCoordinates = getGameMap().getVisibleCoordinates(getOwner());
@@ -105,11 +95,6 @@ public final class TractorBeam extends AlternateFire {
 		return targettablePlayers.isEmpty() ? null : targettablePlayers;
 	}
 
-	/**
-	 * Get the targets of the secondary mode of fire for this weapon.
-	 *
-	 * @return the targettable players.
-	 */
 	@Override
 	public List<Player> getSecondaryTargets() {
 		return getGameMap().reachablePlayers(getOwner(), 2);

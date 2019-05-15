@@ -38,13 +38,6 @@ public final class FlameThrower extends AlternateFire {
 	}
 
 
-	/**
-	 * Advances the weapon.
-	 * This will be called if currentStep is at least 2.
-	 *
-	 * @param choice the choice of the player.
-	 * @return the asking pair.
-	 */
 	@Override
 	Pair handlePrimaryFire(int choice) {
 		switch (getCurrentStep()){
@@ -88,13 +81,7 @@ public final class FlameThrower extends AlternateFire {
 		return null;
 	}
 
-	/**
-	 * Advances the weapon.
-	 * This will be called if currentStep is at least 2.
-	 *
-	 * @param choice the choice of the player.
-	 * @return the asking pair.
-	 */
+
 	@Override
 	Pair handleSecondaryFire(int choice) {
 		switch (getCurrentStep()) {
@@ -120,9 +107,6 @@ public final class FlameThrower extends AlternateFire {
 		return null;
 	}
 
-	/**
-	 * Primary method of firing of the weapon. It interacts with the view and collects targeted players for its mode.
-	 */
 	@Override
 	void primaryFire() {
 		List<Player> theTwoTargets = new ArrayList<>();
@@ -132,9 +116,6 @@ public final class FlameThrower extends AlternateFire {
 		dealDamage(theTwoTargets, standardDamagesAndMarks);
 	}
 
-	/**
-	 * Secondary mode of firing.
-	 */
 	@Override
 	public void secondaryFire() {
 		List<DamageAndMarks> firstSquareDamage = new ArrayList<>();
@@ -150,11 +131,7 @@ public final class FlameThrower extends AlternateFire {
 		dealDamage(secondSquareTargets, secondSquareDamage);
 	}
 
-	/**
-	 * Get the targets of the primary mode of fire for this weapon.
-	 *
-	 * @return the targettable players.
-	 */
+
 	@Override
 	public List<Player> getPrimaryTargets() {
 		//TODO: Implement when methods from GameMap become available.
@@ -166,11 +143,6 @@ public final class FlameThrower extends AlternateFire {
 		return null;
 	}
 
-	/**
-	 * Get the targets of the secondary mode of fire for this weapon.
-	 *
-	 * @return the targettable players.
-	 */
 	@Override
 	public List<Player> getSecondaryTargets() {
 		//TODO: Implement when methods from GameMap become available.
