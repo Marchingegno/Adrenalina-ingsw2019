@@ -34,8 +34,7 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		//TODO remove
-		if (Utils.DEBUG_CLI) {
+		if (!Utils.DEBUG_CLI) {
 			setCursorHome();
 			cleanConsole();
 		}
