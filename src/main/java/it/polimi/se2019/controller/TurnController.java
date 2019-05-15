@@ -8,22 +8,21 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.List;
-
 /**
  * This class is in a lower level than GameController. It handles the logic relative
  * @author Marchingegno
  */
 public class TurnController{
 
-	private Model model;
+	private VirtualViewsContainer virtualViewsContainer;
 	private WeaponController weaponController;
-	private List<VirtualView> virtualViews;
+	private Model model;
 
-	public TurnController(Model model, List<VirtualView> virtualViews) {
+
+	public TurnController(Model model, VirtualViewsContainer virtualViewsContainer) {
+		this.virtualViewsContainer = virtualViewsContainer;
 		this.model = model;
 		this.weaponController = new WeaponController();
-		this.virtualViews = virtualViews;
 	}
 
 
@@ -53,22 +52,22 @@ public class TurnController{
 			case GRAB_AMMO:
 				model.grabAmmoCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
-				Controller.sendUpdatedReps(virtualViews);
+				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case GRAB_WEAPON:
 				model.grabWeaponCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
-				Controller.sendUpdatedReps(virtualViews);
+				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case MOVE:
 				model.movePlayerTo(playerName, ((MoveActionMessage)event.getMessage()).getCoordinates());
 				handleNextAction(virtualView);
-				Controller.sendUpdatedReps(virtualViews);
+				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case RELOAD:
 				model.reloadWeapon(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
-				Controller.sendUpdatedReps(virtualViews);
+				virtualViewsContainer.sendUpdatedReps();
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
 		}

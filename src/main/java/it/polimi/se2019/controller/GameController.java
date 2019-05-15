@@ -1,17 +1,12 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
-import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.network.message.DefaultActionMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
-
-import java.util.List;
 
 /**
  * This class is in a lower level than Controller. It handles the logic relative to the game.
@@ -19,15 +14,15 @@ import java.util.List;
  */
 public class GameController {
 
+	private VirtualViewsContainer virtualViewsContainer;
 	private TurnController turnController;
 	private Model model;
-	private List<VirtualView> virtualViews;
 
 
-	public GameController(Model model, List<VirtualView> virtualViews) {
-		this.virtualViews = virtualViews;
+	public GameController(Model model, VirtualViewsContainer virtualViewsContainer) {
+		this.virtualViewsContainer = virtualViewsContainer;
 		this.model = model;
-		turnController = new TurnController(model, virtualViews);
+		turnController = new TurnController(model, virtualViewsContainer);
 	}
 
 
@@ -42,7 +37,7 @@ public class GameController {
 
 
 	private void spawnPlayers(){
-		for (VirtualView virtualView : virtualViews) {
+		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
 			if (model.getTurnStatus(virtualView.getPlayerName()) == TurnStatus.DEAD) {
 				askToSpawn(virtualView.getPlayerName());
 			}
@@ -80,11 +75,11 @@ public class GameController {
 		// Which should be only in its beginning turns.
 		if(model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {
 			askToSpawn(currentPlayerName);
-			Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
+			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 		} else {
 			model.setTurnStatusOfCurrentPlayer(TurnStatus.YOUR_TURN);
-			Controller.getVirtualViewFromPlayerName(currentPlayerName, virtualViews).askAction();
-			Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
+			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction();
+			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 		}
 	}
 
@@ -102,7 +97,7 @@ public class GameController {
 	 */
 	private void askToSpawn(String playerName) {
 		model.addPowerupCardTo(playerName);
-		VirtualView virtualView = Controller.getVirtualViewFromPlayerName(playerName, virtualViews);
+		VirtualView virtualView = virtualViewsContainer.getVirtualViewFromPlayerName(playerName);
 		virtualView.askSpawn();
 	}
 
@@ -129,7 +124,7 @@ public class GameController {
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
 					model.spawnPlayer(playerName, defaultActionMessage.getContent());
 					virtualView.askAction();
-					Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
+					virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 				}
 				break;
 			default: turnController.processEvent(event);

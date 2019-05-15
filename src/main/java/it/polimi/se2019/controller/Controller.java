@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
  */
 public class Controller implements Observer {
 
-	private List<VirtualView> virtualViews;
+	private VirtualViewsContainer virtualViewsContainer;
 	private GameController gameController;
 	private Model model;
 
 
 	public Controller(GameConstants.MapType mapType, Collection<VirtualView> virtualViews, int skulls) {
-		this.virtualViews = new ArrayList<>(virtualViews);
+		this.virtualViewsContainer = new VirtualViewsContainer(virtualViews);
 
 		// Create a list of player names.
 		List<String> playerNames = virtualViews.stream()
@@ -30,7 +30,7 @@ public class Controller implements Observer {
 
 		this.model = new Model(mapType.getMapName(), playerNames, skulls);
 		setObservers();
-		gameController = new GameController(model, this.virtualViews);
+		gameController = new GameController(model, virtualViewsContainer);
 		Utils.logInfo("Created controller.");
 	}
 
@@ -56,7 +56,7 @@ public class Controller implements Observer {
 	}
 
 	private void setObservers() {
-		for (VirtualView virtualView : virtualViews) {
+		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
 			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
 			model.addGameBoardObserver(virtualView.getGameBoardObserver());
 			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Board.");
@@ -68,25 +68,6 @@ public class Controller implements Observer {
 			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
 			virtualView.addObserver(this);
 			Utils.logInfo("Controller now observes virtual View of "+virtualView.getPlayerName());
-		}
-	}
-
-	static VirtualView getVirtualViewFromPlayerName(String playerName, List<VirtualView> virtualViews){
-		return virtualViews.stream()
-				.filter(item -> item.getPlayerName().equals(playerName))
-				.findFirst()
-				.orElseThrow(() -> new RuntimeException(playerName + " not found!"));
-	}
-
-	/**
-	 * Sends the updated reps contained in the VirtualView and sent by the model.
-	 * Note: if an action is requested to the player this methods mustn't be called before the request (otherwise two messages will be sent)!
-	 * @param virtualViews the VirtualViews that have the reps.
-	 */
-	static void sendUpdatedReps(List<VirtualView> virtualViews) {
-		for (VirtualView virtualView : virtualViews) {
-			Utils.logInfo("Controller -> sendUpdatedReps(): sending latest rep for " + virtualView.getPlayerName() + ".");
-			virtualView.sendReps();
 		}
 	}
 }
