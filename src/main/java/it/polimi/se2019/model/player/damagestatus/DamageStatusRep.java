@@ -10,7 +10,7 @@ import java.util.List;
  * Representation of DamageStatus class.
  * @author Marchingegno
  */
-public class DamageStatusRep extends Representation {
+public class DamageStatusRep implements Representation {
 	private int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
 	private int numberOfActionsPerformed; //actions that the player performed in this turn.
 	private List<String> macroActionString;

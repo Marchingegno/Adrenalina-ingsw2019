@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards;
 
 import it.polimi.se2019.model.Representation;
 
-public class CardRep extends Representation {
+public class CardRep implements Representation {
 
 	private String description;
 	private String cardName;

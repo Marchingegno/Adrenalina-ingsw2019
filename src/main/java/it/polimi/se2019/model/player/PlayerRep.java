@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Desno365
  */
-public class PlayerRep extends Representation {
+public class PlayerRep implements Representation {
 
 	private boolean actionRequested; //If the player is already executing an action.
 	private String playerName;

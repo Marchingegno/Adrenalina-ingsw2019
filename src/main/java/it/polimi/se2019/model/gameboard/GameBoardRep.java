@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Desno365
  */
-public class GameBoardRep extends Representation {
+public class GameBoardRep implements Representation {
 
 	private int remainingSkulls;
 	private List<Color.CharacterColorType> doubleKills;
