@@ -14,12 +14,14 @@ import java.util.List;
 
 /**
  * Abstract class that defines the structure of a weapon card. Every subtype of weapon must extend this.
- * The interaction with the player starts with chooseFireMode(), that asks the player whether or not does he want to use
- * alternate fire modes or optional effects. These choices are then collected into an array of booleans "flags" and
- * handleFire() is called; this method contains the logic for firing the weapon based on the collected flags, or delegates it.
- * It then proceeds to call adequate methods, such as primaryFire(), to build an array of target players, enhancing the damage
- * and/or the marks dealt with this shot, and finally it calls dealDamage that deals damage adequately to the player(s)
- * chosen as targets. It then reset() the weapon.
+ * The weapons are handled with the help of the **Strategy Pattern*. Each weapon has a predetermined number of
+ * "advancement steps", that represent the current state of advancement of the firing process of the weapon.
+ * Each time the controller wishes to continue the process of firing of the weapon, it must call the method **handleFire**;
+ * This will return a "Question" {@link Pair} that the controller must send to the Virtual View of the shooting player.
+ * However, before doing that, the controller will need to check if the weapon has finished the firing process and has
+ * already dealt damage; this can be done calling {@link #doneFiring()} that returns a boolean that is true when the
+ * current step is the maximum step for the current firing mode. The controller will also need to {@link #reset()} the weapon
+ * if it has finished firing. The method {@link #reset()} will deload and reset the weapon to its original state.
  * @author Marchingegno
  */
 public abstract class WeaponCard extends Card {
@@ -121,41 +123,16 @@ public abstract class WeaponCard extends Card {
 	}
 
 	/**
-	 * Interacts with player, depending on the characteristic of the weapon. It then collects an array
-	 * of flags which each weapon handles in their own way.
-	 * Most likely will be Overridden.
-	 *
-	 * This will be in the WeaponRep passed to the view, and collects the flag.
-	 * Maybe it doesn't need to be in this class, since it will be called by the view.
-	 * It can create a message to pass to the controller, and then the controller can call handleFire.
-	 * Maybe it can also pass an object useful to the handling of the weapon (for example, the square in which the vortex
-	 * will be created). Then the controller will call handleFire with the flags and the object.
+	 * Creates a "Question" Pair to be passed to the view.
+	 * @return the "Question" Pair.
 	 */
-	@Deprecated
-	public void chooseFireMode(){
-		boolean[] flagsCollected;
-		//Placeholder initialization
-		flagsCollected = new boolean[]{ false, false};
-
-		//TODO: Interaction with the view, flags will be modified.
-
-		//handleFire(flagsCollected);
-	}
-
-	/**
-	 * This will be called by the view to be displayed to the player.
-	 * @return
-	 */
-	public Pair askingPair(){
-		//Do you wanna use alternate/optional fire? ecc ecc
-		return null;
-	}
+	public abstract Pair askingPair();
 
 
 	/**
-	 * Handles interaction with flags array.
-	 * @return
-	 * @param choice
+	 * Handles the firing process of the weapon based on the currentStep and the choice of the player.
+	 * @return the "Question" Pair to be passed to the view, or **null** if the weapon has finished firing.
+	 * @param choice the choice of the player.
 	 */
 	public abstract Pair handleFire(int choice);
 
@@ -164,11 +141,9 @@ public abstract class WeaponCard extends Card {
 	 * The two arrays are ordered in such a way that the i-th playerToShoot will be dealt the i-th damageAndMark.
 	 * This method does NOT deload the weapon.
 	 * This method does check only the first array's size, so it can happen that playersToShoot is shorter than
-	 * damagesAndMarks. This means that the player has not activated an optional effect.
+	 * damagesAndMarks.
 	 * @param playersToShoot the array of players that will receive damage and/or marks.
-	 * @param damagesAndMarks the damage and marks for each player. It doesn't use the standard attribute because the
-	 *                        amount of damage or marks can be changed at run-time, depending on the choices of the
-	 *                        player.
+	 * @param damagesAndMarks the damage and marks for each player.
 	 */
 	protected void dealDamage(List<Player> playersToShoot, List<DamageAndMarks> damagesAndMarks){
 		for (int i = 0; i < playersToShoot.size(); i++) {
@@ -184,11 +159,11 @@ public abstract class WeaponCard extends Card {
 	abstract void primaryFire();
 
 	/**
-	 * Advances the weapon.
+	 * Handles the primary fire mode of the weapon.
 	 * This will be called if currentStep is at least 2.
 	 *
 	 * @param choice the choice of the player.
-	 * @return the asking pair.
+	 * @return the "Question" Pair.
 	 */
 	abstract Pair handlePrimaryFire(int choice);
 
@@ -198,19 +173,9 @@ public abstract class WeaponCard extends Card {
 
 	/**
 	 * Get the targets of the primary mode of fire for this weapon.
-	 * @return the targettable players.
+	 * @return the targettable players of the primary mode of fire.
 	 */
 	public abstract List<Player> getPrimaryTargets();
-
-	/**
-	 * It asks at the shooting player which target do he want to fire at.
-	 * Sometimes there is no need to ask because, depending on the weapon, the target will be chosen automatically.
-	 * @return list of players chosen by the shooting player.
-	 */
-	public List<Player> chooseTargets(){
-		//TODO: Interaction with view.
-		return getPrimaryTargets();
-	}
 
 	/**
 	 * Deloads the weapon and reset eventually modified parameters.
@@ -239,12 +204,20 @@ public abstract class WeaponCard extends Card {
 		return maximumSteps;
 	}
 
+	/**
+	 * Increments the advancement step of the weapon.
+	 */
 	void incrementStep(){
 		if(currentStep == maximumSteps)
 			throw new IllegalStateException("Trying to increment steps already at maximum.");
 		currentStep++;
 	}
 
+	/**
+	 * Builds a "Question" Pair that asks which player to target.
+	 * @param targets the target players to choose from.
+	 * @return the "Question" Pair.
+	 */
 	public static Pair getTargetPlayersQnO(List<Player> targets){
 		String question = "Which of the following players do you want to target?";
 		List<String> options = new ArrayList<>();
@@ -252,6 +225,12 @@ public abstract class WeaponCard extends Card {
 		return new Pair<>(question, options);
 	}
 
+	/**
+	 * Builds a "Question" Pair that ask in which coordinate to move the enemy player.
+	 * @param targetPlayer the player that will be moved.
+	 * @param coordinates the list of coordinates to choose from.
+	 * @return the "Question" Pair.
+	 */
 	public static Pair getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates){
 		String question = "Where do you want to move " + targetPlayer.getPlayerName() + "?";
 		List<String> options = new ArrayList<>();
@@ -259,6 +238,11 @@ public abstract class WeaponCard extends Card {
 		return new Pair<>(question, options);
 	}
 
+	/**
+	 * Builds a "Question" Pair that asks in which coordinate to fire at.
+	 * @param coordinates the list of coordinates to choose from.
+	 * @return the "Question" Pair.
+	 */
 	public static Pair getTargetCoordinatesQnO(List<Coordinates> coordinates){
 		String question = "Where do you want to fire?";
 		List<String> options = new ArrayList<>();
