@@ -7,7 +7,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Whisper extends WeaponCard {
+public class Whisper extends WeaponCard {
 
 	private Player targetPlayer;
 

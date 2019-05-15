@@ -9,7 +9,7 @@ import java.util.List;
 
 import static java.lang.Boolean.TRUE;
 
-public final class Cyberblade extends OptionalEffect{
+public class Cyberblade extends OptionalEffect{
 	private final int PRIMARY_DAMAGE = 2;
 	private final int PRIMARY_MARKS = 0;
 	private final int OPTIONAL2_DAMAGE = 2;

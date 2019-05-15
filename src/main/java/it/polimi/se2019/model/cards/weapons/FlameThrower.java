@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class FlameThrower extends AlternateFire {
+public class FlameThrower extends AlternateFire {
 	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int SECONDARY_FOLLOWING_MARKS;
 	private CardinalDirection chosenDirection;

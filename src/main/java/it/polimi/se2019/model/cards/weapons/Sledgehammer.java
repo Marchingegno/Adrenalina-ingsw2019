@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
-public final class Sledgehammer extends AlternateFire {
+public class Sledgehammer extends AlternateFire {
 
 	public Sledgehammer(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);

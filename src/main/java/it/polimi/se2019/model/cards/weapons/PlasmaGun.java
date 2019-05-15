@@ -4,7 +4,7 @@ import it.polimi.se2019.model.player.Player;
 
 import java.util.List;
 
-public final class PlasmaGun extends OptionalEffect {
+public class PlasmaGun extends OptionalEffect {
 
 	public PlasmaGun(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);

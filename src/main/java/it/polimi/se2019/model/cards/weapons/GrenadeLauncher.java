@@ -4,7 +4,7 @@ import it.polimi.se2019.model.player.Player;
 
 import java.util.List;
 
-public final class GrenadeLauncher extends OptionalEffect {
+public class GrenadeLauncher extends OptionalEffect {
 
 	public GrenadeLauncher(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);

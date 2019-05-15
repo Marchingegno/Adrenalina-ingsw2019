@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Elecroscythe extends AlternateFire {
+public class Elecroscythe extends AlternateFire {
 
 	public Elecroscythe(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);

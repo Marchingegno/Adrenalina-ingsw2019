@@ -4,7 +4,7 @@ import it.polimi.se2019.model.player.Player;
 
 import java.util.List;
 
-public final class Thor extends OptionalEffect {
+public class Thor extends OptionalEffect {
 
 	public Thor(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
