@@ -48,26 +48,26 @@ public class TurnController{
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
 				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(virtualView);
+				handleNextAction(virtualView);
 				break;
 			case GRAB_AMMO:
 				model.grabAmmoCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(virtualView);
+				handleNextAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case GRAB_WEAPON:
 				model.grabWeaponCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(virtualView);
+				handleNextAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case MOVE:
 				model.movePlayerTo(playerName, ((MoveActionMessage)event.getMessage()).getCoordinates());
-				handleAction(virtualView);
+				handleNextAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case RELOAD:
 				model.reloadWeapon(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(virtualView);
+				handleNextAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
@@ -75,7 +75,7 @@ public class TurnController{
 
 	}
 
-	private void handleAction(VirtualView playerVirtualView) {
+	private void handleNextAction(VirtualView playerVirtualView) {
 		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getPlayerName());
 		switch (actionType){
 			case MOVE:
