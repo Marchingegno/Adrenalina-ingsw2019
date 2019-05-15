@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.cards.ammo.AmmoCard;
+import it.polimi.se2019.model.cards.ammo.AmmoCardRep;
 import it.polimi.se2019.utils.Color;
 
 /**
@@ -10,12 +10,25 @@ import it.polimi.se2019.utils.Color;
  */
 public class AmmoSquareRep extends SquareRep {
 
+	private AmmoCardRep ammoCardRep;
+
 	AmmoSquareRep(Square squareToRepresent) {
 		super(squareToRepresent);
-		elementsToPrint = new String[3];
-		AmmoCard ammoCard = (AmmoCard) squareToRepresent.getCards().get(0);
-		elementsToPrint[0] = Color.getColoredCell(ammoCard.getAmmo().get(0).getBackgroundColorType());
-		elementsToPrint[1] = Color.getColoredCell(ammoCard.getAmmo().get(1).getBackgroundColorType());
-		elementsToPrint[2] = Color.getColoredCell(ammoCard.hasPowerup() ? Color.BackgroundColorType.WHITE : ammoCard.getAmmo().get(2).getBackgroundColorType());
+		ammoCardRep = (AmmoCardRep) (squareToRepresent.cards.get(0)).getRep();
+	}
+
+	@Override
+	public String[] getElementsToPrint() {
+		String[] elementsToPrint = new String[3];
+		if (ammoCardRep != null) {
+			elementsToPrint[0] = Color.getColoredCell(ammoCardRep.getAmmo().get(0).getBackgroundColorType());
+			elementsToPrint[1] = Color.getColoredCell(ammoCardRep.getAmmo().get(1).getBackgroundColorType());
+			elementsToPrint[2] = Color.getColoredCell(ammoCardRep.hasPowerup() ? Color.BackgroundColorType.WHITE : ammoCardRep.getAmmo().get(2).getBackgroundColorType());
+		} else {
+			elementsToPrint[0] = " ";
+			elementsToPrint[1] = " ";
+			elementsToPrint[2] = " ";
+		}
+		return elementsToPrint;
 	}
 }

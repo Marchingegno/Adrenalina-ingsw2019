@@ -36,6 +36,6 @@ public abstract class PowerupCard extends Card {
 	}
 
 	public Representation getRep() {
-		return new PowerupRep(this);
+		return new PowerupCardRep(this);
 	}
 }

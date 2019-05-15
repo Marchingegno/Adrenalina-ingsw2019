@@ -72,7 +72,7 @@ class RepPrinter {
 		for (int i = 0; i < mapRep.length; i++) {
 			for (int j = 0; j < mapRep[0].length; j++) {
 				fillEmpty(mapRep[i][j]);
-				fillCards(mapRep[i][j]);
+				fillWithElements(mapRep[i][j]);
 			}
 		}
 
@@ -92,7 +92,7 @@ class RepPrinter {
 	 *
 	 * @param squareRep
 	 */
-	private void fillCards(SquareRep squareRep) {
+	private void fillWithElements(SquareRep squareRep) {
 		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 		String[] cards = squareRep.getElementsToPrint();
@@ -253,7 +253,7 @@ class RepPrinter {
 				playerRep.getPowerupCards().get(lineIndex).getAssociatedAmmo().getCharacterColorType() :
 				Color.CharacterColorType.BLACK));
 		stringBuilder.append(Utils.fillWithSpaces(lineIndex + 1 <= playerRep.getPowerupCards().size() ?
-				playerRep.getPowerupCards().get(lineIndex).getPowerupName() :
+				playerRep.getPowerupCards().get(lineIndex).getCardName() :
 				"", 20));
 
 		//Weapons

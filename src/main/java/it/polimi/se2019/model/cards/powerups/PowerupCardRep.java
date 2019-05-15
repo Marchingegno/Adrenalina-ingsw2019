@@ -1,19 +1,15 @@
 package it.polimi.se2019.model.cards.powerups;
 
+import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 
-import java.io.Serializable;
-
-public class PowerupCardRep implements Serializable {
+public class PowerupCardRep extends CardRep {
 
 	private AmmoType associatedAmmo;
-	private String powerupName;
-	private String description;
 
 	public PowerupCardRep(PowerupCard powerupCard) {
+		super(powerupCard);
 		this.associatedAmmo = powerupCard.getAssociatedAmmo();
-		this.powerupName = powerupCard.toString();
-		this.description = powerupCard.getCardDescription();
 	}
 
 	/**
@@ -23,23 +19,5 @@ public class PowerupCardRep implements Serializable {
 	 */
 	public AmmoType getAssociatedAmmo() {
 		return associatedAmmo;
-	}
-
-	public String getPowerupName() {
-		return powerupName;
-	}
-
-	/**
-	 * Returns the description of the card.
-	 *
-	 * @return the description of the card.
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	@Override
-	public String toString() {
-		return powerupName + " " + associatedAmmo;
 	}
 }

@@ -27,7 +27,7 @@ public class PlayerRep extends Representation {
 	private List<Color.CharacterColorType> marks;
 	private DamageStatusRep damageStatusRep;
 	//TODO add weapon reps
-	private ArrayList<PowerupCardRep> powerupCards;
+	private List<PowerupCardRep> powerupCards;
 	private int[] ammo;
 	private boolean hidden;
 

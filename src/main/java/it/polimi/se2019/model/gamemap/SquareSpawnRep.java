@@ -18,14 +18,15 @@ public class SquareSpawnRep extends SquareRep {
 
 	SquareSpawnRep(Square squareToRepresent) {
 		super(squareToRepresent);
-		elementsToPrint = new String[3];
-		elementsToPrint[0] = "S";
-		elementsToPrint[1] = "P";
-		elementsToPrint[2] = "W";
 		weaponsRep = new ArrayList<>();
 		for (Card card : squareToRepresent.getCards()) {
 			weaponsRep.add(new WeaponRep((WeaponCard) card));
 		}
+	}
+
+	@Override
+	public String[] getElementsToPrint() {
+		return new String[]{"S", "P", "W"};
 	}
 
 	/**
@@ -36,4 +37,6 @@ public class SquareSpawnRep extends SquareRep {
 	public List<WeaponRep> getWeaponsRep() {
 		return weaponsRep;
 	}
+
+
 }

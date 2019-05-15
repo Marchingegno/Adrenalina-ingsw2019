@@ -11,10 +11,9 @@ import java.util.List;
  *
  * @author MarcerAmdrea
  */
-public class SquareRep implements Serializable {
+public abstract class SquareRep implements Serializable {
 
-	protected String[] elementsToPrint;
-	protected List<CardRep> cardsRep;
+	private List<CardRep> cardsRep;
 	private int roomID;
 	private Color.CharacterColorType squareColor;
 	private Coordinates coordinates;
@@ -71,7 +70,5 @@ public class SquareRep implements Serializable {
 	 *
 	 * @return the elements to print in the CLI.
 	 */
-	public String[] getElementsToPrint() {
-		return elementsToPrint;
-	}
+	public abstract String[] getElementsToPrint();
 }
