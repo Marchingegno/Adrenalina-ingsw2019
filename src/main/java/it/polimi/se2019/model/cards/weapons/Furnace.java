@@ -1,5 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.Representation;
+
 public final class Furnace extends DoubleFire {
 
 	public Furnace(String description) {
@@ -13,4 +15,8 @@ public final class Furnace extends DoubleFire {
 	protected void secondaryFire() {
 	}
 
+	@Override
+	public Representation getRep() {
+		return null;
+	}
 }

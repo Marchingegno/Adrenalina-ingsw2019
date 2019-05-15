@@ -15,16 +15,9 @@ public abstract class WeaponCard extends Card {
 	private ArrayList<AmmoType> reloadPrice;
 
 	public WeaponCard(String weaponName, String description) {
-		super(description);
+		super(weaponName, description);
 		this.weaponName = weaponName;
 	}
-
-	// TODO remove
-	public WeaponCard(String description) {
-		super(description);
-		this.weaponName = "TODO";
-	}
-
 
 	public abstract void shoot();
 

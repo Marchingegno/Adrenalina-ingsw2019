@@ -1,5 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.Representation;
+
 public final class Railgun extends DoubleFire {
 
 	public Railgun(String description) {
@@ -14,4 +16,8 @@ public final class Railgun extends DoubleFire {
 	}
 
 
+	@Override
+	public Representation getRep() {
+		return null;
+	}
 }

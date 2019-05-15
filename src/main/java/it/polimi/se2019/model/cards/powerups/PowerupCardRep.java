@@ -13,7 +13,7 @@ public class PowerupCardRep implements Serializable {
 	public PowerupCardRep(PowerupCard powerupCard) {
 		this.associatedAmmo = powerupCard.getAssociatedAmmo();
 		this.powerupName = powerupCard.toString();
-		this.description = powerupCard.getDescription();
+		this.description = powerupCard.getCardDescription();
 	}
 
 	/**

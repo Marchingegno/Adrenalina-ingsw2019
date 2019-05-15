@@ -1,6 +1,8 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import it.polimi.se2019.model.Representation;
+
 public final class LockRifle extends OptionalFire {
 
 	public LockRifle(String description) {
@@ -17,4 +19,8 @@ public final class LockRifle extends OptionalFire {
 	protected void optionalFire2() {
 	}
 
+	@Override
+	public Representation getRep() {
+		return null;
+	}
 }

@@ -1,8 +1,10 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.utils.Color;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * A sharable version of the square.
@@ -12,12 +14,14 @@ import java.io.Serializable;
 public class SquareRep implements Serializable {
 
 	protected String[] elementsToPrint;
+	protected List<CardRep> cardsRep;
 	private int roomID;
 	private Color.CharacterColorType squareColor;
 	private Coordinates coordinates;
 	private boolean[] possibleDirection;
 
 	public SquareRep(Square squareToRepresent) {
+		this.cardsRep = squareToRepresent.getCardsRep();
 		this.roomID = squareToRepresent.getRoomID();
 		this.coordinates = squareToRepresent.getCoordinates();
 		this.squareColor = squareToRepresent.getSquareColor();
@@ -56,6 +60,10 @@ public class SquareRep implements Serializable {
 	 */
 	public Color.CharacterColorType getSquareColor() {
 		return squareColor;
+	}
+
+	public List<CardRep> getCardsName() {
+		return cardsRep;
 	}
 
 	/**

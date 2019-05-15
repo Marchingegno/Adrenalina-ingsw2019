@@ -1,6 +1,8 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import it.polimi.se2019.model.Representation;
+
 public final class TractorBeam extends DoubleFire {
 
 	public TractorBeam(String description) {
@@ -15,4 +17,8 @@ public final class TractorBeam extends DoubleFire {
 	}
 
 
+	@Override
+	public Representation getRep() {
+		return null;
+	}
 }

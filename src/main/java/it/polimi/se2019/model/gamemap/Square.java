@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.utils.Color;
 
@@ -97,6 +98,14 @@ public abstract class Square {
 	 */
 	public List<Card> getCards() {
 		return new ArrayList<>(cards);
+	}
+
+	public List<CardRep> getCardsRep() {
+		List<CardRep> cardsRep = new ArrayList<>();
+		for (Card card : cards) {
+			cardsRep.add((CardRep) card.getRep());
+		}
+		return cardsRep;
 	}
 
 	/**

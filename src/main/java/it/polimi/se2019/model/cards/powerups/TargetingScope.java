@@ -20,7 +20,7 @@ public class TargetingScope extends PowerupCard {
 	private static final int GIVEN_DAMAGE = 1;
 
 	public TargetingScope(AmmoType associatedAmmo) {
-		super(associatedAmmo, DESCRIPTION);
+		super("Targeting scope", associatedAmmo, DESCRIPTION);
 	}
 
 	/**

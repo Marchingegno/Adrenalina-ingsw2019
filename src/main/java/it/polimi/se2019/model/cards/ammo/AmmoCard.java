@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.ammo;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 
 import java.util.ArrayList;
@@ -12,21 +13,15 @@ import java.util.List;
  */
 public class AmmoCard extends Card {
 
-	private String name;
-	private ArrayList<AmmoType> ammo;
+	private List<AmmoType> ammo;
 	private boolean hasPowerup;
-
 
 	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup, String name) {
 
-		super(createDescription(ammo, hasPowerup));
-
-		this.name = name;
-
+		super(name, createDescription(ammo, hasPowerup));
 		this.ammo = new ArrayList<>(ammo);
 		this.hasPowerup = hasPowerup;
 	}
-
 
 	/**
 	 * Generates the description of the card.
@@ -69,7 +64,11 @@ public class AmmoCard extends Card {
 
 	@Override
 	public String toString() {
-		return "AmmoCard: " + description;
+		return "AmmoCard: " + getCardDescription();
 	}
 
+	@Override
+	public Representation getRep() {
+		return new AmmoCardRep(this);
+	}
 }

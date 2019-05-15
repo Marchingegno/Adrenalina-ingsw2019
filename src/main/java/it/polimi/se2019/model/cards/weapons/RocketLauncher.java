@@ -1,5 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.Representation;
+
 public final class RocketLauncher extends OptionalFire {
 
 	public RocketLauncher(String description) {
@@ -17,4 +19,8 @@ public final class RocketLauncher extends OptionalFire {
 	}
 
 
+	@Override
+	public Representation getRep() {
+		return null;
+	}
 }
