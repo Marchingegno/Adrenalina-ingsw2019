@@ -1,7 +1,6 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
@@ -59,14 +58,12 @@ public class Controller implements Observer {
 	private void setObservers() {
 		for (VirtualView virtualView : virtualViews) {
 			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
-			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
-			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Board");
-			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
-			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Map");
-			for (Player player : model.getPlayers()) {
-				player.addObserver(virtualView.getPlayerObserver());
-				Utils.logInfo(virtualView.getPlayerName() + " now observes " + player.getPlayerName());
-			}
+			model.addGameBoardObserver(virtualView.getGameBoardObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Board.");
+			model.addGameMapObserver(virtualView.getGameMapObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Map.");
+			model.addPlayersObserver(virtualView.getPlayerObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes all the Players.");
 
 			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
 			virtualView.addObserver(this);
@@ -74,8 +71,7 @@ public class Controller implements Observer {
 		}
 	}
 
-	static VirtualView getVirtualViewFromPlayer(Player player, List<VirtualView> virtualViews){
-		String playerName = player.getPlayerName();
+	static VirtualView getVirtualViewFromPlayerName(String playerName, List<VirtualView> virtualViews){
 		return virtualViews.stream()
 				.filter(item -> item.getPlayerName().equals(playerName))
 				.findFirst()

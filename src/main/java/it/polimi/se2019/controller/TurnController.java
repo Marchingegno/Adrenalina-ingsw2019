@@ -1,8 +1,6 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.gamemap.GameMap;
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.DefaultActionMessage;
 import it.polimi.se2019.network.message.MoveActionMessage;
 import it.polimi.se2019.utils.ActionType;
@@ -19,14 +17,12 @@ import java.util.List;
 public class TurnController{
 
 	private Model model;
-	private GameMap gameMap;
 	private WeaponController weaponController;
 	private List<VirtualView> virtualViews;
 
 	public TurnController(Model model, List<VirtualView> virtualViews) {
 		this.model = model;
 		this.weaponController = new WeaponController();
-		this.gameMap = model.getGameMap();
 		this.virtualViews = virtualViews;
 	}
 
@@ -46,33 +42,32 @@ public class TurnController{
 		//TODO: Control veridicity of the message.
 
 		VirtualView virtualView = event.getVirtualView();
-		Player player = model.getPlayerFromName(virtualView.getPlayerName());
+		String playerName = virtualView.getPlayerName();
 
 		Utils.logInfo("TurnController: processing this event " + event.toString());
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
-				player.getDamageStatus().decreaseActionsToPerform();
-				player.getDamageStatus().setCurrentActionIndex(((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(player, virtualView);
+				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				handleAction(virtualView);
 				break;
 			case GRAB_AMMO:
-				model.grabAmmoCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(player,virtualView);
+				model.grabAmmoCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				handleAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case GRAB_WEAPON:
-				model.grabWeaponCard(player, ((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(player,virtualView);
+				model.grabWeaponCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				handleAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case MOVE:
-				model.movePlayerTo(player, ((MoveActionMessage)event.getMessage()).getCoordinates());
-				handleAction(player,virtualView);
+				model.movePlayerTo(playerName, ((MoveActionMessage)event.getMessage()).getCoordinates());
+				handleAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			case RELOAD:
-				player.reload(((DefaultActionMessage)event.getMessage()).getContent());
-				handleAction(player,virtualView);
+				model.reloadWeapon(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				handleAction(virtualView);
 				Controller.sendUpdatedReps(virtualViews);
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
@@ -80,24 +75,24 @@ public class TurnController{
 
 	}
 
-	void handleAction(Player player, VirtualView virtualView) {
-		ActionType actionType = player.getDamageStatus().executeAction();
+	private void handleAction(VirtualView playerVirtualView) {
+		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getPlayerName());
 		switch (actionType){
 			case MOVE:
-				virtualView.askMove();
+				playerVirtualView.askMove();
 				break;
 			case GRAB:
-				virtualView.askGrab();
+				playerVirtualView.askGrab();
 				break;
 			case RELOAD:
-				virtualView.askReload();
+				playerVirtualView.askReload();
 				break;
 			case SHOOT:
-				virtualView.askShoot();
+				playerVirtualView.askShoot();
 				break;
 			case END:
 				//The MacroAction is already refilled.
-				handleEnd(player, virtualView);
+				handleEnd(playerVirtualView);
 				break;
 			default:
 				Utils.logError("This action type cannot be processed.", new IllegalStateException());
@@ -105,12 +100,12 @@ public class TurnController{
 		}
 	}
 
-	private void handleEnd(Player player, VirtualView virtualView) {
-		if(player.getDamageStatus().hasActionLeft()){
-			virtualView.askAction();
-		}
-		else {
-			virtualView.askEnd();
+	private void handleEnd(VirtualView playerVirtualView) {
+		String playerName = playerVirtualView.getPlayerName();
+		if(model.doesThePlayerHaveActionsLeft(playerName)){
+			playerVirtualView.askAction();
+		} else {
+			playerVirtualView.askEnd();
 		}
 	}
 }

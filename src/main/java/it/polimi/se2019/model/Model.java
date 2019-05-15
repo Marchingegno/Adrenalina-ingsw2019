@@ -1,6 +1,5 @@
 package it.polimi.se2019.model;
 
-import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -9,13 +8,15 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
-import it.polimi.se2019.model.player.PlayerQueue;
 import it.polimi.se2019.model.player.TurnStatus;
+import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
+import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
+import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Observer;
 
 /**
  * Facade of the game board.
@@ -39,54 +40,65 @@ public class Model {
 		gameMap = gameBoard.getGameMap();
 	}
 
-	public Player getPlayerFromName(String playerName){
-		for (Player player : gameBoard.getPlayers() ) {
-			if (playerName.equals(player.getPlayerName()))
-				return player;
-		}
-		throw new IllegalArgumentException("No player with name: " + playerName);
-	}
 
-	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
-		gameMap.movePlayerTo(playerToMove, coordinates);
+	public void movePlayerTo(String playerName, Coordinates coordinates) {
+		Player player = getPlayerFromName(playerName);
+		gameMap.movePlayerTo(player, coordinates);
 		updateReps();
 	}
 
-	public PlayerQueue getPlayerQueue() {
-		return gameBoard.getPlayerQueue();
-	}
-
-	public boolean isFrenzyStarted(){
+	public boolean isFrenzyStarted() {
 		return gameBoard.isFrenzyStarted();
 	}
 
-	public void startFrenzy(){
+	//TODO: Revisit the location of the first player. I don't know if he is the player that just ended the turn, or the following.
+	public void startFrenzy() {
 		gameBoard.startFrenzy();
+
+		Player firstPlayer = gameBoard.getPlayers().get(0);
+
+		boolean isAfterFirstPlayer = false;
+		for (Player player : gameBoard.getPlayerQueue()) {
+			//The first must also receive the Frenzy After damage status
+			if (player.getPlayerName().equals(firstPlayer.getPlayerName()))
+				isAfterFirstPlayer = true;
+
+			player.setDamageStatus(isAfterFirstPlayer ? new FrenzyAfter() : new FrenzyBefore());
+		}
+		flipPlayers();
+
 		updateReps();
 	}
 
-	public void spawnPlayer(Player player, int indexOfCard){
+	public void spawnPlayer(String playerName, int indexOfCard) {
+		Player player = getPlayerFromName(playerName);
 		gameBoard.spawnPlayer(player, indexOfCard);
 		updateReps();
 	}
 
-	public void addPowerupCardTo(Player player)
-	{
+	public void addPowerupCardTo(String playerName) {
+		Player player = getPlayerFromName(playerName);
 		gameBoard.addPowerupCardTo(player);
 		updateReps();
 	}
 
 
-	public Player getCurrentPlayer() {
-		return gameBoard.getCurrentPlayer();
+	public String getCurrentPlayerName() {
+		return gameBoard.getCurrentPlayer().getPlayerName();
 	}
 
-	public GameBoard getGameBoard() {
-		return gameBoard;
+	public void addGameBoardObserver(Observer observer) {
+		gameBoard.addObserver(observer);
 	}
 
-	public GameMap getGameMap() {
-		return gameMap;
+	public void addGameMapObserver(Observer observer) {
+		gameBoard.getGameMap().addObserver(observer);
+	}
+
+	public void addPlayersObserver(Observer observer) {
+		for (Player player : gameBoard.getPlayers()) {
+			player.addObserver(observer);
+		}
 	}
 
 	public void nextPlayerTurn() {
@@ -94,32 +106,47 @@ public class Model {
 		updateReps();
 	}
 
-	public void setCorrectDamageStatus(Player player){
+	public void setCorrectDamageStatus(String playerName){
+		Player player = getPlayerFromName(playerName);
 		gameBoard.setCorrectDamageStatus(player);
 		updateReps();
 	}
 
-	public void setTurnStatus(Player player, TurnStatus turnStatus){
-		gameBoard.setTurnStatus(player, turnStatus);
-		updateReps();
+	public TurnStatus getTurnStatus(String playerName) {
+		return getPlayerFromName(playerName).getTurnStatus();
 	}
 
-	public void doDamageAndAddMarks(Player shootingPlayer, Player damagedPlayer, int amountOfDamage, int amountOfMarks) {
+	public void setTurnStatusOfCurrentPlayer(TurnStatus turnStatus){
+		setTurnStatus(getCurrentPlayerName(), turnStatus);
+	}
+
+	public void doDamageAndAddMarks(String shootingPlayerName, String damagedPlayerName, int amountOfDamage, int amountOfMarks) {
+		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
+		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
+
 		doDamage(shootingPlayer, damagedPlayer, amountOfDamage);
+
 		addMarks(shootingPlayer, damagedPlayer, amountOfMarks);
+
+		updateReps();
+
 	}
 
-	public void addMarks(Player shootingPlayer, Player damagedPlayer, int amountOfMarks) {
-		damagedPlayer.getPlayerBoard().addMarks(shootingPlayer, amountOfMarks);
+	public void addMarks(String shootingPlayerName, String damagedPlayerName, int amountOfMarks) {
+		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
+		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
+
+		addMarks(shootingPlayer, damagedPlayer, amountOfMarks);
+
 		updateReps();
 	}
 
-	public void doDamage(Player shootingPlayer, Player damagedPlayer, int amountOfDamage) {
-		PlayerBoard damagedPlayerBoard = damagedPlayer.getPlayerBoard();
-		damagedPlayerBoard.addDamage(shootingPlayer, amountOfDamage);
-		if (damagedPlayerBoard.isDead()) {
-			gameBoard.addKillShot(shootingPlayer, damagedPlayerBoard.isOverkilled());
-		}
+	public void doDamage(String shootingPlayerName, String damagedPlayerName, int amountOfDamage) {
+		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
+		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
+
+		doDamage(shootingPlayer, damagedPlayer, amountOfDamage);
+
 		updateReps();
 	}
 
@@ -131,6 +158,103 @@ public class Model {
 		gameBoard.getPlayers().stream()
 				.filter(item -> item.getPlayerBoard().isDead())
 				.forEach(this::scoreDeadPlayer);
+		updateReps();
+	}
+
+	public void fillGameMap() {
+		gameMap.fillMap();
+		updateReps();
+	}
+
+	public void grabWeaponCard(String playerName, int index) {
+		Player player = getPlayerFromName(playerName);
+		WeaponCard cardToGrab = (WeaponCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
+		addWeaponCardToPlayer(player, cardToGrab);
+	}
+
+	public void grabAmmoCard(String playerName, int index) {
+		Player player = getPlayerFromName(playerName);
+		AmmoCard cardToGrab = (AmmoCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
+		addAmmoCardToPlayer(player, cardToGrab);
+	}
+
+	public void discardPowerupCard(String playerName, int indexOfThePowerup) {
+		Player player = getPlayerFromName(playerName);
+		player.getPlayerBoard().removePowerup(indexOfThePowerup);
+	}
+
+	public void swapWeapons(String playerName, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
+		Player player = getPlayerFromName(playerName);
+		Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
+		WeaponCard squareWeapon = (WeaponCard) (gameMap.grabCard(playerCoordinates, indexOfTheSpawnWeapon));
+
+		gameMap.addCard(playerCoordinates, player.getPlayerBoard().swapWeapon(squareWeapon, indexOfThePlayerWeapon));
+		updateReps();
+	}
+
+	public void reloadWeapon(String playerName, int indexOfTheWeapon) {
+		Player player = getPlayerFromName(playerName);
+		player.reload(indexOfTheWeapon);
+	}
+
+	public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
+		Player player = getPlayerFromName(playerName);
+		return gameMap.reachableCoordinates(player, distance);
+	}
+
+	public void flipPlayers() {
+		gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
+	}
+
+	public boolean doesThePlayerHaveActionsLeft(String playerName) {
+		return getPlayerFromName(playerName).getDamageStatus().hasActionLeft();
+	}
+
+	public ActionType getNextActionToExecute(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		return player.getDamageStatus().getNextActionToExecute();
+	}
+
+	public void setNextMacroAction(String playerName, int indexOfMacroAction) {
+		Player player = getPlayerFromName(playerName);
+		player.getDamageStatus().decreaseActionsToPerform();
+		player.getDamageStatus().setCurrentActionIndex(indexOfMacroAction);
+	}
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
+
+	private void addAmmoCardToPlayer(Player player, AmmoCard ammoCard){
+		for (AmmoType ammo : ammoCard.getAmmo() ) {
+			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
+		}
+
+		if (ammoCard.hasPowerup())
+			player.getPlayerBoard().addPowerup(gameBoard.getPowerupDeck().drawCard());
+
+		gameBoard.getAmmoDeck().discardCard(ammoCard);
+
+		updateReps();
+	}
+
+	private void addWeaponCardToPlayer(Player player, WeaponCard weaponCard){
+		player.getPlayerBoard().addWeapon(weaponCard);
+		updateReps();
+	}
+
+	private void addMarks(Player shootingPlayer, Player damagedPlayer, int amountOfMarks) {
+		damagedPlayer.getPlayerBoard().addMarks(shootingPlayer, amountOfMarks);
+		updateReps();
+	}
+
+	private void doDamage(Player shootingPlayer, Player damagedPlayer, int amountOfDamage) {
+		PlayerBoard damagedPlayerBoard = damagedPlayer.getPlayerBoard();
+		damagedPlayerBoard.addDamage(shootingPlayer, amountOfDamage);
+		if (damagedPlayerBoard.isDead()) {
+			gameBoard.addKillShot(shootingPlayer, damagedPlayerBoard.isOverkilled());
+		}
 		updateReps();
 	}
 
@@ -148,10 +272,7 @@ public class Model {
 		}
 		gameBoard.addKillShot(killingPlayer, overkill);
 
-		//This foreach cannot be replaced with a lambda expression because it's not synchronized.
-		for (Player p : playerBoard.getDamageBoard()) {
-			damageDone.damageUp(p);
-		}
+		playerBoard.getDamageBoard().forEach(damageDone::damageUp);
 
 		sortedPlayers = damageDone.getSortedPlayers();
 		awardPoints(playerBoard, sortedPlayers);
@@ -159,7 +280,7 @@ public class Model {
 		player.resetAfterDeath(); //This automatically increases its number of deaths.
 	}
 
-	private synchronized void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers) {
+	private void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers) {
 		int offset = 0;
 
 		//TODO: The implementation is WRONG. A player should give FRENZY_SCORES only if the playerBoard is flipped. @Marchingegno
@@ -187,65 +308,18 @@ public class Model {
 		}
 	}
 
-	public void fillGameMap() {
-		gameMap.fillMap();
+	private void setTurnStatus(String playerName, TurnStatus turnStatus){
+		Player player = getPlayerFromName(playerName);
+		gameBoard.setTurnStatus(player, turnStatus);
 		updateReps();
 	}
 
-	public void grabWeaponCard(Player player, int index) {
-		WeaponCard cardToGrab = (WeaponCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
-		addWeaponCardTo(player, cardToGrab);
-	}
-
-	public void grabAmmoCard(Player player, int index) {
-		AmmoCard cardToGrab = (AmmoCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
-		addAmmoCardTo(player, cardToGrab);
-	}
-
-	public Card grabCard(Coordinates coordinates, int index) {
-		return gameMap.grabCard(coordinates, index);
-	}
-
-	public void discardPowerupCard(Player player, int indexOfThePowerup) {
-		player.getPlayerBoard().removePowerup(indexOfThePowerup);
-	}
-
-	public void addAmmoCardTo(Player player, AmmoCard ammoCard){
-		for (AmmoType ammo : ammoCard.getAmmo() ) {
-			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
+	private Player getPlayerFromName(String playerName){
+		for (Player player : gameBoard.getPlayers()) {
+			if (playerName.equals(player.getPlayerName()))
+				return player;
 		}
-
-		if (ammoCard.hasPowerup())
-			player.getPlayerBoard().addPowerup(gameBoard.getPowerupDeck().drawCard());
-
-		gameBoard.getAmmoDeck().discardCard(ammoCard);
-
-		updateReps();
-	}
-
-	public void addWeaponCardTo(Player player, WeaponCard weaponCard){
-		player.getPlayerBoard().addWeapon(weaponCard);
-		updateReps();
-	}
-
-	public void swapWeapons(Player player, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
-		Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
-		WeaponCard squareWeapon = (WeaponCard) (gameMap.grabCard(playerCoordinates, indexOfTheSpawnWeapon));
-
-		gameMap.addCard(playerCoordinates, player.getPlayerBoard().swapWeapon(squareWeapon, indexOfThePlayerWeapon));
-		updateReps();
-	}
-
-	public List<Coordinates> getReachableCoordinates(Player player, int distance) {
-		return gameMap.reachableCoordinates(player, distance);
-	}
-
-	public Map<Player, Coordinates> getPlayersCoordinates() {
-		return gameMap.getPlayersCoordinates();
-	}
-
-	public List<Player> getPlayers() {
-		return gameBoard.getPlayers();
+		throw new IllegalArgumentException("No player with name: " + playerName);
 	}
 
 	private void updateReps() {
@@ -257,6 +331,14 @@ public class Model {
 			player.updateRep();
 			player.notifyObservers();
 		}
+	}
+
+	// ####################################
+	// METHODS ONLY FOR TESTS
+ 	// ####################################
+
+	public GameBoard getGameBoard() {
+		return gameBoard;
 	}
 }
 
@@ -276,14 +358,17 @@ class DamageDone {
 	}
 
 	/**
-	 * The following two method are for testing purposes only.
+	 * Only for testing purposes.
 	 */
-	public List<Integer> getDamages() {
+	List<Integer> getDamages() {
 		return new ArrayList<>(damages);
 	}
 
 
-	public List<Player> getPlayers() {
+	/**
+	 * Only for testing purposes.
+	 */
+	List<Player> getPlayers() {
 		return new ArrayList<>(players);
 	}
 
@@ -301,14 +386,14 @@ class DamageDone {
 		damages.set(indexOfPlayer, (oldDamage + 1));
 	}
 
-	private void addPlayer(Player player) {
-		players.add(player);
-		damages.add(0);
-	}
-
 	ArrayList<Player> getSortedPlayers() {
 		sort();
 		return new ArrayList<>(players);
+	}
+
+	private void addPlayer(Player player) {
+		players.add(player);
+		damages.add(0);
 	}
 
 	private void sort() {
@@ -332,7 +417,6 @@ class DamageDone {
 			}
 		}
 	}
-
 
 	private boolean isSorted() {
 		for (int i = 0; i < damages.size() - 1; i++) {

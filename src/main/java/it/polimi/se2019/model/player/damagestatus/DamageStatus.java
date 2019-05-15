@@ -47,8 +47,8 @@ public abstract class DamageStatus {
 		return currentActionIndex;
 	}
 
-	public ActionType executeAction(){
-		return availableActions.get(currentActionIndex).execute();
+	public ActionType getNextActionToExecute(){
+		return availableActions.get(currentActionIndex).getNextActionToExecute();
 	}
 
 	/**

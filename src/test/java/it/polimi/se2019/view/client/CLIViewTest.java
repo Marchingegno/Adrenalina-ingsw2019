@@ -90,7 +90,7 @@ public class CLIViewTest {
 		playersName.add("Pluto");
 		Model model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersName, 5);
 		GameMap gameMap = model.getGameBoard().getGameMap();
-		List<Player> players = model.getPlayers();
+		List<Player> players = model.getGameBoard().getPlayers();
 
 		gameMap.movePlayerTo(players.get(0), new Coordinates(2,2));
 		gameMap.movePlayerTo(players.get(1), new Coordinates(1,2));
