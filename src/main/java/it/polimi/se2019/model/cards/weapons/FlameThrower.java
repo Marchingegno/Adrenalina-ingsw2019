@@ -8,55 +8,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class FlameThrower extends AlternateFire {
-	private final int PRIMARY_DAMAGE = 1;
-	private final int PRIMARY_MARKS = 0;
-	private final int SECONDARY_DAMAGE = 2;
-	private final int SECONDARY_MARKS = 0;
-	private ArrayList<DamageAndMarks> secondaryDamagesAndMarks;
+	private int SECONDARY_FOLLOWING_DAMAGE;
+	private int SECONDARY_FOLLOWING_MARKS;
 
 	public FlameThrower(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
+		this.PRIMARY_DAMAGE = 1;
+		this.PRIMARY_MARKS = 0;
+		this.SECONDARY_DAMAGE = 2;
+		this.SECONDARY_MARKS = 0;
+		this.SECONDARY_FOLLOWING_DAMAGE = 1;
+		this.SECONDARY_FOLLOWING_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		secondaryDamagesAndMarks = new ArrayList<>();
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
-		secondaryDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
 	}
 
 
 	/**
-	 * Handles interaction with flags array.
+	 * Advances the weapon.
+	 * This will be called if currentStep is at least 2.
 	 *
-	 * @param choice
-	 * @return
+	 * @param choice the choice of the player.
+	 * @return the asking pair.
 	 */
 	@Override
-	public Pair handleFire(int choice) {
-		incrementStep();
-		if(getCurrentStep() == 1){
-			return askingPair();
-		}
-
-		if(getCurrentStep() == 2){
-			registerChoice(choice);
-		}
-
-		if (isAlternateFireActive()){
-			return handleSecondaryFire(choice);
-		}
-		else{
-			if(getCurrentStep() == 3){
-				return new Pair(4, "Select a direction to fire. 1. NORD 2.EAST 3.SUD 4.WEST");
-			}
-			else if(getCurrentStep() == 4){
-				primaryFire();
-			}
-		}
+	Pair handlePrimaryFire(int choice) {
 		return null;
 	}
 
-	public void primaryFire() {
+	/**
+	 * Advances the weapon.
+	 * This will be called if currentStep is at least 2.
+	 *
+	 * @param choice the choice of the player.
+	 * @return the asking pair.
+	 */
+	@Override
+	Pair handleSecondaryFire(int choice) {
+		return null;
+	}
+
+	/**
+	 * Primary method of firing of the weapon. It interacts with the view and collects targeted players for its mode.
+	 */
+	@Override
+	void primaryFire() {
+
+	}
+
+	/**
+	 * Secondary mode of firing.
+	 */
+	@Override
+	public void secondaryFire() {
+
 	}
 
 	/**
@@ -69,24 +78,6 @@ public final class FlameThrower extends AlternateFire {
 		return null;
 	}
 
-	@Override
-	Pair handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 3){
-			return new Pair(4, "Select a direction to fire. 1. NORD 2.EAST 3.SUD 4.WEST");
-		}
-		else if(getCurrentStep() == 4){
-			//Fai qualcosa
-		}
-		else if(getCurrentStep() == 4){
-			primaryFire();
-		}
-		return null;
-	}
-
-	public void secondaryFire() {
-
-	}
-
 	/**
 	 * Get the targets of the secondary mode of fire for this weapon.
 	 *
@@ -96,6 +87,4 @@ public final class FlameThrower extends AlternateFire {
 	public List<Player> getSecondaryTargets() {
 		return null;
 	}
-
-
 }

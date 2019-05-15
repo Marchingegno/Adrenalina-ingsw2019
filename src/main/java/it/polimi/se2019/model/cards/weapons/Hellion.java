@@ -10,8 +10,11 @@ import java.util.List;
 
 public final class Hellion extends AlternateFire {
 	private Player target;
+	private int PRIMARY_FOLLOWING_DAMAGE;
+	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int PRIMARY_FOLLOWING_MARKS;
 	private int SECONDARY_FOLLOWING_MARKS;
+
 
 	public Hellion(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
@@ -19,14 +22,16 @@ public final class Hellion extends AlternateFire {
 		this.PRIMARY_MARKS = 1;
 		this.SECONDARY_DAMAGE = 1;
 		this.SECONDARY_MARKS = 2;
+		this.PRIMARY_FOLLOWING_DAMAGE = 0;
 		this.PRIMARY_FOLLOWING_MARKS = 1;
+		this.SECONDARY_FOLLOWING_DAMAGE = 0;
 		this.SECONDARY_FOLLOWING_MARKS = 2;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(0, PRIMARY_FOLLOWING_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_FOLLOWING_DAMAGE, PRIMARY_FOLLOWING_MARKS));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(0, SECONDARY_FOLLOWING_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
 		this.maximumSteps = 3;
 		this.maximumAlternateSteps = 3;
 	}
