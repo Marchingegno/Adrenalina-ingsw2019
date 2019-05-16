@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.Deck;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author MarcerAndrea
  */
-public abstract class Square {
+public abstract class Square implements Representable {
 
 	protected int roomID;
 	protected boolean hasChanged;
@@ -164,10 +165,4 @@ public abstract class Square {
 	public void setNotChanged() {
 		hasChanged = false;
 	}
-
-	/**
-	 * Returns the square's representation.
-	 * @return the square's representation.
-	 */
-	public abstract SquareRep getRep();
 }

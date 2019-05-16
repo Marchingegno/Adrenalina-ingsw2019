@@ -509,7 +509,7 @@ public class GameMap extends Observable implements Representable {
 	 * @return the squares's representation in the specified coordinates.
 	 */
 	SquareRep getSquareRep(Coordinates coordinates) {
-		return map[coordinates.getRow()][coordinates.getColumn()].getRep();
+		return (SquareRep) map[coordinates.getRow()][coordinates.getColumn()].getRep();
 	}
 
 	/**

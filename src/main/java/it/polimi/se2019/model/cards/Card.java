@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards;
 
 import it.polimi.se2019.model.Representable;
-import it.polimi.se2019.model.Representation;
 
 /**
  * Abstract class that all cards have to extend.
@@ -30,6 +29,4 @@ public abstract class Card implements Representable {
 	public String getCardName() {
 		return cardName;
 	}
-
-	public abstract Representation getRep();
 }

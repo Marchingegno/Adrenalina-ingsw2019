@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -89,7 +90,7 @@ public class SpawnSquare extends Square {
 	 * @return the spawn square's representation.
 	 */
 	@Override
-	public SquareRep getRep() {
+	public Representation getRep() {
 		if (hasChanged || squareRep == null) {
 			squareRep = new SquareSpawnRep(this);
 			setNotChanged();

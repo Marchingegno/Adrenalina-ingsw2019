@@ -1,16 +1,15 @@
 package it.polimi.se2019.model.gameboard;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Color;
-
-import java.io.Serializable;
 
 /**
  * A sharable version of the killshot.
  *
  * @author MarcerAndrea
  */
-public class KillShotRep implements Serializable {
+public class KillShotRep implements Representation {
 
 	private String playerName;
 	private Color.CharacterColorType playerColor;

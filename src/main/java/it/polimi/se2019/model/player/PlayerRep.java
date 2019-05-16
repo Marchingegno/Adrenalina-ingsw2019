@@ -42,7 +42,7 @@ public class PlayerRep implements Representation {
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
 		playerID = player.getPlayerID();
-		damageStatusRep = player.getDamageStatus().getRep();
+		damageStatusRep = (DamageStatusRep) player.getDamageStatus().getRep();
 		this.actionRequested = player.isActionRequested();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());

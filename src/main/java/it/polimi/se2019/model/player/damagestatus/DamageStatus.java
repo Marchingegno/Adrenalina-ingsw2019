@@ -1,5 +1,7 @@
 package it.polimi.se2019.model.player.damagestatus;
 
+import it.polimi.se2019.model.Representable;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.MacroAction;
 
@@ -9,7 +11,7 @@ import java.util.List;
  * This class represents the status of the player that decides which actions it can take.
  * @author Marchingegno
  */
-public abstract class DamageStatus {
+public abstract class DamageStatus implements Representable {
 	int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
 	int numberOfActionsPerformed; //actions that the player performed in this turn.
 	private int currentActionIndex; //Action currently in execution.
@@ -59,7 +61,7 @@ public abstract class DamageStatus {
 		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}
 
-	public DamageStatusRep getRep() {
+	public Representation getRep() {
 		if (damageStatusRep == null)
 			damageStatusRep = new DamageStatusRep(this);
 		return damageStatusRep;

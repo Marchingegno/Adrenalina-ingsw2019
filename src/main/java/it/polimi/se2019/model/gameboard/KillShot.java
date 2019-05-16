@@ -1,5 +1,7 @@
 package it.polimi.se2019.model.gameboard;
 
+import it.polimi.se2019.model.Representable;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.player.Player;
 
 /**
@@ -7,7 +9,7 @@ import it.polimi.se2019.model.player.Player;
  *
  * @author Desno365
  */
-class KillShot {
+class KillShot implements Representable {
 
 	private Player player;
 	private boolean overkill;
@@ -34,5 +36,8 @@ class KillShot {
 	 */
 	public boolean isOverkill() {
 		return overkill;
+	}
+	public Representation getRep() {
+		return new KillShotRep(player, overkill);
 	}
 }
