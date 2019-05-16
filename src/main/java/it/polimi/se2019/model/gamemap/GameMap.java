@@ -346,7 +346,7 @@ public class GameMap extends Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
-	public List<Coordinates> getAdjacentRooms(Coordinates coordinates) {
+	public List<Coordinates> getAdjacentRoomsCoordinates(Coordinates coordinates) {
 		List<Coordinates> coordinatesOfAdjacentRooms = new ArrayList<>();
 		List<Integer> adjacentRooms = new ArrayList<>();
 		for (Square square : getSquare(coordinates).getAdjacentSquares()) {
@@ -377,6 +377,16 @@ public class GameMap extends Representable {
 				reachableAndVisiblePlayers.add(otherPlayer);
 		}
 		return reachableAndVisiblePlayers;
+	}
+
+	public List<Coordinates> getDoors(Player player) {
+		Square playerSquare = getSquare(getPlayerCoordinates(player));
+		List<Coordinates> doors = new ArrayList<>();
+		for (Square square : playerSquare.getAdjacentSquares()) {
+			if (square.getRoomID() != playerSquare.getRoomID())
+				doors.add(square.getCoordinates());
+		}
+		return doors;
 	}
 
 	public List<Player> getPlayersFromCoordinates(Coordinates coordinates) {
