@@ -77,8 +77,7 @@ public class Shotgun extends AlternateFire {
 	}
 
 	private List<Coordinates> getEnemyMovingCoordinates(){
-		//TODO: Implement with methods in GameMap
-		return null;
+		return getGameMap().reachableCoordinates(getOwner(), 1);
 	}
 
 	@Override
