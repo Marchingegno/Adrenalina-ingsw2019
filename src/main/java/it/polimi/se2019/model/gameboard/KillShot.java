@@ -37,6 +37,8 @@ class KillShot implements Representable {
 	public boolean isOverkill() {
 		return overkill;
 	}
+
+	@Override
 	public Representation getRep() {
 		return new KillShotRep(player, overkill);
 	}

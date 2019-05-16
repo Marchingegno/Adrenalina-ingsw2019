@@ -61,6 +61,7 @@ public abstract class DamageStatus implements Representable {
 		numberOfActionsPerformed = numberOfActionsPerTurn;
 	}
 
+	@Override
 	public Representation getRep() {
 		if (damageStatusRep == null)
 			damageStatusRep = new DamageStatusRep(this);

@@ -527,6 +527,7 @@ public class GameMap extends Observable implements Representable {
 	 * Returns the representation of the game map.
 	 * @return the representation of the game map.
 	 */
+	@Override
 	public Representation getRep() {
 		return gameMapRep;
 	}
