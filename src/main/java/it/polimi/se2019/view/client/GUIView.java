@@ -8,7 +8,6 @@ import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
 import javax.swing.*;
@@ -139,12 +138,6 @@ public class GUIView extends RemoteView {
 
 	}
 
-	// TODO remove
-	@Override
-	public void askActionExample() {
-
-	}
-
 	@Override
 	public void askAction() {
 
@@ -177,11 +170,6 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askEnd() {
-
-	}
-
-	@Override
-	public void displayPossibleActions(List<MacroAction> possibleActions) {
 
 	}
 
