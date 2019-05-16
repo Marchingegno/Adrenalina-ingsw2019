@@ -2,6 +2,7 @@ package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
+import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Color;
@@ -128,10 +129,13 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askAction() {
-		printLine("Asking the user the action...");
+		DamageStatusRep damageStatusRep = modelRep.getClientPlayerRep().getDamageStatusRep();
+
 		printLine("Choose an action!");
-		printLine("Select a number between 0 and 2.");
-		int answer = askInteger(0, 2);
+		for (int i = 0; i < damageStatusRep.numOfMacroActions(); i++)
+			printLine(i + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
+		int answer = askInteger(0, damageStatusRep.numOfMacroActions() - 1);
+
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
 
