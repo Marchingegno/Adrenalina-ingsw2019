@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
@@ -153,5 +154,10 @@ public class FlameThrower extends AlternateFire {
 		String question = "In which direction do you wish to fire?";
 		List<String> options = 	Arrays.stream(CardinalDirection.values()).map(Enum::toString).collect(Collectors.toList());
 		return new Pair<>(question,options);
+	}
+
+	@Override
+	public Representation getRep() {
+		return null;
 	}
 }
