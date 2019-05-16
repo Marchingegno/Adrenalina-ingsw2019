@@ -1,23 +1,26 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.utils.Color;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * A sharable version of the square.
  *
  * @author MarcerAmdrea
  */
-public class SquareRep implements Serializable {
+public abstract class SquareRep implements Representation {
 
-	protected String[] elementsToPrint;
+	private List<CardRep> cardsRep;
 	private int roomID;
 	private Color.CharacterColorType squareColor;
 	private Coordinates coordinates;
 	private boolean[] possibleDirection;
 
 	public SquareRep(Square squareToRepresent) {
+		this.cardsRep = squareToRepresent.getCardsRep();
 		this.roomID = squareToRepresent.getRoomID();
 		this.coordinates = squareToRepresent.getCoordinates();
 		this.squareColor = squareToRepresent.getSquareColor();
@@ -58,12 +61,14 @@ public class SquareRep implements Serializable {
 		return squareColor;
 	}
 
+	public List<CardRep> getCardsName() {
+		return cardsRep;
+	}
+
 	/**
 	 * Returns the elements to print in the CLI.
 	 *
 	 * @return the elements to print in the CLI.
 	 */
-	public String[] getElementsToPrint() {
-		return elementsToPrint;
-	}
+	public abstract String[] getElementsToPrint();
 }

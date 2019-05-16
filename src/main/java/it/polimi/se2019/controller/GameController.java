@@ -1,18 +1,12 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
-import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.network.message.DefaultActionMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
-
-import java.util.List;
 
 /**
  * This class is in a lower level than Controller. It handles the logic relative to the game.
@@ -20,15 +14,15 @@ import java.util.List;
  */
 public class GameController {
 
+	private VirtualViewsContainer virtualViewsContainer;
 	private TurnController turnController;
 	private Model model;
-	private List<VirtualView> virtualViews;
 
 
-	public GameController(Model model, List<VirtualView> virtualViews) {
-		this.virtualViews = virtualViews;
+	public GameController(Model model, VirtualViewsContainer virtualViewsContainer) {
+		this.virtualViewsContainer = virtualViewsContainer;
 		this.model = model;
-		turnController = new TurnController(model, virtualViews);
+		turnController = new TurnController(model, virtualViewsContainer);
 	}
 
 
@@ -37,36 +31,15 @@ public class GameController {
 		startTurn();
 	}
 
-	private void flipPlayers(){
-		model.getPlayers().stream()
-				.forEach(Player::flipIfNoDamage);
-
-	}
-
-	//TODO: Revisit the location of the first player. I don't know if he is the player that just ended the turn, or the following.
-	private void startFrenzy() {
-		Player firstPlayer = model.getPlayers().get(0);
-
-		boolean isAfterFirstPlayer = false;
-		for (Player player : model.getPlayerQueue()) {
-			//The first must also receive the Frenzy After damage status
-			if (player.getPlayerName().equals(firstPlayer.getPlayerName()))
-				isAfterFirstPlayer = true;
-
-			player.setDamageStatus(isAfterFirstPlayer ? new FrenzyAfter() : new FrenzyBefore());
-		}
-		flipPlayers();
-	}
-
 	private void refillCardsOnMap() {
 		model.fillGameMap();
 	}
 
 
 	private void spawnPlayers(){
-		for (Player item : model.getPlayers()) {
-			if (item.getTurnStatus() == TurnStatus.DEAD) {
-				askToSpawn(item);
+		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
+			if (model.getTurnStatus(virtualView.getPlayerName()) == TurnStatus.DEAD) {
+				askToSpawn(virtualView.getPlayerName());
 			}
 		}
 	}
@@ -77,37 +50,37 @@ public class GameController {
 	 * and moves to the bottom the first player of playerQueue.
 	 */
 	private void endTurn() {
-		model.setTurnStatus(model.getCurrentPlayer(), TurnStatus.IDLE);
+		model.setTurnStatusOfCurrentPlayer(TurnStatus.IDLE);
 		model.scoreDeadPlayers();
 		spawnPlayers();
 		refillCardsOnMap();
 		//This checks if frenzy is to start.
 		if(model.areSkullsFinished() && !model.isFrenzyStarted()) {
 			model.startFrenzy();
-			startFrenzy();
 		}
 		//This checks if the frenzy is started and flips the DamageBoard of the players.
 		if(model.isFrenzyStarted()){
-			flipPlayers();
+			model.flipPlayers();
 		}
 
-		nextPlayerTurn();//
+		nextPlayerTurn();
 	}
 
 	private void startTurn(){
-		Player player = model.getCurrentPlayer();
+		String currentPlayerName = model.getCurrentPlayerName();
 
-		//Check if the player is to be spawned.
-		//Which should be only in its beginning turns.
-		if(player.getTurnStatus() == TurnStatus.PRE_SPAWN){
-			model.setCorrectDamageStatus(player);
-			askToSpawn(player);
-			return;
+		model.setCorrectDamageStatus(currentPlayerName);
+
+		// Check if the player is to be spawned.
+		// Which should be only in its beginning turns.
+		if(model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {
+			askToSpawn(currentPlayerName);
+			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
+		} else {
+			model.setTurnStatusOfCurrentPlayer(TurnStatus.YOUR_TURN);
+			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction();
+			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 		}
-		model.setCorrectDamageStatus(player);
-		model.setTurnStatus(player, TurnStatus.YOUR_TURN);
-		Controller.getVirtualViewFromPlayer(player, virtualViews).askAction();
-		Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
 	}
 
 
@@ -120,52 +93,38 @@ public class GameController {
 
 	/**
 	 * Make the player draw a card and ask which card to use to spawn.
-	 * @param player the player to be spawned.
-	 * @param virtualView the virtual view of the player.
+	 * @param playerName the name of the player to be spawned.
 	 */
-	private void askToSpawn(Player player, VirtualView virtualView){
-		model.addPowerupCardTo(player);
+	private void askToSpawn(String playerName) {
+		model.addPowerupCardTo(playerName);
+		VirtualView virtualView = virtualViewsContainer.getVirtualViewFromPlayerName(playerName);
 		virtualView.askSpawn();
-	}
-
-	/**
-	 * Calls askToSpawn with the view.
-	 * @param player the player to be spawned.
-	 */
-	private void askToSpawn(Player player) {
-		askToSpawn(player, Controller.getVirtualViewFromPlayer(player, virtualViews));
 	}
 
 
 	void processEvent(Event event){
-		MessageType messageType = event.getMessage().getMessageType();
 		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
 		VirtualView virtualView = event.getVirtualView();
-		Player player = model.getPlayerFromName(virtualView.getPlayerName());
+		String playerName = virtualView.getPlayerName();
 
 		Utils.logInfo("GameController -> processing an event: "+ event.toString());
-		switch (messageType) {
+		switch (event.getMessage().getMessageType()) {
 			case END_TURN:
-				if(player.getTurnStatus() != TurnStatus.YOUR_TURN){
-					Utils.logError("It's not the turn of "+player.getPlayerName()+"!", new IllegalStateException());
-				}
-				endTurn();
+				if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN)
+					endTurn();
+				else
+					Utils.logError("It's not the turn of " + playerName + "!", new IllegalStateException());
 				break;
 			case SPAWN:
-				//If the player requests to spawn, make it draw a powerup card and request the choice.
 				if(messageSubtype == MessageSubtype.REQUEST){
-					askToSpawn(player, virtualView);
-				}
-				else if(messageSubtype == MessageSubtype.ANSWER){
+					// If the player requests to spawn, make it draw a powerup card and request the choice.
+					askToSpawn(playerName);
+				} else if(messageSubtype == MessageSubtype.ANSWER) {
+					// Process the answer of a spawn request.
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
-
-					try {
-						model.spawnPlayer(player, defaultActionMessage.getContent());
-					} catch (Exception e){
-						Utils.logError("Error spawning player", e);
-					}
+					model.spawnPlayer(playerName, defaultActionMessage.getContent());
 					virtualView.askAction();
-					Controller.sendUpdatedReps(virtualViews); // Send updated reps to other clients.
+					virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 				}
 				break;
 			default: turnController.processEvent(event);

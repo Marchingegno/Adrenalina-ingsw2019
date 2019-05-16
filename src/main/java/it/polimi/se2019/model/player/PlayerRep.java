@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
+import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.exceptions.HiddenException;
 
@@ -15,20 +16,19 @@ import java.util.List;
  *
  * @author Desno365
  */
-public class PlayerRep extends Representation {
+public class PlayerRep implements Representation {
 
 	private boolean actionRequested; //If the player is already executing an action.
 	private String playerName;
 	private Color.CharacterColorType playerColor;
 	private int points;
 	private int playerID;
-	private ArrayList<Color.CharacterColorType> damageBoard;
-	private ArrayList<Color.CharacterColorType> marks;
+	private List<Color.CharacterColorType> damageBoard;
+	private List<Color.CharacterColorType> marks;
+	private DamageStatusRep damageStatusRep;
 	//TODO add weapon reps
-	private ArrayList<PowerupCardRep> powerupCards;
-	private int redAmmo;
-	private int yellowAmmo;
-	private int blueAmmo;
+	private List<PowerupCardRep> powerupCards;
+	private int[] ammo;
 	private boolean hidden;
 
 
@@ -42,6 +42,7 @@ public class PlayerRep extends Representation {
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
 		playerID = player.getPlayerID();
+		damageStatusRep = (DamageStatusRep) player.getDamageStatus().getRep();
 		this.actionRequested = player.isActionRequested();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());
@@ -59,9 +60,11 @@ public class PlayerRep extends Representation {
 			powerupCards.add(new PowerupCardRep(powerupCard));
 		}
 
-		redAmmo = player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.RED_AMMO);
-		yellowAmmo = player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.YELLOW_AMMO);
-		blueAmmo = player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.BLUE_AMMO);
+		ammo = new int[AmmoType.values().length];
+		for (AmmoType ammoType : AmmoType.values()) {
+			ammo[ammoType.ordinal()] = player.getPlayerBoard().getAmmoContainer().getAmmo(ammoType);
+		}
+
 		hidden = false;
 	}
 
@@ -84,10 +87,9 @@ public class PlayerRep extends Representation {
 		newPlayerRep.points = -1; // hidden
 		newPlayerRep.damageBoard = new ArrayList<>(damageBoard);
 		newPlayerRep.marks = new ArrayList<>(marks);
+		newPlayerRep.damageStatusRep = null;//hidden
 		newPlayerRep.powerupCards = null; // hidden
-		newPlayerRep.redAmmo = this.redAmmo;
-		newPlayerRep.yellowAmmo = this.yellowAmmo;
-		newPlayerRep.blueAmmo = this.blueAmmo;
+		newPlayerRep.ammo = this.ammo.clone();
 		newPlayerRep.hidden = true;
 		return newPlayerRep;
 	}
@@ -129,12 +131,21 @@ public class PlayerRep extends Representation {
 	}
 
 	/**
+	 * Return the damage status representation.
+	 *
+	 * @return the damage status representation.
+	 */
+	public DamageStatusRep getDamageStatusRep() {
+		return damageStatusRep;
+	}
+
+	/**
 	 * Returns the sensitive information of player's points.
 	 *
 	 * @return the sensitive information of player's points.
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
-	public int getPoints() throws HiddenException {
+	public int getPoints() {
 		if (isHidden())
 			throw new HiddenException("The value of \"points\" is hidden in this PlayerRep.");
 		return points;
@@ -164,7 +175,7 @@ public class PlayerRep extends Representation {
 	 * @return the sensitive information of player's powerup cards.
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
-	public List<PowerupCardRep> getPowerupCards() throws HiddenException {
+	public List<PowerupCardRep> getPowerupCards() {
 		if (isHidden())
 			throw new HiddenException("The value of \"powerupCards\" is hidden in this PlayerRep.");
 		return powerupCards;
@@ -175,38 +186,7 @@ public class PlayerRep extends Representation {
 	 *
 	 * @return the total amount of red ammo this player posses.
 	 */
-	public int getRedAmmo() {
-		return redAmmo;
-	}
-
-	/**
-	 * Returns the total amount of yellow ammo this player posses.
-	 *
-	 * @return the total amount of yellow ammo this player posses.
-	 */
-	public int getYellowAmmo() {
-		return yellowAmmo;
-	}
-
-	/**
-	 * Returns the total amount of blue ammo this player posses.
-	 *
-	 * @return the total amount of blue ammo this player posses.
-	 */
-	public int getBlueAmmo() {
-		return blueAmmo;
-	}
-
-	public String toString() {
-		return ("Player name: " + playerName + "\n" +
-				"Color: " + Color.getColoredString(" ", playerColor, Color.BackgroundColorType.DEFAULT) +
-				"Hidden: " + hidden + "\n" +
-				"PlayerId: " + playerID + "\n" +
-				"PowerUpCards: " + powerupCards.toString() + "\n" +
-				"Point: " + points + "\n" +
-				"Blue ammo: " + blueAmmo + "\n" +
-				"Red ammo: " + redAmmo + "\n" +
-				"Yellow ammo: " + yellowAmmo + "\n" +
-				"Marks: " + marks);
+	public int getAmmo(AmmoType ammoType) {
+		return ammo[ammoType.ordinal()];
 	}
 }

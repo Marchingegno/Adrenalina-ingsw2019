@@ -18,6 +18,7 @@ import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 
 /**
@@ -26,7 +27,7 @@ import java.util.List;
  * @author MarcerAndrea
  * @author Desno365
  */
-public class GameBoard extends Representable {
+public class GameBoard extends Observable implements Representable {
 
 	private boolean frenzyStarted;
 	private List<Player> players;
@@ -117,7 +118,6 @@ public class GameBoard extends Representable {
 	public List<Player> getPlayers() {
 		//return new ArrayList<>(players);
 		return players;
-		//return players;
 	}
 
 	/**
@@ -221,11 +221,6 @@ public class GameBoard extends Representable {
 		return ammoDeck;
 	}
 
-	public void currentPlayerGrabs(int index) {
-		Coordinates playerCoordinates = gameMap.getPlayersCoordinates().get(getCurrentPlayer());
-		//gameMap.getSquare(getPlayerCoordinates).grabCard(getCurrentPlayer(), index);
-	}
-
 	/**
 	 * Updates the representation of the game board.
 	 */
@@ -256,7 +251,7 @@ public class GameBoard extends Representable {
 
 		//If the game is in frenzy mode, then the player already has the right damageStatus.
 		if (isFrenzyStarted())
-			player.getDamageStatus().refillActions();
+			player.getDamageStatus().refillMacroActions();
 
 		else if(damageBoard.size() < GameConstants.MEDIUM_DAMAGE_THRESHOLD)
 			player.setDamageStatus(new LowDamage());

@@ -48,7 +48,7 @@ public class MacroAction {
 	}
 
 
-	public ActionType execute() {
+	public ActionType getNextActionToExecute() {
 		if(isMove() && !moved){
 			moved = true;
 			return ActionType.MOVE;
@@ -80,7 +80,9 @@ public class MacroAction {
 			shot = false;
 	}
 
-
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public String toString() {
@@ -92,7 +94,7 @@ public class MacroAction {
 				'}';
 	}
 
-	public String printAction() {
+	public String getMacroActionString() {
 		StringBuilder myBuilder = new StringBuilder();
 
 		for (int i = 0; i < this.numOfMovements; i++) {

@@ -18,7 +18,7 @@ public class TagbackGrenade extends PowerupCard {
 	private static final int GIVEN_MARKS = 1;
 
 	public TagbackGrenade(AmmoType associatedAmmo) {
-		super(associatedAmmo, DESCRIPTION);
+		super("Tagback grenade", associatedAmmo, DESCRIPTION);
 	}
 
 

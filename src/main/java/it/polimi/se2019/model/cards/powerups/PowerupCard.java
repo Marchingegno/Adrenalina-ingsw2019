@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.powerups;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
@@ -11,10 +12,10 @@ import it.polimi.se2019.model.player.Player;
  */
 public abstract class PowerupCard extends Card {
 
-	protected AmmoType associatedAmmo;
+	private AmmoType associatedAmmo;
 
-	public PowerupCard(AmmoType associatedAmmo, String description) {
-		super(description);
+	public PowerupCard(String name, AmmoType associatedAmmo, String description) {
+		super(name, description);
 		this.associatedAmmo = associatedAmmo;
 	}
 
@@ -34,11 +35,8 @@ public abstract class PowerupCard extends Card {
 		return associatedAmmo;
 	}
 
-	/**
-	 * Returns the name of the powerup.
-	 *
-	 * @return the name of the powerup.
-	 */
 	@Override
-	public abstract String toString();
+	public Representation getRep() {
+		return new PowerupCardRep(this);
+	}
 }

@@ -10,6 +10,7 @@ import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Class that implements the player.
@@ -18,7 +19,7 @@ import java.util.List;
  * @author MarcerAndrea
  * @author Marchingegno
  */
-public class Player extends Representable {
+public class Player extends Observable implements Representable {
 
 	private TurnStatus turnStatus;
 	private boolean actionRequested; //If the player is already executing an action.
@@ -133,7 +134,7 @@ public class Player extends Representable {
 	 * @return the available actions of the player according to his damage status.
 	 */
 	public List<MacroAction> getAvailableActions() {
-		return damageStatus.getAvailableActions();
+		return damageStatus.getAvailableMacroActions();
 	}
 
 	/**
@@ -175,14 +176,16 @@ public class Player extends Representable {
 	 * Updates the player's representation.
 	 */
 	public void updateRep() {
-		if (playerBoard.hasChanged())
+		if (playerBoard.hasChanged() || playerBoard.getAmmoContainer().hasChanged())
 			setChanged();
-		
+
 		if (hasChanged() || playerRep == null) {
 			playerRep = new PlayerRep(this);
 			playerBoard.setNotChanged();
+			playerBoard.getAmmoContainer().setNotChanged();
 			Utils.logInfo("Player -> updateRep(): " + playerName + "'s representation has been updated");
-		}
+		} else
+			Utils.logInfo("Player -> updateRep(): " + playerName + "'s representation is already up to date");
 	}
 
 	/**

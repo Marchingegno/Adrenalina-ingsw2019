@@ -17,13 +17,16 @@ public class FrenzyBefore extends DamageStatus {
 		shootPeopleBuilder.setMovementDistance(1);
 		shootPeopleBuilder.setReloadAction(true);
 		shootPeopleBuilder.setShootAction(true);
+		shootPeopleBuilder.setName("Shoot");
 		availableActions.add(shootPeopleBuilder.build());
 
 		runAroundBuilder.setMovementDistance(4);
+		runAroundBuilder.setName("Move");
 		availableActions.add(runAroundBuilder.build());
 
 		grabStuffBuilder.setMovementDistance(2);
 		grabStuffBuilder.setGrabAction(true);
+		grabStuffBuilder.setName("Grab");
 		availableActions.add(grabStuffBuilder.build());
 
 		numberOfActionsPerTurn= FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN;

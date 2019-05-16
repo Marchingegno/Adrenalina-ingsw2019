@@ -19,7 +19,7 @@ public class Teleporter extends PowerupCard {
 					"too late.)";
 
 	public Teleporter(AmmoType associatedAmmo) {
-		super(associatedAmmo, DESCRIPTION);
+		super("Teleporter", associatedAmmo, DESCRIPTION);
 	}
 
 	/**

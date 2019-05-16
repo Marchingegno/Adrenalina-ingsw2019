@@ -16,13 +16,16 @@ public class LowDamage extends DamageStatus {
 		availableActions = new ArrayList<>();
 
 		runAroundBuilder.setMovementDistance(3);
+		runAroundBuilder.setName("Move");
 		availableActions.add(runAroundBuilder.build());
 
 		grabStuffBuilder.setMovementDistance(1);
 		grabStuffBuilder.setGrabAction(true);
+		grabStuffBuilder.setName("Grab");
 		availableActions.add(grabStuffBuilder.build());
 
 		shootPeopleBuilder.setShootAction(true);
+		shootPeopleBuilder.setName("Shoot");
 		availableActions.add(shootPeopleBuilder.build());
 
 		numberOfActionsPerTurn = NUMBER_OF_ACTIONS_PER_TURN;

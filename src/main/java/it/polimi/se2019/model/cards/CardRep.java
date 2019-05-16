@@ -1,20 +1,15 @@
 package it.polimi.se2019.model.cards;
 
-import it.polimi.se2019.model.Representable;
+import it.polimi.se2019.model.Representation;
 
-/**
- * Abstract class that all cards have to extend.
- *
- * @author MarcerAndrea
- */
-public abstract class Card implements Representable {
+public class CardRep implements Representation {
 
 	private String description;
 	private String cardName;
 
-	public Card(String cardName, String description) {
-		this.cardName = cardName;
-		this.description = description;
+	public CardRep(Card card) {
+		this.cardName = card.getCardName();
+		this.description = card.getCardDescription();
 	}
 
 	/**

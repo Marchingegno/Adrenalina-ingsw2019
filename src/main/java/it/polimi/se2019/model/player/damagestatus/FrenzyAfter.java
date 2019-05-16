@@ -17,10 +17,12 @@ public class FrenzyAfter extends DamageStatus {
 		shootPeopleBuilder.setMovementDistance(2);
 		shootPeopleBuilder.setReloadAction(true);
 		shootPeopleBuilder.setShootAction(true);
+		shootPeopleBuilder.setName("Shoot");
 		availableActions.add(shootPeopleBuilder.build());
 
 		grabStuffBuilder.setMovementDistance(3);
 		grabStuffBuilder.setGrabAction(true);
+		grabStuffBuilder.setName("Grab");
 		availableActions.add(grabStuffBuilder.build());
 
 		numberOfActionsPerTurn = FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;

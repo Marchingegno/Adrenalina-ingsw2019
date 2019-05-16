@@ -19,7 +19,7 @@ public class Newton extends PowerupCard {
 					"would be too late.)";
 
 	public Newton(AmmoType associatedAmmo) {
-		super(associatedAmmo, DESCRIPTION);
+		super("Newton", associatedAmmo, DESCRIPTION);
 	}
 
 	/**

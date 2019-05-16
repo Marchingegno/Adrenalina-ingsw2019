@@ -10,16 +10,18 @@ import it.polimi.se2019.utils.Utils;
  */
 public class AmmoContainer {
 
-	private int[] ammos;
+	private int[] ammo;
+	private boolean hasChanged;
 
 	/**
-	 * Create the container with initial values of ammos.
+	 * Create the container with initial values of ammo.
 	 */
 	public AmmoContainer() {
-		ammos = new int[AmmoType.values().length];
+		ammo = new int[AmmoType.values().length];
 		for (AmmoType ammoType : AmmoType.values()) {
-			ammos[ammoType.ordinal()] = GameConstants.INITIAL_AMMO_PER_AMMO_TYPE;
+			ammo[ammoType.ordinal()] = GameConstants.INITIAL_AMMO_PER_AMMO_TYPE;
 		}
+		setChanged();
 	}
 
 
@@ -30,7 +32,7 @@ public class AmmoContainer {
 	 * @return number of ammo.
 	 */
 	public int getAmmo(AmmoType ammoType) {
-		return ammos[ammoType.ordinal()];
+		return ammo[ammoType.ordinal()];
 	}
 
 	/**
@@ -44,10 +46,11 @@ public class AmmoContainer {
 		if (numOfAmmoToAdd < 0)
 			throw new IllegalArgumentException("numOfAmmoToAdd cannot be negative.");
 
-		ammos[ammoToAdd.ordinal()] += numOfAmmoToAdd;
+		ammo[ammoToAdd.ordinal()] += numOfAmmoToAdd;
 
-		if (ammos[ammoToAdd.ordinal()] > GameConstants.MAX_AMMO_PER_AMMO_TYPE)
-			ammos[ammoToAdd.ordinal()] = GameConstants.MAX_AMMO_PER_AMMO_TYPE;
+		if (ammo[ammoToAdd.ordinal()] > GameConstants.MAX_AMMO_PER_AMMO_TYPE)
+			ammo[ammoToAdd.ordinal()] = GameConstants.MAX_AMMO_PER_AMMO_TYPE;
+		setChanged();
 		Utils.logInfo("AmmoContainer -> addAmmo(): Added " + numOfAmmoToAdd + " " + ammoToAdd.toString());
 	}
 
@@ -61,7 +64,7 @@ public class AmmoContainer {
 	}
 
 	/**
-	 * Remove ammos per ammo type.
+	 * Remove ammo per ammo type.
 	 *
 	 * @param ammoToRemove      type of ammo to remove.
 	 * @param numOfAmmoToRemove number of ammo remove, must be >= 0.
@@ -71,11 +74,11 @@ public class AmmoContainer {
 		if (numOfAmmoToRemove < 0)
 			throw new IllegalArgumentException("numOfAmmoToRemove cannot be negative.");
 
-		if (numOfAmmoToRemove > ammos[ammoToRemove.ordinal()])
+		if (numOfAmmoToRemove > ammo[ammoToRemove.ordinal()])
 			throw new IllegalArgumentException("Trying to remove more ammo than the player has.");
 
-		ammos[ammoToRemove.ordinal()] -= numOfAmmoToRemove;
-
+		ammo[ammoToRemove.ordinal()] -= numOfAmmoToRemove;
+		setChanged();
 		Utils.logInfo("AmmoContainer -> removeAmmo(): Removed " + numOfAmmoToRemove + " " + ammoToRemove.toString());
 	}
 
@@ -88,4 +91,27 @@ public class AmmoContainer {
 		removeAmmo(ammoToRemove, 1);
 	}
 
+
+	/**
+	 * Sets the square as changed.
+	 */
+	public void setChanged() {
+		hasChanged = true;
+	}
+
+	/**
+	 * Sets the square as not changed.
+	 */
+	public void setNotChanged() {
+		hasChanged = false;
+	}
+
+	/**
+	 * Returns true if and only if the player board has changed.
+	 *
+	 * @return true if and only if the player board has changed.
+	 */
+	public boolean hasChanged() {
+		return hasChanged;
+	}
 }

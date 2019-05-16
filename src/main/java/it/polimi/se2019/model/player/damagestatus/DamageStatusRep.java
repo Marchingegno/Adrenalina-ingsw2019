@@ -1,8 +1,6 @@
 package it.polimi.se2019.model.player.damagestatus;
 
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.utils.MacroAction;
 
 import java.util.ArrayList;
@@ -12,43 +10,45 @@ import java.util.List;
  * Representation of DamageStatus class.
  * @author Marchingegno
  */
-public class DamageStatusRep extends Message {
+public class DamageStatusRep implements Representation {
 	private int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
 	private int numberOfActionsPerformed; //actions that the player performed in this turn.
-	private ArrayList<MacroAction> availableActions;
+	private List<String> macroActionString;
+	private List<String> macroActionNames;
 	/*Note: availableActions contains the reference of the MacroActions. In the current state of the project, there is
 	no need no clone them, since they are immutable.*/
 
 
 	public DamageStatusRep(DamageStatus damageStatus) {
-		super(MessageType.DAMAGE_STATUS_REP, MessageSubtype.INFO);
-		this.availableActions = new ArrayList<>(damageStatus.getAvailableActions()); //getAvailableActions already returns a copy of the array.
-		this.numberOfActionsPerTurn = damageStatus.getNumberOfActionsPerTurn();
-		this.numberOfActionsPerformed = damageStatus.getNumberOfActionsPerformed();
+		this.macroActionString = new ArrayList<>();
+		this.macroActionNames = new ArrayList<>();
+		for (MacroAction macroAction : damageStatus.availableActions) {
+			macroActionString.add(macroAction.getMacroActionString());
+			macroActionNames.add(macroAction.getName());
+		}
+		this.numberOfActionsPerTurn = damageStatus.getNumberOfMacroActionsPerTurn();
+		this.numberOfActionsPerformed = damageStatus.getNumberOfMacroActionsPerformed();
 	}
 
 
-	public int getNumberOfActionsPerTurn() {
+	public int getNumberOfMacroActionsPerTurn() {
 		return numberOfActionsPerTurn;
 	}
 
-	public int getNumberOfActionsPerformed() {
+	public int getNumberOfMacroActionsPerformed() {
 		return numberOfActionsPerformed;
 	}
 
-	public List<MacroAction> getAvailableActions() {
-		return availableActions;
+	public int numOfMacroActions() {
+		return macroActionString.size();
 	}
 
-	public String printMacroActions(){
-		StringBuilder myBuilder = new StringBuilder();
+	public String getMacroActionString(int indexOfTheMacroAction) {
+		return macroActionString.get(indexOfTheMacroAction);
+	}
 
-		for (MacroAction macroAction:availableActions) {
-			myBuilder.append(macroAction.printAction());
-			myBuilder.append("\n");
-		}
-
-		return myBuilder.toString();
+	public String getMacroActionName(int indexOfTheMacroAction) {
+		return macroActionNames.get(indexOfTheMacroAction);
 	}
 }
 

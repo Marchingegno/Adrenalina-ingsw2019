@@ -17,17 +17,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class implements the game map
  *
  * @author MarcerAndrea
  */
-public class GameMap extends Representable {
+public class GameMap extends Observable implements Representable {
 
 	private int numOfRows;
 	private int numOfColumns;
@@ -61,6 +58,7 @@ public class GameMap extends Representable {
 				map[i][j].refillCards();
 			}
 		}
+		setChanged();
 		Utils.logInfo("GameMap -> fillMap(): Map completely filled");
 	}
 
@@ -216,27 +214,38 @@ public class GameMap extends Representable {
 	/**
 	 * Returns true if and only if the player2 is visible from the player1. This is done looking at the rooms ID of the squares where the player are.
 	 *
-	 * @param player1 player how is observing
-	 * @param player2 player target
+	 * @param watchingPlayer player how is observing
+	 * @param otherPlayer player target
 	 * @return true if and only if the player2 is visible from the player1
 	 */
-	public boolean isVisible(Player player1, Player player2) {
-		Square squarePlayer1 = getSquare(playersPositions.get(player1));
-		Square squarePlayer2 = getSquare(playersPositions.get(player2));
+	public boolean isVisible(Player watchingPlayer, Player otherPlayer) {
+		Square squarePlayer1 = getSquare(playersPositions.get(watchingPlayer));
+		Square squarePlayer2 = getSquare(playersPositions.get(otherPlayer));
 
 		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID()) {
-			Utils.logInfo("GameMap -> isVisible(): Player1 in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see Player2 in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+			Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
 			return true;
 		}
 
 		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
 			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID()) {
-				Utils.logInfo("GameMap -> isVisible(): Player1 in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see Player2 in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+				Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
 				return true;
 			}
 		}
-		Utils.logInfo("GameMap -> isVisible():  Player1 in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " cannot see Player2 in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+		Utils.logInfo("GameMap -> isVisible():  watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " cannot see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
 		return false;
+	}
+
+	public List<Player> getVisiblePlayers(Player mainPlayer) {
+		List<Player> visiblePlayers = new ArrayList<>();
+
+		for (Player player : playersPositions.keySet()) {
+			if (isVisible(mainPlayer, player))
+				visiblePlayers.add(player);
+		}
+		visiblePlayers.remove(mainPlayer);
+		return visiblePlayers;
 	}
 
 	public List<Coordinates> getVisibleCoordinates(Player player) {
@@ -297,10 +306,12 @@ public class GameMap extends Representable {
 	 * @return the card grabbed.
 	 */
 	public Card grabCard(Coordinates coordinates, int index) {
+		setChanged();
 		return getSquare(coordinates).grabCard(index);
 	}
 
 	public void addCard(Coordinates coordinates, Card cardToAdd) {
+		setChanged();
 		getSquare(coordinates).addCard(cardToAdd);
 	}
 
@@ -332,6 +343,18 @@ public class GameMap extends Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
+	public List<Coordinates> getAdjacentRooms(Coordinates coordinates) {
+		List<Coordinates> coordinatesOfAdjacentRooms = new ArrayList<>();
+		List<Integer> adjacentRooms = new ArrayList<>();
+		for (Square square : getSquare(coordinates).getAdjacentSquares()) {
+			if (!(adjacentRooms.contains(square.getRoomID()) || square.getRoomID() == getSquare(coordinates).getRoomID()))
+				adjacentRooms.add(square.getRoomID());
+		}
+		for (Integer roomID : adjacentRooms) {
+			coordinatesOfAdjacentRooms.addAll(rooms.get(roomID));
+		}
+		return coordinatesOfAdjacentRooms;
+	}
 
 	public List<Player> reachablePlayers(Player player, int distance) {
 		List<Player> reachablePlayers = new ArrayList<>();
@@ -339,6 +362,7 @@ public class GameMap extends Representable {
 		for (Coordinates coordinates : reachableCoordinates) {
 			reachablePlayers.addAll(getPlayersFromCoordinates(coordinates));
 		}
+		reachablePlayers.remove(player);
 		return reachablePlayers;
 	}
 
@@ -485,7 +509,7 @@ public class GameMap extends Representable {
 	 * @return the squares's representation in the specified coordinates.
 	 */
 	SquareRep getSquareRep(Coordinates coordinates) {
-		return map[coordinates.getRow()][coordinates.getColumn()].getRep();
+		return (SquareRep) map[coordinates.getRow()][coordinates.getColumn()].getRep();
 	}
 
 	/**
@@ -503,6 +527,7 @@ public class GameMap extends Representable {
 	 * Returns the representation of the game map.
 	 * @return the representation of the game map.
 	 */
+	@Override
 	public Representation getRep() {
 		return gameMapRep;
 	}

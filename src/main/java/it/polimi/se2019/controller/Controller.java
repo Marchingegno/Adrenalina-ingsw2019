@@ -1,7 +1,6 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
@@ -16,13 +15,13 @@ import java.util.stream.Collectors;
  */
 public class Controller implements Observer {
 
-	private List<VirtualView> virtualViews;
+	private VirtualViewsContainer virtualViewsContainer;
 	private GameController gameController;
 	private Model model;
 
 
 	public Controller(GameConstants.MapType mapType, Collection<VirtualView> virtualViews, int skulls) {
-		this.virtualViews = new ArrayList<>(virtualViews);
+		this.virtualViewsContainer = new VirtualViewsContainer(virtualViews);
 
 		// Create a list of player names.
 		List<String> playerNames = virtualViews.stream()
@@ -31,12 +30,8 @@ public class Controller implements Observer {
 
 		this.model = new Model(mapType.getMapName(), playerNames, skulls);
 		setObservers();
-		gameController = new GameController(model, this.virtualViews);
+		gameController = new GameController(model, virtualViewsContainer);
 		Utils.logInfo("Created controller.");
-
-		// Send reps of the created Model.
-		model.updateReps();
-		sendUpdatedReps(this.virtualViews);
 	}
 
 
@@ -61,34 +56,18 @@ public class Controller implements Observer {
 	}
 
 	private void setObservers() {
-		for (VirtualView virtualView : virtualViews) {
+		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
 			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
-			model.getGameBoard().addObserver(virtualView.getGameBoardObserver());
-			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Board");
-			model.getGameBoard().getGameMap().addObserver(virtualView.getGameMapObserver());
-			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Map");
-			for (Player player : model.getPlayers()) {
-				player.addObserver(virtualView.getPlayerObserver());
-				Utils.logInfo(virtualView.getPlayerName() + " now observes " + player.getPlayerName());
-			}
+			model.addGameBoardObserver(virtualView.getGameBoardObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Board.");
+			model.addGameMapObserver(virtualView.getGameMapObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Map.");
+			model.addPlayersObserver(virtualView.getPlayerObserver());
+			Utils.logInfo(virtualView.getPlayerName() + " now observes all the Players.");
 
 			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
 			virtualView.addObserver(this);
 			Utils.logInfo("Controller now observes virtual View of "+virtualView.getPlayerName());
-		}
-	}
-
-	static VirtualView getVirtualViewFromPlayer(Player player, List<VirtualView> virtualViews){
-		String playerName = player.getPlayerName();
-		return virtualViews.stream()
-				.filter(item -> item.getPlayerName().equals(playerName))
-				.findFirst()
-				.orElseThrow(() -> new RuntimeException(playerName + " not found!"));
-	}
-
-	static void sendUpdatedReps(List<VirtualView> virtualViews) {
-		for (VirtualView virtualView : virtualViews) {
-			virtualView.sendReps();
 		}
 	}
 }

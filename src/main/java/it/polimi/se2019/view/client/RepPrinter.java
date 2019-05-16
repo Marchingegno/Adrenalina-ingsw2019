@@ -1,10 +1,12 @@
 package it.polimi.se2019.view.client;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
@@ -32,8 +34,7 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	void displayGame() {
-		//TODO remove
-		if (Utils.DEBUG_CLI) {
+		if (!Utils.DEBUG_CLI) {
 			setCursorHome();
 			cleanConsole();
 		}
@@ -55,7 +56,7 @@ class RepPrinter {
 
 		CLIView.print("\n\n\n");
 
-		displayOwnPlayer(modelRep.getClientPlayerRep());
+		displayOwnPlayer();
 
 		CLIView.print("\n\n\n");
 	}
@@ -71,7 +72,7 @@ class RepPrinter {
 		for (int i = 0; i < mapRep.length; i++) {
 			for (int j = 0; j < mapRep[0].length; j++) {
 				fillEmpty(mapRep[i][j]);
-				fillCards(mapRep[i][j]);
+				fillWithElements(mapRep[i][j]);
 			}
 		}
 
@@ -91,7 +92,7 @@ class RepPrinter {
 	 *
 	 * @param squareRep
 	 */
-	private void fillCards(SquareRep squareRep) {
+	private void fillWithElements(SquareRep squareRep) {
 		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 		String[] cards = squareRep.getElementsToPrint();
@@ -162,17 +163,6 @@ class RepPrinter {
 
 	private void displayPlayers() {
 		StringBuilder stringBuilder = new StringBuilder();
-		try {
-			System.out.println(modelRep.getPlayersRep().size());
-			System.out.println(modelRep);
-			System.out.println(modelRep.getGameBoardRep());
-			System.out.println(modelRep.getGameBoardRep().getCurrentPlayer());
-			System.out.println(modelRep.getPlayersRep().get(0).getPlayerName());
-			System.out.println(modelRep.getPlayersRep().get(1).getPlayerName());
-
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
 			stringBuilder.append(Color.getColoredString("● ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.WHITE : Color.CharacterColorType.BLACK));
 			stringBuilder.append(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
@@ -230,47 +220,58 @@ class RepPrinter {
 		}
 	}
 
-	private void displayOwnPlayer(PlayerRep playerRep) {
-		CLIView.printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
-		CLIView.printLine(
-				"Move 1 >>>\t\t" +
+	private void displayOwnPlayer() {
+		PlayerRep playerRep = modelRep.getClientPlayerRep();
+		CLIView.print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
+		CLIView.printLine(" [" + playerRep.getPoints() + "]");
+		for (int i = 0; i < getNumOfLine(playerRep); i++) {
+			printOwnPlayerLine(playerRep, i);
+		}
+	}
+
+	private int getNumOfLine(PlayerRep playerRep) {
+		//playerRep.getPowerupCards();
+		playerRep.getDamageStatusRep().numOfMacroActions();
+		playerRep.getDamageStatusRep().numOfMacroActions();
+		//TODO add weapons
+		return 3;
+	}
+
+	private void printOwnPlayerLine(PlayerRep playerRep, int lineIndex) {
+		StringBuilder stringBuilder = new StringBuilder();
+		DamageStatusRep damageStatusRep = playerRep.getDamageStatusRep();
+
+		//Possible move
+		if (lineIndex + 1 <= damageStatusRep.numOfMacroActions()) {
+			stringBuilder.append(" [" + (lineIndex + 1) + "] ");
+			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionName(lineIndex), 8));
+			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 7));
+		}
+
+		//Powerups
+		stringBuilder.append(Color.getColoredString("● ", lineIndex + 1 <= playerRep.getPowerupCards().size() ?
+				playerRep.getPowerupCards().get(lineIndex).getAssociatedAmmo().getCharacterColorType() :
+				Color.CharacterColorType.BLACK));
+		stringBuilder.append(Utils.fillWithSpaces(lineIndex + 1 <= playerRep.getPowerupCards().size() ?
+				playerRep.getPowerupCards().get(lineIndex).getCardName() :
+				"", 20));
+
+		//Weapons
+		stringBuilder.append(
+				"Weapon 1\t" +
 						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						" Powerup 1\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.WHITE, Color.BackgroundColorType.DEFAULT) +
-						" Weapon 1\t" +
-						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
 						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						"\t\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT));
-		CLIView.printLine(
-				"Grab 2 >>O\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						" Powerup 2\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						" Weapon 2\t" +
-						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						"\t\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT));
-		CLIView.printLine(
-				"Shoo 3 >>S\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						" Powerup 3\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						" Weapon 3\t" +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						"\t\t\t" +
-						Color.getColoredString("●", Color.CharacterColorType.BLUE, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT));
+						"\t");
+
+		//Ammo
+		if (lineIndex + 1 <= AmmoType.values().length) {
+			AmmoType ammoType = AmmoType.values()[lineIndex];
+			for (int i = 0; i < playerRep.getAmmo(ammoType); i++) {
+				stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
+			}
+		}
+		CLIView.printLine(stringBuilder.toString());
 	}
 
 	private String[][] initializeMapToPrint(SquareRep[][] map) {

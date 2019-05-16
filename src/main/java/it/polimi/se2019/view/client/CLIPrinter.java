@@ -169,7 +169,7 @@ public class CLIPrinter {
 				"											║              Waiting for other clients to answer...            ║\n" +
 				"											║                                                                ║\n");
 		for (int i = 0; i < waitingPlayers.size(); i++) {
-			print("											║                   " + Utils.fillWithSpaces("[" + i + "] " + waitingPlayers.get(i + 1), 45) + "║ \n");
+			print("											║                   " + Utils.fillWithSpaces("[" + (i + 1) + "] " + waitingPlayers.get(i), 45) + "║ \n");
 		}
 		for (int i = waitingPlayers.size(); i <= GameConstants.MAX_PLAYERS; i++) {
 			print("											║                                                                ║\n");

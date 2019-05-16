@@ -15,8 +15,8 @@ public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static final boolean DEBUG_BYPASS_CONFIGURATION = true;
+	public static final boolean DEBUG_CLI = true;
 	public static final boolean DEBUG_BYPASS_USE_GUI = false;
-	public static final boolean DEBUG_CLI = false;
 	private static final ServerConfig serverConfig = new ServerConfigParser().parseConfig();
 
 	private static boolean logEnabled = true;
@@ -55,6 +55,10 @@ public class Utils {
 
 	public static String fillWithSpaces(String inputString, int length) {
 		return fillWithSpacesColored(inputString, length, Color.CharacterColorType.DEFAULT);
+	}
+
+	public static String fillWithSpaces(int length) {
+		return fillWithSpacesColored("", length, Color.CharacterColorType.DEFAULT);
 	}
 
 	public static ServerConfig getServerConfig() {

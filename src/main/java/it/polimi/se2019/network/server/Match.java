@@ -6,6 +6,7 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -19,7 +20,7 @@ public class Match {
 	private final ArrayList<AbstractConnectionToClient> participants;
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
-	//private SingleTimer singleTimer = new SingleTimer();
+	private SingleTimer singleTimer = new SingleTimer();
 
 	// Game config attributes.
 	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
@@ -48,7 +49,7 @@ public class Match {
 		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 
-		//singleTimer.start(this::initializeGame, (Utils.getServerConfig()).getTurnTimeLimitMs());
+		singleTimer.start(this::initializeGame, (Utils.getServerConfig()).getTurnTimeLimitMs());
 	}
 
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
@@ -100,7 +101,7 @@ public class Match {
 	 * Start the match.
 	 */
 	private void initializeGame() {
-		//singleTimer.cancel();
+		singleTimer.cancel();
 
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();

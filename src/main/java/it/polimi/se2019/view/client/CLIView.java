@@ -2,13 +2,13 @@ package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
+import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.utils.exceptions.HiddenException;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -114,26 +114,14 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void displayPossibleActions(List<MacroAction> possibleActions) {
-
-	}
-
-	// TODO remove
-	@Override
-	public void askActionExample() {
-		printLine("Asking the user the action...");
-		printLine("Select a number between 0 and 2.");
-		int answer = askInteger(0, 2);
-		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new IntMessage(answer, MessageType.EXAMPLE_ACTION, MessageSubtype.ANSWER));
-	}
-
-	@Override
 	public void askAction() {
-		printLine("Asking the user the action...");
+		DamageStatusRep damageStatusRep = modelRep.getClientPlayerRep().getDamageStatusRep();
+
 		printLine("Choose an action!");
-		printLine("Select a number between 0 and 2.");
-		int answer = askInteger(0, 2);
+		for (int i = 0; i < damageStatusRep.numOfMacroActions(); i++)
+			printLine(i + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
+		int answer = askInteger(0, damageStatusRep.numOfMacroActions() - 1);
+
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
 
@@ -192,19 +180,14 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askSpawn() {
-		try {
-			List<PowerupCardRep> powerupCards = modelRep.getClientPlayerRep().getPowerupCards();
-			printLine("Select the Powerup card to use.");
-			for (int i = 0; i < powerupCards.size(); i++)
-				printLine(i + ") " + powerupCards.get(i).toString());
-			int answer = askInteger(0, powerupCards.size() - 1);
+		List<PowerupCardRep> powerupCards = modelRep.getClientPlayerRep().getPowerupCards();
+		printLine("Select the Powerup card to use.");
+		for (int i = 0; i < powerupCards.size(); i++)
+			printLine(i + ") " + powerupCards.get(i).toString());
+		int answer = askInteger(0, powerupCards.size() - 1);
 
-			// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-			sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
-
-		} catch (HiddenException e) {
-			Utils.logError("The client rep shouldn't be hidden.", e);
-		}
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
 	}
 
 	private int askMapToUse() {
