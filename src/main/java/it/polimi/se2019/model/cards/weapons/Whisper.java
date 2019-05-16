@@ -57,8 +57,4 @@ public class Whisper extends WeaponCard {
 		return null;
 	}
 
-	@Override
-	public Representation getRep() {
-		return null;
-	}
 }

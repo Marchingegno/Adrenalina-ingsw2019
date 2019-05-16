@@ -156,8 +156,4 @@ public class FlameThrower extends AlternateFire {
 		return new Pair<>(question,options);
 	}
 
-	@Override
-	public Representation getRep() {
-		return null;
-	}
 }

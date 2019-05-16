@@ -103,9 +103,4 @@ public class ZX_2 extends AlternateFire {
 		secondaryFire();
 	}
 
-
-	@Override
-	public Representation getRep() {
-		return null;
-	}
 }

@@ -100,8 +100,4 @@ public class Hellion extends AlternateFire {
 		return getPrimaryTargets();
 	}
 
-	@Override
-	public Representation getRep() {
-		return null;
-	}
 }

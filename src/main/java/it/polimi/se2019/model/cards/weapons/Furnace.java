@@ -100,8 +100,4 @@ public class Furnace extends AlternateFire {
 		return targettableCoordinates;
 	}
 
-	@Override
-	public Representation getRep() {
-		return null;
-	}
 }

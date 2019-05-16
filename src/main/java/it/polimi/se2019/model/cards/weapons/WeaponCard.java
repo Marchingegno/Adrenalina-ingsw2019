@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoard;
@@ -252,4 +253,8 @@ public abstract class WeaponCard extends Card {
 		return new Pair<>(question, options);
 	}
 
+	@Override
+	public Representation getRep() {
+		return null;
+	}
 }
