@@ -110,6 +110,4 @@ public abstract class AlternateFire extends WeaponCard {
 	public Representation getRep() {
 		return super.getRep();
 	}
-
-	e
 }

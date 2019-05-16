@@ -89,8 +89,7 @@ public class Furnace extends AlternateFire {
 	}
 
 	private List<Coordinates> getPrimaryCoordinates(){
-		//TODO: Get entry point of the adjacent rooms.
-		return null;
+		return getGameMap().getDoors(getOwner());
 	}
 
 	private List<Coordinates> getSecondaryCoordinates(){
