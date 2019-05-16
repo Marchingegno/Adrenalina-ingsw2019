@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
@@ -37,8 +38,9 @@ public class Whisper extends WeaponCard {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		//TODO: implement with getVisiblePlayers
-		return null;
+		List<Player> distantPlayers = getGameMap().getVisiblePlayers(getOwner());
+		distantPlayers.removeAll(getGameMap().reachablePlayers(getOwner(), 1));
+		return distantPlayers;
 	}
 
 
@@ -52,6 +54,11 @@ public class Whisper extends WeaponCard {
 			targetPlayer = currentTargets.get(choice);
 			primaryFire();
 		}
+		return null;
+	}
+
+	@Override
+	public Representation getRep() {
 		return null;
 	}
 }
