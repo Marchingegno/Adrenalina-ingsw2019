@@ -92,7 +92,7 @@ public class SpawnSquare extends Square {
 	@Override
 	public Representation getRep() {
 		if (hasChanged || squareRep == null) {
-			squareRep = new SquareSpawnRep(this);
+			squareRep = new SpawnSquareRep(this);
 			setNotChanged();
 			Utils.logInfo("SpawnSquare -> getRep(): Updated the square's representation");
 		}
