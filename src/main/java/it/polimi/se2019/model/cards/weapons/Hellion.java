@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
@@ -52,13 +53,6 @@ public class Hellion extends AlternateFire {
 	}
 
 	@Override
-	public List<Player> getPrimaryTargets() {
-		//TODO: Implement once getVisiblePlayer is available.
-		return null;
-	}
-
-
-	@Override
 	Pair handleSecondaryFire(int choice) {
 		if(getCurrentStep() == 2){
 			currentTargets = getSecondaryTargets();
@@ -72,6 +66,10 @@ public class Hellion extends AlternateFire {
 	}
 
 	public void primaryFire() {
+		unifiedFire();
+	}
+
+	public void secondaryFire() {
 		unifiedFire();
 	}
 
@@ -89,13 +87,21 @@ public class Hellion extends AlternateFire {
 		dealDamage(finalTargets, finalDamageAndMarks);
 	}
 
-	public void secondaryFire() {
-		unifiedFire();
+	@Override
+	public List<Player> getPrimaryTargets() {
+		List<Player> distantVisiblePlayers = getGameMap().getVisiblePlayers(getOwner());
+		distantVisiblePlayers.removeAll(getGameMap().reachablePlayers(getOwner(), 0));
+		return distantVisiblePlayers;
 	}
+
 
 	@Override
 	public List<Player> getSecondaryTargets() {
 		return getPrimaryTargets();
 	}
 
+	@Override
+	public Representation getRep() {
+		return null;
+	}
 }
