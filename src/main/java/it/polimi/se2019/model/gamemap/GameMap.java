@@ -17,17 +17,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class implements the game map
  *
  * @author MarcerAndrea
  */
-public class GameMap extends Representable {
+public class GameMap extends Observable implements Representable {
 
 	private int numOfRows;
 	private int numOfColumns;
@@ -522,7 +519,7 @@ public class GameMap extends Representable {
 	 * @return the squares's representation in the specified coordinates.
 	 */
 	SquareRep getSquareRep(Coordinates coordinates) {
-		return map[coordinates.getRow()][coordinates.getColumn()].getRep();
+		return (SquareRep) map[coordinates.getRow()][coordinates.getColumn()].getRep();
 	}
 
 	/**
@@ -540,6 +537,7 @@ public class GameMap extends Representable {
 	 * Returns the representation of the game map.
 	 * @return the representation of the game map.
 	 */
+	@Override
 	public Representation getRep() {
 		return gameMapRep;
 	}

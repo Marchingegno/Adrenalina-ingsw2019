@@ -1,9 +1,9 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.utils.Color;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author MarcerAmdrea
  */
-public abstract class SquareRep implements Serializable {
+public abstract class SquareRep implements Representation {
 
 	private List<CardRep> cardsRep;
 	private int roomID;

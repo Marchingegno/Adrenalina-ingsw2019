@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
+import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.utils.Color;
@@ -73,7 +74,7 @@ public class AmmoSquare extends Square {
 	 * @return the ammo square's representation.
 	 */
 	@Override
-	public SquareRep getRep() {
+	public Representation getRep() {
 		if (hasChanged || squareRep == null) {
 			squareRep = new AmmoSquareRep(this);
 			setNotChanged();

@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author MarcerAndrea
  */
-public class GameMapRep extends Representation {
+public class GameMapRep implements Representation {
 
 	private int numOfRows;
 	private int numOfColumns;

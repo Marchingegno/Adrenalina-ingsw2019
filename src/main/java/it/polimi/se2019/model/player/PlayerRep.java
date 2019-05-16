@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Desno365
  */
-public class PlayerRep extends Representation {
+public class PlayerRep implements Representation {
 
 	private boolean actionRequested; //If the player is already executing an action.
 	private String playerName;
@@ -42,7 +42,7 @@ public class PlayerRep extends Representation {
 		playerColor = player.getPlayerColor();
 		points = player.getPlayerBoard().getPoints();
 		playerID = player.getPlayerID();
-		damageStatusRep = player.getDamageStatus().getRep();
+		damageStatusRep = (DamageStatusRep) player.getDamageStatus().getRep();
 		this.actionRequested = player.isActionRequested();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());

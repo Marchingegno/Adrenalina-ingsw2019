@@ -6,13 +6,14 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.RepMessage;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
-import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -45,36 +46,13 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	public void onMessageReceived(Message message) {
 		Utils.logInfo("\tThe VirtualView of " + getPlayerName() + "\" is processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
-		Event event = new Event(this, message);
-		switch (message.getMessageType()) {
-			case EXAMPLE_ACTION: // TODO remove
-				if (message.getMessageSubtype() == MessageSubtype.ANSWER) {
-					IntMessage intMessage = (IntMessage) message;
-					int answer = intMessage.getContent();
-					Utils.logInfo("Received answer for Example Action: " + answer + ".");
-					notifyObservers(/* MESSAGE HERE */);
-				}
-				break;
-			default:
-				Utils.logInfo("Virtual View : Received a message of type " + message.getMessageType().toString() + " and subtype " + message.getMessageSubtype().toString());
-				setChanged();
-				notifyObservers(event);
-				//TODO: Uncomment. Utils.logError("Message of type " + message.getMessageType() + " not recognized!", new IllegalArgumentException("Message of type " + message.getMessageType() + " not recognized"));
-				break;
 
-		}
+		setChanged();
+		notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
 	}
 
 	public void onClientDisconnected() {
-		// TODO inform controller/model and supend the player
-	}
-
-
-	// TODO remove
-	@Override
-	public void askActionExample() { // This method in overridden from the ViewInterface.
-		// Send a message that represents asking the "example action". The client will process it in the RemoteView class.
-		client.sendMessage(new Message(MessageType.EXAMPLE_ACTION, MessageSubtype.REQUEST));
+		// TODO inform controller/model and suspend the player
 	}
 
 	public void sendReps() {
@@ -114,15 +92,6 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void askEnd() {
 		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
-	}
-
-
-	@Override
-	public void displayPossibleActions(List<MacroAction> possibleActions) {
-		for (MacroAction macroAction : possibleActions) {
-			Utils.logInfo(macroAction.toString());
-		}
-		// TODO send a message with the possible actions
 	}
 
 	private void sendMessage(Message message) {

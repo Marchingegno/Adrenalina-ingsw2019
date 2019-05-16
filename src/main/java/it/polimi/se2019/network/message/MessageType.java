@@ -1,21 +1,21 @@
 package it.polimi.se2019.network.message;
 
 public enum MessageType {
+
+	// MessageTypes for Match initialization.
 	NICKNAME,
 	WAITING_PLAYERS,
 	TIMER_FOR_START,
 	GAME_CONFIG,
-	CLIENT_READY,
+
+	// MessageTypes between VirtualView <=> RemoteView
+	SPAWN,
 	UPDATE_REPS,
-	DAMAGE_STATUS_REP,
+	ACTION,
+	MOVE,
 	GRAB_WEAPON,
 	GRAB_AMMO,
-	MOVE,
-	RELOAD,
 	SHOOT,
+	RELOAD,
 	END_TURN,
-	ACTION,
-	SPAWN,
-	EXAMPLE_ACTION // TODO remove
-
 }

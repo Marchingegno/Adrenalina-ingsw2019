@@ -20,7 +20,6 @@ import java.util.Observer;
 
 /**
  * Facade of the game board.
- * TODO add updateReps to all methods that change the model.
  *
  * @author Marchingegno
  * @author Desno365

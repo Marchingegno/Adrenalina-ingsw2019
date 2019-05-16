@@ -12,11 +12,11 @@ import java.util.List;
  *
  * @author MarcerAmdrea
  */
-public class SquareSpawnRep extends SquareRep {
+public class SpawnSquareRep extends SquareRep {
 
 	private List<WeaponRep> weaponsRep;
 
-	SquareSpawnRep(Square squareToRepresent) {
+	SpawnSquareRep(Square squareToRepresent) {
 		super(squareToRepresent);
 		weaponsRep = new ArrayList<>();
 		for (Card card : squareToRepresent.getCards()) {

@@ -35,6 +35,7 @@ public abstract class PowerupCard extends Card {
 		return associatedAmmo;
 	}
 
+	@Override
 	public Representation getRep() {
 		return new PowerupCardRep(this);
 	}

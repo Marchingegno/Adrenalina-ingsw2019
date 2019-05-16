@@ -12,7 +12,7 @@ public class WaitingPlayersMessage extends Message {
 		this.waitingPlayersNames = new ArrayList<>(waitingPlayersNames);
 	}
 
-	public ArrayList<String> getWaitingPlayersNames() {
+	public List<String> getWaitingPlayersNames() {
 		return waitingPlayersNames;
 	}
 

@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Desno365
  */
-public class GameBoardRep extends Representation {
+public class GameBoardRep implements Representation {
 
 	private int remainingSkulls;
 	private List<Color.CharacterColorType> doubleKills;
@@ -28,7 +28,7 @@ public class GameBoardRep extends Representation {
 			doubleKills.add(player.getPlayerColor());
 		this.killShoots = new ArrayList<>();
 		for (KillShot killShot : gameBoard.getKillShots())
-			killShoots.add(new KillShotRep(killShot.getPlayer(), killShot.isOverkill()));
+			killShoots.add((KillShotRep) killShot.getRep());
 		this.currentPlayer = gameBoard.getCurrentPlayer().getPlayerName();
 		this.numberOfPlayers = gameBoard.getPlayers().size();
 	}

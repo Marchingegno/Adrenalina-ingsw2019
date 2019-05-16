@@ -86,10 +86,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 						processMessage(repMessage.getMessage());
 				}
 				break;
-			case EXAMPLE_ACTION: // TODO remove
-				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
-					askActionExample(); // This method will be processed by the CLI or by the GUI.
-				break;
 			case ACTION:
 				askAction();
 				break;

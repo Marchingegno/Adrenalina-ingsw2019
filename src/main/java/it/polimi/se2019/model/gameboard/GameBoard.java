@@ -18,6 +18,7 @@ import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 
 /**
@@ -26,7 +27,7 @@ import java.util.List;
  * @author MarcerAndrea
  * @author Desno365
  */
-public class GameBoard extends Representable {
+public class GameBoard extends Observable implements Representable {
 
 	private boolean frenzyStarted;
 	private List<Player> players;
@@ -117,7 +118,6 @@ public class GameBoard extends Representable {
 	public List<Player> getPlayers() {
 		//return new ArrayList<>(players);
 		return players;
-		//return players;
 	}
 
 	/**
@@ -219,11 +219,6 @@ public class GameBoard extends Representable {
 	 */
 	public AmmoDeck getAmmoDeck() {
 		return ammoDeck;
-	}
-
-	public void currentPlayerGrabs(int index) {
-		Coordinates playerCoordinates = gameMap.getPlayersCoordinates().get(getCurrentPlayer());
-		//gameMap.getSquare(getPlayerCoordinates).grabCard(getCurrentPlayer(), index);
 	}
 
 	/**
