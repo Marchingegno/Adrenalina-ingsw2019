@@ -7,7 +7,7 @@ public class WeaponDeck extends Deck<Card> {
 
 	public void initializeDeck(){
 		for (int i = 0; i < 40; i++) {
-			addCard(new Cyberblade("Staminchia"));
+			addCard(new Cyberblade("Hello boy, this cyberblade is very nice"));
 		}
 	}
 

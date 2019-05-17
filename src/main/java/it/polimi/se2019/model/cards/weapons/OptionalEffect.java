@@ -18,6 +18,7 @@ public abstract class OptionalEffect extends WeaponCard {
 
 	public OptionalEffect(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
+		optionalEffectsActive = new boolean[2];
 		reset();
 	}
 
@@ -56,7 +57,7 @@ public abstract class OptionalEffect extends WeaponCard {
 	public abstract void optionalEffect2();
 
 	void optionalReset(){
-		for (int i = 0; i < optionalEffectsActive.length; i++) {
+		for (int i = 0; i < optionalEffectsActive.length - 1; i++) {
 			optionalEffectsActive[i] = false;
 		}
 	}
