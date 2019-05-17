@@ -15,8 +15,8 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.se2019.utils.GameConstants.SQUARE_COLUMN_DIMENSION;
-import static it.polimi.se2019.utils.GameConstants.SQUARE_ROW_DIMENSION;
+import static it.polimi.se2019.utils.GameConstants.NUM_OF_COLUMNS_IN_SQUARE;
+import static it.polimi.se2019.utils.GameConstants.NUM_OF_ROWS_IN_SQUARE;
 import static it.polimi.se2019.view.client.CLIPrinter.cleanConsole;
 import static it.polimi.se2019.view.client.CLIPrinter.setCursorHome;
 
@@ -174,8 +174,8 @@ class RepPrinter {
 		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 
-		for (int i = -(SQUARE_ROW_DIMENSION / 2) + 2; i <= SQUARE_ROW_DIMENSION / 2 - 2; i++) {
-			for (int j = -(SQUARE_COLUMN_DIMENSION / 2) + 2; j <= SQUARE_COLUMN_DIMENSION / 2 - 2; j++) {
+		for (int i = -(NUM_OF_ROWS_IN_SQUARE / 2) + 2; i <= NUM_OF_ROWS_IN_SQUARE / 2 - 2; i++) {
+			for (int j = -(NUM_OF_COLUMNS_IN_SQUARE / 2) + 2; j <= NUM_OF_COLUMNS_IN_SQUARE / 2 - 2; j++) {
 				mapToPrint[row + i][column + j] = Color.getColoredCell(Color.BackgroundColorType.DEFAULT);
 			}
 		}
@@ -272,17 +272,14 @@ class RepPrinter {
 	}
 
 	private void displayMap() {
-		CLIView.print("\t\t\t\t\t\t\t\t\t\t   ");
-		for (int i = 0; i < mapToPrint[0].length / 9; i++) {
-			CLIView.print("    " + (i + 1) + "    ");
+		CLIView.print(Utils.fillWithSpaces((200 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4));
+		for (int i = 0; i < modelRep.getGameMapRep().getNumOfColumns(); i++) {
+			CLIView.print("        " + (i + 1) + "        ");
 		}
-		CLIView.print("\n");
+		CLIView.print("\n\n");
 		for (int i = 0; i < mapToPrint.length; i++) {
-			CLIView.print("\t\t\t\t\t\t\t\t\t\t ");
-			if ((i - (i / 5) * 5) == 2)
-				CLIView.print((i / 5 + 1) + " ");
-			else
-				CLIView.print("  ");
+			CLIView.print(Utils.fillWithSpaces((200 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2));
+			CLIView.print(Utils.fillWithSpaces((i - (i / NUM_OF_ROWS_IN_SQUARE) * NUM_OF_ROWS_IN_SQUARE) == NUM_OF_ROWS_IN_SQUARE / 2 ? (i / NUM_OF_ROWS_IN_SQUARE + 1) + "" : "", 4));
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);
 			}
@@ -348,7 +345,7 @@ class RepPrinter {
 		int numOfRows = map.length;
 		int numOfColumns = map[0].length;
 
-		mapToPrint = new String[numOfRows * SQUARE_ROW_DIMENSION][numOfColumns * SQUARE_COLUMN_DIMENSION];
+		mapToPrint = new String[numOfRows * NUM_OF_ROWS_IN_SQUARE][numOfColumns * NUM_OF_COLUMNS_IN_SQUARE];
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -360,7 +357,7 @@ class RepPrinter {
 	}
 
 	private Coordinates convertCoordinates(Coordinates coordinatesToConvert) {
-		return new Coordinates(4 + coordinatesToConvert.getRow() * SQUARE_ROW_DIMENSION, 8 + coordinatesToConvert.getColumn() * SQUARE_COLUMN_DIMENSION);
+		return new Coordinates(4 + coordinatesToConvert.getRow() * NUM_OF_ROWS_IN_SQUARE, 8 + coordinatesToConvert.getColumn() * NUM_OF_COLUMNS_IN_SQUARE);
 	}
 
 	private void fillSquare(SquareRep squareRep, String[][] mapToPrint) {
@@ -377,8 +374,8 @@ class RepPrinter {
 			fillDownDoor(squareRep);
 			fillLeftDoor(squareRep);
 		} else {
-			for (int i = -SQUARE_ROW_DIMENSION / 2; i <= SQUARE_ROW_DIMENSION / 2; i++) {
-				for (int j = -SQUARE_COLUMN_DIMENSION / 2; j <= SQUARE_COLUMN_DIMENSION / 2; j++) {
+			for (int i = -NUM_OF_ROWS_IN_SQUARE / 2; i <= NUM_OF_ROWS_IN_SQUARE / 2; i++) {
+				for (int j = -NUM_OF_COLUMNS_IN_SQUARE / 2; j <= NUM_OF_COLUMNS_IN_SQUARE / 2; j++) {
 					mapToPrint[row + i][column + j] = Color.getColoredCell(Color.BackgroundColorType.DEFAULT);
 				}
 			}
@@ -393,52 +390,52 @@ class RepPrinter {
 		Color.CharacterColorType squareColor = squareRep.getSquareColor();
 
 		//up left
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 3] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 4] = " ";
 
 		//up right
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 3] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 4] = " ";
 
 		//down right
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 3] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 4] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 
 		//down left
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 3] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 4] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 	}
 
 	private void fillUpDoor(SquareRep squareRep) {
@@ -448,30 +445,30 @@ class RepPrinter {
 		boolean isUpPossible = squareRep.getPossibleDirection()[CardinalDirection.UP.ordinal()];
 
 		if (isUpPossible) {
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 2] = " ";
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 1] = " ";
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column] = " ";
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 1] = " ";
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 2] = " ";
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - 3] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - 2] = " ";
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - 1] = " ";
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column] = " ";
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + 1] = " ";
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + 2] = " ";
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + 3] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
 		} else {
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column - 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2][column + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 		}
 
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - 3] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - 1] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + 1] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + 2] = " ";
-		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + 3] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - 3] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column - 1] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + 1] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + 2] = " ";
+		mapToPrint[row - NUM_OF_ROWS_IN_SQUARE / 2 + 1][column + 3] = " ";
 	}
 
 	private void fillRightDoor(SquareRep squareRep) {
@@ -481,29 +478,29 @@ class RepPrinter {
 		boolean isRightPossible = squareRep.getPossibleDirection()[CardinalDirection.RIGHT.ordinal()];
 
 		if (isRightPossible) {
-			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 
-			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = " ";
-			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = " ";
-			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = " ";
-			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = " ";
+			mapToPrint[row][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = " ";
+			mapToPrint[row + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = " ";
+			mapToPrint[row + 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
 		} else {
-			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
 
-			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row - 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row - 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 1][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 2][column + NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
 		}
 	}
 
@@ -514,30 +511,30 @@ class RepPrinter {
 		boolean isDownPossible = squareRep.getPossibleDirection()[CardinalDirection.DOWN.ordinal()];
 
 		if (isDownPossible) {
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 2] = " ";
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 1] = " ";
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column] = " ";
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 1] = " ";
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 2] = " ";
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - 3] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - 2] = " ";
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - 1] = " ";
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column] = " ";
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + 1] = " ";
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + 2] = " ";
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + 3] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
 		} else {
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column - 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2][column + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 		}
 
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - 3] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - 1] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + 1] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + 2] = " ";
-		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + 3] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - 3] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column - 1] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + 1] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + 2] = " ";
+		mapToPrint[row + NUM_OF_ROWS_IN_SQUARE / 2 - 1][column + 3] = " ";
 	}
 
 	private void fillLeftDoor(SquareRep squareRep) {
@@ -547,29 +544,29 @@ class RepPrinter {
 		boolean isLeftPossible = squareRep.getPossibleDirection()[CardinalDirection.LEFT.ordinal()];
 
 		if (isLeftPossible) {
-			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 
-			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = " ";
-			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = " ";
-			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = " ";
-			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = " ";
+			mapToPrint[row][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = " ";
+			mapToPrint[row + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = " ";
+			mapToPrint[row + 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
 		} else {
-			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
 
-			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
-			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row - 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row - 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 1][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
+			mapToPrint[row + 2][column - NUM_OF_COLUMNS_IN_SQUARE / 2] = " ";
 		}
 
 		mapToPrint[row - 1][column - 3] = isLeftPossible ? Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);

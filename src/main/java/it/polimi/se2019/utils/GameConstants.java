@@ -28,8 +28,8 @@ public class GameConstants {
 	public static final int HIGH_DAMAGE_THRESHOLD = 6;
 	public static final int MAX_NICKNAME_LENGHT = 16;
 	public static final int MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE = 3;
-	public static final int SQUARE_ROW_DIMENSION = 9;
-	public static final int SQUARE_COLUMN_DIMENSION = 17;
+	public static final int NUM_OF_ROWS_IN_SQUARE = 9;
+	public static final int NUM_OF_COLUMNS_IN_SQUARE = 17;
 
 
 	public enum MapType {
