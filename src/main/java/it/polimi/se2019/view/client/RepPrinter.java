@@ -270,8 +270,17 @@ class RepPrinter {
 	}
 
 	private void displayMap() {
+		CLIView.print("\t\t\t\t\t\t\t\t\t\t   ");
+		for (int i = 0; i < mapToPrint[0].length / 9; i++) {
+			CLIView.print("    " + (i + 1) + "    ");
+		}
+		CLIView.print("\n");
 		for (int i = 0; i < mapToPrint.length; i++) {
-			CLIView.print("\t\t\t\t\t\t\t\t\t\t");
+			CLIView.print("\t\t\t\t\t\t\t\t\t\t ");
+			if ((i - (i / 5) * 5) == 2)
+				CLIView.print((i / 5 + 1) + " ");
+			else
+				CLIView.print("  ");
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);
 			}

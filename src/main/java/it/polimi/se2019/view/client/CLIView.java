@@ -141,18 +141,8 @@ public class CLIView extends RemoteView {
 	public void askMove(List<Coordinates> reachableCoordinates) {
 		repPrinter.displayGame(reachableCoordinates);
 		printLine("Enter the coordinates in which you want to move.");
-		Coordinates coordinates;
-		do {
-			printLine("Enter Row coordinate 1-" + modelRep.getGameMapRep().getNumOfRows());
-			int x = askInteger(1, modelRep.getGameMapRep().getNumOfRows());
-			printLine("Enter Column coordinate 1-" + modelRep.getGameMapRep().getNumOfColumns());
-			int y = askInteger(1, modelRep.getGameMapRep().getNumOfColumns());
-			coordinates = new Coordinates(x - 1, y - 1);
-		} while (!reachableCoordinates.contains(coordinates));
-
-		List<Coordinates> coordinatesList = new ArrayList<>();
-		coordinatesList.add(coordinates);
-		sendMessage(new MoveActionMessage(coordinatesList, MessageSubtype.ANSWER));
+		List<Coordinates> answer = askCoortinates(reachableCoordinates);
+		sendMessage(new MoveActionMessage(answer, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -235,6 +225,21 @@ public class CLIView extends RemoteView {
 			}
 		}
 		return input;
+	}
+
+	private List<Coordinates> askCoortinates(List<Coordinates> reachableCoordinates) {
+		Coordinates coordinates;
+		do {
+			printLine("Enter Row coordinate 1-" + modelRep.getGameMapRep().getNumOfRows());
+			int x = askInteger(1, modelRep.getGameMapRep().getNumOfRows());
+			printLine("Enter Column coordinate 1-" + modelRep.getGameMapRep().getNumOfColumns());
+			int y = askInteger(1, modelRep.getGameMapRep().getNumOfColumns());
+			coordinates = new Coordinates(x - 1, y - 1);
+		} while (!reachableCoordinates.contains(coordinates));
+
+		List<Coordinates> coordinatesList = new ArrayList<>();
+		coordinatesList.add(coordinates);
+		return coordinatesList;
 	}
 
 	/**
