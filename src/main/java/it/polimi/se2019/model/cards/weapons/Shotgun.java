@@ -13,7 +13,7 @@ public class Shotgun extends AlternateFire {
 	private Player enemy;
 	private List<Coordinates> listEnemyMoveCoordinates;
 
-	public Shotgun(String description, ArrayList<AmmoType> reloadPrice) {
+	public Shotgun(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		this.PRIMARY_DAMAGE = 3;
 		this.PRIMARY_MARKS = 0;

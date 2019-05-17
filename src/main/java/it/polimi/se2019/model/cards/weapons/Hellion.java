@@ -17,7 +17,7 @@ public class Hellion extends AlternateFire {
 	private int SECONDARY_FOLLOWING_MARKS;
 
 
-	public Hellion(String description, ArrayList<AmmoType> reloadPrice) {
+	public Hellion(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 1;

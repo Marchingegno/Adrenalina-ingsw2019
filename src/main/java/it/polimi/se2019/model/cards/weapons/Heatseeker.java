@@ -11,7 +11,7 @@ public class Heatseeker extends WeaponCard {
 
 	private Player targetPlayer;
 
-	public Heatseeker(String description, ArrayList<AmmoType> reloadPrice) {
+	public Heatseeker(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		this.PRIMARY_DAMAGE = 3;
 		this.PRIMARY_MARKS = 0;

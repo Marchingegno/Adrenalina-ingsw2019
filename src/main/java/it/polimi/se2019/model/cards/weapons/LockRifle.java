@@ -1,13 +1,15 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
 public class LockRifle extends OptionalEffect {
 
-	public LockRifle(String description, ArrayList<AmmoType> reloadPrice) {
+	public LockRifle(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 	}
 
@@ -15,10 +17,25 @@ public class LockRifle extends OptionalEffect {
 	public void primaryFire() {
 	}
 
-	public void optionalEffect1(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
+	@Override
+	Pair handlePrimaryFire(int choice) {
+		return null;
 	}
 
-	public void optionalEffect2(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
+	@Override
+	public List<Player> getPrimaryTargets() {
+		return null;
 	}
+
+	@Override
+	public void optionalEffect1() {
+
+	}
+
+	@Override
+	public void optionalEffect2() {
+
+	}
+
 
 }

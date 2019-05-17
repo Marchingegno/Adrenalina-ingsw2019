@@ -17,8 +17,28 @@ public class Cyberblade extends OptionalEffect{
 		super(description, reloadPrice);
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
-		this.moveDistance = MOVE_DISTANCE;
+//		this.standardDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
+//		this.moveDistance = MOVE_DISTANCE;
+	}
+
+	@Override
+	Pair handlePrimaryFire(int choice) {
+		return null;
+	}
+
+	@Override
+	public List<Player> getPrimaryTargets() {
+		return null;
+	}
+
+	@Override
+	public void optionalEffect1() {
+
+	}
+
+	@Override
+	public void optionalEffect2() {
+
 	}
 
 }

@@ -17,11 +17,11 @@ public class FlameThrower extends AlternateFire {
 	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int SECONDARY_FOLLOWING_MARKS;
 	private CardinalDirection chosenDirection;
-	Player firstSquareTarget;
-	Player secondSquareTarget;
-	List<Player> secondSquareTargets;
+	private Player firstSquareTarget;
+	private Player secondSquareTarget;
+	private List<Player> secondSquareTargets;
 
-	public FlameThrower(String description, ArrayList<AmmoType> reloadPrice) {
+	public FlameThrower(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 0;

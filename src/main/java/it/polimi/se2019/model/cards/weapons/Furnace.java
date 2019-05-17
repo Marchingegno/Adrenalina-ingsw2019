@@ -13,7 +13,7 @@ public class Furnace extends AlternateFire {
 	private List<Coordinates> targettableCoordinates;
 	private Coordinates targetCoordinate;
 
-	public Furnace(String description, ArrayList<AmmoType> reloadPrice) {
+	public Furnace(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 0;

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PowerGlove extends AlternateFire {
 
-	public PowerGlove(String description, ArrayList<AmmoType> reloadPrice) {
+	public PowerGlove(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 2;
