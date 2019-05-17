@@ -49,11 +49,12 @@
 			"column": 3
 		},
 		{
-			"type": "AmmoSquare",
+			"type": "SpawnSquare",
 			"row": 1,
 			"column": 0,
 			"roomID": 0,
 			"squareColor": "RED",
+			"ammoType": "RED_AMMO",
 			"possibleDirection": [
 				true,
 				false,

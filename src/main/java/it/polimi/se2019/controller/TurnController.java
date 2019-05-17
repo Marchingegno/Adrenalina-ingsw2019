@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.message.DefaultActionMessage;
 import it.polimi.se2019.network.message.MoveActionMessage;
 import it.polimi.se2019.utils.ActionType;
@@ -60,9 +61,14 @@ public class TurnController{
 				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case MOVE:
-				model.movePlayerTo(playerName, ((MoveActionMessage) event.getMessage()).getCoordinates().get(0));
-				handleNextAction(virtualView);
-				virtualViewsContainer.sendUpdatedReps();
+				Coordinates playerChoice = ((MoveActionMessage) event.getMessage()).getCoordinates().get(0);
+				if (model.getReachableCoordinatesOfTheCurrentPlayer().contains(playerChoice)) {
+					model.movePlayerTo(playerName, playerChoice);
+					handleNextAction(virtualView);
+					virtualViewsContainer.sendUpdatedReps();
+				} else {
+					virtualView.askMove(model.getReachableCoordinatesOfTheCurrentPlayer());
+				}
 				break;
 			case RELOAD:
 				model.reloadWeapon(playerName, ((DefaultActionMessage)event.getMessage()).getContent());

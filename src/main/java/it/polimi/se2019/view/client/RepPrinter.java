@@ -125,12 +125,9 @@ class RepPrinter {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		List<PlayerRep> playersRep = modelRep.getPlayersRep();
 		for (PlayerRep playerRep : playersRep) {
-			try {
-				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName()));
-				mapToPrint[playerCoordinates.getRow() - 1][playerCoordinates.getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("▲", playerRep.getPlayerColor());
-			} catch (NullPointerException e) {
-				Utils.logInfo(playerRep.getPlayerName() + " has no position");
-			}
+			Coordinates playerCoordinates = gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName());
+			if (playerCoordinates != null)
+				mapToPrint[convertCoordinates(playerCoordinates).getRow() - 1][convertCoordinates(playerCoordinates).getColumn() - 2 + playerRep.getPlayerID()] = Color.getColoredString("▲", playerRep.getPlayerColor());
 		}
 	}
 

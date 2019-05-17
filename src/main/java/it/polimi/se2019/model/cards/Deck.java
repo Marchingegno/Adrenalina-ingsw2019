@@ -2,10 +2,7 @@ package it.polimi.se2019.model.cards;
 
 import it.polimi.se2019.utils.Utils;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
+import java.util.*;
 
 /**
  * Represents the abstract concept of a deck.
@@ -39,7 +36,7 @@ public abstract class Deck<C extends Card> {
 		if (actualDeck.isEmpty())
 			refillDeck();
 		if (actualDeck.isEmpty())
-			Utils.logError("There are no more cards in the deck", new NullPointerException());
+			Utils.logError("There are no more cards in the deck", new NoSuchElementException());
 		Utils.logInfo("Deck -> drawCard(): Drawing " + actualDeck.getFirst());
 		return actualDeck.removeFirst();
 	}

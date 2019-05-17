@@ -183,6 +183,16 @@ public class GameMap extends Observable implements Representable {
 		return reachableCoordinates;
 	}
 
+	public List<Coordinates> reachableAndNotEmptySquares(Coordinates playerCoordinates, int maxDistance) {
+		List<Coordinates> reachableCoordinates = reachableCoordinates(playerCoordinates, maxDistance);
+		List<Coordinates> reachableAndNotEmptyCoordinates = new ArrayList<>();
+		for (Coordinates coordinates : reachableCoordinates) {
+			if (!getSquare(coordinates).isFilled())
+				reachableAndNotEmptyCoordinates.add(coordinates);
+		}
+		return reachableAndNotEmptyCoordinates;
+	}
+
 	/**
 	 * Returns the set of all the squares belonging to the same room of the specified square.
 	 *
