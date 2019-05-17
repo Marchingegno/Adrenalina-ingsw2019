@@ -8,7 +8,6 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.Pair;
