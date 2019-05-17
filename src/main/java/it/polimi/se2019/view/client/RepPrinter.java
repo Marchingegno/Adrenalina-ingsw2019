@@ -15,6 +15,8 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.se2019.utils.GameConstants.SQUARE_COLUMN_DIMENSION;
+import static it.polimi.se2019.utils.GameConstants.SQUARE_ROW_DIMENSION;
 import static it.polimi.se2019.view.client.CLIPrinter.cleanConsole;
 import static it.polimi.se2019.view.client.CLIPrinter.setCursorHome;
 
@@ -143,9 +145,9 @@ class RepPrinter {
 		String[] cards = squareRep.getElementsToPrint();
 
 		if (squareRep.getRoomID() != -1) {
-			mapToPrint[row + 1][column - 1] = cards[0];
-			mapToPrint[row + 1][column] = cards[1];
-			mapToPrint[row + 1][column + 1] = cards[2];
+			mapToPrint[row + 2][column - 2] = cards[0];
+			mapToPrint[row + 2][column] = cards[1];
+			mapToPrint[row + 2][column + 2] = cards[2];
 		}
 	}
 
@@ -157,9 +159,9 @@ class RepPrinter {
 		if (squareRep.getRoomID() != -1) {
 			if (coordinates.contains(squareRep.getCoordinates()))
 				mapToPrint[row][column] = Color.getColoredCell(Color.BackgroundColorType.WHITE);
-			mapToPrint[row + 1][column - 1] = cards[0];
-			mapToPrint[row + 1][column] = cards[1];
-			mapToPrint[row + 1][column + 1] = cards[2];
+			mapToPrint[row + 2][column - 2] = cards[0];
+			mapToPrint[row + 2][column] = cards[1];
+			mapToPrint[row + 2][column + 2] = cards[2];
 		}
 	}
 
@@ -172,8 +174,8 @@ class RepPrinter {
 		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 
-		for (int i = -1; i < 2; i++) {
-			for (int j = -2; j < 3; j++) {
+		for (int i = -(SQUARE_ROW_DIMENSION / 2) + 2; i <= SQUARE_ROW_DIMENSION / 2 - 2; i++) {
+			for (int j = -(SQUARE_COLUMN_DIMENSION / 2) + 2; j <= SQUARE_COLUMN_DIMENSION / 2 - 2; j++) {
 				mapToPrint[row + i][column + j] = Color.getColoredCell(Color.BackgroundColorType.DEFAULT);
 			}
 		}
@@ -346,7 +348,7 @@ class RepPrinter {
 		int numOfRows = map.length;
 		int numOfColumns = map[0].length;
 
-		mapToPrint = new String[numOfRows * 5][numOfColumns * 9];
+		mapToPrint = new String[numOfRows * SQUARE_ROW_DIMENSION][numOfColumns * SQUARE_COLUMN_DIMENSION];
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -358,7 +360,7 @@ class RepPrinter {
 	}
 
 	private Coordinates convertCoordinates(Coordinates coordinatesToConvert) {
-		return new Coordinates(2 + coordinatesToConvert.getRow() * 5, 4 + coordinatesToConvert.getColumn() * 9);
+		return new Coordinates(4 + coordinatesToConvert.getRow() * SQUARE_ROW_DIMENSION, 8 + coordinatesToConvert.getColumn() * SQUARE_COLUMN_DIMENSION);
 	}
 
 	private void fillSquare(SquareRep squareRep, String[][] mapToPrint) {
@@ -375,8 +377,8 @@ class RepPrinter {
 			fillDownDoor(squareRep);
 			fillLeftDoor(squareRep);
 		} else {
-			for (int i = -2; i < 3; i++) {
-				for (int j = -4; j < 5; j++) {
+			for (int i = -SQUARE_ROW_DIMENSION / 2; i <= SQUARE_ROW_DIMENSION / 2; i++) {
+				for (int j = -SQUARE_COLUMN_DIMENSION / 2; j <= SQUARE_COLUMN_DIMENSION / 2; j++) {
 					mapToPrint[row + i][column + j] = Color.getColoredCell(Color.BackgroundColorType.DEFAULT);
 				}
 			}
@@ -390,14 +392,53 @@ class RepPrinter {
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 		Color.CharacterColorType squareColor = squareRep.getSquareColor();
 
-		mapToPrint[row - 2][column - 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column - 3] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 3] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column - 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column - 3] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 4] = Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 3] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
+		//up left
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = " ";
+
+		//up right
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = " ";
+
+		//down right
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - SQUARE_COLUMN_DIMENSION / 2 + 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+
+		//down left
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + SQUARE_COLUMN_DIMENSION / 2 - 4] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
 	}
 
 	private void fillUpDoor(SquareRep squareRep) {
@@ -406,11 +447,31 @@ class RepPrinter {
 		Color.CharacterColorType squareColor = squareRep.getSquareColor();
 		boolean isUpPossible = squareRep.getPossibleDirection()[CardinalDirection.UP.ordinal()];
 
-		mapToPrint[row - 2][column - 2] = isUpPossible ? Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column - 1] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 1] = isUpPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 2][column + 2] = isUpPossible ? Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		if (isUpPossible) {
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 2] = " ";
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 1] = " ";
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column] = " ";
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 1] = " ";
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 2] = " ";
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
+		} else {
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column - 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		}
+
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - 3] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column - 1] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + 1] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + 2] = " ";
+		mapToPrint[row - SQUARE_ROW_DIMENSION / 2 + 1][column + 3] = " ";
 	}
 
 	private void fillRightDoor(SquareRep squareRep) {
@@ -419,12 +480,31 @@ class RepPrinter {
 		Color.CharacterColorType squareColor = squareRep.getSquareColor();
 		boolean isRightPossible = squareRep.getPossibleDirection()[CardinalDirection.RIGHT.ordinal()];
 
-		mapToPrint[row - 1][column + 3] = isRightPossible ? Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row - 1][column + 4] = isRightPossible ? Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row][column + 3] = isRightPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row][column + 4] = isRightPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 1][column + 3] = isRightPossible ? Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 1][column + 4] = isRightPossible ? Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
+		if (isRightPossible) {
+			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+
+			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╚", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = " ";
+			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = " ";
+			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = " ";
+			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
+		} else {
+			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2 - 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+
+			mapToPrint[row - 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row - 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 1][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 2][column + SQUARE_COLUMN_DIMENSION / 2] = " ";
+		}
 	}
 
 	private void fillDownDoor(SquareRep squareRep) {
@@ -433,11 +513,31 @@ class RepPrinter {
 		Color.CharacterColorType squareColor = squareRep.getSquareColor();
 		boolean isDownPossible = squareRep.getPossibleDirection()[CardinalDirection.DOWN.ordinal()];
 
-		mapToPrint[row + 2][column - 2] = isDownPossible ? Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column - 1] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 1] = isDownPossible ? Color.getColoredCell(Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
-		mapToPrint[row + 2][column + 2] = isDownPossible ? Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		if (isDownPossible) {
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 2] = " ";
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 1] = " ";
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column] = " ";
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 1] = " ";
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 2] = " ";
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("╔", squareColor, Color.BackgroundColorType.DEFAULT);
+		} else {
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column - 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 1] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + SQUARE_ROW_DIMENSION / 2][column + 3] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+		}
+
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - 3] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column - 1] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + 1] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + 2] = " ";
+		mapToPrint[row + SQUARE_ROW_DIMENSION / 2 - 1][column + 3] = " ";
 	}
 
 	private void fillLeftDoor(SquareRep squareRep) {
@@ -445,6 +545,32 @@ class RepPrinter {
 		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
 		Color.CharacterColorType squareColor = squareRep.getSquareColor();
 		boolean isLeftPossible = squareRep.getPossibleDirection()[CardinalDirection.LEFT.ordinal()];
+
+		if (isLeftPossible) {
+			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2] = Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT);
+
+			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = " ";
+			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = " ";
+			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = " ";
+			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("╗", squareColor, Color.BackgroundColorType.DEFAULT);
+		} else {
+			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2 + 1] = Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
+
+			mapToPrint[row - 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row - 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 1][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+			mapToPrint[row + 2][column - SQUARE_COLUMN_DIMENSION / 2] = " ";
+		}
 
 		mapToPrint[row - 1][column - 3] = isLeftPossible ? Color.getColoredString("╝", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString("║", squareColor, Color.BackgroundColorType.DEFAULT);
 		mapToPrint[row - 1][column - 4] = isLeftPossible ? Color.getColoredString("═", squareColor, Color.BackgroundColorType.DEFAULT) : Color.getColoredString(" ", squareColor, Color.BackgroundColorType.DEFAULT);
