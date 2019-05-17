@@ -218,17 +218,19 @@ public class CLIView extends RemoteView {
 	 * @return the integer chosen by the user.
 	 */
 	private int askInteger(int minInclusive, int maxInclusive) {
-		int input;
+		int input = 0;
+		boolean ok;
 		do {
 			try {
 				input = Integer.parseInt(scanner.nextLine());
+				ok = true;
 			} catch (NumberFormatException e) {
-				input = -1;
+				ok = false;
 			}
-			if (input < minInclusive || input > maxInclusive) {
+			if (!ok || input < minInclusive || input > maxInclusive) { // ok must be true and input must be between min and max.
 				printLine("The value must be between " + minInclusive + " and " + maxInclusive + ".");
 			}
-		} while (input < minInclusive || input > maxInclusive);
+		} while (!ok || input < minInclusive || input > maxInclusive);
 		return input;
 	}
 
