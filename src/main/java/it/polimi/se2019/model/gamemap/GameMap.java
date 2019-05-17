@@ -343,7 +343,7 @@ public class GameMap extends Observable implements Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
-	public Coordinates getCoordinateWithDirection(Coordinates coordinates, CardinalDirection direction) {
+	public Coordinates getCoordinatesFromDirection(Coordinates coordinates, CardinalDirection direction) {
 		if (getSquare(coordinates).getPossibleDirections()[direction.ordinal()])
 			return Coordinates.getDirectionCoordinates(coordinates, direction);
 		return null;

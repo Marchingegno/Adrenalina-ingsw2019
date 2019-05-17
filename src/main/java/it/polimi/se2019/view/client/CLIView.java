@@ -110,11 +110,11 @@ public class CLIView extends RemoteView {
 
 		printLine("Choose an action!");
 		for (int i = 0; i < damageStatusRep.numOfMacroActions(); i++)
-			printLine(i + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
-		int answer = askInteger(0, damageStatusRep.numOfMacroActions() - 1);
+			printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
+		int answer = askInteger(1, damageStatusRep.numOfMacroActions());
 
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
+		sendMessage(new DefaultActionMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
 
 	}
 
@@ -134,7 +134,7 @@ public class CLIView extends RemoteView {
 	public void askMove(List<Coordinates> reachableCoordinates) {
 		repPrinter.displayGame(reachableCoordinates);
 		printLine("Enter the coordinates in which you want to move.");
-		List<Coordinates> answer = askCoortinates(reachableCoordinates);
+		List<Coordinates> answer = askCoordinates(reachableCoordinates);
 		sendMessage(new MoveActionMessage(answer, MessageSubtype.ANSWER));
 	}
 
@@ -164,10 +164,10 @@ public class CLIView extends RemoteView {
 		printLine("Select the Powerup card to discard in order to spawn: ");
 		for (int i = 0; i < powerupCards.size(); i++)
 			printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
-		int answer = askInteger(0, powerupCards.size() - 1);
+		int answer = askInteger(1, powerupCards.size());
 
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
+		sendMessage(new DefaultActionMessage(answer - 1, MessageType.SPAWN, MessageSubtype.ANSWER));
 	}
 
 	private int askMapToUse() {
@@ -220,7 +220,7 @@ public class CLIView extends RemoteView {
 		return input;
 	}
 
-	private List<Coordinates> askCoortinates(List<Coordinates> reachableCoordinates) {
+	private List<Coordinates> askCoordinates(List<Coordinates> reachableCoordinates) {
 		Coordinates coordinates;
 		do {
 			printLine("Enter Row coordinate 1-" + getModelRep().getGameMapRep().getNumOfRows());
