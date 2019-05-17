@@ -343,6 +343,12 @@ public class GameMap extends Observable implements Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
+	public Coordinates getCoordinatesFromDirection(Coordinates coordinates, CardinalDirection direction) {
+		if (getSquare(coordinates).getPossibleDirections()[direction.ordinal()])
+			return Coordinates.getDirectionCoordinates(coordinates, direction);
+		return null;
+	}
+
 	public List<Coordinates> getAdjacentRoomsCoordinates(Coordinates coordinates) {
 		List<Coordinates> coordinatesOfAdjacentRooms = new ArrayList<>();
 		List<Integer> adjacentRooms = new ArrayList<>();
