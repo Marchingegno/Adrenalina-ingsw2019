@@ -22,9 +22,8 @@ import static it.polimi.se2019.view.client.CLIPrinter.*;
  */
 public class CLIView extends RemoteView {
 
-	private String nickname;
 	private Scanner scanner = new Scanner(System.in);
-	private RepPrinter repPrinter = new RepPrinter(modelRep);
+	private RepPrinter repPrinter = new RepPrinter(getModelRep());
 
 	public static void print(String string) {
 		System.out.print(string);
@@ -69,12 +68,6 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void nicknameIsOk(String nickname) {
-		Utils.logInfo("Nickname set to: \"" + nickname + "\".");
-		this.nickname = nickname;
-	}
-
-	@Override
 	public void displayWaitingPlayers(List<String> waitingPlayers) {
 		printWaitingRoom(waitingPlayers);
 	}
@@ -98,7 +91,7 @@ public class CLIView extends RemoteView {
 		int mapIndex = askMapToUse();
 		int skulls = askSkullsForGame();
 		ArrayList<String> players = new ArrayList<>();
-		players.add(nickname);
+		players.add(getNickname());
 		printWaitingRoom(players);
 		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 		gameConfigMessage.setMapIndex(mapIndex);
@@ -113,7 +106,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askAction() {
-		DamageStatusRep damageStatusRep = modelRep.getClientPlayerRep().getDamageStatusRep();
+		DamageStatusRep damageStatusRep = getModelRep().getClientPlayerRep().getDamageStatusRep();
 
 		printLine("Choose an action!");
 		for (int i = 0; i < damageStatusRep.numOfMacroActions(); i++)
@@ -128,7 +121,7 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askGrab() {
 		//TODO: Check whether the player is in a spawn square or a weapon square.
-		modelRep.getGameMapRep().getPlayerCoordinates(nickname);
+		getModelRep().getGameMapRep().getPlayerCoordinates(getNickname());
 		printLine("You chose to grab.");
 		printLine("Select a number between 0 and 2.");
 		printLine("You chose 0! <:)");
@@ -167,7 +160,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askSpawn() {
-		List<PowerupCardRep> powerupCards = modelRep.getClientPlayerRep().getPowerupCards();
+		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
 		printLine("Select the Powerup card to use.");
 		for (int i = 0; i < powerupCards.size(); i++)
 			printLine(i + ") " + powerupCards.get(i).toString());
@@ -230,10 +223,10 @@ public class CLIView extends RemoteView {
 	private List<Coordinates> askCoortinates(List<Coordinates> reachableCoordinates) {
 		Coordinates coordinates;
 		do {
-			printLine("Enter Row coordinate 1-" + modelRep.getGameMapRep().getNumOfRows());
-			int x = askInteger(1, modelRep.getGameMapRep().getNumOfRows());
-			printLine("Enter Column coordinate 1-" + modelRep.getGameMapRep().getNumOfColumns());
-			int y = askInteger(1, modelRep.getGameMapRep().getNumOfColumns());
+			printLine("Enter Row coordinate 1-" + getModelRep().getGameMapRep().getNumOfRows());
+			int x = askInteger(1, getModelRep().getGameMapRep().getNumOfRows());
+			printLine("Enter Column coordinate 1-" + getModelRep().getGameMapRep().getNumOfColumns());
+			int y = askInteger(1, getModelRep().getGameMapRep().getNumOfColumns());
 			coordinates = new Coordinates(x - 1, y - 1);
 		} while (!reachableCoordinates.contains(coordinates));
 
@@ -255,10 +248,6 @@ public class CLIView extends RemoteView {
 				printLine("Please write \"y\" or \"n\".");
 		}
 		return input.equals("y") || input.equals("yes");
-	}
-
-	private String getNickname(){
-		return nickname;
 	}
 }
 

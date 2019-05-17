@@ -21,6 +21,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	private AbstractConnectionToClient client;
 	private RepMessage repMessage;
 
+
 	public VirtualView(AbstractConnectionToClient client) {
 		repMessage = new RepMessage();
 		this.client = client;
@@ -39,12 +40,8 @@ public class VirtualView extends Observable implements ViewInterface {
 		return new PlayerObserver();
 	}
 
-	public String getPlayerName() {
-		return client.getNickname();
-	}
-
 	public void onMessageReceived(Message message) {
-		Utils.logInfo("\tThe VirtualView of " + getPlayerName() + "\" is processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Utils.logInfo("\tThe VirtualView of " + getNickname() + "\" is processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		setChanged();
 		notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
@@ -56,6 +53,12 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	public void sendReps() {
 		sendMessage(null); // if i want to send only the reps the message must be null
+	}
+
+
+	@Override
+	public String getNickname() {
+		return client.getNickname();
 	}
 
 	@Override
@@ -93,36 +96,37 @@ public class VirtualView extends Observable implements ViewInterface {
 		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
 	}
 
-	private void sendMessage(Message message) {
-		if (repMessage.hasReps()) {
-			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with the message for " + getPlayerName() + ".");
-			repMessage.addMessage(message);
-			client.sendMessage(repMessage);
-			repMessage = new RepMessage();
-		} else if(message != null) {
-			Utils.logInfo("VirtualView -> sendMessage(): no reps to send for " + getPlayerName() + ".");
-			client.sendMessage(message);
-		} else {
-			Utils.logInfo("VirtualView -> sendMessage(): nothing to send for " + getPlayerName() + " (null message and no reps).");
-		}
-	}
-
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
 		repMessage.addGameBoardRep(gameBoardRepToUpdate);
-		Utils.logInfo("Added to " + getPlayerName() + "'s packet the Game Board rep");
+		Utils.logInfo("Added to " + getNickname() + "'s packet the Game Board rep");
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		repMessage.addGameMapRep(gameMapRepToUpdate);
-		Utils.logInfo("Added to " + getPlayerName() + "'s packet the Game Board rep");
+		Utils.logInfo("Added to " + getNickname() + "'s packet the Game Board rep");
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		repMessage.addPlayersRep(playerRepToUpdate);
-		Utils.logInfo("Added to " + getPlayerName() + "'s packet the Player rep of " + playerRepToUpdate.getPlayerName());
+		Utils.logInfo("Added to " + getNickname() + "'s packet the Player rep of " + playerRepToUpdate.getPlayerName());
+	}
+
+
+	private void sendMessage(Message message) {
+		if (repMessage.hasReps()) {
+			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with the message for " + getNickname() + ".");
+			repMessage.addMessage(message);
+			client.sendMessage(repMessage);
+			repMessage = new RepMessage();
+		} else if(message != null) {
+			Utils.logInfo("VirtualView -> sendMessage(): no reps to send for " + getNickname() + ".");
+			client.sendMessage(message);
+		} else {
+			Utils.logInfo("VirtualView -> sendMessage(): nothing to send for " + getNickname() + " (null message and no reps).");
+		}
 	}
 
 
@@ -143,7 +147,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
-			updatePlayerRep((PlayerRep) ((Player) observable).getRep(getPlayerName()));
+			updatePlayerRep((PlayerRep) ((Player) observable).getRep(getNickname()));
 		}
 	}
 }

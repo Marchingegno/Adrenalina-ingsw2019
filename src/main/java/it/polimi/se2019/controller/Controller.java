@@ -25,7 +25,7 @@ public class Controller implements Observer {
 
 		// Create a list of player names.
 		List<String> playerNames = virtualViews.stream()
-				.map(VirtualView::getPlayerName)
+				.map(VirtualView::getNickname)
 				.collect(Collectors.toList());
 
 		this.model = new Model(mapType.getMapName(), playerNames, skulls);
@@ -59,15 +59,15 @@ public class Controller implements Observer {
 		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
 			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)
 			model.addGameBoardObserver(virtualView.getGameBoardObserver());
-			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Board.");
+			Utils.logInfo(virtualView.getNickname() + " now observes Game Board.");
 			model.addGameMapObserver(virtualView.getGameMapObserver());
-			Utils.logInfo(virtualView.getPlayerName() + " now observes Game Map.");
+			Utils.logInfo(virtualView.getNickname() + " now observes Game Map.");
 			model.addPlayersObserver(virtualView.getPlayerObserver());
-			Utils.logInfo(virtualView.getPlayerName() + " now observes all the Players.");
+			Utils.logInfo(virtualView.getNickname() + " now observes all the Players.");
 
 			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
 			virtualView.addObserver(this);
-			Utils.logInfo("Controller now observes virtual View of "+virtualView.getPlayerName());
+			Utils.logInfo("Controller now observes virtual View of "+virtualView.getNickname());
 		}
 	}
 }
