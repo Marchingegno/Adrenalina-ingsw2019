@@ -9,7 +9,6 @@ import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,12 +79,6 @@ public class GUIView extends RemoteView {
 	public void askNicknameError() {
 		JOptionPane.showMessageDialog(null, "The nickname already exists or is not valid, please use a different one.", "Nickname Error", JOptionPane.WARNING_MESSAGE);
 		askNickname();
-	}
-
-	@Override
-	public void nicknameIsOk(String nickname) {
-		// No need to show a dialog here.
-		Utils.logInfo("Nickname set to: \"" + nickname + "\".");
 	}
 
 	@Override

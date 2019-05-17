@@ -19,14 +19,15 @@ import java.util.UUID;
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
 
 	private ConnectionToServerInterface connectionToServer;
-	protected boolean clientReadyToPlay = false;
-	ModelRep modelRep = new ModelRep();
+	private String nickname;
+	private ModelRep modelRep = new ModelRep();
+
 
 	/**
 	 * Receive and process the message sent by the server both by socket or by RMI.
 	 * @param message the message received.
 	 */
-	@Override
+	@Override // Of MessageReceiverInterface.
 	public synchronized void processMessage(Message message) {
 		Utils.logInfo("RemoteView -> processMessage(): Received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 		switch (message.getMessageType()) {
@@ -43,7 +44,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					askNicknameError();
 				if(message.getMessageSubtype() == MessageSubtype.OK) {
 					String nickname = ((NicknameMessage)message).getContent();
-					nicknameIsOk(nickname);
+					this.nickname = nickname;
 				}
 				break;
 			case WAITING_PLAYERS:
@@ -116,30 +117,26 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		}
 	}
 
-	public abstract void updateDisplay();
-
-	public void updateReps(RepMessage repMessage) {
-		updateGameMapRep(repMessage.getGameMapRep());
-		updateGameBoardRep(repMessage.getGameBoardRep());
-		for (PlayerRep playerRep : repMessage.getPlayersRep()) {
-			updatePlayerRep(playerRep);
-		}
-		updateDisplay();
+	@Override // Of ViewInterface.
+	public String getNickname() {
+		if(nickname == null)
+			Utils.logWarning("Attribute nickname is null.");
+		return nickname;
 	}
 
-	@Override
+	@Override // Of ViewInterface.
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
 		if (gameBoardRepToUpdate != null)
 			modelRep.setGameBoardRep(gameBoardRepToUpdate);
 	}
 
-	@Override
+	@Override // Of ViewInterface.
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		if (gameMapRepToUpdate != null)
 			modelRep.setGameMapRep(gameMapRepToUpdate);
 	}
 
-	@Override
+	@Override // Of ViewInterface.
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		if (playerRepToUpdate != null)
 			modelRep.setPlayerRep(playerRepToUpdate);
@@ -148,7 +145,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	/**
 	 * Called when the connection with the server (by socket or by RMI) has failed.
 	 */
-	@Override
+	@Override // Of MessageReceiverInterface.
 	public void failedConnection() {
 		failedConnectionToServer();
 	}
@@ -156,10 +153,11 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	/**
 	 * Called when the connection with the server (by socket or by RMI) has been lost.
 	 */
-	@Override
+	@Override // Of MessageReceiverInterface.
 	public void lostConnection() {
 		lostConnectionToServer();
 	}
+
 
 	/**
 	 * Start a connection with the server, using RMI.
@@ -185,6 +183,19 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		connectionToServer.sendMessage(message);
 	}
 
+	public ModelRep getModelRep() {
+		return modelRep;
+	}
+
+	public void updateReps(RepMessage repMessage) {
+		updateGameMapRep(repMessage.getGameMapRep());
+		updateGameBoardRep(repMessage.getGameBoardRep());
+		for (PlayerRep playerRep : repMessage.getPlayersRep()) {
+			updatePlayerRep(playerRep);
+		}
+		updateDisplay();
+	}
+
 	/**
 	 * Closes the program.
 	 */
@@ -195,6 +206,9 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		Client.terminateClient();
 	}
 
+
+	public abstract void updateDisplay();
+
 	public abstract void askForConnectionAndStartIt();
 
 	public abstract void failedConnectionToServer();
@@ -204,8 +218,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public abstract void askNickname();
 
 	public abstract void askNicknameError();
-
-	public abstract void nicknameIsOk(String nickname);
 
 	public abstract void displayWaitingPlayers(List<String> waitingPlayers);
 

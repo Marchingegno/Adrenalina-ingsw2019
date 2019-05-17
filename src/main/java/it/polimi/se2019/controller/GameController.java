@@ -38,8 +38,8 @@ public class GameController {
 
 	private void spawnPlayers(){
 		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
-			if (model.getTurnStatus(virtualView.getPlayerName()) == TurnStatus.DEAD) {
-				askToSpawn(virtualView.getPlayerName());
+			if (model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD) {
+				askToSpawn(virtualView.getNickname());
 			}
 		}
 	}
@@ -105,7 +105,7 @@ public class GameController {
 	void processEvent(Event event){
 		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
 		VirtualView virtualView = event.getVirtualView();
-		String playerName = virtualView.getPlayerName();
+		String playerName = virtualView.getNickname();
 
 		Utils.logInfo("GameController -> processing an event: "+ event.toString());
 		switch (event.getMessage().getMessageType()) {

@@ -41,7 +41,7 @@ public class TurnController{
 		//TODO: Control veridicity of the message.
 
 		VirtualView virtualView = event.getVirtualView();
-		String playerName = virtualView.getPlayerName();
+		String playerName = virtualView.getNickname();
 
 		Utils.logInfo("TurnController: processing this event " + event.toString());
 		switch(event.getMessage().getMessageType()){
@@ -75,7 +75,7 @@ public class TurnController{
 	}
 
 	private void handleNextAction(VirtualView playerVirtualView) {
-		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getPlayerName());
+		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getNickname());
 		switch (actionType){
 			case MOVE:
 				playerVirtualView.askMove(model.getReachableCoordinates(model.getCurrentPlayerName(), model.getGameBoard().getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements()));
@@ -100,7 +100,7 @@ public class TurnController{
 	}
 
 	private void handleEnd(VirtualView playerVirtualView) {
-		String playerName = playerVirtualView.getPlayerName();
+		String playerName = playerVirtualView.getNickname();
 		if(model.doesThePlayerHaveActionsLeft(playerName)){
 			playerVirtualView.askAction();
 		} else {

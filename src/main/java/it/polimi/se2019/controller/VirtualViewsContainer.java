@@ -27,14 +27,14 @@ public class VirtualViewsContainer {
 	 */
 	public void sendUpdatedReps() {
 		for (VirtualView virtualView : virtualViews) {
-			Utils.logInfo("VirtualViewsContainer -> sendUpdatedReps(): sending latest rep for " + virtualView.getPlayerName() + ".");
+			Utils.logInfo("VirtualViewsContainer -> sendUpdatedReps(): sending latest rep for " + virtualView.getNickname() + ".");
 			virtualView.sendReps();
 		}
 	}
 
 	public VirtualView getVirtualViewFromPlayerName(String playerName){
 		return virtualViews.stream()
-				.filter(item -> item.getPlayerName().equals(playerName))
+				.filter(item -> item.getNickname().equals(playerName))
 				.findFirst()
 				.orElseThrow(() -> new RuntimeException(playerName + " not found!"));
 	}
