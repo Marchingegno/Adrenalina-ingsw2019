@@ -17,6 +17,7 @@ public abstract class DamageStatus implements Representable {
 	private int currentActionIndex; //Action currently in execution.
 	private DamageStatusRep damageStatusRep;
 	List<MacroAction> availableActions;
+	private boolean hasChanged = true;
 
 	public boolean hasMacroActionLeft(){
 		return (numberOfActionsPerformed > 0);
@@ -43,10 +44,12 @@ public abstract class DamageStatus implements Representable {
 			throw new IllegalStateException("numberOfActionsPerformed is already zero!");
 
 		numberOfActionsPerformed--;
+		setChanged();
 	}
 
 	public void setCurrentMacroActionIndex(int currentActionIndex) {
 		this.currentActionIndex = currentActionIndex;
+		setChanged();
 	}
 
 	public int getCurrentMacroActionIndex() {
@@ -63,6 +66,30 @@ public abstract class DamageStatus implements Representable {
 	public void refillMacroActions()
 	{
 		numberOfActionsPerformed = numberOfActionsPerTurn;
+		setChanged();
+	}
+
+	/**
+	 * Sets the square as changed.
+	 */
+	public void setChanged() {
+		hasChanged = true;
+	}
+
+	/**
+	 * Sets the square as not changed.
+	 */
+	public void setNotChanged() {
+		hasChanged = false;
+	}
+
+	/**
+	 * Returns true if and only if the player board has changed.
+	 *
+	 * @return true if and only if the player board has changed.
+	 */
+	public boolean hasChanged() {
+		return hasChanged;
 	}
 
 	@Override
