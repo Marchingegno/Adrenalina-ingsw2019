@@ -42,7 +42,8 @@ public class PowerGlove extends AlternateFire {
 	@Override
 	public List<Player> getPrimaryTargets() {
 		List<Player> enemiesOneMoveAway = getGameMap().reachablePlayers(getOwner(), 1);
-		//enemiesOneMoveAway.removeAll(get)
+		enemiesOneMoveAway.removeAll(getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner())));
+		return enemiesOneMoveAway;
 	}
 
 	@Override
