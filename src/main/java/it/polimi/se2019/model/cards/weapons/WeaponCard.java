@@ -31,7 +31,6 @@ public abstract class WeaponCard extends Card {
 	private Player owner;
 	private boolean loaded;
 	private GameBoard gameBoard;
-	private String weaponName;
 	private final List<AmmoType> reloadPrice;
 	int moveDistance; //Standard move for relocation of the player.
 	int maximumSteps; //Maximum advancement steps.
@@ -44,22 +43,15 @@ public abstract class WeaponCard extends Card {
 
 
 	public WeaponCard(String description, List<AmmoType> reloadPrice) {
-
-		super(description);
+		super("Lorem Ipsum", description);
 		this.currentStep = 0;
 		this.owner = null;
 		this.loaded = true;
 		this.reloadPrice = reloadPrice;
-		this.weaponName = "placeHolder";
 	}
 
 	public boolean doneFiring(){
 		return getCurrentStep() == getMaximumSteps();
-	}
-
-
-	public String getWeaponName(){
-		return weaponName;
 	}
 
 	GameMap getGameMap() {
@@ -170,9 +162,9 @@ public abstract class WeaponCard extends Card {
 	 */
 	abstract Pair handlePrimaryFire(int choice);
 
-	public void getAvailableOptions(){
-		Utils.logInfo(getDescription());
-	}
+//	public void getAvailableOptions(){
+//		Utils.logInfo(getDescription());
+//	}
 
 	/**
 	 * Get the targets of the primary mode of fire for this weapon.
@@ -251,6 +243,10 @@ public abstract class WeaponCard extends Card {
 		List<String> options = new ArrayList<>();
 		coordinates.forEach(coordinate -> options.add(coordinate.toString()));
 		return new Pair<>(question, options);
+	}
+
+	protected void relocateEnemy(Player enemy, Coordinates coordinates){
+		getGameMap().movePlayerTo(enemy, coordinates);
 	}
 
 	@Override

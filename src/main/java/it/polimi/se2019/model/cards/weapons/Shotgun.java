@@ -11,8 +11,7 @@ import java.util.List;
 
 public class Shotgun extends AlternateFire {
 	private Player enemy;
-	private Coordinates enemyMoveCoordinates;
-
+	private List<Coordinates> listEnemyMoveCoordinates;
 
 	public Shotgun(String description, ArrayList<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
@@ -24,20 +23,24 @@ public class Shotgun extends AlternateFire {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE,PRIMARY_MARKS));
-		//this.maximumSteps = 3; //TODO: Not true. Change this.
+		this.maximumSteps = 4;
 		this.maximumAlternateSteps = 3;
 	}
 
 
 	@Override
 	Pair handlePrimaryFire(int choice) {
-		//TODO:Implement moving of the enemy.
 		if(getCurrentStep() == 2){
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
 		}
 		else if(getCurrentStep() == 3){
 			this.enemy = currentTargets.get(choice);
+			this.listEnemyMoveCoordinates = getEnemyMovingCoordinates();
+			return getMovingTargetEnemyCoordinatesQnO(enemy, listEnemyMoveCoordinates);
+		}
+		else if(getCurrentStep() == 4){
+			relocateEnemy(enemy, listEnemyMoveCoordinates.get(choice));
 			primaryFire();
 		}
 		return null;
