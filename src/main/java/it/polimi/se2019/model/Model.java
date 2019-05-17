@@ -27,6 +27,10 @@ import java.util.Observer;
  */
 public class Model {
 
+	private void metododimerda(Player player) {
+		player.getDamageStatus().getCurrentMacroAction().isGrab();
+	}
+
 	private GameBoard gameBoard;
 	private GameMap gameMap;
 
@@ -100,6 +104,10 @@ public class Model {
 		}
 	}
 
+	public Player getCurrentPlayer() {
+		return gameBoard.getCurrentPlayer();
+	}
+
 	public void nextPlayerTurn() {
 		gameBoard.nextPlayerTurn();
 		updateReps();
@@ -162,6 +170,10 @@ public class Model {
 
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
 		return getReachableCoordinates(getCurrentPlayerName(), gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements());
+	}
+
+	public List<Coordinates> getEmptyReachableCoordinatesOfTheCurrentPlayer() {
+		return gameMap.getNotEmptyReachableCoordinates(gameMap.getPlayerCoordinates(getCurrentPlayer()), gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements());
 	}
 
 	public void fillGameMap() {

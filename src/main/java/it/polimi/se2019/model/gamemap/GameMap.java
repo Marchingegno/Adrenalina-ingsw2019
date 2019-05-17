@@ -183,11 +183,11 @@ public class GameMap extends Observable implements Representable {
 		return reachableCoordinates;
 	}
 
-	public List<Coordinates> reachableAndNotEmptySquares(Coordinates playerCoordinates, int maxDistance) {
+	public List<Coordinates> getNotEmptyReachableCoordinates(Coordinates playerCoordinates, int maxDistance) {
 		List<Coordinates> reachableCoordinates = reachableCoordinates(playerCoordinates, maxDistance);
 		List<Coordinates> reachableAndNotEmptyCoordinates = new ArrayList<>();
 		for (Coordinates coordinates : reachableCoordinates) {
-			if (!getSquare(coordinates).isFilled())
+			if (getSquare(coordinates).isFilled())
 				reachableAndNotEmptyCoordinates.add(coordinates);
 		}
 		return reachableAndNotEmptyCoordinates;
