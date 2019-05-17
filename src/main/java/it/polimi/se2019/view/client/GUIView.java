@@ -8,8 +8,6 @@ import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.MacroAction;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 
 import javax.swing.*;
