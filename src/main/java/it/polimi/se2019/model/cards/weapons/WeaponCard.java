@@ -49,6 +49,10 @@ public abstract class WeaponCard extends Card {
 		this.reloadPrice = reloadPrice;
 	}
 
+	public String getWeaponName(){
+		return super.getCardName();
+	}
+
 	public boolean doneFiring(){
 		return getCurrentStep() == getMaximumSteps();
 	}
