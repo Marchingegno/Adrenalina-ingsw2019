@@ -272,13 +272,13 @@ class RepPrinter {
 	}
 
 	private void displayMap() {
-		CLIView.print(Utils.fillWithSpaces((200 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4));
+		CLIView.print(Utils.fillWithSpaces((220 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4));
 		for (int i = 0; i < modelRep.getGameMapRep().getNumOfColumns(); i++) {
 			CLIView.print("        " + (i + 1) + "        ");
 		}
 		CLIView.print("\n\n");
 		for (int i = 0; i < mapToPrint.length; i++) {
-			CLIView.print(Utils.fillWithSpaces((200 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2));
+			CLIView.print(Utils.fillWithSpaces((220 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2));
 			CLIView.print(Utils.fillWithSpaces((i - (i / NUM_OF_ROWS_IN_SQUARE) * NUM_OF_ROWS_IN_SQUARE) == NUM_OF_ROWS_IN_SQUARE / 2 ? (i / NUM_OF_ROWS_IN_SQUARE + 1) + "" : "", 4));
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);
