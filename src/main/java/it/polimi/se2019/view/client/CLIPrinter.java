@@ -10,6 +10,7 @@ import static it.polimi.se2019.view.client.CLIView.print;
 
 public class CLIPrinter {
 
+	private static final Object lock = new Object();
 	private static final String ESC = (char) 27 + "[";
 	private static final String CLEAN = ESC + "J";
 	private static final String HOME = ESC + "H";
@@ -159,36 +160,41 @@ public class CLIPrinter {
 	}
 
 	public static void printWaitingRoom(List<String> waitingPlayers) {
-		if (!Utils.DEBUG_CLI) {
-			setCursorHome();
-			cleanConsole();
+		synchronized (lock) {
+			if (!Utils.DEBUG_CLI) {
+				setCursorHome();
+				cleanConsole();
+			}
+			print(TITLE +
+					"											╔════════════════════════════════════════════════════════════════╗\n" +
+					"											║                                                                ║\n" +
+					"											║              Waiting for other clients to connect...           ║\n" +
+					"											║                                                                ║\n");
+			for (int i = 0; i < waitingPlayers.size(); i++) {
+				print("											║                   " + Utils.fillWithSpaces("[" + (i + 1) + "] " + waitingPlayers.get(i), 45) + "║ \n");
+			}
+			for (int i = waitingPlayers.size(); i <= GameConstants.MAX_PLAYERS; i++) {
+				print("											║                                                                ║\n");
+			}
+			print("											║                                                                ║\n" +
+					"											╚════════════════════════════════════════════════════════════════╝\n");
 		}
-		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗\n" +
-				"											║                                                                ║\n" +
-				"											║              Waiting for other clients to connect...           ║\n" +
-				"											║                                                                ║\n");
-		for (int i = 0; i < waitingPlayers.size(); i++) {
-			print("											║                   " + Utils.fillWithSpaces("[" + (i + 1) + "] " + waitingPlayers.get(i), 45) + "║ \n");
-		}
-		for (int i = waitingPlayers.size(); i <= GameConstants.MAX_PLAYERS; i++) {
-			print("											║                                                                ║\n");
-		}
-		print("											║                                                                ║\n" +
-				"											╚════════════════════════════════════════════════════════════════╝\n");
 	}
 
 	public static void printWaitingMatchStart(long milliSeconds) {
-		for (long i = milliSeconds / 1000; i >= 0; i--) {
-			moveCursorTo(27, 0);
-			print("											║              The match will start in " + Utils.fillWithSpaces(Long.toString(i), 26) + "║\n");
+		for (long i = milliSeconds / 1000; i > 0; i--) {
+			synchronized (lock) {
+				setCursorHome();
+				moveCursorTo(27, 145);
+				print(Utils.fillWithSpaces(Long.toString(i), 3));
+			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				Utils.logInfo("Error in match countdown");
 				Thread.currentThread().interrupt();
 			}
-		}
+			}
 	}
 
 	public static String waitForChoiceInMenu(List<String> possibleChoices) {
