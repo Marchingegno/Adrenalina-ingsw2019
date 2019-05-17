@@ -161,9 +161,9 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askSpawn() {
 		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
-		printLine("Select the Powerup card to use.");
+		printLine("Select the Powerup card to discard in order to spawn: ");
 		for (int i = 0; i < powerupCards.size(); i++)
-			printLine(i + ") " + powerupCards.get(i).toString());
+			printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
 		int answer = askInteger(0, powerupCards.size() - 1);
 
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
