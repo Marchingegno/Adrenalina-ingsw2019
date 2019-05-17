@@ -28,8 +28,8 @@ public class LowDamage extends DamageStatus {
 		shootPeopleBuilder.setName("Shoot");
 		availableActions.add(shootPeopleBuilder.build());
 
-		numberOfActionsPerTurn = NUMBER_OF_ACTIONS_PER_TURN;
-		numberOfActionsPerformed = numberOfActionsPerTurn;
+		numberOfMacroActionsPerTurn = NUMBER_OF_ACTIONS_PER_TURN;
+		numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
 	}
 
 }

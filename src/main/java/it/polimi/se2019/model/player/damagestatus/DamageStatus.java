@@ -12,15 +12,15 @@ import java.util.List;
  * @author Marchingegno
  */
 public abstract class DamageStatus implements Representable {
-	int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
-	int numberOfActionsPerformed; //actions that the player performed in this turn.
+	int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
+	int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
 	private int currentActionIndex; //Action currently in execution.
 	private DamageStatusRep damageStatusRep;
 	List<MacroAction> availableActions;
 	private boolean hasChanged = true;
 
 	public boolean hasMacroActionLeft(){
-		return (numberOfActionsPerformed > 0);
+		return (numberOfMacroActionsToPerform > 0);
 	}
 
 	public List<MacroAction> getAvailableMacroActions(){
@@ -32,18 +32,18 @@ public abstract class DamageStatus implements Representable {
 	}
 
 	int getNumberOfMacroActionsPerTurn() {
-		return numberOfActionsPerTurn;
+		return numberOfMacroActionsPerTurn;
 	}
 
-	int getNumberOfMacroActionsPerformed() {
-		return numberOfActionsPerformed;
+	int getNumberOfMacroActionsToPerform() {
+		return numberOfMacroActionsToPerform;
 	}
 
 	public void decreaseMacroActionsToPerform(){
-		if(numberOfActionsPerformed == 0)
-			throw new IllegalStateException("numberOfActionsPerformed is already zero!");
+		if(numberOfMacroActionsToPerform == 0)
+			throw new IllegalStateException("numberOfMacroActionsToPerform is already zero!");
 
-		numberOfActionsPerformed--;
+		numberOfMacroActionsToPerform--;
 		setChanged();
 	}
 
@@ -65,7 +65,7 @@ public abstract class DamageStatus implements Representable {
 	 */
 	public void refillMacroActions()
 	{
-		numberOfActionsPerformed = numberOfActionsPerTurn;
+		numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
 		setChanged();
 	}
 

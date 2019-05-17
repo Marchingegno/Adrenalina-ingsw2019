@@ -11,8 +11,8 @@ import java.util.List;
  * @author Marchingegno
  */
 public class DamageStatusRep implements Representation {
-	private int numberOfActionsPerTurn; //number of actions that a player with this status can perform in a turn.
-	private int numberOfActionsPerformed; //actions that the player performed in this turn.
+	private int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
+	private int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
 	private List<String> macroActionString;
 	private List<String> macroActionNames;
 	/*Note: availableActions contains the reference of the MacroActions. In the current state of the project, there is
@@ -26,17 +26,17 @@ public class DamageStatusRep implements Representation {
 			macroActionString.add(macroAction.getMacroActionString());
 			macroActionNames.add(macroAction.getName());
 		}
-		this.numberOfActionsPerTurn = damageStatus.getNumberOfMacroActionsPerTurn();
-		this.numberOfActionsPerformed = damageStatus.getNumberOfMacroActionsPerformed();
+		this.numberOfMacroActionsPerTurn = damageStatus.getNumberOfMacroActionsPerTurn();
+		this.numberOfMacroActionsToPerform = damageStatus.getNumberOfMacroActionsToPerform();
 	}
 
 
 	public int getNumberOfMacroActionsPerTurn() {
-		return numberOfActionsPerTurn;
+		return numberOfMacroActionsPerTurn;
 	}
 
-	public int getNumberOfMacroActionsPerformed() {
-		return numberOfActionsPerformed;
+	public int getNumberOfMacroActionsToPerform() {
+		return numberOfMacroActionsToPerform;
 	}
 
 	public int numOfMacroActions() {
