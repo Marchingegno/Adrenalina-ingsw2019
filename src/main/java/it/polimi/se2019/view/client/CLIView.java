@@ -177,7 +177,6 @@ public class CLIView extends RemoteView {
 			possibleChoices.add(Integer.toString(i));
 		}
 		return Integer.parseInt(waitForChoiceInMenu(possibleChoices));
-		//return askInteger(0, GameConstants.MapType.values().length - 1);
 	}
 
 	private int askSkullsForGame() {
@@ -186,8 +185,6 @@ public class CLIView extends RemoteView {
 		for (int i = GameConstants.MIN_SKULLS; i <= GameConstants.MAX_SKULLS; i++)
 			possibleChoices.add(Integer.toString(i));
 		return Integer.parseInt(waitForChoiceInMenu(possibleChoices));
-		//printLine("Select how many skulls you would like to use, min " + GameConstants.MIN_SKULLS + ", max " + GameConstants.MAX_SKULLS + ".");
-		//return askInteger(GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
 	}
 
 	/**
@@ -206,17 +203,17 @@ public class CLIView extends RemoteView {
 	 * @return the integer chosen by the user.
 	 */
 	private int askInteger(int minInclusive, int maxInclusive) {
-		int input = -1;
-		while (input < minInclusive || input > maxInclusive) {
+		int input;
+		do {
 			try {
 				input = Integer.parseInt(scanner.nextLine());
 			} catch (NumberFormatException e) {
 				input = -1;
-			} finally {
-				if (input < minInclusive || input > maxInclusive)
-					printLine("The value must be between " + minInclusive + " and " + maxInclusive + ".");
 			}
-		}
+			if (input < minInclusive || input > maxInclusive) {
+				printLine("The value must be between " + minInclusive + " and " + maxInclusive + ".");
+			}
+		} while (input < minInclusive || input > maxInclusive);
 		return input;
 	}
 
@@ -228,6 +225,8 @@ public class CLIView extends RemoteView {
 			printLine("Enter Column coordinate 1-" + getModelRep().getGameMapRep().getNumOfColumns());
 			int y = askInteger(1, getModelRep().getGameMapRep().getNumOfColumns());
 			coordinates = new Coordinates(x - 1, y - 1);
+			CLIPrinter.moveCursorUP(4);
+			CLIPrinter.cleanConsole();
 		} while (!reachableCoordinates.contains(coordinates));
 
 		List<Coordinates> coordinatesList = new ArrayList<>();

@@ -78,7 +78,7 @@ public class TurnController{
 		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getNickname());
 		switch (actionType){
 			case MOVE:
-				playerVirtualView.askMove(model.getReachableCoordinates(model.getCurrentPlayerName(), model.getGameBoard().getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements()));
+				playerVirtualView.askMove(model.getReachableCoordinatesOfTheCurrentPlayer());
 				break;
 			case GRAB:
 				playerVirtualView.askGrab();

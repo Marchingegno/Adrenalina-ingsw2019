@@ -160,6 +160,10 @@ public class Model {
 		updateReps();
 	}
 
+	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
+		return getReachableCoordinates(getCurrentPlayerName(), gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements());
+	}
+
 	public void fillGameMap() {
 		gameMap.fillMap();
 		updateReps();
