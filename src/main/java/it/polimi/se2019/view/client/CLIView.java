@@ -110,6 +110,9 @@ public class CLIView extends RemoteView {
 		DamageStatusRep damageStatusRep = getModelRep().getClientPlayerRep().getDamageStatusRep();
 
 		printLine("Choose an action!");
+		int macroActionsNum = getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsPerTurn() - getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsToPerform() + 1;
+		int macroActionTotal = getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsPerTurn();
+		printLine("Action " + macroActionsNum + " of " + macroActionTotal  + ".");
 		for (int i = 0; i < damageStatusRep.numOfMacroActions(); i++)
 			printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
 		int answer = askInteger(1, damageStatusRep.numOfMacroActions());

@@ -15,7 +15,6 @@ public abstract class DamageStatus implements Representable {
 	int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
 	int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
 	private int currentActionIndex; //Action currently in execution.
-	private DamageStatusRep damageStatusRep;
 	List<MacroAction> availableActions;
 	private boolean hasChanged = true;
 
@@ -94,8 +93,6 @@ public abstract class DamageStatus implements Representable {
 
 	@Override
 	public Representation getRep() {
-		if (damageStatusRep == null)
-			damageStatusRep = new DamageStatusRep(this);
-		return damageStatusRep;
+		return new DamageStatusRep(this);
 	}
 }
