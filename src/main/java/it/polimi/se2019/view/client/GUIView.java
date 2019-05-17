@@ -136,6 +136,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askChoice(int number, String stringToAsk) {
+
+	}
+
+	@Override
 	public void updateDisplay() {
 
 	}
