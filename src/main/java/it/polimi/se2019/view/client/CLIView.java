@@ -7,7 +7,6 @@ import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.Utils;
 
 import java.text.DecimalFormat;
@@ -139,14 +138,21 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void askMove() {
+	public void askMove(List<Coordinates> reachableCoordinates) {
+		repPrinter.displayGame(reachableCoordinates);
 		printLine("Enter the coordinates in which you want to move.");
-		printLine("Enter X coordinate 0-4");
-		int x = askInteger(0,4);
-		printLine("Enter Y coordinate 0-4");
-		int y = askInteger(0,4);
-		Coordinates coordinates = new Coordinates(x,y);
-		sendMessage(new MoveActionMessage(coordinates, MessageSubtype.ANSWER));
+		Coordinates coordinates;
+		do {
+			printLine("Enter Row coordinate 1-" + modelRep.getGameMapRep().getNumOfRows());
+			int x = askInteger(1, modelRep.getGameMapRep().getNumOfRows());
+			printLine("Enter Column coordinate 1-" + modelRep.getGameMapRep().getNumOfColumns());
+			int y = askInteger(1, modelRep.getGameMapRep().getNumOfColumns());
+			coordinates = new Coordinates(x - 1, y - 1);
+		} while (!reachableCoordinates.contains(coordinates));
+
+		List<Coordinates> coordinatesList = new ArrayList<>();
+		coordinatesList.add(coordinates);
+		sendMessage(new MoveActionMessage(coordinatesList, MessageSubtype.ANSWER));
 	}
 
 	@Override

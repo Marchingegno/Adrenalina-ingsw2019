@@ -26,7 +26,7 @@ public class AmmoSquareRep extends SquareRep {
 		if (ammoCardRep != null) {
 			elementsToPrint[0] = Color.getColoredCell(ammoCardRep.getAmmo().get(0).getBackgroundColorType());
 			elementsToPrint[1] = Color.getColoredCell(ammoCardRep.getAmmo().get(1).getBackgroundColorType());
-			elementsToPrint[2] = Color.getColoredCell(ammoCardRep.hasPowerup() ? Color.BackgroundColorType.WHITE : ammoCardRep.getAmmo().get(2).getBackgroundColorType());
+			elementsToPrint[2] = ammoCardRep.hasPowerup() ? "P" : Color.getColoredCell(ammoCardRep.getAmmo().get(2).getBackgroundColorType());
 		} else {
 			elementsToPrint[0] = " ";
 			elementsToPrint[1] = " ";

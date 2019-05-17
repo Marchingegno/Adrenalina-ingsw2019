@@ -2,18 +2,17 @@ package it.polimi.se2019.view.server;
 
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.network.message.RepMessage;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -70,8 +69,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askMove() {
-		sendMessage(new Message(MessageType.MOVE, MessageSubtype.REQUEST));
+	public void askMove(List<Coordinates> reachableCoordinates) {
+		sendMessage(new MoveActionMessage(reachableCoordinates, MessageSubtype.REQUEST));
 	}
 
 	@Override

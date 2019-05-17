@@ -166,7 +166,7 @@ public class CLIPrinter {
 		print(TITLE +
 				"											╔════════════════════════════════════════════════════════════════╗\n" +
 				"											║                                                                ║\n" +
-				"											║              Waiting for other clients to answer...            ║\n" +
+				"											║              Waiting for other clients to connect...           ║\n" +
 				"											║                                                                ║\n");
 		for (int i = 0; i < waitingPlayers.size(); i++) {
 			print("											║                   " + Utils.fillWithSpaces("[" + (i + 1) + "] " + waitingPlayers.get(i), 45) + "║ \n");

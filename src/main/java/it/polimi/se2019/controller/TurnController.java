@@ -60,7 +60,7 @@ public class TurnController{
 				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case MOVE:
-				model.movePlayerTo(playerName, ((MoveActionMessage)event.getMessage()).getCoordinates());
+				model.movePlayerTo(playerName, ((MoveActionMessage) event.getMessage()).getCoordinates().get(0));
 				handleNextAction(virtualView);
 				virtualViewsContainer.sendUpdatedReps();
 				break;
@@ -78,7 +78,7 @@ public class TurnController{
 		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getPlayerName());
 		switch (actionType){
 			case MOVE:
-				playerVirtualView.askMove();
+				playerVirtualView.askMove(model.getReachableCoordinates(model.getCurrentPlayerName(), model.getGameBoard().getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements()));
 				break;
 			case GRAB:
 				playerVirtualView.askGrab();

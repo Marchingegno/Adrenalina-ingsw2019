@@ -1,8 +1,11 @@
 package it.polimi.se2019.view;
 
 import it.polimi.se2019.model.gameboard.GameBoardRep;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+
+import java.util.List;
 
 public interface ViewInterface {
 
@@ -10,7 +13,7 @@ public interface ViewInterface {
 
 	void askGrab();
 
-	void askMove();
+	void askMove(List<Coordinates> reachableCoordinates);
 
 	void askShoot();
 

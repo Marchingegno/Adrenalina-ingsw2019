@@ -26,6 +26,10 @@ public abstract class DamageStatus implements Representable {
 		return availableActions;
 	}
 
+	public MacroAction getCurrentMacroAction() {
+		return availableActions.get(currentActionIndex);
+	}
+
 	int getNumberOfMacroActionsPerTurn() {
 		return numberOfActionsPerTurn;
 	}

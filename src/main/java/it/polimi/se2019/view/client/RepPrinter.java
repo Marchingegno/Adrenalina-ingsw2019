@@ -33,7 +33,7 @@ class RepPrinter {
 	/**
 	 * Displays all the game board.
 	 */
-	void displayGame() {
+	public void displayGame() {
 		if (!Utils.DEBUG_CLI) {
 			setCursorHome();
 			cleanConsole();
@@ -61,13 +61,40 @@ class RepPrinter {
 		CLIView.print("\n\n\n");
 	}
 
+	public void displayGame(List<Coordinates> reachableCoordinates) {
+		if (!Utils.DEBUG_CLI) {
+			setCursorHome();
+			cleanConsole();
+		}
+
+		CLIView.print("\n");
+
+		displayPlayers();
+
+		CLIView.print("\n");
+
+		displayGameBoard();
+
+		CLIView.print("\n\n\n");
+
+		if (mapToPrint == null)
+			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
+		updateMapToPrint(reachableCoordinates);
+		displayMap();
+
+		CLIView.print("\n\n\n");
+
+		displayOwnPlayer();
+
+		CLIView.print("\n\n\n");
+	}
+
 	/**
 	 * Prepares the map to be printed by updating the ammo cards and the player positions.
 	 */
 	private void updateMapToPrint() {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		SquareRep[][] mapRep = gameMapRep.getMapRep();
-		List<PlayerRep> playersRep = modelRep.getPlayersRep();
 
 		for (int i = 0; i < mapRep.length; i++) {
 			for (int j = 0; j < mapRep[0].length; j++) {
@@ -76,7 +103,25 @@ class RepPrinter {
 			}
 		}
 
-		//update Players position
+		updatePlayerPosition();
+	}
+
+	private void updateMapToPrint(List<Coordinates> coordinates) {
+		GameMapRep gameMapRep = modelRep.getGameMapRep();
+		SquareRep[][] mapRep = gameMapRep.getMapRep();
+
+		for (int i = 0; i < mapRep.length; i++) {
+			for (int j = 0; j < mapRep[0].length; j++) {
+				fillEmpty(mapRep[i][j]);
+				fillWithElements(mapRep[i][j], coordinates);
+			}
+		}
+		updatePlayerPosition();
+	}
+
+	private void updatePlayerPosition() {
+		GameMapRep gameMapRep = modelRep.getGameMapRep();
+		List<PlayerRep> playersRep = modelRep.getPlayersRep();
 		for (PlayerRep playerRep : playersRep) {
 			try {
 				Coordinates playerCoordinates = convertCoordinates(gameMapRep.getPlayersCoordinates().get(playerRep.getPlayerName()));
@@ -98,6 +143,20 @@ class RepPrinter {
 		String[] cards = squareRep.getElementsToPrint();
 
 		if (squareRep.getRoomID() != -1) {
+			mapToPrint[row + 1][column - 1] = cards[0];
+			mapToPrint[row + 1][column] = cards[1];
+			mapToPrint[row + 1][column + 1] = cards[2];
+		}
+	}
+
+	private void fillWithElements(SquareRep squareRep, List<Coordinates> coordinates) {
+		int row = convertCoordinates(squareRep.getCoordinates()).getRow();
+		int column = convertCoordinates(squareRep.getCoordinates()).getColumn();
+		String[] cards = squareRep.getElementsToPrint();
+
+		if (squareRep.getRoomID() != -1) {
+			if (coordinates.contains(squareRep.getCoordinates()))
+				mapToPrint[row][column] = Color.getColoredCell(Color.BackgroundColorType.WHITE);
 			mapToPrint[row + 1][column - 1] = cards[0];
 			mapToPrint[row + 1][column] = cards[1];
 			mapToPrint[row + 1][column + 1] = cards[2];

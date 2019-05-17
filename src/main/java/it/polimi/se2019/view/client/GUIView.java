@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.gameboard.GameBoardRep;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
@@ -149,7 +150,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askMove() {
+	public void askMove(List<Coordinates> reachableCoordinates) {
 
 	}
 
