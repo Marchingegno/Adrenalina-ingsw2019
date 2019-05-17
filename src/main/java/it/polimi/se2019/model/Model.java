@@ -236,8 +236,10 @@ public class Model {
 			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
 		}
 
-		if (ammoCard.hasPowerup())
+		if (ammoCard.hasPowerup() && player.getPlayerBoard().getPowerupCards().size() < GameConstants.MAX_POWERUP_CARDS_PER_PLAYER)
 			player.getPlayerBoard().addPowerup(gameBoard.getPowerupDeck().drawCard());
+		else
+			gameBoard.getPowerupDeck().discardFirst();
 
 		gameBoard.getAmmoDeck().discardCard(ammoCard);
 
