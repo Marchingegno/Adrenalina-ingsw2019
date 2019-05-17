@@ -10,11 +10,7 @@ import java.util.List;
 import static java.lang.Boolean.TRUE;
 
 public class Cyberblade extends OptionalEffect{
-	private final int PRIMARY_DAMAGE = 2;
-	private final int PRIMARY_MARKS = 0;
-	private final int OPTIONAL2_DAMAGE = 2;
-	private final int OPTIONAL2_MARKS = 0;
-	private final int MOVE_DISTANCE = 1;
+
 
 
 	public Cyberblade(String description, List<AmmoType> reloadPrice) {
@@ -25,41 +21,4 @@ public class Cyberblade extends OptionalEffect{
 		this.moveDistance = MOVE_DISTANCE;
 	}
 
-
-	@Override
-	public Pair handleFire(int choice) {
-	}
-
-	@Override
-	public void getAvailableOptions() {
-		super.getAvailableOptions();
-
-	}
-
-	@Override
-	public void optionalEffect1(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
-		moveActive = TRUE;
-	}
-
-	@Override
-	public void optionalEffect2(List<Player> targetPlayers, List<DamageAndMarks> damageAndMarksList) {
-		//Asks the player which target to fire at.
-		//targetPlayers.add(a Player)
-	}
-
-
-	@Override
-	public void primaryFire () {
-		List<Player> targetPlayers = new ArrayList<>();
-		List<Player> targettablePlayers = getPrimaryTargets();
-		//Asks the player which target to fire at
-		//targetPlayers.add(this player)
-		return targetPlayers;
-	}
-
-	@Override
-	public List<Player> getPrimaryTargets() {
-		//gameMap.getPlayersFromDistance(distance)
-		return null;
-	}
 }
