@@ -13,6 +13,7 @@ import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,20 @@ public class Model {
 		flipPlayers();
 
 		updateReps();
+	}
+
+	public void resetPlayerCurrentWeapon(String playerName){
+		Player player = getPlayerFromName(playerName);
+		gameBoard.resetPlayerCurrentWeapon(player);
+	}
+	public boolean isTheplayerDoneFiring(String playerName){
+		Player player = getPlayerFromName(playerName);
+		return gameBoard.isThePlayerDoneFiring(player);
+	}
+
+	public Pair playerWeaponHandleFire(String playerName, int choice){
+		Player player = getPlayerFromName(playerName);
+		return gameBoard.playerWeaponHandleFire(player, choice);
 	}
 
 	public void spawnPlayer(String playerName, int indexOfCard) {

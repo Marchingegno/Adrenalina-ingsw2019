@@ -17,5 +17,6 @@ public enum MessageType {
 	GRAB_AMMO,
 	SHOOT,
 	RELOAD,
+	WEAPON,
 	END_TURN,
 }

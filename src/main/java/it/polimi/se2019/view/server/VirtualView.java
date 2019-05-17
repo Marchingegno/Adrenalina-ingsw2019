@@ -9,6 +9,8 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
+import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -89,6 +91,16 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void askSpawn() {
 		sendMessage(new Message(MessageType.SPAWN, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askWeapon(String question, List<String> options) {
+		sendMessage(new AskOptionsMessage(question,options, MessageType.WEAPON, MessageSubtype.REQUEST));
+	}
+
+	@Override
+	public void askChoice(String question, List<String> options) {
+
 	}
 
 	@Override

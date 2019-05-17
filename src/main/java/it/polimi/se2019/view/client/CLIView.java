@@ -19,6 +19,7 @@ import static it.polimi.se2019.view.client.CLIPrinter.*;
 /**
  * @author MarcerAndrea
  * @author Desno365
+ * @author Marchingegno
  */
 public class CLIView extends RemoteView {
 
@@ -153,6 +154,7 @@ public class CLIView extends RemoteView {
 		sendMessage(new DefaultActionMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
 	}
 
+
 	@Override
 	public void askEnd() {
 		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
@@ -168,6 +170,16 @@ public class CLIView extends RemoteView {
 
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer - 1, MessageType.SPAWN, MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public void askWeapon(String question, List<String> options) {
+
+	}
+
+	@Override
+	public void askChoice(String question, List<String> options) {
+
 	}
 
 	private int askMapToUse() {

@@ -1,23 +1,43 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Pair;
 
-public final class Railgun extends DoubleFire {
+import java.util.List;
 
-	public Railgun(String description) {
-		super(description);
+public class Railgun extends AlternateFire {
+
+	public Railgun(String description, List<AmmoType> reloadPrice) {
+		super(description, reloadPrice);
 	}
-
-
-	protected void primaryFire() {
-	}
-
-	protected void secondaryFire() {
-	}
-
 
 	@Override
-	public Representation getRep() {
+	Pair handleSecondaryFire(int choice) {
 		return null;
 	}
+
+
+	public void primaryFire() {
+	}
+
+	@Override
+	Pair handlePrimaryFire(int choice) {
+		return null;
+	}
+
+	@Override
+	public List<Player> getPrimaryTargets() {
+		return null;
+	}
+
+	public void secondaryFire() {
+	}
+
+	@Override
+	public List<Player> getSecondaryTargets() {
+		return null;
+	}
+
+
 }

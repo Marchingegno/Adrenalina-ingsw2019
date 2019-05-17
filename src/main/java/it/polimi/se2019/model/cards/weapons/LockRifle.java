@@ -1,26 +1,41 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
-import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Pair;
 
-public final class LockRifle extends OptionalFire {
+import java.util.List;
 
-	public LockRifle(String description) {
-		super(description);
+public class LockRifle extends OptionalEffect {
+
+	public LockRifle(String description, List<AmmoType> reloadPrice) {
+		super(description, reloadPrice);
 	}
 
 
-	protected void primaryFire() {
-	}
-
-	protected void optionalFire1() {
-	}
-
-	protected void optionalFire2() {
+	public void primaryFire() {
 	}
 
 	@Override
-	public Representation getRep() {
+	Pair handlePrimaryFire(int choice) {
 		return null;
 	}
+
+	@Override
+	public List<Player> getPrimaryTargets() {
+		return null;
+	}
+
+	@Override
+	public void optionalEffect1() {
+
+	}
+
+	@Override
+	public void optionalEffect2() {
+
+	}
+
+
 }

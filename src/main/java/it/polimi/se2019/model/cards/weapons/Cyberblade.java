@@ -1,25 +1,48 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Pair;
 
-public final class Cyberblade extends OptionalFire {
+import java.util.ArrayList;
+import java.util.List;
 
-	public Cyberblade(String description) {
-		super(description);
+public class Cyberblade extends OptionalEffect{
+
+
+
+	public Cyberblade(String description, List<AmmoType> reloadPrice) {
+		super(description, reloadPrice);
+		this.standardDamagesAndMarks = new ArrayList<>();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+//		this.standardDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
+//		this.moveDistance = MOVE_DISTANCE;
+	}
+
+	public Cyberblade(String description){
+		this(description, null);
 	}
 
 
-	protected void primaryFire() {
-	}
 
-	protected void optionalFire1() {
-	}
-
-	protected void optionalFire2() {
+	@Override
+	Pair handlePrimaryFire(int choice) {
+		return null;
 	}
 
 	@Override
-	public Representation getRep() {
+	public List<Player> getPrimaryTargets() {
 		return null;
 	}
+
+	@Override
+	public void optionalEffect1() {
+
+	}
+
+	@Override
+	public void optionalEffect2() {
+
+	}
+
 }

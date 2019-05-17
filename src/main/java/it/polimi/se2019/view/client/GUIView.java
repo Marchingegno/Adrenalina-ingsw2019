@@ -128,6 +128,16 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askChoice(String question, List<String> options) {
+
+	}
+
+	@Override
+	public void askWeapon(String question, List<String> options) {
+
+	}
+
+	@Override
 	public void updateDisplay() {
 
 	}
