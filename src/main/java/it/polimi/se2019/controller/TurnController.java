@@ -9,6 +9,8 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
+import java.util.List;
+
 /**
  * This class is in a lower level than GameController. It handles the logic relative
  * @author Marchingegno
@@ -26,17 +28,6 @@ public class TurnController{
 		this.weaponController = new WeaponController();
 	}
 
-
-	public void displayPossibleMoves(){
-
-	}
-
-	public void performPowerup(int indexOfPowerup) {
-	}
-
-
-	public void performMacroaction(int indexOfMacroAction) {
-	}
 
 	void processEvent(Event event) {
 		//TODO: Control veridicity of the message.
@@ -71,13 +62,14 @@ public class TurnController{
 				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case WEAPON:
-				Pair stringListString = player.getFiringWeapon().handleFire(((DefaultActionMessage)event.getMessage()).getContent());
-				if(player.getFiringWeapon().doneFiring()){
-					player.getFiringWeapon().reset();
-					handleAction(player,virtualView);
+				//TODO fix this warning
+				Pair<String, List<String>> stringListString = model.playerWeaponHandleFire(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				if(model.isTheplayerDoneFiring(playerName)){
+					model.resetPlayerCurrentWeapon(playerName);
+					handleNextAction(virtualView);
 				}
 				else {
-					virtualView.askWeapon(stringListString);
+					virtualView.askChoice(stringListString.getFirst(), stringListString.getSecond());
 				}
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());

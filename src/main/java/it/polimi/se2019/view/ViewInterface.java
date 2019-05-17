@@ -21,6 +21,10 @@ public interface ViewInterface {
 
 	void askSpawn();
 
+	void askWeapon(String question, List<String> options);
+
+	void askChoice(String question, List<String> options);
+
 	//Maybe this will be useful later? For now it is used to end the turn.
 	//Maybe use it for reloading.
 	void askEnd();

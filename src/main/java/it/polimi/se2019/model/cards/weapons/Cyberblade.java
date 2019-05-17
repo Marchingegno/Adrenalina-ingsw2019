@@ -19,6 +19,12 @@ public class Cyberblade extends OptionalEffect{
 //		this.moveDistance = MOVE_DISTANCE;
 	}
 
+	public Cyberblade(String description){
+		this(description, null);
+	}
+
+
+
 	@Override
 	Pair handlePrimaryFire(int choice) {
 		return null;

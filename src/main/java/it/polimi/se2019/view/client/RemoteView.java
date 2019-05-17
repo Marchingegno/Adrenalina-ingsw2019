@@ -10,6 +10,7 @@ import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -111,16 +112,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				askSpawn();
 				break;
 			case WEAPON:
-				int number = ((WeaponMessage)message).getContent();
-				String stringToAsk = ((WeaponMessage)message).getString();
-				askChoice(number,stringToAsk);
+				String question = ((AskOptionsMessage)message).getQuestion();
+				List<String> options = ((AskOptionsMessage)message).getOptions();
+				askChoice(question, options);
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
 				break;
 		}
 	}
-
-	public abstract void askChoice(int number,String stringToAsk);
 
 	public abstract void updateDisplay();
 

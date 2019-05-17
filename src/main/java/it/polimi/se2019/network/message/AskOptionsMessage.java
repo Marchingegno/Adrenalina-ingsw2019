@@ -14,6 +14,12 @@ public class AskOptionsMessage extends Message {
 		this.options = new ArrayList<>(options);
 	}
 
+	public AskOptionsMessage(String question, List<String> options, MessageType messageType, MessageSubtype messageSubtype){
+		super(messageType, messageSubtype);
+		this.question = question;
+		this.options = new ArrayList<>(options);
+	}
+
 	public List<String> getOptions() {
 		return options;
 	}

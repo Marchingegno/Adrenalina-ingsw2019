@@ -167,13 +167,6 @@ public class CLIView extends RemoteView {
 
 
 	@Override
-	public void askChoice(int number, String stringToAsk) {
-		printLine(stringToAsk);
-		int answer = askInteger(1,number);
-		sendMessage(new DefaultActionMessage(answer, MessageType.WEAPON, MessageSubtype.ANSWER));
-	}
-
-	@Override
 	public void askEnd() {
 		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
 	}
@@ -188,6 +181,16 @@ public class CLIView extends RemoteView {
 
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer, MessageType.SPAWN, MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public void askWeapon(String question, List<String> options) {
+
+	}
+
+	@Override
+	public void askChoice(String question, List<String> options) {
+
 	}
 
 	private int askMapToUse() {
