@@ -9,8 +9,6 @@ import java.util.List;
 
 public class Whisper extends WeaponCard {
 
-	private Player targetPlayer;
-
 	public Whisper(String description, List<AmmoType> reloadPrice) {
 		super("Whisper", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 3;
@@ -30,7 +28,7 @@ public class Whisper extends WeaponCard {
 	@Override
 	public void primaryFire() {
 		List<Player> target = new ArrayList<>();
-		target.add(targetPlayer);
+		target.add(this.target);
 		dealDamage(target, standardDamagesAndMarks);
 	}
 
@@ -50,7 +48,7 @@ public class Whisper extends WeaponCard {
 			return getTargetPlayersQnO(currentTargets);
 		}
 		else if(getCurrentStep() == 2){
-			targetPlayer = currentTargets.get(choice);
+			target = currentTargets.get(choice);
 			primaryFire();
 		}
 		return null;

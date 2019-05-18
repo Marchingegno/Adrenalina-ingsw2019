@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shotgun extends AlternateFire {
-	private Player enemy;
 	private List<Coordinates> listEnemyMoveCoordinates;
 
 	public Shotgun(String description, List<AmmoType> reloadPrice) {
@@ -34,12 +33,12 @@ public class Shotgun extends AlternateFire {
 			return getTargetPlayersQnO(currentTargets);
 		}
 		else if(getCurrentStep() == 3){
-			this.enemy = currentTargets.get(choice);
+			this.target = currentTargets.get(choice);
 			this.listEnemyMoveCoordinates = getEnemyMovingCoordinates();
-			return getMovingTargetEnemyCoordinatesQnO(enemy, listEnemyMoveCoordinates);
+			return getMovingTargetEnemyCoordinatesQnO(target, listEnemyMoveCoordinates);
 		}
 		else if(getCurrentStep() == 4){
-			relocateEnemy(enemy, listEnemyMoveCoordinates.get(choice));
+			relocateEnemy(target, listEnemyMoveCoordinates.get(choice));
 			primaryFire();
 		}
 		return null;
@@ -52,7 +51,7 @@ public class Shotgun extends AlternateFire {
 			return getTargetPlayersQnO(currentTargets);
 		}
 		else if(getCurrentStep() == 3){
-			this.enemy = currentTargets.get(choice);
+			this.target = currentTargets.get(choice);
 			secondaryFire();
 		}
 		return null;
@@ -69,7 +68,7 @@ public class Shotgun extends AlternateFire {
 	private void unifiedFire(){
 		List<DamageAndMarks> chosenDamagesAndMarks = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
 		List<Player> targetList = new ArrayList<>();
-		targetList.add(enemy);
+		targetList.add(target);
 		dealDamage(targetList, chosenDamagesAndMarks);
 	}
 

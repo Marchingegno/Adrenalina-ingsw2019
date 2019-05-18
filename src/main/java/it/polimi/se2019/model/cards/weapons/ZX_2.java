@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZX_2 extends AlternateFire {
-	private Player primaryTarget;
 	private List<Player> secondaryTargets;
 
 	public ZX_2(String description, List<AmmoType> reloadPrice) {
@@ -34,7 +33,7 @@ public class ZX_2 extends AlternateFire {
 			return getTargetPlayersQnO(currentTargets);
 		}
 		else if(getCurrentStep() == 3){
-			primaryTarget = currentTargets.get(choice);
+			target = currentTargets.get(choice);
 			primaryFire();
 		}
 		return null;
@@ -74,7 +73,7 @@ public class ZX_2 extends AlternateFire {
 
 	public void primaryFire() {
 		List<Player> targetPlayer = new ArrayList<>();
-		targetPlayer.add(primaryTarget);
+		targetPlayer.add(target);
 		dealDamage(targetPlayer, standardDamagesAndMarks);
 	}
 

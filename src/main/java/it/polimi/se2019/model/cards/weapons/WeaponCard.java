@@ -38,6 +38,7 @@ public abstract class WeaponCard extends Card implements Representable {
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
 	List<Player> currentTargets;
+	Player target;
 	int PRIMARY_DAMAGE;
 	int PRIMARY_MARKS;
 
@@ -142,9 +143,16 @@ public abstract class WeaponCard extends Card implements Representable {
 	 */
 	protected void dealDamage(List<Player> playersToShoot, List<DamageAndMarks> damagesAndMarks){
 		for (int i = 0; i < playersToShoot.size(); i++) {
-			playersToShoot.get(i).getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getDamage());
-			playersToShoot.get(i).getPlayerBoard().addMarks(owner, damagesAndMarks.get(i).getMarks());
+			if(playersToShoot.get(i) != null){
+				playersToShoot.get(i).getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getDamage());
+				playersToShoot.get(i).getPlayerBoard().addMarks(owner, damagesAndMarks.get(i).getMarks());
+			}
 		}
+	}
+
+	protected void dealDamage(Player playerToShoot, List<DamageAndMarks> damagesAndMarks){
+		playerToShoot.getPlayerBoard().addDamage(owner, damagesAndMarks.get(0).getDamage());
+		playerToShoot.getPlayerBoard().addMarks(owner, damagesAndMarks.get(0).getMarks());
 	}
 
 
@@ -181,6 +189,8 @@ public abstract class WeaponCard extends Card implements Representable {
 		this.currentTargets = null;
 		this.relocationDone = false;
 		this.enemyRelocationDone = false;
+		this.currentTargets = new ArrayList<>();
+		this.target = null;
 	}
 
 	List<DamageAndMarks> getStandardDamagesAndMarks() {

@@ -9,8 +9,6 @@ import java.util.List;
 
 public class Heatseeker extends WeaponCard {
 
-	private Player targetPlayer;
-
 	public Heatseeker(String description, List<AmmoType> reloadPrice) {
 		super("Heatseeker", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 3;
@@ -29,8 +27,6 @@ public class Heatseeker extends WeaponCard {
 
 	@Override
 	public void primaryFire() {
-		List<Player> target = new ArrayList<>();
-		target.add(targetPlayer);
 		dealDamage(target, standardDamagesAndMarks);
 	}
 
@@ -49,7 +45,7 @@ public class Heatseeker extends WeaponCard {
 			return getTargetPlayersQnO(currentTargets);
 		}
 		else if(getCurrentStep() == 2){
-			targetPlayer = currentTargets.get(choice);
+			target = currentTargets.get(choice);
 			primaryFire();
 		}
 		return null;

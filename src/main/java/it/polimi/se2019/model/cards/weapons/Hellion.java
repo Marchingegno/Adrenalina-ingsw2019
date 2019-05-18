@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hellion extends AlternateFire {
-	private Player target;
 	private int PRIMARY_FOLLOWING_DAMAGE;
 	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int PRIMARY_FOLLOWING_MARKS;

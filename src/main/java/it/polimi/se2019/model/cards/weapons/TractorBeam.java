@@ -39,13 +39,11 @@ public class TractorBeam extends AlternateFire {
 					Utils.logError("currentTargets is null! See TractorBeam", new IllegalStateException());
 				return getTargetPlayersQnO(currentTargets);
 			case 3:
-				List<Player> target = new ArrayList<>();
-				target.add(currentTargets.get(choice));
-				currentTargets = target;
+				target = currentTargets.get(choice);
 				enemyRelocationCoordinates = getGameMap().getVisibleCoordinates(getOwner());
-				return getMovingTargetEnemyCoordinatesQnO(currentTargets.get(0), enemyRelocationCoordinates);
+				return getMovingTargetEnemyCoordinatesQnO(target, enemyRelocationCoordinates);
 			case 4:
-				getGameMap().movePlayerTo(currentTargets.get(0), enemyRelocationCoordinates.get(choice));
+				getGameMap().movePlayerTo(target, enemyRelocationCoordinates.get(choice));
 				primaryFire();
 				break;
 		}
@@ -59,10 +57,8 @@ public class TractorBeam extends AlternateFire {
 				currentTargets = getSecondaryTargets();
 				return getTargetPlayersQnO(currentTargets);
 			case 3:
-				List<Player> target = new ArrayList<>();
-				target.add(currentTargets.get(choice));
-				currentTargets = target;
-				getGameMap().movePlayerTo(currentTargets.get(0), getGameMap().getPlayerCoordinates(getOwner()));
+				target = currentTargets.get(choice);
+				getGameMap().movePlayerTo(target, getGameMap().getPlayerCoordinates(getOwner()));
 				secondaryFire();
 				break;
 		}
@@ -71,12 +67,12 @@ public class TractorBeam extends AlternateFire {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(currentTargets, standardDamagesAndMarks);
+		dealDamage(target, standardDamagesAndMarks);
 	}
 
 	@Override
 	public void secondaryFire() {
-		dealDamage(currentTargets, secondaryDamagesAndMarks);
+		dealDamage(target, secondaryDamagesAndMarks);
 	}
 
 

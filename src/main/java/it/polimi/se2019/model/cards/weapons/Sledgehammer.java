@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sledgehammer extends AlternateFire {
-	private Player target;
 	private List<Coordinates> enemyMovingCoordinates;
 
 	public Sledgehammer(String description, List<AmmoType> reloadPrice) {
