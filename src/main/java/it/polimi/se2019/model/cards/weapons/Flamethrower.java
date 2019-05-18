@@ -113,7 +113,7 @@ public class Flamethrower extends AlternateFire {
 	}
 
 	@Override
-	void primaryFire() {
+	public void primaryFire() {
 		List<Player> theTwoTargets = new ArrayList<>();
 		//One of the following element, or both, could be null!
 		theTwoTargets.add(firstSquareTarget);
@@ -159,12 +159,6 @@ public class Flamethrower extends AlternateFire {
 		List<Player> targets = getGameMap().getPlayersFromCoordinates(nextSquare);
 		targets.addAll(getGameMap().getPlayersFromCoordinates(nextNextSquare));
 		return targets;
-	}
-
-	private Pair getCardinalQnO(){
-		String question = "In which direction do you wish to fire?";
-		List<String> options = 	Arrays.stream(CardinalDirection.values()).map(Enum::toString).collect(Collectors.toList());
-		return new Pair<>(question,options);
 	}
 
 }

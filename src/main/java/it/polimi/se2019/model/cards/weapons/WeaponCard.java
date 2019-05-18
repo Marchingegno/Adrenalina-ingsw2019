@@ -8,10 +8,13 @@ import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class that defines the structure of a weapon card. Every subtype of weapon must extend this.
@@ -159,7 +162,7 @@ public abstract class WeaponCard extends Card implements Representable {
 	/**
 	 * Primary method of firing of the weapon.
 	 */
-	abstract void primaryFire();
+	protected abstract void primaryFire();
 
 	/**
 	 * Handles the primary fire mode of the weapon.
@@ -253,6 +256,12 @@ public abstract class WeaponCard extends Card implements Representable {
 		List<String> options = new ArrayList<>();
 		coordinates.forEach(coordinate -> options.add(coordinate.toString()));
 		return new Pair<>(question, options);
+	}
+
+	public static Pair getCardinalQnO(){
+		String question = "In which direction do you wish to fire?";
+		List<String> options = 	Arrays.stream(CardinalDirection.values()).map(Enum::toString).collect(Collectors.toList());
+		return new Pair<>(question,options);
 	}
 
 	protected void relocateEnemy(Player enemy, Coordinates coordinates){
