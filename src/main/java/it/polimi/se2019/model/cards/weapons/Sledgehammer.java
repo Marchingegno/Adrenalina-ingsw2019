@@ -15,6 +15,15 @@ public class Sledgehammer extends AlternateFire {
 	public Sledgehammer(String description, List<AmmoType> reloadPrice) {
 		super("Sledgehammer", description, reloadPrice);
 		this.maximumSteps = 3;
+		this.maximumAlternateSteps = 4;
+		this.PRIMARY_DAMAGE = 2;
+		this.PRIMARY_MARKS = 0;
+		this.SECONDARY_DAMAGE = 3;
+		this.SECONDARY_MARKS = 0;
+		this.standardDamagesAndMarks = new ArrayList<>();
+		this.secondaryDamagesAndMarks = new ArrayList<>();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 
 	}
 
