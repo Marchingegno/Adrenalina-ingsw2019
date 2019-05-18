@@ -4,6 +4,8 @@ import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
+import it.polimi.se2019.model.cards.weapons.WeaponCard;
+import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.exceptions.HiddenException;
@@ -26,7 +28,7 @@ public class PlayerRep implements Representation {
 	private List<Color.CharacterColorType> damageBoard;
 	private List<Color.CharacterColorType> marks;
 	private DamageStatusRep damageStatusRep;
-	//TODO add weapon reps
+	private List<WeaponRep> weaponReps;
 	private List<PowerupCardRep> powerupCards;
 	private int[] ammo;
 	private boolean hidden;
@@ -57,7 +59,12 @@ public class PlayerRep implements Representation {
 
 		powerupCards = new ArrayList<>(player.getPlayerBoard().getPowerupCards().size());
 		for (PowerupCard powerupCard : player.getPlayerBoard().getPowerupCards()) {
-			powerupCards.add(new PowerupCardRep(powerupCard));
+			powerupCards.add((PowerupCardRep) powerupCard.getRep());
+		}
+
+		weaponReps = new ArrayList<>(player.getPlayerBoard().getWeaponCards().size());
+		for (WeaponCard weaponCard : player.getPlayerBoard().getWeaponCards()) {
+			weaponReps.add((WeaponRep) weaponCard.getRep());
 		}
 
 		ammo = new int[AmmoType.values().length];
@@ -89,6 +96,12 @@ public class PlayerRep implements Representation {
 		newPlayerRep.marks = new ArrayList<>(marks);
 		newPlayerRep.damageStatusRep = null;//hidden
 		newPlayerRep.powerupCards = null; // hidden
+		newPlayerRep.weaponReps = new ArrayList<>();
+		for (WeaponRep weaponRep : this.weaponReps) {
+			//maybe the rep should be cloned
+			if (weaponRep.isLoaded())
+				newPlayerRep.weaponReps.add(weaponRep);
+		}
 		newPlayerRep.ammo = this.ammo.clone();
 		newPlayerRep.hidden = true;
 		return newPlayerRep;

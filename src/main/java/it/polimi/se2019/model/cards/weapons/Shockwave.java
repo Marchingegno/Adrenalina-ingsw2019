@@ -22,6 +22,7 @@ public class Shockwave extends AlternateFire {
 		for (int i = 0; i < 3; i++) {
 			this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		}
+		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumSteps = 5;
 		this.maximumAlternateSteps = 2;

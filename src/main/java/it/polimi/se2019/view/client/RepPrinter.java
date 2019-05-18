@@ -13,6 +13,8 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.NUM_OF_COLUMNS_IN_SQUARE;
@@ -36,31 +38,7 @@ class RepPrinter {
 	 * Displays all the game board.
 	 */
 	public void displayGame() {
-		if (!Utils.DEBUG_CLI) {
-			setCursorHome();
-			cleanConsole();
-		}
-
-		CLIView.print("\n");
-
-		displayPlayers();
-
-		CLIView.print("\n");
-
-		displayGameBoard();
-
-		CLIView.print("\n\n\n");
-
-		if (mapToPrint == null)
-			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
-		updateMapToPrint();
-		displayMap();
-
-		CLIView.print("\n\n\n");
-
-		displayOwnPlayer();
-
-		CLIView.print("\n\n\n");
+		displayGame(null);
 	}
 
 	public void displayGame(List<Coordinates> reachableCoordinates) {
@@ -154,7 +132,7 @@ class RepPrinter {
 		String[] cards = squareRep.getElementsToPrint();
 
 		if (squareRep.getRoomID() != -1) {
-			if (coordinates.contains(squareRep.getCoordinates()))
+			if (coordinates != null && coordinates.contains(squareRep.getCoordinates()))
 				mapToPrint[row][column] = Color.getColoredCell(Color.BackgroundColorType.WHITE);
 			mapToPrint[row + 2][column - 2] = cards[0];
 			mapToPrint[row + 2][column] = cards[1];
@@ -294,9 +272,10 @@ class RepPrinter {
 	}
 
 	private int getNumOfLine(PlayerRep playerRep) {
-		//playerRep.getPowerupCards();
-		playerRep.getDamageStatusRep().numOfMacroActions();
-		playerRep.getDamageStatusRep().numOfMacroActions();
+		Collections.max(Arrays.asList(
+				playerRep.getPowerupCards().size(),
+				playerRep.getDamageStatusRep().numOfMacroActions(),
+				AmmoType.values().length));
 		//TODO add weapons
 		return 3;
 	}

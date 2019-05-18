@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
@@ -24,7 +25,7 @@ import java.util.List;
  * if it has finished firing. The method {@link #reset()} will deload and reset the weapon to its original state.
  * @author Marchingegno
  */
-public abstract class WeaponCard extends Card {
+public abstract class WeaponCard extends Card implements Representable {
 
 	private int currentStep; //Advancement step of the weapon.
 	private Player owner;
@@ -254,6 +255,6 @@ public abstract class WeaponCard extends Card {
 
 	@Override
 	public Representation getRep() {
-		return null;
+		return new WeaponRep(this);
 	}
 }
