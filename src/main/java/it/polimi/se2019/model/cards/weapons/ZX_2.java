@@ -12,7 +12,7 @@ public class ZX_2 extends AlternateFire {
 	private List<Player> secondaryTargets;
 
 	public ZX_2(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("ZX-2", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 2;
 		this.SECONDARY_DAMAGE = 0;

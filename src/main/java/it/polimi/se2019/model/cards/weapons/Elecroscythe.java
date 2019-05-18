@@ -11,7 +11,7 @@ import java.util.List;
 public class Elecroscythe extends AlternateFire {
 
 	public Elecroscythe(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Electroscythe", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 0;
 		this.SECONDARY_DAMAGE = 2;

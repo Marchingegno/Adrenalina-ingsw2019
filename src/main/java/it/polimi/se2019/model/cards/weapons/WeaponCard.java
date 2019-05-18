@@ -42,8 +42,8 @@ public abstract class WeaponCard extends Card implements Representable {
 	int PRIMARY_MARKS;
 
 
-	public WeaponCard(String description, List<AmmoType> reloadPrice) {
-		super("Lorem Ipsum", description);
+	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice) {
+		super(weaponName, description);
 		this.currentStep = 0;
 		this.owner = null;
 		this.loaded = true;

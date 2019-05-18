@@ -14,7 +14,7 @@ public class Sledgehammer extends AlternateFire {
 	private List<Coordinates> enemyMovingCoordinates;
 
 	public Sledgehammer(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Sledgehammer", description, reloadPrice);
 		this.maximumSteps = 3;
 
 	}

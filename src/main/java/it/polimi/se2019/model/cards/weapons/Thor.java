@@ -9,7 +9,7 @@ import java.util.List;
 public class Thor extends OptionalEffect {
 
 	public Thor(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("T.H.O.R.", description, reloadPrice);
 	}
 
 

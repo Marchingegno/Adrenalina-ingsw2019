@@ -10,7 +10,7 @@ import java.util.List;
 public class LockRifle extends OptionalEffect {
 
 	public LockRifle(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Lock Rifle", description, reloadPrice);
 	}
 
 

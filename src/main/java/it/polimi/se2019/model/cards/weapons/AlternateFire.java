@@ -22,8 +22,8 @@ public abstract class AlternateFire extends WeaponCard {
 	int SECONDARY_DAMAGE;
 	int SECONDARY_MARKS;
 
-	public AlternateFire(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+	public AlternateFire(String weaponName, String description, List<AmmoType> reloadPrice) {
+		super(weaponName, description, reloadPrice);
 		reset();
 	}
 

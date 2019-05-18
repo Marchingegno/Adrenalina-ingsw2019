@@ -16,8 +16,8 @@ import java.util.List;
 public abstract class OptionalEffect extends WeaponCard {
 	private boolean[] optionalEffectsActive;
 
-	public OptionalEffect(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+	public OptionalEffect(String weaponName, String description, List<AmmoType> reloadPrice) {
+		super(weaponName, description, reloadPrice);
 		optionalEffectsActive = new boolean[2];
 		reset();
 	}

@@ -12,7 +12,7 @@ public class Whisper extends WeaponCard {
 	private Player targetPlayer;
 
 	public Whisper(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Whisper", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 3;
 		this.PRIMARY_MARKS = 1;
 		this.standardDamagesAndMarks = new ArrayList<>();

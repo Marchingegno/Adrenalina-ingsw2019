@@ -21,7 +21,7 @@ public class Flamethrower extends AlternateFire {
 	private List<Player> secondSquareTargets;
 
 	public Flamethrower(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Flame Thrower", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 0;
 		this.SECONDARY_DAMAGE = 2;

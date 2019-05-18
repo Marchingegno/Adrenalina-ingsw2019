@@ -10,7 +10,7 @@ import java.util.List;
 public class VortexCannon extends OptionalEffect {
 
 	public VortexCannon(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Vortex Cannon", description, reloadPrice);
 	}
 
 

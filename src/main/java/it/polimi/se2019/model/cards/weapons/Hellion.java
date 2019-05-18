@@ -17,7 +17,7 @@ public class Hellion extends AlternateFire {
 
 
 	public Hellion(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Hellion", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 1;
 		this.SECONDARY_DAMAGE = 1;

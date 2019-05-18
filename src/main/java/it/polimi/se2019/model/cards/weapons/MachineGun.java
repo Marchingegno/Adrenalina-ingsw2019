@@ -9,7 +9,7 @@ import java.util.List;
 public class MachineGun extends OptionalEffect {
 
 	public MachineGun(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Machine Gun", description, reloadPrice);
 	}
 
 

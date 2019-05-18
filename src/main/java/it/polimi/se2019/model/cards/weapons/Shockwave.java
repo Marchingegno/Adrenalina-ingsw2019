@@ -12,7 +12,7 @@ public class Shockwave extends AlternateFire {
 	private List<Player> chosenTargets;
 
 	public Shockwave(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Shock Wave", description, reloadPrice);
 		this.chosenTargets = new ArrayList<>();
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 0;

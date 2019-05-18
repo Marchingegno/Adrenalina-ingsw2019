@@ -9,7 +9,7 @@ import java.util.List;
 public class Railgun extends AlternateFire {
 
 	public Railgun(String description, List<AmmoType> reloadPrice) {
-		super(description, reloadPrice);
+		super("Railgun", description, reloadPrice);
 	}
 
 	@Override
