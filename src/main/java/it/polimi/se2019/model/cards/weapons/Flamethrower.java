@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Pair;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FlameThrower extends AlternateFire {
+public class Flamethrower extends AlternateFire {
 	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int SECONDARY_FOLLOWING_MARKS;
 	private CardinalDirection chosenDirection;
@@ -19,7 +20,7 @@ public class FlameThrower extends AlternateFire {
 	private Player secondSquareTarget;
 	private List<Player> secondSquareTargets;
 
-	public FlameThrower(String description, List<AmmoType> reloadPrice) {
+	public Flamethrower(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 0;
@@ -62,9 +63,13 @@ public class FlameThrower extends AlternateFire {
 				}
 
 				currentTargets = getSecondSquareTargets();
-				if (currentTargets.isEmpty()){
-					incrementStep();
-					return handlePrimaryFire(0);
+				try{
+					if (currentTargets.isEmpty()){
+						incrementStep();
+						return handlePrimaryFire(0);
+					}
+				} catch (NullPointerException e){
+					Utils.logError("Flamethrower: currentTargets is null", e);
 				}
 
 				return getTargetPlayersQnO(currentTargets);
@@ -134,19 +139,26 @@ public class FlameThrower extends AlternateFire {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		//TODO Implement
-		return null;
+		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
+		return getGameMap().getPlayersFromCoordinates(nextSquare);
 	}
 
 	private List<Player> getSecondSquareTargets() {
-		//TODO: Implement when methods from GameMap become available.
-		return null;
+		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
+		Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
+		if(nextNextSquare != null){
+			return getGameMap().getPlayersFromCoordinates(nextNextSquare);
+		}
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<Player> getSecondaryTargets() {
-		//TODO: Implement when methods from GameMap become available.
-		return null;
+		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
+		Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
+		List<Player> targets = getGameMap().getPlayersFromCoordinates(nextSquare);
+		targets.addAll(getGameMap().getPlayersFromCoordinates(nextNextSquare));
+		return targets;
 	}
 
 	private Pair getCardinalQnO(){
