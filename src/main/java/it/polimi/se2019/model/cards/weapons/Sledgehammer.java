@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Pair;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Sledgehammer extends AlternateFire {
 	private Player target;
-	List<Coordinates> enemyMovingCoordinates;
+	private List<Coordinates> enemyMovingCoordinates;
 
 	public Sledgehammer(String description, List<AmmoType> reloadPrice) {
 		super(description, reloadPrice);
@@ -76,8 +77,20 @@ public class Sledgehammer extends AlternateFire {
 	}
 
 	private List<Coordinates> getEnemyMovingCoordinates(){
-		//TODO: implement
-		return null;
+		List<Coordinates> possibleMoves = new ArrayList<>();
+		possibleMoves.add(getGameMap().getPlayerCoordinates(getOwner()));
+		for (CardinalDirection direction: CardinalDirection.values()) {
+			Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), direction);
+			Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, direction);
+			if(nextSquare != null){
+				possibleMoves.add(nextSquare);
+			}
+			if (nextNextSquare != null){
+				possibleMoves.add(nextNextSquare);
+			}
+		}
+
+		return possibleMoves;
 	}
 
 
