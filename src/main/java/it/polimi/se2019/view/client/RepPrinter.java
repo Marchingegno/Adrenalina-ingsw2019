@@ -174,30 +174,31 @@ class RepPrinter {
 		SquareRep[][] map = modelRep.getGameMapRep().getMapRep();
 		Coordinates redSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.RED_AMMO);
 		List<WeaponRep> redWeapons = ((SpawnSquareRep) map[redSpawnCoordinates.getRow()][redSpawnCoordinates.getColumn()]).getWeaponsRep();
-		Coordinates yellowSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.RED_AMMO);
+		Coordinates yellowSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.YELLOW_AMMO);
 		List<WeaponRep> yellowWeapons = ((SpawnSquareRep) map[yellowSpawnCoordinates.getRow()][yellowSpawnCoordinates.getColumn()]).getWeaponsRep();
-		Coordinates blueSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.RED_AMMO);
+		Coordinates blueSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.BLUE_AMMO);
 		List<WeaponRep> blueWeapons = ((SpawnSquareRep) map[blueSpawnCoordinates.getRow()][blueSpawnCoordinates.getColumn()]).getWeaponsRep();
 		CLIPrinter.moveCursorUP(5);
-		CLIPrinter.moveCursorRIGHT(200);
-		CLIView.print(Utils.fillWithSpacesColored("RED SPAWN", 21, Color.CharacterColorType.RED));
-		CLIView.print(Utils.fillWithSpacesColored("YELLOW SPAWN", 21, Color.CharacterColorType.YELLOW));
-		CLIView.print(Utils.fillWithSpacesColored("BLUE SPAWN", 21, Color.CharacterColorType.BLUE));
-		CLIPrinter.moveCursorDOWN(1);
-		CLIPrinter.moveCursorRIGHT(200);
+		CLIPrinter.moveCursorRIGHT(150);
+		CLIView.print(Utils.fillWithSpacesColored("RED SPAWN", 23, Color.CharacterColorType.RED));
+		CLIView.print(Utils.fillWithSpacesColored("YELLOW SPAWN", 23, Color.CharacterColorType.YELLOW));
+		CLIView.print(Utils.fillWithSpacesColored("BLUE SPAWN", 23, Color.CharacterColorType.BLUE));
+		CLIView.print("\n");
+		CLIPrinter.moveCursorRIGHT(150);
 		CLIView.print(weaponRepToString(redWeapons.get(0)));
 		CLIView.print(weaponRepToString(yellowWeapons.get(0)));
 		CLIView.print(weaponRepToString(blueWeapons.get(0)));
-		CLIPrinter.moveCursorDOWN(1);
-		CLIPrinter.moveCursorRIGHT(200);
+		CLIView.print("\n");
+		CLIPrinter.moveCursorRIGHT(150);
 		CLIView.print(weaponRepToString(redWeapons.get(1)));
 		CLIView.print(weaponRepToString(yellowWeapons.get(1)));
 		CLIView.print(weaponRepToString(blueWeapons.get(1)));
-		CLIPrinter.moveCursorDOWN(1);
-		CLIPrinter.moveCursorRIGHT(200);
+		CLIView.print("\n");
+		CLIPrinter.moveCursorRIGHT(150);
 		CLIView.print(weaponRepToString(redWeapons.get(2)));
 		CLIView.print(weaponRepToString(yellowWeapons.get(2)));
 		CLIView.print(weaponRepToString(blueWeapons.get(2)));
+		CLIView.print("\n\n");
 	}
 
 	private String weaponRepToString(WeaponRep weaponRep) {
@@ -205,6 +206,9 @@ class RepPrinter {
 		stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
 		for (AmmoType ammoType : weaponRep.getPrice())
 			stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
+		for (int i = weaponRep.getPrice().size(); i < 5; i++) {
+			stringBuilder.append(" ");
+		}
 		return stringBuilder.toString();
 	}
 
