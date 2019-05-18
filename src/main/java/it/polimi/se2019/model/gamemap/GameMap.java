@@ -31,7 +31,7 @@ public class GameMap extends Observable implements Representable {
 	private Square[][] map;
 	private List<List<Coordinates>> rooms = new ArrayList<>();
 	private HashMap<Player, Coordinates> playersPositions = new HashMap<>();
-	private ArrayList<Coordinates> spawnSquaresCoordinates = new ArrayList<>();
+	private List<Coordinates> spawnSquaresCoordinates = new ArrayList<>();
 	private GameMapRep gameMapRep;
 
 	public GameMap(String mapName, List<Player> players, GameBoard gameBoard) {
@@ -290,7 +290,7 @@ public class GameMap extends Observable implements Representable {
 	 * @param ammoType ammo type of the spawn we want
 	 * @return the coordinates of the spawn square associated with the ammo type or null if it could not find it
 	 */
-	public Coordinates getSpawnSquare(AmmoType ammoType) {
+	public Coordinates getSpawnCoordinates(AmmoType ammoType) {
 		for (Coordinates spawnCoordinates : spawnSquaresCoordinates) {
 			if (((SpawnSquare) getSquare(spawnCoordinates)).getAmmoType().equals(ammoType))
 				return spawnCoordinates;

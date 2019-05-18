@@ -270,7 +270,7 @@ public class GameBoard extends Observable implements Representable {
 
 	public void spawnPlayer(Player player, int indexOfCard) {
 		//Move player to spawn square
-		Coordinates spawningCoordinates = gameMap.getSpawnSquare(player.getPlayerBoard().getPowerupCards().get(indexOfCard).getAssociatedAmmo());
+		Coordinates spawningCoordinates = gameMap.getSpawnCoordinates(player.getPlayerBoard().getPowerupCards().get(indexOfCard).getAssociatedAmmo());
 		gameMap.movePlayerTo(player, spawningCoordinates);
 
 		//Remove card from player

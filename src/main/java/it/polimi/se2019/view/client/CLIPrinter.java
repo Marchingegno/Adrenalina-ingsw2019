@@ -35,14 +35,6 @@ public class CLIPrinter {
 		print(HOME);
 	}
 
-	public static String saveCursorPosition() {
-		return SAVE;
-	}
-
-	public static void loadCursorPosition() {
-		print(LOAD);
-	}
-
 	public static void moveCursorTo(int row, int column) {
 		print(ESC + row + ";" + column + "H");
 	}
@@ -51,8 +43,8 @@ public class CLIPrinter {
 		print(ESC + numOfLines + "A");
 	}
 
-	public static String moveCursorDOWN(int numOfLines) {
-		return "\u001b[" + numOfLines + "B";
+	public static void moveCursorDOWN(int numOfLines) {
+		print(ESC + numOfLines + "C");
 	}
 
 	public static void moveCursorRIGHT(int numOfLines) {

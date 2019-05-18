@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,8 @@ public class GameMapRep implements Representation {
 	private int numOfRows;
 	private int numOfColumns;
 	private SquareRep[][] mapRep;
-	private HashMap<String, Coordinates> playersPositions;
+	private Map<String, Coordinates> playersPositions;
+	private Map<AmmoType, Coordinates> spawnSquares;
 
 	public GameMapRep(GameMap gameMapToRepresent) {
 		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
@@ -27,6 +29,11 @@ public class GameMapRep implements Representation {
 			for (int j = 0; j < numOfColumns; j++) {
 				this.mapRep[i][j] = gameMapToRepresent.getSquareRep(new Coordinates(i, j));
 			}
+		}
+
+		spawnSquares = new HashMap<>();
+		for (AmmoType ammoType : AmmoType.values()) {
+			spawnSquares.put(ammoType, gameMapToRepresent.getSpawnCoordinates(ammoType));
 		}
 
 		playersPositions = new HashMap<>();
@@ -53,6 +60,8 @@ public class GameMapRep implements Representation {
 		return playersPositions.get(playerName);
 	}
 
-
+	public Coordinates getSpawncoordinats(AmmoType ammoType) {
+		return spawnSquares.get(ammoType);
+	}
 
 }

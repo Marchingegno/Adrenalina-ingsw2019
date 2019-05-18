@@ -590,9 +590,9 @@ GameMap map = gameBoard.getGameMap();
 		Model model = new Model("BigMap", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
-		assertEquals(new Coordinates(2, 3), map.getSpawnSquare(AmmoType.YELLOW_AMMO));
-		assertEquals(new Coordinates(1, 0), map.getSpawnSquare(AmmoType.RED_AMMO));
-		assertEquals(new Coordinates(0, 2), map.getSpawnSquare(AmmoType.BLUE_AMMO));
+		assertEquals(new Coordinates(2, 3), map.getSpawnCoordinates(AmmoType.YELLOW_AMMO));
+		assertEquals(new Coordinates(1, 0), map.getSpawnCoordinates(AmmoType.RED_AMMO));
+		assertEquals(new Coordinates(0, 2), map.getSpawnCoordinates(AmmoType.BLUE_AMMO));
 	}
 
 	@Test(expected = OutOfBoundariesException.class)

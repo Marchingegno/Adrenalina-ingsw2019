@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.gamemap.SpawnSquareRep;
 import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
@@ -56,7 +57,9 @@ class RepPrinter {
 
 		displayGameBoard();
 
-		CLIView.print("\n\n\n");
+		displayWeapons();
+
+		CLIView.print("\n");
 
 		if (mapToPrint == null)
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
@@ -165,6 +168,44 @@ class RepPrinter {
 				getSkullString() + "\n\n" +
 				getKillShotTrackString() + "\n\n" +
 				getDoubleKillString() + "\n");
+	}
+
+	private void displayWeapons() {
+		SquareRep[][] map = modelRep.getGameMapRep().getMapRep();
+		Coordinates redSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.RED_AMMO);
+		List<WeaponRep> redWeapons = ((SpawnSquareRep) map[redSpawnCoordinates.getRow()][redSpawnCoordinates.getColumn()]).getWeaponsRep();
+		Coordinates yellowSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.RED_AMMO);
+		List<WeaponRep> yellowWeapons = ((SpawnSquareRep) map[yellowSpawnCoordinates.getRow()][yellowSpawnCoordinates.getColumn()]).getWeaponsRep();
+		Coordinates blueSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.RED_AMMO);
+		List<WeaponRep> blueWeapons = ((SpawnSquareRep) map[blueSpawnCoordinates.getRow()][blueSpawnCoordinates.getColumn()]).getWeaponsRep();
+		CLIPrinter.moveCursorUP(5);
+		CLIPrinter.moveCursorRIGHT(200);
+		CLIView.print(Utils.fillWithSpacesColored("RED SPAWN", 21, Color.CharacterColorType.RED));
+		CLIView.print(Utils.fillWithSpacesColored("YELLOW SPAWN", 21, Color.CharacterColorType.YELLOW));
+		CLIView.print(Utils.fillWithSpacesColored("BLUE SPAWN", 21, Color.CharacterColorType.BLUE));
+		CLIPrinter.moveCursorDOWN(1);
+		CLIPrinter.moveCursorRIGHT(200);
+		CLIView.print(weaponRepToString(redWeapons.get(0)));
+		CLIView.print(weaponRepToString(yellowWeapons.get(0)));
+		CLIView.print(weaponRepToString(blueWeapons.get(0)));
+		CLIPrinter.moveCursorDOWN(1);
+		CLIPrinter.moveCursorRIGHT(200);
+		CLIView.print(weaponRepToString(redWeapons.get(1)));
+		CLIView.print(weaponRepToString(yellowWeapons.get(1)));
+		CLIView.print(weaponRepToString(blueWeapons.get(1)));
+		CLIPrinter.moveCursorDOWN(1);
+		CLIPrinter.moveCursorRIGHT(200);
+		CLIView.print(weaponRepToString(redWeapons.get(2)));
+		CLIView.print(weaponRepToString(yellowWeapons.get(2)));
+		CLIView.print(weaponRepToString(blueWeapons.get(2)));
+	}
+
+	private String weaponRepToString(WeaponRep weaponRep) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
+		for (AmmoType ammoType : weaponRep.getPrice())
+			stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
+		return stringBuilder.toString();
 	}
 
 	private String getSkullString() {
@@ -284,7 +325,6 @@ class RepPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		DamageStatusRep damageStatusRep = playerRep.getDamageStatusRep();
 
-
 		//Possible move
 		if (lineIndex + 1 <= damageStatusRep.numOfMacroActions()) {
 			stringBuilder.append(" [");
@@ -303,13 +343,9 @@ class RepPrinter {
 				"", 20));
 
 		//Weapons
-		if (lineIndex + 1 <= playerRep.getWeaponReps().size()) {
-			WeaponRep weaponRep = playerRep.getWeaponReps().get(lineIndex);
-			stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
-			for (AmmoType ammoType : weaponRep.getPrice()) {
-				stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
-			}
-		} else
+		if (lineIndex + 1 <= playerRep.getWeaponReps().size())
+			stringBuilder.append(weaponRepToString(playerRep.getWeaponReps().get(lineIndex)));
+		else
 			stringBuilder.append(Utils.fillWithSpaces(21));
 		stringBuilder.append("\t\t");
 
