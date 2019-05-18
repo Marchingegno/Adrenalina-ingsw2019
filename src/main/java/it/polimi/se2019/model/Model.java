@@ -28,10 +28,6 @@ import java.util.Observer;
  */
 public class Model {
 
-	private void metododimerda(Player player) {
-		player.getDamageStatus().getCurrentMacroAction().isGrab();
-	}
-
 	private GameBoard gameBoard;
 	private GameMap gameMap;
 

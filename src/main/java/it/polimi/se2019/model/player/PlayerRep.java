@@ -63,6 +63,7 @@ public class PlayerRep implements Representation {
 		}
 
 		weaponReps = new ArrayList<>(player.getPlayerBoard().getWeaponCards().size());
+		System.out.println("\n\n" + player.getPlayerBoard().getWeaponCards().size() + "\n\n");
 		for (WeaponCard weaponCard : player.getPlayerBoard().getWeaponCards()) {
 			weaponReps.add((WeaponRep) weaponCard.getRep());
 		}
@@ -141,6 +142,10 @@ public class PlayerRep implements Representation {
 	 */
 	public Color.CharacterColorType getPlayerColor() {
 		return playerColor;
+	}
+
+	public List<WeaponRep> getWeaponReps() {
+		return weaponReps;
 	}
 
 	/**

@@ -3,7 +3,6 @@ package it.polimi.se2019.model.gamemap;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
@@ -61,7 +60,7 @@ public class SpawnSquare extends Square {
 			throw new IllegalArgumentException("Index should be positive: " + index);
 		setNotFilled();
 		setChanged();
-		Utils.logInfo("SpawnSquare -> grabCard(): Grabbing " + ((WeaponCard) cards.get(index)).getWeaponName() + " from the square");
+		Utils.logInfo("SpawnSquare -> grabCard(): Grabbing " + cards.get(index).getCardName() + " from the square");
 		return cards.remove(index);
 	}
 
@@ -79,7 +78,7 @@ public class SpawnSquare extends Square {
 		if (cards.size() < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE) {
 			cards.add(cardToAdd);
 			setChanged();
-			Utils.logInfo("SpawnSquare -> addCard(): Added " + ((WeaponCard) cardToAdd).getWeaponName());
+			Utils.logInfo("SpawnSquare -> addCard(): Added " + cardToAdd.getCardName());
 		} else
 			throw new IllegalArgumentException("Trying to add a weapon to a filled Spawn square: SpawnSquare refillCards(weapon)");
 	}

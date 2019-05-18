@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
@@ -272,21 +273,23 @@ class RepPrinter {
 	}
 
 	private int getNumOfLine(PlayerRep playerRep) {
-		Collections.max(Arrays.asList(
+		return Collections.max(Arrays.asList(
 				playerRep.getPowerupCards().size(),
+				playerRep.getWeaponReps().size(),
 				playerRep.getDamageStatusRep().numOfMacroActions(),
 				AmmoType.values().length));
-		//TODO add weapons
-		return 3;
 	}
 
 	private void printOwnPlayerLine(PlayerRep playerRep, int lineIndex) {
 		StringBuilder stringBuilder = new StringBuilder();
 		DamageStatusRep damageStatusRep = playerRep.getDamageStatusRep();
 
+
 		//Possible move
 		if (lineIndex + 1 <= damageStatusRep.numOfMacroActions()) {
-			stringBuilder.append(" [" + (lineIndex + 1) + "] ");
+			stringBuilder.append(" [");
+			stringBuilder.append(lineIndex + 1);
+			stringBuilder.append("] ");
 			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionName(lineIndex), 8));
 			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 7));
 		}
@@ -300,12 +303,15 @@ class RepPrinter {
 				"", 20));
 
 		//Weapons
-		stringBuilder.append(
-				"Weapon 1\t" +
-						Color.getColoredString("●", Color.CharacterColorType.YELLOW, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.RED, Color.BackgroundColorType.DEFAULT) +
-						Color.getColoredString("●", Color.CharacterColorType.BLACK, Color.BackgroundColorType.DEFAULT) +
-						"\t");
+		if (lineIndex + 1 <= playerRep.getWeaponReps().size()) {
+			WeaponRep weaponRep = playerRep.getWeaponReps().get(lineIndex);
+			stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
+			for (AmmoType ammoType : weaponRep.getPrice()) {
+				stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
+			}
+		} else
+			stringBuilder.append(Utils.fillWithSpaces(21));
+		stringBuilder.append("\t\t");
 
 		//Ammo
 		if (lineIndex + 1 <= AmmoType.values().length) {

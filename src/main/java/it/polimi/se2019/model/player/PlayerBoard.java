@@ -1,9 +1,7 @@
 package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.cards.ammo.AmmoContainer;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
-import it.polimi.se2019.model.cards.weapons.Elecroscythe;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
@@ -197,7 +195,7 @@ public class PlayerBoard {
 		if(weaponCards.size() >= GameConstants.MAX_WEAPON_CARDS_PER_PLAYER)
 			throw new InventoryFullException("Cannot add another weapon card since the inventory is full. Use swapWeapon to setChanged the weapon.");
 		weaponCards.add(weaponToAdd);
-		Utils.logInfo("PlayerBoard -> addWeapon(): Added to the player " + weaponToAdd.getWeaponName());
+		Utils.logInfo("PlayerBoard -> addWeapon(): Added to the player " + weaponToAdd.getCardName());
 		setChanged();
 	}
 
@@ -241,7 +239,7 @@ public class PlayerBoard {
 			throw new IllegalArgumentException("weaponCardToDrop is not owned by the player.");
 		WeaponCard weaponToDrop = weaponCards.remove(indexOfTheWeaponCardToDrop);
 		weaponCards.add(weaponToGrab);
-		Utils.logInfo("PlayerBoard -> swapWeapon(): Swaped " + weaponToDrop.getWeaponName() + " with " + weaponToGrab.getWeaponName());
+		Utils.logInfo("PlayerBoard -> swapWeapon(): Swaped " + weaponToDrop.getCardName() + " with " + weaponToGrab.getCardName());
 		setChanged();
 		return weaponToDrop;
 	}

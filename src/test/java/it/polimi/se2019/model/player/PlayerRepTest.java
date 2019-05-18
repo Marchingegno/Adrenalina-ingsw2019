@@ -2,13 +2,14 @@ package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.Newton;
-import it.polimi.se2019.model.cards.weapons.Cyberblade;
+import it.polimi.se2019.model.cards.weapons.Shotgun;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.exceptions.HiddenException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -33,12 +34,15 @@ public class PlayerRepTest {
 		player1.getPlayerBoard().addMarks(player2, 2);
 		player2.getPlayerBoard().addMarks(player3, 2);
 		player3.getPlayerBoard().addMarks(player1, 2);
-		player1.getPlayerBoard().addWeapon(new Cyberblade("Desc1"));
-		player2.getPlayerBoard().addWeapon(new Cyberblade("Desc2"));
-		player2.getPlayerBoard().addWeapon(new Cyberblade("Desc3"));
-		player3.getPlayerBoard().addWeapon(new Cyberblade("Desc4"));
-		player3.getPlayerBoard().addWeapon(new Cyberblade("Desc5"));
-		player3.getPlayerBoard().addWeapon(new Cyberblade("Desc6"));
+		List<AmmoType> price = new ArrayList<>();
+		price.add(AmmoType.RED_AMMO);
+		price.add(AmmoType.YELLOW_AMMO);
+		player1.getPlayerBoard().addWeapon(new Shotgun("Desc1", price));
+		player2.getPlayerBoard().addWeapon(new Shotgun("Desc2", price));
+		player2.getPlayerBoard().addWeapon(new Shotgun("Desc3", price));
+		player3.getPlayerBoard().addWeapon(new Shotgun("Desc4", price));
+		player3.getPlayerBoard().addWeapon(new Shotgun("Desc5", price));
+		player3.getPlayerBoard().addWeapon(new Shotgun("Desc6", price));
 		player1.getPlayerBoard().addPowerup(new Newton(AmmoType.RED_AMMO));
 		player2.getPlayerBoard().addPowerup(new Newton(AmmoType.YELLOW_AMMO));
 		player2.getPlayerBoard().addPowerup(new Newton(AmmoType.YELLOW_AMMO));
