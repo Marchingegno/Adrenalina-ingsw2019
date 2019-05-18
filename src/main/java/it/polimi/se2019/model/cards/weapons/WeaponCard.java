@@ -249,6 +249,10 @@ public abstract class WeaponCard extends Card implements Representable {
 		getGameMap().movePlayerTo(enemy, coordinates);
 	}
 
+	protected void relocateOwner(Coordinates coordinates){
+		getGameMap().movePlayerTo(getOwner(), coordinates);
+	}
+
 	@Override
 	public Representation getRep() {
 		return new WeaponRep(this);
