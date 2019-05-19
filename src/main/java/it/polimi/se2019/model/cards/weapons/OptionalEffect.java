@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
- * Weapons with one or more optional effect. An optional effect is an enhancement the player can choose to give at the
+ * Weapons with at most two optional effects. An optional effect is an enhancement the player can choose to give at the
  * primary fire mode. Some optional effect have an additional ammo cost.
  * @author  Marchingegno
  */

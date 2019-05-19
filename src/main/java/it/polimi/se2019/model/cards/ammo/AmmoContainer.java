@@ -3,6 +3,8 @@ package it.polimi.se2019.model.cards.ammo;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
+import java.util.List;
+
 /**
  * Contains all the ammo of the player.
  *
@@ -22,6 +24,17 @@ public class AmmoContainer {
 			ammo[ammoType.ordinal()] = GameConstants.INITIAL_AMMO_PER_AMMO_TYPE;
 		}
 		setChanged();
+	}
+
+	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
+		int[] convertedAmmosToCheck = convertAmmoListToArray(ammoToCheck);
+		for (int i = 0; i < AmmoType.values().length; i++) {
+			if(convertedAmmosToCheck[i] > ammo[i]){
+				//Ammo requested is greater than ammo owned.
+				return false;
+			}
+		}
+		return true;
 	}
 
 
@@ -114,4 +127,14 @@ public class AmmoContainer {
 	public boolean hasChanged() {
 		return hasChanged;
 	}
+
+	private int[] convertAmmoListToArray(List<AmmoType> listToConvert){
+		int[] convertedAmmos = new int[AmmoType.values().length];
+		for (AmmoType ammoType : AmmoType.values()) {
+			ammo[ammoType.ordinal()] = 0;
+		}
+		listToConvert.stream().forEach(item -> convertedAmmos[item.ordinal()]++);
+		return convertedAmmos;
+	}
+
 }
