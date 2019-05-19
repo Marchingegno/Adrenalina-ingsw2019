@@ -15,16 +15,42 @@ import java.util.List;
  */
 public abstract class OptionalEffect extends WeaponCard {
 	private boolean[] optionalEffectsActive;
+	private boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
+	private List<List<AmmoType>> optionalCosts;
+
 
 	public OptionalEffect(String weaponName, String description, List<AmmoType> reloadPrice) {
 		super(weaponName, description, reloadPrice);
 		optionalEffectsActive = new boolean[2];
+		canAddOptionalEffect = new boolean[3];
 		reset();
 	}
 
 	@Override
-	public Pair handleFire(int choice) {
-		return null;
+	public Pair askingPair() {
+		String question = "Which optional effect do you want to activate?";
+		checkOptionalEffects();
+		List<String> options = new ArrayList<>();
+		options.add("No optional effects.");
+		for (int i = 0; i < optionalEffectsActive.length; i++) {
+			if(canAddOptionalEffect[i]){
+				options.add("Optional effect "+i+".");
+			}
+		}
+		//the following is hardcoded.
+		if(canAddOptionalEffect[2]){
+			options.add("Optional effect 1 + Optional effect 2");
+		}
+		return new Pair<>(question, options);
+	}
+
+	private void checkOptionalEffects() {
+		for (int i = 0; i < canAddOptionalEffect.length; i++) {
+			canAddOptionalEffect[i] = getOwner().hasEnoughAmmo(optionalCosts.get(i));
+		}
+		//the following is hardcoded.
+		List<AmmoType> optionalCost12 = optionalCosts.get(0);
+		optionalCost12.addAll(optionalCosts.get(1));
 	}
 
 	protected void registerChoice(int choice) {
@@ -48,6 +74,11 @@ public abstract class OptionalEffect extends WeaponCard {
 	}
 
 	@Override
+	public Pair handleFire(int choice) {
+		return null;
+	}
+
+	@Override
 	public void primaryFire() {
 	}
 
@@ -57,7 +88,7 @@ public abstract class OptionalEffect extends WeaponCard {
 	public abstract void optionalEffect2();
 
 	void optionalReset(){
-		for (int i = 0; i < optionalEffectsActive.length - 1; i++) {
+		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			optionalEffectsActive[i] = false;
 		}
 	}
@@ -73,19 +104,6 @@ public abstract class OptionalEffect extends WeaponCard {
 	public boolean doneFiring() {
 		//TODO Implement
 		return super.doneFiring();
-	}
-
-	@Override
-	public Pair askingPair() {
-		String question = "Which optional effect do you want to activate?";
-		List<String> options = new ArrayList<>();
-		options.add("No optional effects.");
-		for (int i = 0; i < optionalEffectsActive.length; i++) {
-			options.add("Optional effect "+i+".");
-		}
-		//the following is hardcoded.
-		options.add("Optional effect 1 + Optional effect 2");
-		return new Pair<>(question, options);
 	}
 
 	protected boolean isOptionalActive(int optionalIndex) {
