@@ -8,9 +8,7 @@ import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Flamethrower extends AlternateFire {
 	private int SECONDARY_FOLLOWING_DAMAGE;
@@ -114,11 +112,7 @@ public class Flamethrower extends AlternateFire {
 
 	@Override
 	public void primaryFire() {
-		List<Player> theTwoTargets = new ArrayList<>();
-		//One of the following element, or both, could be null!
-		theTwoTargets.add(firstSquareTarget);
-		theTwoTargets.add(secondSquareTarget);
-		dealDamage(theTwoTargets, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, firstSquareTarget, secondSquareTarget);
 	}
 
 	@Override
@@ -132,8 +126,8 @@ public class Flamethrower extends AlternateFire {
 			firstSquareDamage.add(secondaryDamagesAndMarks.get(1));
 		}
 
-		dealDamage(currentTargets, firstSquareDamage);
-		dealDamage(secondSquareTargets, secondSquareDamage);
+		dealDamage(firstSquareDamage, currentTargets);
+		dealDamage(secondSquareDamage, secondSquareTargets);
 	}
 
 

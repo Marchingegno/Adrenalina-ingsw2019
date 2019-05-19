@@ -67,9 +67,7 @@ public class Shotgun extends AlternateFire {
 
 	private void unifiedFire(){
 		List<DamageAndMarks> chosenDamagesAndMarks = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
-		List<Player> targetList = new ArrayList<>();
-		targetList.add(target);
-		dealDamage(targetList, chosenDamagesAndMarks);
+		dealDamage(chosenDamagesAndMarks, target);
 	}
 
 	@Override

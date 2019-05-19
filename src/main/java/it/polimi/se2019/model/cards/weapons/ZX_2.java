@@ -72,13 +72,11 @@ public class ZX_2 extends AlternateFire {
 	}
 
 	public void primaryFire() {
-		List<Player> targetPlayer = new ArrayList<>();
-		targetPlayer.add(target);
-		dealDamage(targetPlayer, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, target);
 	}
 
 	public void secondaryFire() {
-		dealDamage(secondaryTargets, secondaryDamagesAndMarks);
+		dealDamage(secondaryDamagesAndMarks, secondaryTargets);
 	}
 
 	@Override

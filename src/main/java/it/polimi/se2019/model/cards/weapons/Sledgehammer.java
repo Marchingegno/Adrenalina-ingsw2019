@@ -65,9 +65,7 @@ public class Sledgehammer extends AlternateFire {
 
 	private void unifiedFire(){
 		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
-		List<Player> targetToShoot = new ArrayList<>();
-		targetToShoot.add(target);
-		dealDamage(targetToShoot, damageAndMarksList);
+		dealDamage(damageAndMarksList, target);
 	}
 
 	public void secondaryFire() {

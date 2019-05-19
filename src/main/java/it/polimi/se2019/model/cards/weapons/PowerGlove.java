@@ -45,7 +45,7 @@ public class PowerGlove extends AlternateFire {
 	}
 
 	public void primaryFire() {
-		dealDamage(target, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, target);
 	}
 
 	public void secondaryFire() {
