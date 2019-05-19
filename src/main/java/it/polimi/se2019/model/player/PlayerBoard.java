@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.cards.ammo.AmmoContainer;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.utils.GameConstants;
@@ -80,6 +81,10 @@ public class PlayerBoard {
 	 */
 	public List<Player> getDamageBoard() {
 		return new ArrayList<>(damageBoard);
+	}
+
+	public boolean hasEnoughAmmo(List<AmmoType> ammosToCheck){
+		return this.ammoContainer.hasEnoughAmmo(ammosToCheck);
 	}
 
 

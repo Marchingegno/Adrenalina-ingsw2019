@@ -2,6 +2,7 @@ package it.polimi.se2019.model.player;
 
 import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
@@ -99,6 +100,15 @@ public class Player extends Observable implements Representable {
 		damageStatus = newDamageStatus;
 		Utils.logInfo("Player -> setdamageStatus(): " + playerName + "'s damage status set to " + newDamageStatus);
 		setChanged();
+	}
+
+	/**
+	 * Checks if the player has these ammo.
+	 * @param ammoToCheck the list of requested ammo.
+	 * @return if the player has as much ammo as the parameter.
+	 */
+	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
+		return getPlayerBoard().hasEnoughAmmo(ammoToCheck);
 	}
 
 	/**
