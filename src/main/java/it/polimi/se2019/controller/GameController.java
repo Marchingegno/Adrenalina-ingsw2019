@@ -29,6 +29,7 @@ public class GameController {
 	void startGame() {
 		Utils.logInfo("GameController: startGame");
 		startTurn();
+		virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 	}
 
 	private void refillCardsOnMap() {
@@ -75,11 +76,9 @@ public class GameController {
 		// Which should be only in its beginning turns.
 		if(model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {
 			askToSpawn(currentPlayerName);
-			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 		} else {
 			model.setTurnStatusOfCurrentPlayer(TurnStatus.YOUR_TURN);
 			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction(model.getActivableOnTurnPowerups(currentPlayerName));
-			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 		}
 	}
 
@@ -125,12 +124,11 @@ public class GameController {
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
 					model.spawnPlayer(playerName, defaultActionMessage.getContent());
 					virtualView.askAction(model.getActivableOnTurnPowerups(playerName));
-					virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 				}
 				break;
 			default: turnController.processEvent(event);
 				break;
 		}
-
+		virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 	}
 }

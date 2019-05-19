@@ -53,19 +53,16 @@ public class TurnController{
 			case GRAB_AMMO:
 				model.grabAmmoCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
-				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case GRAB_WEAPON:
 				model.grabWeaponCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
-				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case MOVE:
 				Coordinates playerChoice = ((CoordinatesAnswerMessage) event.getMessage()).getSingleCoordinates();
 				if (model.getReachableCoordinatesOfTheCurrentPlayer().contains(playerChoice)) {
 					model.movePlayerTo(playerName, playerChoice);
 					handleNextAction(virtualView);
-					virtualViewsContainer.sendUpdatedReps();
 				} else {
 					virtualView.askMove(model.getReachableCoordinatesOfTheCurrentPlayer());
 				}
@@ -73,7 +70,6 @@ public class TurnController{
 			case RELOAD:
 				model.reloadWeapon(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
-				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case WEAPON:
 				//TODO fix this warning
