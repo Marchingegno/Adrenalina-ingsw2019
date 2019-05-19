@@ -37,7 +37,8 @@ public class TurnController{
 		VirtualView virtualView = event.getVirtualView();
 		String playerName = virtualView.getNickname();
 
-		Utils.logInfo("TurnController: processing this event " + event.toString());
+		Utils.logInfo("TurnController -> processEvent(): processing an event received from \"" + playerName + "\" with a message of type " + messageType + " and subtype " + messageSubtype + ".");
+
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
 				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());

@@ -41,7 +41,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
-		Utils.logInfo("\tThe VirtualView of " + getNickname() + "\" is processing a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
+		Utils.logInfo("\t\tThe VirtualView of \"" + getNickname() + "\" is creating an event with message of type " + message.getMessageType() + " and subtype " + message.getMessageSubtype() + ".");
 
 		setChanged();
 		notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).

@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.network.message.DefaultActionMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -103,12 +104,14 @@ public class GameController {
 
 
 	void processEvent(Event event){
+		MessageType messageType = event.getMessage().getMessageType();
 		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
 		VirtualView virtualView = event.getVirtualView();
 		String playerName = virtualView.getNickname();
 
-		Utils.logInfo("GameController -> processing an event: "+ event.toString());
-		switch (event.getMessage().getMessageType()) {
+		Utils.logInfo("GameController -> processEvent(): processing an event received from \"" + playerName + "\" with a message of type " + messageType + " and subtype " + messageSubtype + ".");
+
+		switch (messageType) {
 			case END_TURN:
 				if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN)
 					endTurn();
