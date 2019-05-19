@@ -143,7 +143,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askAction() {
+	public void askAction(List<Integer> activablePowerups) {
 
 	}
 
@@ -173,7 +173,12 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askEnd() {
+	public int askPowerupToActivate(List<Integer> activablePowerups) {
+		return 0;
+	}
+
+	@Override
+	public void askEnd(List<Integer> activablePowerups) {
 
 	}
 

@@ -3,6 +3,7 @@ package it.polimi.se2019.controller;
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.message.DefaultActionMessage;
+import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.MoveActionMessage;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.Pair;
@@ -41,6 +42,14 @@ public class TurnController{
 			case ACTION:
 				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
+				break;
+			case ON_TURN_POWERUP:
+				int powerupIndex = ((IntMessage)event.getMessage()).getContent();
+				if(model.canOnTurnPowerupBeActivated(playerName, powerupIndex)) {
+					// TODO activate powerup
+					Utils.logWarning("TODO: ACTIVATE POWERUP, LAUNCHING ACTION/END PLACEHOLDER.");
+					handleEnd(virtualView);
+				}
 				break;
 			case GRAB_AMMO:
 				model.grabAmmoCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
@@ -114,9 +123,9 @@ public class TurnController{
 	private void handleEnd(VirtualView playerVirtualView) {
 		String playerName = playerVirtualView.getNickname();
 		if(model.doesThePlayerHaveActionsLeft(playerName)){
-			playerVirtualView.askAction();
+			playerVirtualView.askAction(model.getActivableOnTurnPowerups(playerName));
 		} else {
-			playerVirtualView.askEnd();
+			playerVirtualView.askEnd(model.getActivableOnTurnPowerups(playerName));
 		}
 	}
 }

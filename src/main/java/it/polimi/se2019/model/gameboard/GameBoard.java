@@ -3,6 +3,7 @@ package it.polimi.se2019.model.gameboard;
 import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoDeck;
+import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.powerups.PowerupDeck;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -52,7 +53,7 @@ public class GameBoard extends Observable implements Representable {
 		doubleKills = new ArrayList<>();
 		weaponDeck = new WeaponDeck();
 		ammoDeck = new AmmoDeck();
-		powerupDeck = new PowerupDeck();
+		powerupDeck = new PowerupDeck(this);
 		killShotInThisTurn = false;
 		frenzyStarted = false;
 
@@ -62,7 +63,7 @@ public class GameBoard extends Observable implements Representable {
 			players.add(new Player(name, id));
 			id++;
 		}
-		players.forEach(player -> player.getPlayerBoard().addPowerup(powerupDeck.drawCard()));
+		players.forEach(this::addPowerupCardTo);
 		playerQueue = new PlayerQueue(players);
 		gameMap = new GameMap(mapName, players, this);
 
@@ -284,7 +285,9 @@ public class GameBoard extends Observable implements Representable {
 	}
 
 	public void addPowerupCardTo(Player player) {
-		player.getPlayerBoard().addPowerup(powerupDeck.drawCard());
+		PowerupCard powerupCard = powerupDeck.drawCard();
+		powerupCard.setOwnerPlayer(player);
+		player.getPlayerBoard().addPowerup(powerupCard);
 	}
 
 	public Pair playerWeaponHandleFire(Player player, int choice) {

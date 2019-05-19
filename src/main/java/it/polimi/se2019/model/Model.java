@@ -2,6 +2,7 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -253,6 +254,32 @@ public class Model {
 		updateReps();
 	}
 
+	public boolean canOnTurnPowerupBeActivated(String playerName, int indexOfPowerup) {
+		Player player = getPlayerFromName(playerName);
+		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
+
+		if(indexOfPowerup >= powerupCards.size() || indexOfPowerup < 0)
+			return false;
+
+		PowerupCard powerupCard = powerupCards.get(indexOfPowerup);
+		if(powerupCard.getUseCase() != PowerupCard.PowerupUseCaseType.ON_TURN)
+			return false;
+		return powerupCard.canBeActivated();
+	}
+
+	public List<Integer> getActivableOnTurnPowerups(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
+		List<Integer> activablePowerups = new ArrayList<>();
+
+		for (int i = 0; i < powerupCards.size(); i++) {
+			if(powerupCards.get(i).getUseCase() == PowerupCard.PowerupUseCaseType.ON_TURN && powerupCards.get(i).canBeActivated())
+				activablePowerups.add(i);
+		}
+
+		return activablePowerups;
+	}
+
 
 	// ####################################
 	// PRIVATE METHODS
@@ -264,7 +291,7 @@ public class Model {
 		}
 
 		if (ammoCard.hasPowerup() && player.getPlayerBoard().getPowerupCards().size() < GameConstants.MAX_POWERUP_CARDS_PER_PLAYER)
-			player.getPlayerBoard().addPowerup(gameBoard.getPowerupDeck().drawCard());
+			gameBoard.addPowerupCardTo(player);
 
 		gameBoard.getAmmoDeck().discardCard(ammoCard);
 

@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.powerups;
 import com.google.gson.*;
 import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.utils.Utils;
 
 import java.io.BufferedReader;
@@ -15,6 +16,22 @@ import java.io.Reader;
  * @author MarcerAndrea
  */
 public class PowerupDeck extends Deck<PowerupCard> {
+
+	private GameBoard gameBoard;
+
+
+	public PowerupDeck(GameBoard gameBoard) {
+		this.gameBoard = gameBoard;
+	}
+
+
+	@Override
+	public PowerupCard drawCard() {
+		PowerupCard powerupCard = super.drawCard();
+		powerupCard.setGameBoard(gameBoard);
+		return powerupCard;
+	}
+
 
 	/**
 	 * Initialize the Powerup deck according to the file "PowerupDeck.json".
@@ -57,6 +74,5 @@ public class PowerupDeck extends Deck<PowerupCard> {
 		} catch (JsonParseException e) {
 			Utils.logError("Cannot parse powerup cards", e);
 		}
-
 	}
 }

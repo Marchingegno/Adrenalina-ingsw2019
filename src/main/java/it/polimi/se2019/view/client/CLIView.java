@@ -106,20 +106,31 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void askAction() {
+	public void askAction(List<Integer> activablePowerups) {
 		DamageStatusRep damageStatusRep = getModelRep().getClientPlayerRep().getDamageStatusRep();
 
 		printLine("Choose an action!");
 		int macroActionsNum = getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsPerTurn() - getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsToPerform() + 1;
 		int macroActionTotal = getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsPerTurn();
 		printLine("Action " + macroActionsNum + " of " + macroActionTotal  + ".");
-		for (int i = 0; i < damageStatusRep.numOfMacroActions(); i++)
+
+		int i;
+		int answer;
+		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++)
 			printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
-		int answer = askInteger(1, damageStatusRep.numOfMacroActions());
+		if(!activablePowerups.isEmpty()) {
+			printLine((i + 1) + ") Powerup");
+			answer = askInteger(1, damageStatusRep.numOfMacroActions() + 1);
+		} else {
+			answer = askInteger(1, damageStatusRep.numOfMacroActions());
+		}
 
-		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
-
+		if(answer == damageStatusRep.numOfMacroActions() + 1) { // If answer is powerup.
+			int powerupAnswer = askPowerupToActivate(activablePowerups);
+			sendMessage(new IntMessage(powerupAnswer, MessageType.ON_TURN_POWERUP, MessageSubtype.ANSWER));
+		} else {
+			sendMessage(new DefaultActionMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
+		}
 	}
 
 	@Override
@@ -145,7 +156,7 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askShoot() {
 		printLine("LOL");
-		askEnd();
+		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // TODO: this is a placeholder
 	}
 
 	@Override
@@ -159,20 +170,57 @@ public class CLIView extends RemoteView {
 
 
 	@Override
-	public void askEnd() {
-		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
+	public void askEnd(List<Integer> activablePowerups) {
+		printLine("Choose an action!");
+		printLine("1) Reload");
+		int answer;
+		if(activablePowerups.isEmpty()) {
+			printLine("2) End turn");
+			answer = askInteger(1, 2);
+		} else {
+			printLine("2) Powerup");
+			printLine("3) End turn");
+			answer = askInteger(1, 3);
+		}
+
+		if(answer == 1) {
+			// Reload
+			askReload();
+		} else if(answer == 2) {
+			if(activablePowerups.isEmpty()) {
+				// End turn.
+				sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
+			} else {
+				// Ask powerup.
+				int powerupAnswer = askPowerupToActivate(activablePowerups);
+				sendMessage(new IntMessage(powerupAnswer, MessageType.ON_TURN_POWERUP, MessageSubtype.ANSWER));
+			}
+		} else if(answer == 3) {
+			sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
+		}
 	}
 
 	@Override
 	public void askSpawn() {
 		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
-		printLine("Select the Powerup card to discard in order to spawn: ");
+		printLine("Select the Powerup card to discard in order to spawn:");
 		for (int i = 0; i < powerupCards.size(); i++)
 			printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
 		int answer = askInteger(1, powerupCards.size());
 
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new DefaultActionMessage(answer - 1, MessageType.SPAWN, MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public int askPowerupToActivate(List<Integer> activablePowerups) {
+		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
+		printLine("Select the Powerup card to activate:");
+		for (int i = 0; i < powerupCards.size(); i++) {
+			if(activablePowerups.contains(i))
+				printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
+		}
+		return askIntegerFromList(activablePowerups, -1);
 	}
 
 	@Override
@@ -231,6 +279,32 @@ public class CLIView extends RemoteView {
 				printLine("The value must be between " + minInclusive + " and " + maxInclusive + ".");
 			}
 		} while (!ok || input < minInclusive || input > maxInclusive);
+		return input;
+	}
+
+	/**
+	 * Ask the user an integer that must be in the options list.
+	 * Repeatedly ask the integer if the input is the list.
+	 *
+	 * @param options the list containing the possible options.
+	 * @param offset number to add to the answer before checking if it is contained in the list.
+	 * @return the integer chosen by the user + the offset.
+	 */
+	private int askIntegerFromList(List<Integer> options, int offset) {
+		int input = 0;
+		boolean ok;
+		do {
+			try {
+				input = Integer.parseInt(scanner.nextLine());
+				input += offset;
+				ok = true;
+			} catch (NumberFormatException e) {
+				ok = false;
+			}
+			if (!ok || !options.contains(input)) { // ok must be true and input must be in the options list.
+				printLine("The value must be in the options.");
+			}
+		} while (!ok || !options.contains(input));
 		return input;
 	}
 
