@@ -103,11 +103,12 @@ public class GameController {
 
 
 	void processEvent(Event event){
-		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
 		VirtualView virtualView = event.getVirtualView();
 		String playerName = virtualView.getNickname();
+		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
 
-		Utils.logInfo("GameController -> processing an event: "+ event.toString());
+		Utils.logInfo("GameController -> processEvent(): processing an event received from \"" + playerName + "\" with a message of type " + event.getMessage().getMessageType() + " and subtype " + messageSubtype + ".");
+
 		switch (event.getMessage().getMessageType()) {
 			case END_TURN:
 				if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN)

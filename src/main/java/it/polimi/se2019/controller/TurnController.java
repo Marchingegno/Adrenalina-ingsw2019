@@ -2,9 +2,7 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.network.message.DefaultActionMessage;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.MoveActionMessage;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
@@ -37,7 +35,8 @@ public class TurnController{
 		VirtualView virtualView = event.getVirtualView();
 		String playerName = virtualView.getNickname();
 
-		Utils.logInfo("TurnController: processing this event " + event.toString());
+		Utils.logInfo("TurnController -> processEvent(): processing an event received from \"" + playerName + "\" with a message of type " + event.getMessage().getMessageType() + " and subtype " + event.getMessage().getMessageSubtype() + ".");
+
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
 				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
