@@ -273,6 +273,14 @@ public abstract class WeaponCard extends Card implements Representable {
 		return new Pair<>(question,options);
 	}
 
+	public static Pair getTargetPlayersAndRefusalQnO(List<Player> targets){
+		String question = "Which of the following players do you want to target?";
+		List<String> options = new ArrayList<>();
+		targets.forEach(target-> options.add(target.getPlayerName()));
+		options.add("Nobody");
+		return new Pair<>(question, options);
+	}
+
 	protected void relocateEnemy(Player enemy, Coordinates coordinates){
 		getGameMap().movePlayerTo(enemy, coordinates);
 	}
