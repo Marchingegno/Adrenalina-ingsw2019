@@ -7,6 +7,7 @@ import it.polimi.se2019.model.player.Player;
  * This class implements the Targeting scope powerup
  *
  * @author MarcerAndrea
+ * @author Desno365
  */
 public class TargetingScope extends PowerupCard {
 
@@ -20,22 +21,32 @@ public class TargetingScope extends PowerupCard {
 	private static final int GIVEN_DAMAGE = 1;
 
 	public TargetingScope(AmmoType associatedAmmo) {
-		super("Targeting scope", associatedAmmo, DESCRIPTION);
+		super("Targeting scope", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_SHOOT);
 	}
 
-	/**
-	 * Activates the powerup.
-	 *
-	 * @param activatingPlayer player who as activated the powerup.
-	 */
+
 	@Override
 	public void activatePowerup(Player activatingPlayer) {
-		// TODO can be activated when the client is shooting someone (note: cannot use this to a target that is receiving only marks).
 		// TODO ask client which type of ammo to use (must be in the client inventory).
 		AmmoType ammoToUse = AmmoType.RED_AMMO; // TODO placeholder, must be choosen ammo type.
 		activatingPlayer.getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
 		Player targetPlayer = activatingPlayer; // TODO placeholder, must be targetPlayer.
 		targetPlayer.getPlayerBoard().addDamage(activatingPlayer, GIVEN_DAMAGE);
+	}
+
+	@Override
+	public boolean canBeActivated() {
+		boolean hasOneAmmo = false;
+		for(AmmoType ammoType : AmmoType.values()) {
+			if(getOwnerPlayer().getPlayerBoard().getAmmoContainer().getAmmo(ammoType) > 0) {
+				hasOneAmmo = true;
+				break;
+			}
+		}
+
+		boolean weaponHasDamage = true; // TODO
+
+		return hasOneAmmo && weaponHasDamage;
 	}
 
 	@Override

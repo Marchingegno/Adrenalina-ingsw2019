@@ -9,8 +9,6 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
-import it.polimi.se2019.utils.MacroAction;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -64,8 +62,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askAction() {
-		sendMessage(new Message(MessageType.ACTION, MessageSubtype.REQUEST));
+	public void askAction(List<Integer> activablePowerups) {
+		sendMessage(new RequestWithActivablePowerupsMessage(activablePowerups, MessageType.ACTION));
 	}
 
 	@Override
@@ -104,8 +102,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askEnd() {
-		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.REQUEST));
+	public void askEnd(List<Integer> activablePowerups) {
+		sendMessage(new RequestWithActivablePowerupsMessage(activablePowerups, MessageType.END_TURN));
 	}
 
 	@Override

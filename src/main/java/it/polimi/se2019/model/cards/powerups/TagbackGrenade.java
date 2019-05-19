@@ -7,6 +7,7 @@ import it.polimi.se2019.model.player.Player;
  * This class implements the Tagback grenade powerup
  *
  * @author MarcerAndrea
+ * @author Desno365
  */
 public class TagbackGrenade extends PowerupCard {
 
@@ -18,20 +19,24 @@ public class TagbackGrenade extends PowerupCard {
 	private static final int GIVEN_MARKS = 1;
 
 	public TagbackGrenade(AmmoType associatedAmmo) {
-		super("Tagback grenade", associatedAmmo, DESCRIPTION);
+		super("Tagback grenade", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_DAMAGE);
 	}
 
 
-	/**
-	 * Activates the powerup.
-	 *
-	 * @param activatingPlayer player who as activated the powerup.
-	 */
 	@Override
 	public void activatePowerup(Player activatingPlayer) {
-		// TODO can be activated when the client receive damage from a player he can see (should this check be performed by the controller or here?).
 		Player targetPlayer = activatingPlayer; // TODO placeholder, must be targetPlayer.
 		targetPlayer.getPlayerBoard().addMarks(activatingPlayer, GIVEN_MARKS); // add marks to the target player.
+	}
+
+	/**
+	 * Returns true if the activatingPlayer can see the shootingPlayer.
+	 * Needs gameBoard != null, activatingPlayer != null and shootingPlayer != null
+	 * @return true if the activatingPlayer can see the shootingPlayer.
+	 */
+	@Override
+	public boolean canBeActivated() {
+		return getGameBoard().getGameMap().isVisible(getOwnerPlayer(), getShootingPlayer());
 	}
 
 	@Override

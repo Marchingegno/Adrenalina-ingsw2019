@@ -7,6 +7,7 @@ import it.polimi.se2019.model.player.Player;
  * This class implements the Newton powerup
  *
  * @author MarcerAndrea
+ * @author Desno365
  */
 public class Newton extends PowerupCard {
 
@@ -19,20 +20,30 @@ public class Newton extends PowerupCard {
 					"would be too late.)";
 
 	public Newton(AmmoType associatedAmmo) {
-		super("Newton", associatedAmmo, DESCRIPTION);
+		super("Newton", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN);
 	}
 
-	/**
-	 * Activates the powerup.
-	 *
-	 * @param activatingPlayer player who as activated the powerup.
-	 */
+
 	@Override
 	public void activatePowerup(Player activatingPlayer) {
-		// TODO can be activated during the client's turn (same as the Teleporter card).
 		// TODO get targetPlayer possible movements (1 or 2 squares in one direction).
 		// TODO ask client where to move giving possible movements.
 		// TODO move targetPlayer.
+	}
+
+	/**
+	 * Returns true if there is at least one not dead player different from the activating player.
+	 * Needs gameBoard != null and activatingPlayer != null
+	 * @return true if there is at least one not dead player different from the activating player.
+	 */
+	@Override
+	public boolean canBeActivated() {
+		for(Player player : getGameBoard().getPlayers()) {
+			if(player != getOwnerPlayer() && !player.getPlayerBoard().isDead()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

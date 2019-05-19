@@ -10,7 +10,6 @@ import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -89,7 +88,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				}
 				break;
 			case ACTION:
-				askAction();
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+					askAction(((RequestWithActivablePowerupsMessage) message).getActivablePowerups());
 				break;
 			case SHOOT:
 				askShoot();
@@ -101,7 +101,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				askMove(((MoveActionMessage) message).getCoordinates());
 				break;
 			case END_TURN:
-				askEnd();
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+					askEnd(((RequestWithActivablePowerupsMessage) message).getActivablePowerups());
 				break;
 			case GRAB_AMMO:
 				askGrab();
@@ -233,4 +234,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public abstract void askMapAndSkullsToUse();
 
 	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);
+
+	public abstract int askPowerupToActivate(List<Integer> activablePowerups);
 }

@@ -78,7 +78,7 @@ public class GameController {
 			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 		} else {
 			model.setTurnStatusOfCurrentPlayer(TurnStatus.YOUR_TURN);
-			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction();
+			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction(model.getActivableOnTurnPowerups(currentPlayerName));
 			virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 		}
 	}
@@ -123,7 +123,7 @@ public class GameController {
 					// Process the answer of a spawn request.
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
 					model.spawnPlayer(playerName, defaultActionMessage.getContent());
-					virtualView.askAction();
+					virtualView.askAction(model.getActivableOnTurnPowerups(playerName));
 					virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
 				}
 				break;

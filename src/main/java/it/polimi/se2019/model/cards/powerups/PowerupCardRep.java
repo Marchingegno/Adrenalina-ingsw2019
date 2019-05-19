@@ -6,10 +6,12 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 public class PowerupCardRep extends CardRep {
 
 	private AmmoType associatedAmmo;
+	private PowerupCard.PowerupUseCaseType powerupUseCaseType;
 
 	public PowerupCardRep(PowerupCard powerupCard) {
 		super(powerupCard);
 		this.associatedAmmo = powerupCard.getAssociatedAmmo();
+		this.powerupUseCaseType = powerupCard.getUseCase();
 	}
 
 	/**
@@ -19,5 +21,14 @@ public class PowerupCardRep extends CardRep {
 	 */
 	public AmmoType getAssociatedAmmo() {
 		return associatedAmmo;
+	}
+
+	/**
+	 * Returns the use case of the powerup.
+	 *
+	 * @return the use case of the powerup.
+	 */
+	public PowerupCard.PowerupUseCaseType getUseCase() {
+		return powerupUseCaseType;
 	}
 }

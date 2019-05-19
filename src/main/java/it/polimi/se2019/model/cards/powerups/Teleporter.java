@@ -7,6 +7,7 @@ import it.polimi.se2019.model.player.Player;
  * This class implements the Teleporter powerup
  *
  * @author MarcerAndrea
+ * @author Desno365
  */
 public class Teleporter extends PowerupCard {
 
@@ -19,19 +20,23 @@ public class Teleporter extends PowerupCard {
 					"too late.)";
 
 	public Teleporter(AmmoType associatedAmmo) {
-		super("Teleporter", associatedAmmo, DESCRIPTION);
+		super("Teleporter", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN);
+	}
+
+
+	@Override
+	public void activatePowerup(Player activatingPlayer) {
+		// TODO ask client where to move (can be moved anywhere).
+		// TODO move activatingPlayer.
 	}
 
 	/**
-	 * Activates the powerup.
-	 *
-	 * @param activatingPlayer player who as activated the powerup.
+	 * Returns always true since this powerup can always be activated.
+	 * @return true since this powerup can always be activated.
 	 */
 	@Override
-	public void activatePowerup(Player activatingPlayer) {
-		// TODO can be activated during the client's turn (same as the Newton card).
-		// TODO ask client where to move (can be moved anywhere).
-		// TODO move activatingPlayer.
+	public boolean canBeActivated() {
+		return true;
 	}
 
 	@Override
