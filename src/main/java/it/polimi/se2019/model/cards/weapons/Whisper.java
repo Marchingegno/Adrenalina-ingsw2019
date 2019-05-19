@@ -27,9 +27,7 @@ public class Whisper extends WeaponCard {
 
 	@Override
 	public void primaryFire() {
-		List<Player> target = new ArrayList<>();
-		target.add(this.target);
-		dealDamage(target, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, target);
 	}
 
 

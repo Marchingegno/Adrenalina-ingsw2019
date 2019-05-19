@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Railgun extends AlternateFire {
 	private CardinalDirection chosenDirection;
-	Player secondTarget;
+	private Player secondTarget;
 
 	public Railgun(String description, List<AmmoType> reloadPrice) {
 		super("Railgun", description, reloadPrice);
@@ -50,14 +50,11 @@ public class Railgun extends AlternateFire {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(target, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, target);
 	}
 
 	public void secondaryFire() {
-		List<Player> targets = new ArrayList<>();
-		targets.add(target);
-		targets.add(secondTarget);
-		dealDamage(targets, secondaryDamagesAndMarks);
+		dealDamage(secondaryDamagesAndMarks, target, secondTarget);
 	}
 
 	@Override

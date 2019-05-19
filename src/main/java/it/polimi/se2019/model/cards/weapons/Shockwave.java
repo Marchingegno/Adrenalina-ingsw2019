@@ -63,14 +63,14 @@ public class Shockwave extends AlternateFire {
 
 
 	public void primaryFire() {
-		dealDamage(chosenTargets, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, chosenTargets);
 	}
 
 	public void secondaryFire() {
 		for (int i = 0; i < currentTargets.size(); i++) {
 			this.secondaryDamagesAndMarks.add(this.secondaryDamagesAndMarks.get(0));
 		}
-		dealDamage(currentTargets, secondaryDamagesAndMarks);
+		dealDamage(secondaryDamagesAndMarks, currentTargets);
 	}
 
 	@Override

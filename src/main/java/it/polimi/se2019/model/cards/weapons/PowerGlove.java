@@ -22,6 +22,7 @@ public class PowerGlove extends AlternateFire {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.maximumSteps = 3;
 	}
 
 
@@ -45,7 +46,7 @@ public class PowerGlove extends AlternateFire {
 	}
 
 	public void primaryFire() {
-		dealDamage(target, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, target);
 	}
 
 	public void secondaryFire() {

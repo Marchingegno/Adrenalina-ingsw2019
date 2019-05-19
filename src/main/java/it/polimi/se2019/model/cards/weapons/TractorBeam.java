@@ -43,7 +43,7 @@ public class TractorBeam extends AlternateFire {
 				enemyRelocationCoordinates = getGameMap().getVisibleCoordinates(getOwner());
 				return getMovingTargetEnemyCoordinatesQnO(target, enemyRelocationCoordinates);
 			case 4:
-				getGameMap().movePlayerTo(target, enemyRelocationCoordinates.get(choice));
+				relocateEnemy(target, enemyRelocationCoordinates.get(choice));
 				primaryFire();
 				break;
 		}
@@ -67,12 +67,12 @@ public class TractorBeam extends AlternateFire {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(target, standardDamagesAndMarks);
+		dealDamage(standardDamagesAndMarks, target);
 	}
 
 	@Override
 	public void secondaryFire() {
-		dealDamage(target, secondaryDamagesAndMarks);
+		dealDamage(secondaryDamagesAndMarks, target);
 	}
 
 

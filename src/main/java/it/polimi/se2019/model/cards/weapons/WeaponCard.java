@@ -141,10 +141,10 @@ public abstract class WeaponCard extends Card implements Representable {
 	 * This method does NOT deload the weapon.
 	 * This method does check only the first array's size, so it can happen that playersToShoot is shorter than
 	 * damagesAndMarks.
-	 * @param playersToShoot the array of players that will receive damage and/or marks.
 	 * @param damagesAndMarks the damage and marks for each player.
+	 * @param playersToShoot the array of players that will receive damage and/or marks.
 	 */
-	protected void dealDamage(List<Player> playersToShoot, List<DamageAndMarks> damagesAndMarks){
+	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot){
 		for (int i = 0; i < playersToShoot.size(); i++) {
 			if(playersToShoot.get(i) != null){
 				playersToShoot.get(i).getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getDamage());
@@ -153,10 +153,19 @@ public abstract class WeaponCard extends Card implements Representable {
 		}
 	}
 
-	protected void dealDamage(Player playerToShoot, List<DamageAndMarks> damagesAndMarks){
-		playerToShoot.getPlayerBoard().addDamage(owner, damagesAndMarks.get(0).getDamage());
-		playerToShoot.getPlayerBoard().addMarks(owner, damagesAndMarks.get(0).getMarks());
+	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
+		for (int i = 0; i < playersToShoot.length; i++) {
+			if (playersToShoot[i] != null) {
+				playersToShoot[i].getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getDamage());
+				playersToShoot[i].getPlayerBoard().addMarks(owner, damagesAndMarks.get(i).getMarks());
+			}
+		}
 	}
+
+//	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, Player playerToShoot){
+//		playerToShoot.getPlayerBoard().addDamage(owner, damagesAndMarks.get(0).getDamage());
+//		playerToShoot.getPlayerBoard().addMarks(owner, damagesAndMarks.get(0).getMarks());
+//	}
 
 
 	/**
@@ -262,6 +271,14 @@ public abstract class WeaponCard extends Card implements Representable {
 		String question = "In which direction do you wish to fire?";
 		List<String> options = 	Arrays.stream(CardinalDirection.values()).map(Enum::toString).collect(Collectors.toList());
 		return new Pair<>(question,options);
+	}
+
+	public static Pair getTargetPlayersAndRefusalQnO(List<Player> targets){
+		String question = "Which of the following players do you want to target?";
+		List<String> options = new ArrayList<>();
+		targets.forEach(target-> options.add(target.getPlayerName()));
+		options.add("Nobody");
+		return new Pair<>(question, options);
 	}
 
 	protected void relocateEnemy(Player enemy, Coordinates coordinates){

@@ -65,9 +65,7 @@ public class Sledgehammer extends AlternateFire {
 
 	private void unifiedFire(){
 		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
-		List<Player> targetToShoot = new ArrayList<>();
-		targetToShoot.add(target);
-		dealDamage(targetToShoot, damageAndMarksList);
+		dealDamage(damageAndMarksList, target);
 	}
 
 	public void secondaryFire() {
@@ -89,12 +87,12 @@ public class Sledgehammer extends AlternateFire {
 		possibleMoves.add(getGameMap().getPlayerCoordinates(getOwner()));
 		for (CardinalDirection direction: CardinalDirection.values()) {
 			Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), direction);
-			Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, direction);
 			if(nextSquare != null){
 				possibleMoves.add(nextSquare);
-			}
-			if (nextNextSquare != null){
-				possibleMoves.add(nextNextSquare);
+				Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, direction);
+				if (nextNextSquare != null){
+					possibleMoves.add(nextNextSquare);
+				}
 			}
 		}
 
