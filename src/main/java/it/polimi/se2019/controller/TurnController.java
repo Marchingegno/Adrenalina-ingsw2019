@@ -61,7 +61,7 @@ public class TurnController{
 				virtualViewsContainer.sendUpdatedReps();
 				break;
 			case MOVE:
-				Coordinates playerChoice = ((MoveActionMessage) event.getMessage()).getCoordinates().get(0);
+				Coordinates playerChoice = ((CoordinatesAnswerMessage) event.getMessage()).getSingleCoordinates();
 				if (model.getReachableCoordinatesOfTheCurrentPlayer().contains(playerChoice)) {
 					model.movePlayerTo(playerName, playerChoice);
 					handleNextAction(virtualView);

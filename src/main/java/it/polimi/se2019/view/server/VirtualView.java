@@ -73,7 +73,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askMove(List<Coordinates> reachableCoordinates) {
-		sendMessage(new MoveActionMessage(reachableCoordinates, MessageSubtype.REQUEST));
+		sendMessage(new CoordinatesRequestMessage(reachableCoordinates, MessageType.MOVE));
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askWeapon(String question, List<String> options) {
-		sendMessage(new AskOptionsMessage(question,options, MessageType.WEAPON, MessageSubtype.REQUEST));
+		sendMessage(new AskOptionsMessage(question, options, MessageType.WEAPON, MessageSubtype.REQUEST));
 	}
 
 	@Override

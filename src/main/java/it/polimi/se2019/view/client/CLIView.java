@@ -149,8 +149,8 @@ public class CLIView extends RemoteView {
 	public void askMove(List<Coordinates> reachableCoordinates) {
 		repPrinter.displayGame(reachableCoordinates);
 		printLine("Enter the coordinates in which you want to move.");
-		List<Coordinates> answer = askCoordinates(reachableCoordinates);
-		sendMessage(new MoveActionMessage(answer, MessageSubtype.ANSWER));
+		Coordinates answer = askCoordinates(reachableCoordinates);
+		sendMessage(new CoordinatesAnswerMessage(answer, MessageType.MOVE));
 	}
 
 	@Override
@@ -308,7 +308,7 @@ public class CLIView extends RemoteView {
 		return input;
 	}
 
-	private List<Coordinates> askCoordinates(List<Coordinates> reachableCoordinates) {
+	private Coordinates askCoordinates(List<Coordinates> reachableCoordinates) {
 		Coordinates coordinates;
 		do {
 			printLine("Enter Row coordinate 1-" + getModelRep().getGameMapRep().getNumOfRows());
@@ -320,9 +320,7 @@ public class CLIView extends RemoteView {
 			CLIPrinter.cleanConsole();
 		} while (!reachableCoordinates.contains(coordinates));
 
-		List<Coordinates> coordinatesList = new ArrayList<>();
-		coordinatesList.add(coordinates);
-		return coordinatesList;
+		return coordinates;
 	}
 
 	/**
