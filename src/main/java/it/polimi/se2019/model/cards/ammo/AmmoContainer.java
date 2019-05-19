@@ -133,7 +133,7 @@ public class AmmoContainer {
 		for (AmmoType ammoType : AmmoType.values()) {
 			ammo[ammoType.ordinal()] = 0;
 		}
-		listToConvert.stream().forEach(item -> convertedAmmos[item.ordinal()]++);
+		listToConvert.forEach(item -> convertedAmmos[item.ordinal()]++);
 		return convertedAmmos;
 	}
 
