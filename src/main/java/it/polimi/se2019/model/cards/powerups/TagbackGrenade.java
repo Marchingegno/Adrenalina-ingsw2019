@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
 
 /**
  * This class implements the Tagback grenade powerup
@@ -24,9 +25,10 @@ public class TagbackGrenade extends PowerupCard {
 
 
 	@Override
-	public void activatePowerup(Player activatingPlayer) {
-		Player targetPlayer = activatingPlayer; // TODO placeholder, must be targetPlayer.
-		targetPlayer.getPlayerBoard().addMarks(activatingPlayer, GIVEN_MARKS); // add marks to the target player.
+	public PowerupInfo doPowerupStep(Message answer) {
+		Player targetPlayer = getOwnerPlayer(); // TODO placeholder, must be targetPlayer.
+		targetPlayer.getPlayerBoard().addMarks(getOwnerPlayer(), GIVEN_MARKS); // add marks to the target player.
+		return null;
 	}
 
 	/**

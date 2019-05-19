@@ -233,6 +233,24 @@ public class CLIView extends RemoteView {
 
 	}
 
+	@Override
+	public void askPowerupChoice(String question, List<String> options) {
+		printLine(question);
+		for (int i = 1; i < options.size() + 1; i++) {
+			printLine(i + ") " + options.get(i - 1));
+		}
+		int answer = askInteger(1, options.size());
+		sendMessage(new IntMessage(answer - 1, MessageType.POWERUP_INFO_OPTIONS, MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public void askPowerupCoordinates(String question, List<Coordinates> coordinates) {
+		repPrinter.displayGame(coordinates);
+		printLine(question);
+		Coordinates answer = askCoordinates(coordinates);
+		sendMessage(new CoordinatesAnswerMessage(answer, MessageType.POWERUP_INFO_COORDINATES));
+	}
+
 	private int askMapToUse() {
 		printChooseMap();
 		ArrayList<String> possibleChoices = new ArrayList<>();

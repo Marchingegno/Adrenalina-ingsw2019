@@ -27,6 +27,10 @@ public interface ViewInterface {
 
 	void askChoice(String question, List<String> options);
 
+	void askPowerupChoice(String question, List<String> options);
+
+	void askPowerupCoordinates(String question, List<Coordinates> coordinates);
+
 	void askEnd(List<Integer> activablePowerups);
 
 	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);

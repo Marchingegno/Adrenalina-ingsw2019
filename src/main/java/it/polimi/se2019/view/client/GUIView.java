@@ -133,6 +133,16 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askPowerupChoice(String question, List<String> options) {
+
+	}
+
+	@Override
+	public void askPowerupCoordinates(String question, List<Coordinates> coordinates) {
+
+	}
+
+	@Override
 	public void askWeapon(String question, List<String> options) {
 
 	}

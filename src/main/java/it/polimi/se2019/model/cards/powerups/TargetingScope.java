@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
 
 /**
  * This class implements the Targeting scope powerup
@@ -26,12 +27,13 @@ public class TargetingScope extends PowerupCard {
 
 
 	@Override
-	public void activatePowerup(Player activatingPlayer) {
+	public PowerupInfo doPowerupStep(Message answer) {
 		// TODO ask client which type of ammo to use (must be in the client inventory).
 		AmmoType ammoToUse = AmmoType.RED_AMMO; // TODO placeholder, must be choosen ammo type.
-		activatingPlayer.getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
-		Player targetPlayer = activatingPlayer; // TODO placeholder, must be targetPlayer.
-		targetPlayer.getPlayerBoard().addDamage(activatingPlayer, GIVEN_DAMAGE);
+		getOwnerPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
+		Player targetPlayer = getOwnerPlayer(); // TODO placeholder, must be targetPlayer.
+		targetPlayer.getPlayerBoard().addDamage(getOwnerPlayer(), GIVEN_DAMAGE);
+		return null;
 	}
 
 	@Override

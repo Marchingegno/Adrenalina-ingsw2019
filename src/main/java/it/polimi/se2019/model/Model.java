@@ -3,6 +3,7 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
+import it.polimi.se2019.model.cards.powerups.PowerupInfo;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -12,6 +13,7 @@ import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Pair;
@@ -278,6 +280,12 @@ public class Model {
 		}
 
 		return activablePowerups;
+	}
+
+	public PowerupInfo activateOnTurnPowerup(String playerName, int indexOfPowerup, Message answer) {
+		Player player = getPlayerFromName(playerName);
+		PowerupCard powerupCard = player.getPlayerBoard().getPowerupCards().get(indexOfPowerup);
+		return powerupCard.doPowerupStep(answer);
 	}
 
 

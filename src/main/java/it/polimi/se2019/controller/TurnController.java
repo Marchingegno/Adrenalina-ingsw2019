@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.cards.powerups.PowerupInfo;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
@@ -20,6 +21,8 @@ public class TurnController{
 	private VirtualViewsContainer virtualViewsContainer;
 	private WeaponController weaponController;
 	private Model model;
+
+	private int powerupInExecution = -1;
 
 
 	public TurnController(Model model, VirtualViewsContainer virtualViewsContainer) {
@@ -41,14 +44,6 @@ public class TurnController{
 			case ACTION:
 				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
-				break;
-			case ON_TURN_POWERUP:
-				int powerupIndex = ((IntMessage)event.getMessage()).getContent();
-				if(model.canOnTurnPowerupBeActivated(playerName, powerupIndex)) {
-					// TODO activate powerup
-					Utils.logWarning("TODO: ACTIVATE POWERUP, LAUNCHING ACTION/END PLACEHOLDER.");
-					handleEnd(virtualView);
-				}
 				break;
 			case GRAB_AMMO:
 				model.grabAmmoCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
@@ -82,12 +77,23 @@ public class TurnController{
 					virtualView.askChoice(stringListString.getFirst(), stringListString.getSecond());
 				}
 				break;
+			case ON_TURN_POWERUP:
+				int powerupIndex = ((IntMessage)event.getMessage()).getContent();
+				if(model.canOnTurnPowerupBeActivated(playerName, powerupIndex)) {
+					powerupInExecution = powerupIndex;
+					handleNextPowerupStep(virtualView, null);
+				}
+				break;
+			case POWERUP_INFO_OPTIONS:
+			case POWERUP_INFO_COORDINATES:
+				if(powerupInExecution != -1)
+					handleNextPowerupStep(virtualView, event.getMessage());
+				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
 		}
-
 	}
 
-	private void handleNextAction(VirtualView playerVirtualView) {
+	private void  handleNextAction(VirtualView playerVirtualView) {
 		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getNickname());
 		switch (actionType){
 			case MOVE:
@@ -121,6 +127,18 @@ public class TurnController{
 			playerVirtualView.askAction(model.getActivableOnTurnPowerups(playerName));
 		} else {
 			playerVirtualView.askEnd(model.getActivableOnTurnPowerups(playerName));
+		}
+	}
+
+	private void handleNextPowerupStep(VirtualView virtualView, Message answer) {
+		PowerupInfo powerupInfo = model.activateOnTurnPowerup(virtualView.getNickname(), powerupInExecution, answer);
+		if(powerupInfo == null) {
+			powerupInExecution = -1;
+			handleEnd(virtualView);
+		} else if(powerupInfo.isAskOption()) {
+			virtualView.askPowerupChoice(powerupInfo.getQuestion(), powerupInfo.getOptions());
+		} else if(powerupInfo.isAskCoordinates()) {
+			virtualView.askPowerupCoordinates(powerupInfo.getQuestion(), powerupInfo.getCoordinates());
 		}
 	}
 }

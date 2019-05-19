@@ -1,7 +1,7 @@
 package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.network.message.Message;
 
 /**
  * This class implements the Teleporter powerup
@@ -25,9 +25,10 @@ public class Teleporter extends PowerupCard {
 
 
 	@Override
-	public void activatePowerup(Player activatingPlayer) {
+	public PowerupInfo doPowerupStep(Message answer) {
 		// TODO ask client where to move (can be moved anywhere).
 		// TODO move activatingPlayer.
+		return null;
 	}
 
 	/**

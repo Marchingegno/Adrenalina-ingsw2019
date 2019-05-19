@@ -10,12 +10,11 @@ public class RequestWithActivablePowerupsMessage extends Message {
 
 	public RequestWithActivablePowerupsMessage(List<Integer> activablePowerups, MessageType messageType) {
 		super(messageType, MessageSubtype.REQUEST);
-
 		this.activablePowerups = new ArrayList<>(activablePowerups);
 	}
 
 
-	public ArrayList<Integer> getActivablePowerups() {
+	public List<Integer> getActivablePowerups() {
 		return activablePowerups;
 	}
 }

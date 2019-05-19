@@ -9,6 +9,7 @@ import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.network.message.RequestWithActivablePowerupsMessage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
@@ -117,6 +118,15 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				String question = ((AskOptionsMessage)message).getQuestion();
 				List<String> options = ((AskOptionsMessage)message).getOptions();
 				askChoice(question, options);
+				break;
+			case POWERUP_INFO_OPTIONS:
+				AskOptionsMessage askOptionsMessage = (AskOptionsMessage) message;
+				askPowerupChoice(askOptionsMessage.getQuestion(), askOptionsMessage.getOptions());
+				break;
+			case POWERUP_INFO_COORDINATES:
+				AskCoordinatesMessage askCoordinatesMessage = (AskCoordinatesMessage) message;
+				askPowerupCoordinates(askCoordinatesMessage.getQuestion(), askCoordinatesMessage.getCoordinates());
+				break;
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
 				break;
