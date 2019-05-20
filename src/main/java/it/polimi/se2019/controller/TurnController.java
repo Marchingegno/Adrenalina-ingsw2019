@@ -133,6 +133,7 @@ public class TurnController{
 	private void handleNextPowerupStep(VirtualView virtualView, Message answer) {
 		PowerupInfo powerupInfo = model.activateOnTurnPowerup(virtualView.getNickname(), powerupInExecution, answer);
 		if(powerupInfo == null) {
+			model.discardPowerupCard(virtualView.getNickname(), powerupInExecution);
 			powerupInExecution = -1;
 			handleEnd(virtualView);
 		} else if(powerupInfo.isAskOption()) {
