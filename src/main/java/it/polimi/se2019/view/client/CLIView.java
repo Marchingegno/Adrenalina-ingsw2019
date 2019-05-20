@@ -1,7 +1,9 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
+import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
+import it.polimi.se2019.model.gamemap.SpawnSquareRep;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
@@ -134,15 +136,11 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void askGrab() {
-		//TODO: Check whether the player is in a spawn square or a weapon square.
-		getModelRep().getGameMapRep().getPlayerCoordinates(getNickname());
-		printLine("You chose to grab.");
-		printLine("Select a number between 0 and 2.");
-		printLine("You chose 0! <:)");
-		//int answer = askInteger(0, 2);
-		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
+	public void askGrab(Message message) {
+		if (message.getMessageType() == MessageType.GRAB_AMMO)
+			sendMessage(new DefaultActionMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
+		if (message.getMessageType() == MessageType.GRAB_WEAPON)
+			askGrabWeapon();
 	}
 
 	@Override
@@ -219,11 +217,6 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void askWeapon(String question, List<String> options) {
-
-	}
-
-	@Override
 	public void askChoice(String question, List<String> options) {
 
 	}
@@ -261,6 +254,16 @@ public class CLIView extends RemoteView {
 		for (int i = GameConstants.MIN_SKULLS; i <= GameConstants.MAX_SKULLS; i++)
 			possibleChoices.add(Integer.toString(i));
 		return Integer.parseInt(waitForChoiceInMenu(possibleChoices));
+	}
+
+	@Override
+	public void askGrabWeapon() {
+		printLine("Choose a weapon to pickup:");
+		List<WeaponRep> weaponReps = ((SpawnSquareRep) getModelRep().getGameMapRep().getPlayerSquare(getNickname())).getWeaponsRep();
+		for (int i = 0; i < weaponReps.size(); i++) {
+			printLine("[" + (i + 1) + "] " + repPrinter.weaponRepToString(weaponReps.get(i)));
+		}
+		sendMessage(new DefaultActionMessage(askInteger(1, weaponReps.size()), MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	/**

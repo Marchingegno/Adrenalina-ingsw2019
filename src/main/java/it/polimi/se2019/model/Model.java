@@ -195,6 +195,10 @@ public class Model {
 		updateReps();
 	}
 
+	public Message getGrabMessage() {
+		return gameMap.getPlayerSquare(getCurrentPlayer()).getGrabMessage();
+	}
+
 	public void grabWeaponCard(String playerName, int index) {
 		Player player = getPlayerFromName(playerName);
 		WeaponCard cardToGrab = (WeaponCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);

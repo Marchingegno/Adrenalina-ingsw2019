@@ -19,8 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static it.polimi.se2019.utils.GameConstants.NUM_OF_COLUMNS_IN_SQUARE;
-import static it.polimi.se2019.utils.GameConstants.NUM_OF_ROWS_IN_SQUARE;
+import static it.polimi.se2019.utils.GameConstants.*;
 import static it.polimi.se2019.view.client.CLIPrinter.cleanConsole;
 import static it.polimi.se2019.view.client.CLIPrinter.setCursorHome;
 
@@ -55,16 +54,18 @@ class RepPrinter {
 
 		CLIView.print("\n");
 
-		displayGameBoard();
+		if (mapToPrint == null) {
+			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
+		}
+		updateMapToPrint(reachableCoordinates);
+		displayMap();
 
-		displayWeapons();
+		displayGameBoard();
 
 		CLIView.print("\n");
 
-		if (mapToPrint == null)
-			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
-		updateMapToPrint(reachableCoordinates);
-		displayMap();
+
+		displayWeapons();
 
 		CLIView.print("\n\n\n");
 
@@ -172,36 +173,27 @@ class RepPrinter {
 
 	private void displayWeapons() {
 		SquareRep[][] map = modelRep.getGameMapRep().getMapRep();
-		Coordinates redSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.RED_AMMO);
-		List<WeaponRep> redWeapons = ((SpawnSquareRep) map[redSpawnCoordinates.getRow()][redSpawnCoordinates.getColumn()]).getWeaponsRep();
-		Coordinates yellowSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.YELLOW_AMMO);
-		List<WeaponRep> yellowWeapons = ((SpawnSquareRep) map[yellowSpawnCoordinates.getRow()][yellowSpawnCoordinates.getColumn()]).getWeaponsRep();
-		Coordinates blueSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(AmmoType.BLUE_AMMO);
-		List<WeaponRep> blueWeapons = ((SpawnSquareRep) map[blueSpawnCoordinates.getRow()][blueSpawnCoordinates.getColumn()]).getWeaponsRep();
-		CLIPrinter.moveCursorUP(5);
-		CLIPrinter.moveCursorRIGHT(150);
-		CLIView.print(Utils.fillWithSpacesColored("RED SPAWN", 23, Color.CharacterColorType.RED));
-		CLIView.print(Utils.fillWithSpacesColored("YELLOW SPAWN", 23, Color.CharacterColorType.YELLOW));
-		CLIView.print(Utils.fillWithSpacesColored("BLUE SPAWN", 23, Color.CharacterColorType.BLUE));
-		CLIView.print("\n");
-		CLIPrinter.moveCursorRIGHT(150);
-		CLIView.print(weaponRepToString(redWeapons.get(0)));
-		CLIView.print(weaponRepToString(yellowWeapons.get(0)));
-		CLIView.print(weaponRepToString(blueWeapons.get(0)));
-		CLIView.print("\n");
-		CLIPrinter.moveCursorRIGHT(150);
-		CLIView.print(weaponRepToString(redWeapons.get(1)));
-		CLIView.print(weaponRepToString(yellowWeapons.get(1)));
-		CLIView.print(weaponRepToString(blueWeapons.get(1)));
-		CLIView.print("\n");
-		CLIPrinter.moveCursorRIGHT(150);
-		CLIView.print(weaponRepToString(redWeapons.get(2)));
-		CLIView.print(weaponRepToString(yellowWeapons.get(2)));
-		CLIView.print(weaponRepToString(blueWeapons.get(2)));
-		CLIView.print("\n\n");
+
+		CLIPrinter.moveCursorUP(AmmoType.values().length * (MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE + 2) + 10);
+
+		for (AmmoType ammoType : AmmoType.values()) {
+			Coordinates redSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(ammoType);
+			List<WeaponRep> weaponReps = ((SpawnSquareRep) map[redSpawnCoordinates.getRow()][redSpawnCoordinates.getColumn()]).getWeaponsRep();
+			CLIView.printLine(Color.getColoredString(ammoType.getCharacterColorType().toString() + " SPAWN", ammoType.getCharacterColorType()));
+
+			for (int i = 0; i < MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE; i++) {
+				if (i < weaponReps.size())
+					CLIView.printLine(weaponRepToString(weaponReps.get(i)));
+				else
+					CLIView.print("\n");
+			}
+			CLIView.print("\n");
+		}
+
+		CLIPrinter.moveCursorDOWN(5);
 	}
 
-	private String weaponRepToString(WeaponRep weaponRep) {
+	public String weaponRepToString(WeaponRep weaponRep) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
 		for (AmmoType ammoType : weaponRep.getPrice())
@@ -293,13 +285,13 @@ class RepPrinter {
 	}
 
 	private void displayMap() {
-		CLIView.print(Utils.fillWithSpaces((220 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4));
+		CLIPrinter.moveCursorRIGHT((230 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4);
 		for (int i = 0; i < modelRep.getGameMapRep().getNumOfColumns(); i++) {
 			CLIView.print("        " + (i + 1) + "        ");
 		}
 		CLIView.print("\n\n");
 		for (int i = 0; i < mapToPrint.length; i++) {
-			CLIView.print(Utils.fillWithSpaces((220 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2));
+			CLIPrinter.moveCursorRIGHT((230 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4);
 			CLIView.print(Utils.fillWithSpaces((i - (i / NUM_OF_ROWS_IN_SQUARE) * NUM_OF_ROWS_IN_SQUARE) == NUM_OF_ROWS_IN_SQUARE / 2 ? (i / NUM_OF_ROWS_IN_SQUARE + 1) + "" : "", 4));
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);

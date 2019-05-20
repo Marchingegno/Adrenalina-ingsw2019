@@ -9,7 +9,6 @@ import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
 import it.polimi.se2019.network.client.socket.ClientSocket;
 import it.polimi.se2019.network.message.*;
-import it.polimi.se2019.network.message.RequestWithActivablePowerupsMessage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
@@ -106,10 +105,10 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					askEnd(((RequestWithActivablePowerupsMessage) message).getActivablePowerups());
 				break;
 			case GRAB_AMMO:
-				askGrab();
+				sendMessage(new DefaultActionMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
 				break;
 			case GRAB_WEAPON:
-				askGrab();
+				askGrabWeapon();
 				break;
 			case SPAWN:
 				askSpawn();
@@ -222,6 +221,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		Client.terminateClient();
 	}
 
+	public abstract void askGrabWeapon();
 
 	public abstract void updateDisplay();
 

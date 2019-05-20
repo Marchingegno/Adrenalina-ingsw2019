@@ -64,4 +64,9 @@ public class GameMapRep implements Representation {
 		return spawnSquares.get(ammoType);
 	}
 
+	public SquareRep getPlayerSquare(String playerName) {
+		Coordinates playerCoordinates = playersPositions.get(playerName);
+		return mapRep[playerCoordinates.getRow()][playerCoordinates.getColumn()];
+	}
+
 }

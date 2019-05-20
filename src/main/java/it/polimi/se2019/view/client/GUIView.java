@@ -6,6 +6,7 @@ import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.GameConfigMessage;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
@@ -143,11 +144,6 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askWeapon(String question, List<String> options) {
-
-	}
-
-	@Override
 	public void updateDisplay() {
 
 	}
@@ -158,7 +154,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askGrab() {
+	public void askGrab(Message message) {
 
 	}
 
@@ -204,6 +200,11 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+
+	}
+
+	@Override
+	public void askGrabWeapon() {
 
 	}
 

@@ -67,8 +67,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askGrab() {
-		sendMessage(new Message(MessageType.GRAB_AMMO, MessageSubtype.REQUEST));
+	public void askGrab(Message message) {
+		sendMessage(message);
 	}
 
 	@Override
@@ -89,11 +89,6 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void askSpawn() {
 		sendMessage(new Message(MessageType.SPAWN, MessageSubtype.REQUEST));
-	}
-
-	@Override
-	public void askWeapon(String question, List<String> options) {
-		sendMessage(new AskOptionsMessage(question, options, MessageType.WEAPON, MessageSubtype.REQUEST));
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
@@ -24,6 +25,11 @@ public class VoidSquare extends Square {
 	@Override
 	public void refillCards() {
 		Utils.logInfo("No refill needed in a VoidSquare.");
+	}
+
+	@Override
+	public Message getGrabMessage() {
+		throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
 	}
 
 	/**
