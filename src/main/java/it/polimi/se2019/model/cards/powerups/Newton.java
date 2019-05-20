@@ -7,6 +7,7 @@ import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
 import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.CardinalDirection;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Newton extends PowerupCard {
 
 	private int progress = 0;
 	private Player targetPlayer;
+	private List<Player> targettablePlayers;
 
 	private static final String DESCRIPTION =
 			"You may play this card on your turn before or\n" +
@@ -38,34 +40,19 @@ public class Newton extends PowerupCard {
 
 	@Override
 	public PowerupInfo doPowerupStep(Message answer) {
-		if(progress == 0) {
-			progress++;
-			List<String> playerNames = getGameBoard().getPlayers().stream()
-					.filter(player -> player != getOwnerPlayer())
-					.map(Player::getPlayerName)
-					.collect(Collectors.toList());
-
-			PowerupInfo powerupInfo = new PowerupInfo();
-			powerupInfo.setAskOptions("Choose the player to move.", playerNames);
-			return powerupInfo;
-		} else if(progress == 1) {
-			progress++;
-			IntMessage intMessage = (IntMessage) answer;
-			targetPlayer = getGameBoard().getPlayers().get(intMessage.getContent());
-			Coordinates startingPoint = getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer);
-
-			PowerupInfo powerupInfo = new PowerupInfo();
-			powerupInfo.setAskCoordinates("Enter where to move " + targetPlayer.getPlayerName() + ".", getMovingCoordinates(startingPoint));
-			return powerupInfo;
+		progress++;
+		if(progress == 1) {
+			return firstStep();
 		} else if(progress == 2) {
+			return secondStep(answer);
+		} else if(progress == 3) {
 			progress = 0;
-			Coordinates targetCoordinates = ((CoordinatesAnswerMessage) answer).getSingleCoordinates();
-			List<Coordinates> allowedCoordinates = getMovingCoordinates(getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer));
-			if(allowedCoordinates.contains(targetCoordinates))
-				getGameBoard().getGameMap().movePlayerTo(targetPlayer, targetCoordinates);
+			lastStep(answer);
+			return null;
+		} else {
+			Utils.logError("Wrong progress.", new IllegalStateException());
+			return null;
 		}
-		progress = 0;
-		return null;
 	}
 
 	/**
@@ -88,6 +75,40 @@ public class Newton extends PowerupCard {
 		return "Newton";
 	}
 
+
+	private PowerupInfo firstStep() {
+		targettablePlayers = getGameBoard().getPlayers().stream()
+				.filter(player -> player != getOwnerPlayer() && !player.getPlayerBoard().isDead())
+				.collect(Collectors.toList());
+
+		List<String> playerNames = targettablePlayers.stream()
+				.map(Player::getPlayerName)
+				.collect(Collectors.toList());
+
+		PowerupInfo powerupInfo = new PowerupInfo();
+		powerupInfo.setAskOptions("Choose the player to move.", playerNames);
+		return powerupInfo;
+	}
+
+	private PowerupInfo secondStep(Message answer) {
+		IntMessage intMessage = (IntMessage) answer;
+		targetPlayer = targettablePlayers.get(intMessage.getContent());
+		Coordinates startingPoint = getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer);
+
+		PowerupInfo powerupInfo = new PowerupInfo();
+		powerupInfo.setAskCoordinates("Enter where to move " + targetPlayer.getPlayerName() + ".", getMovingCoordinates(startingPoint));
+		return powerupInfo;
+	}
+
+	private void lastStep(Message answer) {
+		Coordinates targetCoordinates = ((CoordinatesAnswerMessage) answer).getSingleCoordinates();
+		List<Coordinates> allowedCoordinates = getMovingCoordinates(getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer));
+		if(allowedCoordinates.contains(targetCoordinates)) {
+			getGameBoard().getGameMap().movePlayerTo(targetPlayer, targetCoordinates);
+			getGameBoard().getGameMap().updateRep();
+			getGameBoard().getGameMap().notifyObservers();
+		}
+	}
 
 	private List<Coordinates> getMovingCoordinates(Coordinates startingPoint){
 		ArrayList<Coordinates> possibleMoves = new ArrayList<>();
