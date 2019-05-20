@@ -7,6 +7,7 @@ import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
 import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.CardinalDirection;
+import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class Newton extends PowerupCard {
 				.collect(Collectors.toList());
 
 		List<String> playerNames = targettablePlayers.stream()
-				.map(Player::getPlayerName)
+				.map(player -> Color.getColoredString(player.getPlayerName(), player.getPlayerColor()))
 				.collect(Collectors.toList());
 
 		PowerupInfo powerupInfo = new PowerupInfo();
