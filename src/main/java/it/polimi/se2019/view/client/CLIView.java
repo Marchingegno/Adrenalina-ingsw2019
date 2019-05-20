@@ -172,31 +172,26 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askEnd(List<Integer> activablePowerups) {
 		printLine("Choose an action!");
-		printLine("1) Reload");
+		printLine("1) End turn");
+		printLine("2) Reload");
 		int answer;
 		if(activablePowerups.isEmpty()) {
-			printLine("2) End turn");
 			answer = askInteger(1, 2);
 		} else {
-			printLine("2) Powerup");
-			printLine("3) End turn");
+			printLine("3) Powerup");
 			answer = askInteger(1, 3);
 		}
 
 		if(answer == 1) {
-			// Reload
-			askReload();
-		} else if(answer == 2) {
-			if(activablePowerups.isEmpty()) {
-				// End turn.
-				sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
-			} else {
-				// Ask powerup.
-				int powerupAnswer = askPowerupToActivate(activablePowerups);
-				sendMessage(new IntMessage(powerupAnswer, MessageType.ON_TURN_POWERUP, MessageSubtype.ANSWER));
-			}
-		} else if(answer == 3) {
+			// End turn.
 			sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
+		} else if(answer == 2) {
+			// Reload.
+			askReload();
+		} else if(answer == 3) {
+			// Ask powerup.
+			int powerupAnswer = askPowerupToActivate(activablePowerups);
+			sendMessage(new IntMessage(powerupAnswer, MessageType.ON_TURN_POWERUP, MessageSubtype.ANSWER));
 		}
 	}
 
