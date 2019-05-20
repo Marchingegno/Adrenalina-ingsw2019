@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.Deck;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Color;
 
 import java.util.ArrayList;
@@ -165,4 +166,6 @@ public abstract class Square implements Representable {
 	public void setNotChanged() {
 		hasChanged = false;
 	}
+
+	public abstract Message getGrabMessage();
 }
