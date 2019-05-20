@@ -54,16 +54,17 @@ class RepPrinter {
 
 		CLIView.print("\n");
 
+		displayGameBoard();
+
 		if (mapToPrint == null) {
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
 		}
 		updateMapToPrint(reachableCoordinates);
 		displayMap();
 
-		displayGameBoard();
+		CLIPrinter.moveCursorUP(0);
 
 		CLIView.print("\n");
-
 
 		displayWeapons();
 
@@ -285,13 +286,13 @@ class RepPrinter {
 	}
 
 	private void displayMap() {
-		CLIPrinter.moveCursorRIGHT((230 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4);
+		CLIPrinter.moveCursorRIGHT(123);
 		for (int i = 0; i < modelRep.getGameMapRep().getNumOfColumns(); i++) {
 			CLIView.print("        " + (i + 1) + "        ");
 		}
 		CLIView.print("\n\n");
 		for (int i = 0; i < mapToPrint.length; i++) {
-			CLIPrinter.moveCursorRIGHT((230 - modelRep.getGameMapRep().getNumOfColumns() * NUM_OF_COLUMNS_IN_SQUARE) / 2 + 4);
+			CLIPrinter.moveCursorRIGHT(120);
 			CLIView.print(Utils.fillWithSpaces((i - (i / NUM_OF_ROWS_IN_SQUARE) * NUM_OF_ROWS_IN_SQUARE) == NUM_OF_ROWS_IN_SQUARE / 2 ? (i / NUM_OF_ROWS_IN_SQUARE + 1) + "" : "", 4));
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);

@@ -263,7 +263,7 @@ public class CLIView extends RemoteView {
 		for (int i = 0; i < weaponReps.size(); i++) {
 			printLine("[" + (i + 1) + "] " + repPrinter.weaponRepToString(weaponReps.get(i)));
 		}
-		sendMessage(new DefaultActionMessage(askInteger(1, weaponReps.size()), MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+		sendMessage(new DefaultActionMessage(askInteger(1, weaponReps.size()) - 1, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	/**
