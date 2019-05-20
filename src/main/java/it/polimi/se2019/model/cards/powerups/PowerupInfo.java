@@ -22,6 +22,7 @@ public class PowerupInfo {
 	}
 
 	void setAskCoordinates(String question, List<Coordinates> coordinates) {
+		this.question = question;
 		this.coordinates = new ArrayList<>(coordinates);
 		askCoordinates = true;
 	}
