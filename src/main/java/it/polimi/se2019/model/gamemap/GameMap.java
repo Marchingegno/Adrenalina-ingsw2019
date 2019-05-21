@@ -117,6 +117,12 @@ public class GameMap extends Observable implements Representable {
 		return coordinatesList;
 	}
 
+	public List<Coordinates> getAllCoordinatesExceptPlayer(Player player) {
+		List<Coordinates> result = getAllCoordinates();
+		result.remove(getPlayerCoordinates(player));
+		return result;
+	}
+
 	/**
 	 * Returns the player's square.
 	 *

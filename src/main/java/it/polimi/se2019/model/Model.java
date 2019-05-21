@@ -188,6 +188,15 @@ public class Model {
 		return getCurrentPlayer().getPlayerBoard().numOfWeapons() == GameConstants.MAX_WEAPON_CARDS_PER_PLAYER;
 	}
 
+
+	public List<Coordinates> getCoordinatesWherePlayerCanMove() {
+		if (getCurrentPlayer().getDamageStatus().getCurrentMacroAction().isGrab())
+			return getCoordinatesWhereCurrentPlayerCanGrab();
+		else
+			return getReachableCoordinatesOfTheCurrentPlayer();
+	}
+
+
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
 		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
 		return getReachableCoordinates(getCurrentPlayerName(), numberOfMovements);
