@@ -25,7 +25,7 @@ public class TagbackGrenade extends PowerupCard {
 
 
 	@Override
-	public PowerupInfo doPowerupStep(Message answer) {
+	public QuestionContainer doPowerupStep(Message answer) {
 		Player targetPlayer = getOwnerPlayer(); // TODO placeholder, must be targetPlayer.
 		targetPlayer.getPlayerBoard().addMarks(getOwnerPlayer(), GIVEN_MARKS); // add marks to the target player.
 		return null;
