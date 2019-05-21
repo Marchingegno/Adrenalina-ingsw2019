@@ -242,12 +242,12 @@ public class Model {
 		updateReps();
 	}
 
-	public void swapWeapons(String playerName, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
-		Player player = getPlayerFromName(playerName);
+	public void swapWeapons(int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
+		Player player = getCurrentPlayer();
 		Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
 		WeaponCard squareWeapon = (WeaponCard) (gameMap.grabCard(playerCoordinates, indexOfTheSpawnWeapon));
-
-		gameMap.addCard(playerCoordinates, player.getPlayerBoard().swapWeapon(squareWeapon, indexOfThePlayerWeapon));
+		WeaponCard playerWeapon = player.getPlayerBoard().swapWeapon(squareWeapon, indexOfThePlayerWeapon);
+		gameMap.addCard(playerCoordinates, playerWeapon);
 		updateReps();
 	}
 

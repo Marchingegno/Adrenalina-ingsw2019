@@ -141,7 +141,10 @@ public class CLIView extends RemoteView {
 	public void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
 		List<CardRep> weaponCards = getModelRep().getGameMapRep().getPlayerSquare(getNickname()).getCards();
 		printLine("Select the weapon to grab:");
-		showWeapons(weaponCards, indexesOfTheGrabbableWeapons);
+		for (int i = 0; i < weaponCards.size(); i++) {
+			if (indexesOfTheGrabbableWeapons.contains(i))
+				printLine((i + 1) + ") " + repPrinter.getWeaponRepString(((WeaponRep) weaponCards.get(i))));
+		}
 		sendMessage(new IntMessage(askIntegerFromList(indexesOfTheGrabbableWeapons, -1), MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
@@ -150,24 +153,22 @@ public class CLIView extends RemoteView {
 		int indexOfTheWeaponToDiscard;
 		int indexOfTheWeaponToGrab;
 		List<CardRep> weaponsInSpawn = getModelRep().getGameMapRep().getPlayerSquare(getNickname()).getCards();
-		List<CardRep> weaponsOfThePlayer = getModelRep().getGameMapRep().getPlayerSquare(getNickname()).getCards();
+		List<WeaponRep> weaponsOfThePlayer = getModelRep().getClientPlayerRep().getWeaponReps();
 
 		printLine("Select the weapon to grab:");
-		showWeapons(weaponsInSpawn, indexesOfTheGrabbableWeapons);
+		for (int i = 0; i < weaponsInSpawn.size(); i++) {
+			if (indexesOfTheGrabbableWeapons.contains(i))
+				printLine((i + 1) + ") " + repPrinter.getWeaponRepString(((WeaponRep) weaponsInSpawn.get(i))));
+		}
 		indexOfTheWeaponToGrab = askIntegerFromList(indexesOfTheGrabbableWeapons, -1);
 
 		printLine("Select the weapon to Discard:");
-		showWeapons(weaponsInSpawn, indexesOfTheGrabbableWeapons);
-		indexOfTheWeaponToDiscard = askInteger(1, weaponsOfThePlayer.size());
-
-		new SwapMessage(indexOfTheWeaponToGrab, indexOfTheWeaponToDiscard, MessageType.SWAP_WEAPON);
-	}
-
-	private void showWeapons(List<CardRep> weaponCards, List<Integer> indexesOfTheWeapons) {
-		for (int i = 0; i < weaponCards.size(); i++) {
-			if (indexesOfTheWeapons.contains(i))
-				printLine((i + 1) + ") " + repPrinter.getWeaponRepString(((WeaponRep) weaponCards.get(i))));
+		for (int i = 0; i < weaponsOfThePlayer.size(); i++) {
+			printLine((i + 1) + ") " + repPrinter.getWeaponRepString(weaponsOfThePlayer.get(i)));
 		}
+		indexOfTheWeaponToDiscard = askInteger(1, weaponsOfThePlayer.size()) - 1;
+
+		sendMessage(new SwapMessage(indexOfTheWeaponToGrab, indexOfTheWeaponToDiscard, MessageType.SWAP_WEAPON));
 	}
 
 	@Override

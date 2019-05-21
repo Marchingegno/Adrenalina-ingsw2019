@@ -3,19 +3,19 @@ package it.polimi.se2019.network.message;
 public class SwapMessage extends Message {
 
 	int indexToGrab;
-	int indexToDescard;
+	int indexToDiscard;
 
-	public SwapMessage(int indexToGrab, int indexToDescard, MessageType messageType) {
+	public SwapMessage(int indexToGrab, int indexToDiscard, MessageType messageType) {
 		super(messageType, MessageSubtype.ANSWER);
 		this.indexToGrab = indexToGrab;
-		this.indexToDescard = indexToDescard;
+		this.indexToDiscard = indexToDiscard;
 	}
 
 	public int getIndexToGrab() {
 		return indexToGrab;
 	}
 
-	public int getIndexToDescard() {
-		return indexToDescard;
+	public int getIndexToDiscard() {
+		return indexToDiscard;
 	}
 }

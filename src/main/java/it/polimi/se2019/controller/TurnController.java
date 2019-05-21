@@ -46,6 +46,11 @@ public class TurnController{
 				model.grabWeaponCard(playerName, ((IntMessage) event.getMessage()).getContent());
 				handleNextAction(virtualView);
 				break;
+			case SWAP_WEAPON:
+				SwapMessage swapMessage = (SwapMessage) event.getMessage();
+				model.swapWeapons(swapMessage.getIndexToDiscard(), swapMessage.getIndexToGrab());
+				handleNextAction(virtualView);
+				break;
 			case MOVE:
 				Coordinates playerChoice = ((CoordinatesAnswerMessage) event.getMessage()).getSingleCoordinates();
 				if (model.getReachableCoordinatesOfTheCurrentPlayer().contains(playerChoice)) {
