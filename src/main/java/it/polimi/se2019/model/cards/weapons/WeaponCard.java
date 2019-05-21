@@ -35,7 +35,7 @@ public abstract class WeaponCard extends Card implements Representable {
 	private boolean loaded;
 	private GameBoard gameBoard;
 	private final List<AmmoType> reloadPrice;
-	int moveDistance; //Standard move for relocation of the player.
+	int MOVE_DISTANCE; //Standard move for relocation of the player.
 	int maximumSteps; //Maximum advancement steps.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
@@ -209,8 +209,8 @@ public abstract class WeaponCard extends Card implements Representable {
 		return standardDamagesAndMarks;
 	}
 
-	int getMoveDistance() {
-		return moveDistance;
+	int getMOVE_DISTANCE() {
+		return MOVE_DISTANCE;
 	}
 
 	int getCurrentStep() {

@@ -17,6 +17,10 @@ public abstract class OptionalEffect extends WeaponCard {
 	private boolean[] optionalEffectsActive;
 	private boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
 	private List<List<AmmoType>> optionalCosts;
+	int OPTIONAL1_DAMAGE;
+	int OPTIONAL1_MARKS;
+	int OPTIONAL2_DAMAGE;
+	int OPTIONAL2_MARKS;
 
 
 	public OptionalEffect(String weaponName, String description, List<AmmoType> reloadPrice) {
@@ -59,7 +63,13 @@ public abstract class OptionalEffect extends WeaponCard {
 				//No optional effects.
 				break;
 			case 1:
-				optionalEffectsActive[0] = true;
+				//If the first optional effect can't be added, then choice 1 is the second optional effect
+				if(canAddOptionalEffect[0]){
+					optionalEffectsActive[0] = true;
+				}
+				else{
+					optionalEffectsActive[1] = true;
+				}
 				break;
 			case 2:
 				optionalEffectsActive[1] = true;
@@ -75,6 +85,14 @@ public abstract class OptionalEffect extends WeaponCard {
 
 	@Override
 	public Pair handleFire(int choice) {
+		return null;
+	}
+
+	protected Pair handleOptionalEffect1(int choice){
+		return null;
+	}
+
+	protected Pair handleOptionalEffect2(int choice){
 		return null;
 	}
 
@@ -104,6 +122,11 @@ public abstract class OptionalEffect extends WeaponCard {
 	public boolean doneFiring() {
 		//TODO Implement
 		return super.doneFiring();
+	}
+
+	public List<AmmoType> getCostOfOptionalEffect(int numberOfEffect){
+		return optionalCosts.get(numberOfEffect - 1);
+
 	}
 
 	protected boolean isOptionalActive(int optionalIndex) {
