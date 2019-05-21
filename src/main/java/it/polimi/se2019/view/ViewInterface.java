@@ -4,7 +4,7 @@ import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageType;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface ViewInterface {
 
 	void askAction(List<Integer> activablePowerups);
 
-	void askGrab(Message message);
+	void askGrab(MessageType grabType);
 
 	void askMove(List<Coordinates> reachableCoordinates);
 

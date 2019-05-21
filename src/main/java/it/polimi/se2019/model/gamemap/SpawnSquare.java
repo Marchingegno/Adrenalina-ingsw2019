@@ -4,8 +4,6 @@ import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoard;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
@@ -52,13 +50,13 @@ public class SpawnSquare extends Square {
 	}
 
 	@Override
-	public boolean hasGrabbables() {
+	public boolean hasGrabbable() {
 		return !cards.isEmpty();
 	}
 
 	@Override
-	public Message getGrabMessage() {
-		return new Message(MessageType.GRAB_WEAPON, MessageSubtype.REQUEST);
+	public MessageType getGrabMessageType() {
+		return MessageType.GRAB_WEAPON;
 	}
 
 	/**

@@ -14,6 +14,7 @@ import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Pair;
@@ -195,8 +196,8 @@ public class Model {
 		updateReps();
 	}
 
-	public Message getGrabMessage() {
-		return gameMap.getPlayerSquare(getCurrentPlayer()).getGrabMessage();
+	public MessageType getGrabMessageType() {
+		return gameMap.getPlayerSquare(getCurrentPlayer()).getGrabMessageType();
 	}
 
 	public void grabWeaponCard(String playerName, int index) {

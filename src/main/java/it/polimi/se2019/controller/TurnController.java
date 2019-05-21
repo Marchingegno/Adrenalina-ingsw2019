@@ -106,7 +106,7 @@ public class TurnController{
 					playerVirtualView.askMove(model.getReachableCoordinatesOfTheCurrentPlayer());
 				break;
 			case GRAB:
-				playerVirtualView.askGrab(model.getGrabMessage());
+				playerVirtualView.askGrab(model.getGrabMessageType());
 				break;
 			case RELOAD:
 				playerVirtualView.askReload();
