@@ -114,14 +114,11 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				askSpawn();
 				break;
 			case WEAPON:
-				String question = ((AskOptionsMessage)message).getQuestion();
-				List<String> options = ((AskOptionsMessage)message).getOptions();
-				askWeaponChoice(question);
+				askWeaponChoice(((AskOptionsMessage) message).getQuestionContainer());
 				break;
 			case POWERUP:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
-					AskOptionsMessage askOptionsMessage = (AskOptionsMessage) message;
-					askPowerupChoice(askOptionsMessage.getQuestionContainer());
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					askPowerupChoice(((AskOptionsMessage) message).getQuestionContainer());
 				}
 				break;
 			default:
