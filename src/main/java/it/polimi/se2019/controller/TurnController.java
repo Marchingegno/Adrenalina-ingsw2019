@@ -19,7 +19,6 @@ import it.polimi.se2019.view.server.VirtualView;
 public class TurnController{
 
 	private VirtualViewsContainer virtualViewsContainer;
-	private WeaponController weaponController;
 	private Model model;
 
 	private int powerupInExecution = -1;
@@ -28,7 +27,6 @@ public class TurnController{
 	public TurnController(Model model, VirtualViewsContainer virtualViewsContainer) {
 		this.virtualViewsContainer = virtualViewsContainer;
 		this.model = model;
-		this.weaponController = new WeaponController();
 	}
 
 

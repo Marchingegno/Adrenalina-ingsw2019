@@ -4,7 +4,6 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
@@ -20,7 +19,7 @@ public class Flamethrower extends AlternateFireWeapon {
 	private List<Player> secondSquareTargets;
 
 	public Flamethrower(String description, List<AmmoType> reloadPrice) {
-		super("Flame Thrower", description, reloadPrice);
+		super("FlameThrower", description, reloadPrice);
 		this.PRIMARY_DAMAGE = 1;
 		this.PRIMARY_MARKS = 0;
 		this.SECONDARY_DAMAGE = 2;
@@ -101,7 +100,7 @@ public class Flamethrower extends AlternateFireWeapon {
 		return null;
 	}
 
-	private Pair handleDirectionChoice(int choice){
+	private QuestionContainer handleDirectionChoice(int choice){
 		if(getCurrentStep() == 2) {
 			return getCardinalQnO();
 		}

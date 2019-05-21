@@ -9,7 +9,6 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  * The weapons are handled with the help of the **Strategy Pattern*. Each weapon has a predetermined number of
  * "advancement steps", that represent the current state of advancement of the firing process of the weapon.
  * Each time the controller wishes to continue the process of firing of the weapon, it must call the method **handleFire**;
- * This will return a "Question" {@link Pair} that the controller must send to the Virtual View of the shooting player.
+ * This will return a {@link QuestionContainer} that the controller must send to the Virtual View of the shooting player.
  * However, before doing that, the controller will need to check if the weapon has finished the firing process and has
  * already dealt damage; this can be done calling {@link #doneFiring()} that returns a boolean that is true when the
  * current step is the maximum step for the current firing mode. The controller will also need to {@link #reset()} the weapon
