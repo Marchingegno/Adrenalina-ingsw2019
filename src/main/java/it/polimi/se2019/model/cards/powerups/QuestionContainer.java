@@ -25,11 +25,13 @@ public class QuestionContainer {
 	public static QuestionContainer createStringQuestionContainer(String question, List<String> options) {
 		QuestionContainer questionContainer = new QuestionContainer(question, true, false);
 		questionContainer.options = new ArrayList<>(options);
+		return questionContainer;
 	}
 
 	public static QuestionContainer createCoordinatesQuestionContainer(String question, List<Coordinates> coordinates) {
 		QuestionContainer questionContainer = new QuestionContainer(question, false, true);
 		questionContainer.coordinates = new ArrayList<>(coordinates);
+		return questionContainer;
 	}
 
 
