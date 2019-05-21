@@ -14,9 +14,13 @@ public class Cyberblade extends OptionalEffect{
 	public Cyberblade(String description, List<AmmoType> reloadPrice) {
 		super("Cyberblade", description, reloadPrice);
 		this.standardDamagesAndMarks = new ArrayList<>();
+		this.PRIMARY_DAMAGE = 2;
+		this.PRIMARY_MARKS = 0;
+		this.OPTIONAL2_DAMAGE = 2;
+		this.OPTIONAL2_MARKS = 0;
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
-//		this.standardDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
-//		this.moveDistance = MOVE_DISTANCE;
+		this.standardDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
+		this.MOVE_DISTANCE = 1;
 	}
 
 	public Cyberblade(String description){
