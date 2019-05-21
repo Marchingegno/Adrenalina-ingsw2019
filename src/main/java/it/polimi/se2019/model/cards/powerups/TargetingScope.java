@@ -27,7 +27,7 @@ public class TargetingScope extends PowerupCard {
 
 
 	@Override
-	public PowerupInfo doPowerupStep(Message answer) {
+	public QuestionContainer doPowerupStep(Message answer) {
 		// TODO ask client which type of ammo to use (must be in the client inventory).
 		AmmoType ammoToUse = AmmoType.RED_AMMO; // TODO placeholder, must be choosen ammo type.
 		getOwnerPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo

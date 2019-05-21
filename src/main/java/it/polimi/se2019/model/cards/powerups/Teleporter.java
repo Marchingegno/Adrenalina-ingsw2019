@@ -32,7 +32,7 @@ public class Teleporter extends PowerupCard {
 
 
 	@Override
-	public PowerupInfo doPowerupStep(Message answer) {
+	public QuestionContainer doPowerupStep(Message answer) {
 		progress++;
 		if(progress == 1) {
 			return firstStep();
@@ -61,13 +61,11 @@ public class Teleporter extends PowerupCard {
 	}
 
 
-	private PowerupInfo firstStep() {
+	private QuestionContainer firstStep() {
 		Coordinates start = getGameBoard().getGameMap().getPlayerCoordinates(getOwnerPlayer());
 		List<Coordinates> allCoordinates = getGameBoard().getGameMap().reachableCoordinates(start, 10);
 
-		PowerupInfo powerupInfo = new PowerupInfo();
-		powerupInfo.setAskCoordinates("Choose where to move.", allCoordinates);
-		return powerupInfo;
+		return QuestionContainer.createCoordinatesQuestionContainer("Choose where to move.", allCoordinates);
 	}
 
 	private void lastStep(Message answer) {

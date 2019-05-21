@@ -38,9 +38,9 @@ public abstract class PowerupCard extends Card {
 	/**
 	 * Do one step of the powerup.
 	 * @param answer the answer given by the user. Can null if it's the first step.
-	 * @return a PowerupInfo object with the info for the next request.
+	 * @return a QuestionContainer object with the info for the next request.
 	 */
-	public abstract PowerupInfo doPowerupStep(Message answer);
+	public abstract QuestionContainer doPowerupStep(Message answer);
 
 	/**
 	 * Returns true if this powerup card can be activated in the current conditions.

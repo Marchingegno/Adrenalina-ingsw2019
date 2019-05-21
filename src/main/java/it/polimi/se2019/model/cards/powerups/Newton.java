@@ -40,7 +40,7 @@ public class Newton extends PowerupCard {
 
 
 	@Override
-	public PowerupInfo doPowerupStep(Message answer) {
+	public QuestionContainer doPowerupStep(Message answer) {
 		progress++;
 		if(progress == 1) {
 			return firstStep();
@@ -77,7 +77,7 @@ public class Newton extends PowerupCard {
 	}
 
 
-	private PowerupInfo firstStep() {
+	private QuestionContainer firstStep() {
 		targettablePlayers = getGameBoard().getPlayers().stream()
 				.filter(player -> player != getOwnerPlayer() && !player.getPlayerBoard().isDead())
 				.collect(Collectors.toList());
@@ -86,19 +86,15 @@ public class Newton extends PowerupCard {
 				.map(player -> Color.getColoredString(player.getPlayerName(), player.getPlayerColor()))
 				.collect(Collectors.toList());
 
-		PowerupInfo powerupInfo = new PowerupInfo();
-		powerupInfo.setAskOptions("Choose the player to move.", playerNames);
-		return powerupInfo;
+		return QuestionContainer.createStringQuestionContainer("Choose the player to move.", playerNames);
 	}
 
-	private PowerupInfo secondStep(Message answer) {
+	private QuestionContainer secondStep(Message answer) {
 		IntMessage intMessage = (IntMessage) answer;
 		targetPlayer = targettablePlayers.get(intMessage.getContent());
 		Coordinates startingPoint = getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer);
 
-		PowerupInfo powerupInfo = new PowerupInfo();
-		powerupInfo.setAskCoordinates("Enter where to move " + targetPlayer.getPlayerName() + ".", getMovingCoordinates(startingPoint));
-		return powerupInfo;
+		return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", getMovingCoordinates(startingPoint));
 	}
 
 	private void lastStep(Message answer) {

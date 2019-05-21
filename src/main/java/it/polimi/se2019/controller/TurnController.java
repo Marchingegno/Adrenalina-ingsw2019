@@ -1,7 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
-import it.polimi.se2019.model.cards.powerups.PowerupInfo;
+import it.polimi.se2019.model.cards.powerups.QuestionContainer;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
 import it.polimi.se2019.network.message.DefaultActionMessage;
@@ -134,15 +134,15 @@ public class TurnController{
 	}
 
 	private void handleNextPowerupStep(VirtualView virtualView, Message answer) {
-		PowerupInfo powerupInfo = model.activateOnTurnPowerup(virtualView.getNickname(), powerupInExecution, answer);
-		if(powerupInfo == null) {
+		QuestionContainer questionContainer = model.activateOnTurnPowerup(virtualView.getNickname(), powerupInExecution, answer);
+		if(questionContainer == null) {
 			model.discardPowerupCard(virtualView.getNickname(), powerupInExecution);
 			powerupInExecution = -1;
 			handleEnd(virtualView);
-		} else if(powerupInfo.isAskOption()) {
-			virtualView.askPowerupChoice(powerupInfo.getQuestion(), powerupInfo.getOptions());
-		} else if(powerupInfo.isAskCoordinates()) {
-			virtualView.askPowerupCoordinates(powerupInfo.getQuestion(), powerupInfo.getCoordinates());
+		} else if(questionContainer.isAskString()) {
+			virtualView.askPowerupChoice(questionContainer.getQuestion(), questionContainer.getOptions());
+		} else if(questionContainer.isAskCoordinates()) {
+			virtualView.askPowerupCoordinates(questionContainer.getQuestion(), questionContainer.getCoordinates());
 		}
 	}
 }
