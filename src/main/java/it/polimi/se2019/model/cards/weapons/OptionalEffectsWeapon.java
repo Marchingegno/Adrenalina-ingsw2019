@@ -21,6 +21,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	int OPTIONAL1_MARKS;
 	int OPTIONAL2_DAMAGE;
 	int OPTIONAL2_MARKS;
+	List<DamageAndMarks> optional1DamagesAndMarks;
+	List<DamageAndMarks> optional2DamagesAndMarks;
+	List<DamageAndMarks> optional1and2DamagesAndMarks;
+
 
 
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice) {
