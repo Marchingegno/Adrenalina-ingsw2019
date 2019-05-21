@@ -110,6 +110,9 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 			case GRAB_WEAPON:
 				askGrabWeapon(((RequestChoiseInArrayMessage) message).getAvailableIndexes());
 				break;
+			case SWAP_WEAPON:
+				askSwapWeapon(((RequestChoiseInArrayMessage) message).getAvailableIndexes());
+				break;
 			case SPAWN:
 				askSpawn();
 				break;
@@ -217,6 +220,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	}
 
 	public abstract void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons);
+
+	public abstract void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons);
 
 	public abstract void updateDisplay();
 

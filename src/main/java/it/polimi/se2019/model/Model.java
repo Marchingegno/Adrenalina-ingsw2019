@@ -184,6 +184,10 @@ public class Model {
 		updateReps();
 	}
 
+	public boolean currPlayerHasWeaponInventoryFull() {
+		return getCurrentPlayer().getPlayerBoard().numOfWeapons() == GameConstants.MAX_WEAPON_CARDS_PER_PLAYER;
+	}
+
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
 		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
 		return getReachableCoordinates(getCurrentPlayerName(), numberOfMovements);

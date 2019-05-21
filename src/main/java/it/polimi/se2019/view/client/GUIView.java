@@ -154,6 +154,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
+
+	}
+
+	@Override
 	public void askMove(List<Coordinates> reachableCoordinates) {
 
 	}

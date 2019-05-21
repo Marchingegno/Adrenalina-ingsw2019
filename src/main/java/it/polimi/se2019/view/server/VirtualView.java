@@ -73,6 +73,11 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
+	public void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
+		sendMessage(new RequestChoiseInArrayMessage(indexesOfTheGrabbableWeapons, MessageType.SWAP_WEAPON));
+	}
+
+	@Override
 	public void askMove(List<Coordinates> reachableCoordinates) {
 		sendMessage(new CoordinatesRequestMessage(reachableCoordinates, MessageType.MOVE));
 	}

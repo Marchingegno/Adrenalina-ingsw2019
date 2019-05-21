@@ -91,7 +91,10 @@ public class TurnController{
 				break;
 			case GRAB:
 				if (model.getGrabMessageType() == MessageType.GRAB_WEAPON) {
-					playerVirtualView.askGrabWeapon(model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
+					if (model.currPlayerHasWeaponInventoryFull())
+						playerVirtualView.askSwapWeapon(model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
+					else
+						playerVirtualView.askGrabWeapon(model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
 				} else {
 					model.grabAmmoCard(playerVirtualView.getNickname(), 0);
 					handleNextAction(playerVirtualView);

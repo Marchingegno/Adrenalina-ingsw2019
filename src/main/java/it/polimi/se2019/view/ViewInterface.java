@@ -16,6 +16,8 @@ public interface ViewInterface {
 
 	void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons);
 
+	void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons);
+
 	void askMove(List<Coordinates> reachableCoordinates);
 
 	void askShoot();

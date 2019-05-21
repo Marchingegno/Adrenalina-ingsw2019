@@ -15,6 +15,7 @@ public enum MessageType {
 	POWERUP,
 	MOVE,
 	GRAB_WEAPON,
+	SWAP_WEAPON,
 	GRAB_AMMO,
 	SHOOT,
 	RELOAD,
