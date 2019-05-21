@@ -54,6 +54,10 @@ public abstract class WeaponCard extends Card implements Representable {
 		this.reloadPrice = reloadPrice;
 	}
 
+	public boolean canFire(){
+		return true;
+	}
+
 	public boolean doneFiring(){
 		return getCurrentStep() == getMaximumSteps();
 	}
