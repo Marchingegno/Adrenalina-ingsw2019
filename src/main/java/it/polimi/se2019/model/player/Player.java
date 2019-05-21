@@ -7,8 +7,10 @@ import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.MacroAction;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.List;
@@ -184,11 +186,38 @@ public class Player extends Observable implements Representable {
 		return this.getPlayerBoard().getWeaponCards().get(firingWeapon);
 	}
 
-	public PowerupCard getPowerupInExecution(){
+
+	// ####################################
+	// POWERUPS
+	// ####################################
+
+	public boolean isPowerupInExecution() {
+		return powerupInExecution != -1;
+	}
+
+	public QuestionContainer initialPowerupActivation(int indexOfPowerup) {
+		powerupInExecution = indexOfPowerup;
+		PowerupCard powerupCard = getPlayerBoard().getPowerupCards().get(powerupInExecution);
+		return powerupCard.doPowerupStep(null);
+	}
+
+	public QuestionContainer doPowerupStep(Message answer) {
 		if(powerupInExecution == -1)
 			throw new IllegalStateException("No powerup in execution!");
-		return this.getPlayerBoard().getPowerupCards().get(powerupInExecution);
+		PowerupCard powerupCard = getPlayerBoard().getPowerupCards().get(powerupInExecution);
+		return powerupCard.doPowerupStep(answer);
 	}
+
+	public void discardPowerupInExecution() {
+		if(powerupInExecution == -1)
+			throw new IllegalStateException("No powerup in execution!");
+		getPlayerBoard().removePowerup(powerupInExecution);
+	}
+
+
+	// ####################################
+	// REPS
+	// ####################################
 
 	/**
 	 * Updates the player's representation.

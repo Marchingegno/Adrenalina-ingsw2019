@@ -21,8 +21,6 @@ public class TurnController{
 	private VirtualViewsContainer virtualViewsContainer;
 	private Model model;
 
-	private int powerupInExecution = -1;
-
 
 	public TurnController(Model model, VirtualViewsContainer virtualViewsContainer) {
 		this.virtualViewsContainer = virtualViewsContainer;
@@ -76,11 +74,10 @@ public class TurnController{
 				}
 				break;
 			case POWERUP:
-				if(powerupInExecution != -1) {
-					handleNextPowerupStep(virtualView, event.getMessage());
-				} else {
+				if(model.isPowerupInExecution(playerName))
+					doPowerupStep(virtualView, event.getMessage());
+				else
 					initialPowerupActivation(virtualView, event.getMessage());
-				}
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
 		}
@@ -123,19 +120,27 @@ public class TurnController{
 		}
 	}
 
+
+	// ####################################
+	// POWERUPS METHODS
+	// ####################################
+
 	private void initialPowerupActivation(VirtualView virtualView, Message answer) {
-		int powerupIndex = ((IntMessage)answer).getContent();
-		if(model.canOnTurnPowerupBeActivated(virtualView.getNickname(), powerupIndex)) {
-			powerupInExecution = powerupIndex;
-			handleNextPowerupStep(virtualView, null);
+		int indexOfPowerup = ((IntMessage)answer).getContent();
+		if(model.canOnTurnPowerupBeActivated(virtualView.getNickname(), indexOfPowerup)) {
+			QuestionContainer questionContainer = model.initialPowerupActivation(virtualView.getNickname(), indexOfPowerup);
+			handlePowerupQuestionContainer(virtualView, questionContainer);
 		}
 	}
 
-	private void handleNextPowerupStep(VirtualView virtualView, Message answer) {
-		QuestionContainer questionContainer = model.activateOnTurnPowerup(virtualView.getNickname(), powerupInExecution, answer);
+	private void doPowerupStep(VirtualView virtualView, Message answer) {
+		QuestionContainer questionContainer = model.doPowerupStep(virtualView.getNickname(), answer);
+		handlePowerupQuestionContainer(virtualView, questionContainer);
+	}
+
+	private void handlePowerupQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
 		if(questionContainer == null) {
-			model.discardPowerupCard(virtualView.getNickname(), powerupInExecution);
-			powerupInExecution = -1;
+			model.discardPowerupCardInExecution(virtualView.getNickname());
 			handleEnd(virtualView);
 		} else {
 			virtualView.askPowerupChoice(questionContainer);

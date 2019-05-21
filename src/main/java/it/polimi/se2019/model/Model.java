@@ -213,12 +213,6 @@ public class Model {
 		updateReps();
 	}
 
-	public void discardPowerupCard(String playerName, int indexOfThePowerup) {
-		Player player = getPlayerFromName(playerName);
-		player.getPlayerBoard().removePowerup(indexOfThePowerup);
-		updateReps();
-	}
-
 	public void swapWeapons(String playerName, int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
 		Player player = getPlayerFromName(playerName);
 		Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
@@ -260,6 +254,11 @@ public class Model {
 		updateReps();
 	}
 
+
+	// ####################################
+	// PUBLIC POWERUPS METHODS
+	// ####################################
+
 	public boolean canOnTurnPowerupBeActivated(String playerName, int indexOfPowerup) {
 		Player player = getPlayerFromName(playerName);
 		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
@@ -286,10 +285,24 @@ public class Model {
 		return activablePowerups;
 	}
 
-	public QuestionContainer activateOnTurnPowerup(String playerName, int indexOfPowerup, Message answer) {
+	public boolean isPowerupInExecution(String playerName) {
 		Player player = getPlayerFromName(playerName);
-		PowerupCard powerupCard = player.getPlayerBoard().getPowerupCards().get(indexOfPowerup);
-		return powerupCard.doPowerupStep(answer);
+		return player.isPowerupInExecution();
+	}
+
+	public QuestionContainer initialPowerupActivation(String playerName, int indexOfPowerup) {
+		Player player = getPlayerFromName(playerName);
+		return player.initialPowerupActivation(indexOfPowerup);
+	}
+
+	public QuestionContainer doPowerupStep(String playerName, Message answer) {
+		Player player = getPlayerFromName(playerName);
+		return player.doPowerupStep(answer);
+	}
+
+	public void discardPowerupCardInExecution(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		player.discardPowerupInExecution();
 	}
 
 
