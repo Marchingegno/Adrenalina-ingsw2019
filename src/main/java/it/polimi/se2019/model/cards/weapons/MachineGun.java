@@ -20,6 +20,7 @@ public class MachineGun extends OptionalEffectsWeapon {
 		this.OPTIONAL1_MARKS = 0;
 		this.OPTIONAL2_DAMAGE = 1;
 		this.OPTIONAL2_MARKS = 0;
+		this.OPTIONAL2_EXTRA_DAMAGE = 1;
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
 
@@ -48,25 +49,36 @@ public class MachineGun extends OptionalEffectsWeapon {
 			return getTargetPlayersQnO(currentTargets);
 		}
 		if(getCurrentStep() == 3){
+			//Chosen first target.
 			chosenTargets = new ArrayList<>();
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
 		}
-		if(getCurrentStep() == 4){
+		if(getCurrentStep() == 4) {
+			//Chosen second target.
 			chosenTargets.add(currentTargets.get(choice));
+		}
+
+		if(isOptionalActive(2)){
+			return handleOptionalEffect2(choice);
+		}
+
+		primaryFire();
+
+		return null;
+	}
+
+	@Override
+	protected QuestionContainer handleOptionalEffect2(int choice) {
+		if(getCurrentStep() == 4){
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
 		}
-		if(getCurrentStep() == 5){
+		else if(getCurrentStep() == 5){
 			chosenTargets.add(currentTargets.get(choice));
 		}
-
-		if(isOptionalActive(1)){
-			return handleOptionalEffect1(choice);
-		}
 		primaryFire();
-
 		return null;
 	}
 
