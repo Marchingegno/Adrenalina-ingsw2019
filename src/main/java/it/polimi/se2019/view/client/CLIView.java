@@ -9,6 +9,7 @@ import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.text.DecimalFormat;
@@ -217,7 +218,7 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void askChoice(String question, List<String> options) {
+	public void askWeaponChoice(QuestionContainer questionContainer) {
 
 	}
 

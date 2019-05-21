@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class Shockwave extends AlternateFireWeapon {
 	}
 
 	@Override
-	Pair handlePrimaryFire(int choice) {
+	QuestionContainer handlePrimaryFire(int choice) {
 
 		if(getCurrentStep() == 5){
 			chosenTargets.add(currentTargets.get(choice));
@@ -42,13 +42,13 @@ public class Shockwave extends AlternateFireWeapon {
 	}
 
 	@Override
-	Pair handleSecondaryFire(int choice) {
+	QuestionContainer handleSecondaryFire(int choice) {
 		currentTargets = getSecondaryTargets();
 		secondaryFire();
 		return null;
 	}
 
-	private Pair handleChooseTargets(int choice){
+	private QuestionContainer handleChooseTargets(int choice){
 		//Initial step: the player hasn't chosen yet.
 		if(getCurrentStep() != 2){
 			try{

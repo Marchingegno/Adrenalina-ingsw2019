@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class Heatseeker extends WeaponCard {
 	}
 
 	@Override
-	public Pair handleFire(int choice) {
+	public QuestionContainer handleFire(int choice) {
 		incrementStep();
 		return handlePrimaryFire(choice);
 	}
@@ -39,7 +39,7 @@ public class Heatseeker extends WeaponCard {
 	}
 
 	@Override
-	Pair handlePrimaryFire(int choice) {
+	QuestionContainer handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 1){
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);

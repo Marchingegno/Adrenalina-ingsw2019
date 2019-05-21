@@ -9,6 +9,7 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -92,7 +93,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askChoice(String question, List<String> options) {
+	public void askWeaponChoice(QuestionContainer questionContainer) {
 
 	}
 

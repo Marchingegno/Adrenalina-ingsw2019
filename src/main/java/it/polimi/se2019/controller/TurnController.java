@@ -7,13 +7,10 @@ import it.polimi.se2019.network.message.DefaultActionMessage;
 import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.ActionType;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
-
-import java.util.List;
 
 /**
  * This class is in a lower level than GameController. It handles the logic relative
@@ -71,13 +68,13 @@ public class TurnController{
 				break;
 			case WEAPON:
 				//TODO fix this warning
-				Pair<String, List<String>> stringListString = model.playerWeaponHandleFire(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				QuestionContainer questionContainer = model.playerWeaponHandleFire(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				if(model.isTheplayerDoneFiring(playerName)){
 					model.resetPlayerCurrentWeapon(playerName);
 					handleNextAction(virtualView);
 				}
 				else {
-					virtualView.askChoice(stringListString.getFirst(), stringListString.getSecond());
+					virtualView.askWeaponChoice(questionContainer);
 				}
 				break;
 			case ON_TURN_POWERUP:

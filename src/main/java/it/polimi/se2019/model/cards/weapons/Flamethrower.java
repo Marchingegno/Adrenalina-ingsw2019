@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Flamethrower extends AlternateFireWeapon {
 
 
 	@Override
-	Pair handlePrimaryFire(int choice) {
+	QuestionContainer handlePrimaryFire(int choice) {
 		switch (getCurrentStep()){
 			case 2:
 				return handleDirectionChoice(choice);
@@ -86,7 +87,7 @@ public class Flamethrower extends AlternateFireWeapon {
 
 
 	@Override
-	Pair handleSecondaryFire(int choice) {
+	QuestionContainer handleSecondaryFire(int choice) {
 		switch (getCurrentStep()) {
 			case 2:
 				return handleDirectionChoice(choice);

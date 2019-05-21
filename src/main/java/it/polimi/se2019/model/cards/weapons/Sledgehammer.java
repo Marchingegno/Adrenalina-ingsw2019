@@ -4,7 +4,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
-import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Sledgehammer extends AlternateFireWeapon {
 
 
 	@Override
-	Pair handlePrimaryFire(int choice) {
+	QuestionContainer handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 2){
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
@@ -42,7 +42,7 @@ public class Sledgehammer extends AlternateFireWeapon {
 	}
 
 	@Override
-	Pair handleSecondaryFire(int choice) {
+	QuestionContainer handleSecondaryFire(int choice) {
 		if(getCurrentStep() == 2){
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);

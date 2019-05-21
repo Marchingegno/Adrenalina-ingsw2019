@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ZX_2 extends AlternateFireWeapon {
 
 
 	@Override
-	Pair handlePrimaryFire(int choice) {
+	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 2){
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
@@ -40,7 +40,7 @@ public class ZX_2 extends AlternateFireWeapon {
 	}
 
 	@Override
-	Pair handleSecondaryFire(int choice) {
+	QuestionContainer handleSecondaryFire(int choice) {
 		switch (getCurrentStep()){
 			case 2:
 				currentTargets = getSecondaryTargets();

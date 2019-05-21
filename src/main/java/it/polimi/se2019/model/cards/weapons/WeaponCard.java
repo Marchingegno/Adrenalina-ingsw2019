@@ -10,6 +10,7 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,20 +121,20 @@ public abstract class WeaponCard extends Card implements Representable {
 	}
 
 	/**
-	 * Creates a "Question" Pair to be passed to the view.
-	 * @return the "Question" Pair.
+	 * Creates a {@link QuestionContainer} to be passed to the view.
+	 * @return the {@link QuestionContainer}.
 	 */
-	public Pair askingPair(){
+	public QuestionContainer askingPair(){
 		return null;
 	}
 
 
 	/**
 	 * Handles the firing process of the weapon based on the currentStep and the choice of the player.
-	 * @return the "Question" Pair to be passed to the view, or **null** if the weapon has finished firing.
+	 * @return the {@link QuestionContainer} to be passed to the view, or **null** if the weapon has finished firing.
 	 * @param choice the choice of the player.
 	 */
-	public abstract Pair handleFire(int choice);
+	public abstract QuestionContainer handleFire(int choice);
 
 	/**
 	 * This method will be called by the damage-dealer methods of the weapons.
@@ -178,9 +179,9 @@ public abstract class WeaponCard extends Card implements Representable {
 	 * This will be called if currentStep is at least 2.
 	 *
 	 * @param choice the choice of the player.
-	 * @return the "Question" Pair.
+	 * @return the {@link QuestionContainer}.
 	 */
-	abstract Pair handlePrimaryFire(int choice);
+	abstract QuestionContainer handlePrimaryFire(int choice);
 
 //	public void getAvailableOptions(){
 //		Utils.logInfo(getDescription());
@@ -209,7 +210,7 @@ public abstract class WeaponCard extends Card implements Representable {
 		return standardDamagesAndMarks;
 	}
 
-	int getMOVE_DISTANCE() {
+	int getMoveDistance() {
 		return MOVE_DISTANCE;
 	}
 
@@ -231,54 +232,52 @@ public abstract class WeaponCard extends Card implements Representable {
 	}
 
 	/**
-	 * Builds a "Question" Pair that asks which player to target.
+	 * Builds a {@link QuestionContainer} that asks which player to target.
 	 * @param targets the target players to choose from.
-	 * @return the "Question" Pair.
+	 * @return the {@link QuestionContainer}.
 	 */
-	public static Pair getTargetPlayersQnO(List<Player> targets){
+	public static QuestionContainer getTargetPlayersQnO(List<Player> targets){
 		String question = "Which of the following players do you want to target?";
 		List<String> options = new ArrayList<>();
 		targets.forEach(target-> options.add(target.getPlayerName()));
-		return new Pair<>(question, options);
+		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
 	/**
-	 * Builds a "Question" Pair that ask in which coordinate to move the enemy player.
+	 * Builds a {@link QuestionContainer} that ask in which coordinate to move the enemy player.
 	 * @param targetPlayer the player that will be moved.
 	 * @param coordinates the list of coordinates to choose from.
-	 * @return the "Question" Pair.
+	 * @return the {@link QuestionContainer}.
 	 */
-	public static Pair getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates){
+	protected static QuestionContainer getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates){
 		String question = "Where do you want to move " + targetPlayer.getPlayerName() + "?";
-		List<String> options = new ArrayList<>();
-		coordinates.forEach(coordinate -> options.add(coordinate.toString()));
-		return new Pair<>(question, options);
+		List<Coordinates> options = new ArrayList<>(coordinates);
+		return QuestionContainer.createCoordinatesQuestionContainer(question, options);
 	}
 
 	/**
-	 * Builds a "Question" Pair that asks in which coordinate to fire at.
+	 * Builds a {@link QuestionContainer} that asks in which coordinate to fire at.
 	 * @param coordinates the list of coordinates to choose from.
-	 * @return the "Question" Pair.
+	 * @return the {@link QuestionContainer}.
 	 */
-	public static Pair getTargetCoordinatesQnO(List<Coordinates> coordinates){
+	protected static QuestionContainer getTargetCoordinatesQnO(List<Coordinates> coordinates){
 		String question = "Where do you want to fire?";
-		List<String> options = new ArrayList<>();
-		coordinates.forEach(coordinate -> options.add(coordinate.toString()));
-		return new Pair<>(question, options);
+		List<Coordinates> options = new ArrayList<>(coordinates);
+		return QuestionContainer.createCoordinatesQuestionContainer(question, options);
 	}
 
-	public static Pair getCardinalQnO(){
+	protected static QuestionContainer getCardinalQnO(){
 		String question = "In which direction do you wish to fire?";
 		List<String> options = 	Arrays.stream(CardinalDirection.values()).map(Enum::toString).collect(Collectors.toList());
-		return new Pair<>(question,options);
+		return QuestionContainer.createStringQuestionContainer(question,options);
 	}
 
-	public static Pair getTargetPlayersAndRefusalQnO(List<Player> targets){
+	protected static QuestionContainer getTargetPlayersAndRefusalQnO(List<Player> targets){
 		String question = "Which of the following players do you want to target?";
 		List<String> options = new ArrayList<>();
 		targets.forEach(target-> options.add(target.getPlayerName()));
 		options.add("Nobody");
-		return new Pair<>(question, options);
+		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
 	protected void relocateEnemy(Player enemy, Coordinates coordinates){

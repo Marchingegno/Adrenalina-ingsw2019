@@ -2,6 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	@Override
-	public Pair askingPair() {
+	public QuestionContainer askingPair() {
 		String question = "Which optional effect do you want to activate?";
 		checkOptionalEffects();
 		List<String> options = new ArrayList<>();
@@ -45,7 +46,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		if(canAddOptionalEffect[2]){
 			options.add("Optional effect 1 + Optional effect 2");
 		}
-		return new Pair<>(question, options);
+		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
 	private void checkOptionalEffects() {
@@ -84,7 +85,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	@Override
-	public Pair handleFire(int choice) {
+	public QuestionContainer handleFire(int choice) {
 		return null;
 	}
 

@@ -15,7 +15,7 @@ import it.polimi.se2019.model.player.damagestatus.HighDamage;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
 import it.polimi.se2019.model.player.damagestatus.MediumDamage;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
@@ -290,7 +290,7 @@ public class GameBoard extends Observable implements Representable {
 		player.getPlayerBoard().addPowerup(powerupCard);
 	}
 
-	public Pair playerWeaponHandleFire(Player player, int choice) {
+	public QuestionContainer playerWeaponHandleFire(Player player, int choice) {
 		return player.getFiringWeapon().handleFire(choice);
 	}
 

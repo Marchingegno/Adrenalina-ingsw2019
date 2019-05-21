@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface ViewInterface {
 
 	void askSpawn();
 
-	void askChoice(String question, List<String> options);
+	void askWeaponChoice(QuestionContainer questionContainer);
 
 	void askPowerupChoice(String question, List<String> options);
 

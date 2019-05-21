@@ -2,7 +2,7 @@ package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class RocketLauncher extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	Pair handlePrimaryFire(int choice) {
+	QuestionContainer handlePrimaryFire(int choice) {
 		return null;
 	}
 

@@ -16,7 +16,6 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
@@ -83,7 +82,7 @@ public class Model {
 		return gameBoard.isThePlayerDoneFiring(player);
 	}
 
-	public Pair playerWeaponHandleFire(String playerName, int choice){
+	public QuestionContainer playerWeaponHandleFire(String playerName, int choice){
 		Player player = getPlayerFromName(playerName);
 		return gameBoard.playerWeaponHandleFire(player, choice);
 	}

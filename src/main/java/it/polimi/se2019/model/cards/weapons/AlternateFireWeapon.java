@@ -3,7 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Pair;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +51,10 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	 * @param choice the choice of the player.
 	 * @return the "Question" Pair.
 	 */
-	abstract Pair handleSecondaryFire(int choice);
+	abstract QuestionContainer handleSecondaryFire(int choice);
 
 	@Override
-	public Pair handleFire(int choice) {
+	public QuestionContainer handleFire(int choice) {
 		incrementStep();
 		if (getCurrentStep() == 1) {
 			return askingPair();
@@ -69,11 +69,11 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	}
 
 	@Override
-	public Pair askingPair() {
+	public QuestionContainer askingPair() {
 		List<String> options = new ArrayList<>();
 		options.add("Standard fire.");
 		options.add("Alternate fire.");
-		return new Pair<>("Which fire mode do you want to use?", options);
+		return QuestionContainer.createStringQuestionContainer("Which fire mode do you want to use?", options);
 	}
 
 	/**

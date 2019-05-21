@@ -10,6 +10,7 @@ import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -129,7 +130,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askChoice(String question, List<String> options) {
+	public void askWeaponChoice(QuestionContainer questionContainer) {
 
 	}
 
