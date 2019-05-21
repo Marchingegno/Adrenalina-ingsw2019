@@ -1,30 +1,36 @@
 package it.polimi.se2019.network.message;
 
-import java.util.ArrayList;
+import it.polimi.se2019.model.cards.powerups.QuestionContainer;
+import it.polimi.se2019.model.gamemap.Coordinates;
+
 import java.util.List;
 
 public class AskOptionsMessage extends Message {
 
-	private String question;
-	private ArrayList<String> options;
+	private QuestionContainer questionContainer;
 
-	public AskOptionsMessage(String question, List<String> options, MessageType messageType){
-		super(messageType, MessageSubtype.ANSWER);
-		this.question = question;
-		this.options = new ArrayList<>(options);
-	}
-
-	public AskOptionsMessage(String question, List<String> options, MessageType messageType, MessageSubtype messageSubtype){
+	public AskOptionsMessage(QuestionContainer questionContainer, MessageType messageType, MessageSubtype messageSubtype){
 		super(messageType, messageSubtype);
-		this.question = question;
-		this.options = new ArrayList<>(options);
+		this.questionContainer = questionContainer;
 	}
 
 	public List<String> getOptions() {
-		return options;
+		return questionContainer.getOptions();
+	}
+
+	public List<Coordinates> getCoordinates(){
+		return questionContainer.getCoordinates();
 	}
 
 	public String getQuestion() {
-		return question;
+		return questionContainer.getQuestion();
+	}
+
+	public boolean isAskCoordinates(){
+		return questionContainer.isAskCoordinates();
+	}
+
+	public boolean isAskString(){
+		return questionContainer.isAskString();
 	}
 }
