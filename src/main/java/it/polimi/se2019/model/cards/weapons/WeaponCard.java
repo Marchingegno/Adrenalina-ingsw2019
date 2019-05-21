@@ -279,6 +279,14 @@ public abstract class WeaponCard extends Card implements Representable {
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
+	protected static QuestionContainer getActionTypeQnO(){
+		String question = "Do you want to move or shoot?";
+		List<String> options = new ArrayList<>();
+		options.add("Move");
+		options.add("Shoot");
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
 	protected void relocateEnemy(Player enemy, Coordinates coordinates){
 		getGameMap().movePlayerTo(enemy, coordinates);
 	}
