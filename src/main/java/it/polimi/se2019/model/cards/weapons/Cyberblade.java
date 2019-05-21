@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cyberblade extends OptionalEffectsWeapon {
-	private currentAction
+	private ActionType currentActionType;
 
 
 	public Cyberblade(String description, List<AmmoType> reloadPrice) {
