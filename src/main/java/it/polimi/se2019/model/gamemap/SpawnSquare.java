@@ -2,8 +2,11 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
@@ -52,6 +55,25 @@ public class SpawnSquare extends Square {
 	@Override
 	public boolean hasGrabbable() {
 		return !cards.isEmpty();
+	}
+
+	@Override
+	public boolean canGrab(Player player) {
+		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
+		for (Card weaponCard : cards) {
+			if (playerAmmoContainer.hasEnoughAmmo(((WeaponCard) weaponCard).getGrabPrice())) {
+				System.out.print("-------------------------------------------------------- PLAYER ");
+				for (AmmoType ammo : AmmoType.values()) {
+					System.out.print(playerAmmoContainer.getAmmo(ammo));
+				}
+
+				for (AmmoType ammo : ((WeaponCard) weaponCard).getGrabPrice()) {
+					System.out.print(ammo + " ");
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

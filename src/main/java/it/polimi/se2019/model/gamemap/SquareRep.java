@@ -61,7 +61,7 @@ public abstract class SquareRep implements Representation {
 		return squareColor;
 	}
 
-	public List<CardRep> getCardsName() {
+	public List<CardRep> getCards() {
 		return cardsRep;
 	}
 

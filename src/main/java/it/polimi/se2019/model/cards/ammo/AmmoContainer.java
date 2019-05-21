@@ -29,6 +29,7 @@ public class AmmoContainer {
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
 		int[] convertedAmmosToCheck = convertAmmoListToArray(ammoToCheck);
 		for (int i = 0; i < AmmoType.values().length; i++) {
+			System.out.println(convertedAmmosToCheck[i] + " " + ammo[i]);
 			if(convertedAmmosToCheck[i] > ammo[i]){
 				//Ammo requested is greater than ammo owned.
 				return false;
@@ -104,6 +105,11 @@ public class AmmoContainer {
 		removeAmmo(ammoToRemove, 1);
 	}
 
+	public void removeAmmo(List<AmmoType> listOfAmmoToRemove) {
+		for (AmmoType ammoToRemove : listOfAmmoToRemove) {
+			removeAmmo(ammoToRemove, 1);
+		}
+	}
 
 	/**
 	 * Sets the square as changed.
@@ -130,11 +136,7 @@ public class AmmoContainer {
 
 	private int[] convertAmmoListToArray(List<AmmoType> listToConvert){
 		int[] convertedAmmos = new int[AmmoType.values().length];
-		for (AmmoType ammoType : AmmoType.values()) {
-			ammo[ammoType.ordinal()] = 0;
-		}
 		listToConvert.forEach(item -> convertedAmmos[item.ordinal()]++);
 		return convertedAmmos;
 	}
-
 }

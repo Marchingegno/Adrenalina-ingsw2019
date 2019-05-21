@@ -1,6 +1,8 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
+import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -183,11 +185,34 @@ public class Model {
 	}
 
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
-		return getReachableCoordinates(getCurrentPlayerName(), gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements());
+		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
+		return getReachableCoordinates(getCurrentPlayerName(), numberOfMovements);
 	}
 
-	public List<Coordinates> getEmptyReachableCoordinatesOfTheCurrentPlayer() {
-		return gameMap.getNotEmptyReachableCoordinates(gameMap.getPlayerCoordinates(getCurrentPlayer()), gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements());
+	public List<Coordinates> getCoordinatesWhereCurrentPlayerCanGrab() {
+		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
+		return gameMap.getCoordinatesWhereCurrentPlayerCanGrab(getCurrentPlayer(), numberOfMovements);
+	}
+
+	public List<Integer> getIndexesOfTheGrabbableWeaponCurrentPlayer() {
+		Player player = getCurrentPlayer();
+		List<Integer> indexes = new ArrayList<>();
+		List<Card> weapons = gameMap.getPlayerSquare(player).getCards();
+		for (int i = 0; i < weapons.size(); i++) {
+			if (hasEnoughAmmo(player, (WeaponCard) weapons.get(i))) {
+				indexes.add(i);
+				System.out.println("--------------------------------------------- adding " + i);
+			}
+		}
+		if (indexes.isEmpty())
+			throw new IllegalStateException("Should have at least one weapon");
+		return indexes;
+	}
+
+	public boolean hasEnoughAmmo(Player player, WeaponCard weapon) {
+		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
+		List<AmmoType> price = weapon.getGrabPrice();
+		return playerAmmoContainer.hasEnoughAmmo(price);
 	}
 
 	public void fillGameMap() {

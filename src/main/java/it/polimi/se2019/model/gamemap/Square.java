@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.Deck;
+import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 
@@ -167,7 +168,13 @@ public abstract class Square implements Representable {
 		hasChanged = false;
 	}
 
+	/**
+	 * @return
+	 * @deprecated
+	 */
 	public abstract boolean hasGrabbable();
+
+	public abstract boolean canGrab(Player player);
 
 	public abstract MessageType getGrabMessageType();
 }

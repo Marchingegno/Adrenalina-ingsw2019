@@ -2,10 +2,7 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
-import it.polimi.se2019.network.message.DefaultActionMessage;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -46,7 +43,7 @@ public class TurnController{
 				handleNextAction(virtualView);
 				break;
 			case GRAB_WEAPON:
-				model.grabWeaponCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				model.grabWeaponCard(playerName, ((IntMessage) event.getMessage()).getContent());
 				handleNextAction(virtualView);
 				break;
 			case MOVE:
@@ -88,12 +85,17 @@ public class TurnController{
 		switch (actionType){
 			case MOVE:
 				if (model.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().isGrab())
-					playerVirtualView.askMove(model.getEmptyReachableCoordinatesOfTheCurrentPlayer());
+					playerVirtualView.askMove(model.getCoordinatesWhereCurrentPlayerCanGrab());
 				else
 					playerVirtualView.askMove(model.getReachableCoordinatesOfTheCurrentPlayer());
 				break;
 			case GRAB:
-				playerVirtualView.askGrab(model.getGrabMessageType());
+				if (model.getGrabMessageType() == MessageType.GRAB_WEAPON) {
+					playerVirtualView.askGrabWeapon(model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
+				} else {
+					model.grabAmmoCard(playerVirtualView.getNickname(), 0);
+					handleNextAction(playerVirtualView);
+				}
 				break;
 			case RELOAD:
 				playerVirtualView.askReload();

@@ -3,6 +3,7 @@ package it.polimi.se2019.model.gamemap;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
@@ -37,6 +38,11 @@ public class AmmoSquare extends Square {
 
 	@Override
 	public boolean hasGrabbable() {
+		return isFilled();
+	}
+
+	@Override
+	public boolean canGrab(Player player) {
 		return isFilled();
 	}
 

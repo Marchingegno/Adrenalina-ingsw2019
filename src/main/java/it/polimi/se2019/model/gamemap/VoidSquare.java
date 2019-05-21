@@ -2,6 +2,7 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
@@ -30,6 +31,11 @@ public class VoidSquare extends Square {
 	@Override
 	public boolean hasGrabbable() {
 		throw new UnsupportedOperationException("VoidSquare has no cards");
+	}
+
+	@Override
+	public boolean canGrab(Player player) {
+		throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
 	}
 
 	@Override

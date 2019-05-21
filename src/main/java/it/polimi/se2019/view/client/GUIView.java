@@ -5,7 +5,9 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
-import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.network.message.GameConfigMessage;
+import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -147,7 +149,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askGrab(MessageType grabType) {
+	public void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
 
 	}
 
@@ -193,11 +195,6 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
-
-	}
-
-	@Override
-	public void askGrabWeapon() {
 
 	}
 

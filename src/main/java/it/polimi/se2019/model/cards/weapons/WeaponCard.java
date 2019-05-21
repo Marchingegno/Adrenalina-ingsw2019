@@ -95,7 +95,7 @@ public abstract class WeaponCard extends Card implements Representable {
 	 * @return grab price for this weapon.
 	 */
 	public List<AmmoType> getGrabPrice(){
-		return new ArrayList<>(reloadPrice.subList(1, reloadPrice.size() - 1));
+		return new ArrayList<>(reloadPrice.subList(1, reloadPrice.size()));
 	}
 
 	/**
