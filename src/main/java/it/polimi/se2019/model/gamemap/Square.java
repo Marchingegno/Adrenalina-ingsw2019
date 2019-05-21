@@ -167,5 +167,7 @@ public abstract class Square implements Representable {
 		hasChanged = false;
 	}
 
+	public abstract boolean hasGrabbables();
+
 	public abstract Message getGrabMessage();
 }

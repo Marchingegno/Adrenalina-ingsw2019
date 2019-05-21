@@ -38,6 +38,11 @@ public class AmmoSquare extends Square {
 	}
 
 	@Override
+	public boolean hasGrabbables() {
+		return isFilled();
+	}
+
+	@Override
 	public Message getGrabMessage() {
 		return new Message(MessageType.GRAB_AMMO, MessageSubtype.REQUEST);
 	}

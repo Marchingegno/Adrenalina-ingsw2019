@@ -52,6 +52,11 @@ public class SpawnSquare extends Square {
 	}
 
 	@Override
+	public boolean hasGrabbables() {
+		return !cards.isEmpty();
+	}
+
+	@Override
 	public Message getGrabMessage() {
 		return new Message(MessageType.GRAB_WEAPON, MessageSubtype.REQUEST);
 	}
