@@ -77,7 +77,7 @@ public class TurnController{
 					virtualView.askWeaponChoice(questionContainer);
 				}
 				break;
-			case ON_TURN_POWERUP:
+			case POWERUP:
 				if(powerupInExecution != -1) {
 					handleNextPowerupStep(virtualView, event.getMessage());
 				} else {

@@ -12,7 +12,7 @@ public enum MessageType {
 	SPAWN,
 	UPDATE_REPS,
 	ACTION,
-	ON_TURN_POWERUP,
+	POWERUP,
 	MOVE,
 	GRAB_WEAPON,
 	GRAB_AMMO,

@@ -130,7 +130,7 @@ public class CLIView extends RemoteView {
 
 		if(answer == damageStatusRep.numOfMacroActions() + 1) { // If answer is powerup.
 			int powerupAnswer = askPowerupToActivate(activablePowerups);
-			sendMessage(new IntMessage(powerupAnswer, MessageType.ON_TURN_POWERUP, MessageSubtype.ANSWER));
+			sendMessage(new IntMessage(powerupAnswer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		} else {
 			sendMessage(new DefaultActionMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
 		}
@@ -187,7 +187,7 @@ public class CLIView extends RemoteView {
 		} else if(answer == 3) {
 			// Ask powerup.
 			int powerupAnswer = askPowerupToActivate(activablePowerups);
-			sendMessage(new IntMessage(powerupAnswer, MessageType.ON_TURN_POWERUP, MessageSubtype.ANSWER));
+			sendMessage(new IntMessage(powerupAnswer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		}
 	}
 
@@ -228,13 +228,13 @@ public class CLIView extends RemoteView {
 				printLine(i + ") " + questionContainer.getOptions().get(i - 1));
 			}
 			int answer = askInteger(1, questionContainer.getOptions().size());
-			sendMessage(new IntMessage(answer - 1, MessageType.ON_TURN_POWERUP, MessageSubtype.ANSWER));
+			sendMessage(new IntMessage(answer - 1, MessageType.POWERUP, MessageSubtype.ANSWER));
 		} else if(questionContainer.isAskCoordinates()) {
 			// Coordinates question.
 			repPrinter.displayGame(questionContainer.getCoordinates());
 			printLine(questionContainer.getQuestion());
 			Coordinates answer = askCoordinates(questionContainer.getCoordinates());
-			sendMessage(new CoordinatesAnswerMessage(answer, MessageType.ON_TURN_POWERUP));
+			sendMessage(new CoordinatesAnswerMessage(answer, MessageType.POWERUP));
 		}
 	}
 
