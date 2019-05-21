@@ -3,6 +3,7 @@ package it.polimi.se2019.model.player;
 import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
@@ -30,7 +31,8 @@ public class Player extends Observable implements Representable {
 	private PlayerBoard playerBoard;
 	private DamageStatus damageStatus;
 	private PlayerRep playerRep;
-	private int firingWeapon; //The current weapon that the player is firing with.
+	private int firingWeapon = -1; //The current weapon that the player is firing with.
+	private int powerupInExecution = -1; // The current powerup that the player is using.
 
 
 	public Player(String playerName, int playerID) {
@@ -40,7 +42,6 @@ public class Player extends Observable implements Representable {
 		playerBoard = new PlayerBoard();
 		this.damageStatus = new LowDamage();
 		this.turnStatus = TurnStatus.PRE_SPAWN;
-		this.firingWeapon = -1;
 		setChanged();
 	}
 
@@ -178,8 +179,15 @@ public class Player extends Observable implements Representable {
 	}
 
 	public WeaponCard getFiringWeapon(){
-		if(firingWeapon == -1) throw new RuntimeException("No weapon firing!");
-		return this.getPlayerBoard().getWeaponCards().get(this.firingWeapon);
+		if(firingWeapon == -1)
+			throw new IllegalStateException("No weapon firing!");
+		return this.getPlayerBoard().getWeaponCards().get(firingWeapon);
+	}
+
+	public PowerupCard getPowerupInExecution(){
+		if(powerupInExecution == -1)
+			throw new IllegalStateException("No powerup in execution!");
+		return this.getPlayerBoard().getPowerupCards().get(powerupInExecution);
 	}
 
 	/**
