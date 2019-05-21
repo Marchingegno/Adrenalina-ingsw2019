@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
@@ -89,11 +88,11 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return null;
 	}
 
-	protected Pair handleOptionalEffect1(int choice){
+	protected QuestionContainer handleOptionalEffect1(int choice){
 		return null;
 	}
 
-	protected Pair handleOptionalEffect2(int choice){
+	protected QuestionContainer handleOptionalEffect2(int choice){
 		return null;
 	}
 
