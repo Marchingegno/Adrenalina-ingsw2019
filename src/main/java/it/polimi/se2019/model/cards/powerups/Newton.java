@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.powerups;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
 import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
@@ -64,12 +65,7 @@ public class Newton extends PowerupCard {
 	 */
 	@Override
 	public boolean canBeActivated() {
-		for(Player player : getGameBoard().getPlayers()) {
-			if(player != getOwnerPlayer() && !player.getPlayerBoard().isDead()) {
-				return true;
-			}
-		}
-		return false;
+		return getGameBoard().getPlayers().stream().anyMatch(this::canActivateOnPlayer);
 	}
 
 	@Override
@@ -80,7 +76,7 @@ public class Newton extends PowerupCard {
 
 	private QuestionContainer firstStep() {
 		targettablePlayers = getGameBoard().getPlayers().stream()
-				.filter(player -> player != getOwnerPlayer() && !player.getPlayerBoard().isDead())
+				.filter(this::canActivateOnPlayer)
 				.collect(Collectors.toList());
 
 		List<String> playerNames = targettablePlayers.stream()
@@ -120,6 +116,10 @@ public class Newton extends PowerupCard {
 			}
 		}
 		return possibleMoves;
+	}
+
+	private boolean canActivateOnPlayer(Player player) {
+		return player != getOwnerPlayer() && !player.getPlayerBoard().isDead() && player.getTurnStatus() != TurnStatus.PRE_SPAWN;
 	}
 
 }
