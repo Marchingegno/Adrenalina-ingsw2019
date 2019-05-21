@@ -27,10 +27,13 @@ public class Cyberblade extends OptionalEffectsWeapon {
 		this(description, null);
 	}
 
-
-
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
+		if(isOptionalActive(1)&&getCurrentStep() == 2){
+			return getActionTypeQnO();
+		}
+		if(getCurrentStep() == 3){
+		}
 		return null;
 	}
 

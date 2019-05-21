@@ -123,7 +123,7 @@ public abstract class WeaponCard extends Card implements Representable {
 	 * Creates a {@link QuestionContainer} to be passed to the view.
 	 * @return the {@link QuestionContainer}.
 	 */
-	public QuestionContainer askingPair(){
+	public QuestionContainer initialQuestion(){
 		return null;
 	}
 

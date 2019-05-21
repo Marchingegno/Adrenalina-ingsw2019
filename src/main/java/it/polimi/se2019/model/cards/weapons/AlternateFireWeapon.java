@@ -57,7 +57,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	public QuestionContainer handleFire(int choice) {
 		incrementStep();
 		if (getCurrentStep() == 1) {
-			return askingPair();
+			return initialQuestion();
 		} else if(getCurrentStep() == 2){
 			registerChoice(choice);
 		}
@@ -69,7 +69,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	}
 
 	@Override
-	public QuestionContainer askingPair() {
+	public QuestionContainer initialQuestion() {
 		List<String> options = new ArrayList<>();
 		options.add("Standard fire.");
 		options.add("Alternate fire.");

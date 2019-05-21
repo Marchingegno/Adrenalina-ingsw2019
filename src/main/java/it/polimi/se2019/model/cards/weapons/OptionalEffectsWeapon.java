@@ -31,7 +31,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	@Override
-	public QuestionContainer askingPair() {
+	public QuestionContainer initialQuestion() {
 		String question = "Which optional effect do you want to activate?";
 		checkOptionalEffects();
 		List<String> options = new ArrayList<>();
@@ -85,7 +85,14 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	@Override
 	public QuestionContainer handleFire(int choice) {
-		return null;
+		incrementStep();
+		if(getCurrentStep() == 1){
+			return initialQuestion();
+		}
+		else if(getCurrentStep() == 2){
+			registerChoice(choice);
+		}
+		return handlePrimaryFire(choice);
 	}
 
 	protected QuestionContainer handleOptionalEffect1(int choice){
