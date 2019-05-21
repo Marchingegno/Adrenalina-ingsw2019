@@ -282,8 +282,7 @@ public abstract class WeaponCard extends Card implements Representable {
 	protected static QuestionContainer getActionTypeQnO(){
 		String question = "Do you want to move or shoot?";
 		List<String> options = new ArrayList<>();
-		options.add("Move");
-		options.add("Shoot");
+		Arrays.stream(ActionType.values()).forEach(item -> options.add(item.toString()));
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
@@ -298,5 +297,10 @@ public abstract class WeaponCard extends Card implements Representable {
 	@Override
 	public Representation getRep() {
 		return new WeaponRep(this);
+	}
+
+	protected enum ActionType{
+		MOVE,
+		SHOOT
 	}
 }
