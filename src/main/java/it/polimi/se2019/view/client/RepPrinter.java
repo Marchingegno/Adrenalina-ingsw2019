@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.client;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -52,9 +53,11 @@ class RepPrinter {
 
 		displayPlayers();
 
-		CLIView.print("\n");
+		CLIView.print("\n\n\n");
 
 		displayGameBoard();
+
+		CLIView.print("\n");
 
 		if (mapToPrint == null) {
 			initializeMapToPrint(modelRep.getGameMapRep().getMapRep());
@@ -62,13 +65,11 @@ class RepPrinter {
 		updateMapToPrint(reachableCoordinates);
 		displayMap();
 
-		CLIPrinter.moveCursorUP(0);
-
-		CLIView.print("\n");
+		CLIPrinter.moveCursorUP(AmmoType.values().length * (MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE + 1) + 10);
 
 		displayWeapons();
 
-		CLIView.print("\n\n\n");
+		CLIView.print("\n\n\n\n\n\n\n\n\n\n\n");
 
 		displayOwnPlayer();
 
@@ -166,16 +167,13 @@ class RepPrinter {
 	 * Displays the remaining skulls, the kill shot track and the double kills.
 	 */
 	private void displayGameBoard() {
-		CLIView.printLine("\n\n" +
-				getSkullString() + "\n\n" +
+		CLIView.printLine(getSkullString() + "\n\n" +
 				getKillShotTrackString() + "\n\n" +
-				getDoubleKillString() + "\n");
+				getDoubleKillString());
 	}
 
 	private void displayWeapons() {
 		SquareRep[][] map = modelRep.getGameMapRep().getMapRep();
-
-		CLIPrinter.moveCursorUP(AmmoType.values().length * (MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE + 2) + 10);
 
 		for (AmmoType ammoType : AmmoType.values()) {
 			Coordinates redSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(ammoType);
@@ -184,7 +182,7 @@ class RepPrinter {
 
 			for (int i = 0; i < MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE; i++) {
 				if (i < weaponReps.size())
-					CLIView.printLine(weaponRepToString(weaponReps.get(i)));
+					CLIView.printLine(getWeaponRepString(weaponReps.get(i)));
 				else
 					CLIView.print("\n");
 			}
@@ -194,16 +192,23 @@ class RepPrinter {
 		CLIPrinter.moveCursorDOWN(5);
 	}
 
-	public String weaponRepToString(WeaponRep weaponRep) {
+	public String getWeaponRepString(WeaponRep weaponRep) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
 		for (AmmoType ammoType : weaponRep.getPrice())
 			stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
 		for (int i = weaponRep.getPrice().size(); i < 5; i++) {
 			stringBuilder.append(" ");
 		}
+		stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
 		return stringBuilder.toString();
 	}
+
+	public String getPowerupRepString(PowerupCardRep powerupRep) {
+		return Color.getColoredString("● ", powerupRep.getAssociatedAmmo().getCharacterColorType()) +
+				Utils.fillWithSpaces(powerupRep.getCardName(), 20);
+	}
+
+
 
 	private String getSkullString() {
 		int skulls = modelRep.getGameBoardRep().getRemainingSkulls();
@@ -286,13 +291,13 @@ class RepPrinter {
 	}
 
 	private void displayMap() {
-		CLIPrinter.moveCursorRIGHT(123);
+		CLIPrinter.moveCursorRIGHT(84);
 		for (int i = 0; i < modelRep.getGameMapRep().getNumOfColumns(); i++) {
 			CLIView.print("        " + (i + 1) + "        ");
 		}
 		CLIView.print("\n\n");
 		for (int i = 0; i < mapToPrint.length; i++) {
-			CLIPrinter.moveCursorRIGHT(120);
+			CLIPrinter.moveCursorRIGHT(80);
 			CLIView.print(Utils.fillWithSpaces((i - (i / NUM_OF_ROWS_IN_SQUARE) * NUM_OF_ROWS_IN_SQUARE) == NUM_OF_ROWS_IN_SQUARE / 2 ? (i / NUM_OF_ROWS_IN_SQUARE + 1) + "" : "", 4));
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);
@@ -321,6 +326,8 @@ class RepPrinter {
 	private void printOwnPlayerLine(PlayerRep playerRep, int lineIndex) {
 		StringBuilder stringBuilder = new StringBuilder();
 		DamageStatusRep damageStatusRep = playerRep.getDamageStatusRep();
+		List<WeaponRep> playerWeapons = playerRep.getWeaponReps();
+		List<PowerupCardRep> playerPowerups = playerRep.getPowerupCards();
 
 		//Possible move
 		if (lineIndex + 1 <= damageStatusRep.numOfMacroActions()) {
@@ -332,19 +339,18 @@ class RepPrinter {
 		}
 
 		//Powerups
-		stringBuilder.append(Color.getColoredString("● ", lineIndex + 1 <= playerRep.getPowerupCards().size() ?
-				playerRep.getPowerupCards().get(lineIndex).getAssociatedAmmo().getCharacterColorType() :
-				Color.CharacterColorType.BLACK));
-		stringBuilder.append(Utils.fillWithSpaces(lineIndex + 1 <= playerRep.getPowerupCards().size() ?
-				playerRep.getPowerupCards().get(lineIndex).getCardName() :
-				"", 20));
+		if (lineIndex + 1 <= playerPowerups.size())
+			stringBuilder.append(getPowerupRepString(playerPowerups.get(lineIndex)));
+		else
+			stringBuilder.append(Utils.fillWithSpaces(22));
+		stringBuilder.append("\t");
 
 		//Weapons
-		if (lineIndex + 1 <= playerRep.getWeaponReps().size())
-			stringBuilder.append(weaponRepToString(playerRep.getWeaponReps().get(lineIndex)));
+		if (lineIndex + 1 <= playerWeapons.size())
+			stringBuilder.append(getWeaponRepString(playerWeapons.get(lineIndex)));
 		else
-			stringBuilder.append(Utils.fillWithSpaces(21));
-		stringBuilder.append("\t\t");
+			stringBuilder.append(Utils.fillWithSpaces(22));
+		stringBuilder.append("\t");
 
 		//Ammo
 		if (lineIndex + 1 <= AmmoType.values().length) {

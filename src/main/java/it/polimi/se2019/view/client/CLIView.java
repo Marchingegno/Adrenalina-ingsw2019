@@ -261,7 +261,7 @@ public class CLIView extends RemoteView {
 		printLine("Choose a weapon to pickup:");
 		List<WeaponRep> weaponReps = ((SpawnSquareRep) getModelRep().getGameMapRep().getPlayerSquare(getNickname())).getWeaponsRep();
 		for (int i = 0; i < weaponReps.size(); i++) {
-			printLine("[" + (i + 1) + "] " + repPrinter.weaponRepToString(weaponReps.get(i)));
+			printLine("[" + (i + 1) + "] " + repPrinter.getWeaponRepString(weaponReps.get(i)));
 		}
 		sendMessage(new DefaultActionMessage(askInteger(1, weaponReps.size()) - 1, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
