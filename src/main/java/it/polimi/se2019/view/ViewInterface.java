@@ -27,9 +27,7 @@ public interface ViewInterface {
 
 	void askWeaponChoice(QuestionContainer questionContainer);
 
-	void askPowerupChoice(String question, List<String> options);
-
-	void askPowerupCoordinates(String question, List<Coordinates> coordinates);
+	void askPowerupChoice(QuestionContainer questionContainer);
 
 	void askEnd(List<Integer> activablePowerups);
 

@@ -20,8 +20,4 @@ public enum MessageType {
 	RELOAD,
 	WEAPON,
 	END_TURN,
-
-	// Powerups
-	POWERUP_INFO_OPTIONS,
-	POWERUP_INFO_COORDINATES,
 }

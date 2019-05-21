@@ -118,13 +118,11 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				List<String> options = ((AskOptionsMessage)message).getOptions();
 				askWeaponChoice(question);
 				break;
-			case POWERUP_INFO_OPTIONS:
-				AskOptionsMessage askOptionsMessage = (AskOptionsMessage) message;
-				askPowerupChoice(askOptionsMessage.getQuestion(), askOptionsMessage.getOptions());
-				break;
-			case POWERUP_INFO_COORDINATES:
-				AskCoordinatesMessage askCoordinatesMessage = (AskCoordinatesMessage) message;
-				askPowerupCoordinates(askCoordinatesMessage.getQuestion(), askCoordinatesMessage.getCoordinates());
+			case ON_TURN_POWERUP:
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					AskOptionsMessage askOptionsMessage = (AskOptionsMessage) message;
+					askPowerupChoice(askOptionsMessage.getQuestionContainer());
+				}
 				break;
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");

@@ -78,16 +78,11 @@ public class TurnController{
 				}
 				break;
 			case ON_TURN_POWERUP:
-				int powerupIndex = ((IntMessage)event.getMessage()).getContent();
-				if(model.canOnTurnPowerupBeActivated(playerName, powerupIndex)) {
-					powerupInExecution = powerupIndex;
-					handleNextPowerupStep(virtualView, null);
-				}
-				break;
-			case POWERUP_INFO_OPTIONS:
-			case POWERUP_INFO_COORDINATES:
-				if(powerupInExecution != -1)
+				if(powerupInExecution != -1) {
 					handleNextPowerupStep(virtualView, event.getMessage());
+				} else {
+					initialPowerupActivation(virtualView, event.getMessage());
+				}
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
 		}
@@ -130,16 +125,22 @@ public class TurnController{
 		}
 	}
 
+	private void initialPowerupActivation(VirtualView virtualView, Message answer) {
+		int powerupIndex = ((IntMessage)answer).getContent();
+		if(model.canOnTurnPowerupBeActivated(virtualView.getNickname(), powerupIndex)) {
+			powerupInExecution = powerupIndex;
+			handleNextPowerupStep(virtualView, null);
+		}
+	}
+
 	private void handleNextPowerupStep(VirtualView virtualView, Message answer) {
 		QuestionContainer questionContainer = model.activateOnTurnPowerup(virtualView.getNickname(), powerupInExecution, answer);
 		if(questionContainer == null) {
 			model.discardPowerupCard(virtualView.getNickname(), powerupInExecution);
 			powerupInExecution = -1;
 			handleEnd(virtualView);
-		} else if(questionContainer.isAskString()) {
-			virtualView.askPowerupChoice(questionContainer.getQuestion(), questionContainer.getOptions());
-		} else if(questionContainer.isAskCoordinates()) {
-			virtualView.askPowerupCoordinates(questionContainer.getQuestion(), questionContainer.getCoordinates());
+		} else {
+			virtualView.askPowerupChoice(questionContainer);
 		}
 	}
 }

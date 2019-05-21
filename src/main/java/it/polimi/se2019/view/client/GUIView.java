@@ -5,10 +5,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
-import it.polimi.se2019.network.message.GameConfigMessage;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.NicknameMessage;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -135,12 +132,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askPowerupChoice(String question, List<String> options) {
-
-	}
-
-	@Override
-	public void askPowerupCoordinates(String question, List<Coordinates> coordinates) {
+	public void askPowerupChoice(QuestionContainer questionContainer) {
 
 	}
 
@@ -155,7 +147,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askGrab(Message message) {
+	public void askGrab(MessageType grabType) {
 
 	}
 

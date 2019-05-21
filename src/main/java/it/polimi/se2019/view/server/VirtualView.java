@@ -98,13 +98,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askPowerupChoice(String question, List<String> options) {
-		sendMessage(new AskOptionsMessage(question, options, MessageType.POWERUP_INFO_OPTIONS, MessageSubtype.REQUEST));
-	}
-
-	@Override
-	public void askPowerupCoordinates(String question, List<Coordinates> coordinates) {
-		sendMessage(new AskCoordinatesMessage(question, coordinates, MessageType.POWERUP_INFO_COORDINATES));
+	public void askPowerupChoice(QuestionContainer questionContainer) {
+		sendMessage(new AskOptionsMessage(questionContainer, MessageType.ON_TURN_POWERUP, MessageSubtype.REQUEST));
 	}
 
 	@Override
