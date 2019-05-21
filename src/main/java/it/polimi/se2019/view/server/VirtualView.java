@@ -67,8 +67,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askGrab(Message message) {
-		sendMessage(message);
+	public void askGrab(MessageType grabType) {
+		sendMessage(new Message(grabType, MessageSubtype.REQUEST));
 	}
 
 	@Override
