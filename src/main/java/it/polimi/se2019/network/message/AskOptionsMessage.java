@@ -1,7 +1,7 @@
 package it.polimi.se2019.network.message;
 
-import it.polimi.se2019.model.cards.powerups.QuestionContainer;
 import it.polimi.se2019.model.gamemap.Coordinates;
+import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.List;
 

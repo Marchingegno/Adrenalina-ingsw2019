@@ -7,6 +7,7 @@ import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.utils.QuestionContainer;
 
 /**
  * This abstract class implements the powerup card

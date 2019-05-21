@@ -1,11 +1,12 @@
-package it.polimi.se2019.model.cards.powerups;
+package it.polimi.se2019.utils;
 
 import it.polimi.se2019.model.gamemap.Coordinates;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionContainer {
+public class QuestionContainer implements Serializable {
 
 	private final String question;
 	private final boolean askString;

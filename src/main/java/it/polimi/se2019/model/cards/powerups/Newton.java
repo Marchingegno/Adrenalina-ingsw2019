@@ -8,6 +8,7 @@ import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;

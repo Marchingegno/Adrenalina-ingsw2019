@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.powerups;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.Message;
+import it.polimi.se2019.utils.QuestionContainer;
 
 /**
  * This class implements the Tagback grenade powerup
