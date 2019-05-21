@@ -6,7 +6,7 @@ import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
-public class MachineGun extends OptionalEffect {
+public class MachineGun extends OptionalEffectsWeapon {
 
 	public MachineGun(String description, List<AmmoType> reloadPrice) {
 		super("Machine Gun", description, reloadPrice);

@@ -9,7 +9,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sledgehammer extends AlternateFire {
+public class Sledgehammer extends AlternateFireWeapon {
 	private List<Coordinates> enemyMovingCoordinates;
 
 	public Sledgehammer(String description, List<AmmoType> reloadPrice) {

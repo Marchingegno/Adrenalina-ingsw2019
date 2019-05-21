@@ -13,7 +13,7 @@ import java.util.List;
  * primary fire mode. Some optional effect have an additional ammo cost.
  * @author  Marchingegno
  */
-public abstract class OptionalEffect extends WeaponCard {
+public abstract class OptionalEffectsWeapon extends WeaponCard {
 	private boolean[] optionalEffectsActive;
 	private boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
 	private List<List<AmmoType>> optionalCosts;
@@ -23,7 +23,7 @@ public abstract class OptionalEffect extends WeaponCard {
 	int OPTIONAL2_MARKS;
 
 
-	public OptionalEffect(String weaponName, String description, List<AmmoType> reloadPrice) {
+	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice) {
 		super(weaponName, description, reloadPrice);
 		optionalEffectsActive = new boolean[2];
 		canAddOptionalEffect = new boolean[3];

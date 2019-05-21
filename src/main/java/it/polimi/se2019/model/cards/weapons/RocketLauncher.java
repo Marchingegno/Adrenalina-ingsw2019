@@ -6,7 +6,7 @@ import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
-public class RocketLauncher extends OptionalEffect {
+public class RocketLauncher extends OptionalEffectsWeapon {
 
 	public RocketLauncher(String description, List<AmmoType> reloadPrice) {
 		super("Rocket Launcher", description, reloadPrice);

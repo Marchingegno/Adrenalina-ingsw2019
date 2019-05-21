@@ -7,7 +7,7 @@ import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
-public class VortexCannon extends OptionalEffect {
+public class VortexCannon extends OptionalEffectsWeapon {
 
 	public VortexCannon(String description, List<AmmoType> reloadPrice) {
 		super("Vortex Cannon", description, reloadPrice);

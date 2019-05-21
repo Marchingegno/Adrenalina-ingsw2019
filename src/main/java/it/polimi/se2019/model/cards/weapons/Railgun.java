@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Railgun extends AlternateFire {
+public class Railgun extends AlternateFireWeapon {
 	private CardinalDirection chosenDirection;
 	private Player secondTarget;
 

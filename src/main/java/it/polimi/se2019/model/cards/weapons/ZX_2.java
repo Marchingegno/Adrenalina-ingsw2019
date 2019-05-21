@@ -7,7 +7,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZX_2 extends AlternateFire {
+public class ZX_2 extends AlternateFireWeapon {
 	private List<Player> secondaryTargets;
 
 	public ZX_2(String description, List<AmmoType> reloadPrice) {

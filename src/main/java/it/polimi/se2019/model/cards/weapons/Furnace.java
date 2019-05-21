@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Furnace extends AlternateFire {
+public class Furnace extends AlternateFireWeapon {
 
 	private List<Coordinates> targettableCoordinates;
 	private Coordinates targetCoordinate;

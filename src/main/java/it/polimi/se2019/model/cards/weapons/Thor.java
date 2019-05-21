@@ -6,7 +6,7 @@ import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
-public class Thor extends OptionalEffect {
+public class Thor extends OptionalEffectsWeapon {
 
 	public Thor(String description, List<AmmoType> reloadPrice) {
 		super("T.H.O.R.", description, reloadPrice);

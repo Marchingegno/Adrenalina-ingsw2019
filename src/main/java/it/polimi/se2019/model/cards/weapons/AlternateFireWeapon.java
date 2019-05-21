@@ -14,7 +14,7 @@ import static java.lang.Boolean.FALSE;
  * Weapons with an alternate fire method. The player can choose one of the two firing modes the weapon has.
  * @author Marchingegno
  */
-public abstract class AlternateFire extends WeaponCard {
+public abstract class AlternateFireWeapon extends WeaponCard {
 	int maximumAlternateSteps;
 	List<DamageAndMarks> secondaryDamagesAndMarks;
 	List<AmmoType> secondaryCost;
@@ -22,7 +22,7 @@ public abstract class AlternateFire extends WeaponCard {
 	int SECONDARY_DAMAGE;
 	int SECONDARY_MARKS;
 
-	public AlternateFire(String weaponName, String description, List<AmmoType> reloadPrice) {
+	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice) {
 		super(weaponName, description, reloadPrice);
 		reset();
 	}

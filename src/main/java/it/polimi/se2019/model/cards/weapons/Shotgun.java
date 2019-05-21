@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Shotgun extends AlternateFire {
+public class Shotgun extends AlternateFireWeapon {
 	private List<Coordinates> listEnemyMoveCoordinates;
 
 	public Shotgun(String description, List<AmmoType> reloadPrice) {

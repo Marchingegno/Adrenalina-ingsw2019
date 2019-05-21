@@ -6,7 +6,7 @@ import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
-public class PlasmaGun extends OptionalEffect {
+public class PlasmaGun extends OptionalEffectsWeapon {
 
 	public PlasmaGun(String description, List<AmmoType> reloadPrice) {
 		super("Plasma Gun", description, reloadPrice);

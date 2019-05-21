@@ -7,7 +7,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cyberblade extends OptionalEffect{
+public class Cyberblade extends OptionalEffectsWeapon {
 
 
 

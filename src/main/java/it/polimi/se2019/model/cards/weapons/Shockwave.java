@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Shockwave extends AlternateFire {
+public class Shockwave extends AlternateFireWeapon {
 	private List<Player> chosenTargets;
 
 	public Shockwave(String description, List<AmmoType> reloadPrice) {

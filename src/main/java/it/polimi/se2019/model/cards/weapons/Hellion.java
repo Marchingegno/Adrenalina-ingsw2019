@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hellion extends AlternateFire {
+public class Hellion extends AlternateFireWeapon {
 	private int PRIMARY_FOLLOWING_DAMAGE;
 	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int PRIMARY_FOLLOWING_MARKS;

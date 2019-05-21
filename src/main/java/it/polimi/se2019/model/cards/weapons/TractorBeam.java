@@ -10,7 +10,7 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TractorBeam extends AlternateFire {
+public class TractorBeam extends AlternateFireWeapon {
 
 	private List<Coordinates> enemyRelocationCoordinates;
 

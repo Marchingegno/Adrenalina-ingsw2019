@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PowerGlove extends AlternateFire {
+public class PowerGlove extends AlternateFireWeapon {
 	private CardinalDirection chosenDirection;
 
 	public PowerGlove(String description, List<AmmoType> reloadPrice) {

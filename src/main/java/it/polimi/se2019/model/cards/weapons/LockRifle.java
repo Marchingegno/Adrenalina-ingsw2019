@@ -7,7 +7,7 @@ import it.polimi.se2019.utils.Pair;
 
 import java.util.List;
 
-public class LockRifle extends OptionalEffect {
+public class LockRifle extends OptionalEffectsWeapon {
 
 	public LockRifle(String description, List<AmmoType> reloadPrice) {
 		super("Lock Rifle", description, reloadPrice);

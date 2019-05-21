@@ -10,7 +10,7 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Flamethrower extends AlternateFire {
+public class Flamethrower extends AlternateFireWeapon {
 	private int SECONDARY_FOLLOWING_DAMAGE;
 	private int SECONDARY_FOLLOWING_MARKS;
 	private CardinalDirection chosenDirection;
