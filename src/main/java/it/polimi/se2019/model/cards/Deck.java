@@ -70,11 +70,6 @@ public abstract class Deck<C extends Card> {
 		discardDeck.push(cardToDiscard);
 	}
 
-	public void discardFirst() {
-		Utils.logInfo("Deck -> discardCard(): Adding to the discardDeck " + actualDeck.getFirst());
-		discardDeck.push(actualDeck.remove());
-	}
-
 	/**
 	 * Shuffles the deck.
 	 */
