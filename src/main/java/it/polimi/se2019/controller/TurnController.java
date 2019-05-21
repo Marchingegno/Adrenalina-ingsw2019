@@ -39,7 +39,7 @@ public class TurnController{
 				handleNextAction(virtualView);
 				break;
 			case GRAB_AMMO:
-				model.grabAmmoCard(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				model.grabAmmoCard(playerName, ((IntMessage) event.getMessage()).getContent());
 				handleNextAction(virtualView);
 				break;
 			case GRAB_WEAPON:

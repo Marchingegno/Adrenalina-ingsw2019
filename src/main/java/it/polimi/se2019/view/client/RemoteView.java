@@ -105,7 +105,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					askEnd(((RequestChoiseInArrayMessage) message).getAvailableIndexes());
 				break;
 			case GRAB_AMMO:
-				sendMessage(new DefaultActionMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
+				sendMessage(new IntMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
 				break;
 			case GRAB_WEAPON:
 				askGrabWeapon(((RequestChoiseInArrayMessage) message).getAvailableIndexes());

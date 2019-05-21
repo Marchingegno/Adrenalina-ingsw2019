@@ -104,6 +104,19 @@ public class GameMap extends Observable implements Representable {
 			throw new PlayerNotInTheMapException("player position is null");
 	}
 
+	public List<Coordinates> getAllCoordinates() {
+		List<Coordinates> coordinatesList = new ArrayList<>();
+		Coordinates coordinates;
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				coordinates = new Coordinates(i, j);
+				if (isIn(coordinates))
+					coordinatesList.add(coordinates);
+			}
+		}
+		return coordinatesList;
+	}
+
 	/**
 	 * Returns the player's square.
 	 *
@@ -117,6 +130,16 @@ public class GameMap extends Observable implements Representable {
 			return map[playerCoordinates.getRow()][playerCoordinates.getColumn()];
 		else
 			throw new PlayerNotInTheMapException("player position is null");
+	}
+
+	public List<Player> getPlayersInDirection(Coordinates coordinates, CardinalDirection direction) {
+		List<Player> players = new ArrayList<>(getPlayersFromCoordinates(coordinates));
+		Coordinates coordinatesToCheck = coordinates;
+		while (coordinatesToCheck.getRow() > 0 && coordinatesToCheck.getColumn() > 0 && isIn(coordinates)) {
+			coordinatesToCheck = Coordinates.getDirectionCoordinates(coordinatesToCheck, direction);
+			players.addAll(getPlayersFromCoordinates(coordinatesToCheck));
+		}
+		return players;
 	}
 
 	/**
