@@ -99,8 +99,6 @@ public class Newton extends PowerupCard {
 		List<Coordinates> allowedCoordinates = getMovingCoordinates(getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer));
 		if(allowedCoordinates.contains(targetCoordinates)) {
 			getGameBoard().getGameMap().movePlayerTo(targetPlayer, targetCoordinates);
-			getGameBoard().getGameMap().updateRep();
-			getGameBoard().getGameMap().notifyObservers();
 		}
 	}
 

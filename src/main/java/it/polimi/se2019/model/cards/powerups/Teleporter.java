@@ -74,8 +74,6 @@ public class Teleporter extends PowerupCard {
 		Coordinates targetCoordinates = ((CoordinatesAnswerMessage) answer).getSingleCoordinates();
 		if(!targetCoordinates.equals(getGameBoard().getGameMap().getPlayerCoordinates(getOwnerPlayer()))) {
 			getGameBoard().getGameMap().movePlayerTo(getOwnerPlayer(), targetCoordinates);
-			getGameBoard().getGameMap().updateRep();
-			getGameBoard().getGameMap().notifyObservers();
 		}
 	}
 

@@ -292,17 +292,22 @@ public class Model {
 
 	public QuestionContainer initialPowerupActivation(String playerName, int indexOfPowerup) {
 		Player player = getPlayerFromName(playerName);
-		return player.initialPowerupActivation(indexOfPowerup);
+		QuestionContainer questionContainer = player.initialPowerupActivation(indexOfPowerup);
+		updateReps();
+		return questionContainer;
 	}
 
 	public QuestionContainer doPowerupStep(String playerName, Message answer) {
 		Player player = getPlayerFromName(playerName);
-		return player.doPowerupStep(answer);
+		QuestionContainer questionContainer = player.doPowerupStep(answer);
+		updateReps();
+		return questionContainer;
 	}
 
 	public void discardPowerupCardInExecution(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		player.discardPowerupInExecution();
+		updateReps();
 	}
 
 
