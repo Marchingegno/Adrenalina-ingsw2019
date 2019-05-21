@@ -17,7 +17,7 @@ public abstract class Deck<C extends Card> {
 
 
 	/**
-	 * CreateS an instance of a deck. The deck is automatically initialized using the method initializeDeck().
+	 * Create an instance of a deck. The deck is automatically initialized using the method initializeDeck().
 	 */
 	public Deck() {
 		discardDeck = new ArrayDeque<>();
@@ -27,10 +27,14 @@ public abstract class Deck<C extends Card> {
 	}
 
 
+	// ####################################
+	// PUBLIC METHODS
+	// ####################################
+
 	/**
-	 * Returns the first card on the deck.
+	 * Returns the first card of the deck.
 	 *
-	 * @return the first card on the deck.
+	 * @return the first card of the deck.
 	 */
 	public C drawCard() {
 		if (actualDeck.isEmpty())
@@ -70,6 +74,36 @@ public abstract class Deck<C extends Card> {
 		discardDeck.push(cardToDiscard);
 	}
 
+
+	// ####################################
+	// PROTECTED METHODS
+	// ####################################
+
+	/**
+	 * Adds the specified card to the deck. This method is protected because only at initialization cards are added.
+	 *
+	 * @param cardToAdd the card to add to the deck.
+	 */
+	protected void addCard(C cardToAdd) {
+		Utils.logInfo("Deck -> addCard(): Adding to actualDeck " + cardToAdd);
+		actualDeck.push(cardToAdd);
+	}
+
+
+	// ####################################
+	// ABSTRACT METHODS
+	// ####################################
+
+	/**
+	 * Should initialize the deck with all the cards.
+	 */
+	protected abstract void initializeDeck();
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
+
 	/**
 	 * Shuffles the deck.
 	 */
@@ -79,20 +113,5 @@ public abstract class Deck<C extends Card> {
 		actualDeck = new ArrayDeque<>(list); // Re-create deque from list.
 		Utils.logInfo("Deck -> shuffleDeck(): Deck shuffled");
 	}
-
-	/**
-	 * Adds the specified card to the deck. This method is protected because only at initialization cards are added.
-	 *
-	 * @param cardToAdd the card to add to the deck.
-	 */
-	public void addCard(C cardToAdd) {
-		Utils.logInfo("Deck -> addCard(): Adding to actualDeck " + cardToAdd);
-		actualDeck.push(cardToAdd);
-	}
-
-	/**
-	 * Should initialize the deck with all the cards.
-	 */
-	protected abstract void initializeDeck();
 
 }
