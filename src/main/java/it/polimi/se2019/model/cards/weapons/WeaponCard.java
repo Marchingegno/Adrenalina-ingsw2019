@@ -305,6 +305,15 @@ public abstract class WeaponCard extends ActivableCard {
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
+	protected QuestionContainer setCurrentTargetsAndReturnTargetQnO(){
+		currentTargets = getPrimaryTargets();
+		return getTargetPlayersQnO(currentTargets);
+	}
+
+	protected static boolean isThisChoiceRefusal(List listToCheck, int choice){
+		return choice == listToCheck.size() - 1;
+	}
+
 	protected void relocateEnemy(Player enemy, Coordinates coordinates){
 		getGameMap().movePlayerTo(enemy, coordinates);
 	}
