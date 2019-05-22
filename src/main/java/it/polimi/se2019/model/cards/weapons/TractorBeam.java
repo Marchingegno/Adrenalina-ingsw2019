@@ -14,6 +14,7 @@ public class TractorBeam extends AlternateFireWeapon {
 
 	private List<Coordinates> enemyRelocationCoordinates;
 
+
 	public TractorBeam(String description, List<AmmoType> reloadPrice) {
 		super("Tractor Beam", description, reloadPrice, 0, 1, 0);
 		this.SECONDARY_DAMAGE = 3;
@@ -92,5 +93,11 @@ public class TractorBeam extends AlternateFireWeapon {
 	@Override
 	public List<Player> getSecondaryTargets() {
 		return getGameMap().reachablePlayers(getOwner(), 2);
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		enemyRelocationCoordinates = new ArrayList<>();
 	}
 }

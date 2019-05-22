@@ -96,4 +96,11 @@ public class Furnace extends AlternateFireWeapon {
 		return targettableCoordinates;
 	}
 
+
+	@Override
+	public void reset() {
+		super.reset();
+		targetCoordinate = null;
+		targettableCoordinates = new ArrayList<>();
+	}
 }

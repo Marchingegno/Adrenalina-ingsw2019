@@ -32,7 +32,6 @@ public class Flamethrower extends AlternateFireWeapon {
 		this.maximumAlternateSteps = 3;
 	}
 
-
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		switch (getCurrentStep()){
@@ -151,4 +150,12 @@ public class Flamethrower extends AlternateFireWeapon {
 		return targets;
 	}
 
+
+	@Override
+	public void reset() {
+		chosenDirection = null;
+		firstSquareTarget = null;
+		secondSquareTarget = null;
+		secondSquareTargets = new ArrayList<>();
+	}
 }

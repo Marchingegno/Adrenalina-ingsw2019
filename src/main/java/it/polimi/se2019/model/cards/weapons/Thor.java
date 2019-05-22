@@ -129,4 +129,10 @@ public class Thor extends OptionalEffectsWeapon {
 			super.registerChoice(choice);
 		}
 	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		chosenTargets = new ArrayList<>();
+	}
 }

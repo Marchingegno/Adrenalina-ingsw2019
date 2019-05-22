@@ -93,4 +93,10 @@ public class Shockwave extends AlternateFireWeapon {
 		return adjacentPlayers;
 	}
 
+
+	@Override
+	public void reset() {
+		super.reset();
+		chosenTargets = new ArrayList<>();
+	}
 }

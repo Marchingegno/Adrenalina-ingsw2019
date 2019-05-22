@@ -92,4 +92,12 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		return QuestionContainer.createCoordinatesQuestionContainer(question, options);
 	}
 
+
+	@Override
+	public void reset() {
+		super.reset();
+		vortexCoordinate = null;
+		temporaryPossibleVortexCoordinates = new ArrayList<>();
+		chosenTargets = new ArrayList<>();
+	}
 }
