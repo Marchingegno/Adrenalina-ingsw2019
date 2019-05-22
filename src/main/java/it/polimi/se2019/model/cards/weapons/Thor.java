@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,4 +96,37 @@ public class Thor extends OptionalEffectsWeapon {
 		dealDamage(standardDamagesAndMarks, chosenTargets);
 	}
 
+	@Override
+	public QuestionContainer initialQuestion() {
+		String question = "Which optional effect do you want to activate?";
+		checkOptionalEffects();
+		List<String> options = new ArrayList<>();
+		options.add("No optional effects.");
+
+		//Can add optionalEffect 1?
+		if(getCanAddOptionalEffect()[0]){
+			options.add("Optional effect 1.");
+		}
+		//Can add optionalEffect 1 + 2?
+		if(getCanAddOptionalEffect()[2]){
+			options.add("Optional effect 1 + Optional effect 2.");
+		}
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
+	@Override
+	protected void registerChoice(int choice) {
+		//The choice 3 can't be made because of the overrided "initialQuestion".
+		if(choice == 3){
+			Utils.logError("Thor: received wrong choice number (3).", new IllegalArgumentException());
+		}
+
+		//If the choice is 2, the player has chosen both optional effects.
+		if(choice == 2){
+			super.registerChoice(3);
+		}
+		else{
+			super.registerChoice(choice);
+		}
+	}
 }
