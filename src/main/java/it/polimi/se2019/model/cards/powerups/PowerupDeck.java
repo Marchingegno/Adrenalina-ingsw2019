@@ -1,7 +1,7 @@
 package it.polimi.se2019.model.cards.powerups;
 
 import com.google.gson.*;
-import it.polimi.se2019.model.cards.OwnableDeck;
+import it.polimi.se2019.model.cards.ActivableDeck;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.utils.Utils;
@@ -16,7 +16,7 @@ import java.io.Reader;
  * @author MarcerAndrea
  * @author Desno365
  */
-public class PowerupDeck extends OwnableDeck<PowerupCard> {
+public class PowerupDeck extends ActivableDeck<PowerupCard> {
 
 	public PowerupDeck(GameBoard gameBoard) {
 		super(gameBoard);

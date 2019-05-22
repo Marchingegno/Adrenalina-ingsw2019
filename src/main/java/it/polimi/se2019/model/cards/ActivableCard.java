@@ -3,13 +3,13 @@ package it.polimi.se2019.model.cards;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 
-public abstract class OwnableCard extends Card {
+public abstract class ActivableCard extends Card {
 
 	private Player ownerPlayer;
 	private GameBoard gameBoard;
 
 
-	public OwnableCard(String cardName, String description) {
+	public ActivableCard(String cardName, String description) {
 		super(cardName, description);
 	}
 

@@ -2,12 +2,12 @@ package it.polimi.se2019.model.cards;
 
 import it.polimi.se2019.model.gameboard.GameBoard;
 
-public abstract class OwnableDeck<O extends OwnableCard> extends Deck<O> {
+public abstract class ActivableDeck<O extends ActivableCard> extends Deck<O> {
 
 	private GameBoard gameBoard;
 
 
-	public OwnableDeck(GameBoard gameBoard) {
+	public ActivableDeck(GameBoard gameBoard) {
 		this.gameBoard = gameBoard;
 	}
 

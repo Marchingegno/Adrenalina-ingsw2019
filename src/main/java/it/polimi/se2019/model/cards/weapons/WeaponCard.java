@@ -1,7 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import it.polimi.se2019.model.Representation;
-import it.polimi.se2019.model.cards.OwnableCard;
+import it.polimi.se2019.model.cards.ActivableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * if it has finished firing. The method {@link #reset()} will deload and reset the weapon to its original state.
  * @author Marchingegno
  */
-public abstract class WeaponCard extends OwnableCard {
+public abstract class WeaponCard extends ActivableCard {
 
 	private int currentStep; //Advancement step of the weapon.
 	private boolean loaded;

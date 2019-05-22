@@ -1,7 +1,7 @@
 package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.Representation;
-import it.polimi.se2019.model.cards.OwnableCard;
+import it.polimi.se2019.model.cards.ActivableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.Player;
@@ -14,7 +14,7 @@ import it.polimi.se2019.utils.QuestionContainer;
  * @author MarcerAndrea
  * @author Desno365
  */
-public abstract class PowerupCard extends OwnableCard {
+public abstract class PowerupCard extends ActivableCard {
 
 	private AmmoType associatedAmmo;
 	private PowerupUseCaseType powerupUseCaseType;
@@ -80,7 +80,7 @@ public abstract class PowerupCard extends OwnableCard {
 
 
 	// ####################################
-	// PROTECTED METHODS (only for specific type of powerups)
+	// PROTECTED METHODS (only for subclasses)
 	// ####################################
 
 	protected Player getShootingPlayer() {
