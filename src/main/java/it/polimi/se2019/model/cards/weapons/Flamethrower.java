@@ -48,7 +48,7 @@ public class Flamethrower extends AlternateFireWeapon {
 				//If there are no targets on the first square, ask second square target.
 				//So I increment the step and re-call this method.
 				if (currentTargets.isEmpty()){
-					incrementStep();
+					incrementCurrentStep();
 					return handlePrimaryFire(0);
 				}
 				return getTargetPlayersQnO(currentTargets);
@@ -63,7 +63,7 @@ public class Flamethrower extends AlternateFireWeapon {
 				currentTargets = getSecondSquareTargets();
 				try{
 					if (currentTargets.isEmpty()){
-						incrementStep();
+						incrementCurrentStep();
 						return handlePrimaryFire(0);
 					}
 				} catch (NullPointerException e){

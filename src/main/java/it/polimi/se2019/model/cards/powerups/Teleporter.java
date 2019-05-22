@@ -32,7 +32,7 @@ public class Teleporter extends PowerupCard {
 
 	@Override
 	public QuestionContainer doPowerupStep(Message answer) {
-		incrementStep();
+		incrementCurrentStep();
 		if(getCurrentStep() == 1) {
 			return firstStep();
 		} else if(getCurrentStep() == 2) {

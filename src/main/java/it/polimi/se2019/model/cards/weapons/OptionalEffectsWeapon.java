@@ -89,7 +89,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	@Override
 	public QuestionContainer handleFire(int choice) {
-		incrementStep();
+		incrementCurrentStep();
 		if(getCurrentStep() == 1){
 			return initialQuestion();
 		}

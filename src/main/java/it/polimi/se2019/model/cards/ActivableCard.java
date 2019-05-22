@@ -44,7 +44,7 @@ public abstract class ActivableCard extends Card {
 		return currentStep;
 	}
 
-	protected void incrementStep(){
+	protected void incrementCurrentStep(){
 		currentStep++;
 	}
 

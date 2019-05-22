@@ -94,7 +94,7 @@ public class ZX_2 extends AlternateFireWeapon {
 	 */
 	private void terminateSecondaryFire(){
 		while(getCurrentStep() < getMaximumSteps()){
-			incrementStep();
+			incrementCurrentStep();
 		}
 		secondaryFire();
 	}

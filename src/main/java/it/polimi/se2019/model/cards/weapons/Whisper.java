@@ -20,7 +20,7 @@ public class Whisper extends WeaponCard {
 
 	@Override
 	public QuestionContainer handleFire(int choice) {
-		incrementStep();
+		incrementCurrentStep();
 		return handlePrimaryFire(choice);
 	}
 

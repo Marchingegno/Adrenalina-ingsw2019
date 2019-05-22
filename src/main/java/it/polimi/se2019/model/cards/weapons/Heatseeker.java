@@ -21,7 +21,7 @@ public class Heatseeker extends WeaponCard {
 
 	@Override
 	public QuestionContainer handleFire(int choice) {
-		incrementStep();
+		incrementCurrentStep();
 		return handlePrimaryFire(choice);
 	}
 

@@ -55,7 +55,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 
 	@Override
 	public QuestionContainer handleFire(int choice) {
-		incrementStep();
+		incrementCurrentStep();
 		if (getCurrentStep() == 1) {
 			return initialQuestion();
 		} else if(getCurrentStep() == 2){
