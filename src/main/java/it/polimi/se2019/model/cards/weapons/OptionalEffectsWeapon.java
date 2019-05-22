@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -17,10 +18,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	private boolean[] optionalEffectsActive;
 	private boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
 	private List<AmmoType> optionalPrices;
-	int OPTIONAL1_DAMAGE;
-	int OPTIONAL1_MARKS;
-	int OPTIONAL2_DAMAGE;
-	int OPTIONAL2_MARKS;
+	int optional1_Damage;
+	int optional1_Marks;
+	int optional2_Damage;
+	int optional2_Marks;
 	List<DamageAndMarks> optional1DamagesAndMarks;
 	List<DamageAndMarks> optional2DamagesAndMarks;
 	List<DamageAndMarks> optionalBothDamagesAndMarks;
@@ -36,22 +37,40 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		optionalBothDamagesAndMarks = new ArrayList<>();
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
 		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage, moveDistance);
 		initializeVariables();
 		reset();
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage) {
 		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage);
 		initializeVariables();
 		reset();
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks) {
 		super(weaponName, description, reloadPrice, primaryMarks);
 		initializeVariables();
 		reset();
+	}
+
+	public OptionalEffectsWeapon(JsonObject parameters) {
+		super(parameters);
+		initializeVariables();
+		this.optional1_Damage = parameters.get("optional1Damage").getAsInt();
+		this.optional1_Marks = parameters.get("optional1Marks").getAsInt();
+		this.optional2_Damage = parameters.get("optional2Damage").getAsInt();
+		this.optional2_Marks = parameters.get("optional2MArks").getAsInt();
 	}
 
 	@Override

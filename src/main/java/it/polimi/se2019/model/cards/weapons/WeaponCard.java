@@ -1,5 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ActivableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
@@ -43,6 +45,9 @@ public abstract class WeaponCard extends ActivableCard {
 	private final int primaryMarks;
 
 
+	/**
+	 * @deprecated
+	 */
 	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
 		super(weaponName, description);
 		this.reloadPrice = new ArrayList<>(reloadPrice);
@@ -51,6 +56,9 @@ public abstract class WeaponCard extends ActivableCard {
 		this.moveDistance = moveDistance;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryDamage, final int primaryMarks) {
 		super(weaponName, description);
 		this.reloadPrice = new ArrayList<>(reloadPrice);
@@ -59,12 +67,29 @@ public abstract class WeaponCard extends ActivableCard {
 		this.moveDistance = 0;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryDamage) {
 		super(weaponName, description);
 		this.reloadPrice = new ArrayList<>(reloadPrice);
 		this.primaryDamage = primaryDamage;
 		this.primaryMarks = 0;
 		this.moveDistance = 0;
+	}
+
+	public WeaponCard(JsonObject parameters) {
+		super(parameters.get("name").getAsString(), parameters.get("description").getAsString());
+
+		this.reloadPrice = new ArrayList<>();
+
+		for (JsonElement ammoPrice : parameters.getAsJsonArray("price")) {
+			this.reloadPrice.add(AmmoType.valueOf(ammoPrice.getAsString()));
+		}
+
+		this.primaryDamage = parameters.get("primaryDamage").getAsInt();
+		this.primaryMarks = parameters.get("primaryMarks").getAsInt();
+		this.moveDistance = parameters.get("moveDistance").getAsInt();
 	}
 
 	public boolean canFire(){
