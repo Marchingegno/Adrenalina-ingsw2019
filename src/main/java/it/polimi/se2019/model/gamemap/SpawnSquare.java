@@ -53,11 +53,6 @@ public class SpawnSquare extends Square {
 	}
 
 	@Override
-	public boolean hasGrabbable() {
-		return !cards.isEmpty();
-	}
-
-	@Override
 	public boolean canGrab(Player player) {
 		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
 		for (Card weaponCard : cards) {

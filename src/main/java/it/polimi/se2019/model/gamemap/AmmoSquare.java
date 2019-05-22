@@ -37,11 +37,6 @@ public class AmmoSquare extends Square {
 	}
 
 	@Override
-	public boolean hasGrabbable() {
-		return isFilled();
-	}
-
-	@Override
 	public boolean canGrab(Player player) {
 		return isFilled();
 	}

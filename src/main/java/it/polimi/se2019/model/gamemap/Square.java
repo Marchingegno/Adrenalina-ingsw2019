@@ -168,12 +168,6 @@ public abstract class Square implements Representable {
 		hasChanged = false;
 	}
 
-	/**
-	 * @return
-	 * @deprecated
-	 */
-	public abstract boolean hasGrabbable();
-
 	public abstract boolean canGrab(Player player);
 
 	public abstract MessageType getGrabMessageType();

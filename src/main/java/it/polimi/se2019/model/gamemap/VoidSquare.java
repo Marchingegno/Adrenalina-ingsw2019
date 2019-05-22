@@ -29,11 +29,6 @@ public class VoidSquare extends Square {
 	}
 
 	@Override
-	public boolean hasGrabbable() {
-		throw new UnsupportedOperationException("VoidSquare has no cards");
-	}
-
-	@Override
 	public boolean canGrab(Player player) {
 		throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
 	}
