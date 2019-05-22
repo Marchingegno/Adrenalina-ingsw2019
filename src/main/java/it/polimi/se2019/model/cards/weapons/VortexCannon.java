@@ -53,12 +53,9 @@ public class VortexCannon extends OptionalEffectsWeapon {
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersAndRefusalQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 6){
+		} else if (getCurrentStep() == 6 && !isThisChoiceRefusal(currentTargets, choice)) {
 			//The player can refuse.
-			if(!isThisChoiceRefusal(currentTargets, choice)){
-				chosenTargets.add(currentTargets.get(choice));
-			}
+			chosenTargets.add(currentTargets.get(choice));
 		}
 		primaryFire();
 		return null;
@@ -66,6 +63,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 
 	@Override
 	public void primaryFire() {
+		chosenTargets.forEach(item -> relocateEnemy(item, vortexCoordinate));
 		dealDamage(standardDamagesAndMarks, chosenTargets);
 	}
 
