@@ -2,40 +2,94 @@ package it.polimi.se2019.model.cards.weapons;
 
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VortexCannon extends OptionalEffectsWeapon {
+	private Coordinates vortexCoordinate;
+	private List<Coordinates> temporaryPossibleVortexCoordinates;
+	private List<Player> chosenTargets;
 
 	public VortexCannon(String description, List<AmmoType> reloadPrice) {
 		super("Vortex Cannon", description, reloadPrice, 0, 0, 0);
 	}
 
 
-	public void primaryFire() {
+	@Override
+	QuestionContainer handlePrimaryFire(int choice) {
+		if(getCurrentStep() == 2){
+			temporaryPossibleVortexCoordinates = getVortexCoordinates();
+			return getVortexQnO(temporaryPossibleVortexCoordinates);
+		}
+		else if(getCurrentStep() == 3){
+			vortexCoordinate = temporaryPossibleVortexCoordinates.get(choice);
+			return setCurrentTargetsAndReturnTargetQnO();
+		}
+		else if(getCurrentStep() == 4){
+			chosenTargets = new ArrayList<>();
+			chosenTargets.add(currentTargets.get(choice));
+		}
+
+		if(isOptionalActive(1))
+		{
+			return handleOptionalEffect1(choice);
+		}
+		else{
+			primaryFire();
+		}
+		return null;
 	}
 
 	@Override
-	QuestionContainer handlePrimaryFire(int choice) {
+	protected QuestionContainer handleOptionalEffect1(int choice) {
+		if(getCurrentStep() == 4){
+			return setCurrentTargetsAndReturnTargetQnO();
+		}
+		else if(getCurrentStep() == 5){
+			chosenTargets.add(currentTargets.get(choice));
+			currentTargets = getPrimaryTargets();
+			return getTargetPlayersAndRefusalQnO(currentTargets);
+		}
+		else if(getCurrentStep() == 6){
+			//The player can refuse.
+			if(!isThisChoiceRefusal(currentTargets, choice)){
+				chosenTargets.add(currentTargets.get(choice));
+			}
+		}
+		primaryFire();
 		return null;
+	}
+
+	@Override
+	public void primaryFire() {
+		dealDamage(standardDamagesAndMarks, chosenTargets);
 	}
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		return null;
+		//Players at most 1 move away from the vortex that are not already targeted.
+		List<Coordinates> coordinatesSurroundingVortex = getGameMap().reachableCoordinates(vortexCoordinate, 1);
+		List<Player> playersOneMoveAwayNotTargeted = new ArrayList<>();
+		coordinatesSurroundingVortex.forEach(item -> playersOneMoveAwayNotTargeted.addAll(getGameMap().getPlayersFromCoordinates(item)));
+		playersOneMoveAwayNotTargeted.removeAll(chosenTargets);
+		playersOneMoveAwayNotTargeted.remove(getOwner());
+		return playersOneMoveAwayNotTargeted;
 	}
 
-	@Override
-	public void optional1Fire() {
-
+	private List<Coordinates> getVortexCoordinates(){
+		List<Coordinates> possibleVortexCoordinates = getGameMap().getVisibleCoordinates(getOwner());
+		possibleVortexCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
+		return possibleVortexCoordinates;
 	}
 
-	@Override
-	public void optional2Fire() {
-
+	private static QuestionContainer getVortexQnO(List<Coordinates> possibleVortexCoordinates){
+		String question = "Where do you want to place the vortex?";
+		List<Coordinates> options = new ArrayList<>(possibleVortexCoordinates);
+		return QuestionContainer.createCoordinatesQuestionContainer(question, options);
 	}
-
 
 }
