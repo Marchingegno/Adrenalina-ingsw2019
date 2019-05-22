@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MachineGun extends OptionalEffectsWeapon {
 	List<Player> chosenTargets;
-	private int OPTIONAL2_EXTRA_DAMAGE;
+	private static final int OPTIONAL2_EXTRA_DAMAGE = 1;
 
 	public MachineGun(String description, List<AmmoType> reloadPrice) {
 		super("Machine Gun", description, reloadPrice, 0, 1, 0);
@@ -18,7 +18,6 @@ public class MachineGun extends OptionalEffectsWeapon {
 		this.OPTIONAL1_MARKS = 0;
 		this.OPTIONAL2_DAMAGE = 1;
 		this.OPTIONAL2_MARKS = 0;
-		this.OPTIONAL2_EXTRA_DAMAGE = 1;
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 

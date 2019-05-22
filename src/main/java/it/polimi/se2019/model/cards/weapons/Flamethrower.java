@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flamethrower extends AlternateFireWeapon {
-	private int SECONDARY_FOLLOWING_DAMAGE;
-	private int SECONDARY_FOLLOWING_MARKS;
+	private static final int SECONDARY_FOLLOWING_DAMAGE = 1;
+	private static final int SECONDARY_FOLLOWING_MARKS = 0;
 	private CardinalDirection chosenDirection;
 	private Player firstSquareTarget;
 	private Player secondSquareTarget;
@@ -22,8 +22,6 @@ public class Flamethrower extends AlternateFireWeapon {
 		super("FlameThrower", description, reloadPrice, 0, 1, 0);
 		this.SECONDARY_DAMAGE = 2;
 		this.SECONDARY_MARKS = 0;
-		this.SECONDARY_FOLLOWING_DAMAGE = 1;
-		this.SECONDARY_FOLLOWING_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));

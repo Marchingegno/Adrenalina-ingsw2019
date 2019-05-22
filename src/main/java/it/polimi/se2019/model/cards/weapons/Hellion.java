@@ -9,20 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hellion extends AlternateFireWeapon {
-	private int PRIMARY_FOLLOWING_DAMAGE;
-	private int SECONDARY_FOLLOWING_DAMAGE;
-	private int PRIMARY_FOLLOWING_MARKS;
-	private int SECONDARY_FOLLOWING_MARKS;
+	private static final int PRIMARY_FOLLOWING_DAMAGE = 0;
+	private static final int SECONDARY_FOLLOWING_DAMAGE = 0;
+	private static final int PRIMARY_FOLLOWING_MARKS = 1;
+	private static final int SECONDARY_FOLLOWING_MARKS = 2;
 
 
 	public Hellion(String description, List<AmmoType> reloadPrice) {
 		super("Hellion", description, reloadPrice, 1, 1, 0);
 		this.SECONDARY_DAMAGE = 1;
 		this.SECONDARY_MARKS = 2;
-		this.PRIMARY_FOLLOWING_DAMAGE = 0;
-		this.PRIMARY_FOLLOWING_MARKS = 1;
-		this.SECONDARY_FOLLOWING_DAMAGE = 0;
-		this.SECONDARY_FOLLOWING_MARKS = 2;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_FOLLOWING_DAMAGE, PRIMARY_FOLLOWING_MARKS));
