@@ -7,6 +7,7 @@ public abstract class ActivableCard extends Card {
 
 	private Player ownerPlayer;
 	private GameBoard gameBoard;
+	private int currentStep = 0;
 
 
 	public ActivableCard(String cardName, String description) {
@@ -18,8 +19,8 @@ public abstract class ActivableCard extends Card {
 	// PUBLIC METHODS
 	// ####################################
 
-	protected Player getOwner() {
-		return ownerPlayer;
+	public void setOwner(Player player) {
+		ownerPlayer = player;
 	}
 
 	public void setGameBoard(GameBoard gameBoard) {
@@ -28,14 +29,26 @@ public abstract class ActivableCard extends Card {
 
 
 	// ####################################
-	// PROTECTED METHODS
+	// PROTECTED METHODS (only for subclasses)
 	// ####################################
 
-	public void setOwner(Player player) {
-		ownerPlayer = player;
+	protected Player getOwner() {
+		return ownerPlayer;
 	}
 
 	protected GameBoard getGameBoard() {
 		return gameBoard;
+	}
+
+	protected int getCurrentStep() {
+		return currentStep;
+	}
+
+	protected void incrementStep(){
+		currentStep++;
+	}
+
+	protected void resetCurrentStep(){
+		currentStep = 0;
 	}
 }

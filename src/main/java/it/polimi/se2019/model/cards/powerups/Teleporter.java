@@ -17,8 +17,6 @@ import java.util.List;
  */
 public class Teleporter extends PowerupCard {
 
-	private int progress = 0;
-
 	private static final String DESCRIPTION =
 			"You may play this card on your turn before\n" +
 					"or after any action. Pick up your figure and\n" +
@@ -34,14 +32,15 @@ public class Teleporter extends PowerupCard {
 
 	@Override
 	public QuestionContainer doPowerupStep(Message answer) {
-		progress++;
-		if(progress == 1) {
+		incrementStep();
+		if(getCurrentStep() == 1) {
 			return firstStep();
-		} else if(progress == 2) {
-			progress = 0;
+		} else if(getCurrentStep() == 2) {
+			resetCurrentStep();
 			lastStep(answer);
 			return null;
 		} else {
+			resetCurrentStep();
 			Utils.logError("Wrong progress.", new IllegalStateException());
 			return null;
 		}

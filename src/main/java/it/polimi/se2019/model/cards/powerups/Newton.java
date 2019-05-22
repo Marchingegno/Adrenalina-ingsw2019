@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
  */
 public class Newton extends PowerupCard {
 
-	private int progress = 0;
 	private Player targetPlayer;
 	private List<Player> targettablePlayers;
 
@@ -41,16 +40,17 @@ public class Newton extends PowerupCard {
 
 	@Override
 	public QuestionContainer doPowerupStep(Message answer) {
-		progress++;
-		if(progress == 1) {
+		incrementStep();
+		if(getCurrentStep() == 1) {
 			return firstStep();
-		} else if(progress == 2) {
+		} else if(getCurrentStep() == 2) {
 			return secondStep(answer);
-		} else if(progress == 3) {
-			progress = 0;
+		} else if(getCurrentStep() == 3) {
+			resetCurrentStep();
 			lastStep(answer);
 			return null;
 		} else {
+			resetCurrentStep();
 			Utils.logError("Wrong progress.", new IllegalStateException());
 			return null;
 		}

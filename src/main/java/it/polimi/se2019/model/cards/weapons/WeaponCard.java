@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
  */
 public abstract class WeaponCard extends ActivableCard {
 
-	private int currentStep; //Advancement step of the weapon.
 	private boolean loaded;
 	private final List<AmmoType> reloadPrice;
 	int MOVE_DISTANCE; //Standard move for relocation of the player.
@@ -44,7 +43,6 @@ public abstract class WeaponCard extends ActivableCard {
 
 	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice) {
 		super(weaponName, description);
-		this.currentStep = 0;
 		this.loaded = true;
 		this.reloadPrice = reloadPrice;
 	}
@@ -174,7 +172,7 @@ public abstract class WeaponCard extends ActivableCard {
 	 * Deloads the weapon and reset eventually modified parameters.
 	 */
 	public void reset(){
-		this.currentStep = 0;
+		resetCurrentStep();
 		this.loaded = false;
 		this.currentTargets = null;
 		this.relocationDone = false;
@@ -191,21 +189,8 @@ public abstract class WeaponCard extends ActivableCard {
 		return MOVE_DISTANCE;
 	}
 
-	int getCurrentStep() {
-		return currentStep;
-	}
-
 	int getMaximumSteps() {
 		return maximumSteps;
-	}
-
-	/**
-	 * Increments the advancement step of the weapon.
-	 */
-	void incrementStep(){
-		if(currentStep == maximumSteps)
-			throw new IllegalStateException("Trying to increment steps already at maximum.");
-		currentStep++;
 	}
 
 	/**
