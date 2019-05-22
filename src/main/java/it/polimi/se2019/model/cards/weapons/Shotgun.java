@@ -91,4 +91,10 @@ public class Shotgun extends AlternateFireWeapon {
 		return adjacentPlayers;
 	}
 
+
+	@Override
+	public void reset() {
+		super.reset();
+		listEnemyMoveCoordinates = new ArrayList<>();
+	}
 }

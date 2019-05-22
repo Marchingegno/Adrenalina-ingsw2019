@@ -86,4 +86,10 @@ public class Sledgehammer extends AlternateFireWeapon {
 	}
 
 
+
+	@Override
+	public void reset() {
+		super.reset();
+		enemyMovingCoordinates = new ArrayList<>();
+	}
 }

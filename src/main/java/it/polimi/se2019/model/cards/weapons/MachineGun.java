@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MachineGun extends OptionalEffectsWeapon {
-	List<Player> chosenTargets;
+	private List<Player> chosenTargets;
 	private static final int OPTIONAL2_EXTRA_DAMAGE = 1;
 
 	public MachineGun(String description, List<AmmoType> reloadPrice) {
@@ -83,5 +83,11 @@ public class MachineGun extends OptionalEffectsWeapon {
 		List<Player> visibleExceptChosen = getGameMap().getVisiblePlayers(getOwner());
 		visibleExceptChosen.removeAll(chosenTargets);
 		return visibleExceptChosen;
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		chosenTargets = new ArrayList<>();
 	}
 }
