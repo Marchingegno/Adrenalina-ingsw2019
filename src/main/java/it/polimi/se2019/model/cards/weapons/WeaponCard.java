@@ -35,6 +35,7 @@ public abstract class WeaponCard extends ActivableCard {
 	List<DamageAndMarks> standardDamagesAndMarks;
 	List<Player> currentTargets;
 	Player target;
+	private boolean doneFiring = false;
 
 	private final ArrayList<AmmoType> reloadPrice;
 	private final int moveDistance; //Standard move for relocation of the player.
@@ -71,7 +72,7 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	public boolean doneFiring(){
-		return getCurrentStep() == getMaximumSteps();
+		return doneFiring;
 	}
 
 	GameMap getGameMap() {
@@ -146,6 +147,7 @@ public abstract class WeaponCard extends ActivableCard {
 				playersToShoot.get(i).getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
+		doneFiring = true;
 	}
 
 	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
@@ -155,6 +157,7 @@ public abstract class WeaponCard extends ActivableCard {
 				playersToShoot[i].getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
+		doneFiring = true;
 	}
 
 //	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, Player playerToShoot){
@@ -198,6 +201,7 @@ public abstract class WeaponCard extends ActivableCard {
 		this.enemyRelocationDone = false;
 		this.currentTargets = new ArrayList<>();
 		this.target = null;
+		this.doneFiring = false;
 	}
 
 	protected List<DamageAndMarks> getStandardDamagesAndMarks() {

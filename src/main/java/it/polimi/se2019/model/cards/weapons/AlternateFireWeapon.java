@@ -46,14 +46,6 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 			alternateFireActive = true;
 	}
 
-	@Override
-	public boolean doneFiring() {
-		if (isAlternateFireActive()){
-			return getCurrentStep() == getMaximumAlternateSteps();
-		}
-		else return super.doneFiring();
-	}
-
 	/**
 	 * Handles the secondary mode of fire of weapon.
 	 * This will be called if currentStep is at least 2.

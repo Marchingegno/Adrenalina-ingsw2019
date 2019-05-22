@@ -36,9 +36,6 @@ public class MachineGun extends OptionalEffectsWeapon {
 	}
 
 
-	public void primaryFire() {
-	}
-
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 2){
@@ -59,10 +56,10 @@ public class MachineGun extends OptionalEffectsWeapon {
 
 		if(isOptionalActive(2)){
 			return handleOptionalEffect2(choice);
+		}else{
+			currentTargets = chosenTargets;
+			primaryFire();
 		}
-
-		primaryFire();
-
 		return null;
 	}
 
@@ -74,6 +71,7 @@ public class MachineGun extends OptionalEffectsWeapon {
 		}
 		else if(getCurrentStep() == 5){
 			chosenTargets.add(currentTargets.get(choice));
+			currentTargets = chosenTargets;
 		}
 		primaryFire();
 		return null;
@@ -81,7 +79,10 @@ public class MachineGun extends OptionalEffectsWeapon {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		return null;
+		//All players except the ones already chosen
+		List<Player> visibleExceptChosen = getGameMap().getVisiblePlayers(getOwner());
+		visibleExceptChosen.removeAll(chosenTargets);
+		return visibleExceptChosen;
 	}
 
 	@Override

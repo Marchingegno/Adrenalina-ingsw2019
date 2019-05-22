@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class OptionalEffectsWeapon extends WeaponCard {
 	private boolean[] optionalEffectsActive;
 	private boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
-	private List<List<AmmoType>> optionalCosts;
+	private List<AmmoType> optionalPrices;
 	int OPTIONAL1_DAMAGE;
 	int OPTIONAL1_MARKS;
 	int OPTIONAL2_DAMAGE;
@@ -26,25 +26,31 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	List<DamageAndMarks> optionalBothDamagesAndMarks;
 
 
+	//TODO move in constructor after it is defined.
+	private void initializeVariables(){
+		optionalEffectsActive = new boolean[2];
+		canAddOptionalEffect = new boolean[3];
+		optionalPrices = new ArrayList<>();
+		optional1DamagesAndMarks = new ArrayList<>();
+		optional2DamagesAndMarks = new ArrayList<>();
+		optionalBothDamagesAndMarks = new ArrayList<>();
+	}
 
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
 		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage, moveDistance);
-		optionalEffectsActive = new boolean[2];
-		canAddOptionalEffect = new boolean[3];
+		initializeVariables();
 		reset();
 	}
 
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage) {
 		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage);
-		optionalEffectsActive = new boolean[2];
-		canAddOptionalEffect = new boolean[3];
+		initializeVariables();
 		reset();
 	}
 
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks) {
 		super(weaponName, description, reloadPrice, primaryMarks);
-		optionalEffectsActive = new boolean[2];
-		canAddOptionalEffect = new boolean[3];
+		initializeVariables();
 		reset();
 	}
 
@@ -68,11 +74,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	private void checkOptionalEffects() {
 		for (int i = 0; i < canAddOptionalEffect.length; i++) {
-			canAddOptionalEffect[i] = getOwner().hasEnoughAmmo(optionalCosts.get(i));
+			canAddOptionalEffect[i] = getOwner().hasEnoughAmmo(optionalPrices.subList(i,i+1));
 		}
 		//the following is hardcoded.
-		List<AmmoType> optionalCost12 = optionalCosts.get(0);
-		optionalCost12.addAll(optionalCosts.get(1));
+		canAddOptionalEffect[2] = getOwner().hasEnoughAmmo(optionalPrices);
 	}
 
 	protected void registerChoice(int choice) {
@@ -123,7 +128,21 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	@Override
 	public void primaryFire() {
+		if(isBothOptionalActive()){
+			dealDamage(optionalBothDamagesAndMarks, currentTargets);
+		}
+		else if(isOptionalActive(1)){
+			dealDamage(optional1DamagesAndMarks, currentTargets);
+		}
+		else if(isOptionalActive(2)){
+			dealDamage(optional2DamagesAndMarks, currentTargets);
+		}
+		else{
+			dealDamage(standardDamagesAndMarks,currentTargets);
+		}
 	}
+
+
 
 
 	public abstract void optional1Fire();
@@ -143,14 +162,8 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	}
 
-	@Override
-	public boolean doneFiring() {
-		//TODO Implement
-		return super.doneFiring();
-	}
-
-	public List<AmmoType> getCostOfOptionalEffect(int numberOfEffect){
-		return optionalCosts.get(numberOfEffect - 1);
+	public AmmoType getCostOfOptionalEffect(int numberOfEffect){
+		return optionalPrices.get(numberOfEffect - 1);
 
 	}
 
@@ -158,4 +171,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return optionalEffectsActive[optionalIndex - 1];
 	}
 
+	protected boolean isBothOptionalActive(){
+		return optionalEffectsActive[0] && optionalEffectsActive[1];
+	}
 }
