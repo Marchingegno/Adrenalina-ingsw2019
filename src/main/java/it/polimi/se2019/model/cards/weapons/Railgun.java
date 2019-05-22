@@ -13,14 +13,12 @@ public class Railgun extends AlternateFireWeapon {
 	private Player secondTarget;
 
 	public Railgun(String description, List<AmmoType> reloadPrice) {
-		super("Railgun", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 3;
-		this.PRIMARY_MARKS = 0;
+		super("Railgun", description, reloadPrice, 0, 3, 0);
 		this.SECONDARY_DAMAGE = 2;
 		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumSteps = 4;

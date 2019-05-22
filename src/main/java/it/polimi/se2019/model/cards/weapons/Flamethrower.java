@@ -19,16 +19,14 @@ public class Flamethrower extends AlternateFireWeapon {
 	private List<Player> secondSquareTargets;
 
 	public Flamethrower(String description, List<AmmoType> reloadPrice) {
-		super("FlameThrower", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 0;
+		super("FlameThrower", description, reloadPrice, 0, 1, 0);
 		this.SECONDARY_DAMAGE = 2;
 		this.SECONDARY_MARKS = 0;
 		this.SECONDARY_FOLLOWING_DAMAGE = 1;
 		this.SECONDARY_FOLLOWING_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		secondaryDamagesAndMarks = new ArrayList<>();
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));

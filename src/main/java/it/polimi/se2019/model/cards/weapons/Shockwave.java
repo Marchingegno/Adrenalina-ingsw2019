@@ -12,15 +12,13 @@ public class Shockwave extends AlternateFireWeapon {
 	private List<Player> chosenTargets;
 
 	public Shockwave(String description, List<AmmoType> reloadPrice) {
-		super("Shock Wave", description, reloadPrice);
+		super("Shock Wave", description, reloadPrice, 0, 1, 0);
 		this.chosenTargets = new ArrayList<>();
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 0;
 		this.SECONDARY_DAMAGE = 1;
 		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
-			this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+			this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		}
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));

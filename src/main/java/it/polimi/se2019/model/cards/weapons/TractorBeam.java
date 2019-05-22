@@ -15,13 +15,11 @@ public class TractorBeam extends AlternateFireWeapon {
 	private List<Coordinates> enemyRelocationCoordinates;
 
 	public TractorBeam(String description, List<AmmoType> reloadPrice) {
-		super("Tractor Beam", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 0;
+		super("Tractor Beam", description, reloadPrice, 0, 1, 0);
 		this.SECONDARY_DAMAGE = 3;
 		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumAlternateSteps = 3;

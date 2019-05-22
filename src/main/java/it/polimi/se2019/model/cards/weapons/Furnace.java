@@ -14,13 +14,11 @@ public class Furnace extends AlternateFireWeapon {
 	private Coordinates targetCoordinate;
 
 	public Furnace(String description, List<AmmoType> reloadPrice) {
-		super("Furnace", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 0;
+		super("Furnace", description, reloadPrice, 0, 1, 0);
 		this.SECONDARY_DAMAGE = 1;
 		this.SECONDARY_MARKS = 1;
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumAlternateSteps = 3;
@@ -59,7 +57,7 @@ public class Furnace extends AlternateFireWeapon {
 	public void primaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getStandardDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
-			damageAndMarksList.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+			damageAndMarksList.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		}
 		dealDamage(damageAndMarksList, currentTargets);
 	}

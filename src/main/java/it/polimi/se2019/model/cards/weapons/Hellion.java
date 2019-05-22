@@ -16,9 +16,7 @@ public class Hellion extends AlternateFireWeapon {
 
 
 	public Hellion(String description, List<AmmoType> reloadPrice) {
-		super("Hellion", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 1;
+		super("Hellion", description, reloadPrice, 1, 1, 0);
 		this.SECONDARY_DAMAGE = 1;
 		this.SECONDARY_MARKS = 2;
 		this.PRIMARY_FOLLOWING_DAMAGE = 0;
@@ -26,7 +24,7 @@ public class Hellion extends AlternateFireWeapon {
 		this.SECONDARY_FOLLOWING_DAMAGE = 0;
 		this.SECONDARY_FOLLOWING_MARKS = 2;
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_FOLLOWING_DAMAGE, PRIMARY_FOLLOWING_MARKS));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));

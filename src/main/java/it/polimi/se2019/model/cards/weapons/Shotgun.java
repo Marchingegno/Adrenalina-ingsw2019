@@ -12,15 +12,13 @@ public class Shotgun extends AlternateFireWeapon {
 	private List<Coordinates> listEnemyMoveCoordinates;
 
 	public Shotgun(String description, List<AmmoType> reloadPrice) {
-		super("Shotgun", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 3;
-		this.PRIMARY_MARKS = 0;
+		super("Shotgun", description, reloadPrice, 0, 3, 0);
 		this.SECONDARY_DAMAGE = 2;
 		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE,PRIMARY_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.maximumSteps = 4;
 		this.maximumAlternateSteps = 3;
 	}

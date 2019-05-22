@@ -9,7 +9,7 @@ import java.util.List;
 public class PlasmaGun extends OptionalEffectsWeapon {
 
 	public PlasmaGun(String description, List<AmmoType> reloadPrice) {
-		super("Plasma Gun", description, reloadPrice);
+		super("Plasma Gun", description, reloadPrice, 0, 0, 0);
 	}
 
 

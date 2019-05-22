@@ -28,23 +28,42 @@ import java.util.stream.Collectors;
  */
 public abstract class WeaponCard extends ActivableCard {
 
-	private boolean loaded;
-	private final List<AmmoType> reloadPrice;
-	int MOVE_DISTANCE; //Standard move for relocation of the player.
+	private boolean loaded = true;
 	int maximumSteps; //Maximum advancement steps.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
 	List<Player> currentTargets;
 	Player target;
-	int PRIMARY_DAMAGE;
-	int PRIMARY_MARKS;
+
+	private final ArrayList<AmmoType> reloadPrice;
+	private final int moveDistance; //Standard move for relocation of the player.
+	private final int primaryDamage;
+	private final int primaryMarks;
 
 
-	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice) {
+	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
 		super(weaponName, description);
-		this.loaded = true;
-		this.reloadPrice = reloadPrice;
+		this.reloadPrice = new ArrayList<>(reloadPrice);
+		this.primaryDamage = primaryDamage;
+		this.primaryMarks = primaryMarks;
+		this.moveDistance = moveDistance;
+	}
+
+	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryDamage, final int primaryMarks) {
+		super(weaponName, description);
+		this.reloadPrice = new ArrayList<>(reloadPrice);
+		this.primaryDamage = primaryDamage;
+		this.primaryMarks = primaryMarks;
+		this.moveDistance = 0;
+	}
+
+	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryDamage) {
+		super(weaponName, description);
+		this.reloadPrice = new ArrayList<>(reloadPrice);
+		this.primaryDamage = primaryDamage;
+		this.primaryMarks = 0;
+		this.moveDistance = 0;
 	}
 
 	public boolean canFire(){
@@ -181,15 +200,23 @@ public abstract class WeaponCard extends ActivableCard {
 		this.target = null;
 	}
 
-	List<DamageAndMarks> getStandardDamagesAndMarks() {
+	protected List<DamageAndMarks> getStandardDamagesAndMarks() {
 		return standardDamagesAndMarks;
 	}
 
-	int getMoveDistance() {
-		return MOVE_DISTANCE;
+	protected int getPrimaryDamage() {
+		return primaryDamage;
 	}
 
-	int getMaximumSteps() {
+	protected int getPrimaryMarks() {
+		return primaryDamage;
+	}
+
+	protected int getMoveDistance() {
+		return primaryDamage;
+	}
+
+	protected int getMaximumSteps() {
 		return maximumSteps;
 	}
 

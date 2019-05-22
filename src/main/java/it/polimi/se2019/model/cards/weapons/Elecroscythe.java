@@ -11,13 +11,11 @@ import java.util.List;
 public class Elecroscythe extends AlternateFireWeapon {
 
 	public Elecroscythe(String description, List<AmmoType> reloadPrice) {
-		super("Electroscythe", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 0;
+		super("Electroscythe", description, reloadPrice, 0, 1);
 		this.SECONDARY_DAMAGE = 2;
 		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumAlternateSteps = 2;
@@ -47,7 +45,7 @@ public class Elecroscythe extends AlternateFireWeapon {
 		//Deal damage to everyone on your square
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getStandardDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
-			damageAndMarksList.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+			damageAndMarksList.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		}
 		dealDamage(damageAndMarksList, currentTargets);
 	}

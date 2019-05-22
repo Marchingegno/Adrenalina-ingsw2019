@@ -10,11 +10,9 @@ import java.util.List;
 public class Heatseeker extends WeaponCard {
 
 	public Heatseeker(String description, List<AmmoType> reloadPrice) {
-		super("Heatseeker", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 3;
-		this.PRIMARY_MARKS = 0;
+		super("Heatseeker", description, reloadPrice, 0, 3, 0);
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.maximumSteps = 2;
 		reset();
 	}

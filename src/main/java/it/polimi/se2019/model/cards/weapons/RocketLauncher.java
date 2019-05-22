@@ -9,7 +9,7 @@ import java.util.List;
 public class RocketLauncher extends OptionalEffectsWeapon {
 
 	public RocketLauncher(String description, List<AmmoType> reloadPrice) {
-		super("Rocket Launcher", description, reloadPrice);
+		super("Rocket Launcher", description, reloadPrice, 0, 0, 0);
 	}
 
 

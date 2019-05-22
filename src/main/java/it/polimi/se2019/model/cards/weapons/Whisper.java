@@ -10,11 +10,9 @@ import java.util.List;
 public class Whisper extends WeaponCard {
 
 	public Whisper(String description, List<AmmoType> reloadPrice) {
-		super("Whisper", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 3;
-		this.PRIMARY_MARKS = 1;
+		super("Whisper", description, reloadPrice, 1, 3, 0);
 		this.standardDamagesAndMarks = new ArrayList<>();
-		standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 
 	}
 

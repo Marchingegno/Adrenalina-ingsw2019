@@ -22,8 +22,18 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	int SECONDARY_DAMAGE;
 	int SECONDARY_MARKS;
 
-	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice) {
-		super(weaponName, description, reloadPrice);
+	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
+		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage, moveDistance);
+		reset();
+	}
+
+	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage) {
+		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage);
+		reset();
+	}
+
+	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks) {
+		super(weaponName, description, reloadPrice, primaryMarks);
 		reset();
 	}
 

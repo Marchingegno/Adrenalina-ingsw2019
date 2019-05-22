@@ -27,8 +27,22 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 
 
-	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice) {
-		super(weaponName, description, reloadPrice);
+	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
+		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage, moveDistance);
+		optionalEffectsActive = new boolean[2];
+		canAddOptionalEffect = new boolean[3];
+		reset();
+	}
+
+	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage) {
+		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage);
+		optionalEffectsActive = new boolean[2];
+		canAddOptionalEffect = new boolean[3];
+		reset();
+	}
+
+	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks) {
+		super(weaponName, description, reloadPrice, primaryMarks);
 		optionalEffectsActive = new boolean[2];
 		canAddOptionalEffect = new boolean[3];
 		reset();

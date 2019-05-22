@@ -11,13 +11,11 @@ public class ZX_2 extends AlternateFireWeapon {
 	private List<Player> secondaryTargets;
 
 	public ZX_2(String description, List<AmmoType> reloadPrice) {
-		super("ZX-2", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 2;
+		super("ZX-2", description, reloadPrice, 2, 1, 0);
 		this.SECONDARY_DAMAGE = 0;
 		this.SECONDARY_MARKS = 1;
 		this.standardDamagesAndMarks = new ArrayList<>();
-		standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));

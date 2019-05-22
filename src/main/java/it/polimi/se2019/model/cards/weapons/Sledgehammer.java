@@ -12,16 +12,14 @@ public class Sledgehammer extends AlternateFireWeapon {
 	private List<Coordinates> enemyMovingCoordinates;
 
 	public Sledgehammer(String description, List<AmmoType> reloadPrice) {
-		super("Sledgehammer", description, reloadPrice);
+		super("Sledgehammer", description, reloadPrice, 0, 2, 0);
 		this.maximumSteps = 3;
 		this.maximumAlternateSteps = 4;
-		this.PRIMARY_DAMAGE = 2;
-		this.PRIMARY_MARKS = 0;
 		this.SECONDARY_DAMAGE = 3;
 		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 
 	}

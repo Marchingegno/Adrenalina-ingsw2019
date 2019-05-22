@@ -12,14 +12,12 @@ public class PowerGlove extends AlternateFireWeapon {
 	private CardinalDirection chosenDirection;
 
 	public PowerGlove(String description, List<AmmoType> reloadPrice) {
-		super("Power Glove", description, reloadPrice);
-		this.PRIMARY_DAMAGE = 1;
-		this.PRIMARY_MARKS = 2;
+		super("Power Glove", description, reloadPrice, 2, 1, 0);
 		this.SECONDARY_DAMAGE = 2;
 		this.SECONDARY_MARKS = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_DAMAGE, PRIMARY_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
 		this.maximumSteps = 3;
