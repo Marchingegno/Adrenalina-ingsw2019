@@ -4,7 +4,6 @@ import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.OwnableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
-import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -19,8 +18,6 @@ public abstract class PowerupCard extends OwnableCard {
 
 	private AmmoType associatedAmmo;
 	private PowerupUseCaseType powerupUseCaseType;
-	private GameBoard gameBoard;
-	private Player ownerPlayer;
 	private Player shootingPlayer;
 	private WeaponCard shootingWeapon;
 
@@ -98,26 +95,6 @@ public abstract class PowerupCard extends OwnableCard {
 	// ####################################
 	// OVERRIDDEN METHODS
 	// ####################################
-
-	@Override
-	protected Player getOwner() {
-		return ownerPlayer;
-	}
-
-	@Override
-	public void setOwner(Player player) {
-		this.ownerPlayer = player;
-	}
-
-	@Override
-	protected GameBoard getGameBoard() {
-		return gameBoard;
-	}
-
-	@Override
-	public void setGameBoard(GameBoard gameBoard) {
-		this.gameBoard = gameBoard;
-	}
 
 	@Override
 	public Representation getRep() {

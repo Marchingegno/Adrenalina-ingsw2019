@@ -3,7 +3,6 @@ package it.polimi.se2019.model.cards.weapons;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.OwnableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
@@ -30,9 +29,7 @@ import java.util.stream.Collectors;
 public abstract class WeaponCard extends OwnableCard {
 
 	private int currentStep; //Advancement step of the weapon.
-	private Player owner;
 	private boolean loaded;
-	private GameBoard gameBoard;
 	private final List<AmmoType> reloadPrice;
 	int MOVE_DISTANCE; //Standard move for relocation of the player.
 	int maximumSteps; //Maximum advancement steps.
@@ -48,7 +45,6 @@ public abstract class WeaponCard extends OwnableCard {
 	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice) {
 		super(weaponName, description);
 		this.currentStep = 0;
-		this.owner = null;
 		this.loaded = true;
 		this.reloadPrice = reloadPrice;
 	}
@@ -62,11 +58,11 @@ public abstract class WeaponCard extends OwnableCard {
 	}
 
 	GameMap getGameMap() {
-		return gameBoard.getGameMap();
+		return getGameBoard().getGameMap();
 	}
 
 	List<Player> getAllPlayers(){
-		return gameBoard.getPlayers();
+		return getGameBoard().getPlayers();
 	}
 
 	/**
@@ -129,8 +125,8 @@ public abstract class WeaponCard extends OwnableCard {
 	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot){
 		for (int i = 0; i < playersToShoot.size(); i++) {
 			if(playersToShoot.get(i) != null){
-				playersToShoot.get(i).getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getDamage());
-				playersToShoot.get(i).getPlayerBoard().addMarks(owner, damagesAndMarks.get(i).getMarks());
+				playersToShoot.get(i).getPlayerBoard().addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
+				playersToShoot.get(i).getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
 	}
@@ -138,8 +134,8 @@ public abstract class WeaponCard extends OwnableCard {
 	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
 		for (int i = 0; i < playersToShoot.length; i++) {
 			if (playersToShoot[i] != null) {
-				playersToShoot[i].getPlayerBoard().addDamage(owner, damagesAndMarks.get(i).getDamage());
-				playersToShoot[i].getPlayerBoard().addMarks(owner, damagesAndMarks.get(i).getMarks());
+				playersToShoot[i].getPlayerBoard().addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
+				playersToShoot[i].getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
 	}
@@ -280,26 +276,6 @@ public abstract class WeaponCard extends OwnableCard {
 	// ####################################
 	// OVERRIDDEN METHODS
 	// ####################################
-
-	@Override
-	protected Player getOwner() {
-		return owner;
-	}
-
-	@Override
-	public void setOwner(Player player) {
-		this.owner = player;
-	}
-
-	@Override
-	protected GameBoard getGameBoard() {
-		return gameBoard;
-	}
-
-	@Override
-	public void setGameBoard(GameBoard gameBoard) {
-		this.gameBoard = gameBoard;
-	}
 
 	@Override
 	public Representation getRep() {
