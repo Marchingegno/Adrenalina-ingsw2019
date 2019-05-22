@@ -16,7 +16,7 @@ import java.util.List;
  */
 public abstract class OptionalEffectsWeapon extends WeaponCard {
 	private boolean[] optionalEffectsActive;
-	private boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
+	protected boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
 	private List<AmmoType> optionalPrices;
 	int optional1_Damage;
 	int optional1_Marks;
@@ -25,6 +25,8 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	List<DamageAndMarks> optional1DamagesAndMarks;
 	List<DamageAndMarks> optional2DamagesAndMarks;
 	List<DamageAndMarks> optionalBothDamagesAndMarks;
+
+
 
 
 	//TODO move in constructor after it is defined.
@@ -73,6 +75,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		this.optional2_Marks = parameters.get("optional2MArks").getAsInt();
 	}
 
+	public boolean[] getCanAddOptionalEffect() {
+		return canAddOptionalEffect;
+	}
+
 	@Override
 	public QuestionContainer initialQuestion() {
 		String question = "Which optional effect do you want to activate?";
@@ -86,12 +92,12 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		}
 		//the following is hardcoded.
 		if(canAddOptionalEffect[2]){
-			options.add("Optional effect 1 + Optional effect 2");
+			options.add("Optional effect 1 + Optional effect 2.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
-	private void checkOptionalEffects() {
+	protected void checkOptionalEffects() {
 		for (int i = 0; i < canAddOptionalEffect.length; i++) {
 			canAddOptionalEffect[i] = getOwner().hasEnoughAmmo(optionalPrices.subList(i,i+1));
 		}
