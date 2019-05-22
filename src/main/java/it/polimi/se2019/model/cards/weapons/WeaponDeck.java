@@ -30,7 +30,6 @@ public class WeaponDeck extends ActivableDeck<WeaponCard> {
 
 			for (JsonElement entry : weapons) {
 				JsonObject weaponToAdd = entry.getAsJsonObject();
-				System.out.println(weaponToAdd.get("className").getAsString());
 				weaponClassToIstantiate = Class.forName("it.polimi.se2019.model.cards.weapons." + weaponToAdd.get("className").getAsString());
 				constructor = weaponClassToIstantiate.getConstructor(JsonObject.class);
 				addCard((WeaponCard) constructor.newInstance(weaponToAdd));
@@ -40,7 +39,6 @@ public class WeaponDeck extends ActivableDeck<WeaponCard> {
 			Utils.logError("Cannot parse weapon cards", e);
 		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
 			Utils.logError("Cannot find create a class for a weapon", e);
-			System.out.println(e.getStackTrace());
 		}
 	}
 

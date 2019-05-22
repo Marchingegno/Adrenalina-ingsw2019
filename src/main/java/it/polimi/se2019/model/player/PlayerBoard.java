@@ -245,7 +245,7 @@ public class PlayerBoard {
 		if (indexOfTheWeaponCardToDrop < 0 || indexOfTheWeaponCardToDrop > numOfWeapons())
 			throw new IllegalArgumentException("weaponCardToDrop is not owned by the player.");
 		WeaponCard weaponToDrop = weaponCards.remove(indexOfTheWeaponCardToDrop);
-		weaponCards.add(weaponToGrab);
+		addWeapon(weaponToGrab);
 		Utils.logInfo("PlayerBoard -> swapWeapon(): Swaped " + weaponToDrop.getCardName() + " with " + weaponToGrab.getCardName());
 		setChanged();
 		return weaponToDrop;
