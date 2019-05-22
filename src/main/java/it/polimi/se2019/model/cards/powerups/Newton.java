@@ -7,12 +7,10 @@ import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
 import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,31 +87,17 @@ public class Newton extends PowerupCard {
 	private QuestionContainer secondStep(Message answer) {
 		IntMessage intMessage = (IntMessage) answer;
 		targetPlayer = targettablePlayers.get(intMessage.getContent());
-		Coordinates startingPoint = getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer);
+		List<Coordinates> allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinatesWithDistance2(targetPlayer);
 
-		return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", getMovingCoordinates(startingPoint));
+		return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", allowedCoordinates);
 	}
 
 	private void lastStep(Message answer) {
 		Coordinates targetCoordinates = ((CoordinatesAnswerMessage) answer).getSingleCoordinates();
-		List<Coordinates> allowedCoordinates = getMovingCoordinates(getGameBoard().getGameMap().getPlayerCoordinates(targetPlayer));
+		List<Coordinates> allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinatesWithDistance2(targetPlayer);
 		if(allowedCoordinates.contains(targetCoordinates)) {
 			getGameBoard().getGameMap().movePlayerTo(targetPlayer, targetCoordinates);
 		}
-	}
-
-	private List<Coordinates> getMovingCoordinates(Coordinates startingPoint){
-		ArrayList<Coordinates> possibleMoves = new ArrayList<>();
-		for (CardinalDirection direction : CardinalDirection.values()) {
-			Coordinates nextSquare = getGameBoard().getGameMap().getCoordinatesFromDirection(startingPoint, direction);
-			if(nextSquare != null) {
-				possibleMoves.add(nextSquare);
-				Coordinates nextNextSquare = getGameBoard().getGameMap().getCoordinatesFromDirection(nextSquare, direction);
-				if (nextNextSquare != null)
-					possibleMoves.add(nextNextSquare);
-			}
-		}
-		return possibleMoves;
 	}
 
 	private boolean canActivateOnPlayer(Player player) {

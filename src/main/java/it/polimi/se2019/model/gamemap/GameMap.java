@@ -193,6 +193,26 @@ public class GameMap extends Observable implements Representable {
 	}
 
 	/**
+	 * Returns a list of all coordinates reachable with 2 moves but following only the cardinal directions.
+	 * @param player the player that wants to move.
+	 * @return a list of all coordinates reachable with 2 moves but following only cardinal directions.
+	 */
+	// TODO maybe make this method more abstract with distance as parameter?
+	public List<Coordinates> reachablePerpendicularCoordinatesWithDistance2(Player player) {
+		ArrayList<Coordinates> possibleMoves = new ArrayList<>();
+		for (CardinalDirection direction : CardinalDirection.values()) {
+			Coordinates nextSquare = getCoordinatesFromDirection(getPlayerCoordinates(player), direction);
+			if(nextSquare != null) {
+				possibleMoves.add(nextSquare);
+				Coordinates nextNextSquare = getCoordinatesFromDirection(nextSquare, direction);
+				if (nextNextSquare != null)
+					possibleMoves.add(nextNextSquare);
+			}
+		}
+		return possibleMoves;
+	}
+
+	/**
 	 * Returns the set of all reachable squares from the coordinates and distance at most max distance.
 	 *
 	 * @param square   square of the starting point

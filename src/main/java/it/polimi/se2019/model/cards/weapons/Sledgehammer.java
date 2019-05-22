@@ -3,7 +3,6 @@ package it.polimi.se2019.model.cards.weapons;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
@@ -82,21 +81,10 @@ public class Sledgehammer extends AlternateFireWeapon {
 		return getPrimaryTargets();
 	}
 
-	private List<Coordinates> getEnemyMovingCoordinates(){
-		List<Coordinates> possibleMoves = new ArrayList<>();
-		possibleMoves.add(getGameMap().getPlayerCoordinates(getOwner()));
-		for (CardinalDirection direction: CardinalDirection.values()) {
-			Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), direction);
-			if(nextSquare != null){
-				possibleMoves.add(nextSquare);
-				Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, direction);
-				if (nextNextSquare != null){
-					possibleMoves.add(nextNextSquare);
-				}
-			}
-		}
-
-		return possibleMoves;
+	private List<Coordinates> getEnemyMovingCoordinates() {
+		List<Coordinates> coordinates = getGameMap().reachablePerpendicularCoordinatesWithDistance2(getOwner());
+		coordinates.add(getGameMap().getPlayerCoordinates(getOwner()));
+		return coordinates;
 	}
 
 
