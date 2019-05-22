@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -14,24 +15,48 @@ public class MachineGun extends OptionalEffectsWeapon {
 	public MachineGun(String description, List<AmmoType> reloadPrice) {
 		super("Machine Gun", description, reloadPrice, 0, 1, 0);
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.OPTIONAL1_DAMAGE = 1;
-		this.OPTIONAL1_MARKS = 0;
-		this.OPTIONAL2_DAMAGE = 1;
-		this.OPTIONAL2_MARKS = 0;
+		this.optional1Damage = 1;
+		this.optional1Marks = 0;
+		this.optional2Damage = 1;
+		this.optional2Marks = 0;
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 
 		this.optional1DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
-		this.optional1DamagesAndMarks.get(0).enrich(OPTIONAL1_DAMAGE, OPTIONAL1_MARKS);
+		this.optional1DamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
 
 		this.optional2DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
 		this.optional2DamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
-		this.optional2DamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
+		this.optional2DamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
 
 		this.optionalBothDamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
-		this.optionalBothDamagesAndMarks.get(0).enrich(OPTIONAL1_DAMAGE, OPTIONAL1_MARKS);
+		this.optionalBothDamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
 		this.optionalBothDamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
-		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
+		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+
+	}
+
+	public MachineGun(JsonObject parameters) {
+		super(parameters);
+		this.standardDamagesAndMarks = new ArrayList<>();
+		this.optional1Damage = parameters.get("optional1Damage").getAsInt();
+		this.optional1Marks = parameters.get("optional1Marks").getAsInt();
+		this.optional2Damage = parameters.get("optional2Damage").getAsInt();
+		this.optional2Marks = parameters.get("optional2Marks").getAsInt();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+
+		this.optional1DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
+		this.optional1DamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
+
+		this.optional2DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
+		this.optional2DamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
+		this.optional2DamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+
+		this.optionalBothDamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
+		this.optionalBothDamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
+		this.optionalBothDamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
+		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
 
 	}
 

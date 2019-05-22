@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
@@ -20,13 +21,27 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	public Flamethrower(String description, List<AmmoType> reloadPrice) {
 		super("FlameThrower", description, reloadPrice, 0, 1, 0);
-		this.SECONDARY_DAMAGE = 2;
-		this.SECONDARY_MARKS = 0;
+		this.secondaryDamage = 2;
+		this.secondaryMarks = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		secondaryDamagesAndMarks = new ArrayList<>();
-		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
+		this.maximumSteps = 5;
+		this.maximumAlternateSteps = 3;
+	}
+
+	public Flamethrower(JsonObject parameters) {
+		super(parameters);
+		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
+		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
+		this.standardDamagesAndMarks = new ArrayList<>();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		secondaryDamagesAndMarks = new ArrayList<>();
+		secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
 		this.maximumSteps = 5;
 		this.maximumAlternateSteps = 3;

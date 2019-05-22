@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
@@ -15,12 +16,25 @@ public class Sledgehammer extends AlternateFireWeapon {
 		super("Sledgehammer", description, reloadPrice, 0, 2, 0);
 		this.maximumSteps = 3;
 		this.maximumAlternateSteps = 4;
-		this.SECONDARY_DAMAGE = 3;
-		this.SECONDARY_MARKS = 0;
+		this.secondaryDamage = 3;
+		this.secondaryMarks = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+
+	}
+
+	public Sledgehammer(JsonObject parameters) {
+		super(parameters);
+		this.maximumSteps = 3;
+		this.maximumAlternateSteps = 4;
+		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
+		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
+		this.standardDamagesAndMarks = new ArrayList<>();
+		this.secondaryDamagesAndMarks = new ArrayList<>();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 
 	}
 

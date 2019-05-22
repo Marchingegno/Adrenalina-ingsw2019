@@ -44,7 +44,7 @@ public class PlayerBoard {
 //		//TODO:DEBUG@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //		ArrayList<AmmoType> prova = new ArrayList<>();
 //		prova.add(AmmoType.BLUE_AMMO);
-//		this.weaponCards.add(new Elecroscythe("STA ROBA",prova));
+//		this.weaponCards.add(new Electroscythe("STA ROBA",prova));
 //		//TODO:DEBUG@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	}
 

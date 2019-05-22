@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
@@ -15,12 +16,24 @@ public class Furnace extends AlternateFireWeapon {
 
 	public Furnace(String description, List<AmmoType> reloadPrice) {
 		super("Furnace", description, reloadPrice, 0, 1, 0);
-		this.SECONDARY_DAMAGE = 1;
-		this.SECONDARY_MARKS = 1;
+		this.secondaryDamage = 1;
+		this.secondaryMarks = 1;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.maximumAlternateSteps = 3;
+		this.maximumSteps = 3;
+	}
+
+	public Furnace(JsonObject parameters) {
+		super(parameters);
+		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
+		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
+		this.standardDamagesAndMarks = new ArrayList<>();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.secondaryDamagesAndMarks = new ArrayList<>();
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.maximumAlternateSteps = 3;
 		this.maximumSteps = 3;
 	}
@@ -65,7 +78,7 @@ public class Furnace extends AlternateFireWeapon {
 	public void secondaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getSecondaryDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
-			damageAndMarksList.add(new DamageAndMarks(SECONDARY_DAMAGE,SECONDARY_MARKS));
+			damageAndMarksList.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		}
 		dealDamage(damageAndMarksList, currentTargets);
 	}

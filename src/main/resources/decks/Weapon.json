@@ -200,7 +200,11 @@
 			"primaryDamage": 1,
 			"moveDistance": 0,
 			"secondaryDamage": 1,
-			"secondaryMarks": 2
+			"secondaryMarks": 2,
+			"primaryFollowingDamage": 0,
+			"primaryFollowingMarks": 1,
+			"secondaryFollowingDamage": 0,
+			"secondaryFollowingMarks": 2
 		},
 		{
 			"className": "Flamethrower",
@@ -242,8 +246,8 @@
 			"optional2Damage": 0
 		},
 		{
-			"className": "RockerLauncher",
-			"name": "Rocker Launcher",
+			"className": "RocketLauncher",
+			"name": "Rocket Launcher",
 			"imagePath": "rocket_launcher.png",
 			"price": [
 				"RED_AMMO",

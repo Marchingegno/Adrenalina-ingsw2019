@@ -18,16 +18,13 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	private boolean[] optionalEffectsActive;
 	protected boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
 	private List<AmmoType> optionalPrices;
-	int optional1_Damage;
-	int optional1_Marks;
-	int optional2_Damage;
-	int optional2_Marks;
+	int optional1Damage;
+	int optional1Marks;
+	int optional2Damage;
+	int optional2Marks;
 	List<DamageAndMarks> optional1DamagesAndMarks;
 	List<DamageAndMarks> optional2DamagesAndMarks;
 	List<DamageAndMarks> optionalBothDamagesAndMarks;
-
-
-
 
 	//TODO move in constructor after it is defined.
 	private void initializeVariables(){
@@ -63,16 +60,15 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks) {
 		super(weaponName, description, reloadPrice, primaryMarks);
 		initializeVariables();
-		reset();
 	}
 
 	public OptionalEffectsWeapon(JsonObject parameters) {
 		super(parameters);
 		initializeVariables();
-		this.optional1_Damage = parameters.get("optional1Damage").getAsInt();
-		this.optional1_Marks = parameters.get("optional1Marks").getAsInt();
-		this.optional2_Damage = parameters.get("optional2Damage").getAsInt();
-		this.optional2_Marks = parameters.get("optional2MArks").getAsInt();
+		this.optional1Damage = parameters.get("optional1Damage").getAsInt();
+		this.optional1Marks = parameters.get("optional1Marks").getAsInt();
+		this.optional2Damage = parameters.get("optional2Damage").getAsInt();
+		this.optional2Marks = parameters.get("optional2Marks").getAsInt();
 	}
 
 	public boolean[] getCanAddOptionalEffect() {

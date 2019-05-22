@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -14,14 +15,29 @@ public class Shockwave extends AlternateFireWeapon {
 	public Shockwave(String description, List<AmmoType> reloadPrice) {
 		super("Shock Wave", description, reloadPrice, 0, 1, 0);
 		this.chosenTargets = new ArrayList<>();
-		this.SECONDARY_DAMAGE = 1;
-		this.SECONDARY_MARKS = 0;
+		this.secondaryDamage = 1;
+		this.secondaryMarks = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		}
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.maximumSteps = 5;
+		this.maximumAlternateSteps = 2;
+	}
+
+	public Shockwave(JsonObject parameters) {
+		super(parameters);
+		this.chosenTargets = new ArrayList<>();
+		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
+		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
+		this.standardDamagesAndMarks = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		}
+		this.secondaryDamagesAndMarks = new ArrayList<>();
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.maximumSteps = 5;
 		this.maximumAlternateSteps = 2;
 	}

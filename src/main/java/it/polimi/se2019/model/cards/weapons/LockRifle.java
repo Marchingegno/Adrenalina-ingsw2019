@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -11,6 +12,10 @@ public class LockRifle extends OptionalEffectsWeapon {
 
 	public LockRifle(String description, List<AmmoType> reloadPrice) {
 		super("Lock Rifle", description, reloadPrice, 0, 0, 0);
+	}
+
+	public LockRifle(JsonObject parameters) {
+		super(parameters);
 	}
 
 

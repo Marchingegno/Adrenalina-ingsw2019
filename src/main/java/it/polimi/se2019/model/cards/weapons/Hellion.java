@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -9,22 +10,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hellion extends AlternateFireWeapon {
-	private static final int PRIMARY_FOLLOWING_DAMAGE = 0;
-	private static final int SECONDARY_FOLLOWING_DAMAGE = 0;
-	private static final int PRIMARY_FOLLOWING_MARKS = 1;
-	private static final int SECONDARY_FOLLOWING_MARKS = 2;
+	private final int primaryFollowingDamage;
+	private final int secondaryFollowingDamage;
+	private final int primaryFollowingMarks;
+	private final int secondaryFollowingMarks;
 
 
 	public Hellion(String description, List<AmmoType> reloadPrice) {
 		super("Hellion", description, reloadPrice, 1, 1, 0);
-		this.SECONDARY_DAMAGE = 1;
-		this.SECONDARY_MARKS = 2;
-		this.standardDamagesAndMarks = new ArrayList<>();
+		this.secondaryDamage = 1;
+		this.secondaryMarks = 2;
+		this.primaryFollowingDamage = 0;
+		this.secondaryFollowingDamage = 1;
+		this.primaryFollowingMarks = 0;
+		this.secondaryFollowingMarks = 2;
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(PRIMARY_FOLLOWING_DAMAGE, PRIMARY_FOLLOWING_MARKS));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(primaryFollowingDamage, primaryFollowingMarks));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryFollowingDamage, secondaryFollowingMarks));
+		this.maximumSteps = 3;
+		this.maximumAlternateSteps = 3;
+	}
+
+	public Hellion(JsonObject parameters) {
+		super(parameters);
+		this.primaryFollowingDamage = parameters.get("primaryFollowingDamage").getAsInt();
+		this.secondaryFollowingDamage = parameters.get("secondaryFollowingDamage").getAsInt();
+		this.primaryFollowingMarks = parameters.get("primaryFollowingMarks").getAsInt();
+		this.secondaryFollowingMarks = parameters.get("secondaryFollowingMarks").getAsInt();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(primaryFollowingDamage, primaryFollowingMarks));
+		this.secondaryDamagesAndMarks = new ArrayList<>();
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryFollowingDamage, secondaryFollowingMarks));
 		this.maximumSteps = 3;
 		this.maximumAlternateSteps = 3;
 	}

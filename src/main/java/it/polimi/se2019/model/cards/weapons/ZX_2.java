@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -12,13 +13,26 @@ public class ZX_2 extends AlternateFireWeapon {
 
 	public ZX_2(String description, List<AmmoType> reloadPrice) {
 		super("ZX-2", description, reloadPrice, 2, 1, 0);
-		this.SECONDARY_DAMAGE = 0;
-		this.SECONDARY_MARKS = 1;
+		this.secondaryDamage = 0;
+		this.secondaryMarks = 1;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
-			this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+			this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		}
+		this.maximumSteps = 3;
+	}
+
+	public ZX_2(JsonObject parameters) {
+		super(parameters);
+		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
+		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
+		this.standardDamagesAndMarks = new ArrayList<>();
+		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.secondaryDamagesAndMarks = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		}
 		this.maximumSteps = 3;
 	}

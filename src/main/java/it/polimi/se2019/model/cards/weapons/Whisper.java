@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -14,6 +15,12 @@ public class Whisper extends WeaponCard {
 		this.standardDamagesAndMarks = new ArrayList<>();
 		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 
+	}
+
+	public Whisper(JsonObject parameters) {
+		super(parameters);
+		this.standardDamagesAndMarks = new ArrayList<>();
+		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 	}
 
 	@Override

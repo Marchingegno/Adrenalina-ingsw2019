@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -8,23 +9,35 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Elecroscythe extends AlternateFireWeapon {
+public class Electroscythe extends AlternateFireWeapon {
 
-	public Elecroscythe(String description, List<AmmoType> reloadPrice) {
+	public Electroscythe(String description, List<AmmoType> reloadPrice) {
 		super("Electroscythe", description, reloadPrice, 0, 1);
-		this.SECONDARY_DAMAGE = 2;
-		this.SECONDARY_MARKS = 0;
+		this.secondaryDamage = 2;
+		this.secondaryMarks = 0;
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.maximumAlternateSteps = 2;
+		this.maximumSteps = 2;
+	}
+
+	public Electroscythe(JsonObject parameters) {
+		super(parameters);
+		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
+		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
+		this.standardDamagesAndMarks = new ArrayList<>();
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.secondaryDamagesAndMarks = new ArrayList<>();
+		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.maximumAlternateSteps = 2;
 		this.maximumSteps = 2;
 	}
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2) {
+		if (getCurrentStep() == 2) {
 			currentTargets = getPrimaryTargets();
 			primaryFire();
 		}
@@ -33,7 +46,7 @@ public class Elecroscythe extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 2) {
+		if (getCurrentStep() == 2) {
 			currentTargets = getSecondaryTargets();
 			secondaryFire();
 		}
@@ -54,7 +67,7 @@ public class Elecroscythe extends AlternateFireWeapon {
 	public void secondaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getSecondaryDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
-			damageAndMarksList.add(new DamageAndMarks(SECONDARY_DAMAGE, SECONDARY_MARKS));
+			damageAndMarksList.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		}
 		dealDamage(damageAndMarksList, currentTargets);
 	}

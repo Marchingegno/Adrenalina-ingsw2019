@@ -1,6 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
 
+import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
@@ -18,6 +19,9 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		super("Vortex Cannon", description, reloadPrice, 0, 0, 0);
 	}
 
+	public VortexCannon(JsonObject parameters) {
+		super(parameters);
+	}
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
