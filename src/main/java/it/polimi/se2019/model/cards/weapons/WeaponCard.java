@@ -305,7 +305,7 @@ public abstract class WeaponCard extends ActivableCard {
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
-	protected QuestionContainer setCurrentTargetsAndReturnTargetQnO(){
+	protected QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO(){
 		currentTargets = getPrimaryTargets();
 		return getTargetPlayersQnO(currentTargets);
 	}

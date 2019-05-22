@@ -27,7 +27,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		}
 		else if(getCurrentStep() == 3){
 			vortexCoordinate = temporaryPossibleVortexCoordinates.get(choice);
-			return setCurrentTargetsAndReturnTargetQnO();
+			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
 		else if(getCurrentStep() == 4){
 			chosenTargets = new ArrayList<>();
@@ -47,7 +47,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	@Override
 	protected QuestionContainer handleOptionalEffect1(int choice) {
 		if(getCurrentStep() == 4){
-			return setCurrentTargetsAndReturnTargetQnO();
+			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
 		else if(getCurrentStep() == 5){
 			chosenTargets.add(currentTargets.get(choice));

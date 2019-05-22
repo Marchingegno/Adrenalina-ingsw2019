@@ -124,6 +124,11 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		secondaryReset();
 	}
 
+	protected QuestionContainer setSecondaryCurrentTargetsAndReturnTargetQnO(){
+		currentTargets = getSecondaryTargets();
+		return getTargetPlayersQnO(currentTargets);
+	}
+
 
 	int getMaximumAlternateSteps() {
 		return maximumAlternateSteps;
