@@ -1,6 +1,7 @@
 {
 	"weapons": [
 		{
+			"className": "LockRifle",
 			"name": "Lock Rifle",
 			"imagePath": "lock_rifle.png",
 			"price": [
@@ -10,9 +11,15 @@
 			"description": "Basic effect: Deal 2 damage and 1 mark to 1 target you can see.\nWith second lock: Deal 1 mark to a different target you can see.",
 			"optionalPrices": [
 				"RED_AMMO"
-			]
+			],
+			"primaryMarks": 1,
+			"primaryDamage": 2,
+			"moveDistance": 0,
+			"optional1Marks": 1,
+			"optional1Damage": 0
 		},
 		{
+			"className": "Electroscythe",
 			"name": "Electroscythe",
 			"imagePath": "electroscythe.png",
 			"price": [
@@ -22,9 +29,15 @@
 			"optionalPrices": [
 				"BLUE_AMMO",
 				"RED_AMMO"
-			]
+			],
+			"primaryMarks": 0,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"secondaryDamage": 2,
+			"secondaryMarks": 0
 		},
 		{
+			"className": "MachineGun",
 			"name": "Machine Gun",
 			"imagePath": "machine_gun.png",
 			"price": [
@@ -35,9 +48,18 @@
 			"optionalPrices": [
 				"YELLOW_AMMO",
 				"BLUE_AMMO"
-			]
+			],
+			"primaryMarks": 0,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"optional1Marks": 0,
+			"optional1Damage": 1,
+			"optional2Marks": 0,
+			"optional2Damage": 1,
+			"optional2ExtraDamage": 1
 		},
 		{
+			"className": "TractorBeam",
 			"name": "Tractor Beam",
 			"imagePath": "tractor_beam.png",
 			"price": [
@@ -47,9 +69,15 @@
 			"optionalPrices": [
 				"RED_AMMO",
 				"YELLOW_AMMO"
-			]
+			],
+			"primaryMarks": 0,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"secondaryDamage": 3,
+			"secondaryMarks": 0
 		},
 		{
+			"className": "Thor",
 			"name": "T.H.O.R.",
 			"imagePath": "thor.png",
 			"price": [
@@ -60,9 +88,17 @@
 			"optionalPrices": [
 				"BLUE_AMMO",
 				"BLUE_AMMO"
-			]
+			],
+			"primaryDamage": 2,
+			"primaryMarks": 0,
+			"moveDistance": 0,
+			"optional1Marks": 0,
+			"optional1Damage": 1,
+			"optional2Marks": 0,
+			"optional2Damage": 2
 		},
 		{
+			"className": "PlasmaGun",
 			"name": "Plasma Gun",
 			"imagePath": "plasma_gun.png",
 			"price": [
@@ -73,9 +109,17 @@
 			"optionalPrices": [
 				"NONE",
 				"BLUE_AMMO"
-			]
+			],
+			"primaryDamage": 2,
+			"primaryMarks": 0,
+			"moveDistance": 2,
+			"optional1Marks": 0,
+			"optional1Damage": 0,
+			"optional2Marks": 0,
+			"optional2Damage": 1
 		},
 		{
+			"className": "Whisper",
 			"name": "Whisper",
 			"imagePath": "whisper.png",
 			"price": [
@@ -84,9 +128,13 @@
 				"YELLOW_AMMO"
 			],
 			"description": "Effect: Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you.\nNotes: For example, in the 2-by-2 room, you cannot shoot a target on an adjacent square, but you can shoot a target on the diagonal. If you are beside a door, you can't shoot a target on the other side of the door, but you can shoot a target on a different square of that room.",
-			"optionalPrices": []
+			"optionalPrices": [],
+			"primaryDamage": 3,
+			"primaryMarks": 1,
+			"moveDistance": 0
 		},
 		{
+			"className": "VortexCannon",
 			"name": "Vortex Cannon",
 			"imagePath": "vortex_cannon.png",
 			"price": [
@@ -96,9 +144,15 @@
 			"description": "Basic effect: Choose a square you can see, but not your square. Call it \"the vortex\". Choose a target on the vortex or 1 move away from it. Move it onto the vortex and give it 2 damage.\nWith black hole: Choose up to 2 other targets on the vortex or 1 move away from it. Move them onto the vortex and give them each 1 damage.\nNotes: The 3 targets must be different, but some might start on the same square. It is legal to choose targets on your square, on the vortex, or even on squares you can't see. They all end up on the vortex.",
 			"optionalPrices": [
 				"RED_AMMO"
-			]
+			],
+			"primaryDamage": 2,
+			"primaryMarks": 0,
+			"moveDistance": 0,
+			"optional1Marks": 0,
+			"optional1Damage": 1
 		},
 		{
+			"className": "Furnace",
 			"name": "Furnace",
 			"imagePath": "furnace.png",
 			"price": [
@@ -106,9 +160,15 @@
 				"BLUE_AMMO"
 			],
 			"description": "Basic mode: Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\nIn cozy fire mode: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.",
-			"optionalPrices": []
+			"optionalPrices": [],
+			"primaryMarks": 0,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"secondaryDamage": 1,
+			"secondaryMarks": 1
 		},
 		{
+			"className": "Heatseeker",
 			"name": "Heatseeker",
 			"imagePath": "heat_seeker.png",
 			"price": [
@@ -117,9 +177,13 @@
 				"YELLOW_AMMO"
 			],
 			"description": "effect: Choose 1 target you cannot see and deal 3 damage to it.\nNotes: Yes, this can only hit targets you cannot see.",
-			"optionalPrices": []
+			"optionalPrices": [],
+			"primaryDamage": 3,
+			"primaryMarks": 0,
+			"moveDistance": 0
 		},
 		{
+			"className": "Hellion",
 			"name": "Hellion",
 			"imagePath": "hellion.png",
 			"price": [
@@ -129,9 +193,15 @@
 			"description": "Basic mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\nIn nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.",
 			"optionalPrices": [
 				"RED_AMMO"
-			]
+			],
+			"primaryMarks": 1,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"secondaryDamage": 1,
+			"secondaryMarks": 2
 		},
 		{
+			"className": "Flamethrower",
 			"name": "Flamethrower",
 			"imagePath": "flamethrower.png",
 			"price": [
@@ -141,9 +211,17 @@
 			"optionalPrices": [
 				"YELLOW_AMMO",
 				"YELLOW_AMMO"
-			]
+			],
+			"primaryMarks": 0,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"secondaryDamage": 2,
+			"secondaryMarks": 0,
+			"secondaryFollowingDamage": 1,
+			"secondaryFollowingMarks": 0
 		},
 		{
+			"className": "GrenadeLauncher",
 			"name": "Grenade Launcher",
 			"imagePath": "grenade_launcher.png",
 			"price": [
@@ -152,9 +230,15 @@
 			"description": "Basic effect: Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\nWith extra grenade: Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.\nNotes: For example, you can shoot a target, move it onto a square with other targets, then damage everyone including the first target. Or you can deal 2 to a main target, 1 to everyone else on that square, then move the main target. Or you can deal 1 to an isolated target and 1 to everyone on a different square. If you target your own square, you will not be moved or damaged.",
 			"optionalPrices": [
 				"RED_AMMO"
-			]
+			],
+			"primaryDamage": 1,
+			"primaryMarks": 0,
+			"moveDistance": 0,
+			"optional1Marks": 0,
+			"optional1Damage": 1
 		},
 		{
+			"className": "RockerLauncher",
 			"name": "Rocker Launcher",
 			"imagePath": "rocket_launcher.png",
 			"price": [
@@ -165,9 +249,17 @@
 			"optionalPrices": [
 				"BLUE_AMMO",
 				"RED_AMMO"
-			]
+			],
+			"primaryDamage": 2,
+			"primaryMarks": 0,
+			"moveDistance": 2,
+			"optional1Marks": 0,
+			"optional1Damage": 0,
+			"optional2Marks": 0,
+			"optional2Damage": 1
 		},
 		{
+			"className": "ZX_2",
 			"name": "ZX-2",
 			"imagePath": "zx-2.png",
 			"price": [
@@ -175,9 +267,15 @@
 				"RED_AMMO"
 			],
 			"description": "Basic mode: Deal 1 damage and 2 marks to 1 target you can see.\nIn scanner mode: Choose up to 3 targets you can see and deal 1 mark to each.\nNotes: Remember that the 3 targets can be in 3 different rooms.",
-			"optionalPrices": []
+			"optionalPrices": [],
+			"primaryMarks": 2,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"secondaryDamage": 0,
+			"secondaryMarks": 1
 		},
 		{
+			"className": "Shotgun",
 			"name": "Shotgun",
 			"imagePath": "shotgun.png",
 			"price": [
@@ -185,9 +283,15 @@
 				"YELLOW_AMMO"
 			],
 			"description": "Basic mode: Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.\nIn long barrel mode: Deal 2 damage to 1 target on any square exactly one move away.",
-			"optionalPrices": []
+			"optionalPrices": [],
+			"primaryMarks": 0,
+			"primaryDamage": 3,
+			"moveDistance": 0,
+			"secondaryDamage": 2,
+			"secondaryMarks": 0
 		},
 		{
+			"className": "PowerGlove",
 			"name": "Power Glove",
 			"imagePath": "power_glove.png",
 			"price": [
@@ -197,9 +301,15 @@
 			"description": "Basic mode: Choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks.\nIn rocket fist mode: Choose a square exactly 1 move away. Move onto that square. You may deal 2 damage to 1 target there. If you want, you may move 1 more square in that same direction (but only if it is a legal move). You may deal 2 damage to 1 target there, as well.\nNotes: In rocket fist mode, you're flying 2 squares in a straight line, punching 1 person per square.",
 			"optionalPrices": [
 				"BLUE_AMMO"
-			]
+			],
+			"primaryMarks": 2,
+			"primaryDamage": 1,
+			"moveDistance": 1,
+			"secondaryDamage": 2,
+			"secondaryMarks": 0
 		},
 		{
+			"className": "Railgun",
 			"name": "Railgun",
 			"imagePath": "railgun.png",
 			"price": [
@@ -208,9 +318,15 @@
 				"BLUE_AMMO"
 			],
 			"description": "Basic mode: Choose a cardinal direction and 1 target in that direction. Deal 3 damage to it.\nIn piercing mode: Choose a cardinal direction and 1 or 2 targets in that direction. Deal 2 damage to each.\nNotes: Basically, you're shooting in a straight line and ignoring walls. You don't have to pick a target on the other side of a wall – it could even be someone on your own square – but shooting through walls sure is fun. There are only 4 cardinal directions. You imagine facing one wall or door, square-on, and firing in that direction. Anyone on a square in that direction (including yours) is a valid target. In piercing mode, the 2 targets can be on the same square or on different squares.",
-			"optionalPrices": []
+			"optionalPrices": [],
+			"primaryMarks": 0,
+			"primaryDamage": 3,
+			"moveDistance": 0,
+			"secondaryDamage": 2,
+			"secondaryMarks": 0
 		},
 		{
+			"className": "Shockwave",
 			"name": "Shockwave",
 			"imagePath": "shockwave.png",
 			"price": [
@@ -219,9 +335,15 @@
 			"description": "Basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\nIn tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.",
 			"optionalPrices": [
 				"YELLOW_AMMO"
-			]
+			],
+			"primaryMarks": 0,
+			"primaryDamage": 1,
+			"moveDistance": 0,
+			"secondaryDamage": 1,
+			"secondaryMarks": 0
 		},
 		{
+			"className": "Cyberblade",
 			"name": "Cyberblade",
 			"imagePath": "cyberblade.png",
 			"price": [
@@ -232,9 +354,17 @@
 			"optionalPrices": [
 				"NONE",
 				"YELLOW_AMMO"
-			]
+			],
+			"primaryDamage": 2,
+			"primaryMarks": 0,
+			"moveDistance": 0,
+			"optional1Marks": 0,
+			"optional1Damage": 0,
+			"optional2Marks": 0,
+			"optional2Damage": 2
 		},
 		{
+			"className": "Sledgehammer",
 			"name": "Sledgehammer",
 			"imagePath": "sledgehammer.png",
 			"price": [
@@ -243,7 +373,12 @@
 			"description": "Basic mode: Deal 2 damage to 1 target on your square.\nIn pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\nNotes: Remember that moves go through doors, but not walls.",
 			"optionalPrices": [
 				"RED_AMMO"
-			]
+			],
+			"primaryMarks": 0,
+			"primaryDamage": 2,
+			"moveDistance": 0,
+			"secondaryDamage": 3,
+			"secondaryMarks": 0
 		}
 	]
 }
