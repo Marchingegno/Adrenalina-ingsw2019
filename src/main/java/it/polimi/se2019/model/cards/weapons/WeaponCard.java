@@ -209,11 +209,11 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	protected int getPrimaryMarks() {
-		return primaryDamage;
+		return primaryMarks;
 	}
 
 	protected int getMoveDistance() {
-		return primaryDamage;
+		return moveDistance;
 	}
 
 	protected int getMaximumSteps() {
