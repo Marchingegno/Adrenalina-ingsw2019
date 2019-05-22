@@ -240,7 +240,9 @@ public class Model {
 	public void grabWeaponCard(String playerName, int index) {
 		Player player = getPlayerFromName(playerName);
 		WeaponCard cardToGrab = (WeaponCard) gameMap.grabCard(gameMap.getPlayerCoordinates(player), index);
-		addWeaponCardToPlayer(player, cardToGrab);
+		cardToGrab.setOwner(player);
+		cardToGrab.load();
+		player.getPlayerBoard().addWeapon(cardToGrab);
 		updateReps();
 	}
 
@@ -255,6 +257,8 @@ public class Model {
 		Player player = getCurrentPlayer();
 		Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
 		WeaponCard squareWeapon = (WeaponCard) (gameMap.grabCard(playerCoordinates, indexOfTheSpawnWeapon));
+		squareWeapon.setOwner(player);
+		squareWeapon.load();
 		WeaponCard playerWeapon = player.getPlayerBoard().swapWeapon(squareWeapon, indexOfThePlayerWeapon);
 		gameMap.addCard(playerCoordinates, playerWeapon);
 		updateReps();
@@ -363,11 +367,6 @@ public class Model {
 
 		gameBoard.getAmmoDeck().discardCard(ammoCard);
 
-		updateReps();
-	}
-
-	private void addWeaponCardToPlayer(Player player, WeaponCard weaponCard){
-		player.getPlayerBoard().addWeapon(weaponCard);
 		updateReps();
 	}
 
