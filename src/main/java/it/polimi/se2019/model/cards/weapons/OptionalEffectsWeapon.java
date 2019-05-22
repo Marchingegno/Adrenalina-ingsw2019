@@ -23,7 +23,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	int OPTIONAL2_MARKS;
 	List<DamageAndMarks> optional1DamagesAndMarks;
 	List<DamageAndMarks> optional2DamagesAndMarks;
-	List<DamageAndMarks> optional1and2DamagesAndMarks;
+	List<DamageAndMarks> optionalBothDamagesAndMarks;
 
 
 
@@ -126,9 +126,9 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 
-	public abstract void optionalEffect1();
+	public abstract void optional1Fire();
 
-	public abstract void optionalEffect2();
+	public abstract void optional2Fire();
 
 	void optionalReset(){
 		for (int i = 0; i < optionalEffectsActive.length; i++) {

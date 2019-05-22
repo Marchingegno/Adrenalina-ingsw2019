@@ -28,10 +28,10 @@ public class MachineGun extends OptionalEffectsWeapon {
 		this.optional2DamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
 		this.optional2DamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
 
-		this.optional1and2DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
-		this.optional1and2DamagesAndMarks.get(0).enrich(OPTIONAL1_DAMAGE, OPTIONAL1_MARKS);
-		this.optional1and2DamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
-		this.optional1and2DamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
+		this.optionalBothDamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
+		this.optionalBothDamagesAndMarks.get(0).enrich(OPTIONAL1_DAMAGE, OPTIONAL1_MARKS);
+		this.optionalBothDamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
+		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(OPTIONAL2_DAMAGE, OPTIONAL2_MARKS));
 
 	}
 
@@ -85,12 +85,12 @@ public class MachineGun extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	public void optionalEffect1() {
+	public void optional1Fire() {
 
 	}
 
 	@Override
-	public void optionalEffect2() {
+	public void optional2Fire() {
 
 	}
 }

@@ -28,12 +28,12 @@ public class LockRifle extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	public void optionalEffect1() {
+	public void optional1Fire() {
 
 	}
 
 	@Override
-	public void optionalEffect2() {
+	public void optional2Fire() {
 
 	}
 
