@@ -145,9 +145,12 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 
 
-	public abstract void optional1Fire();
+	public void optional1Fire(){
+	}
 
-	public abstract void optional2Fire();
+	public void optional2Fire(){
+
+	}
 
 	void optionalReset(){
 		for (int i = 0; i < optionalEffectsActive.length; i++) {

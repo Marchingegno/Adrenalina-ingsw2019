@@ -84,14 +84,4 @@ public class MachineGun extends OptionalEffectsWeapon {
 		visibleExceptChosen.removeAll(chosenTargets);
 		return visibleExceptChosen;
 	}
-
-	@Override
-	public void optional1Fire() {
-
-	}
-
-	@Override
-	public void optional2Fire() {
-
-	}
 }
