@@ -31,8 +31,7 @@ public class Railgun extends AlternateFireWeapon {
 		}
 		else if(getCurrentStep() == 3){
 			chosenDirection = CardinalDirection.values()[choice];
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
 		else if(getCurrentStep() == 4){
 			target = currentTargets.get(choice);
@@ -43,6 +42,26 @@ public class Railgun extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
+		if(getCurrentStep() == 2){
+			return getCardinalQnO();
+		}
+		else if(getCurrentStep() == 3){
+			chosenDirection = CardinalDirection.values()[choice];
+			setSecondaryCurrentTargetsAndReturnTargetQnO();
+		}
+		else if(getCurrentStep() == 4){
+			target = currentTargets.get(choice);
+			//With refusal.
+			currentTargets = getSecondaryTargets();
+			return getTargetPlayersAndRefusalQnO(currentTargets);
+		}
+		else if(getCurrentStep() == 5){
+			if(!isThisChoiceRefusal(currentTargets, choice)){
+				secondTarget = currentTargets.get(choice);
+			}
+			secondaryFire();
+		}
+
 		return null;
 	}
 
@@ -57,13 +76,24 @@ public class Railgun extends AlternateFireWeapon {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		return null;
+		List<Player> playersInDirection = getGameMap().getPlayersInDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
+		playersInDirection.remove(getOwner());
+		return playersInDirection;
 	}
 
 	@Override
 	public List<Player> getSecondaryTargets() {
-		return null;
+		List<Player> playersInDirection = getPrimaryTargets();
+		if(target != null){
+			playersInDirection.remove(target);
+		}
+		return playersInDirection;
 	}
 
-
+	@Override
+	public void reset() {
+		super.reset();
+		secondTarget = null;
+		chosenDirection = null;
+	}
 }
