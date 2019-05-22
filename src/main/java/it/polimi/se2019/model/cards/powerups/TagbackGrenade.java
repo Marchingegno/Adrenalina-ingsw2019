@@ -27,8 +27,8 @@ public class TagbackGrenade extends PowerupCard {
 
 	@Override
 	public QuestionContainer doPowerupStep(Message answer) {
-		Player targetPlayer = getOwnerPlayer(); // TODO placeholder, must be targetPlayer.
-		targetPlayer.getPlayerBoard().addMarks(getOwnerPlayer(), GIVEN_MARKS); // add marks to the target player.
+		Player targetPlayer = getOwner(); // TODO placeholder, must be targetPlayer.
+		targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
 		return null;
 	}
 
@@ -39,7 +39,7 @@ public class TagbackGrenade extends PowerupCard {
 	 */
 	@Override
 	public boolean canBeActivated() {
-		return getGameBoard().getGameMap().isVisible(getOwnerPlayer(), getShootingPlayer());
+		return getGameBoard().getGameMap().isVisible(getOwner(), getShootingPlayer());
 	}
 
 	@Override

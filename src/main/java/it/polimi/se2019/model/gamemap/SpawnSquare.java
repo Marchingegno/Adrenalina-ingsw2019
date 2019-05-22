@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
+import it.polimi.se2019.model.cards.weapons.WeaponDeck;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
@@ -19,11 +20,12 @@ import it.polimi.se2019.utils.Utils;
  */
 public class SpawnSquare extends Square {
 
+	private WeaponDeck weaponDeck;
 	private AmmoType ammoType;
 
 	public SpawnSquare(int roomID, AmmoType ammoType, Color.CharacterColorType squareColor, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
 		super(roomID, possibleDirections, squareColor, coordinates);
-		deck = gameBoard.getWeaponDeck();
+		weaponDeck = gameBoard.getWeaponDeck();
 		this.ammoType = ammoType;
 		hasChanged = true;
 	}
@@ -44,7 +46,7 @@ public class SpawnSquare extends Square {
 		if (!isFilled()) {
 			for (int i = cards.size(); i < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE; i++) {
 				Utils.logInfo("SpawnSquare -> refillCards(): Refilling the spawn square in " + getCoordinates());
-				cards.add(deck.drawCard());
+				cards.add(weaponDeck.drawCard());
 			}
 			setFilled();
 			setChanged();

@@ -1,7 +1,7 @@
 package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.Representation;
-import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.OwnableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
@@ -15,7 +15,7 @@ import it.polimi.se2019.utils.QuestionContainer;
  * @author MarcerAndrea
  * @author Desno365
  */
-public abstract class PowerupCard extends Card {
+public abstract class PowerupCard extends OwnableCard {
 
 	private AmmoType associatedAmmo;
 	private PowerupUseCaseType powerupUseCaseType;
@@ -73,14 +73,6 @@ public abstract class PowerupCard extends Card {
 		return powerupUseCaseType;
 	}
 
-	public void setGameBoard(GameBoard gameBoard) {
-		this.gameBoard = gameBoard;
-	}
-
-	public void setOwnerPlayer(Player ownerPlayer) {
-		this.ownerPlayer = ownerPlayer;
-	}
-
 	public void setShootingPlayer(Player shootingPlayer) {
 		this.shootingPlayer = shootingPlayer;
 	}
@@ -94,14 +86,6 @@ public abstract class PowerupCard extends Card {
 	// PROTECTED METHODS (only for specific type of powerups)
 	// ####################################
 
-	protected GameBoard getGameBoard() {
-		return gameBoard;
-	}
-
-	protected Player getOwnerPlayer() {
-		return ownerPlayer;
-	}
-
 	protected Player getShootingPlayer() {
 		return shootingPlayer;
 	}
@@ -114,6 +98,26 @@ public abstract class PowerupCard extends Card {
 	// ####################################
 	// OVERRIDDEN METHODS
 	// ####################################
+
+	@Override
+	protected Player getOwner() {
+		return ownerPlayer;
+	}
+
+	@Override
+	public void setOwner(Player player) {
+		this.ownerPlayer = player;
+	}
+
+	@Override
+	protected GameBoard getGameBoard() {
+		return gameBoard;
+	}
+
+	@Override
+	public void setGameBoard(GameBoard gameBoard) {
+		this.gameBoard = gameBoard;
+	}
 
 	@Override
 	public Representation getRep() {

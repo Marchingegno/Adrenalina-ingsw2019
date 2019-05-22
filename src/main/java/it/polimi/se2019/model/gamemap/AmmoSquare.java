@@ -2,6 +2,7 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.ammo.AmmoDeck;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
@@ -15,9 +16,11 @@ import it.polimi.se2019.utils.Utils;
  */
 public class AmmoSquare extends Square {
 
+	private AmmoDeck ammoDeck;
+
 	public AmmoSquare(int roomID, Color.CharacterColorType squareColor, boolean[] possibleDirections, Coordinates coordinates, GameBoard gameBoard) {
 		super(roomID, possibleDirections, squareColor, coordinates);
-		deck = gameBoard.getAmmoDeck();
+		ammoDeck = gameBoard.getAmmoDeck();
 		hasChanged = true;
 		setNotFilled();
 	}
@@ -29,7 +32,7 @@ public class AmmoSquare extends Square {
 	public void refillCards() {
 		if (!isFilled()) {
 			Utils.logInfo("AmmoSquare -> refillCards(): Refilling the ammo square in " + getCoordinates());
-			cards.add(deck.drawCard());
+			cards.add(ammoDeck.drawCard());
 			setFilled();
 			setChanged();
 		} else

@@ -63,14 +63,14 @@ public class Teleporter extends PowerupCard {
 
 
 	private QuestionContainer firstStep() {
-		List<Coordinates> coordinates = getGameBoard().getGameMap().getAllCoordinatesExceptPlayer(getOwnerPlayer());
+		List<Coordinates> coordinates = getGameBoard().getGameMap().getAllCoordinatesExceptPlayer(getOwner());
 		return QuestionContainer.createCoordinatesQuestionContainer("Choose where to move.", coordinates);
 	}
 
 	private void lastStep(Message answer) {
 		Coordinates targetCoordinates = ((CoordinatesAnswerMessage) answer).getSingleCoordinates();
-		if(!targetCoordinates.equals(getGameBoard().getGameMap().getPlayerCoordinates(getOwnerPlayer()))) {
-			getGameBoard().getGameMap().movePlayerTo(getOwnerPlayer(), targetCoordinates);
+		if(!targetCoordinates.equals(getGameBoard().getGameMap().getPlayerCoordinates(getOwner()))) {
+			getGameBoard().getGameMap().movePlayerTo(getOwner(), targetCoordinates);
 		}
 	}
 

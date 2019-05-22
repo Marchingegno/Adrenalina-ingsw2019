@@ -3,7 +3,6 @@ package it.polimi.se2019.model.gamemap;
 import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.CardRep;
-import it.polimi.se2019.model.cards.Deck;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
@@ -23,7 +22,6 @@ public abstract class Square implements Representable {
 	protected SquareRep squareRep;
 	private Coordinates coordinates;
 	protected List<Card> cards;
-	protected Deck<Card> deck;
 	protected boolean[] possibleDirections;
 	private Color.CharacterColorType squareColor;
 	private boolean isFilled;

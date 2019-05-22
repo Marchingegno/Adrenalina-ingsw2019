@@ -51,7 +51,7 @@ public class GameBoard extends Observable implements Representable {
 		remainingSkulls = startingSkulls;
 		killShots = new ArrayList<>();
 		doubleKills = new ArrayList<>();
-		weaponDeck = new WeaponDeck();
+		weaponDeck = new WeaponDeck(this);
 		ammoDeck = new AmmoDeck();
 		powerupDeck = new PowerupDeck(this);
 		killShotInThisTurn = false;
@@ -285,8 +285,8 @@ public class GameBoard extends Observable implements Representable {
 	}
 
 	public void addPowerupCardTo(Player player) {
-		PowerupCard powerupCard = powerupDeck.drawCard();
-		powerupCard.setOwnerPlayer(player);
+		PowerupCard powerupCard = (PowerupCard) powerupDeck.drawCard();
+		powerupCard.setOwner(player);
 		player.getPlayerBoard().addPowerup(powerupCard);
 	}
 

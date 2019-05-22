@@ -1,8 +1,7 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.model.Representable;
 import it.polimi.se2019.model.Representation;
-import it.polimi.se2019.model.cards.Card;
+import it.polimi.se2019.model.cards.OwnableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
  * if it has finished firing. The method {@link #reset()} will deload and reset the weapon to its original state.
  * @author Marchingegno
  */
-public abstract class WeaponCard extends Card implements Representable {
+public abstract class WeaponCard extends OwnableCard {
 
 	private int currentStep; //Advancement step of the weapon.
 	private Player owner;
@@ -66,20 +65,8 @@ public abstract class WeaponCard extends Card implements Representable {
 		return gameBoard.getGameMap();
 	}
 
-	public void setGameBoard(GameBoard gameBoard) {
-		this.gameBoard = gameBoard;
-	}
-
 	List<Player> getAllPlayers(){
 		return gameBoard.getPlayers();
-	}
-
-	/**
-	 *Returns the owner of the weapon.
-	 * @return the owner of the weapon.
-	 */
-	public Player getOwner(){
-		return owner;
 	}
 
 	/**
@@ -105,15 +92,6 @@ public abstract class WeaponCard extends Card implements Representable {
 	public boolean isLoaded() {
 		return loaded;
 	}
-
-	/**
-	 * Called by the controller when this weapon is grabbed by a player.
-	 * @param grabbingPlayer the grabbing player.
-	 */
-	public void setOwner(Player grabbingPlayer){
-		this.owner = grabbingPlayer;
-	}
-
 
 	/**
 	 * Loads the weapon.
@@ -298,10 +276,40 @@ public abstract class WeaponCard extends Card implements Representable {
 		getGameMap().movePlayerTo(getOwner(), coordinates);
 	}
 
+
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
+
+	@Override
+	protected Player getOwner() {
+		return owner;
+	}
+
+	@Override
+	public void setOwner(Player player) {
+		this.owner = player;
+	}
+
+	@Override
+	protected GameBoard getGameBoard() {
+		return gameBoard;
+	}
+
+	@Override
+	public void setGameBoard(GameBoard gameBoard) {
+		this.gameBoard = gameBoard;
+	}
+
 	@Override
 	public Representation getRep() {
 		return new WeaponRep(this);
 	}
+
+
+	// ####################################
+	// ENUM
+	// ####################################
 
 	protected enum ActionType{
 		MOVE,

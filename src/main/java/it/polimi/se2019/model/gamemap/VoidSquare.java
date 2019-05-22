@@ -30,12 +30,12 @@ public class VoidSquare extends Square {
 
 	@Override
 	public boolean canGrab(Player player) {
-		throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
+		throw new UnsupportedOperationException("Can't call canGrab() in a VoidSquare");
 	}
 
 	@Override
 	public MessageType getGrabMessageType() {
-		throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
+		throw new UnsupportedOperationException("Can't call getGrabMessageType() in a VoidSquare");
 	}
 
 	/**

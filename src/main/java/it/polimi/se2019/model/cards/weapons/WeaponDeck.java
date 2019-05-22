@@ -1,14 +1,19 @@
 package it.polimi.se2019.model.cards.weapons;
 
-import it.polimi.se2019.model.cards.Card;
-import it.polimi.se2019.model.cards.Deck;
+import it.polimi.se2019.model.cards.OwnableDeck;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gameboard.GameBoard;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeaponDeck extends Deck<Card> {
+public class WeaponDeck extends OwnableDeck<WeaponCard> {
 
+	public WeaponDeck(GameBoard gameBoard) {
+		super(gameBoard);
+	}
+
+	@Override
 	public void initializeDeck(){
 		String placeHolder = "placeHolder";
 

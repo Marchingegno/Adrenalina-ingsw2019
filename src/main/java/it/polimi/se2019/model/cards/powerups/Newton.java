@@ -101,7 +101,7 @@ public class Newton extends PowerupCard {
 	}
 
 	private boolean canActivateOnPlayer(Player player) {
-		return player != getOwnerPlayer() && !player.getPlayerBoard().isDead() && player.getTurnStatus() != TurnStatus.PRE_SPAWN;
+		return player != getOwner() && !player.getPlayerBoard().isDead() && player.getTurnStatus() != TurnStatus.PRE_SPAWN;
 	}
 
 }

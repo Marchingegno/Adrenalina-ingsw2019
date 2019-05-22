@@ -31,9 +31,9 @@ public class TargetingScope extends PowerupCard {
 	public QuestionContainer doPowerupStep(Message answer) {
 		// TODO ask client which type of ammo to use (must be in the client inventory).
 		AmmoType ammoToUse = AmmoType.RED_AMMO; // TODO placeholder, must be choosen ammo type.
-		getOwnerPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
-		Player targetPlayer = getOwnerPlayer(); // TODO placeholder, must be targetPlayer.
-		targetPlayer.getPlayerBoard().addDamage(getOwnerPlayer(), GIVEN_DAMAGE);
+		getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
+		Player targetPlayer = getOwner(); // TODO placeholder, must be targetPlayer.
+		targetPlayer.getPlayerBoard().addDamage(getOwner(), GIVEN_DAMAGE);
 		return null;
 	}
 
@@ -41,7 +41,7 @@ public class TargetingScope extends PowerupCard {
 	public boolean canBeActivated() {
 		boolean hasOneAmmo = false;
 		for(AmmoType ammoType : AmmoType.values()) {
-			if(getOwnerPlayer().getPlayerBoard().getAmmoContainer().getAmmo(ammoType) > 0) {
+			if(getOwner().getPlayerBoard().getAmmoContainer().getAmmo(ammoType) > 0) {
 				hasOneAmmo = true;
 				break;
 			}
