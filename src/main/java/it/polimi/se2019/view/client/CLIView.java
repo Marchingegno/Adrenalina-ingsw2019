@@ -129,12 +129,10 @@ public class CLIView extends RemoteView {
 			answer = askInteger(1, damageStatusRep.numOfMacroActions());
 		}
 
-		if(answer == damageStatusRep.numOfMacroActions() + 1) { // If answer is powerup.
-			int powerupAnswer = askPowerupToActivate(activablePowerups);
-			sendMessage(new IntMessage(powerupAnswer, MessageType.POWERUP, MessageSubtype.ANSWER));
-		} else {
+		if(answer == damageStatusRep.numOfMacroActions() + 1) // If answer is powerup.
+			askPowerupActivation(activablePowerups);
+		else
 			sendMessage(new DefaultActionMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
-		}
 	}
 
 	@Override
@@ -194,6 +192,39 @@ public class CLIView extends RemoteView {
 		sendMessage(new DefaultActionMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
 	}
 
+	@Override
+	public void askSpawn() {
+		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
+		printLine("Select the Powerup card to discard in order to spawn:");
+		for (int i = 0; i < powerupCards.size(); i++)
+			printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
+		int answer = askInteger(1, powerupCards.size());
+
+		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
+		sendMessage(new DefaultActionMessage(answer - 1, MessageType.SPAWN, MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public void askWeaponChoice(QuestionContainer questionContainer) {
+		askQuestionContainerAndSendAnswer(questionContainer, MessageType.WEAPON);
+	}
+
+	@Override
+	public void askPowerupActivation(List<Integer> activablePowerups) {
+		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
+		printLine("Select the Powerup card to activate:");
+		for (int i = 0; i < powerupCards.size(); i++) {
+			if(activablePowerups.contains(i))
+				printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
+		}
+		int answer = askIntegerFromList(activablePowerups, -1);
+		sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
+	}
+
+	@Override
+	public void askPowerupChoice(QuestionContainer questionContainer) {
+		askQuestionContainerAndSendAnswer(questionContainer, MessageType.POWERUP);
+	}
 
 	@Override
 	public void askEnd(List<Integer> activablePowerups) {
@@ -208,65 +239,22 @@ public class CLIView extends RemoteView {
 			answer = askInteger(1, 3);
 		}
 
-		if(answer == 1) {
-			// End turn.
-			sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
-		} else if(answer == 2) {
-			// Reload.
-			askReload();
-		} else if(answer == 3) {
-			// Ask powerup.
-			int powerupAnswer = askPowerupToActivate(activablePowerups);
-			sendMessage(new IntMessage(powerupAnswer, MessageType.POWERUP, MessageSubtype.ANSWER));
-		}
+		if(answer == 1)
+			sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // End turn.
+		else if(answer == 2)
+			askReload(); // Reload.
+		else if(answer == 3)
+			askPowerupActivation(activablePowerups); // Powerup activation.
 	}
 
-	@Override
-	public void askSpawn() {
-		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
-		printLine("Select the Powerup card to discard in order to spawn:");
-		for (int i = 0; i < powerupCards.size(); i++)
-			printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
-		int answer = askInteger(1, powerupCards.size());
 
-		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer - 1, MessageType.SPAWN, MessageSubtype.ANSWER));
+	/**
+	 * Displays the main game board
+	 */
+	public void updateDisplay() {
+		repPrinter.displayGame();
 	}
 
-	@Override
-	public int askPowerupToActivate(List<Integer> activablePowerups) {
-		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
-		printLine("Select the Powerup card to activate:");
-		for (int i = 0; i < powerupCards.size(); i++) {
-			if(activablePowerups.contains(i))
-				printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
-		}
-		return askIntegerFromList(activablePowerups, -1);
-	}
-
-	@Override
-	public void askWeaponChoice(QuestionContainer questionContainer) {
-
-	}
-
-	@Override
-	public void askPowerupChoice(QuestionContainer questionContainer) {
-		 if(questionContainer.isAskString()) {
-			// Options question.
-			printLine(questionContainer.getQuestion());
-			for (int i = 1; i < questionContainer.getOptions().size() + 1; i++) {
-				printLine(i + ") " + questionContainer.getOptions().get(i - 1));
-			}
-			int answer = askInteger(1, questionContainer.getOptions().size());
-			sendMessage(new IntMessage(answer - 1, MessageType.POWERUP, MessageSubtype.ANSWER));
-		} else if(questionContainer.isAskCoordinates()) {
-			// Coordinates question.
-			repPrinter.displayGame(questionContainer.getCoordinates());
-			printLine(questionContainer.getQuestion());
-			Coordinates answer = askCoordinates(questionContainer.getCoordinates());
-			sendMessage(new CoordinatesAnswerMessage(answer, MessageType.POWERUP));
-		}
-	}
 
 	private int askMapToUse() {
 		printChooseMap();
@@ -285,11 +273,22 @@ public class CLIView extends RemoteView {
 		return Integer.parseInt(waitForChoiceInMenu(possibleChoices));
 	}
 
-	/**
-	 * Displays the main game board
-	 */
-	public void updateDisplay() {
-		repPrinter.displayGame();
+	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
+		if(questionContainer.isAskString()) {
+			// Options question.
+			printLine(questionContainer.getQuestion());
+			for (int i = 1; i < questionContainer.getOptions().size() + 1; i++) {
+				printLine(i + ") " + questionContainer.getOptions().get(i - 1));
+			}
+			int answer = askInteger(1, questionContainer.getOptions().size());
+			sendMessage(new IntMessage(answer - 1, messageType, MessageSubtype.ANSWER));
+		} else if(questionContainer.isAskCoordinates()) {
+			// Coordinates question.
+			repPrinter.displayGame(questionContainer.getCoordinates());
+			printLine(questionContainer.getQuestion());
+			Coordinates answer = askCoordinates(questionContainer.getCoordinates());
+			sendMessage(new CoordinatesAnswerMessage(answer, messageType));
+		}
 	}
 
 	/**

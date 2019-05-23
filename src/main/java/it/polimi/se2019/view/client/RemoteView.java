@@ -245,5 +245,4 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);
 
-	public abstract int askPowerupToActivate(List<Integer> activablePowerups);
 }

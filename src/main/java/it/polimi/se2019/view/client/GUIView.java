@@ -134,6 +134,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askPowerupActivation(List<Integer> activablePowerups) {
+
+	}
+
+	@Override
 	public void askPowerupChoice(QuestionContainer questionContainer) {
 
 	}

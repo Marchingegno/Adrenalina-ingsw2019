@@ -28,6 +28,8 @@ public interface ViewInterface {
 
 	void askWeaponChoice(QuestionContainer questionContainer);
 
+	void askPowerupActivation(List<Integer> activablePowerups);
+
 	void askPowerupChoice(QuestionContainer questionContainer);
 
 	void askEnd(List<Integer> activablePowerups);
