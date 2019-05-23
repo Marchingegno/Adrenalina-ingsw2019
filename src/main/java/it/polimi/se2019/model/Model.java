@@ -47,11 +47,28 @@ public class Model {
 	}
 
 
-	public void movePlayerTo(String playerName, Coordinates coordinates) {
-		Player player = getPlayerFromName(playerName);
-		gameMap.movePlayerTo(player, coordinates);
-		updateReps();
+	// ####################################
+	// OBSERVERS MANAGEMENT METHODS
+	// ####################################
+
+	public void addGameBoardObserver(Observer observer) {
+		gameBoard.addObserver(observer);
 	}
+
+	public void addGameMapObserver(Observer observer) {
+		gameBoard.getGameMap().addObserver(observer);
+	}
+
+	public void addPlayersObserver(Observer observer) {
+		for (Player player : gameBoard.getPlayers()) {
+			player.addObserver(observer);
+		}
+	}
+
+
+	// ####################################
+	// GAME MANAGEMENT METHODS
+	// ####################################
 
 	public boolean isFrenzyStarted() {
 		return gameBoard.isFrenzyStarted();
@@ -76,18 +93,36 @@ public class Model {
 		updateReps();
 	}
 
-	public void resetPlayerCurrentWeapon(String playerName){
-		Player player = getPlayerFromName(playerName);
-		gameBoard.resetPlayerCurrentWeapon(player);
-	}
-	public boolean isTheplayerDoneFiring(String playerName){
-		Player player = getPlayerFromName(playerName);
-		return gameBoard.isThePlayerDoneFiring(player);
+	public boolean areSkullsFinished() {
+		return gameBoard.areSkullsFinished();
 	}
 
-	public QuestionContainer playerWeaponHandleFire(String playerName, int choice){
+	public void scoreDeadPlayers() {
+		gameBoard.getPlayers().stream()
+				.filter(item -> item.getPlayerBoard().isDead())
+				.forEach(this::scoreDeadPlayer);
+		updateReps();
+	}
+
+	public void fillGameMap() {
+		gameMap.fillMap();
+		updateReps();
+	}
+
+	public void flipPlayers() {
+		gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
+		updateReps();
+	}
+
+
+	// ####################################
+	// PLAYERS MANAGEMENT METHODS
+	// ####################################
+
+	public void movePlayerTo(String playerName, Coordinates coordinates) {
 		Player player = getPlayerFromName(playerName);
-		return gameBoard.playerWeaponHandleFire(player, choice);
+		gameMap.movePlayerTo(player, coordinates);
+		updateReps();
 	}
 
 	public void spawnPlayer(String playerName, int indexOfCard) {
@@ -102,27 +137,8 @@ public class Model {
 		updateReps();
 	}
 
-
 	public String getCurrentPlayerName() {
 		return gameBoard.getCurrentPlayer().getPlayerName();
-	}
-
-	public void addGameBoardObserver(Observer observer) {
-		gameBoard.addObserver(observer);
-	}
-
-	public void addGameMapObserver(Observer observer) {
-		gameBoard.getGameMap().addObserver(observer);
-	}
-
-	public void addPlayersObserver(Observer observer) {
-		for (Player player : gameBoard.getPlayers()) {
-			player.addObserver(observer);
-		}
-	}
-
-	public Player getCurrentPlayer() {
-		return gameBoard.getCurrentPlayer();
 	}
 
 	public void nextPlayerTurn() {
@@ -140,48 +156,9 @@ public class Model {
 		return getPlayerFromName(playerName).getTurnStatus();
 	}
 
-	public void setTurnStatusOfCurrentPlayer(TurnStatus turnStatus){
-		setTurnStatus(getCurrentPlayerName(), turnStatus);
-	}
-
-	public void doDamageAndAddMarks(String shootingPlayerName, String damagedPlayerName, int amountOfDamage, int amountOfMarks) {
-		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
-		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
-
-		doDamage(shootingPlayer, damagedPlayer, amountOfDamage);
-
-		addMarks(shootingPlayer, damagedPlayer, amountOfMarks);
-
-		updateReps();
-
-	}
-
-	public void addMarks(String shootingPlayerName, String damagedPlayerName, int amountOfMarks) {
-		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
-		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
-
-		addMarks(shootingPlayer, damagedPlayer, amountOfMarks);
-
-		updateReps();
-	}
-
-	public void doDamage(String shootingPlayerName, String damagedPlayerName, int amountOfDamage) {
-		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
-		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
-
-		doDamage(shootingPlayer, damagedPlayer, amountOfDamage);
-
-		updateReps();
-	}
-
-	public boolean areSkullsFinished() {
-		return gameBoard.areSkullsFinished();
-	}
-
-	public void scoreDeadPlayers() {
-		gameBoard.getPlayers().stream()
-				.filter(item -> item.getPlayerBoard().isDead())
-				.forEach(this::scoreDeadPlayer);
+	public void setTurnStatusOfCurrentPlayer(TurnStatus turnStatus) {
+		Player player = getCurrentPlayer();
+		gameBoard.setTurnStatus(player, turnStatus);
 		updateReps();
 	}
 
@@ -189,23 +166,19 @@ public class Model {
 		return getCurrentPlayer().getPlayerBoard().numOfWeapons() == GameConstants.MAX_WEAPON_CARDS_PER_PLAYER;
 	}
 
-
 	public List<Coordinates> getCoordinatesWherePlayerCanMove() {
-		if (getCurrentPlayer().getDamageStatus().getCurrentMacroAction().isGrab())
-			return getCoordinatesWhereCurrentPlayerCanGrab();
-		else
+		if (getCurrentPlayer().getDamageStatus().getCurrentMacroAction().isGrab()) {
+			int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
+			return gameMap.getCoordinatesWhereCurrentPlayerCanGrab(getCurrentPlayer(), numberOfMovements);
+		} else {
 			return getReachableCoordinatesOfTheCurrentPlayer();
+		}
 	}
 
 
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
 		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
 		return getReachableCoordinates(getCurrentPlayerName(), numberOfMovements);
-	}
-
-	public List<Coordinates> getCoordinatesWhereCurrentPlayerCanGrab() {
-		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
-		return gameMap.getCoordinatesWhereCurrentPlayerCanGrab(getCurrentPlayer(), numberOfMovements);
 	}
 
 	public List<Integer> getIndexesOfTheGrabbableWeaponCurrentPlayer() {
@@ -215,23 +188,11 @@ public class Model {
 		for (int i = 0; i < weapons.size(); i++) {
 			if (hasEnoughAmmo(player, (WeaponCard) weapons.get(i))) {
 				indexes.add(i);
-				System.out.println("--------------------------------------------- adding " + i);
 			}
 		}
 		if (indexes.isEmpty())
 			throw new IllegalStateException("Should have at least one weapon");
 		return indexes;
-	}
-
-	public boolean hasEnoughAmmo(Player player, WeaponCard weapon) {
-		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
-		List<AmmoType> price = weapon.getGrabPrice();
-		return playerAmmoContainer.hasEnoughAmmo(price);
-	}
-
-	public void fillGameMap() {
-		gameMap.fillMap();
-		updateReps();
 	}
 
 	public MessageType getGrabMessageType() {
@@ -271,35 +232,15 @@ public class Model {
 		updateReps();
 	}
 
-	public List<Integer> getActivableWeapons(String playerName) {
-		Player player = getPlayerFromName(playerName);
-		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
-		List<Integer> activableWeapons = new ArrayList<>();
-
-		for (int i = 0; i < weaponCards.size(); i++) {
-			if(weaponCards.get(i).canFire())
-				activableWeapons.add(i);
-		}
-
-		return activableWeapons;
-	}
-
-	public boolean doesPlayerHaveActivableWeapons(String playerName) {
-		Player player = getPlayerFromName(playerName);
-		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
-
-		return weaponCards.stream().anyMatch(WeaponCard::canFire);
-	}
-
 	public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
 		Player player = getPlayerFromName(playerName);
 		return gameMap.reachableCoordinates(player, distance);
 	}
 
-	public void flipPlayers() {
-		gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
-		updateReps();
-	}
+
+	// ####################################
+	// MACRO ACTION METHODS
+	// ####################################
 
 	public boolean doesThePlayerHaveActionsLeft(String playerName) {
 		return getPlayerFromName(playerName).getDamageStatus().hasMacroActionLeft();
@@ -320,7 +261,47 @@ public class Model {
 
 
 	// ####################################
-	// PUBLIC POWERUPS METHODS
+	// PUBLIC WEAPONS USE METHODS
+	// ####################################
+
+	public List<Integer> getActivableWeapons(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
+		List<Integer> activableWeapons = new ArrayList<>();
+
+		for (int i = 0; i < weaponCards.size(); i++) {
+			if(weaponCards.get(i).canFire())
+				activableWeapons.add(i);
+		}
+
+		return activableWeapons;
+	}
+
+	public boolean doesPlayerHaveActivableWeapons(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
+
+		return weaponCards.stream().anyMatch(WeaponCard::canFire);
+	}
+
+	public void resetPlayerCurrentWeapon(String playerName){
+		Player player = getPlayerFromName(playerName);
+		gameBoard.resetPlayerCurrentWeapon(player);
+	}
+
+	public boolean isTheplayerDoneFiring(String playerName){
+		Player player = getPlayerFromName(playerName);
+		return gameBoard.isThePlayerDoneFiring(player);
+	}
+
+	public QuestionContainer playerWeaponHandleFire(String playerName, int choice){
+		Player player = getPlayerFromName(playerName);
+		return gameBoard.playerWeaponHandleFire(player, choice);
+	}
+
+
+	// ####################################
+	// PUBLIC POWERUPS USE METHODS
 	// ####################################
 
 	public boolean canOnTurnPowerupBeActivated(String playerName, int indexOfPowerup) {
@@ -387,6 +368,10 @@ public class Model {
 	// PRIVATE METHODS
 	// ####################################
 
+	private Player getCurrentPlayer() {
+		return gameBoard.getCurrentPlayer();
+	}
+
 	private void addAmmoCardToPlayer(Player player, AmmoCard ammoCard){
 		for (AmmoType ammo : ammoCard.getAmmo() ) {
 			player.getPlayerBoard().getAmmoContainer().addAmmo(ammo);
@@ -397,20 +382,6 @@ public class Model {
 
 		gameBoard.getAmmoDeck().discardCard(ammoCard);
 
-		updateReps();
-	}
-
-	private void addMarks(Player shootingPlayer, Player damagedPlayer, int amountOfMarks) {
-		damagedPlayer.getPlayerBoard().addMarks(shootingPlayer, amountOfMarks);
-		updateReps();
-	}
-
-	private void doDamage(Player shootingPlayer, Player damagedPlayer, int amountOfDamage) {
-		PlayerBoard damagedPlayerBoard = damagedPlayer.getPlayerBoard();
-		damagedPlayerBoard.addDamage(shootingPlayer, amountOfDamage);
-		if (damagedPlayerBoard.isDead()) {
-			gameBoard.addKillShot(shootingPlayer, damagedPlayerBoard.isOverkilled());
-		}
 		updateReps();
 	}
 
@@ -466,10 +437,10 @@ public class Model {
 		updateReps();
 	}
 
-	private void setTurnStatus(String playerName, TurnStatus turnStatus){
-		Player player = getPlayerFromName(playerName);
-		gameBoard.setTurnStatus(player, turnStatus);
-		updateReps();
+	private boolean hasEnoughAmmo(Player player, WeaponCard weapon) {
+		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
+		List<AmmoType> price = weapon.getGrabPrice();
+		return playerAmmoContainer.hasEnoughAmmo(price);
 	}
 
 	private Player getPlayerFromName(String playerName){
