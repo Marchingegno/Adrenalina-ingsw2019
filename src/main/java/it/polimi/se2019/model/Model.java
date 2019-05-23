@@ -19,6 +19,7 @@ import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -293,6 +294,7 @@ public class Model {
 		Player player = getPlayerFromName(playerName);
 		player.getDamageStatus().decreaseMacroActionsToPerform();
 		player.getDamageStatus().setCurrentMacroActionIndex(indexOfMacroAction);
+		Utils.logInfo(player.getDamageStatus().getCurrentMacroAction().toString());
 		updateReps();
 	}
 

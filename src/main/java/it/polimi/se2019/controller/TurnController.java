@@ -35,6 +35,7 @@ public class TurnController{
 
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
+				//TODO check if the player can do the action
 				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
 				break;
