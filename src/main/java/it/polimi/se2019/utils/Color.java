@@ -22,11 +22,12 @@ public class Color {
 		return setColorString(CharacterColorType.DEFAULT, backgroundColor)+ " " + resetColorString();
 	}
 
-	static String setColorString(CharacterColorType characterColor, BackgroundColorType backgroundColor) {
+
+	private static String setColorString(CharacterColorType characterColor, BackgroundColorType backgroundColor) {
 		return (char)27 + "[" + characterColor.getCharacterColor() + ";" + backgroundColor.getBackgroundColor() + "m";
 	}
 
-	static String resetColorString() {
+	private static String resetColorString() {
 		return setColorString(CharacterColorType.DEFAULT, BackgroundColorType.DEFAULT);
 	}
 
@@ -39,6 +40,7 @@ public class Color {
 			System.out.print("\n");
 		}
 	}
+
 
 	public enum CharacterColorType {
 		// NOTE: the color BLACK may be rendered white in different terminals
@@ -69,6 +71,7 @@ public class Color {
 			}
 		}
 	}
+
 
 	public enum BackgroundColorType {
 		// NOTE: the color BLACK may be rendered white in different terminals

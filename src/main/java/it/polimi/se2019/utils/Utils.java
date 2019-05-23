@@ -39,13 +39,13 @@ public class Utils {
 
 	public static void logWarning(String msg) {
 		if(logEnabled) {
-			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.YELLOW) + "WARNING:" + Color.resetColorString() + " " + msg);
+			System.out.println(Color.getColoredString("WARNING:", Color.CharacterColorType.RED, Color.BackgroundColorType.YELLOW) + " " + msg);
 		}
 	}
 
 	public static void logInfo(String msg) {
 		if(logEnabled) {
-			System.out.println(Color.setColorString(Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + "INFO:" + Color.resetColorString() + " " + msg);
+			System.out.println(Color.getColoredString("INFO:", Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + " " + msg);
 		}
 	}
 
