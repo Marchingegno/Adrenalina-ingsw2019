@@ -103,6 +103,11 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
+	public void askPowerupActivation(List<Integer> activablePowerups) {
+
+	}
+
+	@Override
 	public void askPowerupChoice(QuestionContainer questionContainer) {
 		sendMessage(new AskOptionsMessage(questionContainer, MessageType.POWERUP, MessageSubtype.REQUEST));
 	}
