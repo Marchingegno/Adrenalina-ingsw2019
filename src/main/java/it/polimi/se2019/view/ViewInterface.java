@@ -12,7 +12,7 @@ public interface ViewInterface {
 
 	String getNickname();
 
-	void askAction(List<Integer> activablePowerups);
+	void askAction(boolean activablePowerups);
 
 	void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons);
 
@@ -32,7 +32,7 @@ public interface ViewInterface {
 
 	void askPowerupChoice(QuestionContainer questionContainer);
 
-	void askEnd(List<Integer> activablePowerups);
+	void askEnd(boolean activablePowerups);
 
 	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);
 

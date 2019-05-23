@@ -89,7 +89,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case ACTION:
 				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
-					askAction(((RequestChoiseInArrayMessage) message).getAvailableIndexes());
+					askAction(((ActionRequestMessage) message).isActivablePowerups());
 				break;
 			case SHOOT:
 				askShoot();
@@ -102,7 +102,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case END_TURN:
 				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
-					askEnd(((RequestChoiseInArrayMessage) message).getAvailableIndexes());
+					askEnd(((EndRequestMessage) message).isActivablePowerups());
 				break;
 			case GRAB_AMMO:
 				sendMessage(new IntMessage(0, MessageType.GRAB_AMMO, MessageSubtype.ANSWER));
@@ -118,6 +118,11 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case WEAPON:
 				askWeaponChoice(((AskOptionsMessage) message).getQuestionContainer());
+				break;
+			case ACTIVATE_POWERUP:
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					askPowerupActivation(((RequestChoiseInArrayMessage) message).getAvailableIndexes());
+				}
 				break;
 			case POWERUP:
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {

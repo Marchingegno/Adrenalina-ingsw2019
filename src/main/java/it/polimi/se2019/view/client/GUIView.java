@@ -149,7 +149,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askAction(List<Integer> activablePowerups) {
+	public void askAction(boolean activablePowerups) {
 
 	}
 
@@ -184,7 +184,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askEnd(List<Integer> activablePowerups) {
+	public void askEnd(boolean activablePowerups) {
 
 	}
 

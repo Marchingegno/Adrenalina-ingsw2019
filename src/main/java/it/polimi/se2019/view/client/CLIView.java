@@ -110,7 +110,7 @@ public class CLIView extends RemoteView {
 
 
 	@Override
-	public void askAction(List<Integer> activablePowerups) {
+	public void askAction(boolean activablePowerups) {
 		DamageStatusRep damageStatusRep = getModelRep().getClientPlayerRep().getDamageStatusRep();
 
 		printLine("Choose an action!");
@@ -119,18 +119,13 @@ public class CLIView extends RemoteView {
 		printLine("Action " + macroActionsNum + " of " + macroActionTotal  + ".");
 
 		int i;
-		int answer;
 		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++)
 			printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
-		if(!activablePowerups.isEmpty()) {
-			printLine((i + 1) + ") Powerup");
-			answer = askInteger(1, damageStatusRep.numOfMacroActions() + 1);
-		} else {
-			answer = askInteger(1, damageStatusRep.numOfMacroActions());
-		}
+		printLine((activablePowerups ? ((i + 1) + ") Powerup") : "X) No powerup available"));
 
-		if(answer == damageStatusRep.numOfMacroActions() + 1) // If answer is powerup.
-			askPowerupActivation(activablePowerups);
+		int answer = (activablePowerups ? askInteger(1, damageStatusRep.numOfMacroActions() + 1) :  askInteger(1, damageStatusRep.numOfMacroActions()));
+		if(answer == i + 1) // If answer is powerup.
+			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
 		else
 			sendMessage(new DefaultActionMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
 	}
@@ -227,24 +222,19 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void askEnd(List<Integer> activablePowerups) {
+	public void askEnd(boolean activablePowerups) {
 		printLine("Choose an action!");
 		printLine("1) End turn");
 		printLine("2) Reload");
-		int answer;
-		if(activablePowerups.isEmpty()) {
-			answer = askInteger(1, 2);
-		} else {
-			printLine("3) Powerup");
-			answer = askInteger(1, 3);
-		}
+		printLine((activablePowerups ? ("3) Powerup") : "X) No powerup available"));
 
+		int answer = (activablePowerups ? askInteger(1, 3) :  askInteger(1, 2));
 		if(answer == 1)
 			sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // End turn.
 		else if(answer == 2)
 			askReload(); // Reload.
 		else if(answer == 3)
-			askPowerupActivation(activablePowerups); // Powerup activation.
+			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 	}
 
 

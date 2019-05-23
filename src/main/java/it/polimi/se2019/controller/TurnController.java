@@ -76,6 +76,9 @@ public class TurnController{
 					virtualView.askWeaponChoice(questionContainer);
 				}
 				break;
+			case ACTIVATE_POWERUP:
+				virtualView.askPowerupActivation(model.getActivableOnTurnPowerups(playerName));
+				break;
 			case POWERUP:
 				if(model.isPowerupInExecution(playerName))
 					doPowerupStep(virtualView, event.getMessage());
@@ -122,9 +125,9 @@ public class TurnController{
 	private void handleEnd(VirtualView playerVirtualView) {
 		String playerName = playerVirtualView.getNickname();
 		if(model.doesThePlayerHaveActionsLeft(playerName)){
-			playerVirtualView.askAction(model.getActivableOnTurnPowerups(playerName));
+			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
 		} else {
-			playerVirtualView.askEnd(model.getActivableOnTurnPowerups(playerName));
+			playerVirtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
 		}
 	}
 

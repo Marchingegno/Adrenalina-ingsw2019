@@ -63,8 +63,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askAction(List<Integer> activablePowerups) {
-		sendMessage(new RequestChoiseInArrayMessage(activablePowerups, MessageType.ACTION));
+	public void askAction(boolean activablePowerups) {
+		sendMessage(new ActionRequestMessage(activablePowerups, true));
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askPowerupActivation(List<Integer> activablePowerups) {
-
+		sendMessage(new RequestChoiseInArrayMessage(activablePowerups, MessageType.ACTIVATE_POWERUP));
 	}
 
 	@Override
@@ -113,8 +113,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askEnd(List<Integer> activablePowerups) {
-		sendMessage(new RequestChoiseInArrayMessage(activablePowerups, MessageType.END_TURN));
+	public void askEnd(boolean activablePowerups) {
+		sendMessage(new EndRequestMessage(activablePowerups));
 	}
 
 	@Override

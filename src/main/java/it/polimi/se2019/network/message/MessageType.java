@@ -12,13 +12,14 @@ public enum MessageType {
 	SPAWN,
 	UPDATE_REPS,
 	ACTION,
-	POWERUP,
 	MOVE,
 	GRAB_WEAPON,
 	SWAP_WEAPON,
 	GRAB_AMMO,
-	SHOOT,
 	RELOAD,
-	WEAPON,
+	SHOOT, // Equivalent to ACTIVATE_POWERUP but for weapons.
+	WEAPON, // Equivalent to POWERUP but for weapons.
+	ACTIVATE_POWERUP, // Equivalent to SHOOT but for powerups.
+	POWERUP, // Equivalent to WEAPON but for powerups.
 	END_TURN,
 }

@@ -329,6 +329,14 @@ public class Model {
 		return activablePowerups;
 	}
 
+	public boolean doesPlayerHaveActivableOnTurnPowerups(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
+
+		return powerupCards.stream()
+				.anyMatch(powerupCard -> powerupCard.getUseCase() == PowerupCard.PowerupUseCaseType.ON_TURN && powerupCard.canBeActivated());
+	}
+
 	public boolean isPowerupInExecution(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		return player.isPowerupInExecution();
