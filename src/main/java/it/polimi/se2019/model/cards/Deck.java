@@ -41,7 +41,6 @@ public abstract class Deck<C extends Card> {
 			refillDeck();
 		if (actualDeck.isEmpty())
 			Utils.logError("There are no more cards in the deck", new NoSuchElementException());
-		Utils.logInfo("Deck -> drawCard(): Drawing " + actualDeck.getFirst());
 		return actualDeck.removeFirst();
 	}
 

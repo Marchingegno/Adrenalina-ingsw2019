@@ -33,6 +33,7 @@ public class WeaponDeck extends ActivableDeck<WeaponCard> {
 				weaponClassToInstantiate = Class.forName("it.polimi.se2019.model.cards.weapons." + weaponToAdd.get("className").getAsString());
 				constructor = weaponClassToInstantiate.getConstructor(JsonObject.class);
 				addCard((WeaponCard) constructor.newInstance(weaponToAdd));
+				Utils.logInfo("WeaponDeck -> initializeDeck(): AddedToTheDeck " + weaponToAdd.get("className").getAsString());
 			}
 
 		} catch (JsonParseException e) {

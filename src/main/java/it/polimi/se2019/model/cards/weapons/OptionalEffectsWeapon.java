@@ -40,8 +40,11 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		this.optional2Damage = parameters.get("optional2Damage").getAsInt();
 		this.optional2Marks = parameters.get("optional2Marks").getAsInt();
 		this.optionalPrices = new ArrayList<>();
-		for (JsonElement price : parameters.getAsJsonArray("secondaryPrice")) {
-			this.optionalPrices.add(AmmoType.valueOf(price.getAsString()));
+		for (JsonElement price : parameters.getAsJsonArray("optionalPrices")) {
+			if (price.getAsString().equals("NONE"))
+				this.optionalPrices.add(null);
+			else
+				this.optionalPrices.add(AmmoType.valueOf(price.getAsString()));
 		}
 	}
 

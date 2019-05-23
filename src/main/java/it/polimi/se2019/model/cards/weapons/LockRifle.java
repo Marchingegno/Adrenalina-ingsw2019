@@ -13,7 +13,6 @@ public class LockRifle extends OptionalEffectsWeapon {
 		super(parameters);
 	}
 
-
 	public void primaryFire() {
 	}
 

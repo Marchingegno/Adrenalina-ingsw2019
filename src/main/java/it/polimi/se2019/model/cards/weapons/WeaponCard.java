@@ -295,6 +295,11 @@ public abstract class WeaponCard extends ActivableCard {
 	// ####################################
 
 	@Override
+	public String toString() {
+		return getCardName();
+	}
+
+	@Override
 	public Representation getRep() {
 		return new WeaponRep(this);
 	}
