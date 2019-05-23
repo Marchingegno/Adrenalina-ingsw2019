@@ -4,7 +4,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 
 public class CoordinatesAnswerMessage extends Message {
 
-	private Coordinates singleCoordinates;
+	private final Coordinates singleCoordinates;
 
 
 	public CoordinatesAnswerMessage(Coordinates coordinates, MessageType messageType) {

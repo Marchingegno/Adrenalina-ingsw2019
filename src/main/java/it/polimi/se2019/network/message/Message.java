@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
 
-	private MessageType messageType;
-	private MessageSubtype messageSubtype;
+	private final MessageType messageType;
+	private final MessageSubtype messageSubtype;
 
 
 	public Message(MessageType messageType, MessageSubtype messageSubtype) {

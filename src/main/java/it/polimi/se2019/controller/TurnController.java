@@ -36,7 +36,7 @@ public class TurnController{
 		switch(event.getMessage().getMessageType()){
 			case ACTION:
 				//TODO check if the player can do the action
-				model.setNextMacroAction(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				model.setNextMacroAction(playerName, ((IntMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
 				break;
 			case GRAB_AMMO:
@@ -62,7 +62,7 @@ public class TurnController{
 				}
 				break;
 			case RELOAD:
-				model.reloadWeapon(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
+				model.reloadWeapon(playerName, ((IntMessage)event.getMessage()).getContent());
 				handleNextAction(virtualView);
 				break;
 			case WEAPON:

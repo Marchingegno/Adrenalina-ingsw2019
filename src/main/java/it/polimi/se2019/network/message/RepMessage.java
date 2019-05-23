@@ -15,9 +15,11 @@ public class RepMessage extends Message {
 	private List<PlayerRep> playersRep = new ArrayList<>();
 	private boolean hasReps = false;
 
+
 	public RepMessage() {
 		super(MessageType.UPDATE_REPS, MessageSubtype.INFO);
 	}
+
 
 	public void addMessage(Message message) {
 		this.message = message;

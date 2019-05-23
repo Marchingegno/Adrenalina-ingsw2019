@@ -69,12 +69,12 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
-		sendMessage(new RequestChoiseInArrayMessage(indexesOfTheGrabbableWeapons, MessageType.GRAB_WEAPON));
+		sendMessage(new RequestChoiceInArrayMessage(indexesOfTheGrabbableWeapons, MessageType.GRAB_WEAPON));
 	}
 
 	@Override
 	public void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
-		sendMessage(new RequestChoiseInArrayMessage(indexesOfTheGrabbableWeapons, MessageType.SWAP_WEAPON));
+		sendMessage(new RequestChoiceInArrayMessage(indexesOfTheGrabbableWeapons, MessageType.SWAP_WEAPON));
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askShoot(List<Integer> shootableWeapons) {
-		sendMessage(new RequestChoiseInArrayMessage(shootableWeapons, MessageType.ACTIVATE_WEAPON));
+		sendMessage(new RequestChoiceInArrayMessage(shootableWeapons, MessageType.ACTIVATE_WEAPON));
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askPowerupActivation(List<Integer> activablePowerups) {
-		sendMessage(new RequestChoiseInArrayMessage(activablePowerups, MessageType.ACTIVATE_POWERUP));
+		sendMessage(new RequestChoiceInArrayMessage(activablePowerups, MessageType.ACTIVATE_POWERUP));
 	}
 
 	@Override

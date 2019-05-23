@@ -2,7 +2,7 @@ package it.polimi.se2019.network.message;
 
 public class StringMessage extends Message {
 
-	private String content;
+	private final String content;
 
 
 	public StringMessage(String content, MessageType messageType, MessageSubtype messageSubtype) {

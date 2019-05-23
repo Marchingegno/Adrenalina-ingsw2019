@@ -6,7 +6,7 @@ import java.util.List;
 
 public class AskCoordinatesMessage extends CoordinatesRequestMessage {
 
-	private String question;
+	private final String question;
 
 
 	public AskCoordinatesMessage(String question, List<Coordinates> coordinates, MessageType messageType) {

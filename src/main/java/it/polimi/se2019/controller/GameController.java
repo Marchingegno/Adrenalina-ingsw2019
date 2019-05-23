@@ -2,7 +2,7 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.network.message.DefaultActionMessage;
+import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
@@ -121,8 +121,8 @@ public class GameController {
 					askToSpawn(playerName);
 				} else if(messageSubtype == MessageSubtype.ANSWER) {
 					// Process the answer of a spawn request.
-					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
-					model.spawnPlayer(playerName, defaultActionMessage.getContent());
+					int spawnAnswer = ((IntMessage) event.getMessage()).getContent();
+					model.spawnPlayer(playerName, spawnAnswer);
 					virtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveActivableWeapons(playerName));
 				}
 				break;

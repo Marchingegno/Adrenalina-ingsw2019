@@ -2,7 +2,7 @@ package it.polimi.se2019.network.message;
 
 public class TimerForStartMessage extends Message {
 
-	private long delayInMs;
+	private final long delayInMs;
 
 
 	public TimerForStartMessage(long delayForTimer, MessageSubtype messageSubtype) {

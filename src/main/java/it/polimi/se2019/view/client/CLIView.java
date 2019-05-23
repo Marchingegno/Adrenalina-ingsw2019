@@ -7,10 +7,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
-import it.polimi.se2019.utils.Color;
-import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.*;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -127,7 +124,7 @@ public class CLIView extends RemoteView {
 		if(answer == i + 1) // If answer is powerup.
 			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
 		else
-			sendMessage(new DefaultActionMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
+			sendMessage(new IntMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -190,7 +187,7 @@ public class CLIView extends RemoteView {
 		printLine("Select a number between 0 and 2.");
 		int answer = askInteger(0, 2);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
+		sendMessage(new IntMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -202,7 +199,7 @@ public class CLIView extends RemoteView {
 		int answer = askInteger(1, powerupCards.size());
 
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
-		sendMessage(new DefaultActionMessage(answer - 1, MessageType.SPAWN, MessageSubtype.ANSWER));
+		sendMessage(new IntMessage(answer - 1, MessageType.SPAWN, MessageSubtype.ANSWER));
 	}
 
 	@Override
