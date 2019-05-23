@@ -47,10 +47,6 @@ public class Player extends Observable implements Representable {
 		setChanged();
 	}
 
-	public int getIndexOfFiringWeapon() {
-		return firingWeapon;
-	}
-
 	public boolean isActionRequested() {
 		return actionRequested;
 	}
@@ -122,8 +118,6 @@ public class Player extends Observable implements Representable {
 		this.actionRequested = bool;
 	}
 
-
-
 	/**
 	 * Returns the turn status.
 	 * @return the turn status.
@@ -171,24 +165,42 @@ public class Player extends Observable implements Representable {
 		return temp;
 	}
 
-	public void shoot() {
-		setChanged();
-	}
-
 	public void reload(int indexOfWeaponToReload) {
 		playerBoard.getWeaponCards().get(indexOfWeaponToReload).load();
 		setChanged();
 	}
 
-	public WeaponCard getFiringWeapon(){
+	// ####################################
+	// WEAPONS USE
+	// ####################################
+
+	public boolean isThePlayerDoneFiring() {
+		return firingWeapon != -1;
+	}
+
+	public QuestionContainer initialWeaponActivation(int indexOfWeapon) {
+		firingWeapon = indexOfWeapon;
+		return getFiringWeapon().initialQuestion();
+	}
+
+	public QuestionContainer playerWeaponHandleFire(int choice) {
+		return getFiringWeapon().handleFire(choice);
+	}
+
+	public void resetPlayerCurrentWeapon() {
+		getFiringWeapon().reset();
+		powerupInExecution = -1;
+	}
+
+	private WeaponCard getFiringWeapon(){
 		if(firingWeapon == -1)
 			throw new IllegalStateException("No weapon firing!");
-		return this.getPlayerBoard().getWeaponCards().get(firingWeapon);
+		return getPlayerBoard().getWeaponCards().get(firingWeapon);
 	}
 
 
 	// ####################################
-	// POWERUPS
+	// POWERUPS USE
 	// ####################################
 
 	public boolean isPowerupInExecution() {
@@ -197,21 +209,24 @@ public class Player extends Observable implements Representable {
 
 	public QuestionContainer initialPowerupActivation(int indexOfPowerup) {
 		powerupInExecution = indexOfPowerup;
-		PowerupCard powerupCard = getPlayerBoard().getPowerupCards().get(powerupInExecution);
-		return powerupCard.doPowerupStep(null);
+		return getPowerupInExecution().doPowerupStep(null);
 	}
 
 	public QuestionContainer doPowerupStep(Message answer) {
-		if(powerupInExecution == -1)
-			throw new IllegalStateException("No powerup in execution!");
-		PowerupCard powerupCard = getPlayerBoard().getPowerupCards().get(powerupInExecution);
-		return powerupCard.doPowerupStep(answer);
+		return getPowerupInExecution().doPowerupStep(answer);
 	}
 
-	public void discardPowerupInExecution() {
+	public void handlePowerupEnd() {
 		if(powerupInExecution == -1)
 			throw new IllegalStateException("No powerup in execution!");
 		getPlayerBoard().removePowerup(powerupInExecution);
+		powerupInExecution = -1;
+	}
+
+	private PowerupCard getPowerupInExecution(){
+		if(powerupInExecution == -1)
+			throw new IllegalStateException("No powerup in execution!");
+		return getPlayerBoard().getPowerupCards().get(powerupInExecution);
 	}
 
 

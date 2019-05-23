@@ -66,13 +66,10 @@ public class TurnController{
 				handleNextAction(virtualView);
 				break;
 			case WEAPON:
-				QuestionContainer questionContainer = model.playerWeaponHandleFire(playerName, ((IntMessage)event.getMessage()).getContent());
-				if(model.isTheplayerDoneFiring(playerName)) {
-					model.resetPlayerCurrentWeapon(playerName);
-					handleNextAction(virtualView);
-				} else {
-					virtualView.askWeaponChoice(questionContainer);
-				}
+				if(model.isTheplayerDoneFiring(playerName))
+					doWeaponStep(virtualView, event.getMessage());
+				else
+					initialWeaponActivation(virtualView, event.getMessage());
 				break;
 			case ACTIVATE_POWERUP:
 				virtualView.askPowerupActivation(model.getActivableOnTurnPowerups(playerName));
@@ -131,6 +128,34 @@ public class TurnController{
 
 
 	// ####################################
+	// WEAPONS METHODS
+	// ####################################
+
+	private void initialWeaponActivation(VirtualView virtualView, Message answer) {
+		int indexOfWeapon = ((IntMessage)answer).getContent();
+		if(model.canWeaponBeActivated(virtualView.getNickname(), indexOfWeapon)) {
+			QuestionContainer questionContainer = model.initialWeaponActivation(virtualView.getNickname(), indexOfWeapon);
+			handleWeaponQuestionContainer(virtualView, questionContainer);
+		}
+	}
+
+	private void doWeaponStep(VirtualView virtualView, Message answer) {
+		int choice = ((IntMessage) answer).getContent(); // TODO this will probably not work with coordinates
+		QuestionContainer questionContainer = model.playerWeaponHandleFire(virtualView.getNickname(), choice);
+		handleWeaponQuestionContainer(virtualView, questionContainer);
+	}
+
+	private void handleWeaponQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
+		if(questionContainer == null) {
+			model.resetPlayerCurrentWeapon(virtualView.getNickname());
+			handleNextAction(virtualView);
+		} else {
+			virtualView.askWeaponChoice(questionContainer);
+		}
+	}
+
+
+	// ####################################
 	// POWERUPS METHODS
 	// ####################################
 
@@ -149,7 +174,7 @@ public class TurnController{
 
 	private void handlePowerupQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
 		if(questionContainer == null) {
-			model.discardPowerupCardInExecution(virtualView.getNickname());
+			model.handlePowerupEnd(virtualView.getNickname());
 			handleEnd(virtualView);
 		} else {
 			virtualView.askPowerupChoice(questionContainer);

@@ -22,9 +22,7 @@ import java.util.stream.Collectors;
  * "advancement steps", that represent the current state of advancement of the firing process of the weapon.
  * Each time the controller wishes to continue the process of firing of the weapon, it must call the method **handleFire**;
  * This will return a {@link QuestionContainer} that the controller must send to the Virtual View of the shooting player.
- * However, before doing that, the controller will need to check if the weapon has finished the firing process and has
- * already dealt damage; this can be done calling {@link #doneFiring()} that returns a boolean that is true when the
- * current step is the maximum step for the current firing mode. The controller will also need to {@link #reset()} the weapon
+ * The controller will need to {@link #reset()} the weapon
  * if it has finished firing. The method {@link #reset()} will deload and reset the weapon to its original state.
  * @author Marchingegno
  */
@@ -37,7 +35,6 @@ public abstract class WeaponCard extends ActivableCard {
 	List<DamageAndMarks> standardDamagesAndMarks;
 	List<Player> currentTargets;
 	Player target;
-	private boolean doneFiring = false;
 
 	private final ArrayList<AmmoType> reloadPrice;
 	private final int moveDistance; //Standard move for relocation of the player.
@@ -59,12 +56,9 @@ public abstract class WeaponCard extends ActivableCard {
 		this.moveDistance = parameters.get("moveDistance").getAsInt();
 	}
 
+	// TODO
 	public boolean canFire(){
 		return true;
-	}
-
-	public boolean doneFiring(){
-		return doneFiring;
 	}
 
 	GameMap getGameMap() {
@@ -139,7 +133,6 @@ public abstract class WeaponCard extends ActivableCard {
 				playersToShoot.get(i).getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
-		doneFiring = true;
 	}
 
 	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
@@ -149,7 +142,6 @@ public abstract class WeaponCard extends ActivableCard {
 				playersToShoot[i].getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
-		doneFiring = true;
 	}
 
 //	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, Player playerToShoot){
@@ -193,7 +185,6 @@ public abstract class WeaponCard extends ActivableCard {
 		this.enemyRelocationDone = false;
 		this.currentTargets = new ArrayList<>();
 		this.target = null;
-		this.doneFiring = false;
 	}
 
 	protected List<DamageAndMarks> getStandardDamagesAndMarks() {

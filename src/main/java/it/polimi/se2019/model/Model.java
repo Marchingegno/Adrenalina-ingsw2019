@@ -264,6 +264,16 @@ public class Model {
 	// PUBLIC WEAPONS USE METHODS
 	// ####################################
 
+	public boolean canWeaponBeActivated(String playerName, int indexOfWeapon) {
+		Player player = getPlayerFromName(playerName);
+		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
+
+		if(indexOfWeapon >= weaponCards.size() || indexOfWeapon < 0)
+			return false;
+
+		return weaponCards.get(indexOfWeapon).canFire();
+	}
+
 	public List<Integer> getActivableWeapons(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
@@ -284,19 +294,26 @@ public class Model {
 		return weaponCards.stream().anyMatch(WeaponCard::canFire);
 	}
 
-	public void resetPlayerCurrentWeapon(String playerName){
-		Player player = getPlayerFromName(playerName);
-		gameBoard.resetPlayerCurrentWeapon(player);
-	}
-
 	public boolean isTheplayerDoneFiring(String playerName){
 		Player player = getPlayerFromName(playerName);
-		return gameBoard.isThePlayerDoneFiring(player);
+		return player.isThePlayerDoneFiring();
+	}
+
+	public QuestionContainer initialWeaponActivation(String playerName, int indexOfWeapon) {
+		Player player = getPlayerFromName(playerName);
+		QuestionContainer questionContainer = player.initialWeaponActivation(indexOfWeapon);
+		updateReps();
+		return questionContainer;
 	}
 
 	public QuestionContainer playerWeaponHandleFire(String playerName, int choice){
 		Player player = getPlayerFromName(playerName);
-		return gameBoard.playerWeaponHandleFire(player, choice);
+		return player.playerWeaponHandleFire(choice);
+	}
+
+	public void resetPlayerCurrentWeapon(String playerName){
+		Player player = getPlayerFromName(playerName);
+		player.resetPlayerCurrentWeapon();
 	}
 
 
@@ -357,9 +374,9 @@ public class Model {
 		return questionContainer;
 	}
 
-	public void discardPowerupCardInExecution(String playerName) {
+	public void handlePowerupEnd(String playerName) {
 		Player player = getPlayerFromName(playerName);
-		player.discardPowerupInExecution();
+		player.handlePowerupEnd();
 		updateReps();
 	}
 
