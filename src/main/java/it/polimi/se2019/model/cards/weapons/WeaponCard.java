@@ -45,42 +45,6 @@ public abstract class WeaponCard extends ActivableCard {
 	private final int primaryMarks;
 
 
-	/**
-	 * @deprecated
-	 */
-	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
-		super(weaponName, description);
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.reloadPrice = new ArrayList<>(reloadPrice);
-		this.primaryDamage = primaryDamage;
-		this.primaryMarks = primaryMarks;
-		this.moveDistance = moveDistance;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryDamage, final int primaryMarks) {
-		super(weaponName, description);
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.reloadPrice = new ArrayList<>(reloadPrice);
-		this.primaryDamage = primaryDamage;
-		this.primaryMarks = primaryMarks;
-		this.moveDistance = 0;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public WeaponCard(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryDamage) {
-		super(weaponName, description);
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.reloadPrice = new ArrayList<>(reloadPrice);
-		this.primaryDamage = primaryDamage;
-		this.primaryMarks = 0;
-		this.moveDistance = 0;
-	}
-
 	public WeaponCard(JsonObject parameters) {
 		super(parameters.get("name").getAsString(), parameters.get("description").getAsString());
 		this.standardDamagesAndMarks = new ArrayList<>();

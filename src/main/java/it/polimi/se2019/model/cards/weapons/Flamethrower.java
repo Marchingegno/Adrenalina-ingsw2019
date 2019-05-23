@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
@@ -18,20 +17,6 @@ public class Flamethrower extends AlternateFireWeapon {
 	private Player firstSquareTarget;
 	private Player secondSquareTarget;
 	private List<Player> secondSquareTargets;
-
-	public Flamethrower(String description, List<AmmoType> reloadPrice) {
-		super("FlameThrower", description, reloadPrice, 0, 1, 0);
-		this.secondaryDamage = 2;
-		this.secondaryMarks = 0;
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		secondaryDamagesAndMarks = new ArrayList<>();
-		secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
-		this.maximumSteps = 5;
-		this.maximumAlternateSteps = 3;
-	}
 
 	public Flamethrower(JsonObject parameters) {
 		super(parameters);

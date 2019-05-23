@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -11,30 +10,6 @@ import java.util.List;
 public class MachineGun extends OptionalEffectsWeapon {
 	private List<Player> chosenTargets;
 	private static final int OPTIONAL2_EXTRA_DAMAGE = 1;
-
-	public MachineGun(String description, List<AmmoType> reloadPrice) {
-		super("Machine Gun", description, reloadPrice, 0, 1, 0);
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.optional1Damage = 1;
-		this.optional1Marks = 0;
-		this.optional2Damage = 1;
-		this.optional2Marks = 0;
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-
-		this.optional1DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
-		this.optional1DamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
-
-		this.optional2DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
-		this.optional2DamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
-		this.optional2DamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
-
-		this.optionalBothDamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
-		this.optionalBothDamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
-		this.optionalBothDamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
-		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
-
-	}
 
 	public MachineGun(JsonObject parameters) {
 		super(parameters);

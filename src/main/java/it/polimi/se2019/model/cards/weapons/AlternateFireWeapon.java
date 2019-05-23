@@ -24,30 +24,6 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	int secondaryDamage;
 	int secondaryMarks;
 
-	/**
-	 * @deprecated
-	 */
-	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
-		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage, moveDistance);
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage) {
-		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage);
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public AlternateFireWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks) {
-		super(weaponName, description, reloadPrice, primaryMarks);
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-	}
-
 	public AlternateFireWeapon(JsonObject parameters) {
 		super(parameters);
 		this.secondaryDamagesAndMarks = new ArrayList<>();

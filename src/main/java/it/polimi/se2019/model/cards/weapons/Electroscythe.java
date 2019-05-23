@@ -2,7 +2,6 @@ package it.polimi.se2019.model.cards.weapons;
 
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -10,18 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Electroscythe extends AlternateFireWeapon {
-
-	public Electroscythe(String description, List<AmmoType> reloadPrice) {
-		super("Electroscythe", description, reloadPrice, 0, 1);
-		this.secondaryDamage = 2;
-		this.secondaryMarks = 0;
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumAlternateSteps = 2;
-		this.maximumSteps = 2;
-	}
 
 	public Electroscythe(JsonObject parameters) {
 		super(parameters);

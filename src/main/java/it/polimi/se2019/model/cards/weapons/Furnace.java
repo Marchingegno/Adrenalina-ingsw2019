@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -14,18 +13,6 @@ public class Furnace extends AlternateFireWeapon {
 	private List<Coordinates> targettableCoordinates;
 	private Coordinates targetCoordinate;
 
-	public Furnace(String description, List<AmmoType> reloadPrice) {
-		super("Furnace", description, reloadPrice, 0, 1, 0);
-		this.secondaryDamage = 1;
-		this.secondaryMarks = 1;
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumAlternateSteps = 3;
-		this.maximumSteps = 3;
-	}
-
 	public Furnace(JsonObject parameters) {
 		super(parameters);
 		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
@@ -37,7 +24,6 @@ public class Furnace extends AlternateFireWeapon {
 		this.maximumAlternateSteps = 3;
 		this.maximumSteps = 3;
 	}
-
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {

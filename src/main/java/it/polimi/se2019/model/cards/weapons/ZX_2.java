@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -10,19 +9,6 @@ import java.util.List;
 
 public class ZX_2 extends AlternateFireWeapon {
 	private List<Player> secondaryTargets;
-
-	public ZX_2(String description, List<AmmoType> reloadPrice) {
-		super("ZX-2", description, reloadPrice, 2, 1, 0);
-		this.secondaryDamage = 0;
-		this.secondaryMarks = 1;
-		this.standardDamagesAndMarks = new ArrayList<>();
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
-			this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		}
-		this.maximumSteps = 3;
-	}
 
 	public ZX_2(JsonObject parameters) {
 		super(parameters);

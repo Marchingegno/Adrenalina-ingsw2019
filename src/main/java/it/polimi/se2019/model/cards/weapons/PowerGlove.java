@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -11,18 +10,6 @@ import java.util.List;
 
 public class PowerGlove extends AlternateFireWeapon {
 	private CardinalDirection chosenDirection;
-
-	public PowerGlove(String description, List<AmmoType> reloadPrice) {
-		super("Power Glove", description, reloadPrice, 2, 1, 0);
-		this.secondaryDamage = 2;
-		this.secondaryMarks = 0;
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumSteps = 3;
-	}
 
 	public PowerGlove(JsonObject parameters) {
 		super(parameters);

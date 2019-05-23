@@ -2,7 +2,6 @@ package it.polimi.se2019.model.cards.weapons;
 
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -14,24 +13,6 @@ public class Hellion extends AlternateFireWeapon {
 	private final int secondaryFollowingDamage;
 	private final int primaryFollowingMarks;
 	private final int secondaryFollowingMarks;
-
-
-	public Hellion(String description, List<AmmoType> reloadPrice) {
-		super("Hellion", description, reloadPrice, 1, 1, 0);
-		this.secondaryDamage = 1;
-		this.secondaryMarks = 2;
-		this.primaryFollowingDamage = 0;
-		this.secondaryFollowingDamage = 1;
-		this.primaryFollowingMarks = 0;
-		this.secondaryFollowingMarks = 2;
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(primaryFollowingDamage, primaryFollowingMarks));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryFollowingDamage, secondaryFollowingMarks));
-		this.maximumSteps = 3;
-		this.maximumAlternateSteps = 3;
-	}
 
 	public Hellion(JsonObject parameters) {
 		super(parameters);
@@ -47,8 +28,6 @@ public class Hellion extends AlternateFireWeapon {
 		this.maximumSteps = 3;
 		this.maximumAlternateSteps = 3;
 	}
-
-
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {

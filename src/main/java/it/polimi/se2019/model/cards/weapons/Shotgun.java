@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -11,18 +10,6 @@ import java.util.List;
 
 public class Shotgun extends AlternateFireWeapon {
 	private List<Coordinates> listEnemyMoveCoordinates;
-
-	public Shotgun(String description, List<AmmoType> reloadPrice) {
-		super("Shotgun", description, reloadPrice, 0, 3, 0);
-		this.secondaryDamage = 2;
-		this.secondaryMarks = 0;
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.maximumSteps = 4;
-		this.maximumAlternateSteps = 3;
-	}
 
 	public Shotgun(JsonObject parameters) {
 		super(parameters);

@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -12,19 +11,11 @@ import java.util.List;
 public class Thor extends OptionalEffectsWeapon {
 	private List<Player> chosenTargets;
 
-	public Thor(String description, List<AmmoType> reloadPrice) {
-		super("T.H.O.R.", description, reloadPrice, 0, 2, 0);
-		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
-		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
-	}
-
 	public Thor(JsonObject parameters) {
 		super(parameters);
 		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
 	}
-
-
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
