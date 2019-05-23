@@ -66,13 +66,11 @@ public class TurnController{
 				handleNextAction(virtualView);
 				break;
 			case WEAPON:
-				//TODO fix this warning
-				QuestionContainer questionContainer = model.playerWeaponHandleFire(playerName, ((DefaultActionMessage)event.getMessage()).getContent());
-				if(model.isTheplayerDoneFiring(playerName)){
+				QuestionContainer questionContainer = model.playerWeaponHandleFire(playerName, ((IntMessage)event.getMessage()).getContent());
+				if(model.isTheplayerDoneFiring(playerName)) {
 					model.resetPlayerCurrentWeapon(playerName);
 					handleNextAction(virtualView);
-				}
-				else {
+				} else {
 					virtualView.askWeaponChoice(questionContainer);
 				}
 				break;
@@ -110,7 +108,7 @@ public class TurnController{
 				playerVirtualView.askReload();
 				break;
 			case SHOOT:
-				playerVirtualView.askShoot();
+				playerVirtualView.askShoot(model.getActivableWeapons(playerVirtualView.getNickname()));
 				break;
 			case END:
 				//The MacroAction is already refilled.
@@ -125,7 +123,7 @@ public class TurnController{
 	private void handleEnd(VirtualView playerVirtualView) {
 		String playerName = playerVirtualView.getNickname();
 		if(model.doesThePlayerHaveActionsLeft(playerName)){
-			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
+			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveActivableWeapons(playerName));
 		} else {
 			playerVirtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
 		}

@@ -42,10 +42,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				}
 				if(message.getMessageSubtype() == MessageSubtype.ERROR)
 					askNicknameError();
-				if(message.getMessageSubtype() == MessageSubtype.OK) {
-					String nickname = ((NicknameMessage)message).getContent();
-					this.nickname = nickname;
-				}
+				if(message.getMessageSubtype() == MessageSubtype.OK)
+					this.nickname = ((NicknameMessage)message).getContent();
 				break;
 			case WAITING_PLAYERS:
 				if(message.getMessageSubtype() == MessageSubtype.INFO) {
@@ -88,11 +86,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				}
 				break;
 			case ACTION:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
-					askAction(((ActionRequestMessage) message).isActivablePowerups());
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					ActionRequestMessage arm = (ActionRequestMessage) message;
+					askAction(arm.isActivablePowerups(), arm.isActivableWeapons());
+				}
 				break;
-			case SHOOT:
-				askShoot();
+			case ACTIVATE_WEAPON:
+				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+					askShoot(((RequestChoiseInArrayMessage) message).getAvailableIndexes());
 				break;
 			case RELOAD:
 				askReload();
@@ -117,7 +118,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				askSpawn();
 				break;
 			case WEAPON:
-				askWeaponChoice(((AskOptionsMessage) message).getQuestionContainer());
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
+					askWeaponChoice(((AskOptionsMessage) message).getQuestionContainer());
 				break;
 			case ACTIVATE_POWERUP:
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
@@ -125,9 +127,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				}
 				break;
 			case POWERUP:
-				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askPowerupChoice(((AskOptionsMessage) message).getQuestionContainer());
-				}
 				break;
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
@@ -224,9 +225,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		Client.terminateClient();
 	}
 
-	public abstract void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons);
-
-	public abstract void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons);
 
 	public abstract void updateDisplay();
 

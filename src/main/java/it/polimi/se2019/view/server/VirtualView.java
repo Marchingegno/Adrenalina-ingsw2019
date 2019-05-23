@@ -63,8 +63,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askAction(boolean activablePowerups) {
-		sendMessage(new ActionRequestMessage(activablePowerups, true));
+	public void askAction(boolean activablePowerups, boolean activableWeapons) {
+		sendMessage(new ActionRequestMessage(activablePowerups, activableWeapons));
 	}
 
 	@Override
@@ -83,8 +83,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askShoot() {
-		sendMessage(new Message(MessageType.SHOOT, MessageSubtype.REQUEST));
+	public void askShoot(List<Integer> shootableWeapons) {
+		sendMessage(new RequestChoiseInArrayMessage(shootableWeapons, MessageType.ACTIVATE_WEAPON));
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askWeaponChoice(QuestionContainer questionContainer) {
-
+		sendMessage(new AskOptionsMessage(questionContainer, MessageType.WEAPON, MessageSubtype.REQUEST));
 	}
 
 	@Override

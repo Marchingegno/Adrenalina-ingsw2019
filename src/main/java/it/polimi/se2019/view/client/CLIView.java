@@ -110,7 +110,7 @@ public class CLIView extends RemoteView {
 
 
 	@Override
-	public void askAction(boolean activablePowerups) {
+	public void askAction(boolean activablePowerups, boolean activableWeapons) {
 		DamageStatusRep damageStatusRep = getModelRep().getClientPlayerRep().getDamageStatusRep();
 
 		printLine("Choose an action!");
@@ -121,7 +121,7 @@ public class CLIView extends RemoteView {
 		int i;
 		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++)
 			printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
-		printLine((activablePowerups ? ((i + 1) + ") Powerup") : "X) No powerup available"));
+		printLine((activablePowerups ? ((i + 1) + ") Powerup") : "X) No powerup activable"));
 
 		int answer = (activablePowerups ? askInteger(1, damageStatusRep.numOfMacroActions() + 1) :  askInteger(1, damageStatusRep.numOfMacroActions()));
 		if(answer == i + 1) // If answer is powerup.
@@ -173,9 +173,15 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void askShoot() {
-		printLine("LOL");
-		sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // TODO: this is a placeholder
+	public void askShoot(List<Integer> shootableWeapons) {
+		List<WeaponRep> weaponReps = getModelRep().getClientPlayerRep().getWeaponReps();
+		printLine("Select the weapon to use:");
+		for (int i = 0; i < weaponReps.size(); i++) {
+			if(shootableWeapons.contains(i))
+				printLine((i + 1) + ") " + weaponReps.get(i).getCardName());
+		}
+		int answer = askIntegerFromList(shootableWeapons, -1);
+		sendMessage(new IntMessage(answer, MessageType.WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -226,7 +232,7 @@ public class CLIView extends RemoteView {
 		printLine("Choose an action!");
 		printLine("1) End turn");
 		printLine("2) Reload");
-		printLine((activablePowerups ? ("3) Powerup") : "X) No powerup available"));
+		printLine((activablePowerups ? ("3) Powerup") : "X) No powerup activable"));
 
 		int answer = (activablePowerups ? askInteger(1, 3) :  askInteger(1, 2));
 		if(answer == 1)

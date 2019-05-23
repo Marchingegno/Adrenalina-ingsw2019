@@ -17,9 +17,9 @@ public enum MessageType {
 	SWAP_WEAPON,
 	GRAB_AMMO,
 	RELOAD,
-	SHOOT, // Equivalent to ACTIVATE_POWERUP but for weapons.
-	WEAPON, // Equivalent to POWERUP but for weapons.
-	ACTIVATE_POWERUP, // Equivalent to SHOOT but for powerups.
-	POWERUP, // Equivalent to WEAPON but for powerups.
+	ACTIVATE_WEAPON,
+	WEAPON,
+	ACTIVATE_POWERUP,
+	POWERUP,
 	END_TURN,
 }

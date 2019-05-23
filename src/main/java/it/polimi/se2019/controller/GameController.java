@@ -78,7 +78,7 @@ public class GameController {
 			askToSpawn(currentPlayerName);
 		} else {
 			model.setTurnStatusOfCurrentPlayer(TurnStatus.YOUR_TURN);
-			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction(model.doesPlayerHaveActivableOnTurnPowerups(currentPlayerName));
+			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction(model.doesPlayerHaveActivableOnTurnPowerups(currentPlayerName), model.doesPlayerHaveActivableWeapons(currentPlayerName));
 		}
 	}
 
@@ -123,7 +123,7 @@ public class GameController {
 					// Process the answer of a spawn request.
 					DefaultActionMessage defaultActionMessage = (DefaultActionMessage) event.getMessage();
 					model.spawnPlayer(playerName, defaultActionMessage.getContent());
-					virtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
+					virtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveActivableWeapons(playerName));
 				}
 				break;
 			default: turnController.processEvent(event);

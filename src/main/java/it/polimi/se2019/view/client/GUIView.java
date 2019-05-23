@@ -149,7 +149,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askAction(boolean activablePowerups) {
+	public void askAction(boolean activablePowerups, boolean activableWeapons) {
 
 	}
 
@@ -169,7 +169,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askShoot() {
+	public void askShoot(List<Integer> shootableWeapons) {
 
 	}
 

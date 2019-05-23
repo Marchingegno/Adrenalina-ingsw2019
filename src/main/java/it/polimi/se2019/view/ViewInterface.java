@@ -12,7 +12,7 @@ public interface ViewInterface {
 
 	String getNickname();
 
-	void askAction(boolean activablePowerups);
+	void askAction(boolean activablePowerups, boolean activableWeapons);
 
 	void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons);
 
@@ -20,7 +20,7 @@ public interface ViewInterface {
 
 	void askMove(List<Coordinates> reachableCoordinates);
 
-	void askShoot();
+	void askShoot(List<Integer> shootableWeapons);
 
 	void askReload();
 

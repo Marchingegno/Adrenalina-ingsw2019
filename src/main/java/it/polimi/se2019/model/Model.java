@@ -271,6 +271,26 @@ public class Model {
 		updateReps();
 	}
 
+	public List<Integer> getActivableWeapons(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
+		List<Integer> activableWeapons = new ArrayList<>();
+
+		for (int i = 0; i < weaponCards.size(); i++) {
+			if(weaponCards.get(i).canFire())
+				activableWeapons.add(i);
+		}
+
+		return activableWeapons;
+	}
+
+	public boolean doesPlayerHaveActivableWeapons(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
+
+		return weaponCards.stream().anyMatch(WeaponCard::canFire);
+	}
+
 	public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
 		Player player = getPlayerFromName(playerName);
 		return gameMap.reachableCoordinates(player, distance);
