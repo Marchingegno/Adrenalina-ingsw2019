@@ -23,12 +23,12 @@ public class UtilsTest {
 
 	@Test
 	public void fillWithSpaces_test() {
-		System.out.println(Utils.fillWithSpaces("p", 45));
-		System.out.println(Utils.fillWithSpaces("pp", 45));
-		System.out.println(Utils.fillWithSpaces("ppp", 45));
-		System.out.println(Utils.fillWithSpaces("pppp", 45));
-		System.out.println(Utils.fillWithSpaces("ppppp", 45));
-		System.out.println(Utils.fillWithSpacesColored("pppppp", 45, Color.CharacterColorType.RED));
+		System.out.println(Utils.fillWithSpaces("p", 45) + "|");
+		System.out.println(Utils.fillWithSpaces("pp", 45) + "|");
+		System.out.println(Utils.fillWithSpaces("ppp", 45) + "|");
+		System.out.println(Utils.fillWithSpaces("pppp", 45) + "|");
+		System.out.println(Utils.fillWithSpaces("ppppp", 45) + "|");
+		System.out.println(Utils.fillWithSpacesColored("pppppp", 45, Color.CharacterColorType.RED) + "|");
 		System.out.println(Utils.fillWithSpaces("pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", 45));
 	}
 }

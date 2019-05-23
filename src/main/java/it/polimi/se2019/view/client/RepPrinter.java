@@ -69,7 +69,7 @@ class RepPrinter {
 
 		displayWeapons();
 
-		CLIView.print("\n\n\n\n\n\n\n\n\n\n\n");
+		CLIView.print("\n\n\n\n\n\n\n\n\n");
 
 		displayOwnPlayer();
 
@@ -193,19 +193,27 @@ class RepPrinter {
 	}
 
 	public String getWeaponRepString(WeaponRep weaponRep) {
+		return getWeaponRepString(weaponRep, false);
+	}
+
+	public String getWeaponRepString(WeaponRep weaponRep, boolean showLoaded) {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (AmmoType ammoType : weaponRep.getPrice())
 			stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
-		for (int i = weaponRep.getPrice().size(); i < 5; i++) {
+		for (int i = weaponRep.getPrice().size(); i < 4; i++) {
 			stringBuilder.append(" ");
 		}
-		stringBuilder.append(Utils.fillWithSpaces(weaponRep.getCardName(), 18));
+		stringBuilder.append(weaponRep.getCardName());
+		stringBuilder.append(Color.getColoredString(" ●", weaponRep.isLoaded() && showLoaded ? Color.CharacterColorType.WHITE : Color.CharacterColorType.BLACK));
+		for (int i = weaponRep.getWeaponName().length(); i < 19; i++) {
+			stringBuilder.append(" ");
+		}
 		return stringBuilder.toString();
 	}
 
 	public String getPowerupRepString(PowerupCardRep powerupRep) {
 		return Color.getColoredString("● ", powerupRep.getAssociatedAmmo().getCharacterColorType()) +
-				Utils.fillWithSpaces(powerupRep.getCardName(), 20);
+				Utils.fillWithSpaces(powerupRep.getCardName(), 15);
 	}
 
 
@@ -308,11 +316,13 @@ class RepPrinter {
 
 	private void displayOwnPlayer() {
 		PlayerRep playerRep = modelRep.getClientPlayerRep();
-		CLIView.print(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor(), Color.BackgroundColorType.DEFAULT));
-		CLIView.printLine(" [" + playerRep.getPoints() + "]");
+		CLIView.printLine(" ┌──────────────────┐                                                           ┌─────┐");
+		CLIView.printLine(" │ " + Utils.fillWithSpacesColored(playerRep.getPlayerName(), MAX_NICKNAME_LENGHT, playerRep.getPlayerColor()) + " │                                                           │ " + Utils.fillWithSpaces(Integer.toString(playerRep.getPoints()), 3) + " │");
+		CLIView.printLine(" ├──────────────────┴───┬───────────────────────┬───────────────────────────────┼─────┤");
 		for (int i = 0; i < getNumOfLine(playerRep); i++) {
 			printOwnPlayerLine(playerRep, i);
 		}
+		CLIView.printLine(" └──────────────────────┴───────────────────────┴───────────────────────────────┴─────┘");
 	}
 
 	private int getNumOfLine(PlayerRep playerRep) {
@@ -329,6 +339,7 @@ class RepPrinter {
 		List<WeaponRep> playerWeapons = playerRep.getWeaponReps();
 		List<PowerupCardRep> playerPowerups = playerRep.getPowerupCards();
 
+		stringBuilder.append(" │ ");
 		//Possible move
 		if (lineIndex + 1 <= damageStatusRep.numOfMacroActions()) {
 			stringBuilder.append(" [");
@@ -338,19 +349,23 @@ class RepPrinter {
 			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 7));
 		}
 
+		stringBuilder.append("\t│ ");
+
 		//Powerups
 		if (lineIndex + 1 <= playerPowerups.size())
 			stringBuilder.append(getPowerupRepString(playerPowerups.get(lineIndex)));
 		else
-			stringBuilder.append(Utils.fillWithSpaces(22));
-		stringBuilder.append("\t");
+			stringBuilder.append(Utils.fillWithSpaces(17));
+
+		stringBuilder.append("\t│ ");
 
 		//Weapons
 		if (lineIndex + 1 <= playerWeapons.size())
-			stringBuilder.append(getWeaponRepString(playerWeapons.get(lineIndex)));
+			stringBuilder.append(getWeaponRepString(playerWeapons.get(lineIndex), true));
 		else
 			stringBuilder.append(Utils.fillWithSpaces(22));
-		stringBuilder.append("\t");
+
+		stringBuilder.append("\t│ ");
 
 		//Ammo
 		if (lineIndex + 1 <= AmmoType.values().length) {
@@ -358,7 +373,12 @@ class RepPrinter {
 			for (int i = 0; i < playerRep.getAmmo(ammoType); i++) {
 				stringBuilder.append(Color.getColoredString("●", ammoType.getCharacterColorType()));
 			}
-		}
+			for (int i = playerRep.getAmmo(ammoType); i < 4; i++) {
+				stringBuilder.append(" ");
+			}
+		} else
+			stringBuilder.append(Utils.fillWithSpaces(4));
+		stringBuilder.append("│");
 		CLIView.printLine(stringBuilder.toString());
 	}
 
