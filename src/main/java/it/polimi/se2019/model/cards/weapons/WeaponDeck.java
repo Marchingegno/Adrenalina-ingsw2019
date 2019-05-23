@@ -25,13 +25,13 @@ public class WeaponDeck extends ActivableDeck<WeaponCard> {
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 			JsonArray weapons = rootObject.getAsJsonArray("weapons");
 
-			Class<?> weaponClassToIstantiate;
+			Class<?> weaponClassToInstantiate;
 			Constructor<?> constructor;
 
 			for (JsonElement entry : weapons) {
 				JsonObject weaponToAdd = entry.getAsJsonObject();
-				weaponClassToIstantiate = Class.forName("it.polimi.se2019.model.cards.weapons." + weaponToAdd.get("className").getAsString());
-				constructor = weaponClassToIstantiate.getConstructor(JsonObject.class);
+				weaponClassToInstantiate = Class.forName("it.polimi.se2019.model.cards.weapons." + weaponToAdd.get("className").getAsString());
+				constructor = weaponClassToInstantiate.getConstructor(JsonObject.class);
 				addCard((WeaponCard) constructor.newInstance(weaponToAdd));
 			}
 

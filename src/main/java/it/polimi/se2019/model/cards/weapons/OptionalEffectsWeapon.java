@@ -1,5 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -26,49 +27,22 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	List<DamageAndMarks> optional2DamagesAndMarks;
 	List<DamageAndMarks> optionalBothDamagesAndMarks;
 
-	//TODO move in constructor after it is defined.
-	private void initializeVariables(){
+	public OptionalEffectsWeapon(JsonObject parameters) {
+		super(parameters);
 		optionalEffectsActive = new boolean[2];
 		canAddOptionalEffect = new boolean[3];
 		optionalPrices = new ArrayList<>();
 		optional1DamagesAndMarks = new ArrayList<>();
 		optional2DamagesAndMarks = new ArrayList<>();
 		optionalBothDamagesAndMarks = new ArrayList<>();
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage, final int moveDistance) {
-		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage, moveDistance);
-		initializeVariables();
-		reset();
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks, final int primaryDamage) {
-		super(weaponName, description, reloadPrice, primaryMarks, primaryDamage);
-		initializeVariables();
-		reset();
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public OptionalEffectsWeapon(String weaponName, String description, List<AmmoType> reloadPrice, final int primaryMarks) {
-		super(weaponName, description, reloadPrice, primaryMarks);
-		initializeVariables();
-	}
-
-	public OptionalEffectsWeapon(JsonObject parameters) {
-		super(parameters);
-		initializeVariables();
 		this.optional1Damage = parameters.get("optional1Damage").getAsInt();
 		this.optional1Marks = parameters.get("optional1Marks").getAsInt();
 		this.optional2Damage = parameters.get("optional2Damage").getAsInt();
 		this.optional2Marks = parameters.get("optional2Marks").getAsInt();
+		this.optionalPrices = new ArrayList<>();
+		for (JsonElement price : parameters.getAsJsonArray("secondaryPrice")) {
+			this.optionalPrices.add(AmmoType.valueOf(price.getAsString()));
+		}
 	}
 
 	public boolean[] getCanAddOptionalEffect() {

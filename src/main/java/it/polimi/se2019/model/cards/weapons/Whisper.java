@@ -1,7 +1,6 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -9,13 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Whisper extends WeaponCard {
-
-	public Whisper(String description, List<AmmoType> reloadPrice) {
-		super("Whisper", description, reloadPrice, 1, 3, 0);
-		this.standardDamagesAndMarks = new ArrayList<>();
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-
-	}
 
 	public Whisper(JsonObject parameters) {
 		super(parameters);
