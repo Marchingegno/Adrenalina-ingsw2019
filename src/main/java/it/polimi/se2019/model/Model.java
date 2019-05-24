@@ -307,12 +307,15 @@ public class Model {
 
 	public QuestionContainer doWeaponStep(String playerName, int choice){
 		Player player = getPlayerFromName(playerName);
-		return player.doWeaponStep(choice);
+		QuestionContainer questionContainer = player.doWeaponStep(choice);
+		updateReps();
+		return questionContainer;
 	}
 
 	public void handleWeaponEnd(String playerName){
 		Player player = getPlayerFromName(playerName);
 		player.handleWeaponEnd();
+		updateReps();
 	}
 
 
