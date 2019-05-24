@@ -35,6 +35,25 @@ public class QuestionContainer implements Serializable {
 		return questionContainer;
 	}
 
+	////////TEMPORARY METHOD//////////
+
+	/**
+	 * Returns true if this QuestionContainer does not contain anything.
+	 * For example, the array of targets of the weapon is void.
+	 *
+	 * @return true if this QuestionContainer does not contain anything.
+	 */
+	public boolean isThisQuestionContainerUseless() {
+		if (isAskCoordinates()) {
+			if (getCoordinates() == null || getCoordinates().size() == 0)
+				return true;
+		}
+		if (isAskString()) {
+			return getOptions() == null || getOptions().size() == 0;
+		}
+		return false;
+	}
+
 
 	public boolean isAskString() {
 		return askString;

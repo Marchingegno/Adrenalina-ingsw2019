@@ -2,7 +2,10 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.network.message.*;
+import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
+import it.polimi.se2019.network.message.IntMessage;
+import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.SwapMessage;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -84,7 +87,7 @@ public class TurnController{
 		}
 	}
 
-	private void  handleNextAction(VirtualView playerVirtualView) {
+	private void handleNextAction(VirtualView playerVirtualView) {
 		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getNickname());
 		switch (actionType){
 			case MOVE:
@@ -144,7 +147,8 @@ public class TurnController{
 	}
 
 	private void handleWeaponQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
-		if(questionContainer == null) {
+		if (questionContainer == null || questionContainer.isThisQuestionContainerUseless()) {
+			Utils.logWarning("This QuestionContainer is either null or useless.");
 			model.handleWeaponEnd(virtualView.getNickname());
 			handleNextAction(virtualView);
 		} else {
