@@ -17,7 +17,7 @@ public class Heatseeker extends WeaponCard {
 	}
 
 	@Override
-	public QuestionContainer handleFire(int choice) {
+	public QuestionContainer doActivationStep(int choice) {
 		incrementCurrentStep();
 		return handlePrimaryFire(choice);
 	}
@@ -46,5 +46,15 @@ public class Heatseeker extends WeaponCard {
 			primaryFire();
 		}
 		return null;
+	}
+
+	@Override
+	public QuestionContainer initialQuestion() {
+		return null;
+	}
+
+	@Override
+	public boolean canBeActivated() {
+		return false;
 	}
 }

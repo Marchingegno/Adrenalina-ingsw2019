@@ -2,7 +2,6 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.QuestionContainer;
 
 /**
@@ -27,15 +26,9 @@ public class TargetingScope extends PowerupCard {
 	}
 
 
-	@Override
-	public QuestionContainer doPowerupStep(Message answer) {
-		// TODO ask client which type of ammo to use (must be in the client inventory).
-		AmmoType ammoToUse = AmmoType.RED_AMMO; // TODO placeholder, must be choosen ammo type.
-		getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
-		Player targetPlayer = getOwner(); // TODO placeholder, must be targetPlayer.
-		targetPlayer.getPlayerBoard().addDamage(getOwner(), GIVEN_DAMAGE);
-		return null;
-	}
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
 
 	@Override
 	public boolean canBeActivated() {
@@ -53,8 +46,18 @@ public class TargetingScope extends PowerupCard {
 	}
 
 	@Override
-	public String toString() {
-		return "Targeting Scope";
+	public QuestionContainer initialQuestion() {
+		return null;
+	}
+
+	@Override
+	public QuestionContainer doActivationStep(int choice) {
+		// TODO ask client which type of ammo to use (must be in the client inventory).
+		AmmoType ammoToUse = AmmoType.RED_AMMO; // TODO placeholder, must be choosen ammo type.
+		getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
+		Player targetPlayer = getOwner(); // TODO placeholder, must be targetPlayer.
+		targetPlayer.getPlayerBoard().addDamage(getOwner(), GIVEN_DAMAGE);
+		return null;
 	}
 
 }

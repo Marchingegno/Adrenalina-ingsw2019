@@ -2,8 +2,6 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
@@ -16,6 +14,8 @@ import java.util.List;
  * @author Desno365
  */
 public class Teleporter extends PowerupCard {
+
+	private List<Coordinates> allowedCoordinates;
 
 	private static final String DESCRIPTION =
 			"You may play this card on your turn before\n" +
@@ -30,21 +30,9 @@ public class Teleporter extends PowerupCard {
 	}
 
 
-	@Override
-	public QuestionContainer doPowerupStep(Message answer) {
-		incrementCurrentStep();
-		if(getCurrentStep() == 1) {
-			return firstStep();
-		} else if(getCurrentStep() == 2) {
-			resetCurrentStep();
-			lastStep(answer);
-			return null;
-		} else {
-			resetCurrentStep();
-			Utils.logError("Wrong progress.", new IllegalStateException());
-			return null;
-		}
-	}
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
 
 	/**
 	 * Returns always true since this powerup can always be activated.
@@ -56,20 +44,38 @@ public class Teleporter extends PowerupCard {
 	}
 
 	@Override
-	public String toString() {
-		return "Teleporter";
+	public QuestionContainer initialQuestion() {
+		incrementCurrentStep();
+		return firstStep();
 	}
 
+	@Override
+	public QuestionContainer doActivationStep(int choice) {
+		incrementCurrentStep();
+		if(getCurrentStep() == 2) {
+			resetCurrentStep();
+			lastStep(choice);
+			return null;
+		} else {
+			resetCurrentStep();
+			Utils.logError("Wrong progress.", new IllegalStateException());
+			return null;
+		}
+	}
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
 
 	private QuestionContainer firstStep() {
-		List<Coordinates> coordinates = getGameBoard().getGameMap().getAllCoordinatesExceptPlayer(getOwner());
-		return QuestionContainer.createCoordinatesQuestionContainer("Choose where to move.", coordinates);
+		allowedCoordinates = getGameBoard().getGameMap().getAllCoordinatesExceptPlayer(getOwner());
+		return QuestionContainer.createCoordinatesQuestionContainer("Choose where to move.", allowedCoordinates);
 	}
 
-	private void lastStep(Message answer) {
-		Coordinates targetCoordinates = ((CoordinatesAnswerMessage) answer).getSingleCoordinates();
-		if(!targetCoordinates.equals(getGameBoard().getGameMap().getPlayerCoordinates(getOwner()))) {
-			getGameBoard().getGameMap().movePlayerTo(getOwner(), targetCoordinates);
+	private void lastStep(int choice) {
+		if (choice >= 0 && choice < allowedCoordinates.size()) {
+			getGameBoard().getGameMap().movePlayerTo(getOwner(), allowedCoordinates.get(choice));
 		}
 	}
 

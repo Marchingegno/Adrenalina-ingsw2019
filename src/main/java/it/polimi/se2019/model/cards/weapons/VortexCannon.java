@@ -98,4 +98,9 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		temporaryPossibleVortexCoordinates = new ArrayList<>();
 		chosenTargets = new ArrayList<>();
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

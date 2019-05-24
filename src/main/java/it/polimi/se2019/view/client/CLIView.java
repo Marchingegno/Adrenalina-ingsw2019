@@ -267,21 +267,23 @@ public class CLIView extends RemoteView {
 	}
 
 	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
+		int answer = -1;
 		if(questionContainer.isAskString()) {
 			// Options question.
 			printLine(questionContainer.getQuestion());
 			for (int i = 1; i < questionContainer.getOptions().size() + 1; i++) {
 				printLine(i + ") " + questionContainer.getOptions().get(i - 1));
 			}
-			int answer = askInteger(1, questionContainer.getOptions().size());
-			sendMessage(new IntMessage(answer - 1, messageType, MessageSubtype.ANSWER));
+			answer = askInteger(1, questionContainer.getOptions().size());
+			answer = answer - 1;
 		} else if(questionContainer.isAskCoordinates()) {
 			// Coordinates question.
 			repPrinter.displayGame(questionContainer.getCoordinates());
 			printLine(questionContainer.getQuestion());
-			Coordinates answer = askCoordinates(questionContainer.getCoordinates());
-			sendMessage(new CoordinatesAnswerMessage(answer, messageType));
+			Coordinates coordinates = askCoordinates(questionContainer.getCoordinates());
+			answer = questionContainer.getCoordinates().indexOf(coordinates);
 		}
+		sendMessage(new IntMessage(answer, messageType, MessageSubtype.ANSWER));
 	}
 
 	/**

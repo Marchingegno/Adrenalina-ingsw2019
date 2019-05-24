@@ -4,9 +4,6 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -24,6 +21,7 @@ public class Newton extends PowerupCard {
 
 	private Player targetPlayer;
 	private List<Player> targettablePlayers;
+	private List<Coordinates> allowedCoordinates;
 
 	private static final String DESCRIPTION =
 			"You may play this card on your turn before or\n" +
@@ -38,23 +36,9 @@ public class Newton extends PowerupCard {
 	}
 
 
-	@Override
-	public QuestionContainer doPowerupStep(Message answer) {
-		incrementCurrentStep();
-		if(getCurrentStep() == 1) {
-			return firstStep();
-		} else if(getCurrentStep() == 2) {
-			return secondStep(answer);
-		} else if(getCurrentStep() == 3) {
-			resetCurrentStep();
-			lastStep(answer);
-			return null;
-		} else {
-			resetCurrentStep();
-			Utils.logError("Wrong progress.", new IllegalStateException());
-			return null;
-		}
-	}
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
 
 	/**
 	 * Returns true if there is at least one not dead player different from the activating player.
@@ -67,10 +51,31 @@ public class Newton extends PowerupCard {
 	}
 
 	@Override
-	public String toString() {
-		return "Newton";
+	public QuestionContainer initialQuestion() {
+		incrementCurrentStep();
+		return firstStep();
 	}
 
+	@Override
+	public QuestionContainer doActivationStep(int choice) {
+		incrementCurrentStep();
+		if(getCurrentStep() == 2) {
+			return secondStep(choice);
+		} else if(getCurrentStep() == 3) {
+			resetCurrentStep();
+			lastStep(choice);
+			return null;
+		} else {
+			resetCurrentStep();
+			Utils.logError("Wrong progress.", new IllegalStateException());
+			return null;
+		}
+	}
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
 
 	private QuestionContainer firstStep() {
 		targettablePlayers = getGameBoard().getPlayers().stream()
@@ -84,19 +89,21 @@ public class Newton extends PowerupCard {
 		return QuestionContainer.createStringQuestionContainer("Choose the player to move.", playerNames);
 	}
 
-	private QuestionContainer secondStep(Message answer) {
-		IntMessage intMessage = (IntMessage) answer;
-		targetPlayer = targettablePlayers.get(intMessage.getContent());
-		List<Coordinates> allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinatesWithDistance2(targetPlayer);
+	private QuestionContainer secondStep(int choice) {
+		if (choice >= 0 && choice < targettablePlayers.size()) {
+			targetPlayer = targettablePlayers.get(choice);
+			allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinatesWithDistance2(targetPlayer);
 
-		return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", allowedCoordinates);
+			return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", allowedCoordinates);
+		} else {
+			resetCurrentStep();
+			return null;
+		}
 	}
 
-	private void lastStep(Message answer) {
-		Coordinates targetCoordinates = ((CoordinatesAnswerMessage) answer).getSingleCoordinates();
-		List<Coordinates> allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinatesWithDistance2(targetPlayer);
-		if(allowedCoordinates.contains(targetCoordinates)) {
-			getGameBoard().getGameMap().movePlayerTo(targetPlayer, targetCoordinates);
+	private void lastStep(int choice) {
+		if (choice >= 0 && choice < allowedCoordinates.size()) {
+			getGameBoard().getGameMap().movePlayerTo(targetPlayer, allowedCoordinates.get(choice));
 		}
 	}
 

@@ -2,7 +2,6 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.QuestionContainer;
 
 /**
@@ -25,12 +24,9 @@ public class TagbackGrenade extends PowerupCard {
 	}
 
 
-	@Override
-	public QuestionContainer doPowerupStep(Message answer) {
-		Player targetPlayer = getOwner(); // TODO placeholder, must be targetPlayer.
-		targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
-		return null;
-	}
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
 
 	/**
 	 * Returns true if the activatingPlayer can see the shootingPlayer.
@@ -42,9 +38,17 @@ public class TagbackGrenade extends PowerupCard {
 		return getGameBoard().getGameMap().isVisible(getOwner(), getShootingPlayer());
 	}
 
+
 	@Override
-	public String toString() {
-		return "Tagback Grenade";
+	public QuestionContainer initialQuestion() {
+		return null;
+	}
+
+	@Override
+	public QuestionContainer doActivationStep(int choice) {
+		Player targetPlayer = getOwner(); // TODO placeholder, must be targetPlayer.
+		targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
+		return null;
 	}
 
 }

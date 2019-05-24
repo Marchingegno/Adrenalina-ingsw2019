@@ -158,4 +158,9 @@ public class Flamethrower extends AlternateFireWeapon {
 		secondSquareTarget = null;
 		secondSquareTargets = new ArrayList<>();
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

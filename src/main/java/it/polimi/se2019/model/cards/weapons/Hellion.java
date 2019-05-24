@@ -90,4 +90,8 @@ public class Hellion extends AlternateFireWeapon {
 		return getPrimaryTargets();
 	}
 
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

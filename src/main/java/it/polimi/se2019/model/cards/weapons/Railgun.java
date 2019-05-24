@@ -96,4 +96,9 @@ public class Railgun extends AlternateFireWeapon {
 		secondTarget = null;
 		chosenDirection = null;
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

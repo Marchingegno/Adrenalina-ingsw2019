@@ -36,4 +36,8 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 
 	}
 
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

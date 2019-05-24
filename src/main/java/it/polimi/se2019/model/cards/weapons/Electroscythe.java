@@ -70,4 +70,9 @@ public class Electroscythe extends AlternateFireWeapon {
 	public List<Player> getSecondaryTargets() {
 		return getPrimaryTargets();
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

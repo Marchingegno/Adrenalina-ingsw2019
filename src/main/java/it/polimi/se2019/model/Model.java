@@ -14,7 +14,6 @@ import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
@@ -294,9 +293,9 @@ public class Model {
 		return weaponCards.stream().anyMatch(WeaponCard::canFire);
 	}
 
-	public boolean isTheplayerDoneFiring(String playerName){
+	public boolean isShootingWeapon(String playerName){
 		Player player = getPlayerFromName(playerName);
-		return player.isThePlayerDoneFiring();
+		return player.isShootingWeapon();
 	}
 
 	public QuestionContainer initialWeaponActivation(String playerName, int indexOfWeapon) {
@@ -306,14 +305,14 @@ public class Model {
 		return questionContainer;
 	}
 
-	public QuestionContainer playerWeaponHandleFire(String playerName, int choice){
+	public QuestionContainer doWeaponStep(String playerName, int choice){
 		Player player = getPlayerFromName(playerName);
-		return player.playerWeaponHandleFire(choice);
+		return player.doWeaponStep(choice);
 	}
 
-	public void resetPlayerCurrentWeapon(String playerName){
+	public void handleWeaponEnd(String playerName){
 		Player player = getPlayerFromName(playerName);
-		player.resetPlayerCurrentWeapon();
+		player.handleWeaponEnd();
 	}
 
 
@@ -367,9 +366,9 @@ public class Model {
 		return questionContainer;
 	}
 
-	public QuestionContainer doPowerupStep(String playerName, Message answer) {
+	public QuestionContainer doPowerupStep(String playerName, int choice) {
 		Player player = getPlayerFromName(playerName);
-		QuestionContainer questionContainer = player.doPowerupStep(answer);
+		QuestionContainer questionContainer = player.doPowerupStep(choice);
 		updateReps();
 		return questionContainer;
 	}

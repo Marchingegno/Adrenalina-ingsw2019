@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * Abstract class that defines the structure of a weapon card. Every subtype of weapon must extend this.
  * The weapons are handled with the help of the **Strategy Pattern*. Each weapon has a predetermined number of
  * "advancement steps", that represent the current state of advancement of the firing process of the weapon.
- * Each time the controller wishes to continue the process of firing of the weapon, it must call the method **handleFire**;
+ * Each time the controller wishes to continue the process of firing of the weapon, it must call the method **doActivationStep**;
  * This will return a {@link QuestionContainer} that the controller must send to the Virtual View of the shooting player.
  * The controller will need to {@link #reset()} the weapon
  * if it has finished firing. The method {@link #reset()} will deload and reset the weapon to its original state.
@@ -102,22 +102,6 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	/**
-	 * Creates a {@link QuestionContainer} to be passed to the view.
-	 * @return the {@link QuestionContainer}.
-	 */
-	public QuestionContainer initialQuestion(){
-		return null;
-	}
-
-
-	/**
-	 * Handles the firing process of the weapon based on the currentStep and the choice of the player.
-	 * @return the {@link QuestionContainer} to be passed to the view, or **null** if the weapon has finished firing.
-	 * @param choice the choice of the player.
-	 */
-	public abstract QuestionContainer handleFire(int choice);
-
-	/**
 	 * This method will be called by the damage-dealer methods of the weapons.
 	 * The two arrays are ordered in such a way that the i-th playerToShoot will be dealt the i-th damageAndMark.
 	 * This method does NOT deload the weapon.
@@ -136,19 +120,9 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
-		for (int i = 0; i < playersToShoot.length; i++) {
-			if (playersToShoot[i] != null) {
-				playersToShoot[i].getPlayerBoard().addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
-				playersToShoot[i].getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
-			}
-		}
+		List<Player> list = Arrays.asList(playersToShoot);
+		dealDamage(damagesAndMarks, list);
 	}
-
-//	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, Player playerToShoot){
-//		playerToShoot.getPlayerBoard().addDamage(owner, damagesAndMarks.get(0).getDamage());
-//		playerToShoot.getPlayerBoard().addMarks(owner, damagesAndMarks.get(0).getMarks());
-//	}
-
 
 	/**
 	 * Primary method of firing of the weapon.

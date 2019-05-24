@@ -105,7 +105,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	@Override
-	public QuestionContainer handleFire(int choice) {
+	public QuestionContainer doActivationStep(int choice) {
 		incrementCurrentStep();
 		if(getCurrentStep() == 1){
 			return initialQuestion();

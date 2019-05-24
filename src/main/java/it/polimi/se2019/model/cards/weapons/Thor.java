@@ -129,4 +129,9 @@ public class Thor extends OptionalEffectsWeapon {
 		super.reset();
 		chosenTargets = new ArrayList<>();
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

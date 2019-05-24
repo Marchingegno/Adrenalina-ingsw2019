@@ -99,4 +99,9 @@ public class Shockwave extends AlternateFireWeapon {
 		super.reset();
 		chosenTargets = new ArrayList<>();
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

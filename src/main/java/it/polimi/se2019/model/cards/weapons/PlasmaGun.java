@@ -36,5 +36,8 @@ public class PlasmaGun extends OptionalEffectsWeapon {
 
 	}
 
-
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

@@ -66,19 +66,19 @@ public class TurnController{
 				handleNextAction(virtualView);
 				break;
 			case WEAPON:
-				if(model.isTheplayerDoneFiring(playerName))
-					doWeaponStep(virtualView, event.getMessage());
+				if(model.isShootingWeapon(playerName))
+					doWeaponStep(virtualView, ((IntMessage) event.getMessage()).getContent());
 				else
-					initialWeaponActivation(virtualView, event.getMessage());
+					initialWeaponActivation(virtualView, ((IntMessage) event.getMessage()).getContent());
 				break;
 			case ACTIVATE_POWERUP:
 				virtualView.askPowerupActivation(model.getActivableOnTurnPowerups(playerName));
 				break;
 			case POWERUP:
 				if(model.isPowerupInExecution(playerName))
-					doPowerupStep(virtualView, event.getMessage());
+					doPowerupStep(virtualView, ((IntMessage) event.getMessage()).getContent());
 				else
-					initialPowerupActivation(virtualView, event.getMessage());
+					initialPowerupActivation(virtualView, ((IntMessage) event.getMessage()).getContent());
 				break;
 			default: Utils.logError("Received wrong type of message: " + event.toString(), new IllegalStateException());
 		}
@@ -131,23 +131,21 @@ public class TurnController{
 	// WEAPONS METHODS
 	// ####################################
 
-	private void initialWeaponActivation(VirtualView virtualView, Message answer) {
-		int indexOfWeapon = ((IntMessage)answer).getContent();
+	private void initialWeaponActivation(VirtualView virtualView, int indexOfWeapon) {
 		if(model.canWeaponBeActivated(virtualView.getNickname(), indexOfWeapon)) {
 			QuestionContainer questionContainer = model.initialWeaponActivation(virtualView.getNickname(), indexOfWeapon);
 			handleWeaponQuestionContainer(virtualView, questionContainer);
 		}
 	}
 
-	private void doWeaponStep(VirtualView virtualView, Message answer) {
-		int choice = ((IntMessage) answer).getContent(); // TODO this will probably not work with coordinates
-		QuestionContainer questionContainer = model.playerWeaponHandleFire(virtualView.getNickname(), choice);
+	private void doWeaponStep(VirtualView virtualView, int choice) {
+		QuestionContainer questionContainer = model.doWeaponStep(virtualView.getNickname(), choice);
 		handleWeaponQuestionContainer(virtualView, questionContainer);
 	}
 
 	private void handleWeaponQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
 		if(questionContainer == null) {
-			model.resetPlayerCurrentWeapon(virtualView.getNickname());
+			model.handleWeaponEnd(virtualView.getNickname());
 			handleNextAction(virtualView);
 		} else {
 			virtualView.askWeaponChoice(questionContainer);
@@ -159,16 +157,15 @@ public class TurnController{
 	// POWERUPS METHODS
 	// ####################################
 
-	private void initialPowerupActivation(VirtualView virtualView, Message answer) {
-		int indexOfPowerup = ((IntMessage)answer).getContent();
+	private void initialPowerupActivation(VirtualView virtualView, int indexOfPowerup) {
 		if(model.canOnTurnPowerupBeActivated(virtualView.getNickname(), indexOfPowerup)) {
 			QuestionContainer questionContainer = model.initialPowerupActivation(virtualView.getNickname(), indexOfPowerup);
 			handlePowerupQuestionContainer(virtualView, questionContainer);
 		}
 	}
 
-	private void doPowerupStep(VirtualView virtualView, Message answer) {
-		QuestionContainer questionContainer = model.doPowerupStep(virtualView.getNickname(), answer);
+	private void doPowerupStep(VirtualView virtualView, int choice) {
+		QuestionContainer questionContainer = model.doPowerupStep(virtualView.getNickname(), choice);
 		handlePowerupQuestionContainer(virtualView, questionContainer);
 	}
 

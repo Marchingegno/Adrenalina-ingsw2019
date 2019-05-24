@@ -103,4 +103,9 @@ public class ZX_2 extends AlternateFireWeapon {
 		super.reset();
 		secondaryTargets = new ArrayList<>();
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

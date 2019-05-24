@@ -5,8 +5,6 @@ import it.polimi.se2019.model.cards.ActivableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.network.message.Message;
-import it.polimi.se2019.utils.QuestionContainer;
 
 /**
  * This abstract class implements the powerup card
@@ -27,25 +25,6 @@ public abstract class PowerupCard extends ActivableCard {
 		this.associatedAmmo = associatedAmmo;
 		this.powerupUseCaseType = powerupUseCaseType;
 	}
-
-
-	// ####################################
-	// ABSTRACT METHODS
-	// ####################################
-
-	/**
-	 * Do one step of the powerup.
-	 * @param answer the answer given by the user. Can null if it's the first step.
-	 * @return a QuestionContainer object with the info for the next request.
-	 */
-	public abstract QuestionContainer doPowerupStep(Message answer);
-
-	/**
-	 * Returns true if this powerup card can be activated in the current conditions.
-	 * Note: depending on the powerup this method may need setting the shootingPlayer or the shootingWeapon.
-	 * @return true if this powerup card can be activated in the current conditions.
-	 */
-	public abstract boolean canBeActivated();
 
 
 	// ####################################

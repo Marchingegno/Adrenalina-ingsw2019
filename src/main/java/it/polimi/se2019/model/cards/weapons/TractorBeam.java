@@ -98,4 +98,9 @@ public class TractorBeam extends AlternateFireWeapon {
 		super.reset();
 		enemyRelocationCoordinates = new ArrayList<>();
 	}
+
+	@Override
+	public boolean canBeActivated() {
+		return true;
+	}
 }

@@ -7,7 +7,6 @@ import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -174,7 +173,7 @@ public class Player extends Observable implements Representable {
 	// WEAPONS USE
 	// ####################################
 
-	public boolean isThePlayerDoneFiring() {
+	public boolean isShootingWeapon() {
 		return firingWeapon != -1;
 	}
 
@@ -183,11 +182,11 @@ public class Player extends Observable implements Representable {
 		return getFiringWeapon().initialQuestion();
 	}
 
-	public QuestionContainer playerWeaponHandleFire(int choice) {
-		return getFiringWeapon().handleFire(choice);
+	public QuestionContainer doWeaponStep(int choice) {
+		return getFiringWeapon().doActivationStep(choice);
 	}
 
-	public void resetPlayerCurrentWeapon() {
+	public void handleWeaponEnd() {
 		getFiringWeapon().reset();
 		powerupInExecution = -1;
 	}
@@ -209,11 +208,11 @@ public class Player extends Observable implements Representable {
 
 	public QuestionContainer initialPowerupActivation(int indexOfPowerup) {
 		powerupInExecution = indexOfPowerup;
-		return getPowerupInExecution().doPowerupStep(null);
+		return getPowerupInExecution().initialQuestion();
 	}
 
-	public QuestionContainer doPowerupStep(Message answer) {
-		return getPowerupInExecution().doPowerupStep(answer);
+	public QuestionContainer doPowerupStep(int choice) {
+		return getPowerupInExecution().doActivationStep(choice);
 	}
 
 	public void handlePowerupEnd() {
