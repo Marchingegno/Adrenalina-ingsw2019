@@ -179,7 +179,8 @@ public class Player extends Observable implements Representable {
 
 	public QuestionContainer initialWeaponActivation(int indexOfWeapon) {
 		firingWeapon = indexOfWeapon;
-		return getFiringWeapon().initialQuestion();
+//		return getFiringWeapon().initialQuestion();
+		return getFiringWeapon().doActivationStep(0);
 	}
 
 	public QuestionContainer doWeaponStep(int choice) {

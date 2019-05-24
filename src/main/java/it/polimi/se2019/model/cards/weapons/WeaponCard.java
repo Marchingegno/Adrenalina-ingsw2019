@@ -54,6 +54,7 @@ public abstract class WeaponCard extends ActivableCard {
 		this.primaryDamage = parameters.get("primaryDamage").getAsInt();
 		this.primaryMarks = parameters.get("primaryMarks").getAsInt();
 		this.moveDistance = parameters.get("moveDistance").getAsInt();
+		resetCurrentStep();
 	}
 
 	// TODO

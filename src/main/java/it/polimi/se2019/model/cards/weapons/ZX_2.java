@@ -91,9 +91,6 @@ public class ZX_2 extends AlternateFireWeapon {
 	 * Instantly fires the weapon. Called if there are no more target to choose from in secondary fire mode.
 	 */
 	private void terminateSecondaryFire(){
-		while(getCurrentStep() < getMaximumSteps()){
-			incrementCurrentStep();
-		}
 		secondaryFire();
 	}
 

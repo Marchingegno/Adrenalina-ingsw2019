@@ -27,8 +27,7 @@ public class Shotgun extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 2){
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
 		else if(getCurrentStep() == 3){
 			this.target = currentTargets.get(choice);
