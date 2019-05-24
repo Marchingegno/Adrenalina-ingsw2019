@@ -31,6 +31,7 @@ public class Newton extends PowerupCard {
 					"after it respawns at the end of your turn. That\n" +
 					"would be too late.)";
 
+
 	public Newton(AmmoType associatedAmmo) {
 		super("Newton", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN);
 	}
@@ -42,7 +43,6 @@ public class Newton extends PowerupCard {
 
 	/**
 	 * Returns true if there is at least one not dead player different from the activating player.
-	 * Needs gameBoard != null and activatingPlayer != null
 	 * @return true if there is at least one not dead player different from the activating player.
 	 */
 	@Override

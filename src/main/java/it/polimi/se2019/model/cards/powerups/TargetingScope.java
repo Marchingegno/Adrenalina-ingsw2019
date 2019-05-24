@@ -2,7 +2,13 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class implements the Targeting scope powerup
@@ -12,6 +18,8 @@ import it.polimi.se2019.utils.QuestionContainer;
  */
 public class TargetingScope extends PowerupCard {
 
+	private ArrayList<AmmoType> ownedTypes;
+
 	private static final String DESCRIPTION =
 			"You may play this card when you are dealing\n" +
 					"damage to one or more targets. Pay 1 ammo\n" +
@@ -20,6 +28,7 @@ public class TargetingScope extends PowerupCard {
 					"cannot use this to do 1 damage to a target that\n" +
 					"is receiving only marks.";
 	private static final int GIVEN_DAMAGE = 1;
+
 
 	public TargetingScope(AmmoType associatedAmmo) {
 		super("Targeting scope", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_SHOOT);
@@ -47,17 +56,50 @@ public class TargetingScope extends PowerupCard {
 
 	@Override
 	public QuestionContainer initialQuestion() {
-		return null;
+		incrementCurrentStep();
+		return firstStep();
 	}
 
 	@Override
 	public QuestionContainer doActivationStep(int choice) {
-		// TODO ask client which type of ammo to use (must be in the client inventory).
-		AmmoType ammoToUse = AmmoType.RED_AMMO; // TODO placeholder, must be choosen ammo type.
-		getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // use ammo
-		Player targetPlayer = getOwner(); // TODO placeholder, must be targetPlayer.
-		targetPlayer.getPlayerBoard().addDamage(getOwner(), GIVEN_DAMAGE);
+		incrementCurrentStep();
+		if(getCurrentStep() == 2) {
+			resetCurrentStep();
+			lastStep(choice);
+		} else {
+			resetCurrentStep();
+			Utils.logError("Wrong progress.", new IllegalStateException());
+		}
 		return null;
+	}
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
+
+	private QuestionContainer firstStep() {
+		ownedTypes = new ArrayList<>();
+		for(AmmoType ammoType : AmmoType.values()) {
+			if(getOwner().getPlayerBoard().getAmmoContainer().getAmmo(ammoType) > 0) {
+				ownedTypes.add(ammoType);
+			}
+		}
+
+		List<String> ownedNames = ownedTypes.stream()
+				.map(ammoType -> Color.getColoredString("●", ammoType.getCharacterColorType()))
+				.collect(Collectors.toList());
+
+		return QuestionContainer.createStringQuestionContainer("Choose the ammo to use.", ownedNames);
+	}
+
+	private void lastStep(int choice) {
+		if (choice >= 0 && choice < ownedTypes.size()) {
+			AmmoType ammoToUse = ownedTypes.get(choice);
+			getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // Use ammo.
+			Player targetPlayer = getShootedPlayer();
+			targetPlayer.getPlayerBoard().addDamage(getOwner(), GIVEN_DAMAGE);
+		}
 	}
 
 }

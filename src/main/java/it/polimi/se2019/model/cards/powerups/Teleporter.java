@@ -25,6 +25,7 @@ public class Teleporter extends PowerupCard {
 					"respawns at the end of your turn. By then it is\n" +
 					"too late.)";
 
+
 	public Teleporter(AmmoType associatedAmmo) {
 		super("Teleporter", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN);
 	}
@@ -55,12 +56,11 @@ public class Teleporter extends PowerupCard {
 		if(getCurrentStep() == 2) {
 			resetCurrentStep();
 			lastStep(choice);
-			return null;
 		} else {
 			resetCurrentStep();
 			Utils.logError("Wrong progress.", new IllegalStateException());
-			return null;
 		}
+		return null;
 	}
 
 

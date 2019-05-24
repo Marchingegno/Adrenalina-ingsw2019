@@ -17,6 +17,7 @@ public abstract class PowerupCard extends ActivableCard {
 	private AmmoType associatedAmmo;
 	private PowerupUseCaseType powerupUseCaseType;
 	private Player shootingPlayer;
+	private Player shootedPlayer;
 	private WeaponCard shootingWeapon;
 
 
@@ -53,6 +54,10 @@ public abstract class PowerupCard extends ActivableCard {
 		this.shootingPlayer = shootingPlayer;
 	}
 
+	public void setShootedPlayer(Player shootedPlayer) {
+		this.shootedPlayer = shootedPlayer;
+	}
+
 	public void setShootingWeapon(WeaponCard shootingWeapon) {
 		this.shootingWeapon = shootingWeapon;
 	}
@@ -64,6 +69,10 @@ public abstract class PowerupCard extends ActivableCard {
 
 	protected Player getShootingPlayer() {
 		return shootingPlayer;
+	}
+
+	protected Player getShootedPlayer() {
+		return shootedPlayer;
 	}
 
 	protected WeaponCard getShootingWeapon() {
