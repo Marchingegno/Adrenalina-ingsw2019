@@ -53,11 +53,13 @@ public class PlayerBoard {
 	 * Add damageBoard to the player and add previous marks to the damageBoard.
 	 * @param shootingPlayer the player making the damageBoard.
 	 * @param amountOfDamage amount of damageBoard tokens to add to the player.
-	 * @throws IllegalArgumentException if the amount of damageBoard is not positive.
+	 * @throws IllegalArgumentException if the amount of damageBoard is negative.
 	 */
 	public void addDamage(Player shootingPlayer, int amountOfDamage) {
-		if(amountOfDamage <= 0)
+		if(amountOfDamage < 0)
 			throw new IllegalArgumentException("amountOfDamage cannot be negative or zero.");
+		if(amountOfDamage == 0)
+			return;
 
 		// Add damageBoard
 		for (int i = 0; i < amountOfDamage; i++)
@@ -106,11 +108,13 @@ public class PlayerBoard {
 	 * Add marks to the player.
 	 * @param shootingPlayer the player making the damageBoard.
 	 * @param amountOfMarks amount of marks to add to the player.
-	 * @throws IllegalArgumentException if the amount of marks is not positive.
+	 * @throws IllegalArgumentException if the amount of marks is negative.
 	 */
 	public void addMarks(Player shootingPlayer, int amountOfMarks) {
-		if(amountOfMarks <= 0)
+		if(amountOfMarks < 0)
 			throw new IllegalArgumentException("amountOfMarks cannot be negative or zero.");
+		if(amountOfMarks == 0)
+			return;
 
 		for (int i = 0; i < amountOfMarks; i++)
 			// check if the shooting player doesn't have the max number of marks on the target player.
