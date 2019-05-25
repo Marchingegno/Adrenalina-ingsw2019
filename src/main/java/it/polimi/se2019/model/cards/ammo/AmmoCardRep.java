@@ -39,12 +39,4 @@ public class AmmoCardRep extends CardRep {
 		return new ArrayList<>(ammo);
 	}
 
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	@Override
-	public String toString() {
-		return "AmmoCard: " + getCardDescription();
-	}
 }
