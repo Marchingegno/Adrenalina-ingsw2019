@@ -12,6 +12,8 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
+import java.util.List;
+
 /**
  * This class is in a lower level than GameController. It handles the logic relative
  * @author Marchingegno
@@ -108,7 +110,11 @@ public class TurnController{
 				playerVirtualView.askReload();
 				break;
 			case SHOOT:
-				playerVirtualView.askShoot(model.getActivableWeapons(playerVirtualView.getNickname()));
+				List<Integer> activableWeapons = model.getActivableWeapons(playerVirtualView.getNickname());
+				if(activableWeapons.size() == 0)
+					handleNextAction(playerVirtualView);
+				else
+					playerVirtualView.askShoot(activableWeapons);
 				break;
 			case END:
 				//The MacroAction is already refilled.
