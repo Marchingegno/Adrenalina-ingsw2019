@@ -13,6 +13,7 @@ import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.ModelRep;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -51,23 +52,30 @@ public class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void askAction(boolean activablePowerups, boolean activableWeapons) {
-		// TODO activableWeapons is ignored!
 
 		DamageStatusRep damageStatusRep = modelRep.getClientPlayerRep().getDamageStatusRep();
 
-		// Get an action without shoot if TEST_SHOOT is false.
-		int answer;
-		do {
-			answer = (activablePowerups ? new Random().nextInt(damageStatusRep.numOfMacroActions() + 1) : new Random().nextInt(damageStatusRep.numOfMacroActions()));
-		} while (answer != damageStatusRep.numOfMacroActions() && !TEST_SHOOT && damageStatusRep.getMacroActionString(answer).contains("S"));
-
-		if(answer == damageStatusRep.numOfMacroActions()) { // If answer is powerup.
-			Utils.logInfo("VirtualViewDriver -> askAction(): created random answer for Action: ACTIVATE_POWERUP" );
-			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
-		} else {
-			Utils.logInfo("VirtualViewDriver -> askAction(): created random answer for Action: " + answer);
-			sendMessageToController(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
+		// Create list with possible answers.
+		List<Integer> possibleAnswers = new ArrayList<>();
+		int i;
+		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++) {
+			if(TEST_SHOOT) {
+				if(activableWeapons || !damageStatusRep.isShootWithoutReload(i))
+					possibleAnswers.add(i);
+			} else {
+				if(!damageStatusRep.getMacroActionName(i).equals("Shoot"))
+					possibleAnswers.add(i);
+			}
 		}
+		if(activablePowerups)
+			possibleAnswers.add(i + 1);
+
+		int randomIndex = new Random().nextInt(possibleAnswers.size());
+		int answer = possibleAnswers.get(randomIndex);
+		if(answer == i + 1) // If answer is powerup.
+			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
+		else
+			sendMessageToController(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
 	}
 
 	@Override
