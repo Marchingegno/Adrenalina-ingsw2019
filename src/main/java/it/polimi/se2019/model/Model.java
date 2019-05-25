@@ -378,7 +378,8 @@ public class Model {
 
 	public void handlePowerupEnd(String playerName) {
 		Player player = getPlayerFromName(playerName);
-		player.handlePowerupEnd();
+		PowerupCard powerupCardToDiscard = player.handlePowerupEnd();
+		gameBoard.getPowerupDeck().discardCard(powerupCardToDiscard);
 		updateReps();
 	}
 
