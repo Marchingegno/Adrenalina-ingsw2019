@@ -5,6 +5,11 @@ import it.polimi.se2019.model.cards.CardRep;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the representation of an ammo card.
+ *
+ * @author MarcerAndrea
+ */
 public class AmmoCardRep extends CardRep {
 
 	private List<AmmoType> ammo;
@@ -34,6 +39,10 @@ public class AmmoCardRep extends CardRep {
 		return new ArrayList<>(ammo);
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	@Override
 	public String toString() {
 		return "AmmoCard: " + getCardDescription();

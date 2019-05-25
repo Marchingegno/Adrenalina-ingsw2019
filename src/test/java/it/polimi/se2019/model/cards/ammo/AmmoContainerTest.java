@@ -4,17 +4,21 @@ import it.polimi.se2019.utils.GameConstants;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Desno365
+ * @author MarcerAndrea
  */
 public class AmmoContainerTest {
 
 	private AmmoContainer ammoContainer;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		ammoContainer = new AmmoContainer();
 	}
 
@@ -34,11 +38,9 @@ public class AmmoContainerTest {
 		}
 	}
 
-	@Test
-	public void addAmmo_singleAmmoAdded_shouldGiveModifiedValue() {
-		ammoContainer.addAmmo(AmmoType.values()[0]);
-		ammoContainer.addAmmo(AmmoType.values()[0]);
-		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE + 2, ammoContainer.getAmmo(AmmoType.values()[0]));
+	@Test(expected = IllegalArgumentException.class)
+	public void addAmmo_negativeNumberOfAmmoGiven_shouldThrowException() {
+		ammoContainer.addAmmo(AmmoType.values()[0], -1);
 	}
 
 	@Test
@@ -50,9 +52,11 @@ public class AmmoContainerTest {
 		}
 	}
 
-	@Test (expected = IllegalArgumentException.class)
-	public void addAmmo_negativeNumberOfAmmoGiven_shouldThrowException() {
-		ammoContainer.addAmmo(AmmoType.values()[0], -1);
+	@Test
+	public void addAmmo_singleAmmoAdded_shouldGiveModifiedValue() {
+		ammoContainer.addAmmo(AmmoType.values()[0]);
+		ammoContainer.addAmmo(AmmoType.values()[0]);
+		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE + 2, ammoContainer.getAmmo(AmmoType.values()[0]));
 	}
 
 	@Test
@@ -81,5 +85,48 @@ public class AmmoContainerTest {
 		ammoContainer.removeAmmo(AmmoType.values()[1]);
 		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE - 1, ammoContainer.getAmmo(AmmoType.values()[0]));
 		assertEquals(GameConstants.INITIAL_AMMO_PER_AMMO_TYPE - 1, ammoContainer.getAmmo(AmmoType.values()[1]));
+	}
+
+	@Test
+	public void removeAmmo_listOfAmmoToRemove_shouldBeEmpty() {
+		List<AmmoType> ammoToRemove = new ArrayList<>();
+		for (AmmoType ammoType : AmmoType.values()) {
+			ammoToRemove.add(ammoType);
+		}
+		ammoContainer.removeAmmo(ammoToRemove);
+		for (AmmoType ammoType : AmmoType.values()) {
+			assertEquals(0, ammoContainer.getAmmo(ammoType));
+		}
+	}
+
+	@Test
+	public void hasEnoughAmmo_aListOfAmmo_correctOutput() {
+		ammoContainer.addAmmo(AmmoType.values()[0], 2);
+		List<AmmoType> price = new ArrayList<>();
+		for (AmmoType ammoType : AmmoType.values()) {
+			price.add(ammoType);
+		}
+		assertTrue(ammoContainer.hasEnoughAmmo(price));
+		price.add(AmmoType.values()[1]);
+		assertFalse(ammoContainer.hasEnoughAmmo(price));
+	}
+
+	@Test
+	public void setChanged_noInput_shouldBeChanged() {
+		assertTrue(ammoContainer.hasChanged());
+	}
+
+	@Test
+	public void setNotChanged_noInput_shouldNotBeChanged() {
+		ammoContainer.setNotChanged();
+		assertFalse(ammoContainer.hasChanged());
+	}
+
+	@Test
+	public void hasChanged_noInput_correctOutput() {
+		ammoContainer.setNotChanged();
+		assertFalse(ammoContainer.hasChanged());
+		ammoContainer.setChanged();
+		assertTrue(ammoContainer.hasChanged());
 	}
 }

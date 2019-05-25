@@ -17,7 +17,6 @@ public class AmmoCard extends Card {
 	private boolean hasPowerup;
 
 	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup, String name) {
-
 		super(name, createDescription(ammo, hasPowerup));
 		this.ammo = new ArrayList<>(ammo);
 		this.hasPowerup = hasPowerup;
@@ -35,7 +34,7 @@ public class AmmoCard extends Card {
 		StringBuilder description = new StringBuilder();
 
 		for (AmmoType ammoType : ammo) {
-			description.append(ammoType.toString() + " ");
+			description.append(ammoType.toString().toLowerCase() + " ");
 		}
 
 		if (hasPowerup)
@@ -62,6 +61,10 @@ public class AmmoCard extends Card {
 		return new ArrayList<>(ammo);
 	}
 
+	/**
+	 * @return
+	 * @deprecated
+	 */
 	@Override
 	public String toString() {
 		return "AmmoCard: " + getCardDescription();

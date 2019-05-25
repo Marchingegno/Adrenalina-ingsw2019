@@ -16,7 +16,7 @@ public class AmmoContainer {
 	private boolean hasChanged;
 
 	/**
-	 * Create the container with initial values of ammo.
+	 * Creates the container with initial values of ammo.
 	 */
 	public AmmoContainer() {
 		ammo = new int[AmmoType.values().length];
@@ -26,21 +26,8 @@ public class AmmoContainer {
 		setChanged();
 	}
 
-	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
-		int[] convertedAmmosToCheck = convertAmmoListToArray(ammoToCheck);
-		for (int i = 0; i < AmmoType.values().length; i++) {
-			System.out.println(convertedAmmosToCheck[i] + " " + ammo[i]);
-			if(convertedAmmosToCheck[i] > ammo[i]){
-				//Ammo requested is greater than ammo owned.
-				return false;
-			}
-		}
-		return true;
-	}
-
-
 	/**
-	 * Get the amount of ammo given the type of ammo.
+	 * Returns the amount of ammo given the type of ammo.
 	 *
 	 * @param ammoType type of the ammo.
 	 * @return number of ammo.
@@ -50,7 +37,7 @@ public class AmmoContainer {
 	}
 
 	/**
-	 * Add the specified number of ammo of the specified type.
+	 * Adds the specified number of ammo of the specified type.
 	 *
 	 * @param ammoToAdd      type of ammo to add.
 	 * @param numOfAmmoToAdd number of ammo to add, must be >= 0.
@@ -69,7 +56,7 @@ public class AmmoContainer {
 	}
 
 	/**
-	 * Add a single ammo of ammo type.
+	 * Adds a single ammo of the specified type.
 	 *
 	 * @param ammoToAdd type of ammo to add.
 	 */
@@ -78,11 +65,12 @@ public class AmmoContainer {
 	}
 
 	/**
-	 * Remove ammo per ammo type.
+	 * Removes the the specified number of ammo.
 	 *
 	 * @param ammoToRemove      type of ammo to remove.
 	 * @param numOfAmmoToRemove number of ammo remove, must be >= 0.
-	 * @throws IllegalArgumentException if the amount of ammo to add is negative.
+	 * @throws IllegalArgumentException if the amount of ammo to remove is negative.
+	 * @throws IllegalArgumentException if the amount of ammo to remove is grater than the ammo available.
 	 */
 	public void removeAmmo(AmmoType ammoToRemove, int numOfAmmoToRemove) {
 		if (numOfAmmoToRemove < 0)
@@ -93,11 +81,11 @@ public class AmmoContainer {
 
 		ammo[ammoToRemove.ordinal()] -= numOfAmmoToRemove;
 		setChanged();
-		Utils.logInfo("AmmoContainer -> removeAmmo(): Removed " + numOfAmmoToRemove + " " + ammoToRemove.toString());
+		Utils.logInfo("AmmoContainer -> removeAmmo(): Removed " + numOfAmmoToRemove + " " + ammoToRemove);
 	}
 
 	/**
-	 * Remove a single ammo of ammo type.
+	 * Removes a single ammo of ammo type.
 	 *
 	 * @param ammoToRemove type of ammo to remove.
 	 */
@@ -105,10 +93,40 @@ public class AmmoContainer {
 		removeAmmo(ammoToRemove, 1);
 	}
 
+	/**
+	 * Removes all the ammo in the list.
+	 *
+	 * @param listOfAmmoToRemove list of the ammo to remove.
+	 */
 	public void removeAmmo(List<AmmoType> listOfAmmoToRemove) {
 		for (AmmoType ammoToRemove : listOfAmmoToRemove) {
 			removeAmmo(ammoToRemove, 1);
 		}
+	}
+
+	/**
+	 * Returns true if and only if in the ammo container there are enough
+	 * ammo to pay the price.
+	 *
+	 * @param price the price to check.
+	 * @return returns true if and only if in the ammo container there are enough
+	 * ammo to pay the price.
+	 */
+	public boolean hasEnoughAmmo(List<AmmoType> price) {
+		int[] convertedAmmosToCheck = convertAmmoListToArray(price);
+		for (int i = 0; i < AmmoType.values().length; i++) {
+			if (convertedAmmosToCheck[i] > ammo[i]) {
+				//Ammo requested is greater than ammo owned.
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private int[] convertAmmoListToArray(List<AmmoType> listToConvert) {
+		int[] convertedAmmos = new int[AmmoType.values().length];
+		listToConvert.forEach(item -> convertedAmmos[item.ordinal()]++);
+		return convertedAmmos;
 	}
 
 	/**
@@ -132,11 +150,5 @@ public class AmmoContainer {
 	 */
 	public boolean hasChanged() {
 		return hasChanged;
-	}
-
-	private int[] convertAmmoListToArray(List<AmmoType> listToConvert){
-		int[] convertedAmmos = new int[AmmoType.values().length];
-		listToConvert.forEach(item -> convertedAmmos[item.ordinal()]++);
-		return convertedAmmos;
 	}
 }
