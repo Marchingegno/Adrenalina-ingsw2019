@@ -20,11 +20,10 @@ import java.util.Observer;
 public class VirtualView extends Observable implements ViewInterface {
 
 	private AbstractConnectionToClient client;
-	private RepMessage repMessage;
+	private RepMessage repMessage = new RepMessage();
 
 
 	public VirtualView(AbstractConnectionToClient client) {
-		repMessage = new RepMessage();
 		this.client = client;
 	}
 
@@ -126,7 +125,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		repMessage.addGameMapRep(gameMapRepToUpdate);
-		Utils.logInfo("Added to " + getNickname() + "'s packet the Game Board rep");
+		Utils.logInfo("Added to " + getNickname() + "'s packet the Game Map rep");
 	}
 
 	@Override
