@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
@@ -19,6 +20,7 @@ import java.util.Random;
 public class VirtualViewDriver extends VirtualView {
 
 	private static final int MAX_NUMBER_OF_TURNS = 100;
+	private static final boolean TEST_SHOOT = true;
 
 	private static int numberOfTurns = 0;
 
@@ -49,16 +51,22 @@ public class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void askAction(boolean activablePowerups, boolean activableWeapons) {
-		int randomNumber;
-		if(activablePowerups) {
-			randomNumber = new Random().nextInt(3);
-			if(randomNumber == 2)
-				sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
-			else
-				sendMessageToController(new IntMessage(randomNumber, MessageType.ACTION, MessageSubtype.ANSWER));
+		// TODO activableWeapons is ignored!
+
+		DamageStatusRep damageStatusRep = modelRep.getClientPlayerRep().getDamageStatusRep();
+
+		// Get an action without shoot if TEST_SHOOT is false.
+		int answer;
+		do {
+			answer = (activablePowerups ? new Random().nextInt(damageStatusRep.numOfMacroActions() + 1) : new Random().nextInt(damageStatusRep.numOfMacroActions()));
+		} while (answer != damageStatusRep.numOfMacroActions() && !TEST_SHOOT && damageStatusRep.getMacroActionString(answer).contains("S"));
+
+		if(answer == damageStatusRep.numOfMacroActions()) { // If answer is powerup.
+			Utils.logInfo("VirtualViewDriver -> askAction(): created random answer for Action: ACTIVATE_POWERUP" );
+			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
 		} else {
-			randomNumber = new Random().nextInt(2);
-			sendMessageToController(new IntMessage(randomNumber, MessageType.ACTION, MessageSubtype.ANSWER));
+			Utils.logInfo("VirtualViewDriver -> askAction(): created random answer for Action: " + answer);
+			sendMessageToController(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
 		}
 	}
 

@@ -108,6 +108,8 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askAction(boolean activablePowerups, boolean activableWeapons) {
+		// TODO activableWeapons is ignored!
+
 		DamageStatusRep damageStatusRep = getModelRep().getClientPlayerRep().getDamageStatusRep();
 
 		printLine("Choose an action!");
