@@ -473,7 +473,7 @@ public class Model {
 		return playerAmmoContainer.hasEnoughAmmo(price);
 	}
 
-	private Player getPlayerFromName(String playerName){
+	private Player getPlayerFromName(String playerName) {
 		for (Player player : gameBoard.getPlayers()) {
 			if (playerName.equals(player.getPlayerName()))
 				return player;

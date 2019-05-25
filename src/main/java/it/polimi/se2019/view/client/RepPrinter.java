@@ -27,12 +27,12 @@ import static it.polimi.se2019.view.client.CLIPrinter.setCursorHome;
 /**
  * Helps printing the information.
  */
-class RepPrinter {
+public class RepPrinter {
 
 	private ModelRep modelRep;
 	private String[][] mapToPrint;
 
-	RepPrinter(ModelRep modelRep) {
+	public RepPrinter(ModelRep modelRep) {
 		this.modelRep = modelRep;
 	}
 
