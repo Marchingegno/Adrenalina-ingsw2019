@@ -1,4 +1,4 @@
-package it.polimi.se2019.view.client;
+package it.polimi.se2019.view.client.gui;
 
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -10,6 +10,7 @@ import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.view.client.RemoteView;
 
 import javax.swing.*;
 import java.awt.*;

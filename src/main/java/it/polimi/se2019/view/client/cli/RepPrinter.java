@@ -1,4 +1,4 @@
-package it.polimi.se2019.view.client;
+package it.polimi.se2019.view.client.cli;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
@@ -14,6 +14,7 @@ import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.client.ModelRep;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +22,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.*;
-import static it.polimi.se2019.view.client.CLIPrinter.cleanConsole;
-import static it.polimi.se2019.view.client.CLIPrinter.setCursorHome;
+import static it.polimi.se2019.view.client.cli.CLIPrinter.cleanConsole;
+import static it.polimi.se2019.view.client.cli.CLIPrinter.setCursorHome;
 
 /**
  * Helps printing the information.

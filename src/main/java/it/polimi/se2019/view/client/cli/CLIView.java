@@ -1,4 +1,4 @@
-package it.polimi.se2019.view.client;
+package it.polimi.se2019.view.client.cli;
 
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
@@ -7,14 +7,18 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
-import it.polimi.se2019.utils.*;
+import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.client.RemoteView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static it.polimi.se2019.view.client.CLIPrinter.*;
+import static it.polimi.se2019.view.client.cli.CLIPrinter.*;
 
 /**
  * @author MarcerAndrea

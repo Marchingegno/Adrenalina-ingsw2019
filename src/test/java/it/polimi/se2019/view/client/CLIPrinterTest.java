@@ -1,10 +1,9 @@
 package it.polimi.se2019.view.client;
 
+import it.polimi.se2019.view.client.cli.CLIPrinter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class CLIPrinterTest {
 

@@ -8,6 +8,7 @@ import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.view.client.cli.CLIView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

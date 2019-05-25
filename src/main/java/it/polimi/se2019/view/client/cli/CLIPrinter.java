@@ -1,4 +1,4 @@
-package it.polimi.se2019.view.client;
+package it.polimi.se2019.view.client.cli;
 
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
@@ -6,7 +6,7 @@ import it.polimi.se2019.utils.Utils;
 import java.util.List;
 import java.util.Scanner;
 
-import static it.polimi.se2019.view.client.CLIView.print;
+import static it.polimi.se2019.view.client.cli.CLIView.print;
 
 public class CLIPrinter {
 

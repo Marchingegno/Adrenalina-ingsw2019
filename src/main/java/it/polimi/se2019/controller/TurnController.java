@@ -111,7 +111,7 @@ public class TurnController{
 				break;
 			case SHOOT:
 				List<Integer> activableWeapons = model.getActivableWeapons(playerVirtualView.getNickname());
-				if(activableWeapons.size() == 0)
+				if (activableWeapons.isEmpty())
 					handleNextAction(playerVirtualView);
 				else
 					playerVirtualView.askShoot(activableWeapons);

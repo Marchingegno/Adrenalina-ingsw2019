@@ -1,15 +1,15 @@
 package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.client.CLIView;
-import it.polimi.se2019.view.client.GUIView;
 import it.polimi.se2019.view.client.RemoteView;
+import it.polimi.se2019.view.client.cli.CLIView;
+import it.polimi.se2019.view.client.gui.GUIView;
 
 import java.util.Locale;
 import java.util.Random;
 
-import static it.polimi.se2019.view.client.CLIPrinter.printChooseView;
-import static it.polimi.se2019.view.client.CLIPrinter.waitForChoiceInMenu;
+import static it.polimi.se2019.view.client.cli.CLIPrinter.printChooseView;
+import static it.polimi.se2019.view.client.cli.CLIPrinter.waitForChoiceInMenu;
 
 
 /**
