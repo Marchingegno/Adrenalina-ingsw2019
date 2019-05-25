@@ -20,9 +20,10 @@ public class VirtualViewDriver extends VirtualView {
 
 	private static final int MAX_NUMBER_OF_TURNS = 100;
 
+	private static int numberOfTurns = 0;
+
 	private ModelRep modelRep = new ModelRep();
 	private String nickname;
-	private int numberOfTurns = 0;
 
 
 	public VirtualViewDriver(String nickname) {
@@ -182,7 +183,7 @@ public class VirtualViewDriver extends VirtualView {
 	private boolean canTestContinue() {
 		numberOfTurns++;
 		if(numberOfTurns < MAX_NUMBER_OF_TURNS) {
-			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.YELLOW) +  " TURN " + numberOfTurns + " OF " + getNickname() + " FINISHED " + Color.getColoredString("##################", Color.CharacterColorType.YELLOW));
+			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.YELLOW) +  " TURN " + numberOfTurns + " ENDED (" + getNickname() + "'s turn) " + Color.getColoredString("##################", Color.CharacterColorType.YELLOW));
 			return true;
 		} else {
 			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.GREEN) + " TEST GAME FINISHED CORRECTLY " + Color.getColoredString("##################", Color.CharacterColorType.GREEN));
