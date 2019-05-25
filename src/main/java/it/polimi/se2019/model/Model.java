@@ -273,6 +273,11 @@ public class Model {
 		return weaponCards.get(indexOfWeapon).canFire();
 	}
 
+	/**
+	 * Returns a list of weapons that can be activated in the current state.
+	 * @param playerName the name of the player.
+	 * @return a list of weapons that can be activated in the current state.
+	 */
 	public List<Integer> getActivableWeapons(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
@@ -286,11 +291,16 @@ public class Model {
 		return activableWeapons;
 	}
 
-	public boolean doesPlayerHaveActivableWeapons(String playerName) {
+	/**
+	 * Returns true if the player has at least one loaded weapon.
+	 * @param playerName the name of the player.
+	 * @return true if the player has at least one loaded weapon.
+	 */
+	public boolean doesPlayerHaveLoadedWeapons(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
 
-		return weaponCards.stream().anyMatch(WeaponCard::canFire);
+		return weaponCards.stream().anyMatch(WeaponCard::isLoaded);
 	}
 
 	public boolean isShootingWeapon(String playerName){

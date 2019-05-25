@@ -129,7 +129,7 @@ public class TurnController{
 	private void handleEnd(VirtualView playerVirtualView) {
 		String playerName = playerVirtualView.getNickname();
 		if(model.doesThePlayerHaveActionsLeft(playerName)){
-			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveActivableWeapons(playerName));
+			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveLoadedWeapons(playerName));
 		} else {
 			playerVirtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
 		}
