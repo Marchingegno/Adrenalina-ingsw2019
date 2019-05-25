@@ -46,7 +46,8 @@ public class SpawnSquare extends Square {
 		if (!isFilled()) {
 			for (int i = cards.size(); i < GameConstants.MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE; i++) {
 				Utils.logInfo("SpawnSquare -> refillCards(): Refilling the spawn square in " + getCoordinates());
-				cards.add(weaponDeck.drawCard());
+				if(!weaponDeck.isEmpty())
+					cards.add(weaponDeck.drawCard());
 			}
 			setFilled();
 			setChanged();
