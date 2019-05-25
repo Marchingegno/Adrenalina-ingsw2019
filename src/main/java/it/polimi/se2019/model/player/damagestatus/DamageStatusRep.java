@@ -50,6 +50,10 @@ public class DamageStatusRep implements Representation {
 	public String getMacroActionName(int indexOfTheMacroAction) {
 		return macroActionNames.get(indexOfTheMacroAction);
 	}
+
+	public boolean isShootWithoutReload(int indexOfTheMacroAction) {
+		return getMacroActionString(indexOfTheMacroAction).contains("S") && !getMacroActionString(indexOfTheMacroAction).contains("R");
+	}
 }
 
 

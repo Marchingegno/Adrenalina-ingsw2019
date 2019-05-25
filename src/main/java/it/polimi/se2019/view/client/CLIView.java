@@ -108,8 +108,6 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void askAction(boolean activablePowerups, boolean activableWeapons) {
-		// TODO activableWeapons is ignored!
-
 		DamageStatusRep damageStatusRep = getModelRep().getClientPlayerRep().getDamageStatusRep();
 
 		printLine("Choose an action!");
@@ -117,16 +115,25 @@ public class CLIView extends RemoteView {
 		int macroActionTotal = getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsPerTurn();
 		printLine("Action " + macroActionsNum + " of " + macroActionTotal  + ".");
 
+		List<Integer> possibleAnswers = new ArrayList<>();
 		int i;
-		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++)
-			printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
+		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++) {
+			if(!activableWeapons && damageStatusRep.isShootWithoutReload(i)) {
+				printLine("X) No weapons loaded");
+			} else {
+				possibleAnswers.add(i);
+				printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
+			}
+		}
+		if(activablePowerups)
+			possibleAnswers.add(i);
 		printLine((activablePowerups ? ((i + 1) + ") Powerup") : "X) No powerup activable"));
 
-		int answer = (activablePowerups ? askInteger(1, damageStatusRep.numOfMacroActions() + 1) :  askInteger(1, damageStatusRep.numOfMacroActions()));
-		if(answer == i + 1) // If answer is powerup.
+		int answer = askIntegerFromList(possibleAnswers, -1);
+		if(answer == i) // If answer is powerup.
 			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
 		else
-			sendMessage(new IntMessage(answer - 1, MessageType.ACTION, MessageSubtype.ANSWER));
+			sendMessage(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
 	}
 
 	@Override

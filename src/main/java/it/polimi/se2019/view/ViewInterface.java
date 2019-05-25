@@ -12,6 +12,11 @@ public interface ViewInterface {
 
 	String getNickname();
 
+	/**
+	 * Ask the user an action to perform.
+	 * @param activablePowerups must be true if the player has an activable powerup in his inventory.
+	 * @param activableWeapons must be true if the player has a loaded weapon in his inventory.
+	 */
 	void askAction(boolean activablePowerups, boolean activableWeapons);
 
 	void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons);
