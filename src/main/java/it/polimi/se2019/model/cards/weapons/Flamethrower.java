@@ -118,7 +118,7 @@ public class Flamethrower extends AlternateFireWeapon {
 			firstSquareDamage.add(secondaryDamagesAndMarks.get(0));
 		}
 		for (int i = 0; i < secondSquareTargets.size(); i++) {
-			firstSquareDamage.add(secondaryDamagesAndMarks.get(1));
+			secondSquareDamage.add(secondaryDamagesAndMarks.get(1));
 		}
 
 		dealDamage(firstSquareDamage, currentTargets);
