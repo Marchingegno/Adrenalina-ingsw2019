@@ -288,7 +288,7 @@ public class GameMap extends Observable implements Representable {
 	public List<Player> getPlayersFromCoordinates(Coordinates coordinates) {
 		List<Player> players = new ArrayList<>();
 		for (Map.Entry position : playersPositions.entrySet()) {
-			if (position.getValue().equals(coordinates))
+			if (position != null && position.getValue().equals(coordinates))
 				players.add((Player) position.getKey());
 		}
 		return players;
@@ -411,7 +411,7 @@ public class GameMap extends Observable implements Representable {
 		Coordinates otherPlayerPostition = playersPositions.get(otherPlayer);
 
 		if (watchingPlayerPostition == null)
-			throw new NullPointerException();
+			throw new PlayerNotInTheMapException(watchingPlayer.getPlayerName() + " not in the map");
 
 		if (otherPlayerPostition == null)
 			return false;
