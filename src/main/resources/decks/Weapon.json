@@ -1,26 +1,6 @@
 {
 	"weapons": [
 		{
-			"className": "LockRifle",
-			"name": "Lock Rifle",
-			"imagePath": "lock_rifle.png",
-			"price": [
-				"BLUE_AMMO",
-				"BLUE_AMMO"
-			],
-			"description": "Basic effect: Deal 2 damage and 1 mark to 1 target you can see.\nWith second lock: Deal 1 mark to a different target you can see.",
-			"optionalPrices": [
-				"RED_AMMO"
-			],
-			"primaryMarks": 1,
-			"primaryDamage": 2,
-			"moveDistance": 0,
-			"optional1Marks": 1,
-			"optional1Damage": 0,
-			"optional2Marks": 0,
-			"optional2Damage": 0
-		},
-		{
 			"className": "Electroscythe",
 			"name": "Electroscythe",
 			"imagePath": "electroscythe.png",
@@ -98,27 +78,6 @@
 			"optional1Damage": 1,
 			"optional2Marks": 0,
 			"optional2Damage": 2
-		},
-		{
-			"className": "PlasmaGun",
-			"name": "Plasma Gun",
-			"imagePath": "plasma_gun.png",
-			"price": [
-				"BLUE_AMMO",
-				"YELLOW_AMMO"
-			],
-			"description": "Basic effect: Deal 2 damage to 1 target you can see.\nWith phase glide: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\nWith charged shot: Deal 1 additional damage to your target.\nNotes: The two moves have no ammo cost. You don't have to be able to see your target when you play the card. For example, you can move 2 squares and shoot a target you now see. You cannot use 1 move before shooting and 1 move after.",
-			"optionalPrices": [
-				"NONE",
-				"BLUE_AMMO"
-			],
-			"primaryDamage": 2,
-			"primaryMarks": 0,
-			"moveDistance": 2,
-			"optional1Marks": 0,
-			"optional1Damage": 0,
-			"optional2Marks": 0,
-			"optional2Damage": 1
 		},
 		{
 			"className": "Whisper",
@@ -227,46 +186,6 @@
 			"secondaryFollowingMarks": 0
 		},
 		{
-			"className": "GrenadeLauncher",
-			"name": "Grenade Launcher",
-			"imagePath": "grenade_launcher.png",
-			"price": [
-				"RED_AMMO"
-			],
-			"description": "Basic effect: Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\nWith extra grenade: Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.\nNotes: For example, you can shoot a target, move it onto a square with other targets, then damage everyone including the first target. Or you can deal 2 to a main target, 1 to everyone else on that square, then move the main target. Or you can deal 1 to an isolated target and 1 to everyone on a different square. If you target your own square, you will not be moved or damaged.",
-			"optionalPrices": [
-				"RED_AMMO"
-			],
-			"primaryDamage": 1,
-			"primaryMarks": 0,
-			"moveDistance": 0,
-			"optional1Marks": 0,
-			"optional1Damage": 1,
-			"optional2Marks": 0,
-			"optional2Damage": 0
-		},
-		{
-			"className": "RocketLauncher",
-			"name": "Rocket Launcher",
-			"imagePath": "rocket_launcher.png",
-			"price": [
-				"RED_AMMO",
-				"RED_AMMO"
-			],
-			"description": "Basic effect: Deal 2 damage to 1 target you can see that is not on your square. Then you may move the target 1 square.\nWith rocket jump: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\nWith fragmenting warhead: During the basic effect, deal 1 damage to every player on your target's original square – including the target, even if you move it.\nNotes: If you use the rocket jump before the basic effect, you consider only your new square when determining if a target is legal. You can even move off a square so you can shoot someone on it. If you use the fragmenting warhead, you deal damage to everyone on the target's square before you move the target – your target will take 3 damage total.",
-			"optionalPrices": [
-				"BLUE_AMMO",
-				"RED_AMMO"
-			],
-			"primaryDamage": 2,
-			"primaryMarks": 0,
-			"moveDistance": 2,
-			"optional1Marks": 0,
-			"optional1Damage": 0,
-			"optional2Marks": 0,
-			"optional2Damage": 1
-		},
-		{
 			"className": "ZX_2",
 			"name": "ZX-2",
 			"imagePath": "zx-2.png",
@@ -295,24 +214,6 @@
 			"primaryMarks": 0,
 			"primaryDamage": 3,
 			"moveDistance": 0,
-			"secondaryDamage": 2,
-			"secondaryMarks": 0
-		},
-		{
-			"className": "PowerGlove",
-			"name": "Power Glove",
-			"imagePath": "power_glove.png",
-			"price": [
-				"YELLOW_AMMO",
-				"BLUE_AMMO"
-			],
-			"description": "Basic mode: Choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks.\nIn rocket fist mode: Choose a square exactly 1 move away. Move onto that square. You may deal 2 damage to 1 target there. If you want, you may move 1 more square in that same direction (but only if it is a legal move). You may deal 2 damage to 1 target there, as well.\nNotes: In rocket fist mode, you're flying 2 squares in a straight line, punching 1 person per square.",
-			"secondaryPrice": [
-				"BLUE_AMMO"
-			],
-			"primaryMarks": 2,
-			"primaryDamage": 1,
-			"moveDistance": 1,
 			"secondaryDamage": 2,
 			"secondaryMarks": 0
 		},
@@ -349,27 +250,6 @@
 			"moveDistance": 0,
 			"secondaryDamage": 1,
 			"secondaryMarks": 0
-		},
-		{
-			"className": "Cyberblade",
-			"name": "Cyberblade",
-			"imagePath": "cyberblade.png",
-			"price": [
-				"YELLOW_AMMO",
-				"RED_AMMO"
-			],
-			"description": "Basic effect: Deal 2 damage to 1 target on your square.\nWith shadowstep: Move 1 square before or after the basic effect.\nWith slice and dice: Deal 2 damage to a different target on your square.\nThe shadowstep may be used before or after this effect.\nNotes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.",
-			"optionalPrices": [
-				"NONE",
-				"YELLOW_AMMO"
-			],
-			"primaryDamage": 2,
-			"primaryMarks": 0,
-			"moveDistance": 0,
-			"optional1Marks": 0,
-			"optional1Damage": 0,
-			"optional2Marks": 0,
-			"optional2Damage": 2
 		},
 		{
 			"className": "Sledgehammer",
