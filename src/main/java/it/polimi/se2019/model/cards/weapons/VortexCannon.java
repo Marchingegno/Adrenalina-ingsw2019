@@ -17,6 +17,9 @@ public class VortexCannon extends OptionalEffectsWeapon {
 
 	public VortexCannon(JsonObject parameters) {
 		super(parameters);
+		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
 	}
 
 	@Override
