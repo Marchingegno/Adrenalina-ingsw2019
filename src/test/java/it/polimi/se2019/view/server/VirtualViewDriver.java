@@ -12,7 +12,7 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.ModelRep;
-import it.polimi.se2019.view.client.RepPrinter;
+import it.polimi.se2019.view.client.cli.RepPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
