@@ -118,7 +118,7 @@ public class Flamethrower extends AlternateFireWeapon {
 			firstSquareDamage.add(secondaryDamagesAndMarks.get(0));
 		}
 		for (int i = 0; i < secondSquareTargets.size(); i++) {
-			firstSquareDamage.add(secondaryDamagesAndMarks.get(1));
+			secondSquareDamage.add(secondaryDamagesAndMarks.get(1));
 		}
 
 		dealDamage(firstSquareDamage, currentTargets);
@@ -129,14 +129,19 @@ public class Flamethrower extends AlternateFireWeapon {
 	@Override
 	public List<Player> getPrimaryTargets() {
 		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
-		return getGameMap().getPlayersFromCoordinates(nextSquare);
+		if(nextSquare != null)
+			return getGameMap().getPlayersFromCoordinates(nextSquare);
+		else
+			return new ArrayList<>();
 	}
 
 	private List<Player> getSecondSquareTargets() {
 		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
-		Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
-		if(nextNextSquare != null){
-			return getGameMap().getPlayersFromCoordinates(nextNextSquare);
+		if(nextSquare != null) {
+			Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
+			if(nextNextSquare != null){
+				return getGameMap().getPlayersFromCoordinates(nextNextSquare);
+			}
 		}
 		return new ArrayList<>();
 	}
@@ -144,10 +149,14 @@ public class Flamethrower extends AlternateFireWeapon {
 	@Override
 	public List<Player> getSecondaryTargets() {
 		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
-		Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
-		List<Player> targets = getGameMap().getPlayersFromCoordinates(nextSquare);
-		targets.addAll(getGameMap().getPlayersFromCoordinates(nextNextSquare));
-		return targets;
+		if(nextSquare != null) {
+			List<Player> targets = getGameMap().getPlayersFromCoordinates(nextSquare);
+			Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
+			if(nextNextSquare != null)
+				targets.addAll(getGameMap().getPlayersFromCoordinates(nextNextSquare));
+			return targets;
+		}
+		return new ArrayList<>();
 	}
 
 

@@ -12,6 +12,7 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.ModelRep;
+import it.polimi.se2019.view.client.RepPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,14 @@ public class VirtualViewDriver extends VirtualView {
 
 	private static final int MAX_NUMBER_OF_TURNS = 100;
 	private static final boolean TEST_SHOOT = true;
+	private static final boolean TEST_MOVE = false; // Set to false if you think "Move" is a useless action.
+	private static final boolean DISPLAY_REPS = true;
 
 	private static int numberOfTurns = 0;
 
 	private ModelRep modelRep = new ModelRep();
 	private String nickname;
+	private RepPrinter repPrinter = new RepPrinter(modelRep);
 
 
 	public VirtualViewDriver(String nickname) {
@@ -52,19 +56,23 @@ public class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void askAction(boolean activablePowerups, boolean activableWeapons) {
-
 		DamageStatusRep damageStatusRep = modelRep.getClientPlayerRep().getDamageStatusRep();
 
 		// Create list with possible answers.
 		List<Integer> possibleAnswers = new ArrayList<>();
 		int i;
 		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++) {
-			if(TEST_SHOOT) {
-				if(activableWeapons || !damageStatusRep.isShootWithoutReload(i))
+			// Move actions.
+			if(damageStatusRep.getMacroActionName(i).equals("Move")) {
+				if(TEST_MOVE)
 					possibleAnswers.add(i);
+			} else if(damageStatusRep.getMacroActionName(i).equals("Shoot")) {
+				if(TEST_SHOOT) {
+					if(activableWeapons || !damageStatusRep.isShootWithoutReload(i)) // If weapons loaded.
+						possibleAnswers.add(i);
+				}
 			} else {
-				if(!damageStatusRep.getMacroActionName(i).equals("Shoot"))
-					possibleAnswers.add(i);
+				possibleAnswers.add(i);
 			}
 		}
 		if(activablePowerups)
@@ -166,18 +174,24 @@ public class VirtualViewDriver extends VirtualView {
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
 		Utils.logInfo("Updated " + getNickname() + "'s Game Board rep");
+		if(DISPLAY_REPS && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
+			repPrinter.displayGame();
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		modelRep.setGameMapRep(gameMapRepToUpdate);
 		Utils.logInfo("Updated " + getNickname() + "'s Game Map rep");
+		if(DISPLAY_REPS && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
+			repPrinter.displayGame();
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		modelRep.setPlayerRep(playerRepToUpdate);
 		Utils.logInfo("Updated " + getNickname() + "'s Player rep of " + playerRepToUpdate.getPlayerName());
+		if(DISPLAY_REPS && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
+			repPrinter.displayGame();
 	}
 
 
