@@ -76,7 +76,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		try {
 			canAddOptionalEffect[1] = getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(1)));
 			canAddOptionalEffect[2] = getOwner().hasEnoughAmmo(optionalPrices);
-		} catch (NullPointerException e) {
+		} catch (NullPointerException | IndexOutOfBoundsException e) {
 			//TODO Replace with boolean methods taken from Json
 			Utils.logWarning("This weapon does not have other optional effects.");
 		}
