@@ -443,6 +443,9 @@ public class GameMapTest {
 		correctAnswer.add(player2);
 		correctAnswer.add(player3);
 		answer = mediumMap.getPlayersInDirection(new Coordinates(1, 2), CardinalDirection.LEFT);
+		answer.forEach(player -> System.out.print(mediumMap.getPlayerCoordinates(player)));
+		System.out.print("\n");
+		correctAnswer.forEach(player -> System.out.print(mediumMap.getPlayerCoordinates(player)));
 		assertEquals(correctAnswer.size(), answer.size());
 		for (Player player : correctAnswer) {
 			assertTrue(answer.contains(player));
