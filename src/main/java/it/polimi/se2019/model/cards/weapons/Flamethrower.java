@@ -162,11 +162,22 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	@Override
 	public void reset() {
+		super.reset();
 		chosenDirection = null;
 		firstSquareTarget = null;
 		secondSquareTarget = null;
 		secondSquareTargets = new ArrayList<>();
 	}
 
-
+	@Override
+	public boolean canBeActivated() {
+		//There's at least one player in two squares away in one direction.
+		for (CardinalDirection direction : CardinalDirection.values()) {
+			chosenDirection = direction;
+			List<Player> possibleTargets = getPrimaryTargets();
+			chosenDirection = null;
+			return !possibleTargets.isEmpty();
+		}
+		return false;
+	}
 }
