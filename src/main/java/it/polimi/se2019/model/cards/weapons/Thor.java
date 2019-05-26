@@ -13,6 +13,7 @@ public class Thor extends OptionalEffectsWeapon {
 
 	public Thor(JsonObject parameters) {
 		super(parameters);
+		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
 		chosenTargets = new ArrayList<>();
