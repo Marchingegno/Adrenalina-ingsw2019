@@ -54,6 +54,7 @@ public abstract class WeaponCard extends ActivableCard {
 		this.primaryDamage = parameters.get("primaryDamage").getAsInt();
 		this.primaryMarks = parameters.get("primaryMarks").getAsInt();
 		this.moveDistance = parameters.get("moveDistance").getAsInt();
+		this.currentTargets = new ArrayList<>();
 		resetCurrentStep();
 	}
 
@@ -159,7 +160,6 @@ public abstract class WeaponCard extends ActivableCard {
 	public void reset(){
 		resetCurrentStep();
 		this.loaded = false;
-		this.currentTargets = null;
 		this.relocationDone = false;
 		this.enemyRelocationDone = false;
 		this.currentTargets = new ArrayList<>();
