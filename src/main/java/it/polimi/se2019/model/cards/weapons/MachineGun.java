@@ -39,12 +39,12 @@ public class MachineGun extends OptionalEffectsWeapon {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 2){
+			chosenTargets = new ArrayList<>();
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
 		}
 		if(getCurrentStep() == 3){
 			//Chosen first target.
-			chosenTargets = new ArrayList<>();
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
@@ -81,7 +81,9 @@ public class MachineGun extends OptionalEffectsWeapon {
 	public List<Player> getPrimaryTargets() {
 		//All players except the ones already chosen
 		List<Player> visibleExceptChosen = getGameMap().getVisiblePlayers(getOwner());
-		visibleExceptChosen.removeAll(chosenTargets);
+		if (chosenTargets != null && !chosenTargets.isEmpty()) {
+			visibleExceptChosen.removeAll(chosenTargets);
+		}
 		return visibleExceptChosen;
 	}
 
