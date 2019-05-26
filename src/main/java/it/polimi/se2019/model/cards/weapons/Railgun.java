@@ -97,5 +97,16 @@ public class Railgun extends AlternateFireWeapon {
 		chosenDirection = null;
 	}
 
-
+	@Override
+	public boolean canBeActivated() {
+		//There's at least one direction with enemies in it.
+		for (CardinalDirection direction : CardinalDirection.values()) {
+			List<Player> playersInDirection = getGameMap().getPlayersInDirection(getGameMap().getPlayerCoordinates(getOwner()), direction);
+			playersInDirection.remove(getOwner());
+			if (!playersInDirection.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
