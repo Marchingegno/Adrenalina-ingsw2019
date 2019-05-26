@@ -87,6 +87,7 @@ public class Furnace extends AlternateFireWeapon {
 
 	private List<Coordinates> getPrimaryCoordinates(){
 		List<Coordinates> doorsOfNearbyRooms = getGameMap().getDoors(getOwner());
+		List<Coordinates> availableDoors = new ArrayList<>(doorsOfNearbyRooms);
 		for (Coordinates coordinates : doorsOfNearbyRooms) {
 			List<Coordinates> roomCoordinates = getGameMap().getRoomCoordinates(coordinates);
 			List<Player> playersInTheRoom = new ArrayList<>();
@@ -95,10 +96,10 @@ public class Furnace extends AlternateFireWeapon {
 			}
 			//If there is not player in the room, this door can't be a target.
 			if (playersInTheRoom.isEmpty()) {
-				doorsOfNearbyRooms.remove(coordinates);
+				availableDoors.remove(coordinates);
 			}
 		}
-		return doorsOfNearbyRooms;
+		return availableDoors;
 	}
 
 	private List<Coordinates> getSecondaryCoordinates(){
