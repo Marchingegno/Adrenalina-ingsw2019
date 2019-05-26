@@ -72,9 +72,6 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	protected void checkOptionalEffects() {
-		for (int i = 0; i < canAddOptionalEffect.length; i++) {
-			canAddOptionalEffect[i] = getOwner().hasEnoughAmmo(optionalPrices.subList(i,i+1));
-		}
 		canAddOptionalEffect[0] = getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(0)));
 		try {
 			canAddOptionalEffect[1] = getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(1)));
