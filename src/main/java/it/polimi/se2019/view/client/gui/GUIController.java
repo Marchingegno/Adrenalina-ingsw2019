@@ -3,7 +3,6 @@ package it.polimi.se2019.view.client.gui;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.RemoteView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,9 +15,13 @@ import java.util.List;
 public class GUIController extends RemoteView {
 	private LoginController loginController;
 
-	static Parent loadFXML(String fxmlName) throws IOException {
-		return new FXMLLoader(GUIInitializer.class.getResource("/gui/" + fxmlName + ".fxml")).load();
-
+	static Parent loadFXML(String fxmlName) {
+		try {
+			return new FXMLLoader(GUIInitializer.class.getResource("/gui/" + fxmlName + ".fxml")).load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void startGUI() {
@@ -26,16 +29,14 @@ public class GUIController extends RemoteView {
 		loginController.startLogin();
 	}
 
-	void setSceneTo(String fxmlName, String sceneTitle) {
-		try {
+
+	static Stage setSceneTo(String fxmlName, String sceneTitle) {
 			Scene scene = new Scene(loadFXML(fxmlName));
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.setTitle(sceneTitle);
-			stage.show();
-		} catch (IOException e) {
-			Utils.logError("Cannot load " + fxmlName, e);
-		}
+//			stage.show();
+		return stage;
 	}
 
 

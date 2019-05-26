@@ -3,20 +3,20 @@ package it.polimi.se2019.view.client.gui;
 import it.polimi.se2019.utils.Utils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 import static it.polimi.se2019.view.client.gui.GUIController.loadFXML;
 import static javafx.collections.FXCollections.observableArrayList;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
 	@FXML
 	private ComboBox<String> connectionMenuButton;
@@ -24,6 +24,21 @@ public class LoginController {
 	private TextField nicknameTextField;
 	@FXML
 	private Button loginButton;
+
+	@FXML
+	private ListView<String> nicknames;
+
+	@FXML
+	private TextArea textArea;
+	@FXML
+	private TextFlow textFlow;
+
+	@FXML
+	private Label label;
+
+	@FXML
+	private ObservableList<String> obsnicknames;
+
 
 
 	@FXML
@@ -33,28 +48,35 @@ public class LoginController {
 		Utils.logInfo("Connection type: " + this.connectionMenuButton.getValue());
 //		Send nickname and open rmi or socket
 //		nicknameTextField.getScene().getWindow().hide();
+
+//		Stage stage = GUIController.setSceneTo("Lobby", "Lobby");
+
+		Scene scene = new Scene(loadFXML("Lobby"));
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		ObservableList<String> randomNick = observableArrayList();
+		for (int i = 0; i < 4; i++) {
+			randomNick.add(UUID.randomUUID().toString().substring(3, 6));
+		}
+		//Show nicknames stage.
 	}
 
 	public void startLogin() {
-		try {
 			//Show the login scene.
 			Scene scene = new Scene(loadFXML("ConnectionAndNickname"));
 			Stage stage = new Stage();
 			stage.setTitle("Login");
 			stage.setScene(scene);
-			ObservableList<String> options = observableArrayList("Mah");
+		ObservableList<String> options = observableArrayList();
 			options.addAll("RMI", "Socket");
-			List<String> opt = new ArrayList<>();
-			opt.add("RMI");
-			opt.add("Socket");
 			connectionMenuButton = new ComboBox<>();
 			connectionMenuButton.setItems(options);
 			stage.show();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+	}
 }
