@@ -47,7 +47,7 @@ public class Railgun extends AlternateFireWeapon {
 		}
 		else if(getCurrentStep() == 3){
 			chosenDirection = CardinalDirection.values()[choice];
-			setSecondaryCurrentTargetsAndReturnTargetQnO();
+			return setSecondaryCurrentTargetsAndReturnTargetQnO();
 		}
 		else if(getCurrentStep() == 4){
 			target = currentTargets.get(choice);
