@@ -407,6 +407,15 @@ public class GameMap extends Observable implements Representable {
 	 * @return true if and only if the player2 is visible from the player1
 	 */
 	public boolean isVisible(Player watchingPlayer, Player otherPlayer) {
+		Coordinates watchingPlayerPostition = playersPositions.get(watchingPlayer);
+		Coordinates otherPlayerPostition = playersPositions.get(otherPlayer);
+
+		if (watchingPlayerPostition == null)
+			throw new NullPointerException();
+
+		if (otherPlayerPostition == null)
+			return false;
+
 		Square squarePlayer1 = getSquare(playersPositions.get(watchingPlayer));
 		Square squarePlayer2 = getSquare(playersPositions.get(otherPlayer));
 
