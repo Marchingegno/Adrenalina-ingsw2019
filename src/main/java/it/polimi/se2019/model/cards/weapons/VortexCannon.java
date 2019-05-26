@@ -100,6 +100,22 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	}
 
 	@Override
+	public boolean canFire() {
+		//there's at least one place where the owner can place the vortex that has a player next or on top of it.
+		List<Coordinates> possibleVortexCoordinates = getVortexCoordinates();
+		for (Coordinates coordinates : possibleVortexCoordinates) {
+			List<Coordinates> coordinatesSurroundingThisVortex = getGameMap().reachableCoordinates(coordinates, 1);
+			List<Player> playersOneMoveAway = new ArrayList<>();
+			coordinatesSurroundingThisVortex.forEach(item -> playersOneMoveAway.addAll(getGameMap().getPlayersFromCoordinates(item)));
+			playersOneMoveAway.remove(getOwner());
+			if (!playersOneMoveAway.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public boolean canBeActivated() {
 		return true;
 	}
