@@ -265,6 +265,13 @@ public class GameMap extends Observable implements Representable {
 	}
 
 	/**
+	 *
+	 */
+	public boolean isInTheMap(Player player) {
+		return playersPositions.get(player) != null;
+	}
+
+	/**
 	 * Returns the player's square.
 	 *
 	 * @param playerToFind player to find.
@@ -289,10 +296,12 @@ public class GameMap extends Observable implements Representable {
 		List<Player> players = new ArrayList<>();
 		if (coordinates == null)
 			throw new NullPointerException();
-		for (Map.Entry position : playersPositions.entrySet()) {
-			if (position != null && position.getValue().equals(coordinates))
-				players.add((Player) position.getKey());
+		for (Map.Entry entry : playersPositions.entrySet()) {
+			Player player = (Player) entry.getKey();
+			if (isInTheMap(player) && getPlayerCoordinates(player).equals(coordinates))
+				players.add(player);
 		}
+
 		return players;
 	}
 
@@ -495,6 +504,8 @@ public class GameMap extends Observable implements Representable {
 	public List<Player> reachablePlayers(Player player, int distance) {
 		List<Player> reachablePlayers = new ArrayList<>();
 		List<Coordinates> reachableCoordinates = reachableCoordinates(player, distance);
+		if (reachableCoordinates.isEmpty())
+			throw new IllegalStateException();
 		for (Coordinates coordinates : reachableCoordinates) {
 			reachablePlayers.addAll(getPlayersFromCoordinates(coordinates));
 		}
@@ -559,7 +570,6 @@ public class GameMap extends Observable implements Representable {
 	 * @return the set of all reachable squares from the coordinates and distance at most max distance
 	 */
 	private List<Coordinates> reachableSquares(Square square, int maxDistance, List<Coordinates> reachableCoordinates) {
-
 		if (maxDistance != 0) {
 			for (Square adjacentSquare : square.getAdjacentSquares()) {
 				reachableSquares(adjacentSquare, maxDistance - 1, reachableCoordinates);

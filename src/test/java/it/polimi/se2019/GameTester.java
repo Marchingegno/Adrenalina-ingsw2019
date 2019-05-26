@@ -17,7 +17,7 @@ public class GameTester {
 	// Note: these variables are only used in the manually started test.
 	private static final boolean TEST_SHOOT = true;
 	private static final boolean TEST_MOVE = true; // Set to false if you think "Move" is a useless action.
-	private static final boolean DISPLAY_REPS = false;
+	private static final boolean DISPLAY_REPS = true;
 
 
 	/**
