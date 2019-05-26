@@ -4,8 +4,7 @@ import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.exceptions.NegativeCoordinatesException;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class CoordinatesTest {
 
@@ -57,16 +56,16 @@ public class CoordinatesTest {
 		assertEquals(new Coordinates(2,0), Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.LEFT));
 	}
 
-	@Test (expected = NegativeCoordinatesException.class)
+	@Test
 	public void getDirectionCoordinates_coordinatesOnTheEdgeUP_throwsNegativeCoordinatesException() {
 		Coordinates coordinates = new Coordinates( 0, 0);
-		Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.UP);
+		assertNull(Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.UP));
 	}
 
-	@Test (expected = NegativeCoordinatesException.class)
+	@Test
 	public void getDirectionCoordinates_coordinatesOnTheEdgeLEFT_throwsNegativeCoordinatesException() {
 		Coordinates coordinates = new Coordinates( 0, 0);
-		Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.LEFT);
+		assertNull(Coordinates.getDirectionCoordinates(coordinates, CardinalDirection.LEFT));
 	}
 
 	@Test

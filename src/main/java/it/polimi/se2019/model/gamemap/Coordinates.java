@@ -56,11 +56,19 @@ public class Coordinates implements Serializable {
 	 * @return the coordinates of the point directly adjacent to the given point in the specified direction
 	 */
 	static Coordinates getDirectionCoordinates(Coordinates coordinates, CardinalDirection direction){
-		switch (direction){
-			case UP: return new Coordinates(coordinates.getRow() - 1, coordinates.getColumn());
-			case RIGHT: return new Coordinates(coordinates.getRow(), coordinates.getColumn() + 1);
-			case DOWN: return new Coordinates(coordinates.getRow() + 1, coordinates.getColumn());
-			default: return new Coordinates(coordinates.getRow(), coordinates.getColumn() - 1);
+		try {
+			switch (direction) {
+				case UP:
+					return new Coordinates(coordinates.getRow() - 1, coordinates.getColumn());
+				case RIGHT:
+					return new Coordinates(coordinates.getRow(), coordinates.getColumn() + 1);
+				case DOWN:
+					return new Coordinates(coordinates.getRow() + 1, coordinates.getColumn());
+				default:
+					return new Coordinates(coordinates.getRow(), coordinates.getColumn() - 1);
+			}
+		} catch (NegativeCoordinatesException e) {
+			return null;
 		}
 	}
 

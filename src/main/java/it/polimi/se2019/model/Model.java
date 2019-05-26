@@ -104,7 +104,7 @@ public class Model {
 	}
 
 	public void fillGameMap() {
-		gameMap.fillMap();
+		gameMap.refillMap();
 		updateReps();
 	}
 

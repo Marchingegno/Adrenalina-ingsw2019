@@ -80,7 +80,7 @@ public class Sledgehammer extends AlternateFireWeapon {
 	}
 
 	private List<Coordinates> getEnemyMovingCoordinates() {
-		List<Coordinates> coordinates = getGameMap().reachablePerpendicularCoordinatesWithDistance2(getOwner());
+		List<Coordinates> coordinates = getGameMap().reachablePerpendicularCoordinates(getOwner(), 2);
 		coordinates.add(getGameMap().getPlayerCoordinates(getOwner()));
 		return coordinates;
 	}

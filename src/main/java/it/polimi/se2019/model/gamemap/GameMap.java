@@ -34,38 +34,28 @@ public class GameMap extends Observable implements Representable {
 	private List<Coordinates> spawnSquaresCoordinates = new ArrayList<>();
 	private GameMapRep gameMapRep;
 
-	public GameMap(String mapName, List<Player> players, GameBoard gameBoard) {
+	public GameMap(String mapName, GameBoard gameBoard) {
 
 		generateMapJson(mapName, gameBoard);
 		connectSquares();
 		addSquaresToRooms();
-		fillMap();
+		refillMap();
 
-		for (Player playerToAdd : players) {
+		for (Player playerToAdd : gameBoard.getPlayers()) {
 			playersPositions.put(playerToAdd, null);
 		}
 
 		setChanged();
 	}
 
-	/**
-	 * For each square in the map if it has an empty slot
-	 * it gets refilled.
-	 */
-	public void fillMap() {
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < numOfColumns; j++) {
-				map[i][j].refillCards();
-			}
-		}
-		setChanged();
-		Utils.logInfo("GameMap -> fillMap(): Map completely filled");
-	}
+	// ####################################
+	// MAP METHODS
+	// ####################################
 
 	/**
 	 * Returns the number of rows.
 	 *
-	 * @return the number of rows
+	 * @return the number of rows.
 	 */
 	int getNumOfRows() {
 		return numOfRows;
@@ -74,36 +64,16 @@ public class GameMap extends Observable implements Representable {
 	/**
 	 * Returns the number of columns.
 	 *
-	 * @return the number of columns
+	 * @return the number of columns.
 	 */
 	int getNumOfColumns() {
 		return numOfColumns;
 	}
 
 	/**
-	 * Returns the player position.
-	 *
-	 * @return the player position
+	 * Returns the list of all the coordinates in the map.
+	 * @return the list of all the coordinates in the map.
 	 */
-	public Map<Player, Coordinates> getPlayersCoordinates() {
-		return new HashMap<>(playersPositions);
-	}
-
-	/**
-	 * Returns the player's coordinates.
-	 *
-	 * @param playerToFind player to find
-	 * @return the player's coordinates
-	 * @throws PlayerNotInTheMapException when the player is not in the map
-	 */
-	public Coordinates getPlayerCoordinates(Player playerToFind) {
-		Coordinates playerCoordinates = playersPositions.get(playerToFind);
-		if (playerCoordinates != null)
-			return playerCoordinates;
-		else
-			throw new PlayerNotInTheMapException("player position is null");
-	}
-
 	public List<Coordinates> getAllCoordinates() {
 		List<Coordinates> coordinatesList = new ArrayList<>();
 		Coordinates coordinates;
@@ -114,132 +84,75 @@ public class GameMap extends Observable implements Representable {
 					coordinatesList.add(coordinates);
 			}
 		}
+		Utils.logInfo("GameMap -> getAllCoordinates(): Map coordinates are: " + coordinatesList);
 		return coordinatesList;
 	}
 
+	/**
+	 * Returns the list of all the coordinates in the map except the player one.
+	 *
+	 * @param player player whom coordinates need to be removed from the list.
+	 * @return the list of all the coordinates in the map except the player one.
+	 */
 	public List<Coordinates> getAllCoordinatesExceptPlayer(Player player) {
 		List<Coordinates> result = getAllCoordinates();
 		result.remove(getPlayerCoordinates(player));
+		Utils.logInfo("GameMap -> getAllCoordinatesExceptPlayer(): Map coordinates without " + player.getPlayerName() + " are: " + result);
 		return result;
 	}
 
 	/**
-	 * Returns the player's square.
+	 * Removes from the square where the player is the card in the specified index.
 	 *
-	 * @param playerToFind player to find
-	 * @return the player's square
-	 * @throws PlayerNotInTheMapException when the player is not in the map
+	 * @param coordinates coordinates of the square.
+	 * @param index       index of the card's solt to grab.
+	 * @return the card grabbed.
 	 */
-	public Square getPlayerSquare(Player playerToFind) {
-		Coordinates playerCoordinates = playersPositions.get(playerToFind);
-		if (playerCoordinates != null)
-			return map[playerCoordinates.getRow()][playerCoordinates.getColumn()];
-		else
-			throw new PlayerNotInTheMapException("player position is null");
-	}
-
-	public List<Player> getPlayersInDirection(Coordinates coordinates, CardinalDirection direction) {
-		List<Player> players = new ArrayList<>(getPlayersFromCoordinates(coordinates));
-		Coordinates coordinatesToCheck = coordinates;
-		while (coordinatesToCheck.getRow() > 0 && coordinatesToCheck.getColumn() > 0 && isIn(coordinates)) {
-			coordinatesToCheck = Coordinates.getDirectionCoordinates(coordinatesToCheck, direction);
-			players.addAll(getPlayersFromCoordinates(coordinatesToCheck));
-		}
-		return players;
+	public Card grabCard(Coordinates coordinates, int index) {
+		setChanged();
+		return getSquare(coordinates).grabCard(index);
 	}
 
 	/**
-	 * Moves the player in the specified coordinates.
+	 * Adds the card to the square's slot.
 	 *
-	 * @param playerToMove player to move
-	 * @param coordinates  coordinates where the player has to be moved to
-	 * @throws OutOfBoundariesException when the player is moved to a square not in the map
+	 * @param coordinates coordinates of the square where the card needs to be added.
+	 * @param cardToAdd   the card to add.
 	 */
-	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
-		if (isIn(coordinates)) {
-			playersPositions.replace(playerToMove, coordinates);
-			setChanged();
-			Utils.logInfo("GameMap -> movePlayerTo(): " + playerToMove.getPlayerName() + " moved to " + coordinates);
-		}
-		else
-			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
+	public void addCard(Coordinates coordinates, Card cardToAdd) {
+		setChanged();
+		getSquare(coordinates).addCard(cardToAdd);
 	}
 
 	/**
-	 * Returns the list of all reachable coordinates by a player within the specified distance.
-	 * @param player the player that wants to move.
-	 * @param maxDistance distance the player wants to move.
-	 * @return the list of reachable coordinates.
+	 * For each square in the map if it has an empty slot
+	 * it gets refilled.
 	 */
-	public List<Coordinates> reachableCoordinates(Player player, int maxDistance) {
-		List<Coordinates> reachableCoordinates = new ArrayList<>();
-		reachableSquares(getSquare(playersPositions.get(player)), maxDistance, reachableCoordinates);
-		Utils.logInfo("GameMap -> reachableCoordinates(): " + player.getPlayerName() + " can reach in " + maxDistance + " moves: " + reachableCoordinates);
-		return reachableCoordinates;
-	}
-
-
-	/**
-	 * Returns the list of all reachable coordinates from the specified coordinates within the specified distance.
-	 * @param coordinates starting coordinates.
-	 * @param maxDistance distance the player wants to move.
-	 * @return the list of reachable coordinates.
-	 */
-	public List<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
-		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
-		reachableSquares(getSquare(coordinates), maxDistance, reachableCoordinates);
-		Utils.logInfo("GameMap -> reachableCoordinates(): From " + coordinates + " is possible to reach in " + maxDistance + " moves: " + reachableCoordinates);
-		return reachableCoordinates;
-	}
-
-	/**
-	 * Returns a list of all coordinates reachable with 2 moves but following only the cardinal directions.
-	 * @param player the player that wants to move.
-	 * @return a list of all coordinates reachable with 2 moves but following only cardinal directions.
-	 */
-	// TODO maybe make this method more abstract with distance as parameter?
-	public List<Coordinates> reachablePerpendicularCoordinatesWithDistance2(Player player) {
-		ArrayList<Coordinates> possibleMoves = new ArrayList<>();
-		for (CardinalDirection direction : CardinalDirection.values()) {
-			Coordinates nextSquare = getCoordinatesFromDirection(getPlayerCoordinates(player), direction);
-			if(nextSquare != null) {
-				possibleMoves.add(nextSquare);
-				Coordinates nextNextSquare = getCoordinatesFromDirection(nextSquare, direction);
-				if (nextNextSquare != null)
-					possibleMoves.add(nextNextSquare);
+	public void refillMap() {
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				map[i][j].refillCards();
 			}
 		}
-		return possibleMoves;
+		setChanged();
+		Utils.logInfo("GameMap -> refillMap(): Map completely filled");
 	}
 
 	/**
-	 * Returns the set of all reachable squares from the coordinates and distance at most max distance.
+	 * Returns all the coordinates of the doors nearby the player.
 	 *
-	 * @param square   square of the starting point
-	 * @param maxDistance maximum distance
-	 * @return the set of all reachable squares from the coordinates and distance at most max distance
+	 * @param player player to check.
+	 * @return all the coordinates of the doors nearby the player.
 	 */
-	private List<Coordinates> reachableSquares(Square square, int maxDistance, List<Coordinates> reachableCoordinates) {
-
-		if (maxDistance != 0) {
-			for (Square adjacentSquare : square.getAdjacentSquares()) {
-				reachableSquares(adjacentSquare, maxDistance - 1, reachableCoordinates);
-			}
+	public List<Coordinates> getDoors(Player player) {
+		Square playerSquare = getPlayerSquare(player);
+		List<Coordinates> doors = new ArrayList<>();
+		for (Square square : playerSquare.getAdjacentSquares()) {
+			if (square.getRoomID() != playerSquare.getRoomID())
+				doors.add(square.getCoordinates());
 		}
-
-		if (!(reachableCoordinates.contains(getCoordinates(square))))
-			reachableCoordinates.add(getCoordinates(square));
-		return reachableCoordinates;
-	}
-
-	public List<Coordinates> getCoordinatesWhereCurrentPlayerCanGrab(Player player, int maxDistance) {
-		List<Coordinates> reachableCoordinates = reachableCoordinates(getPlayerCoordinates(player), maxDistance);
-		List<Coordinates> reachableAndNotEmptyCoordinates = new ArrayList<>();
-		for (Coordinates coordinates : reachableCoordinates) {
-			if (getSquare(coordinates).canGrab(player))
-				reachableAndNotEmptyCoordinates.add(coordinates);
-		}
-		return reachableAndNotEmptyCoordinates;
+		Utils.logInfo("GameMap -> getDoors(): Doors for " + player.getPlayerName() + " in " + getPlayerCoordinates(player) + " are: " + doors);
+		return doors;
 	}
 
 	/**
@@ -252,8 +165,7 @@ public class GameMap extends Observable implements Representable {
 	public List<Coordinates> getRoomCoordinates(Square square) {
 		if (isIn(square))
 			return new ArrayList<>(rooms.get(square.getRoomID()));
-		else
-			throw new OutOfBoundariesException("the square does not belong to the map " + getCoordinates(square));
+		throw new OutOfBoundariesException("the square does not belong to the map " + getCoordinates(square));
 	}
 
 	/**
@@ -266,71 +178,7 @@ public class GameMap extends Observable implements Representable {
 	public List<Coordinates> getRoomCoordinates(Coordinates coordinates) {
 		if (isIn(coordinates))
 			return new ArrayList<>(rooms.get(getSquare(coordinates).getRoomID()));
-		else
-			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
-	}
-
-	/**
-	 * Returns true if and only if the player2 is visible from the player1. This is done looking at the rooms ID of the squares where the player are.
-	 *
-	 * @param watchingPlayer player how is observing
-	 * @param otherPlayer player target
-	 * @return true if and only if the player2 is visible from the player1
-	 */
-	public boolean isVisible(Player watchingPlayer, Player otherPlayer) {
-		Square squarePlayer1 = getSquare(playersPositions.get(watchingPlayer));
-		Square squarePlayer2 = getSquare(playersPositions.get(otherPlayer));
-
-		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID()) {
-			Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
-			return true;
-		}
-
-		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
-			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID()) {
-				Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
-				return true;
-			}
-		}
-		Utils.logInfo("GameMap -> isVisible():  watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " cannot see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
-		return false;
-	}
-
-	public List<Player> getVisiblePlayers(Player mainPlayer) {
-		List<Player> visiblePlayers = new ArrayList<>();
-
-		for (Player player : playersPositions.keySet()) {
-			if (isVisible(mainPlayer, player))
-				visiblePlayers.add(player);
-		}
-		visiblePlayers.remove(mainPlayer);
-		return visiblePlayers;
-	}
-
-	public List<Coordinates> getVisibleCoordinates(Player player) {
-		List<Integer> visibleRoomsIndexes = new ArrayList<>();
-		Square squarePlayer = getSquare(playersPositions.get(player));
-
-		visibleRoomsIndexes.add(getSquare(playersPositions.get(player)).getRoomID());
-
-		for (Square adjacentSquare : squarePlayer.getAdjacentSquares()) {
-			if (!visibleRoomsIndexes.contains(adjacentSquare.getRoomID())) {
-				visibleRoomsIndexes.add(adjacentSquare.getRoomID());
-			}
-		}
-
-		List<Coordinates> visibleCoordinates = new ArrayList<>();
-
-		for (Integer roomID : visibleRoomsIndexes) {
-			visibleCoordinates.addAll(rooms.get(roomID));
-		}
-		Utils.logInfo("GameMap -> getVisibleCoordinates(): Player con see");
-		for (Coordinates squareCoordinates : visibleCoordinates) {
-			System.out.print(" " + squareCoordinates);
-		}
-		System.out.print("\n");
-
-		return visibleCoordinates;
+		throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
 	/**
@@ -358,21 +206,311 @@ public class GameMap extends Observable implements Representable {
 	}
 
 	/**
-	 * Removes from the square where the player is the card in the specified index.
+	 * If is possible to move in the direction from the coordinates returns the coordinates in that direction, null otherwise.
 	 *
-	 * @param coordinates coordinates of the square.
-	 * @param index       index of the card's solt to grab.
-	 * @return the card grabbed.
+	 * @param coordinates starting coordinates.
+	 * @param direction   the direction towards to move.
+	 * @return the coordinates in the specified direction starting fomr the coordinates, null otherwise.
 	 */
-	public Card grabCard(Coordinates coordinates, int index) {
-		setChanged();
-		return getSquare(coordinates).grabCard(index);
+	public Coordinates getCoordinatesFromDirection(Coordinates coordinates, CardinalDirection direction) {
+		if (getSquare(coordinates).getPossibleDirections()[direction.ordinal()])
+			return Coordinates.getDirectionCoordinates(coordinates, direction);
+		return null;
 	}
 
-	public void addCard(Coordinates coordinates, Card cardToAdd) {
-		setChanged();
-		getSquare(coordinates).addCard(cardToAdd);
+	/**
+	 * Returns all the Coordinates of the adjacent rooms.
+	 *
+	 * @param coordinates starting coordinates.
+	 * @return all the Coordinates of the adjacent rooms.
+	 */
+	public List<Coordinates> getAdjacentRoomsCoordinates(Coordinates coordinates) {
+		List<Coordinates> coordinatesOfAdjacentRooms = new ArrayList<>();
+		List<Integer> adjacentRooms = new ArrayList<>();
+		for (Square square : getSquare(coordinates).getAdjacentSquares()) {
+			if (!(adjacentRooms.contains(square.getRoomID()) || square.getRoomID() == getSquare(coordinates).getRoomID()))
+				adjacentRooms.add(square.getRoomID());
+		}
+		for (Integer roomID : adjacentRooms) {
+			coordinatesOfAdjacentRooms.addAll(rooms.get(roomID));
+		}
+		return coordinatesOfAdjacentRooms;
 	}
+	// ####################################
+	// PLAYER METHODS
+	// ####################################
+
+	/**
+	 * Returns the position of all players.
+	 *
+	 * @return the position of all players.
+	 */
+	public Map<Player, Coordinates> getPlayersCoordinates() {
+		return new HashMap<>(playersPositions);
+	}
+
+	/**
+	 * Returns the player's coordinates.
+	 *
+	 * @param playerToFind player to find.
+	 * @return the player's coordinates.
+	 * @throws PlayerNotInTheMapException when the player is not in the map.
+	 */
+	public Coordinates getPlayerCoordinates(Player playerToFind) {
+		Coordinates playerCoordinates = playersPositions.get(playerToFind);
+		if (playerCoordinates != null)
+			return playerCoordinates;
+		else
+			throw new PlayerNotInTheMapException("player position is null");
+	}
+
+	/**
+	 * Returns the player's square.
+	 *
+	 * @param playerToFind player to find.
+	 * @return the player's square.
+	 * @throws PlayerNotInTheMapException when the player is not in the map.
+	 */
+	public Square getPlayerSquare(Player playerToFind) {
+		Coordinates playerCoordinates = playersPositions.get(playerToFind);
+		if (playerCoordinates != null)
+			return map[playerCoordinates.getRow()][playerCoordinates.getColumn()];
+		else
+			throw new PlayerNotInTheMapException("player position is null");
+	}
+
+	/**
+	 * Returns the list of players that are in the specified coordinates.
+	 *
+	 * @param coordinates to check.
+	 * @return the list of players that are in the specified coordinates.
+	 */
+	public List<Player> getPlayersFromCoordinates(Coordinates coordinates) {
+		List<Player> players = new ArrayList<>();
+		for (Map.Entry position : playersPositions.entrySet()) {
+			if (position.getValue().equals(coordinates))
+				players.add((Player) position.getKey());
+		}
+		return players;
+	}
+
+	/**
+	 * Moves the player in the specified coordinates.
+	 *
+	 * @param playerToMove player to move
+	 * @param coordinates  coordinates where the player has to be moved to
+	 * @throws OutOfBoundariesException when the player is moved to a square not in the map
+	 */
+	public void movePlayerTo(Player playerToMove, Coordinates coordinates) {
+		if (isIn(coordinates)) {
+			playersPositions.replace(playerToMove, coordinates);
+			setChanged();
+			Utils.logInfo("GameMap -> movePlayerTo(): " + playerToMove.getPlayerName() + " moved to " + coordinates);
+		} else
+			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
+	}
+
+	/**
+	 * Returns all the players in one direction, included the starting coordinates.
+	 * @param coordinates starting coordinates.
+	 * @param direction towards to move.
+	 * @return all the players in one direction, included the starting coordinates.
+	 */
+	public List<Player> getPlayersInDirection(Coordinates coordinates, CardinalDirection direction) {
+		List<Player> players = new ArrayList<>(getPlayersFromCoordinates(coordinates));
+		Coordinates coordinatesToCheck = coordinates;
+		while (coordinatesToCheck != null && isIn(coordinatesToCheck)) {
+			coordinatesToCheck = Coordinates.getDirectionCoordinates(coordinatesToCheck, direction);
+			players.addAll(getPlayersFromCoordinates(coordinatesToCheck));
+		}
+		return players;
+	}
+
+	/**
+	 * Returns the list of all reachable coordinates by a player within the specified distance.
+	 *
+	 * @param player      the player that wants to move.
+	 * @param maxDistance distance the player wants to move.
+	 * @return the list of reachable coordinates.
+	 */
+	public List<Coordinates> reachableCoordinates(Player player, int maxDistance) {
+		List<Coordinates> reachableCoordinates = new ArrayList<>();
+		reachableSquares(getSquare(playersPositions.get(player)), maxDistance, reachableCoordinates);
+		Utils.logInfo("GameMap -> reachableCoordinates(): " + player.getPlayerName() + " can reach in " + maxDistance + " moves: " + reachableCoordinates);
+		return reachableCoordinates;
+	}
+
+
+	/**
+	 * Returns the list of all reachable coordinates from the specified coordinates within the specified distance.
+	 *
+	 * @param coordinates starting coordinates.
+	 * @param maxDistance distance the player wants to move.
+	 * @return the list of reachable coordinates.
+	 */
+	public List<Coordinates> reachableCoordinates(Coordinates coordinates, int maxDistance) {
+		ArrayList<Coordinates> reachableCoordinates = new ArrayList<>();
+		reachableSquares(getSquare(coordinates), maxDistance, reachableCoordinates);
+		Utils.logInfo("GameMap -> reachableCoordinates(): From " + coordinates + " is possible to reach in " + maxDistance + " moves: " + reachableCoordinates);
+		return reachableCoordinates;
+	}
+
+	/**
+	 * Returns a list of all coordinates reachable with 2 moves but following only the cardinal directions.
+	 *
+	 * @param player the player that wants to move.
+	 * @return a list of all coordinates reachable with 2 moves but following only cardinal directions.
+	 */
+	public List<Coordinates> reachablePerpendicularCoordinates(Player player, int distance) {
+		ArrayList<Coordinates> possibleMoves = new ArrayList<>();
+		Coordinates currentCoordinates;
+		Coordinates nextCoordinates;
+		for (CardinalDirection direction : CardinalDirection.values()) {
+			int currentDistance = 1;
+			boolean canMove = true;
+			currentCoordinates = getPlayerCoordinates(player);
+			while (currentDistance <= distance && canMove) {
+				nextCoordinates = getCoordinatesFromDirection(currentCoordinates, direction);
+				if (nextCoordinates != null) {
+					possibleMoves.add(nextCoordinates);
+					currentCoordinates = nextCoordinates;
+					currentDistance++;
+				} else
+					canMove = false;
+			}
+		}
+		return possibleMoves;
+	}
+
+	/**
+	 * Returns the list of Coordinates where the player can grab.
+	 * @param player the player who is grabbing.
+	 * @param maxDistance maximum distance the player can move.
+	 * @return the list of Coordinates where the player can grab.
+	 */
+	public List<Coordinates> getCoordinatesWhereCurrentPlayerCanGrab(Player player, int maxDistance) {
+		List<Coordinates> reachableCoordinates = reachableCoordinates(getPlayerCoordinates(player), maxDistance);
+		List<Coordinates> reachableAndNotEmptyCoordinates = new ArrayList<>();
+		for (Coordinates coordinates : reachableCoordinates) {
+			if (getSquare(coordinates).canGrab(player))
+				reachableAndNotEmptyCoordinates.add(coordinates);
+		}
+		return reachableAndNotEmptyCoordinates;
+	}
+
+
+	/**
+	 * Returns true if and only if the player2 is visible from the player1. This is done looking at the rooms ID of the squares where the player are.
+	 *
+	 * @param watchingPlayer player how is observing
+	 * @param otherPlayer    player target
+	 * @return true if and only if the player2 is visible from the player1
+	 */
+	public boolean isVisible(Player watchingPlayer, Player otherPlayer) {
+		Square squarePlayer1 = getSquare(playersPositions.get(watchingPlayer));
+		Square squarePlayer2 = getSquare(playersPositions.get(otherPlayer));
+
+		if (watchingPlayer.getPlayerName().equals(otherPlayer.getPlayerName())) {
+			throw new IllegalArgumentException("players must be different");
+		}
+
+		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID()) {
+			Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+			return true;
+		}
+
+		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
+			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID()) {
+				Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+				return true;
+			}
+		}
+		Utils.logInfo("GameMap -> isVisible():  watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " cannot see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+		return false;
+	}
+
+	/**
+	 * Returns all visible players.
+	 * @param mainPlayer player who is watching.
+	 * @return all visible players.
+	 */
+	public List<Player> getVisiblePlayers(Player mainPlayer) {
+		List<Player> visiblePlayers = new ArrayList<>();
+
+		for (Player player : playersPositions.keySet()) {
+			if (!player.getPlayerName().equals(mainPlayer.getPlayerName()) && isVisible(mainPlayer, player))
+				visiblePlayers.add(player);
+		}
+		return visiblePlayers;
+	}
+
+	/**
+	 * Returns all visible coordinates.
+	 * @param player player who is watching.
+	 * @return all visible coordinates.
+	 */
+	public List<Coordinates> getVisibleCoordinates(Player player) {
+		List<Integer> visibleRoomsIndexes = new ArrayList<>();
+		Square squarePlayer = getSquare(playersPositions.get(player));
+
+		visibleRoomsIndexes.add(getSquare(playersPositions.get(player)).getRoomID());
+
+		for (Square adjacentSquare : squarePlayer.getAdjacentSquares()) {
+			if (!visibleRoomsIndexes.contains(adjacentSquare.getRoomID())) {
+				visibleRoomsIndexes.add(adjacentSquare.getRoomID());
+			}
+		}
+
+		List<Coordinates> visibleCoordinates = new ArrayList<>();
+
+		for (Integer roomID : visibleRoomsIndexes) {
+			visibleCoordinates.addAll(rooms.get(roomID));
+		}
+		Utils.logInfo("GameMap -> getVisibleCoordinates(): Player con see");
+		for (Coordinates squareCoordinates : visibleCoordinates) {
+			System.out.print(" " + squareCoordinates);
+		}
+		System.out.print("\n");
+
+		return visibleCoordinates;
+	}
+
+	/**
+	 * Returns all the players that the specified player can reach within the specified distance.
+	 * @param player player who is moving.
+	 * @param distance distance the player can move.
+	 * @return all the players that the specified player can reach within the specified distance.
+	 */
+	public List<Player> reachablePlayers(Player player, int distance) {
+		List<Player> reachablePlayers = new ArrayList<>();
+		List<Coordinates> reachableCoordinates = reachableCoordinates(player, distance);
+		for (Coordinates coordinates : reachableCoordinates) {
+			reachablePlayers.addAll(getPlayersFromCoordinates(coordinates));
+		}
+		reachablePlayers.remove(player);
+		return reachablePlayers;
+	}
+
+	/**
+	 * Returns all the visible players that the specified player can reach within the specified distance.
+	 * @param player player who is moving.
+	 * @param distance distance the player can move.
+	 * @return all the visible players that the specified player can reach within the specified distance.
+	 */
+	public List<Player> reachableAndVisiblePlayers(Player player, int distance) {
+		List<Player> reachablePlayers = reachablePlayers(player, distance);
+		List<Player> reachableAndVisiblePlayers = new ArrayList<>();
+		for (Player otherPlayer : reachablePlayers) {
+			if (isVisible(player, otherPlayer))
+				reachableAndVisiblePlayers.add(otherPlayer);
+		}
+		return reachableAndVisiblePlayers;
+	}
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
 
 	/**
 	 * Given the square returns its coordinates in the map.
@@ -402,62 +540,24 @@ public class GameMap extends Observable implements Representable {
 			throw new OutOfBoundariesException("the coordinates do not belong to the map " + coordinates);
 	}
 
-	public Coordinates getCoordinatesFromDirection(Coordinates coordinates, CardinalDirection direction) {
-		if (getSquare(coordinates).getPossibleDirections()[direction.ordinal()])
-			return Coordinates.getDirectionCoordinates(coordinates, direction);
-		return null;
-	}
+	/**
+	 * Returns the set of all reachable squares from the coordinates and distance at most max distance.
+	 *
+	 * @param square      square of the starting point
+	 * @param maxDistance maximum distance
+	 * @return the set of all reachable squares from the coordinates and distance at most max distance
+	 */
+	private List<Coordinates> reachableSquares(Square square, int maxDistance, List<Coordinates> reachableCoordinates) {
 
-	public List<Coordinates> getAdjacentRoomsCoordinates(Coordinates coordinates) {
-		List<Coordinates> coordinatesOfAdjacentRooms = new ArrayList<>();
-		List<Integer> adjacentRooms = new ArrayList<>();
-		for (Square square : getSquare(coordinates).getAdjacentSquares()) {
-			if (!(adjacentRooms.contains(square.getRoomID()) || square.getRoomID() == getSquare(coordinates).getRoomID()))
-				adjacentRooms.add(square.getRoomID());
+		if (maxDistance != 0) {
+			for (Square adjacentSquare : square.getAdjacentSquares()) {
+				reachableSquares(adjacentSquare, maxDistance - 1, reachableCoordinates);
+			}
 		}
-		for (Integer roomID : adjacentRooms) {
-			coordinatesOfAdjacentRooms.addAll(rooms.get(roomID));
-		}
-		return coordinatesOfAdjacentRooms;
-	}
 
-	public List<Player> reachablePlayers(Player player, int distance) {
-		List<Player> reachablePlayers = new ArrayList<>();
-		List<Coordinates> reachableCoordinates = reachableCoordinates(player, distance);
-		for (Coordinates coordinates : reachableCoordinates) {
-			reachablePlayers.addAll(getPlayersFromCoordinates(coordinates));
-		}
-		reachablePlayers.remove(player);
-		return reachablePlayers;
-	}
-
-	public List<Player> reachableAndVisiblePlayers(Player player, int distance) {
-		List<Player> reachablePlayers = reachablePlayers(player, distance);
-		List<Player> reachableAndVisiblePlayers = new ArrayList<>();
-		for (Player otherPlayer : reachablePlayers) {
-			if (isVisible(player, otherPlayer))
-				reachableAndVisiblePlayers.add(otherPlayer);
-		}
-		return reachableAndVisiblePlayers;
-	}
-
-	public List<Coordinates> getDoors(Player player) {
-		Square playerSquare = getSquare(getPlayerCoordinates(player));
-		List<Coordinates> doors = new ArrayList<>();
-		for (Square square : playerSquare.getAdjacentSquares()) {
-			if (square.getRoomID() != playerSquare.getRoomID())
-				doors.add(square.getCoordinates());
-		}
-		return doors;
-	}
-
-	public List<Player> getPlayersFromCoordinates(Coordinates coordinates) {
-		List<Player> players = new ArrayList<>();
-		for (Map.Entry position : playersPositions.entrySet()) {
-			if (position.getValue().equals(coordinates))
-				players.add((Player) position.getKey());
-		}
-		return players;
+		if (!(reachableCoordinates.contains(getCoordinates(square))))
+			reachableCoordinates.add(getCoordinates(square));
+		return reachableCoordinates;
 	}
 
 	/**
@@ -467,7 +567,7 @@ public class GameMap extends Observable implements Representable {
 	 * @return true if and only if the coordinates belong to the map
 	 */
 	private boolean isIn(Coordinates coordinates) {
-		return (!((coordinates.getRow() >= numOfRows) || (coordinates.getColumn() >= numOfColumns))) &&
+		return !((coordinates.getRow() >= numOfRows) || (coordinates.getColumn() >= numOfColumns)) &&
 				map[coordinates.getRow()][coordinates.getColumn()].getRoomID() != -1;
 	}
 
@@ -484,6 +584,7 @@ public class GameMap extends Observable implements Representable {
 
 	/**
 	 * Adds a Square to the map according to the specified coordinates.
+	 *
 	 * @param square JsonObject to parse.
 	 */
 	private void addSquareToMap(JsonObject square, GameBoard gameBoard) throws IOException {
@@ -577,6 +678,10 @@ public class GameMap extends Observable implements Representable {
 		return result;
 	}
 
+	// ####################################
+	// REPRESENTATION METHODS
+	// ####################################
+
 	/**
 	 * Returns the squares's representation in the specified coordinates.
 	 *
@@ -600,6 +705,7 @@ public class GameMap extends Observable implements Representable {
 
 	/**
 	 * Returns the representation of the game map.
+	 *
 	 * @return the representation of the game map.
 	 */
 	@Override

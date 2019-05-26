@@ -8,6 +8,7 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.exceptions.InventoryFullException;
 
 /**
  * Normal square associated with an ammo card
@@ -61,6 +62,7 @@ public class AmmoSquare extends Square {
 			throw new IllegalArgumentException("This is an ammo square, index can be only 0 and you are asking " + index);
 		setNotFilled();
 		setChanged();
+		Utils.logInfo("AmmoSquare -> grabCard(): Grabbing " + cards.get(index).getCardDescription());
 		return cards.remove(index);
 	}
 
@@ -69,7 +71,7 @@ public class AmmoSquare extends Square {
 	 * Adds the specified card to the ammo square.
 	 *
 	 * @param cardToAdd Card to add to the square.
-	 * @throws IllegalArgumentException when the card slot is full and this method is called.
+	 * @throws InventoryFullException when the card slot is full and this method is called.
 	 * @throws NullPointerException     when the card to add is null.
 	 */
 	@Override
@@ -78,9 +80,9 @@ public class AmmoSquare extends Square {
 			throw new NullPointerException("The card to add is null");
 		if (!isFilled()) {
 			cards.add(cardToAdd);
-			Utils.logInfo("AmmoSquare -> addCard(): Adding to the ammo square " + cardToAdd);
+			Utils.logInfo("AmmoSquare -> addCard(): Adding to the ammo square " + cardToAdd.getCardDescription());
 		} else
-			throw new IllegalArgumentException("The square inventory is full");
+			throw new InventoryFullException("The square inventory is full");
 	}
 
 	/**

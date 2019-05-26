@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * This class implements the Newton powerup
+ * This class implements the Newton powerup.
  *
  * @author MarcerAndrea
  * @author Desno365
@@ -50,12 +50,22 @@ public class Newton extends PowerupCard {
 		return getGameBoard().getPlayers().stream().anyMatch(this::canActivateOnPlayer);
 	}
 
+	/**
+	 * Returns the initial question and options.
+	 *
+	 * @return the initial question and options.
+	 */
 	@Override
 	public QuestionContainer initialQuestion() {
 		incrementCurrentStep();
 		return firstStep();
 	}
 
+	/**
+	 * Performs the powerup action according to the player choice.
+	 * @param choice the choice of the player.
+	 * @return question and options to send to the player.
+	 */
 	@Override
 	public QuestionContainer doActivationStep(int choice) {
 		incrementCurrentStep();
@@ -92,7 +102,7 @@ public class Newton extends PowerupCard {
 	private QuestionContainer secondStep(int choice) {
 		if (choice >= 0 && choice < targettablePlayers.size()) {
 			targetPlayer = targettablePlayers.get(choice);
-			allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinatesWithDistance2(targetPlayer);
+			allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinates(targetPlayer, 2);
 
 			return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", allowedCoordinates);
 		} else {

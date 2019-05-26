@@ -64,7 +64,7 @@ public class GameBoard extends Observable implements Representable {
 		}
 		players.forEach(this::addPowerupCardTo);
 		playerQueue = new PlayerQueue(players);
-		gameMap = new GameMap(mapName, players, this);
+		gameMap = new GameMap(mapName, this);
 
 		setChanged();
 	}

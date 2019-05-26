@@ -42,4 +42,11 @@ public class AmmoCardTest {
 		assertEquals(ammoCard.hasPowerup(), ammoCardRep.hasPowerup());
 		assertEquals(ammoCard.getAmmo(), ammoCardRep.getAmmo());
 	}
+
+	@Test
+	public void getDescription_noInput_sameDescription() {
+		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p");
+		AmmoCardRep ammoCardRep = (AmmoCardRep) ammoCard.getRep();
+		assertEquals(ammoCard.getCardDescription(), ammoCardRep.getCardDescription());
+	}
 }
