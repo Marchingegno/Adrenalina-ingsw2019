@@ -123,6 +123,7 @@ public abstract class WeaponCard extends ActivableCard {
 				playersToShoot.get(i).getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
+		reset();
 	}
 
 	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
