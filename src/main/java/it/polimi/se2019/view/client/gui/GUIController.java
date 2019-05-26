@@ -3,6 +3,7 @@ package it.polimi.se2019.view.client.gui;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.RemoteView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +20,7 @@ public class GUIController extends RemoteView {
 		try {
 			return new FXMLLoader(GUIInitializer.class.getResource("/gui/" + fxmlName + ".fxml")).load();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logError("Error while loading FXML.", e);
 		}
 		return null;
 	}
