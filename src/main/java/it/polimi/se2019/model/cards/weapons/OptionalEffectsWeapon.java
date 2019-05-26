@@ -7,6 +7,7 @@ import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -74,8 +75,14 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		for (int i = 0; i < canAddOptionalEffect.length; i++) {
 			canAddOptionalEffect[i] = getOwner().hasEnoughAmmo(optionalPrices.subList(i,i+1));
 		}
-		//the following is hardcoded.
-		canAddOptionalEffect[2] = getOwner().hasEnoughAmmo(optionalPrices);
+		canAddOptionalEffect[0] = getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(0)));
+		try {
+			canAddOptionalEffect[1] = getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(1)));
+			canAddOptionalEffect[2] = getOwner().hasEnoughAmmo(optionalPrices);
+		} catch (NullPointerException e) {
+			//TODO Replace with boolean methods taken from Json
+			Utils.logWarning("This weapon does not have other optional effects.");
+		}
 	}
 
 	protected void registerChoice(int choice) {
