@@ -98,7 +98,7 @@ public class Railgun extends AlternateFireWeapon {
 	}
 
 	@Override
-	public boolean canBeActivated() {
+	public boolean canPrimaryBeActivated() {
 		//There's at least one direction with enemies in it.
 		for (CardinalDirection direction : CardinalDirection.values()) {
 			List<Player> playersInDirection = getGameMap().getPlayersInDirection(getGameMap().getPlayerCoordinates(getOwner()), direction);
@@ -108,5 +108,10 @@ public class Railgun extends AlternateFireWeapon {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	protected boolean canSecondaryBeActivated() {
+		return canPrimaryBeActivated();
 	}
 }

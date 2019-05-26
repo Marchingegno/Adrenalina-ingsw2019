@@ -170,7 +170,7 @@ public class Flamethrower extends AlternateFireWeapon {
 	}
 
 	@Override
-	public boolean canBeActivated() {
+	public boolean canPrimaryBeActivated() {
 		//There's at least one player in two squares away in one direction.
 		for (CardinalDirection direction : CardinalDirection.values()) {
 			chosenDirection = direction;
@@ -179,5 +179,10 @@ public class Flamethrower extends AlternateFireWeapon {
 			return !possibleTargets.isEmpty();
 		}
 		return false;
+	}
+
+	@Override
+	protected boolean canSecondaryBeActivated() {
+		return canPrimaryBeActivated();
 	}
 }
