@@ -7,6 +7,7 @@ import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Furnace extends AlternateFireWeapon {
 
@@ -85,13 +86,29 @@ public class Furnace extends AlternateFireWeapon {
 	}
 
 	private List<Coordinates> getPrimaryCoordinates(){
-		return getGameMap().getDoors(getOwner());
+		List<Coordinates> doorsOfNearbyRooms = getGameMap().getDoors(getOwner());
+		for (Coordinates coordinates : doorsOfNearbyRooms) {
+			List<Coordinates> roomCoordinates = getGameMap().getRoomCoordinates(coordinates);
+			List<Player> playersInTheRoom = new ArrayList<>();
+			for (Coordinates item : roomCoordinates) {
+				playersInTheRoom.addAll(getGameMap().getPlayersFromCoordinates(item));
+			}
+			//If there is not player in the room, this door can't be a target.
+			if (playersInTheRoom.isEmpty()) {
+				doorsOfNearbyRooms.remove(coordinates);
+			}
+		}
+		return doorsOfNearbyRooms;
 	}
 
 	private List<Coordinates> getSecondaryCoordinates(){
 		List<Coordinates> oneMoveCoordinates = getGameMap().reachableCoordinates(getOwner(), 1);
 		oneMoveCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
-		targettableCoordinates = oneMoveCoordinates;
+		//Remove all coordinates that don't contain players.
+		List<Coordinates> coordinatesWithEnemies = oneMoveCoordinates.stream()
+				.filter(item -> !getGameMap().getPlayersFromCoordinates(item).isEmpty())
+				.collect(Collectors.toList());
+		targettableCoordinates = coordinatesWithEnemies;
 		return targettableCoordinates;
 	}
 
@@ -103,5 +120,15 @@ public class Furnace extends AlternateFireWeapon {
 		targettableCoordinates = new ArrayList<>();
 	}
 
+	@Override
+	protected boolean canSecondaryBeActivated() {
+		//There's at least one square next to the player with enemies in it.
+		return !getSecondaryCoordinates().isEmpty();
+	}
 
+	@Override
+	protected boolean canPrimaryBeActivated() {
+		//There's at least one door with players in the other room
+		return !getPrimaryCoordinates().isEmpty();
+	}
 }

@@ -59,6 +59,10 @@ public abstract class WeaponCard extends ActivableCard {
 
 	@Override
 	public boolean canBeActivated() {
+		return canPrimaryBeActivated();
+	}
+
+	protected boolean canPrimaryBeActivated() {
 		return !getPrimaryTargets().isEmpty();
 	}
 

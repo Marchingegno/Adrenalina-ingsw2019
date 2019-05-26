@@ -73,10 +73,10 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	@Override
 	public QuestionContainer initialQuestion() {
 		List<String> options = new ArrayList<>();
-		if (!getPrimaryTargets().isEmpty()) {
+		if (canPrimaryBeActivated()) {
 			options.add("Standard fire.");
 		}
-		if (!getSecondaryTargets().isEmpty()) {
+		if (canSecondaryBeActivated() && getOwner().hasEnoughAmmo(secondaryPrice)) {
 			options.add("Alternate fire.");
 		}
 		return QuestionContainer.createStringQuestionContainer("Which fire mode do you want to use?", options);
@@ -111,7 +111,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 
 	@Override
 	public boolean canBeActivated() {
-		return super.canBeActivated() || !getSecondaryTargets().isEmpty();
+		return super.canBeActivated() || canSecondaryBeActivated();
 	}
 
 	int getMaximumAlternateSteps() {
@@ -125,5 +125,9 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	@Override
 	public Representation getRep() {
 		return super.getRep();
+	}
+
+	protected boolean canSecondaryBeActivated() {
+		return !getSecondaryTargets().isEmpty();
 	}
 }
