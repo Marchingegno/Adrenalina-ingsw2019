@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-// TODO reload and weapons disabled!
+// TODO reload
 public class VirtualViewDriver extends VirtualView {
 
 	private static final int MAX_NUMBER_OF_TURNS = 100;
-	private static final boolean TEST_SHOOT = true;
-	private static final boolean TEST_MOVE = false; // Set to false if you think "Move" is a useless action.
-	private static final boolean DISPLAY_REPS = true;
+	private final boolean TEST_SHOOT;
+	private final boolean TEST_MOVE;
+	private final boolean DISPLAY_REPS;
 
 	private static int numberOfTurns = 0;
 
@@ -33,9 +33,12 @@ public class VirtualViewDriver extends VirtualView {
 	private RepPrinter repPrinter = new RepPrinter(modelRep);
 
 
-	public VirtualViewDriver(String nickname) {
+	public VirtualViewDriver(String nickname, final boolean TEST_SHOOT, final boolean TEST_MOVE, final boolean DISPLAY_REPS) {
 		super(null);
 		this.nickname = nickname;
+		this.TEST_SHOOT = TEST_SHOOT;
+		this.TEST_MOVE = TEST_MOVE;
+		this.DISPLAY_REPS = DISPLAY_REPS;
 	}
 
 
@@ -46,7 +49,7 @@ public class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void sendReps() {
-		Utils.logInfo("VirtualViewDriver -> sendReps(): called sendReps().");
+		throw new IllegalStateException("This method must be overridden.");
 	}
 
 	@Override
@@ -194,6 +197,10 @@ public class VirtualViewDriver extends VirtualView {
 			repPrinter.displayGame();
 	}
 
+	protected void sendMessageToController(Message message) {
+		throw new IllegalStateException("This method must be overridden.");
+	}
+
 
 	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
 		int randomIndex;
@@ -219,17 +226,5 @@ public class VirtualViewDriver extends VirtualView {
 			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.GREEN) + " TEST GAME FINISHED CORRECTLY " + Color.getColoredString("##################", Color.CharacterColorType.GREEN));
 			return false;
 		}
-	}
-
-	private void sendMessageToController(final Message message) {
-		new java.util.Timer().schedule(
-				new java.util.TimerTask() {
-					@Override
-					public void run() {
-						onMessageReceived(message);
-					}
-				},
-				10
-		);
 	}
 }
