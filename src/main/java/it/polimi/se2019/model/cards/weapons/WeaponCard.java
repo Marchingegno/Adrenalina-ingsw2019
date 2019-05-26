@@ -59,7 +59,7 @@ public abstract class WeaponCard extends ActivableCard {
 
 	// TODO
 	public boolean canFire(){
-		return true;
+		return !getPrimaryTargets().isEmpty();
 	}
 
 	GameMap getGameMap() {

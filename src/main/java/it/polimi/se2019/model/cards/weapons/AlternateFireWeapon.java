@@ -40,9 +40,10 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		return secondaryDamagesAndMarks;
 	}
 
-	public void registerChoice(int choice) {
-		if (choice == 1)
+	private void registerChoice(int choice) {
+		if (getPrimaryTargets().isEmpty() || choice == 1) {
 			alternateFireActive = true;
+		}
 	}
 
 	/**
@@ -72,8 +73,12 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	@Override
 	public QuestionContainer initialQuestion() {
 		List<String> options = new ArrayList<>();
-		options.add("Standard fire.");
-		options.add("Alternate fire.");
+		if (!getPrimaryTargets().isEmpty()) {
+			options.add("Standard fire.");
+		}
+		if (!getSecondaryTargets().isEmpty()) {
+			options.add("Alternate fire.");
+		}
 		return QuestionContainer.createStringQuestionContainer("Which fire mode do you want to use?", options);
 	}
 
@@ -89,7 +94,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	public abstract List<Player> getSecondaryTargets();
 
 
-	void secondaryReset(){
+	private void secondaryReset() {
 		this.alternateFireActive = FALSE;
 	}
 
@@ -104,6 +109,10 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		return getTargetPlayersQnO(currentTargets);
 	}
 
+	@Override
+	public boolean canFire() {
+		return super.canFire() || !getSecondaryTargets().isEmpty();
+	}
 
 	int getMaximumAlternateSteps() {
 		return maximumAlternateSteps;
