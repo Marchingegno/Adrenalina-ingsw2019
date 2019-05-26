@@ -287,6 +287,8 @@ public class GameMap extends Observable implements Representable {
 	 */
 	public List<Player> getPlayersFromCoordinates(Coordinates coordinates) {
 		List<Player> players = new ArrayList<>();
+		if (coordinates == null)
+			throw new NullPointerException();
 		for (Map.Entry position : playersPositions.entrySet()) {
 			if (position != null && position.getValue().equals(coordinates))
 				players.add((Player) position.getKey());
@@ -317,11 +319,11 @@ public class GameMap extends Observable implements Representable {
 	 * @return all the players in one direction, included the starting coordinates.
 	 */
 	public List<Player> getPlayersInDirection(Coordinates coordinates, CardinalDirection direction) {
-		List<Player> players = new ArrayList<>(getPlayersFromCoordinates(coordinates));
+		List<Player> players = new ArrayList<>();
 		Coordinates coordinatesToCheck = coordinates;
 		while (coordinatesToCheck != null && isIn(coordinatesToCheck)) {
-			coordinatesToCheck = Coordinates.getDirectionCoordinates(coordinatesToCheck, direction);
 			players.addAll(getPlayersFromCoordinates(coordinatesToCheck));
+			coordinatesToCheck = Coordinates.getDirectionCoordinates(coordinatesToCheck, direction);
 		}
 		return players;
 	}
