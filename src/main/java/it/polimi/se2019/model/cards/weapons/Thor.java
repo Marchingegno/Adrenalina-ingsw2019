@@ -15,6 +15,7 @@ public class Thor extends OptionalEffectsWeapon {
 		super(parameters);
 		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+		chosenTargets = new ArrayList<>();
 	}
 
 	@Override
@@ -25,7 +26,6 @@ public class Thor extends OptionalEffectsWeapon {
 			 return getTargetPlayersQnO(currentTargets);
 		}
 		else if(getCurrentStep() == 3) {
-			chosenTargets = new ArrayList<>();
 			chosenTargets.add(currentTargets.get(choice));
 		}
 
