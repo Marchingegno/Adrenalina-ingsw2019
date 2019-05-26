@@ -32,6 +32,7 @@ public class Heatseeker extends WeaponCard {
 	public List<Player> getPrimaryTargets() {
 		List<Player> nonVisiblePlayers = getAllPlayers();
 		nonVisiblePlayers.removeAll(getGameMap().getVisiblePlayers(getOwner()));
+		nonVisiblePlayers.remove(getOwner());
 		return nonVisiblePlayers;
 	}
 
