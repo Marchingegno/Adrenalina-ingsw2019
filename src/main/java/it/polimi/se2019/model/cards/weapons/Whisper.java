@@ -54,8 +54,5 @@ public class Whisper extends WeaponCard {
 		return null;
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

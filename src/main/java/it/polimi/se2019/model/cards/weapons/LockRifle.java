@@ -36,8 +36,5 @@ public class LockRifle extends OptionalEffectsWeapon {
 
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

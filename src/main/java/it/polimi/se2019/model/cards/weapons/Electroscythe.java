@@ -71,8 +71,5 @@ public class Electroscythe extends AlternateFireWeapon {
 		return getPrimaryTargets();
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

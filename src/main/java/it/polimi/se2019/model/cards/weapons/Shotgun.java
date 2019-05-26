@@ -97,8 +97,5 @@ public class Shotgun extends AlternateFireWeapon {
 		listEnemyMoveCoordinates = new ArrayList<>();
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

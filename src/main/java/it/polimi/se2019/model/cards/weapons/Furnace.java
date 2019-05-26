@@ -103,8 +103,5 @@ public class Furnace extends AlternateFireWeapon {
 		targettableCoordinates = new ArrayList<>();
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

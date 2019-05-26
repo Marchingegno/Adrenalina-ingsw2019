@@ -91,8 +91,5 @@ public class MachineGun extends OptionalEffectsWeapon {
 		chosenTargets = new ArrayList<>();
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

@@ -36,8 +36,5 @@ public class RocketLauncher extends OptionalEffectsWeapon {
 
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

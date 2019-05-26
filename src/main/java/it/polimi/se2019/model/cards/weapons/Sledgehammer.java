@@ -93,8 +93,5 @@ public class Sledgehammer extends AlternateFireWeapon {
 		enemyMovingCoordinates = new ArrayList<>();
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }

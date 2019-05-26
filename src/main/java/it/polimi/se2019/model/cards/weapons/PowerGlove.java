@@ -61,8 +61,5 @@ public class PowerGlove extends AlternateFireWeapon {
 		return null;
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return true;
-	}
+
 }
