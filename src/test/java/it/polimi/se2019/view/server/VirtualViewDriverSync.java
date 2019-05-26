@@ -7,8 +7,8 @@ public class VirtualViewDriverSync extends VirtualViewDriver {
 
 	private Message messageBuffer;
 
-	public VirtualViewDriverSync(String nickname, boolean TEST_SHOOT, boolean TEST_MOVE, boolean DISPLAY_REPS) {
-		super(nickname, TEST_SHOOT, TEST_MOVE, DISPLAY_REPS);
+	public VirtualViewDriverSync(String nickname, boolean TEST_SHOOT, boolean TEST_MOVE) {
+		super(nickname, TEST_SHOOT, TEST_MOVE);
 	}
 
 
@@ -19,6 +19,7 @@ public class VirtualViewDriverSync extends VirtualViewDriver {
 	 */
 	@Override
 	public void sendReps() {
+		showRep();
 		if(messageBuffer != null) {
 			Utils.logInfo("VirtualViewDriver -> sendReps(): sending message in buffer to the controller.");
 

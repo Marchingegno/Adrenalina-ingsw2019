@@ -24,7 +24,7 @@ public class VirtualViewDriver extends VirtualView {
 	private static final int MAX_NUMBER_OF_TURNS = 100;
 	private final boolean TEST_SHOOT;
 	private final boolean TEST_MOVE;
-	private final boolean DISPLAY_REPS;
+	private boolean displayReps;
 
 	private static int numberOfTurns = 0;
 
@@ -33,14 +33,17 @@ public class VirtualViewDriver extends VirtualView {
 	private RepPrinter repPrinter = new RepPrinter(modelRep);
 
 
-	public VirtualViewDriver(String nickname, final boolean TEST_SHOOT, final boolean TEST_MOVE, final boolean DISPLAY_REPS) {
+	public VirtualViewDriver(String nickname, final boolean TEST_SHOOT, final boolean TEST_MOVE) {
 		super(null);
 		this.nickname = nickname;
 		this.TEST_SHOOT = TEST_SHOOT;
 		this.TEST_MOVE = TEST_MOVE;
-		this.DISPLAY_REPS = DISPLAY_REPS;
 	}
 
+
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
 
 	@Override
 	public void onClientDisconnected() {
@@ -177,23 +180,35 @@ public class VirtualViewDriver extends VirtualView {
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
 		Utils.logInfo("Updated " + getNickname() + "'s Game Board rep");
-		if(DISPLAY_REPS && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
-			repPrinter.displayGame();
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		modelRep.setGameMapRep(gameMapRepToUpdate);
 		Utils.logInfo("Updated " + getNickname() + "'s Game Map rep");
-		if(DISPLAY_REPS && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
-			repPrinter.displayGame();
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		modelRep.setPlayerRep(playerRepToUpdate);
 		Utils.logInfo("Updated " + getNickname() + "'s Player rep of " + playerRepToUpdate.getPlayerName());
-		if(DISPLAY_REPS && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
+	}
+
+	// ####################################
+	// PUBLIC METHODS
+	// ####################################
+
+	public void setDisplayReps(boolean displayReps) {
+		this.displayReps = displayReps;
+	}
+
+
+	// ####################################
+	// PROTECTED METHODS (for subclasses)
+	// ####################################
+
+	protected void showRep() {
+		if(displayReps && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
 			repPrinter.displayGame();
 	}
 
@@ -201,6 +216,10 @@ public class VirtualViewDriver extends VirtualView {
 		throw new IllegalStateException("This method must be overridden.");
 	}
 
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
 
 	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
 		int randomIndex;
