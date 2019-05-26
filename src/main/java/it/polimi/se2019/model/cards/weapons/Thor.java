@@ -16,7 +16,6 @@ public class Thor extends OptionalEffectsWeapon {
 		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
-		chosenTargets = new ArrayList<>();
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class Thor extends OptionalEffectsWeapon {
 	public List<Player> getPrimaryTargets() {
 		//Get a target that the player can see if he has not chosen any target yet
 		//Get a target that the last player can see, except already chosen targets.
-		if(currentTargets.isEmpty()){
+		if (chosenTargets.isEmpty()) {
 			return getGameMap().getVisiblePlayers(getOwner());
 		}
 		else{

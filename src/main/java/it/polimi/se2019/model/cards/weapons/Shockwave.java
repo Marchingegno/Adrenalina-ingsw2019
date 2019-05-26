@@ -76,7 +76,7 @@ public class Shockwave extends AlternateFireWeapon {
 		//Adjacent players, except the players in squares where a player is already been chosen.
 		List<Player> adjacentPlayersExceptChosen = getGameMap().reachablePlayers(getOwner(), 1);
 		adjacentPlayersExceptChosen.removeAll(getGameMap().reachablePlayers(getOwner(), 0));
-		if(!chosenTargets.isEmpty()){
+		if (chosenTargets != null && !chosenTargets.isEmpty()) {
 			//Then the player has already chosen someone, we need to remove all the players in target's squares.
 			for (Player enemy:chosenTargets) {
 				List<Player> playersToRemove = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(enemy));

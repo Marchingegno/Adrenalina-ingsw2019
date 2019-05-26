@@ -248,7 +248,7 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	protected static boolean isThisChoiceRefusal(List listToCheck, int choice){
-		return choice == listToCheck.size() - 1;
+		return choice == listToCheck.size();
 	}
 
 	protected void relocateEnemy(Player enemy, Coordinates coordinates){
