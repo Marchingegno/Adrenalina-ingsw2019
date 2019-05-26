@@ -73,7 +73,9 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		List<Coordinates> coordinatesSurroundingVortex = getGameMap().reachableCoordinates(vortexCoordinate, 1);
 		List<Player> playersOneMoveAwayNotTargeted = new ArrayList<>();
 		coordinatesSurroundingVortex.forEach(item -> playersOneMoveAwayNotTargeted.addAll(getGameMap().getPlayersFromCoordinates(item)));
-		playersOneMoveAwayNotTargeted.removeAll(chosenTargets);
+		if (chosenTargets != null && !chosenTargets.isEmpty()) {
+			playersOneMoveAwayNotTargeted.removeAll(chosenTargets);
+		}
 		playersOneMoveAwayNotTargeted.remove(getOwner());
 		return playersOneMoveAwayNotTargeted;
 	}
