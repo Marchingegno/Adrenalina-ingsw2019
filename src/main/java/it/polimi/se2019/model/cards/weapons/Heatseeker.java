@@ -53,8 +53,4 @@ public class Heatseeker extends WeaponCard {
 		return null;
 	}
 
-	@Override
-	public boolean canBeActivated() {
-		return false;
-	}
 }
