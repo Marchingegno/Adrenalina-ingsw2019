@@ -41,7 +41,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	}
 
 	private void registerChoice(int choice) {
-		if (getPrimaryTargets().isEmpty() || choice == 1) {
+		if (!canPrimaryBeActivated() || choice == 1) {
 			alternateFireActive = true;
 		}
 	}
