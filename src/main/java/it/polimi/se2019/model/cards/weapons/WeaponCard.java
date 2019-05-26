@@ -57,8 +57,8 @@ public abstract class WeaponCard extends ActivableCard {
 		resetCurrentStep();
 	}
 
-	// TODO
-	public boolean canFire(){
+	@Override
+	public boolean canBeActivated() {
 		return !getPrimaryTargets().isEmpty();
 	}
 

@@ -100,7 +100,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	public boolean canFire() {
+	public boolean canBeActivated() {
 		//there's at least one place where the owner can place the vortex that has a player next or on top of it.
 		List<Coordinates> possibleVortexCoordinates = getVortexCoordinates();
 		for (Coordinates coordinates : possibleVortexCoordinates) {
@@ -113,10 +113,5 @@ public class VortexCannon extends OptionalEffectsWeapon {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public boolean canBeActivated() {
-		return true;
 	}
 }

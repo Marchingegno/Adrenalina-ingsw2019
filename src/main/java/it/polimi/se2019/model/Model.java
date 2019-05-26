@@ -270,7 +270,7 @@ public class Model {
 		if(indexOfWeapon >= weaponCards.size() || indexOfWeapon < 0)
 			return false;
 
-		return weaponCards.get(indexOfWeapon).canFire();
+		return weaponCards.get(indexOfWeapon).canBeActivated();
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class Model {
 		List<Integer> activableWeapons = new ArrayList<>();
 
 		for (int i = 0; i < weaponCards.size(); i++) {
-			if(weaponCards.get(i).canFire())
+			if (weaponCards.get(i).canBeActivated())
 				activableWeapons.add(i);
 		}
 

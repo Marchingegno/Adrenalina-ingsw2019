@@ -172,4 +172,6 @@ public class Flamethrower extends AlternateFireWeapon {
 	public boolean canBeActivated() {
 		return true;
 	}
+
+
 }
