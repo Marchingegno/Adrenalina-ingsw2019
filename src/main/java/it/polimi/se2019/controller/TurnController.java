@@ -2,10 +2,7 @@ package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.network.message.CoordinatesAnswerMessage;
-import it.polimi.se2019.network.message.IntMessage;
-import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.network.message.SwapMessage;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -67,11 +64,20 @@ public class TurnController{
 				}
 				break;
 			case RELOAD:
-				model.reloadWeapon(playerName, ((IntMessage)event.getMessage()).getContent());
-				//This method should not be called because the macroaction is already refilled and it will start another turn.
-//				handleNextAction(virtualView);
-				//For now,you can reload only one weapon.
-				virtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
+				if (event.getMessage().getMessageSubtype() == MessageSubtype.REQUEST) {
+					List<Integer> loadableWeapons = model.getLoadableWeapons(virtualView.getNickname());
+					if (loadableWeapons.isEmpty()) {
+						virtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
+					} else {
+						virtualView.askReload(loadableWeapons);
+					}
+				} else {
+					model.reloadWeapon(playerName, ((IntMessage) event.getMessage()).getContent());
+					//This method should not be called because the macroaction is already refilled and it will start another turn.
+//					handleNextAction(virtualView);
+					//For now,you can reload only one weapon.
+					virtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
+				}
 				break;
 			case WEAPON:
 				if(model.isShootingWeapon(playerName))

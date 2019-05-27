@@ -255,7 +255,7 @@ public class CLIView extends RemoteView {
 		if(answer == 1)
 			sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // End turn.
 		else if(answer == 2)
-			askReload(); // Reload.
+			sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST)); // Reload.
 		else if(answer == 3)
 			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 	}
