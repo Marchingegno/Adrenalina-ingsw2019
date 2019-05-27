@@ -72,9 +72,9 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	protected void checkOptionalEffects() {
-		canAddOptionalEffect[0] = getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(0)));
+		canAddOptionalEffect[0] = optionalPrices.get(0) == null || getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(0)));
 		try {
-			canAddOptionalEffect[1] = getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(1)));
+			canAddOptionalEffect[1] = optionalPrices.get(1) == null || getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(1)));
 			canAddOptionalEffect[2] = getOwner().hasEnoughAmmo(optionalPrices);
 		} catch (NullPointerException | IndexOutOfBoundsException e) {
 			//TODO Replace with boolean methods taken from Json

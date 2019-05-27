@@ -4,6 +4,7 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Contains all the ammo of the player.
@@ -113,7 +114,7 @@ public class AmmoContainer {
 	 * ammo to pay the price.
 	 */
 	public boolean hasEnoughAmmo(List<AmmoType> price) {
-		if (price.isEmpty()) {
+		if (price == null || price.isEmpty()) {
 			return true;
 		}
 		int[] convertedAmmosToCheck = convertAmmoListToArray(price);
@@ -128,7 +129,9 @@ public class AmmoContainer {
 
 	private int[] convertAmmoListToArray(List<AmmoType> listToConvert) {
 		int[] convertedAmmos = new int[AmmoType.values().length];
-		listToConvert.forEach(item -> convertedAmmos[item.ordinal()]++);
+		listToConvert.stream()
+				.filter(Objects::nonNull)
+				.forEach(item -> convertedAmmos[item.ordinal()]++);
 		return convertedAmmos;
 	}
 
