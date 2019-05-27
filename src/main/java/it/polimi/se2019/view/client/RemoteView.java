@@ -96,7 +96,9 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					askShoot(((RequestChoiceInArrayMessage) message).getAvailableIndexes());
 				break;
 			case RELOAD:
-				askReload();
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					askReload(((RequestChoiceInArrayMessage) message).getAvailableIndexes());
+				}
 				break;
 			case MOVE:
 				askMove(((CoordinatesRequestMessage) message).getCoordinates());
