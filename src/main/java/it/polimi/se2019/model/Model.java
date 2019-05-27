@@ -87,7 +87,7 @@ public class Model {
 
 			player.setDamageStatus(isAfterFirstPlayer ? new FrenzyAfter() : new FrenzyBefore());
 		}
-		flipPlayers();
+		flipPlayersWithNoDamage();
 
 		updateReps();
 	}
@@ -108,7 +108,7 @@ public class Model {
 		updateReps();
 	}
 
-	public void flipPlayers() {
+	public void flipPlayersWithNoDamage() {
 		gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
 		updateReps();
 	}

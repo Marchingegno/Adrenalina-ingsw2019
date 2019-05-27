@@ -113,6 +113,9 @@ public class AmmoContainer {
 	 * ammo to pay the price.
 	 */
 	public boolean hasEnoughAmmo(List<AmmoType> price) {
+		if (price.isEmpty()) {
+			return true;
+		}
 		int[] convertedAmmosToCheck = convertAmmoListToArray(price);
 		for (int i = 0; i < AmmoType.values().length; i++) {
 			if (convertedAmmosToCheck[i] > ammo[i]) {

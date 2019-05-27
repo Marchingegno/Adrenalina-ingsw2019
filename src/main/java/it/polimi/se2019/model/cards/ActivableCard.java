@@ -3,7 +3,6 @@ package it.polimi.se2019.model.cards;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
 
 public abstract class ActivableCard extends Card {
 
@@ -61,7 +60,7 @@ public abstract class ActivableCard extends Card {
 	// ####################################
 
 	protected Player getOwner() {
-		Utils.logInfo("The weapon " + super.getCardName() + "has owner +" + ownerPlayer.getPlayerName());
+//		Utils.logInfo("The weapon " + super.getCardName() + "has owner +" + ownerPlayer.getPlayerName());
 		return ownerPlayer;
 	}
 
