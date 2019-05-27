@@ -187,7 +187,7 @@ public class TurnController{
 	}
 
 	private void handlePowerupQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
-		if (model.isPowerupInExecution(virtualView.getNickname())) {
+		if (model.isThePowerupConcluded(virtualView.getNickname())) {
 			model.handlePowerupEnd(virtualView.getNickname());
 			handleEnd(virtualView);
 		} else {
