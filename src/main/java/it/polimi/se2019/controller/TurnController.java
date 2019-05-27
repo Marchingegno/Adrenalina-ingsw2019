@@ -111,7 +111,11 @@ public class TurnController{
 				}
 				break;
 			case RELOAD:
-				playerVirtualView.askReload();
+				List<Integer> loadableWeapons = model.getLoadableWeapons(playerVirtualView.getNickname());
+				if (loadableWeapons.isEmpty())
+					handleNextAction(playerVirtualView);
+				else
+					playerVirtualView.askReload(loadableWeapons);
 				break;
 			case SHOOT:
 				List<Integer> activableWeapons = model.getActivableWeapons(playerVirtualView.getNickname());

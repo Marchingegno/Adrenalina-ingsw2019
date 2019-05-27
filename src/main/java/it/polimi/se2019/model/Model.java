@@ -293,6 +293,25 @@ public class Model {
 	}
 
 	/**
+	 * Returns a list of weapons that can be reloaded in the current state.
+	 *
+	 * @param playerName the name of the player.
+	 * @return a list of weapons that can be reloaded in the current state.
+	 */
+	public List<Integer> getLoadableWeapons(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
+		List<Integer> loadableWeapons = new ArrayList<>();
+
+		for (int i = 0; i < weaponCards.size(); i++) {
+			if (!weaponCards.get(i).isLoaded())
+				loadableWeapons.add(i);
+		}
+
+		return loadableWeapons;
+	}
+
+	/**
 	 * Returns true if the player has at least one loaded weapon.
 	 * @param playerName the name of the player.
 	 * @return true if the player has at least one loaded weapon.

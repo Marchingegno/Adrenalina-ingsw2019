@@ -122,7 +122,7 @@ public class VirtualViewDriver extends VirtualView {
 	}
 
 	@Override
-	public void askReload() {
+	public void askReload(List<Integer> loadableWeapons) {
 		// TODO
 	}
 

@@ -122,7 +122,7 @@ public class GUIController extends RemoteView {
 	}
 
 	@Override
-	public void askReload() {
+	public void askReload(List<Integer> loadableWeapons) {
 
 	}
 

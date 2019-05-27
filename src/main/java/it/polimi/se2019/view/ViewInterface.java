@@ -27,7 +27,7 @@ public interface ViewInterface {
 
 	void askShoot(List<Integer> shootableWeapons);
 
-	void askReload();
+	void askReload(List<Integer> loadableWeapons);
 
 	void askSpawn();
 

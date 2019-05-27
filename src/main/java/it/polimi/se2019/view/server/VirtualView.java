@@ -86,7 +86,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askReload() {
+	public void askReload(List<Integer> loadableWeapons) {
 		sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
 	}
 
