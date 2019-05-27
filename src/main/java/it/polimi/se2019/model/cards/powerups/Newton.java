@@ -106,14 +106,14 @@ public class Newton extends PowerupCard {
 
 			return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", allowedCoordinates);
 		} else {
-			resetCurrentStep();
-			return null;
+			throw new IllegalArgumentException(getCardName() + " has received an illegal choice: " + choice + " and the size of targettable players is: " + targettablePlayers.size());
 		}
 	}
 
 	private void lastStep(int choice) {
 		if (choice >= 0 && choice < allowedCoordinates.size()) {
 			getGameBoard().getGameMap().movePlayerTo(targetPlayer, allowedCoordinates.get(choice));
+			concludeActivation();
 		}
 	}
 

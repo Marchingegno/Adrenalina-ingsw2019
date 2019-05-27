@@ -159,6 +159,9 @@ public class TurnController{
 	private void handleWeaponQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
 		if (questionContainer == null || questionContainer.isThisQuestionContainerUseless()) {
 			Utils.logWarning("This QuestionContainer is either null or useless.");
+		}
+
+		if (model.isTheWeaponConcluded(virtualView.getNickname())) {
 			model.handleWeaponEnd(virtualView.getNickname());
 			handleNextAction(virtualView);
 		} else {
@@ -184,7 +187,7 @@ public class TurnController{
 	}
 
 	private void handlePowerupQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
-		if(questionContainer == null) {
+		if (model.isPowerupInExecution(virtualView.getNickname())) {
 			model.handlePowerupEnd(virtualView.getNickname());
 			handleEnd(virtualView);
 		} else {

@@ -76,6 +76,9 @@ public class Teleporter extends PowerupCard {
 	private void lastStep(int choice) {
 		if (choice >= 0 && choice < allowedCoordinates.size()) {
 			getGameBoard().getGameMap().movePlayerTo(getOwner(), allowedCoordinates.get(choice));
+			concludeActivation();
+		} else {
+			throw new IllegalArgumentException(getCardName() + "has received an illegal choice: " + choice + "and the size of allowed coordinates is " + allowedCoordinates.size());
 		}
 	}
 

@@ -100,6 +100,15 @@ public class Model {
 		updateReps();
 	}
 
+	public boolean isTheWeaponConcluded(String playerName) {
+		return getPlayerFromName(playerName).isTheWeaponConcluded();
+	}
+
+	public boolean isThePowerupConcluded(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		return player.isThePowerupConcluded();
+	}
+
 	public void fillGameMap() {
 		gameMap.refillMap();
 		updateReps();

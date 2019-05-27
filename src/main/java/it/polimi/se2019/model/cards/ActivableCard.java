@@ -9,10 +9,16 @@ public abstract class ActivableCard extends Card {
 	private Player ownerPlayer;
 	private GameBoard gameBoard;
 	private int currentStep = 0;
+	private boolean activationConcluded;
 
 
 	public ActivableCard(String cardName, String description) {
 		super(cardName, description);
+		activationConcluded = false;
+	}
+
+	public boolean isActivationConcluded() {
+		return activationConcluded;
 	}
 
 
@@ -78,5 +84,20 @@ public abstract class ActivableCard extends Card {
 
 	protected void resetCurrentStep(){
 		currentStep = 0;
+	}
+
+	/**
+	 * Called when the card has finished its activation.
+	 */
+	protected void concludeActivation() {
+		activationConcluded = true;
+	}
+
+	/**
+	 * Reset the card to be used again.
+	 */
+	public void reset() {
+		resetCurrentStep();
+		activationConcluded = false;
 	}
 }

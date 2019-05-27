@@ -50,6 +50,7 @@ public class TagbackGrenade extends PowerupCard {
 		if(getGameBoard().getGameMap().isVisible(getOwner(), getShootingPlayer())) {
 			Player targetPlayer = getShootingPlayer();
 			targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
+			concludeActivation();
 		}
 		return null;
 	}
