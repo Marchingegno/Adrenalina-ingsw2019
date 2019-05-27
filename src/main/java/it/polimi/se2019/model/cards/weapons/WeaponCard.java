@@ -159,6 +159,7 @@ public abstract class WeaponCard extends ActivableCard {
 	 * Deloads the weapon and reset eventually modified parameters.
 	 */
 	public void reset(){
+		getOwner().handleWeaponEnd();
 		resetCurrentStep();
 		this.loaded = false;
 		this.relocationDone = false;

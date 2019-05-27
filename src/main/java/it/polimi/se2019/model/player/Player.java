@@ -188,8 +188,7 @@ public class Player extends Observable implements Representable {
 	}
 
 	public void handleWeaponEnd() {
-		getFiringWeapon().reset();
-		powerupInExecution = -1;
+		this.firingWeapon = -1;
 	}
 
 	private WeaponCard getFiringWeapon(){
