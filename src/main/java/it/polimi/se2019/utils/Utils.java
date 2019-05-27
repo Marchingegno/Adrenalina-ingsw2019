@@ -17,6 +17,7 @@ public class Utils {
 	public static final boolean DEBUG_BYPASS_CONFIGURATION = true;
 	public static final boolean DEBUG_CLI = false;
 	public static final boolean DEBUG_BYPASS_USE_GUI = false;
+	public static final boolean ENABLE_WEAPON_LOG = true;
 	private static final ServerConfig serverConfig = new ServerConfigParser().parseConfig();
 
 	private static boolean logEnabled = true;
@@ -30,6 +31,12 @@ public class Utils {
 
 	public static void setLogEnabled(boolean logEnabled){
 		Utils.logEnabled = logEnabled;
+	}
+
+	public static void logWeapon(String msg) {
+		if (ENABLE_WEAPON_LOG) {
+			System.out.println(Color.getColoredString("WEAPON:", Color.CharacterColorType.RED, Color.BackgroundColorType.MAGENTA) + " " + msg);
+		}
 	}
 
 	public static void logError(String msg, Throwable e) {

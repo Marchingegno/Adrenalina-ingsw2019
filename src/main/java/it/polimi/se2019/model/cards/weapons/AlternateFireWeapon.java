@@ -6,6 +6,7 @@ import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +59,13 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	@Override
 	public QuestionContainer doActivationStep(int choice) {
 		incrementCurrentStep();
+		Utils.logWeapon(this.getCardName() + ": executing main method with currentStep " + getCurrentStep() + " and choice " + choice);
 		if (getCurrentStep() == 1) {
 			return initialQuestion();
 		} else if(getCurrentStep() == 2){
 			registerChoice(choice);
 		}
+
 		if (isAlternateFireActive()) {
 			return handleSecondaryFire(choice);
 		} else {
@@ -75,9 +78,11 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		List<String> options = new ArrayList<>();
 		if (canPrimaryBeActivated()) {
 			options.add("Standard fire.");
+			Utils.logWeapon(this.getCardName() + ": added Standard fire to the options.");
 		}
 		if (canSecondaryBeActivated() && getOwner().hasEnoughAmmo(secondaryPrice)) {
 			options.add("Alternate fire.");
+			Utils.logWeapon(this.getCardName() + ": added Alternate fire to the options.");
 		}
 		return QuestionContainer.createStringQuestionContainer("Which fire mode do you want to use?", options);
 	}
