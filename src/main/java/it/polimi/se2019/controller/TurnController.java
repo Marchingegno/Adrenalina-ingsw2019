@@ -122,7 +122,7 @@ public class TurnController{
 				break;
 			case END:
 				//The MacroAction is already refilled.
-				handleEnd(playerVirtualView);
+				handleActionEnd(playerVirtualView);
 				break;
 			default:
 				Utils.logError("This action type cannot be processed.", new IllegalStateException());
@@ -130,7 +130,7 @@ public class TurnController{
 		}
 	}
 
-	private void handleEnd(VirtualView playerVirtualView) {
+	private void handleActionEnd(VirtualView playerVirtualView) {
 		String playerName = playerVirtualView.getNickname();
 		if(model.doesThePlayerHaveActionsLeft(playerName)){
 			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveLoadedWeapons(playerName));
@@ -186,7 +186,7 @@ public class TurnController{
 	private void handlePowerupQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
 		if(questionContainer == null) {
 			model.handlePowerupEnd(virtualView.getNickname());
-			handleEnd(virtualView);
+			handleActionEnd(virtualView);
 		} else {
 			virtualView.askPowerupChoice(questionContainer);
 		}
