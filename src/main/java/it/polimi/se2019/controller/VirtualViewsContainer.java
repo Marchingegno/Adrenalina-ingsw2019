@@ -26,10 +26,11 @@ public class VirtualViewsContainer {
 	 * Note: if an action is requested to the player this methods mustn't be called before the request (otherwise two messages will be sent)!
 	 */
 	public void sendUpdatedReps() {
-		Utils.logInfo("VirtualViewsContainer -> sendUpdatedReps(): sending latest reps to everyone");
+		Utils.logInfo("\n      VirtualViewsContainer -> sendUpdatedReps(): sending latest reps to everyone");
 		for (VirtualView virtualView : virtualViews) {
 			virtualView.sendReps();
 		}
+		Utils.logInfo("");
 	}
 
 	public VirtualView getVirtualViewFromPlayerName(String playerName){

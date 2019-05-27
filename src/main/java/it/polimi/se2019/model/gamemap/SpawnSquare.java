@@ -60,14 +60,6 @@ public class SpawnSquare extends Square {
 		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
 		for (Card weaponCard : cards) {
 			if (playerAmmoContainer.hasEnoughAmmo(((WeaponCard) weaponCard).getGrabPrice())) {
-				System.out.print("-------------------------------------------------------- PLAYER ");
-				for (AmmoType ammo : AmmoType.values()) {
-					System.out.print(playerAmmoContainer.getAmmo(ammo));
-				}
-
-				for (AmmoType ammo : ((WeaponCard) weaponCard).getGrabPrice()) {
-					System.out.print(ammo + " ");
-				}
 				return true;
 			}
 		}

@@ -254,7 +254,7 @@ public class Model {
 		Player player = getPlayerFromName(playerName);
 		player.getDamageStatus().decreaseMacroActionsToPerform();
 		player.getDamageStatus().setCurrentMacroActionIndex(indexOfMacroAction);
-		Utils.logInfo(player.getDamageStatus().getCurrentMacroAction().toString());
+		Utils.logInfo("Model -> setNextMacroAction(): Set " + playerName + "'s next macro action to " + player.getDamageStatus().getCurrentMacroAction().toString());
 		updateReps();
 	}
 

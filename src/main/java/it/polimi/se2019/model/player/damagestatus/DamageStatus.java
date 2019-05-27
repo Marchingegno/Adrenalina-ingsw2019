@@ -48,6 +48,7 @@ public abstract class DamageStatus implements Representable {
 
 	public void setCurrentMacroActionIndex(int currentActionIndex) {
 		this.currentActionIndex = currentActionIndex;
+
 		setChanged();
 	}
 

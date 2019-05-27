@@ -4,7 +4,6 @@ public enum ActionType {
 	MOVE,
 	GRAB,
 	SHOOT,
-
 	RELOAD,
 	END
 }
