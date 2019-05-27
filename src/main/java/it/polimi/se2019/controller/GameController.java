@@ -38,11 +38,17 @@ public class GameController {
 
 
 	private void spawnPlayers(){
-		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
-			if (model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD) {
-				askToSpawn(virtualView.getNickname());
-			}
-		}
+		//Let's test this method.
+		virtualViewsContainer.getVirtualViews().parallelStream()
+				.filter(virtualView -> model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD)
+				.forEach(virtualView -> askToSpawn(virtualView.getNickname()));
+//
+		//This method doesn't work.
+//		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
+//			if (model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD) {
+//				askToSpawn(virtualView.getNickname());
+//			}
+//		}
 	}
 
 
@@ -61,7 +67,7 @@ public class GameController {
 		}
 		//This checks if the frenzy is started and flips the DamageBoard of the players.
 		if(model.isFrenzyStarted()){
-			model.flipPlayers();
+			model.flipPlayersWithNoDamage();
 		}
 
 		nextPlayerTurn();
