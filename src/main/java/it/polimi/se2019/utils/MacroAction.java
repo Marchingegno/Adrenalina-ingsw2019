@@ -48,7 +48,7 @@ public class MacroAction {
 	}
 
 
-	public ActionType getNextActionToExecute() {
+	public ActionType getNextActionToExecuteAndAdvance() {
 		if(isMove() && !moved){
 			moved = true;
 			return ActionType.MOVE;

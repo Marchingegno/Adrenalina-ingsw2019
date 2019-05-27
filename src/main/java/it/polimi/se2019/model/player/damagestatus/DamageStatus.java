@@ -57,7 +57,7 @@ public abstract class DamageStatus implements Representable {
 	}
 
 	public ActionType getNextActionToExecute(){
-		return availableActions.get(currentActionIndex).getNextActionToExecute();
+		return availableActions.get(currentActionIndex).getNextActionToExecuteAndAdvance();
 	}
 
 	/**
