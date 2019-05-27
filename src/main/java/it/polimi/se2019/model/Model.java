@@ -15,10 +15,7 @@ import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.utils.ActionType;
-import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -245,9 +242,13 @@ public class Model {
 		return getPlayerFromName(playerName).getDamageStatus().hasMacroActionLeft();
 	}
 
-	public ActionType getNextActionToExecute(String playerName) {
+	public MacroAction getCurrentAction() {
+		return gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction();
+	}
+
+	public ActionType getNextActionToExecuteAndAdvance(String playerName) {
 		Player player = getPlayerFromName(playerName);
-		return player.getDamageStatus().getNextActionToExecute();
+		return player.getDamageStatus().getNextActionToExecuteAndAdvance();
 	}
 
 	public void setNextMacroAction(String playerName, int indexOfMacroAction) {

@@ -52,7 +52,7 @@ public class SpawnSquare extends Square {
 			setFilled();
 			setChanged();
 		} else
-			Utils.logInfo("SpawnSquare -> refillCards(): The spawn square is already filled");
+			Utils.logRep("SpawnSquare -> refillCards(): The spawn square is already filled");
 	}
 
 	@Override
