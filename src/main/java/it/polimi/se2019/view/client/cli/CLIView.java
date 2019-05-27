@@ -17,7 +17,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import static it.polimi.se2019.view.client.cli.CLIPrinter.*;
 
@@ -199,13 +198,15 @@ public class CLIView extends RemoteView {
 	public void askReload(List<Integer> loadableWeapons) {
 		printLine("Which weapon do you want to reload?");
 		List<WeaponRep> weaponReps = getModelRep().getClientPlayerRep().getWeaponReps();
-		List<WeaponRep> reloadableWeapons = weaponReps.stream()
-				.filter(weapon -> !weapon.isLoaded())
-				.collect(Collectors.toList());
-		for (int i = 0; i < reloadableWeapons.size(); i++) {
-			printLine((i + 1) + ") " + weaponReps.get(i).getCardName());
+//		List<WeaponRep> reloadableWeapons = weaponReps.stream()
+//				.filter(weapon -> !weapon.isLoaded())
+//				.collect(Collectors.toList());
+		for (int i = 0; i < weaponReps.size(); i++) {
+			if (loadableWeapons.contains(i)) {
+				printLine((i + 1) + ") " + weaponReps.get(i).getCardName());
+			}
 		}
-		int answer = askInteger(1, 2);
+		int answer = askIntegerFromList(loadableWeapons, -1);
 		// Send a message to the server with the answer for the request. The server will process it in the VirtualView class.
 		sendMessage(new IntMessage(answer, MessageType.RELOAD, MessageSubtype.ANSWER));
 	}
@@ -259,7 +260,6 @@ public class CLIView extends RemoteView {
 		else if(answer == 3)
 			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 	}
-
 
 	/**
 	 * Displays the main game board
