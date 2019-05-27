@@ -15,7 +15,7 @@ public class Utils {
 
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static final boolean DEBUG_BYPASS_CONFIGURATION = true;
-	public static final boolean DEBUG_CLI = true;
+	public static final boolean DEBUG_CLI = false;
 	public static final boolean DEBUG_REPS = false;
 	public static final boolean DEBUG_BYPASS_USE_GUI = false;
 	public static final boolean ENABLE_WEAPON_LOG = true;
@@ -37,6 +37,12 @@ public class Utils {
 	public static void logWeapon(String msg) {
 		if (ENABLE_WEAPON_LOG) {
 			System.out.println(Color.getColoredString("WEAPON:", Color.CharacterColorType.RED, Color.BackgroundColorType.MAGENTA) + " " + msg);
+		}
+	}
+
+	public static void logRep(String msg) {
+		if (DEBUG_REPS) {
+			logInfo(msg);
 		}
 	}
 

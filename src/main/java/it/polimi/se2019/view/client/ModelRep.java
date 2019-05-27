@@ -36,12 +36,12 @@ public class ModelRep{
 
 	public void setGameBoardRep(GameBoardRep gameBoardRep) {
 		this.gameBoardRep = gameBoardRep;
-		Utils.logInfo("ModelRep -> setGameBoardRep(): Updated the GameBoardRep");
+		Utils.logRep("ModelRep -> setGameBoardRep(): Updated the GameBoardRep");
 	}
 
 	public void setGameMapRep(GameMapRep gameMapRep) {
 		this.gameMapRep = gameMapRep;
-		Utils.logInfo("ModelRep -> setGameMapRep(): Updated the GameMapRep");
+		Utils.logRep("ModelRep -> setGameMapRep(): Updated the GameMapRep");
 	}
 
 	public void setPlayerRep(PlayerRep playerRepToSet) {
@@ -49,12 +49,12 @@ public class ModelRep{
 		for (int i = 0; i < numOfPlayersRep; i++) {
 			if (playersRep.get(i).getPlayerName().equals(playerRepToSet.getPlayerName())) {
 				playersRep.set(i, playerRepToSet);
-				Utils.logInfo("ModelRep -> setPlayersRep(): Updated the PlayersRep of " + playerRepToSet.getPlayerName());
+				Utils.logRep("ModelRep -> setPlayersRep(): Updated the PlayersRep of " + playerRepToSet.getPlayerName());
 				return;
 			}
 		}
 		//There is no PlayerRep for this player so I add it
-		Utils.logInfo("ModelRep -> setPlayersRep(): Received a new PlayersRep of " + playerRepToSet.getPlayerName());
+		Utils.logRep("ModelRep -> setPlayersRep(): Received a new PlayersRep of " + playerRepToSet.getPlayerName());
 		playersRep.add(playerRepToSet);
 	}
 }

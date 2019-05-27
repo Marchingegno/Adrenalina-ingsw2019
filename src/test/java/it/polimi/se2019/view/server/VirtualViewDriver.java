@@ -21,7 +21,7 @@ import java.util.Random;
 // TODO reload
 public class VirtualViewDriver extends VirtualView {
 
-	private static final int MAX_NUMBER_OF_TURNS = 100;
+	private static final int MAX_NUMBER_OF_TURNS = 20;
 	private final boolean TEST_SHOOT;
 	private final boolean TEST_MOVE;
 	private boolean displayReps;
@@ -179,19 +179,19 @@ public class VirtualViewDriver extends VirtualView {
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
 		modelRep.setGameBoardRep(gameBoardRepToUpdate);
-		Utils.logInfo("Updated " + getNickname() + "'s Game Board rep");
+		Utils.logRep("Updated " + getNickname() + "'s Game Board rep");
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		modelRep.setGameMapRep(gameMapRepToUpdate);
-		Utils.logInfo("Updated " + getNickname() + "'s Game Map rep");
+		Utils.logRep("Updated " + getNickname() + "'s Game Map rep");
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		modelRep.setPlayerRep(playerRepToUpdate);
-		Utils.logInfo("Updated " + getNickname() + "'s Player rep of " + playerRepToUpdate.getPlayerName());
+		Utils.logRep("Updated " + getNickname() + "'s Player rep of " + playerRepToUpdate.getPlayerName());
 	}
 
 	// ####################################

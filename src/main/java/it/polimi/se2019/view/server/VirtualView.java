@@ -118,36 +118,33 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
 		repMessage.addGameBoardRep(gameBoardRepToUpdate);
-		if (Utils.DEBUG_REPS)
-			Utils.logInfo("Added to " + getNickname() + "'s packet the Game Board rep");
+		Utils.logRep("Added to " + getNickname() + "'s packet the Game Board rep");
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		repMessage.addGameMapRep(gameMapRepToUpdate);
-		if (Utils.DEBUG_REPS)
-			Utils.logInfo("Added to " + getNickname() + "'s packet the Game Map rep");
+		Utils.logRep("Added to " + getNickname() + "'s packet the Game Map rep");
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		repMessage.addPlayersRep(playerRepToUpdate);
-		if (Utils.DEBUG_REPS)
-			Utils.logInfo("Added to " + getNickname() + "'s packet the Player rep of " + playerRepToUpdate.getPlayerName());
+		Utils.logRep("Added to " + getNickname() + "'s packet the Player rep of " + playerRepToUpdate.getPlayerName());
 	}
 
 
 	private void sendMessage(Message message) {
 		if (repMessage.hasReps()) {
-			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with inner message " + message + " to " + getNickname() + ".");
+			Utils.logRep("VirtualView -> sendMessage(): sending the reps with inner message " + message + " to " + getNickname() + ".");
 			repMessage.addMessage(message);
 			client.sendMessage(repMessage);
 			repMessage = new RepMessage();
 		} else if(message != null) {
-			Utils.logInfo("VirtualView -> sendMessage(): no reps to send to " + getNickname() + ".");
+			Utils.logRep("VirtualView -> sendMessage(): no reps to send to " + getNickname() + ".");
 			client.sendMessage(message);
 		} else {
-			Utils.logInfo("VirtualView -> sendMessage(): nothing to send to " + getNickname() + " (null message and no reps).");
+			Utils.logRep("VirtualView -> sendMessage(): nothing to send to " + getNickname() + " (null message and no reps).");
 		}
 	}
 
