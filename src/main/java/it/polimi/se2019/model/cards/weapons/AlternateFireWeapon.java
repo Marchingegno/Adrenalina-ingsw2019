@@ -116,7 +116,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 
 	@Override
 	public boolean canBeActivated() {
-		return super.canBeActivated() || canSecondaryBeActivated();
+		return (canPrimaryBeActivated() || canSecondaryBeActivated()) && isLoaded();
 	}
 
 	int getMaximumAlternateSteps() {

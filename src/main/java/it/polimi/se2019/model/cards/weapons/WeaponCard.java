@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 public abstract class WeaponCard extends ActivableCard {
 
-	private boolean loaded = true;
+	private boolean loaded;
 	int maximumSteps; //Maximum advancement steps.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
@@ -56,11 +56,12 @@ public abstract class WeaponCard extends ActivableCard {
 		this.moveDistance = parameters.get("moveDistance").getAsInt();
 		this.currentTargets = new ArrayList<>();
 		resetCurrentStep();
+		loaded = true;
 	}
 
 	@Override
 	public boolean canBeActivated() {
-		return canPrimaryBeActivated();
+		return canPrimaryBeActivated() && isLoaded();
 	}
 
 	protected boolean canPrimaryBeActivated() {
