@@ -25,7 +25,7 @@ public class VoidSquare extends Square {
 
 	@Override
 	public void refillCards() {
-		Utils.logInfo("No refill needed in a VoidSquare.");
+		Utils.logRep("No refill needed in a VoidSquare.");
 	}
 
 	@Override

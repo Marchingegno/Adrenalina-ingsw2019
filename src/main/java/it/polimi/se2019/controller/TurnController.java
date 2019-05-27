@@ -93,8 +93,8 @@ public class TurnController{
 	}
 
 	private void handleNextAction(VirtualView playerVirtualView) {
-		ActionType actionType = model.getNextActionToExecute(playerVirtualView.getNickname());
-		Utils.logInfo("TurnController -> handleNextAction(): Performing " + actionType);
+		ActionType actionType = model.getNextActionToExecuteAndAdvance(playerVirtualView.getNickname());
+		Utils.logInfo("TurnController -> handleNextAction(): Performing " + actionType + " of " + model.getCurrentAction());
 		switch (actionType){
 			case MOVE:
 				playerVirtualView.askMove(model.getCoordinatesWherePlayerCanMove());

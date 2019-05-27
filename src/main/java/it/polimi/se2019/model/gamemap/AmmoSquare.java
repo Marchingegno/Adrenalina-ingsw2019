@@ -36,8 +36,9 @@ public class AmmoSquare extends Square {
 			cards.add(ammoDeck.drawCard());
 			setFilled();
 			setChanged();
-		} else
-			Utils.logInfo("AmmoSquare -> refillCards(): The ammo square is already filled");
+		} else {
+			Utils.logRep("AmmoSquare -> refillCards(): The ammo square is already filled");
+		}
 	}
 
 	@Override
