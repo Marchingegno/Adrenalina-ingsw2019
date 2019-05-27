@@ -268,7 +268,7 @@ public class CLIView extends RemoteView {
 		for (int i = 1; i <= GameConstants.MapType.values().length; i++) {
 			possibleChoices.add(Integer.toString(i));
 		}
-		return Integer.parseInt(waitForChoiceInMenu(possibleChoices));
+		return Integer.parseInt(waitForChoiceInMenu(possibleChoices)) - 1;
 	}
 
 	private int askSkullsForGame() {

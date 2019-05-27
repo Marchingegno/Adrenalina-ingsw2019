@@ -124,7 +124,8 @@ public class SpawnSquare extends Square {
 		if (hasChanged || squareRep == null) {
 			squareRep = new SpawnSquareRep(this);
 			setNotChanged();
-			Utils.logInfo("SpawnSquare -> getRep(): Updated the square's representation");
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("SpawnSquare -> getRep(): Updated the square's representation");
 		}
 		return squareRep;
 	}

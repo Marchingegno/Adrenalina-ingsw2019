@@ -32,4 +32,9 @@ public class MediumDamage extends DamageStatus {
 		numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
 	}
 
+	@Override
+	public String toString() {
+		return "MEDIUM DAMAGE";
+	}
+
 }

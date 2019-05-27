@@ -27,9 +27,9 @@ public class GameController {
 
 
 	void startGame() {
-		Utils.logInfo("GameController: startGame");
 		startTurn();
 		virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
+		Utils.logInfo("GameController -> startGame(): Game has started");
 	}
 
 	private void refillCardsOnMap() {

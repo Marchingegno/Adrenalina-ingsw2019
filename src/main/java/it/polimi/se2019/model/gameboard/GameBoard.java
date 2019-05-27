@@ -65,9 +65,6 @@ public class GameBoard extends Observable implements Representable {
 		players.forEach(this::addPowerupCardTo);
 		playerQueue = new PlayerQueue(players);
 		gameMap = new GameMap(mapName, this);
-
-		System.out.print("-------------------------------------------------------------------------------------" + players.size());
-
 		setChanged();
 	}
 
@@ -231,9 +228,11 @@ public class GameBoard extends Observable implements Representable {
 	public void updateRep() {
 		if (gameBoardRep == null || hasChanged()) {
 			gameBoardRep = new GameBoardRep(this);
-			Utils.logInfo("GameBoard -> updateRep(): The game board representation has been updated");
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("GameBoard -> updateRep(): The game board representation has been updated");
 		} else {
-			Utils.logInfo("GameBoard -> updateRep(): The game board representation is already up to date");
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("GameBoard -> updateRep(): The game board representation is already up to date");
 		}
 	}
 
@@ -273,7 +272,8 @@ public class GameBoard extends Observable implements Representable {
 
 	public void spawnPlayer(Player player, int indexOfCard) {
 		//Move player to spawn square
-		Coordinates spawningCoordinates = gameMap.getSpawnCoordinates(player.getPlayerBoard().getPowerupCards().get(indexOfCard).getAssociatedAmmo());
+		PowerupCard powerupDiscarded = player.getPlayerBoard().getPowerupCards().get(indexOfCard);
+		Coordinates spawningCoordinates = gameMap.getSpawnCoordinates(powerupDiscarded.getAssociatedAmmo());
 		gameMap.movePlayerTo(player, spawningCoordinates);
 
 		//Remove card from player

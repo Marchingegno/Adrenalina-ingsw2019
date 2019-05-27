@@ -6,7 +6,10 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 
 /**
@@ -36,7 +39,7 @@ public class Controller implements Observer {
 
 
 	public void startGame() {
-		Utils.logInfo("Controller -> startGame");
+		Utils.logInfo("Controller -> startGame(): Starting the game");
 		gameController.startGame();
 	}
 

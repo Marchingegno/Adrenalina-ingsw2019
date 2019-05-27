@@ -41,8 +41,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
-		Utils.logInfo("\t\tThe VirtualView of \"" + getNickname() + "\" is creating an event with message of type " + message.getMessageType() + " and subtype " + message.getMessageSubtype() + ".");
-
+		//Utils.logInfo("\t\tThe VirtualView of \"" + getNickname() + "\" is creating an event with message of type " + message.getMessageType() + " and subtype " + message.getMessageSubtype() + ".");
 		setChanged();
 		notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
 	}
@@ -119,33 +118,36 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
 		repMessage.addGameBoardRep(gameBoardRepToUpdate);
-		Utils.logInfo("Added to " + getNickname() + "'s packet the Game Board rep");
+		if (Utils.DEBUG_REPS)
+			Utils.logInfo("Added to " + getNickname() + "'s packet the Game Board rep");
 	}
 
 	@Override
 	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
 		repMessage.addGameMapRep(gameMapRepToUpdate);
-		Utils.logInfo("Added to " + getNickname() + "'s packet the Game Map rep");
+		if (Utils.DEBUG_REPS)
+			Utils.logInfo("Added to " + getNickname() + "'s packet the Game Map rep");
 	}
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		repMessage.addPlayersRep(playerRepToUpdate);
-		Utils.logInfo("Added to " + getNickname() + "'s packet the Player rep of " + playerRepToUpdate.getPlayerName());
+		if (Utils.DEBUG_REPS)
+			Utils.logInfo("Added to " + getNickname() + "'s packet the Player rep of " + playerRepToUpdate.getPlayerName());
 	}
 
 
 	private void sendMessage(Message message) {
 		if (repMessage.hasReps()) {
-			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with the message for " + getNickname() + ".");
+			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with inner message " + message + " to " + getNickname() + ".");
 			repMessage.addMessage(message);
 			client.sendMessage(repMessage);
 			repMessage = new RepMessage();
 		} else if(message != null) {
-			Utils.logInfo("VirtualView -> sendMessage(): no reps to send for " + getNickname() + ".");
+			Utils.logInfo("VirtualView -> sendMessage(): no reps to send to " + getNickname() + ".");
 			client.sendMessage(message);
 		} else {
-			Utils.logInfo("VirtualView -> sendMessage(): nothing to send for " + getNickname() + " (null message and no reps).");
+			Utils.logInfo("VirtualView -> sendMessage(): nothing to send to " + getNickname() + " (null message and no reps).");
 		}
 	}
 

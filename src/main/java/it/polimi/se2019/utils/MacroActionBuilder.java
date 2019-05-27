@@ -50,7 +50,7 @@ public class MacroActionBuilder {
 
 	public MacroAction build() {
 		isCorrect();
-		Utils.logInfo("MacroActionBuilder -> build(): Building " + name + ": moves=" + moveDistance + (grabActive ? " grab" : "") + (reloadActive ? " reload" : "") + (shootActive ? " shoot" : ""));
+		Utils.logInfo("MacroActionBuilder -> build(): Building " + name + ": moves = " + moveDistance + (grabActive ? " grab" : "") + (reloadActive ? " reload" : "") + (shootActive ? " shoot" : ""));
 		return new MacroAction(moveDistance, grabActive, reloadActive, shootActive, name);
 	}
 

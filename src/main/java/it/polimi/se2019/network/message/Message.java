@@ -21,4 +21,9 @@ public class Message implements Serializable {
 	public MessageSubtype getMessageSubtype() {
 		return messageSubtype;
 	}
+
+	@Override
+	public String toString() {
+		return "Type: " + messageType + " subtype: " + messageSubtype;
+	}
 }

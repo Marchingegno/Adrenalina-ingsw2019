@@ -247,9 +247,12 @@ public class Player extends Observable implements Representable {
 			playerBoard.setNotChanged();
 			playerBoard.getAmmoContainer().setNotChanged();
 			damageStatus.setNotChanged();
-			Utils.logInfo("Player -> updateRep(): " + playerName + "'s representation has been updated");
-		} else
-			Utils.logInfo("Player -> updateRep(): " + playerName + "'s representation is already up to date");
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("Player -> updateRep(): " + playerName + "'s representation has been updated");
+		} else {
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("Player -> updateRep(): " + playerName + "'s representation is already up to date");
+		}
 	}
 
 	/**

@@ -29,4 +29,9 @@ public class FrenzyAfter extends DamageStatus {
 		numberOfMacroActionsToPerform = FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN;
 	}
 
+	@Override
+	public String toString() {
+		return "FRENZY AFTER";
+	}
+
 }

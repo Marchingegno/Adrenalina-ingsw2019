@@ -86,12 +86,12 @@ public class MacroAction {
 
 	@Override
 	public String toString() {
-		return  name + "{" +
-				"numOfMovements=" + numOfMovements +
-				", grab=" + grab +
-				", reload=" + reload +
-				", shoot=" + shoot +
-				'}';
+		return name + "[" +
+				"numOfMovements = " + numOfMovements +
+				", grab = " + grab +
+				", reload = " + reload +
+				", shoot = " + shoot +
+				']';
 	}
 
 	public String getMacroActionString() {

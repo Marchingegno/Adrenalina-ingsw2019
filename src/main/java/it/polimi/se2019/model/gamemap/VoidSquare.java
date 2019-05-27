@@ -48,7 +48,8 @@ public class VoidSquare extends Square {
 		if (hasChanged || squareRep == null) {
 			squareRep = new VoidSquareRep(this);
 			setNotChanged();
-			Utils.logInfo("SpawnSquare -> getRep(): Updated the square's representation");
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("SpawnSquare -> getRep(): Updated the square's representation");
 		}
 		return squareRep;
 	}

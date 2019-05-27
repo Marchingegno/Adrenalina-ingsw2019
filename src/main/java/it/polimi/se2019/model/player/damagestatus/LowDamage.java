@@ -32,4 +32,8 @@ public class LowDamage extends DamageStatus {
 		numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
 	}
 
+	@Override
+	public String toString() {
+		return "LOW DAMAGE";
+	}
 }

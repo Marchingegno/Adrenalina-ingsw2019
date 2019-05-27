@@ -106,7 +106,7 @@ public class Match {
 		// Find votes.
 		int skulls = findVotedNumberOfSkulls();
 		GameConstants.MapType mapType = findVotedMap();
-		Utils.logInfo("Match => initializeGame(): initializing a new game with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
+		Utils.logInfo("Match -> initializeGame(): initializing a new game with skulls: " + skulls + ", mapName: \"" + mapType.getMapName() + "\".");
 
 		// Send messages with votes.
 		sendVotesResultMessages(skulls, mapType);
@@ -122,7 +122,6 @@ public class Match {
 		(new Controller(mapType, virtualViews.values(), skulls)).startGame();
 
 		matchStarted = true;
-
 	}
 
 	/**
@@ -148,10 +147,6 @@ public class Match {
 	private GameConstants.MapType findVotedMap() {
 		// Create array of votes.
 		int[] votes = new int[GameConstants.MapType.values().length];
-
-		// Initialize array with all zeros.
-		for (int i = 0; i < votes.length; i++)
-			votes[i] = 0;
 
 		// Add votes.
 		for(Integer votedMap : mapChosen.values())

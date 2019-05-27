@@ -719,8 +719,9 @@ public class GameMap extends Observable implements Representable {
 	public void updateRep() {
 		if (gameMapRep == null || hasChanged()) {
 			gameMapRep = new GameMapRep(this);
-			Utils.logInfo("GameMap -> updateRep(): The game map representation has been updated");
-		} else
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("GameMap -> updateRep(): The game map representation has been updated");
+		} else if (Utils.DEBUG_REPS)
 			Utils.logInfo("GameMap -> updateRep(): The game map representation is already up to date");
 	}
 

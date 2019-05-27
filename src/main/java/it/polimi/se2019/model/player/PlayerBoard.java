@@ -265,7 +265,7 @@ public class PlayerBoard {
 			throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
 		}
 		powerupCards.add(powerupToAdd);
-		Utils.logInfo("PlayerBoard -> addPowerup(): Added to the player " + powerupToAdd);
+		Utils.logInfo("PlayerBoard -> addPowerup(): Added to the player " + powerupToAdd.getCardName());
 		setChanged();
 	}
 
@@ -282,7 +282,7 @@ public class PlayerBoard {
 	 * @param indexOfPowerCardToRemove index of the powerup card to remove from the inventory.
 	 */
 	public void removePowerup(int indexOfPowerCardToRemove) {
-		Utils.logInfo("PlayerBoard -> removePowerup(): Removing " + powerupCards.get(indexOfPowerCardToRemove));
+		Utils.logInfo("PlayerBoard -> removePowerup(): Removing " + powerupCards.get(indexOfPowerCardToRemove).getCardName() + " from the playerBoard");
 		powerupCards.remove(indexOfPowerCardToRemove);
 		setChanged();
 	}

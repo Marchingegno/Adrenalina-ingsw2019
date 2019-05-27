@@ -95,7 +95,8 @@ public class AmmoSquare extends Square {
 		if (hasChanged || squareRep == null) {
 			squareRep = new AmmoSquareRep(this);
 			setNotChanged();
-			Utils.logInfo("AmmoSquare -> getRep(): Updated the square's representation");
+			if (Utils.DEBUG_REPS)
+				Utils.logInfo("AmmoSquare -> getRep(): Updated the square's representation");
 		}
 		return squareRep;
 	}
