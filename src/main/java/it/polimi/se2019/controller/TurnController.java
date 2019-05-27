@@ -68,7 +68,10 @@ public class TurnController{
 				break;
 			case RELOAD:
 				model.reloadWeapon(playerName, ((IntMessage)event.getMessage()).getContent());
-				handleNextAction(virtualView);
+				//This method should not be called because the macroaction is already refilled and it will start another turn.
+//				handleNextAction(virtualView);
+				//For now,you can reload only one weapon.
+				virtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
 				break;
 			case WEAPON:
 				if(model.isShootingWeapon(playerName))
