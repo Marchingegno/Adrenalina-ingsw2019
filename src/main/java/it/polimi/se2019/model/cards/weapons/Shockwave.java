@@ -56,6 +56,10 @@ public class Shockwave extends AlternateFireWeapon {
 			}
 		}
 		currentTargets = getPrimaryTargets();
+		if (currentTargets.isEmpty()) {
+			primaryFire();
+			return null;
+		}
 		return getTargetPlayersQnO(currentTargets);
 	}
 
