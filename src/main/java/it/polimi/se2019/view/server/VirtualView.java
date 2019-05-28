@@ -93,7 +93,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	@Override
 	public void askToPay(List<AmmoType> priceToPay){
-		sendMessage(new PaymentMessage(priceToPay));
+		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.REQUEST));
 	}
 
 	@Override

@@ -17,9 +17,7 @@ import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Facade of the game board.
@@ -130,6 +128,12 @@ public class Model {
 		updateReps();
 	}
 
+	public void resolvePayment(String nickname, List<Integer> integers) {
+		Player player = getPlayerFromName(nickname);
+
+
+	}
+
 	public void spawnPlayer(String playerName, int indexOfCard) {
 		Player player = getPlayerFromName(playerName);
 		gameBoard.spawnPlayer(player, indexOfCard);
@@ -181,8 +185,20 @@ public class Model {
 	}
 
 	public void pay(String playerName, List<AmmoType> price){
+		pay(playerName, price, new ArrayList<>());
+	}
+
+	public void pay(String playerName, List<AmmoType> priceToPay, List<Integer> indexesOfPowerup){
 		Player player = getPlayerFromName(playerName);
-		player.getPlayerBoard().getAmmoContainer().removeAmmo(price);
+		PlayerBoard playerBoard = player.getPlayerBoard();
+		List<AmmoType> price = new ArrayList<>(priceToPay);
+		Utils.logInfo("Model -> pay(): " +playerName+" is paying " + price + " with powerups " + indexesOfPowerup);
+		while (!indexesOfPowerup.isEmpty()){
+			Integer max = Collections.max(indexesOfPowerup);
+			price.remove(playerBoard.removePowerup(max).getAssociatedAmmo());
+			indexesOfPowerup.remove(max);
+		}
+		playerBoard.getAmmoContainer().removeAmmo(price);
 	}
 
 	public boolean needsPowerupsToPay(String playerName, List<AmmoType> ammoToPay){
@@ -252,9 +268,9 @@ public class Model {
 		return gameMap.reachableCoordinates(player, distance);
 	}
 
-
 	// ####################################
 	// MACRO ACTION METHODS
+
 	// ####################################
 
 	public boolean doesThePlayerHaveActionsLeft(String playerName) {
@@ -278,9 +294,9 @@ public class Model {
 		updateReps();
 	}
 
-
 	// ####################################
 	// PUBLIC WEAPONS USE METHODS
+
 	// ####################################
 
 	public boolean canWeaponBeActivated(String playerName, int indexOfWeapon) {
@@ -367,8 +383,8 @@ public class Model {
 		updateReps();
 	}
 
-
 	// ####################################
+
 	// PUBLIC POWERUPS USE METHODS
 	// ####################################
 
@@ -432,9 +448,9 @@ public class Model {
 		updateReps();
 	}
 
-
 	// ####################################
 	// PRIVATE METHODS
+
 	// ####################################
 
 	private Player getCurrentPlayer() {
@@ -528,9 +544,9 @@ public class Model {
 			player.notifyObservers();
 		}
 	}
-
 	// ####################################
 	// METHODS ONLY FOR TESTS
+
  	// ####################################
 
 	public GameBoard getGameBoard() {

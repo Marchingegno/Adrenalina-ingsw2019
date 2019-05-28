@@ -86,6 +86,9 @@ public class TurnController{
 				else
 					initialWeaponActivation(virtualView, ((IntMessage) event.getMessage()).getContent());
 				break;
+			case PAYMENT:
+				resolvePayment(virtualView, ((IntListMessage) event.getMessage()).getIntegerList());
+				break;
 			case ACTIVATE_POWERUP:
 				virtualView.askPowerupActivation(model.getActivableOnTurnPowerups(playerName));
 				break;
@@ -203,6 +206,12 @@ public class TurnController{
 		} else {
 			virtualView.askPowerupChoice(questionContainer);
 		}
+	}
+
+	//
+
+	private void resolvePayment(VirtualView virtualView, List<Integer> integers){
+		model.resolvePayment(virtualView.getNickname(), integers);
 	}
 
 	private void handlePayment(VirtualView virtualView, List<AmmoType> ammoToPay){

@@ -285,13 +285,13 @@ public class PlayerBoard {
 	}
 
 	/**
-	 * Remove the powerup card form the player's inventory.
+	 * Removes the powerup card form the player's inventory.
 	 * @param indexOfPowerCardToRemove index of the powerup card to remove from the inventory.
 	 */
-	public void removePowerup(int indexOfPowerCardToRemove) {
-		Utils.logInfo("PlayerBoard -> removePowerup(): Removing " + powerupCards.get(indexOfPowerCardToRemove).getCardName() + " from the playerBoard");
-		powerupCards.remove(indexOfPowerCardToRemove);
+	public PowerupCard removePowerup(int indexOfPowerCardToRemove) {
 		setChanged();
+		Utils.logInfo("PlayerBoard -> removePowerup(): Removing " + powerupCards.get(indexOfPowerCardToRemove).getCardName() + " from the playerBoard");
+		return powerupCards.remove(indexOfPowerCardToRemove);
 	}
 
 	/**

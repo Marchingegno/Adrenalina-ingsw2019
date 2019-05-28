@@ -6,10 +6,20 @@ import java.util.List;
 
 public class PaymentMessage extends Message {
     private List<AmmoType> priceToPay;
+    private List<Integer> powerupsUsed;
 
-    public PaymentMessage(List<AmmoType> priceToPay){
-        super(MessageType.PAYMENT, MessageSubtype.REQUEST);
+    public PaymentMessage(List<AmmoType> priceToPay, MessageSubtype subtype){
+        super(MessageType.PAYMENT, subtype);
         this.priceToPay = priceToPay;
+    }
+
+    public List<Integer> getPowerupsUsed() {
+        return powerupsUsed;
+    }
+
+    public PaymentMessage setPowerupsUsed(List<Integer> powerupsUsed) {
+        this.powerupsUsed = powerupsUsed;
+        return this;
     }
 
     public List<AmmoType> getPriceToPay() {
