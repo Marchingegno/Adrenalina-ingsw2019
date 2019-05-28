@@ -173,6 +173,10 @@ public class Player extends Observable implements Representable {
 	// WEAPONS USE
 	// ####################################
 
+	public boolean isTheWeaponConcluded() {
+		return getFiringWeapon().isActivationConcluded();
+	}
+
 	public boolean isShootingWeapon() {
 		return firingWeapon != -1;
 	}
@@ -188,6 +192,7 @@ public class Player extends Observable implements Representable {
 	}
 
 	public void handleWeaponEnd() {
+		this.getFiringWeapon().reset();
 		this.firingWeapon = -1;
 	}
 
@@ -201,6 +206,10 @@ public class Player extends Observable implements Representable {
 	// ####################################
 	// POWERUPS USE
 	// ####################################
+
+	public boolean isThePowerupConcluded() {
+		return getPowerupInExecution().isActivationConcluded();
+	}
 
 	public boolean isPowerupInExecution() {
 		return powerupInExecution != -1;
@@ -219,6 +228,7 @@ public class Player extends Observable implements Representable {
 		if(powerupInExecution == -1)
 			throw new IllegalStateException("No powerup in execution!");
 		PowerupCard powerupCardToDiscard = getPowerupInExecution();
+		powerupCardToDiscard.reset();
 		getPlayerBoard().removePowerup(powerupInExecution);
 		powerupInExecution = -1;
 		return powerupCardToDiscard;

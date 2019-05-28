@@ -124,7 +124,7 @@ public abstract class WeaponCard extends ActivableCard {
 				playersToShoot.get(i).getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
-		reset();
+		concludeActivation();
 	}
 
 	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
@@ -159,7 +159,9 @@ public abstract class WeaponCard extends ActivableCard {
 	/**
 	 * Deloads the weapon and reset eventually modified parameters.
 	 */
+	@Override
 	public void reset(){
+		super.reset();
 		getOwner().handleWeaponEnd();
 		resetCurrentStep();
 		this.loaded = false;
