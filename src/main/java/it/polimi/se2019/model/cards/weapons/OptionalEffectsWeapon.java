@@ -111,6 +111,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	@Override
 	public QuestionContainer doActivationStep(int choice) {
 		incrementCurrentStep();
+		Utils.logWeapon(this.getCardName() + ": executing main method with currentStep " + getCurrentStep() + " and choice " + choice);
 		if(getCurrentStep() == 1){
 			return initialQuestion();
 		}
