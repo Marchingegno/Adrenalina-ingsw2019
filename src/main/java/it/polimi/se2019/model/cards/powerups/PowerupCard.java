@@ -3,7 +3,6 @@ package it.polimi.se2019.model.cards.powerups;
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ActivableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -19,7 +18,6 @@ public abstract class PowerupCard extends ActivableCard {
 	private PowerupUseCaseType powerupUseCaseType;
 	private Player shootingPlayer;
 	private Player shootedPlayer;
-	private WeaponCard shootingWeapon;
 
 
 	public PowerupCard(String name, AmmoType associatedAmmo, String description, PowerupUseCaseType powerupUseCaseType) {
