@@ -12,7 +12,6 @@ import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -135,6 +134,18 @@ public class Player extends Observable implements Representable {
 		this.turnStatus = status;
 		Utils.logInfo("Player -> setTurnStatus(): " + playerName + "'s turn status set to " + status);
 		setChanged();
+	}
+
+	public void addDamage(Player shootingPlayer, int amountOfDamage) {
+		playerBoard.addDamage(shootingPlayer, amountOfDamage);
+		if (playerBoard.isDead()) {
+			setTurnStatus(TurnStatus.DEAD);
+			setChanged();
+		}
+	}
+
+	public void addMarks(Player shootingPlayer, int amountOfMarks) {
+		playerBoard.addMarks(shootingPlayer, amountOfMarks);
 	}
 
 	/**

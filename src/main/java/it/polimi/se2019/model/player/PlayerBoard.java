@@ -78,39 +78,6 @@ public class PlayerBoard {
 	}
 
 	/**
-	 * Returns a copy of the current damageBoard board of the player.
-	 * @return a copy of the List of damages done to the player.
-	 */
-	public List<Player> getDamageBoard() {
-		return new ArrayList<>(damageBoard);
-	}
-
-	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
-		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
-		for (PowerupCard powerup: powerupCards) {
-			priceToPay.remove(powerup.getAssociatedAmmo());
-		}
-		if (priceToPay.isEmpty())
-			return true;
-		return this.ammoContainer.hasEnoughAmmo(priceToPay);
-	}
-
-
-	public boolean isFrenzy(){
-		//TODO: Implementare metodo dopo l'implementazione del DamageStatus
-		return false;
-	}
-
-	/**
-	 * Returns true if and only if the board is flipped.
-	 *
-	 * @return true if and only if the board is flipped.
-	 */
-	public boolean isFlipped() {
-		return isFlipped;
-	}
-
-	/**
 	 * Add marks to the player.
 	 * @param shootingPlayer the player making the damageBoard.
 	 * @param amountOfMarks amount of marks to add to the player.
@@ -129,6 +96,40 @@ public class PlayerBoard {
 
 		Utils.logInfo("PlayerBoard -> addMarks(): Added " + amountOfMarks + " marks");
 		setChanged();
+	}
+
+	/**
+	 * Returns a copy of the current damageBoard board of the player.
+	 *
+	 * @return a copy of the List of damages done to the player.
+	 */
+	public List<Player> getDamageBoard() {
+		return new ArrayList<>(damageBoard);
+	}
+
+	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck) {
+		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
+		for (PowerupCard powerup : powerupCards) {
+			priceToPay.remove(powerup.getAssociatedAmmo());
+		}
+		if (priceToPay.isEmpty())
+			return true;
+		return this.ammoContainer.hasEnoughAmmo(priceToPay);
+	}
+
+
+	public boolean isFrenzy() {
+		//TODO: Implementare metodo dopo l'implementazione del DamageStatus
+		return false;
+	}
+
+	/**
+	 * Returns true if and only if the board is flipped.
+	 *
+	 * @return true if and only if the board is flipped.
+	 */
+	public boolean isFlipped() {
+		return isFlipped;
 	}
 
 	/**

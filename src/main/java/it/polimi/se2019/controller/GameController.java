@@ -8,6 +8,8 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
+import java.util.Optional;
+
 /**
  * This class is in a lower level than Controller. It handles the logic relative to the game.
  * @author Marchingegno
@@ -36,7 +38,7 @@ public class GameController {
 		model.fillGameMap();
 	}
 
-
+	@Deprecated
 	private void spawnPlayers(){
 		//Let's test this method.
 		virtualViewsContainer.getVirtualViews().parallelStream()
@@ -53,13 +55,10 @@ public class GameController {
 
 
 	/**
-	 * This method ends the turn of a player, scores dead players, starts frenzy if it needs to be started
-	 * and moves to the bottom the first player of playerQueue.
+	 * This method handles the beginning of a new turn. Starts frenzy if it needs to be started
+	 * and calls the method to begin the next turn.
 	 */
-	private void endTurn() {
-		model.setTurnStatusOfCurrentPlayer(TurnStatus.IDLE);
-		model.scoreDeadPlayers();
-		spawnPlayers();
+	private void handleTurnBeginning() {
 		refillCardsOnMap();
 		//This checks if frenzy is to start.
 		if(model.areSkullsFinished() && !model.isFrenzyStarted()) {
@@ -76,19 +75,39 @@ public class GameController {
 	private void startTurn(){
 		String currentPlayerName = model.getCurrentPlayerName();
 
-		model.setCorrectDamageStatus(currentPlayerName);
 
 		// Check if the player is to be spawned.
 		// Which should be only in its beginning turns.
 		if(model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {
 			askToSpawn(currentPlayerName);
 		} else {
+			model.setCorrectDamageStatus(currentPlayerName);
 			model.setTurnStatusOfCurrentPlayer(TurnStatus.YOUR_TURN);
 			virtualViewsContainer.getVirtualViewFromPlayerName(currentPlayerName).askAction(model.doesPlayerHaveActivableOnTurnPowerups(currentPlayerName), model.doesPlayerHaveLoadedWeapons(currentPlayerName));
 		}
 	}
 
+	void handleEndTurn() {
+		model.setTurnStatusOfCurrentPlayer(TurnStatus.IDLE);
+		model.scoreDeadPlayers();
+		spawnNextDeadPlayerOrBeginTurn();
+	}
 
+	private void spawnNextDeadPlayerOrBeginTurn() {
+		Optional<VirtualView> virtualViewOfPlayerToSpawn = virtualViewsContainer.getVirtualViews().stream()
+				.filter(virtualView -> model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD)
+				.findFirst();
+
+		if (virtualViewOfPlayerToSpawn.isPresent()) {
+			askToSpawn(virtualViewOfPlayerToSpawn.get().getNickname());
+		} else {
+			handleTurnBeginning();
+		}
+	}
+
+	/**
+	 * Move the first player at the bottom of the queue and starts the next turn.
+	 */
 	private void nextPlayerTurn() {
 		//Move the next player at the top of the queue.
 		model.nextPlayerTurn();
@@ -117,19 +136,22 @@ public class GameController {
 		switch (event.getMessage().getMessageType()) {
 			case END_TURN:
 				if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN)
-					endTurn();
+					handleEndTurn();
 				else
 					Utils.logError("It's not the turn of " + playerName + "!", new IllegalStateException());
 				break;
 			case SPAWN:
-				if(messageSubtype == MessageSubtype.REQUEST){
-					// If the player requests to spawn, make it draw a powerup card and request the choice.
-					askToSpawn(playerName);
-				} else if(messageSubtype == MessageSubtype.ANSWER) {
-					// Process the answer of a spawn request.
-					int spawnAnswer = ((IntMessage) event.getMessage()).getContent();
+				int spawnAnswer = ((IntMessage) event.getMessage()).getContent();
+				//If the player was dead, spawn him and check if there are other dead players.
+				if (model.getTurnStatus(playerName) == TurnStatus.DEAD){
 					model.spawnPlayer(playerName, spawnAnswer);
-					virtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveLoadedWeapons(playerName));
+					spawnNextDeadPlayerOrBeginTurn();
+				}
+				//If the player was in PRE_SPAWN, spawn him and begin its turn.
+				else if (model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
+					model.spawnPlayer(playerName, spawnAnswer);
+					startTurn();
+//					virtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveLoadedWeapons(playerName));
 				}
 				break;
 			default: turnController.processEvent(event);

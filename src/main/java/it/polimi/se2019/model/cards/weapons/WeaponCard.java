@@ -120,8 +120,8 @@ public abstract class WeaponCard extends ActivableCard {
 	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot){
 		for (int i = 0; i < playersToShoot.size(); i++) {
 			if(playersToShoot.get(i) != null){
-				playersToShoot.get(i).getPlayerBoard().addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
-				playersToShoot.get(i).getPlayerBoard().addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
+				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
+				playersToShoot.get(i).addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
 		concludeActivation();
