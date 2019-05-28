@@ -21,7 +21,7 @@ import java.util.Random;
 // TODO reload
 public class VirtualViewDriver extends VirtualView {
 
-	private static final int MAX_NUMBER_OF_TURNS = 20;
+	private static final int MAX_NUMBER_OF_TURNS = 100;
 	private final boolean TEST_SHOOT;
 	private final boolean TEST_MOVE;
 	private boolean displayReps;
