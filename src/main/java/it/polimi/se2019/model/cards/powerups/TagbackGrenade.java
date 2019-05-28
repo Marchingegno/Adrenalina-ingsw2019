@@ -46,7 +46,7 @@ public class TagbackGrenade extends PowerupCard {
 	}
 
 	@Override
-	public QuestionContainer initialQuestion() {
+	public QuestionContainer firstStep() {
 		if(canBeActivated()) {
 			Player targetPlayer = getShootingPlayer();
 			targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
@@ -58,8 +58,13 @@ public class TagbackGrenade extends PowerupCard {
 	}
 
 	@Override
-	public QuestionContainer doActivationStep(int choice) {
-		throw new UnsupportedOperationException("No step required for " + getCardName());
+	protected QuestionContainer secondStep(int choice) {
+		throw new UnsupportedOperationException("Not needed for " + getCardName());
+	}
+
+	@Override
+	protected QuestionContainer thirdStep(int choice) {
+		throw new UnsupportedOperationException("Not needed for " + getCardName());
 	}
 
 }

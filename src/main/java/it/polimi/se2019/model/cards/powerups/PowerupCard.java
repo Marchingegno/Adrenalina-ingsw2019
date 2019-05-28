@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.ActivableCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.QuestionContainer;
 
 /**
  * This abstract class implements the powerup card
@@ -29,8 +30,46 @@ public abstract class PowerupCard extends ActivableCard {
 
 
 	// ####################################
+	// ABSTRACT METHODS
+	// ####################################
+
+	protected abstract QuestionContainer firstStep();
+
+	protected abstract QuestionContainer secondStep(int choice);
+
+	protected abstract QuestionContainer thirdStep(int choice);
+
+
+	// ####################################
 	// PUBLIC METHODS
 	// ####################################
+
+	/**
+	 * Returns the initial question and options.
+	 * @return the initial question and options.
+	 */
+	@Override
+	public QuestionContainer initialQuestion() {
+		incrementCurrentStep();
+		return firstStep();
+	}
+
+	/**
+	 * Performs the powerup action according to the player choice.
+	 * @param choice the choice of the player.
+	 * @return question and options to send to the player.
+	 */
+	@Override
+	public QuestionContainer doActivationStep(int choice) {
+		incrementCurrentStep();
+		if(getCurrentStep() == 2) {
+			return secondStep(choice);
+		} else if(getCurrentStep() == 3) {
+			return thirdStep(choice);
+		} else {
+			throw new IllegalStateException("Wrong progress.");
+		}
+	}
 
 	/**
 	 * Returns the ammo associated with the card.
@@ -58,10 +97,6 @@ public abstract class PowerupCard extends ActivableCard {
 		this.shootedPlayer = shootedPlayer;
 	}
 
-	public void setShootingWeapon(WeaponCard shootingWeapon) {
-		this.shootingWeapon = shootingWeapon;
-	}
-
 
 	// ####################################
 	// PROTECTED METHODS (only for subclasses)
@@ -73,10 +108,6 @@ public abstract class PowerupCard extends ActivableCard {
 
 	protected Player getShootedPlayer() {
 		return shootedPlayer;
-	}
-
-	protected WeaponCard getShootingWeapon() {
-		return shootingWeapon;
 	}
 
 

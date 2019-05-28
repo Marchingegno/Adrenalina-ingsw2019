@@ -162,7 +162,6 @@ public abstract class WeaponCard extends ActivableCard {
 	@Override
 	public void reset(){
 		super.reset();
-		resetCurrentStep();
 		this.loaded = false;
 		this.relocationDone = false;
 		this.enemyRelocationDone = false;

@@ -55,30 +55,7 @@ public class TargetingScope extends PowerupCard {
 	}
 
 	@Override
-	public QuestionContainer initialQuestion() {
-		incrementCurrentStep();
-		return firstStep();
-	}
-
-	@Override
-	public QuestionContainer doActivationStep(int choice) {
-		incrementCurrentStep();
-		if(getCurrentStep() == 2) {
-			resetCurrentStep();
-			lastStep(choice);
-		} else {
-			resetCurrentStep();
-			Utils.logError("Wrong progress.", new IllegalStateException());
-		}
-		return null;
-	}
-
-
-	// ####################################
-	// PRIVATE METHODS
-	// ####################################
-
-	private QuestionContainer firstStep() {
+	protected QuestionContainer firstStep() {
 		ownedTypes = new ArrayList<>();
 		for(AmmoType ammoType : AmmoType.values()) {
 			if(getOwner().getPlayerBoard().getAmmoContainer().getAmmo(ammoType) > 0) {
@@ -93,7 +70,8 @@ public class TargetingScope extends PowerupCard {
 		return QuestionContainer.createStringQuestionContainer("Choose the ammo to use.", ownedNames);
 	}
 
-	private void lastStep(int choice) {
+	@Override
+	protected QuestionContainer secondStep(int choice) {
 		if (choice >= 0 && choice < ownedTypes.size()) {
 			AmmoType ammoToUse = ownedTypes.get(choice);
 			getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // Use ammo.
@@ -103,6 +81,12 @@ public class TargetingScope extends PowerupCard {
 			Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of owned types is " + ownedTypes.size(), new IllegalArgumentException());
 		}
 		concludeActivation();
+		return null;
+	}
+
+	@Override
+	protected QuestionContainer thirdStep(int choice) {
+		throw new UnsupportedOperationException("Not needed for " + getCardName());
 	}
 
 }

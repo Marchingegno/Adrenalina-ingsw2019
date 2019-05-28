@@ -50,44 +50,8 @@ public class Newton extends PowerupCard {
 		return getGameBoard().getPlayers().stream().anyMatch(this::canActivateOnPlayer);
 	}
 
-	/**
-	 * Returns the initial question and options.
-	 *
-	 * @return the initial question and options.
-	 */
 	@Override
-	public QuestionContainer initialQuestion() {
-		incrementCurrentStep();
-		return firstStep();
-	}
-
-	/**
-	 * Performs the powerup action according to the player choice.
-	 * @param choice the choice of the player.
-	 * @return question and options to send to the player.
-	 */
-	@Override
-	public QuestionContainer doActivationStep(int choice) {
-		incrementCurrentStep();
-		if(getCurrentStep() == 2) {
-			return secondStep(choice);
-		} else if(getCurrentStep() == 3) {
-			resetCurrentStep();
-			lastStep(choice);
-			return null;
-		} else {
-			resetCurrentStep();
-			Utils.logError("Wrong progress.", new IllegalStateException());
-			return null;
-		}
-	}
-
-
-	// ####################################
-	// PRIVATE METHODS
-	// ####################################
-
-	private QuestionContainer firstStep() {
+	protected QuestionContainer firstStep() {
 		targettablePlayers = getGameBoard().getPlayers().stream()
 				.filter(this::canActivateOnPlayer)
 				.collect(Collectors.toList());
@@ -99,7 +63,8 @@ public class Newton extends PowerupCard {
 		return QuestionContainer.createStringQuestionContainer("Choose the player to move.", playerNames);
 	}
 
-	private QuestionContainer secondStep(int choice) {
+	@Override
+	protected QuestionContainer secondStep(int choice) {
 		if (choice >= 0 && choice < targettablePlayers.size()) {
 			targetPlayer = targettablePlayers.get(choice);
 			allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinates(targetPlayer, 2);
@@ -112,14 +77,21 @@ public class Newton extends PowerupCard {
 		}
 	}
 
-	private void lastStep(int choice) {
+	@Override
+	protected QuestionContainer thirdStep(int choice) {
 		if (choice >= 0 && choice < allowedCoordinates.size()) {
 			getGameBoard().getGameMap().movePlayerTo(targetPlayer, allowedCoordinates.get(choice));
 		} else {
 			Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of targettable players is: " + targettablePlayers.size(), new IllegalArgumentException());
 		}
 		concludeActivation();
+		return null;
 	}
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
 
 	private boolean canActivateOnPlayer(Player player) {
 		return player != getOwner() && !player.getPlayerBoard().isDead() && player.getTurnStatus() != TurnStatus.PRE_SPAWN;

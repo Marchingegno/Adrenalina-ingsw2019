@@ -45,41 +45,25 @@ public class Teleporter extends PowerupCard {
 	}
 
 	@Override
-	public QuestionContainer initialQuestion() {
-		incrementCurrentStep();
-		return firstStep();
-	}
-
-	@Override
-	public QuestionContainer doActivationStep(int choice) {
-		incrementCurrentStep();
-		if(getCurrentStep() == 2) {
-			resetCurrentStep();
-			lastStep(choice);
-		} else {
-			resetCurrentStep();
-			Utils.logError("Wrong progress.", new IllegalStateException());
-		}
-		return null;
-	}
-
-
-	// ####################################
-	// PRIVATE METHODS
-	// ####################################
-
-	private QuestionContainer firstStep() {
+	protected QuestionContainer firstStep() {
 		allowedCoordinates = getGameBoard().getGameMap().getAllCoordinatesExceptPlayer(getOwner());
 		return QuestionContainer.createCoordinatesQuestionContainer("Choose where to move.", allowedCoordinates);
 	}
 
-	private void lastStep(int choice) {
+	@Override
+	protected QuestionContainer secondStep(int choice) {
 		if (choice >= 0 && choice < allowedCoordinates.size()) {
 			getGameBoard().getGameMap().movePlayerTo(getOwner(), allowedCoordinates.get(choice));
-			concludeActivation();
 		} else {
-			throw new IllegalArgumentException(getCardName() + "has received an illegal choice: " + choice + "and the size of allowed coordinates is " + allowedCoordinates.size());
+			Utils.logError(getCardName() + " has received an illegal choice: " + choice +  "and the size of allowed coordinates is " + allowedCoordinates.size(), new IllegalArgumentException());
 		}
+		concludeActivation();
+		return null;
+	}
+
+	@Override
+	protected QuestionContainer thirdStep(int choice) {
+		throw new UnsupportedOperationException("Not needed for " + getCardName());
 	}
 
 }
