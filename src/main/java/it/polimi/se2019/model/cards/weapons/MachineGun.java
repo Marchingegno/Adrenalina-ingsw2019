@@ -93,5 +93,9 @@ public class MachineGun extends OptionalEffectsWeapon {
 		chosenTargets = new ArrayList<>();
 	}
 
-
+	@Override
+	protected boolean canAddOptionalEffect2() {
+		//There's at least 3 visible players.
+		return getPrimaryTargets().size() > 2;
+	}
 }
