@@ -98,4 +98,10 @@ public class MachineGun extends OptionalEffectsWeapon {
 		//There's at least 3 visible players.
 		return getPrimaryTargets().size() > 2;
 	}
+
+	@Override
+	protected boolean canPrimaryBeActivated() {
+		//There are at least 2 visible players.
+		return getPrimaryTargets().size() > 1;
+	}
 }

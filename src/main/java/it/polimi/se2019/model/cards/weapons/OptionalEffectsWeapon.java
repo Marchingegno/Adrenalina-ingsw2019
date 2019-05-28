@@ -173,10 +173,12 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 			return canAddOptionalEffect2();
 	}
 
+	//To override
 	protected boolean canAddOptionalEffect1() {
 		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(1)));
 	}
 
+	//To override
 	protected boolean canAddOptionalEffect2() {
 		if (!hasOptionalEffects[1]) return false;
 		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(2)));
@@ -184,7 +186,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	protected boolean canAddBothOptionalEffects() {
 		if (!hasOptionalEffects[1]) return false;
-		return getOwner().hasEnoughAmmo(optionalPrices);
+		return getOwner().hasEnoughAmmo(optionalPrices) && canAddOptionalEffect1() && canAddOptionalEffect2();
 	}
 
 }
