@@ -497,9 +497,7 @@ public class Model {
 	}
 
 	private boolean hasEnoughAmmo(Player player, WeaponCard weapon) {
-		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
-		List<AmmoType> price = weapon.getGrabPrice();
-		return playerAmmoContainer.hasEnoughAmmo(price);
+		return player.hasEnoughAmmo(weapon.getGrabPrice());
 	}
 
 	private Player getPlayerFromName(String playerName) {

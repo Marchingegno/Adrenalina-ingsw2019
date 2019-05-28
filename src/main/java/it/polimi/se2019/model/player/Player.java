@@ -12,6 +12,7 @@ import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -106,6 +107,7 @@ public class Player extends Observable implements Representable {
 	 * @return if the player has as much ammo as the parameter.
 	 */
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
+
 		return getPlayerBoard().hasEnoughAmmo(ammoToCheck);
 	}
 

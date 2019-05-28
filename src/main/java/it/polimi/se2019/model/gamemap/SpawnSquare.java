@@ -57,9 +57,8 @@ public class SpawnSquare extends Square {
 
 	@Override
 	public boolean canGrab(Player player) {
-		AmmoContainer playerAmmoContainer = player.getPlayerBoard().getAmmoContainer();
 		for (Card weaponCard : cards) {
-			if (playerAmmoContainer.hasEnoughAmmo(((WeaponCard) weaponCard).getGrabPrice())) {
+			if (player.hasEnoughAmmo(((WeaponCard) weaponCard).getGrabPrice())) {
 				return true;
 			}
 		}
