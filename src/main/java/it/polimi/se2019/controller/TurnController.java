@@ -168,7 +168,6 @@ public class TurnController{
 	}
 
 	private void handleWeaponQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
-
 		if (model.isTheWeaponConcluded(virtualView.getNickname())) {
 			model.handleWeaponEnd(virtualView.getNickname());
 			handleNextAction(virtualView);
