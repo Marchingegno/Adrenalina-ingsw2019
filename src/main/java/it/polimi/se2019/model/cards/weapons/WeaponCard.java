@@ -194,8 +194,11 @@ public abstract class WeaponCard extends ActivableCard {
 	 * @param targets the target players to choose from.
 	 * @return the {@link QuestionContainer}.
 	 */
-	public static QuestionContainer getTargetPlayersQnO(List<Player> targets){
-		String question = "Which of the following players do you want to target?";
+	public static QuestionContainer getTargetPlayersQnO(List<Player> targets) {
+		return getTargetPlayersQnO(targets, "Which of the following players do you want to target?");
+	}
+
+	public static QuestionContainer getTargetPlayersQnO(List<Player> targets, String question) {
 		List<String> options = new ArrayList<>();
 		targets.forEach(target-> options.add(target.getPlayerName()));
 		return QuestionContainer.createStringQuestionContainer(question, options);
