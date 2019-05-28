@@ -108,13 +108,14 @@ public class PlayerBoard {
 	}
 
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck) {
-		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
-		for (PowerupCard powerup : powerupCards) {
-			priceToPay.remove(powerup.getAssociatedAmmo());
-		}
-		if (priceToPay.isEmpty())
-			return true;
-		return this.ammoContainer.hasEnoughAmmo(priceToPay);
+//		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
+//		for (PowerupCard powerup : powerupCards) {
+//			priceToPay.remove(powerup.getAssociatedAmmo());
+//		}
+//		if (priceToPay.isEmpty())
+//			return true;
+
+		return this.ammoContainer.hasEnoughAmmo(ammoToCheck);
 	}
 
 
