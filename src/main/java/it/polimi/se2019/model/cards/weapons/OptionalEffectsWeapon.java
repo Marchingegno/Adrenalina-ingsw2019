@@ -18,7 +18,7 @@ import java.util.List;
  */
 public abstract class OptionalEffectsWeapon extends WeaponCard {
 	private boolean[] optionalEffectsActive;
-	protected boolean[] canAddOptionalEffect; //Index 2 is optional 1 + 2
+	boolean[] hasOptionalEffects;
 	private List<AmmoType> optionalPrices;
 	int optional1Damage;
 	int optional1Marks;
@@ -30,8 +30,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	public OptionalEffectsWeapon(JsonObject parameters) {
 		super(parameters);
+		hasOptionalEffects = new boolean[2];
+		hasOptionalEffects[0] = true;
+		hasOptionalEffects[1] = true;
 		optionalEffectsActive = new boolean[2];
-		canAddOptionalEffect = new boolean[3];
 		optionalPrices = new ArrayList<>();
 		optional1DamagesAndMarks = new ArrayList<>();
 		optional2DamagesAndMarks = new ArrayList<>();
@@ -49,37 +51,21 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		}
 	}
 
-	public boolean[] getCanAddOptionalEffect() {
-		return canAddOptionalEffect;
-	}
-
 	@Override
 	public QuestionContainer initialQuestion() {
 		String question = "Which optional effect do you want to activate?";
-		checkOptionalEffects();
 		List<String> options = new ArrayList<>();
 		options.add("No optional effects.");
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
-			if(canAddOptionalEffect[i]){
+			if (canAddThisOptionalEffect(i) && hasOptionalEffects[i]) {
 				options.add("Optional effect "+i+".");
 			}
 		}
 		//the following is hardcoded.
-		if(canAddOptionalEffect[2]){
+		if (canAddBothOptionalEffects() && hasOptionalEffects[1]) {
 			options.add("Optional effect 1 + Optional effect 2.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);
-	}
-
-	protected void checkOptionalEffects() {
-		canAddOptionalEffect[0] = optionalPrices.get(0) == null || getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(0)));
-		try {
-			canAddOptionalEffect[1] = optionalPrices.get(1) == null || getOwner().hasEnoughAmmo(Arrays.asList(optionalPrices.get(1)));
-			canAddOptionalEffect[2] = getOwner().hasEnoughAmmo(optionalPrices);
-		} catch (NullPointerException | IndexOutOfBoundsException e) {
-			//TODO Replace with boolean methods taken from Json
-			Utils.logWarning("This weapon does not have other optional effects.");
-		}
 	}
 
 	protected void registerChoice(int choice) {
@@ -89,7 +75,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 				break;
 			case 1:
 				//If the first optional effect can't be added, then choice 1 is the second optional effect
-				if(canAddOptionalEffect[0]){
+				if (canAddThisOptionalEffect(1)) {
 					optionalEffectsActive[0] = true;
 				}
 				else{
@@ -147,7 +133,6 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 
 
-
 	public void optional1Fire(){
 	}
 
@@ -180,4 +165,26 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	protected boolean isBothOptionalActive(){
 		return optionalEffectsActive[0] && optionalEffectsActive[1];
 	}
+
+	protected boolean canAddThisOptionalEffect(int numberOfEffect) {
+		if (numberOfEffect == 1)
+			return canAddOptionalEffect1();
+		else
+			return canAddOptionalEffect2();
+	}
+
+	protected boolean canAddOptionalEffect1() {
+		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(1)));
+	}
+
+	protected boolean canAddOptionalEffect2() {
+		if (!hasOptionalEffects[1]) return false;
+		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(2)));
+	}
+
+	protected boolean canAddBothOptionalEffects() {
+		if (!hasOptionalEffects[1]) return false;
+		return getOwner().hasEnoughAmmo(optionalPrices);
+	}
+
 }
