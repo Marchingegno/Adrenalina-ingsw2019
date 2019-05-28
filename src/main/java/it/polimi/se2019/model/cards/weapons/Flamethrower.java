@@ -176,7 +176,9 @@ public class Flamethrower extends AlternateFireWeapon {
 			chosenDirection = direction;
 			List<Player> possibleTargets = getPrimaryTargets();
 			chosenDirection = null;
-			return !possibleTargets.isEmpty();
+			if (!possibleTargets.isEmpty()) {
+				return true;
+			}
 		}
 		return false;
 	}
