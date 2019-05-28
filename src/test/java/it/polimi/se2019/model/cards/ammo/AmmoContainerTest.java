@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -102,13 +103,12 @@ public class AmmoContainerTest {
 	@Test
 	public void hasEnoughAmmo_aListOfAmmo_correctOutput() {
 		ammoContainer.addAmmo(AmmoType.values()[0], 2);
-		List<AmmoType> price = new ArrayList<>();
-		for (AmmoType ammoType : AmmoType.values()) {
-			price.add(ammoType);
-		}
+		List<AmmoType> price = new ArrayList<>(Arrays.asList(AmmoType.values()));
 		assertTrue(ammoContainer.hasEnoughAmmo(price));
 		price.add(AmmoType.values()[1]);
 		assertFalse(ammoContainer.hasEnoughAmmo(price));
+		assertTrue(ammoContainer.hasEnoughAmmo(null));
+		assertTrue(ammoContainer.hasEnoughAmmo(new ArrayList<>()));
 	}
 
 	@Test

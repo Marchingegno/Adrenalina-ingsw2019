@@ -64,4 +64,9 @@ public class GameBoardRepTest {
 	public void getCurrentPlayer_initialState_correctOutput() {
 		assertEquals(gameBoard.getCurrentPlayer().getPlayerName(), gameBoardRep.getCurrentPlayer());
 	}
+
+	@Test
+	public void getNumberOfPlayers_initialState_correctOutput() {
+		assertEquals(gameBoard.getPlayers().size(), gameBoardRep.getNumberOfPlayers());
+	}
 }

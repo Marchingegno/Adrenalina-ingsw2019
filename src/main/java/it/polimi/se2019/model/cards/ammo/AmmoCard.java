@@ -16,32 +16,17 @@ public class AmmoCard extends Card {
 	private List<AmmoType> ammo;
 	private boolean hasPowerup;
 
+
 	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup, String name) {
 		super(name, createDescription(ammo, hasPowerup));
 		this.ammo = new ArrayList<>(ammo);
 		this.hasPowerup = hasPowerup;
 	}
 
-	/**
-	 * Generates the description of the card.
-	 *
-	 * @param ammo       array of the ammo associated with the card.
-	 * @param hasPowerup true if the card has a powerup associated.
-	 * @return the description of the card.
-	 */
-	private static String createDescription(List<AmmoType> ammo, boolean hasPowerup) {
 
-		StringBuilder description = new StringBuilder();
-
-		for (AmmoType ammoType : ammo) {
-			description.append(ammoType.toString().toLowerCase() + " ");
-		}
-
-		if (hasPowerup)
-			description.append("and a Powerup");
-
-		return description.toString();
-	}
+	// ####################################
+	// PUBLIC METHODS
+	// ####################################
 
 	/**
 	 * Returns true if and only if the card has a powerup associated.
@@ -61,8 +46,39 @@ public class AmmoCard extends Card {
 		return new ArrayList<>(ammo);
 	}
 
+
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
+
 	@Override
 	public Representation getRep() {
 		return new AmmoCardRep(this);
+	}
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
+
+	/**
+	 * Generates the description of the card.
+	 *
+	 * @param ammo       array of the ammo associated with the card.
+	 * @param hasPowerup true if the card has a powerup associated.
+	 * @return the description of the card.
+	 */
+	private static String createDescription(List<AmmoType> ammo, boolean hasPowerup) {
+
+		StringBuilder description = new StringBuilder();
+
+		for (AmmoType ammoType : ammo) {
+			description.append(ammoType.toString().toLowerCase());
+			description.append(" ");
+		}
+
+		if (hasPowerup)
+			description.append("and a Powerup");
+
+		return description.toString();
 	}
 }

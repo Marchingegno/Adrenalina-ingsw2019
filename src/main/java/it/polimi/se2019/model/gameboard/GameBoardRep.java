@@ -62,12 +62,18 @@ public class GameBoardRep implements Representation {
 
 	/**
 	 * Returns the name of the current player.
+	 *
 	 * @return the name of the current player.
 	 */
 	public String getCurrentPlayer() {
 		return currentPlayer;
 	}
 
+	/**
+	 * Returns the number of players in the game.
+	 *
+	 * @return the number of players in the game.
+	 */
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}

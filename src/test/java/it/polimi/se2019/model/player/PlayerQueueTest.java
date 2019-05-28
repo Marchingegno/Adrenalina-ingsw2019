@@ -1,6 +1,5 @@
 package it.polimi.se2019.model.player;
 
-import it.polimi.se2019.utils.Color;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

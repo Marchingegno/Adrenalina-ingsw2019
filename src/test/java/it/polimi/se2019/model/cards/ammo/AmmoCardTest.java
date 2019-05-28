@@ -10,11 +10,10 @@ import static org.junit.Assert.*;
 
 public class AmmoCardTest {
 
-	List<AmmoType> ammoInTheCard;
+	private List<AmmoType> ammoInTheCard = new ArrayList<>();
 
 	@Before
 	public void setUp() {
-		ammoInTheCard = new ArrayList<>();
 		ammoInTheCard.add(AmmoType.RED_AMMO);
 		ammoInTheCard.add(AmmoType.BLUE_AMMO);
 	}
@@ -32,6 +31,16 @@ public class AmmoCardTest {
 	public void getAmmo_standardInitialization_correctOutput() {
 		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p");
 		assertEquals(ammoInTheCard, ammoCard.getAmmo());
+	}
+
+	@Test
+	public void getAmmo_changeContent_shouldBeImmutable() {
+		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p");
+		List<AmmoType> ammoTypeList = ammoCard.getAmmo();
+		ammoTypeList.add(AmmoType.RED_AMMO);
+		assertNotEquals(ammoInTheCard, ammoTypeList);
+		ammoInTheCard.add(AmmoType.RED_AMMO);
+		assertNotEquals(ammoCard.getAmmo(), ammoTypeList);
 	}
 
 	@Test
