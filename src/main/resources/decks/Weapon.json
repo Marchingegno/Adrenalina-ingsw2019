@@ -231,8 +231,7 @@
 			"primaryMarks": 0,
 			"primaryDamage": 3,
 			"moveDistance": 0,
-			"DEBUGTHEFOLLOWINGLINE": 0,
-			"secondaryDamage": 10,
+          "secondaryDamage": 2,
 			"secondaryMarks": 0
 		},
 		{
