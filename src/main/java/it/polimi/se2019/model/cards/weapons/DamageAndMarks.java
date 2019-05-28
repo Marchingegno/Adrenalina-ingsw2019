@@ -13,12 +13,13 @@ public class DamageAndMarks {
 		this.marks = marks;
 	}
 
-	public DamageAndMarks enrich(DamageAndMarks damageAndMarksToAdd){
-		return enrich(damageAndMarksToAdd.getDamage(), damageAndMarksToAdd.getMarks());
+	public void enrich(DamageAndMarks damageAndMarksToAdd) {
+		enrich(damageAndMarksToAdd.getDamage(), damageAndMarksToAdd.getMarks());
 	}
 
-	public DamageAndMarks enrich(int damageToAdd, int marksToAdd){
-		return new DamageAndMarks(damage+damageToAdd, marks+marksToAdd);
+	public void enrich(int damageToAdd, int marksToAdd) {
+		this.damage += damageToAdd;
+		this.marks += marksToAdd;
 	}
 
 
