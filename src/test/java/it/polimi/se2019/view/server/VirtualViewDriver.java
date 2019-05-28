@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.server;
 
+import it.polimi.se2019.GameTester;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -21,7 +22,6 @@ import java.util.Random;
 // TODO reload
 public class VirtualViewDriver extends VirtualView {
 
-	private static final int MAX_NUMBER_OF_TURNS = 100;
 	private final boolean TEST_SHOOT;
 	private final boolean TEST_MOVE;
 	private boolean displayReps;
@@ -238,7 +238,7 @@ public class VirtualViewDriver extends VirtualView {
 
 	private boolean canTestContinue() {
 		numberOfTurns++;
-		if(numberOfTurns < MAX_NUMBER_OF_TURNS) {
+		if(numberOfTurns < GameTester.MAX_NUMBER_OF_TURNS) {
 			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.YELLOW) +  " TURN " + numberOfTurns + " ENDED (" + getNickname() + "'s turn) " + Color.getColoredString("##################", Color.CharacterColorType.YELLOW));
 			return true;
 		} else {
