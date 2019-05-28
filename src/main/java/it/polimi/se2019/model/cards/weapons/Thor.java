@@ -94,16 +94,15 @@ public class Thor extends OptionalEffectsWeapon {
 	@Override
 	public QuestionContainer initialQuestion() {
 		String question = "Which optional effect do you want to activate?";
-		checkOptionalEffects();
 		List<String> options = new ArrayList<>();
 		options.add("No optional effects.");
 
 		//Can add optionalEffect 1?
-		if(getCanAddOptionalEffect()[0]){
+		if (canAddThisOptionalEffect(1)) {
 			options.add("Optional effect 1.");
 		}
 		//Can add optionalEffect 1 + 2?
-		if(getCanAddOptionalEffect()[2]){
+		if (canAddBothOptionalEffects()) {
 			options.add("Optional effect 1 + Optional effect 2.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);

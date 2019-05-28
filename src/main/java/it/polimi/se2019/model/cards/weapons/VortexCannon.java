@@ -17,6 +17,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 
 	public VortexCannon(JsonObject parameters) {
 		super(parameters);
+		hasOptionalEffects[1] = false;
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
@@ -85,6 +86,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	}
 
 	private List<Coordinates> getVortexCoordinates() {
+		//there's at least one place where the owner can place the vortex that has a player next or on top of it.
 		List<Coordinates> possibleVortexCoordinates = getGameMap().getVisibleCoordinates(getOwner());
 		possibleVortexCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
 
@@ -113,5 +115,24 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	@Override
 	public boolean canBeActivated() {
 		return isLoaded() && !getVortexCoordinates().isEmpty();
+	}
+
+	@Override
+	protected boolean canAddOptionalEffect1() {
+		//there's at least one place where the owner can place the vortex that has more than one player next or on top of it.
+		List<Coordinates> possibleVortexCoordinates = getGameMap().getVisibleCoordinates(getOwner());
+		possibleVortexCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
+
+		List<Coordinates> accettableVortexCoordinates = new ArrayList<>();
+		for (Coordinates coordinates : possibleVortexCoordinates) {
+			List<Coordinates> coordinatesSurroundingThisVortex = getGameMap().reachableCoordinates(coordinates, 1);
+			List<Player> playersOneMoveAway = new ArrayList<>();
+			coordinatesSurroundingThisVortex.forEach(item -> playersOneMoveAway.addAll(getGameMap().getPlayersFromCoordinates(item)));
+			playersOneMoveAway.remove(getOwner());
+			if (playersOneMoveAway.size() > 1) {
+				accettableVortexCoordinates.add(coordinates);
+			}
+		}
+		return !accettableVortexCoordinates.isEmpty();
 	}
 }
