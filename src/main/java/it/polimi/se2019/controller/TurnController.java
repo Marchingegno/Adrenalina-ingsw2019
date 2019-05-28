@@ -49,7 +49,7 @@ public class TurnController{
 				break;
 			case GRAB_WEAPON:
 				if(!model.hasCurrentPlayerPayed())
-					handlePayment(virtualView, model.getPriceOfTheCurrentPlayer(((IntMessage) event.getMessage()).getContent()), event);
+					handlePayment(virtualView, model.getPriceOfTheChosenWeapon(((IntMessage) event.getMessage()).getContent()), event);
 				else{
 					model.setPayed(false);
 					model.grabWeaponCard(playerName, ((IntMessage) event.getMessage()).getContent());
@@ -57,9 +57,14 @@ public class TurnController{
 				}
 				break;
 			case SWAP_WEAPON:
-				SwapMessage swapMessage = (SwapMessage) event.getMessage();
-				model.swapWeapons(swapMessage.getIndexToDiscard(), swapMessage.getIndexToGrab());
-				handleNextAction(virtualView);
+				if(!model.hasCurrentPlayerPayed())
+					handlePayment(virtualView, model.getPriceOfTheChosenWeapon(((IntMessage) event.getMessage()).getContent()), event);
+				else{
+					model.setPayed(false);
+					SwapMessage swapMessage = (SwapMessage) event.getMessage();
+					model.swapWeapons(swapMessage.getIndexToDiscard(), swapMessage.getIndexToGrab());
+					handleNextAction(virtualView);
+				}
 				break;
 			case MOVE:
 				Coordinates playerChoice = ((CoordinatesAnswerMessage) event.getMessage()).getSingleCoordinates();
@@ -79,11 +84,12 @@ public class TurnController{
 						virtualView.askReload(loadableWeapons);
 					}
 				} else {
-					model.reloadWeapon(playerName, ((IntMessage) event.getMessage()).getContent());
-					//This method should not be called because the macroaction is already refilled and it will start another turn.
-//					handleNextAction(virtualView);
-					//For now,you can reload only one weapon.
-					virtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));
+					if(!model.hasCurrentPlayerPayed())
+						handlePayment(virtualView, model.getPriceOfTheChosenWeapon(((IntMessage) event.getMessage()).getContent()), event);
+					else{
+						model.setPayed(false);
+						model.reloadWeapon(playerName, ((IntMessage) event.getMessage()).getContent());
+						virtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));}
 				}
 				break;
 			case WEAPON:

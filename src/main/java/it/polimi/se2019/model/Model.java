@@ -140,7 +140,7 @@ public class Model {
 	// PLAYERS MANAGEMENT METHODS
 	// ####################################
 
-	public List<AmmoType> getPriceOfTheCurrentPlayer(int index){
+	public List<AmmoType> getPriceOfTheChosenWeapon(int index){
 		return ((WeaponCard) gameMap.getPlayerSquare(getCurrentPlayer()).getCards().get(index)).getGrabPrice();
 	}
 

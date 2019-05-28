@@ -279,6 +279,7 @@ public class CLIView extends RemoteView {
 		List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
 		int choice;
 		int i;
+		printLine("Which powerup you want to discard to pay?");
 		do{
 			i = 0;
 			for (; i < powerupCardReps.size(); i++){
