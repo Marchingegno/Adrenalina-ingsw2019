@@ -46,5 +46,5 @@ public interface ViewInterface {
 
 	void updatePlayerRep(PlayerRep playerRepToUpdate);
 
-	void askToPay(List<AmmoType> priceToPay);
+	void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo);
 }

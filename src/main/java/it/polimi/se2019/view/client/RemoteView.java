@@ -121,7 +121,8 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				askSpawn();
 				break;
 			case PAYMENT:
-				askToPay(((PaymentMessage) message).getPriceToPay());
+				PaymentMessage paymentMessage = (PaymentMessage) message;
+				askToPay(paymentMessage.getPriceToPay(), paymentMessage.canAffordAlsoWithAmmo());
 				break;
 			case WEAPON:
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
@@ -254,5 +255,5 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);
 
-	public abstract void askToPay(List<AmmoType> priceToPay);
+	public abstract void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo);
 }

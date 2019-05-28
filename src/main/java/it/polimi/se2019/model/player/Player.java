@@ -7,10 +7,12 @@ import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
 import it.polimi.se2019.model.player.damagestatus.LowDamage;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.MacroAction;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.view.server.Event;
 
 import java.util.List;
 import java.util.Observable;
@@ -34,7 +36,6 @@ public class Player extends Observable implements Representable {
 	private PlayerRep playerRep;
 	private int firingWeapon = -1; //The current weapon that the player is firing with.
 	private int powerupInExecution = -1; // The current powerup that the player is using.
-
 
 	public Player(String playerName, int playerID) {
 		this.playerName = playerName;

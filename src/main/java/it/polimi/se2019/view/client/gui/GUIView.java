@@ -206,7 +206,7 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askToPay(List<AmmoType> priceToPay){
+	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo){
 
 	}
 

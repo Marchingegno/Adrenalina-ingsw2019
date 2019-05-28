@@ -2,7 +2,6 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
-import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -14,8 +13,10 @@ import it.polimi.se2019.model.player.PlayerBoard;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
+import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.*;
+import it.polimi.se2019.view.server.Event;
 
 import java.util.*;
 
@@ -30,6 +31,8 @@ public class Model {
 
 	private GameBoard gameBoard;
 	private GameMap gameMap;
+	private boolean hasPayed = false;
+	private Event savedEvent;
 
 	public Model(String mapName, List<String> playerNames, int startingSkulls) {
 		if(startingSkulls < GameConstants.MIN_SKULLS || startingSkulls > GameConstants.MAX_SKULLS)
@@ -117,21 +120,34 @@ public class Model {
 		updateReps();
 	}
 
+	public void setPayed(boolean hasPayed){
+		this.hasPayed = hasPayed;
+	}
+
+	public boolean hasCurrentPlayerPayed(){
+		return hasPayed;
+	}
+
+	public void saveEvent(Event event){
+		this.savedEvent = event;
+	}
+
+	public Event resumeAction(){
+		return savedEvent;
+	}
 
 	// ####################################
 	// PLAYERS MANAGEMENT METHODS
 	// ####################################
 
+	public List<AmmoType> getPriceOfTheCurrentPlayer(int index){
+		return ((WeaponCard) gameMap.getPlayerSquare(getCurrentPlayer()).getCards().get(index)).getGrabPrice();
+	}
+
 	public void movePlayerTo(String playerName, Coordinates coordinates) {
 		Player player = getPlayerFromName(playerName);
 		gameMap.movePlayerTo(player, coordinates);
 		updateReps();
-	}
-
-	public void resolvePayment(String nickname, List<Integer> integers) {
-		Player player = getPlayerFromName(nickname);
-
-
 	}
 
 	public void spawnPlayer(String playerName, int indexOfCard) {
@@ -199,12 +215,21 @@ public class Model {
 			indexesOfPowerup.remove(max);
 		}
 		playerBoard.getAmmoContainer().removeAmmo(price);
+		setPayed(true);
 	}
 
-	public boolean needsPowerupsToPay(String playerName, List<AmmoType> ammoToPay){
+	public boolean canUsePowerupToPay(String playerName, List<AmmoType> ammoToPay){
+		List<PowerupCard> powerupCards = getPlayerFromName(playerName).getPlayerBoard().getPowerupCards();
+		for (PowerupCard powerupCard :powerupCards ) {
+			if(ammoToPay.contains(powerupCard.getAssociatedAmmo()))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean canAffordWithOnlyAmmo(String playerName, List<AmmoType> ammoToPay){
 		Player player = getPlayerFromName(playerName);
-		player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
-		return !player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
+		return player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
 	}
 
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {

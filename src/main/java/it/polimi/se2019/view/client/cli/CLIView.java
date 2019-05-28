@@ -272,33 +272,32 @@ public class CLIView extends RemoteView {
 
 
 	@Override
-	public void askToPay(List<AmmoType> priceToPay){
+	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo){
 		List<Integer> answer = new ArrayList<>();
 		List<AmmoType> price = new ArrayList<>(priceToPay);
-		printLine("Choose the method of payment:\n 1) Only ammo\n 2) Use also powerup");
-		if (askInteger(1, 2) == 1)
-			answer.add(-1);
-		else{
-			List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
-			int choise;
-			int i;
-			do{
-				i = 0;
-				printLine("Choose the powerup to discard:");
-				for (; i < powerupCardReps.size(); i++){
-					PowerupCardRep powerupCardRep = powerupCardReps.get(i);
-					if(price.contains(powerupCardRep.getAssociatedAmmo()))
-						printLine((i+1) + ") " + repPrinter.getPowerupRepString(powerupCardRep));
-				}
+
+		List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
+		int choice;
+		int i;
+		do{
+			i = 0;
+			for (; i < powerupCardReps.size(); i++){
+				PowerupCardRep powerupCardRep = powerupCardReps.get(i);
+				if(price.contains(powerupCardRep.getAssociatedAmmo()))
+					printLine((i+1) + ") " + repPrinter.getPowerupRepString(powerupCardRep));
+				else
+					powerupCardReps.remove(powerupCardRep);
+			}
+			if (canAffordAlsoWithAmmo)
 				printLine((i+1) + ") End payment");
-				choise = askInteger(1, i + 1);
-				if (choise != (i+1)){
-					answer.add(choise - 1);
-					powerupCardReps.remove(choise - 1);
-					price.remove(powerupCardReps.get(choise - 1).getAssociatedAmmo());
-				}
-			}while(!price.isEmpty() || choise == (i + 1));
-		}
+			choice = askInteger(1, canAffordAlsoWithAmmo? i + 1 : i);
+			if (choice != (i+1)){
+				answer.add(choice - 1);
+				price.remove(powerupCardReps.get(choice - 1).getAssociatedAmmo());
+				powerupCardReps.remove(choice - 1);
+			}
+		}while(!powerupCardReps.isEmpty() && (canAffordAlsoWithAmmo && (choice != (i + 1))));
+
 		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 	}
 

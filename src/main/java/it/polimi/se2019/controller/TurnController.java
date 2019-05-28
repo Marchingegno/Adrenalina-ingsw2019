@@ -10,6 +10,7 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,8 +48,13 @@ public class TurnController{
 				handleNextAction(virtualView);
 				break;
 			case GRAB_WEAPON:
-				model.grabWeaponCard(playerName, ((IntMessage) event.getMessage()).getContent());
-				handleNextAction(virtualView);
+				if(!model.hasCurrentPlayerPayed())
+					handlePayment(virtualView, model.getPriceOfTheCurrentPlayer(((IntMessage) event.getMessage()).getContent()), event);
+				else{
+					model.setPayed(false);
+					model.grabWeaponCard(playerName, ((IntMessage) event.getMessage()).getContent());
+					handleNextAction(virtualView);
+				}
 				break;
 			case SWAP_WEAPON:
 				SwapMessage swapMessage = (SwapMessage) event.getMessage();
@@ -87,7 +93,8 @@ public class TurnController{
 					initialWeaponActivation(virtualView, ((IntMessage) event.getMessage()).getContent());
 				break;
 			case PAYMENT:
-				resolvePayment(virtualView, ((IntListMessage) event.getMessage()).getIntegerList());
+				PaymentMessage paymentMessage = (PaymentMessage) event.getMessage();
+				resolvePayment(virtualView, paymentMessage.getPowerupsUsed(), paymentMessage.getPriceToPay());
 				break;
 			case ACTIVATE_POWERUP:
 				virtualView.askPowerupActivation(model.getActivableOnTurnPowerups(playerName));
@@ -208,17 +215,21 @@ public class TurnController{
 		}
 	}
 
-	//
+	// ####################################
+	// PAYMENT METHODS
+	// ####################################
 
-	private void resolvePayment(VirtualView virtualView, List<Integer> integers){
-		model.resolvePayment(virtualView.getNickname(), integers);
+	private void resolvePayment(VirtualView virtualView, List<Integer> integers, List<AmmoType> priceToPay){
+		model.pay(virtualView.getNickname(), priceToPay, integers);
+		processEvent(model.resumeAction());
 	}
 
-	private void handlePayment(VirtualView virtualView, List<AmmoType> ammoToPay){
-		if(!model.needsPowerupsToPay(virtualView.getNickname(), ammoToPay)){
-			model.pay(virtualView.getNickname(), ammoToPay);
+	private void handlePayment(VirtualView virtualView, List<AmmoType> ammoToPay, Event eventToSave){
+		model.saveEvent(eventToSave);
+		if(!model.canUsePowerupToPay(virtualView.getNickname(), ammoToPay)){
+			resolvePayment(virtualView,  new ArrayList<>(), ammoToPay);
 		}else{
-			virtualView.askToPay(ammoToPay);
+			virtualView.askToPay(ammoToPay, model.canAffordWithOnlyAmmo(virtualView.getNickname(), ammoToPay));
 		}
 	}
 }

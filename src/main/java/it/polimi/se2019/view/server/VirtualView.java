@@ -92,8 +92,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
-	public void askToPay(List<AmmoType> priceToPay){
-		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.REQUEST));
+	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo){
+		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.REQUEST).setCanAffordAlsoWithAmmo(canAffordAlsoWithAmmo));
 	}
 
 	@Override
