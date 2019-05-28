@@ -1,5 +1,6 @@
 package it.polimi.se2019.view;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
@@ -44,4 +45,6 @@ public interface ViewInterface {
 	void updateGameMapRep(GameMapRep gameMapRepToUpdate);
 
 	void updatePlayerRep(PlayerRep playerRepToUpdate);
+
+	void askToPay(List<AmmoType> priceToPay);
 }

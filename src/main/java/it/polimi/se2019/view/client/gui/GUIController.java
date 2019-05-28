@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.client.gui;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -148,6 +149,11 @@ public class GUIController extends RemoteView {
 
 	@Override
 	public void askEnd(boolean activablePowerups) {
+
+	}
+
+	@Override
+	public void askToPay(List<AmmoType> priceToPay){
 
 	}
 }

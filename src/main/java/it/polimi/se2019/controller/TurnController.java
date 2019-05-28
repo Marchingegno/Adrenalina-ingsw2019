@@ -1,6 +1,7 @@
 package it.polimi.se2019.controller;
 
 import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.ActionType;
@@ -202,6 +203,14 @@ public class TurnController{
 			handleActionEnd(virtualView);
 		} else {
 			virtualView.askPowerupChoice(questionContainer);
+		}
+	}
+
+	private void handlePayment(VirtualView virtualView, List<AmmoType> ammoToPay){
+		if(!model.needsPowerupsToPay(virtualView.getNickname(), ammoToPay)){
+			model.pay(virtualView.getNickname(), ammoToPay);
+		}else{
+			virtualView.askToPay(ammoToPay);
 		}
 	}
 }

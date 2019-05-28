@@ -21,5 +21,6 @@ public enum MessageType {
 	WEAPON,
 	ACTIVATE_POWERUP,
 	POWERUP,
+	PAYMENT,
 	END_TURN,
 }

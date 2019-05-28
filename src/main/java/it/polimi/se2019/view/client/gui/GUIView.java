@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.client.gui;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
@@ -201,6 +202,11 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
+
+	}
+
+	@Override
+	public void askToPay(List<AmmoType> priceToPay){
 
 	}
 

@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.client;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
@@ -118,6 +119,9 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				break;
 			case SPAWN:
 				askSpawn();
+				break;
+			case PAYMENT:
+				askToPay(((PaymentMessage) message).getPriceToPay());
 				break;
 			case WEAPON:
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
@@ -250,4 +254,5 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);
 
+	public abstract void askToPay(List<AmmoType> priceToPay);
 }

@@ -1,5 +1,6 @@
 package it.polimi.se2019.view.server;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -91,6 +92,11 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	@Override
+	public void askToPay(List<AmmoType> priceToPay){
+		sendMessage(new PaymentMessage(priceToPay));
+	}
+
+	@Override
 	public void askSpawn() {
 		sendMessage(new Message(MessageType.SPAWN, MessageSubtype.REQUEST));
 	}
@@ -148,25 +154,25 @@ public class VirtualView extends Observable implements ViewInterface {
 		}
 	}
 
-
 	private class GameBoardObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
 			updateGameBoardRep((GameBoardRep) ((GameBoard) observable).getRep());
 		}
-	}
 
+	}
 	private class GameMapObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
 			updateGameMapRep((GameMapRep) ((GameMap) observable).getRep());
 		}
-	}
 
+	}
 	private class PlayerObserver implements Observer {
 		@Override
 		public void update(Observable observable, Object arg) {
 			updatePlayerRep((PlayerRep) ((Player) observable).getRep(getNickname()));
 		}
+
 	}
 }

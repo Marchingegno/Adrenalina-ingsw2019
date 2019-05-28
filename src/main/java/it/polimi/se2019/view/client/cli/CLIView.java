@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.client.cli;
 
 import it.polimi.se2019.model.cards.CardRep;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -17,6 +18,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import static it.polimi.se2019.view.client.cli.CLIPrinter.*;
 
@@ -268,6 +270,28 @@ public class CLIView extends RemoteView {
 		repPrinter.displayGame();
 	}
 
+
+	@Override
+	public void askToPay(List<AmmoType> priceToPay){
+		List<Integer> answer = new ArrayList<>();
+		printLine("Choose the method of payment:\n 1) Only ammo\n 2) Use also powerup");
+		if (askInteger(1, 2) == 1)
+			answer.add(-1);
+		else{
+			List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
+			List<AmmoType> availableAmmoFromPowerups = powerupCardReps.stream().map(PowerupCardRep::getAssociatedAmmo).collect(Collectors.toList());
+			int choise = -1;
+			do{
+				printLine("Choose the powerup to discard:");
+				for (int i  = 0; i < powerupCardReps.size(); i++){
+					PowerupCardRep powerupCardRep = powerupCardReps.get(i);
+					if(priceToPay.contains(powerupCardRep.getAssociatedAmmo()))
+						printLine((i+1) + "");
+				}
+			}while(!priceToPay.isEmpty() || availableAmmoFromPowerups.isEmpty() || choise == powerupCardReps.size());
+		}
+		sendMessage(new IntListMessage(answer, MessageType.PAYMENT, MessageSubtype.ANSWER));
+	}
 
 	private int askMapToUse() {
 		printChooseMap();

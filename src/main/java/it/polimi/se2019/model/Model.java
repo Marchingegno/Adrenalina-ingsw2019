@@ -180,6 +180,16 @@ public class Model {
 		}
 	}
 
+	public void pay(String playerName, List<AmmoType> price){
+		Player player = getPlayerFromName(playerName);
+		player.getPlayerBoard().getAmmoContainer().removeAmmo(price);
+	}
+
+	public boolean needsPowerupsToPay(String playerName, List<AmmoType> ammoToPay){
+		Player player = getPlayerFromName(playerName);
+		player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
+		return !player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
+	}
 
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
 		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
