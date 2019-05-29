@@ -1,7 +1,0 @@
-{
-	"waitingTimeInLobby": 10,
-	"turnTimeLimit": 20,
-	"host": "2.238.195.238",
-	"rmiPort": 1099,
-	"socketPort": 12345
-}
