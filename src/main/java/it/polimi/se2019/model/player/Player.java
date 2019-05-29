@@ -196,7 +196,6 @@ public class Player extends Observable implements Representable {
 
 	public QuestionContainer initialWeaponActivation(int indexOfWeapon) {
 		firingWeapon = indexOfWeapon;
-//		return getFiringWeapon().initialQuestion();
 		return getFiringWeapon().doActivationStep(0);
 	}
 
@@ -207,6 +206,7 @@ public class Player extends Observable implements Representable {
 	public void handleWeaponEnd() {
 		this.getFiringWeapon().reset();
 		this.firingWeapon = -1;
+		setChanged();
 	}
 
 	private WeaponCard getFiringWeapon(){
