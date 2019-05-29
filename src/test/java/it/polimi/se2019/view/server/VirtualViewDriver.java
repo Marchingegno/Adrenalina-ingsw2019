@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-// TODO reload
 public class VirtualViewDriver extends VirtualView {
 
 	private final boolean TEST_SHOOT;
@@ -123,7 +122,9 @@ public class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void askReload(List<Integer> loadableWeapons) {
-		// TODO
+		int randomIndex = new Random().nextInt(loadableWeapons.size());
+		Utils.logInfo("VirtualViewDriver -> askReload(): created random answer for reload: " + loadableWeapons.get(randomIndex));
+		sendMessageToController(new IntMessage(loadableWeapons.get(randomIndex), MessageType.RELOAD, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -153,26 +154,30 @@ public class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void askEnd(boolean activablePowerups) {
-		// TODO reload.
-		if(activablePowerups) {
-			int randomNumber = new Random().nextInt(2);
-			if(randomNumber == 0) {
-				if(canTestContinue()) {
-					Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: END_TURN");
-					sendMessageToController(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // End turn.
-				}
-			} else if(randomNumber == 1) {
-				Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: ACTIVATE_POWERUP");
-				sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
+		int randomNumber;
+		if(activablePowerups)
+			randomNumber = new Random().nextInt(3);
+		else
+			randomNumber = new Random().nextInt(2);
+
+		// End turn.
+		if(randomNumber == 0) {
+			if(canTestContinue()) {
+				Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: END_TURN");
+				sendMessageToController(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
 			}
-		} else {
-			int randomNumber = new Random().nextInt(1);
-			if(randomNumber == 0) {
-				if(canTestContinue()) {
-					Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: END_TURN");
-					sendMessageToController(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // End turn.
-				}
-			}
+		}
+
+		// Reload.
+		else if(randomNumber == 1) {
+			Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: RELOAD");
+			sendMessageToController(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
+		}
+
+		// Powerup.
+		else if(randomNumber == 2) {
+			Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: ACTIVATE_POWERUP");
+			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 		}
 	}
 

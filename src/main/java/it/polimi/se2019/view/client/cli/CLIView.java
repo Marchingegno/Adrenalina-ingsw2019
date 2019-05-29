@@ -200,9 +200,6 @@ public class CLIView extends RemoteView {
 	public void askReload(List<Integer> loadableWeapons) {
 		printLine("Which weapon do you want to reload?");
 		List<WeaponRep> weaponReps = getModelRep().getClientPlayerRep().getWeaponReps();
-//		List<WeaponRep> reloadableWeapons = weaponReps.stream()
-//				.filter(weapon -> !weapon.isLoaded())
-//				.collect(Collectors.toList());
 		for (int i = 0; i < weaponReps.size(); i++) {
 			if (loadableWeapons.contains(i)) {
 				printLine((i + 1) + ") " + weaponReps.get(i).getCardName());

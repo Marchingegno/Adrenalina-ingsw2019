@@ -24,7 +24,7 @@ public class GameTester {
 	private static final boolean DISPLAY_REPS = true;
 
 	// Options for the automatically started test (runTestGame)
-	private static final int NUMBER_OF_GAMES = 5;
+	private static final int NUMBER_OF_GAMES = 10;
 
 
 	/**
@@ -47,7 +47,7 @@ public class GameTester {
 		for (int i = 0; i < NUMBER_OF_GAMES; i++) {
 			runSingleSyncTestGame();
 			Utils.logInfo(Color.getColoredString("####################################", Color.CharacterColorType.GREEN));
-			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.GREEN) + " TEST GAME " + i + " FINISHED CORRECTLY " + Color.getColoredString("##################", Color.CharacterColorType.GREEN));
+			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.GREEN) + " TEST GAME " + (i + 1) + " FINISHED CORRECTLY " + Color.getColoredString("##################", Color.CharacterColorType.GREEN));
 			Utils.logInfo(Color.getColoredString("####################################", Color.CharacterColorType.GREEN));
 		}
 	}
