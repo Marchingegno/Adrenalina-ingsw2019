@@ -38,22 +38,6 @@ public class GameController {
 		model.fillGameMap();
 	}
 
-	@Deprecated
-	private void spawnPlayers(){
-		//Let's test this method.
-		virtualViewsContainer.getVirtualViews().parallelStream()
-				.filter(virtualView -> model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD)
-				.forEach(virtualView -> askToSpawn(virtualView.getNickname()));
-//
-		//This method doesn't work.
-//		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
-//			if (model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD) {
-//				askToSpawn(virtualView.getNickname());
-//			}
-//		}
-	}
-
-
 	/**
 	 * This method handles the beginning of a new turn. Starts frenzy if it needs to be started
 	 * and calls the method to begin the next turn.
