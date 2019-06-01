@@ -191,7 +191,7 @@ public class PlayerBoard {
 
 		//resets the damage board
 		damageBoard = new ArrayList<>();
-		Utils.logInfo("PlayerBoard -> resetBoardAfterDeath(): Damage board has been reset after death, now tha player has " + numberOfDeaths + " deaths");
+		Utils.logInfo("PlayerBoard -> resetBoardAfterDeath(): Damage board has been reset after death, now the player has " + numberOfDeaths + " deaths");
 		setChanged();
 	}
 
@@ -270,7 +270,8 @@ public class PlayerBoard {
 	 */
 	public void addPowerup(PowerupCard powerupToAdd) {
 		if(powerupCards.size() >= GameConstants.MAX_POWERUP_CARDS_PER_PLAYER) {
-			throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
+			//throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
+			Utils.logError("Cannot add another powerup card since the inventory is full.", new InventoryFullException(""));
 		}
 		powerupCards.add(powerupToAdd);
 		Utils.logInfo("PlayerBoard -> addPowerup(): Added to the player " + powerupToAdd.getCardName());
