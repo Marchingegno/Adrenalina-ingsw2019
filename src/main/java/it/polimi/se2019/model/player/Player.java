@@ -241,9 +241,8 @@ public class Player extends Observable implements Representable {
 	public PowerupCard handlePowerupEnd() {
 		if(powerupInExecution == -1)
 			throw new IllegalStateException("No powerup in execution!");
-		PowerupCard powerupCardToDiscard = getPowerupInExecution();
+		PowerupCard powerupCardToDiscard = getPlayerBoard().removePowerup(powerupInExecution);
 		powerupCardToDiscard.reset();
-		getPlayerBoard().removePowerup(powerupInExecution);
 		powerupInExecution = -1;
 		return powerupCardToDiscard;
 	}

@@ -272,12 +272,13 @@ public class GameBoard extends Observable implements Representable {
 
 	public void spawnPlayer(Player player, int indexOfCard) {
 		//Move player to spawn square
-		PowerupCard powerupDiscarded = player.getPlayerBoard().getPowerupCards().get(indexOfCard);
+		PowerupCard powerupDiscarded = player.getPlayerBoard().removePowerup(indexOfCard);
 		Coordinates spawningCoordinates = gameMap.getSpawnCoordinates(powerupDiscarded.getAssociatedAmmo());
 		gameMap.movePlayerTo(player, spawningCoordinates);
 
-		//Remove card from player
-		player.getPlayerBoard().removePowerup(indexOfCard);
+		// Add discarded powerup to discarded deck
+		powerupDeck.discardCard(powerupDiscarded);
+
 		//Set its turn status
 		if (player.getTurnStatus() == TurnStatus.PRE_SPAWN) {
 			setTurnStatus(player, TurnStatus.YOUR_TURN);
