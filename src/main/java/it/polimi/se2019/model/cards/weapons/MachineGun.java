@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import com.google.gson.JsonObject;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +48,19 @@ public class MachineGun extends OptionalEffectsWeapon {
 			//Chosen first target.
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			if (currentTargets.isEmpty()) {
+				//Skip step 4
+				//Recall this method with refusal choice of an empty array.
+				Utils.logWeapon("Skip of MachineGun");
+				return doActivationStep(0);
+			}
+			return getTargetPlayersAndRefusalQnO(currentTargets);
 		}
 		if(getCurrentStep() == 4) {
 			//Chosen second target.
-			chosenTargets.add(currentTargets.get(choice));
+			if (!isThisChoiceRefusal(currentTargets, choice)) {
+				chosenTargets.add(currentTargets.get(choice));
+			}
 		}
 
 		if(isOptionalActive(2)){
@@ -96,12 +105,7 @@ public class MachineGun extends OptionalEffectsWeapon {
 	@Override
 	protected boolean canAddOptionalEffect2() {
 		//There's at least 3 visible players.
-		return getPrimaryTargets().size() > 2;
+		return getPrimaryTargets().size() >= 3;
 	}
 
-	@Override
-	protected boolean canPrimaryBeActivated() {
-		//There are at least 2 visible players.
-		return getPrimaryTargets().size() > 1;
-	}
 }
