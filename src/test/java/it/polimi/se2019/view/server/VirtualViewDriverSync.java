@@ -7,8 +7,8 @@ public class VirtualViewDriverSync extends VirtualViewDriver {
 
 	private Message messageBuffer;
 
-	public VirtualViewDriverSync(String nickname, boolean TEST_SHOOT, boolean TEST_MOVE) {
-		super(nickname, TEST_SHOOT, TEST_MOVE);
+	public VirtualViewDriverSync(String nickname, boolean TEST_MOVE, boolean TEST_SHOOT, boolean TEST_POWERUP) {
+		super(nickname, TEST_MOVE, TEST_SHOOT, TEST_POWERUP);
 	}
 
 

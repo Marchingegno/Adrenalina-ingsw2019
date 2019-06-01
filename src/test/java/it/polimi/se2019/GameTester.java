@@ -19,8 +19,9 @@ public class GameTester {
 	public static final int MAX_NUMBER_OF_TURNS = 100;
 
 	// Options for the manually started test (main)
-	private static final boolean TEST_SHOOT = true;
 	private static final boolean TEST_MOVE = false; // Set to false if you think "Move" is a useless action.
+	private static final boolean TEST_SHOOT = true;
+	private static final boolean TEST_POWERUP = true;
 	private static final boolean DISPLAY_REPS = true;
 
 	// Options for the automatically started test (runTestGame)
@@ -63,7 +64,7 @@ public class GameTester {
 		int numberOfPlayers = getRandomNumberOfPlayers();
 		for (int i = 0; i < numberOfPlayers; i++) {
 			String nickname = "test" +  i;
-			VirtualViewDriver virtualViewDriver = new VirtualViewDriverAsync(nickname, TEST_SHOOT, TEST_MOVE);
+			VirtualViewDriver virtualViewDriver = new VirtualViewDriverAsync(nickname, TEST_MOVE, TEST_SHOOT, TEST_POWERUP);
 			if(DISPLAY_REPS && i == 0)
 				virtualViewDriver.setDisplayReps(true);
 			virtualViewDrivers.add(virtualViewDriver);
@@ -79,7 +80,7 @@ public class GameTester {
 		int numberOfPlayers = getRandomNumberOfPlayers();
 		for (int i = 0; i < numberOfPlayers; i++) {
 			String nickname = "test" +  i;
-			VirtualViewDriver virtualViewDriver = new VirtualViewDriverSync(nickname, false, true);
+			VirtualViewDriver virtualViewDriver = new VirtualViewDriverSync(nickname, true, false, true);
 			virtualViewDrivers.add(virtualViewDriver);
 		}
 

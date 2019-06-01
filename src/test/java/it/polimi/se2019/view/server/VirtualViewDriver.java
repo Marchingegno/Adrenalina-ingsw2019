@@ -21,8 +21,9 @@ import java.util.Random;
 
 public class VirtualViewDriver extends VirtualView {
 
-	private final boolean TEST_SHOOT;
 	private final boolean TEST_MOVE;
+	private final boolean TEST_SHOOT;
+	private final boolean TEST_POWERUP;
 	private boolean displayReps;
 
 	private static int numberOfTurns = 0;
@@ -32,11 +33,12 @@ public class VirtualViewDriver extends VirtualView {
 	private RepPrinter repPrinter = new RepPrinter(modelRep);
 
 
-	public VirtualViewDriver(String nickname, final boolean TEST_SHOOT, final boolean TEST_MOVE) {
+	public VirtualViewDriver(String nickname, final boolean TEST_MOVE, final boolean TEST_SHOOT, final boolean TEST_POWERUP) {
 		super(null);
 		this.nickname = nickname;
-		this.TEST_SHOOT = TEST_SHOOT;
 		this.TEST_MOVE = TEST_MOVE;
+		this.TEST_SHOOT = TEST_SHOOT;
+		this.TEST_POWERUP = TEST_POWERUP;
 	}
 
 
@@ -80,7 +82,7 @@ public class VirtualViewDriver extends VirtualView {
 				possibleAnswers.add(i);
 			}
 		}
-		if(activablePowerups)
+		if(activablePowerups && TEST_POWERUP)
 			possibleAnswers.add(i + 1);
 
 		int randomIndex = new Random().nextInt(possibleAnswers.size());
@@ -155,7 +157,7 @@ public class VirtualViewDriver extends VirtualView {
 	@Override
 	public void askEnd(boolean activablePowerups) {
 		int randomNumber;
-		if(activablePowerups)
+		if(activablePowerups && TEST_POWERUP)
 			randomNumber = new Random().nextInt(3);
 		else
 			randomNumber = new Random().nextInt(2);
