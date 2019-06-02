@@ -59,7 +59,6 @@ public class GameController {
 	private void startTurn(){
 		String currentPlayerName = model.getCurrentPlayerName();
 
-
 		// Check if the player is to be spawned.
 		// Which should be only in its beginning turns.
 		if(model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {
@@ -71,7 +70,7 @@ public class GameController {
 		}
 	}
 
-	void handleEndTurn() {
+	private void handleEndTurn() {
 		model.setTurnStatusOfCurrentPlayer(TurnStatus.IDLE);
 		model.scoreDeadPlayers();
 		spawnNextDeadPlayerOrBeginTurn();
@@ -135,7 +134,15 @@ public class GameController {
 				else if (model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
 					model.spawnPlayer(playerName, spawnAnswer);
 					startTurn();
-//					virtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveLoadedWeapons(playerName));
+				}
+				break;
+			case CONNECTION:
+				if(messageSubtype == MessageSubtype.ERROR) {
+					model.setAsDisconnected(playerName);
+					// TODO cancel action and next turn
+				}
+				else if(messageSubtype == MessageSubtype.INFO) {
+					model.setAsReconnected(playerName);
 				}
 				break;
 			default: turnController.processEvent(event);

@@ -22,6 +22,7 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	private AbstractConnectionToClient client;
 	private RepMessage repMessage = new RepMessage();
+	private boolean connected = true;
 
 
 	public VirtualView(AbstractConnectionToClient client) {
@@ -42,13 +43,26 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
-		//Utils.logInfo("\t\tThe VirtualView of \"" + getNickname() + "\" is creating an event with message of type " + message.getMessageType() + " and subtype " + message.getMessageSubtype() + ".");
-		setChanged();
-		notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
+		if(connected) { // If client was disconnected.
+			setChanged();
+			notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
+		} else {
+			connected = true;
+			onClientReconnected(client);
+		}
 	}
 
 	public void onClientDisconnected() {
-		// TODO inform controller/model and suspend the player
+		connected = false;
+		setChanged();
+		notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.ERROR)));
+	}
+
+	public void onClientReconnected(AbstractConnectionToClient client) {
+		this.client = client;
+		connected = true;
+		setChanged();
+		notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.INFO)));
 	}
 
 	public void sendReps() {
@@ -141,6 +155,10 @@ public class VirtualView extends Observable implements ViewInterface {
 
 
 	private void sendMessage(Message message) {
+		// If not connected don't send the message.
+		if(!connected)
+			return;
+
 		if (repMessage.hasReps()) {
 			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with inner message " + message + " to " + getNickname() + ".");
 			repMessage.addMessage(message);
