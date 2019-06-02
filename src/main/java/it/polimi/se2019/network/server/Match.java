@@ -17,7 +17,8 @@ import java.util.List;
 public class Match {
 
 	private final int numberOfParticipants;
-	private final ArrayList<AbstractConnectionToClient> participants;
+	private ArrayList<AbstractConnectionToClient> participants;
+	private ArrayList<AbstractConnectionToClient> disconnectedParticipants = new ArrayList<>();
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
 	private SingleTimer singleTimer = new SingleTimer();
@@ -38,6 +39,10 @@ public class Match {
 		this.participants = new ArrayList<>(participants);
 	}
 
+
+	// ####################################
+	// PUBLIC METHODS
+	// ####################################
 
 	/**
 	 * Send game config request messages to the clients, asking skulls and map type.
@@ -96,6 +101,72 @@ public class Match {
 	public boolean isMatchStarted() {
 		return matchStarted;
 	}
+
+
+	// ####################################
+	// PUBLIC METHODS TO HANDLE DISCONNECTION
+	// ####################################
+
+	/**
+	 * Returns a list with all the disconnected participants of this match.
+	 * @return a list with all the disconnected participants of this match.
+	 */
+	public List<AbstractConnectionToClient> getDisconnectedParticipants() {
+		return new ArrayList<>(disconnectedParticipants);
+	}
+
+	/**
+	 * Sets a participant of this match as disconnected while also forwarding this information to the VirtualView.
+	 * Note: should be called only if match already started.
+	 * @param client the disconnected client.
+	 */
+	public void setParticipantAsDisconnected(AbstractConnectionToClient client) {
+		if(!participants.contains(client)) {
+			Utils.logError("Participant can't be set as disconnected since it doesn't exist in this Match.", new IllegalStateException());
+			return;
+		}
+
+		// Add client to the disconnected participants list.
+		disconnectedParticipants.add(client);
+
+		// Forward disconnection information to the VirtualView.
+		VirtualView virtualView = getVirtualViewOfClient(client);
+		if(virtualView == null)
+			Utils.logError("The VirtualView should always be set if the match is started.", new IllegalStateException());
+		else
+			virtualView.onClientDisconnected();
+	}
+
+	/**
+	 * Sets a participant of this match as reconnected while also forwarding this information to the VirtualView.
+	 * @param client the reconnected client.
+	 */
+	public void setParticipantAsReconnected(AbstractConnectionToClient client) {
+		if(disconnectedParticipants.contains(client)) {
+			// Remove client from the disconnected participants list.
+			disconnectedParticipants.remove(client);
+
+			// Update client in the participants list.
+			for(AbstractConnectionToClient participant : participants) {
+				if(participant.getNickname().equals(client.getNickname())) {
+					participants.remove(participant);
+				}
+			}
+			participants.add(client);
+
+			// Forward reconnection information to the VirtualView.
+			VirtualView virtualView = getVirtualViewOfClient(client);
+			if(virtualView == null)
+				Utils.logError("The VirtualView should always be set if the match is started.", new IllegalStateException());
+			else
+				virtualView.onClientReconnected(client);
+		}
+	}
+
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
 
 	/**
 	 * Start the match.

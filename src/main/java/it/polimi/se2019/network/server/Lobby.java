@@ -4,7 +4,6 @@ import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +26,17 @@ public class Lobby {
 	 */
 	public void registerClient(AbstractConnectionToClient client, String nickname) {
 		if(isNicknameUsed(nickname)) {
-			Utils.logInfo("\tNickname already used, asking a new nickname.");
-			client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
+			Match inMatch = getMatchOfDisconnectedClient(nickname);
+			if(inMatch == null) {
+				Utils.logInfo("\tNickname already used, asking a new nickname.");
+				client.sendMessage(new Message(MessageType.NICKNAME, MessageSubtype.ERROR));
+			} else {
+				Utils.logInfo("\tNickname of a disconnected client. Reconnecting to the Match...");
+				setNickname(client, nickname);
+				inMatch.setParticipantAsReconnected(client);
+			}
 		} else {
-			Utils.logInfo("\tNickname of client \"" + client.hashCode() + "\" set to \"" + nickname + "\".");
-			client.setNickname(nickname);
-			client.sendMessage(new NicknameMessage(client.getNickname(), MessageSubtype.OK));
+			setNickname(client, nickname);
 			waitingRoom.add(client);
 			checkIfWaitingRoomIsReady(client);
 		}
@@ -55,12 +59,8 @@ public class Lobby {
 	public void clientDisconnectedFromMatch(AbstractConnectionToClient client) {
 		Match match = getMatchOfClient(client);
 		if(match != null) { // If the client was a participant of a match.
-			if(match.isMatchStarted()) { // If client was a participant in an already started match forward the message to the VirtualView.
-				VirtualView virtualView = match.getVirtualViewOfClient(client);
-				if(virtualView == null)
-					Utils.logError("The VirtualView should always be set if the match is started.", new IllegalStateException());
-				else
-					virtualView.onClientDisconnected();
+			if(match.isMatchStarted()) { // If client was a participant in an already started match report it to the Match.
+				match.setParticipantAsDisconnected(client);
 			} else { // The client was a participant of a match that isn't started yet. Dismantle the match.
 				List<AbstractConnectionToClient> participantsOfTheDismantledMatch = match.getParticipants();
 				participantsOfTheDismantledMatch.remove(client); // Remove the disconnected client from this list.
@@ -92,6 +92,11 @@ public class Lobby {
 		return null;
 	}
 
+
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
+
 	/**
 	 * Returns true if this nickname is already used by some other client.
 	 * @param nickname the nickname to check for.
@@ -111,6 +116,28 @@ public class Lobby {
 		}
 
 		return false;
+	}
+
+	private void setNickname(AbstractConnectionToClient client, String nickname) {
+		Utils.logInfo("\tNickname of client \"" + client.hashCode() + "\" set to \"" + nickname + "\".");
+		client.setNickname(nickname);
+		client.sendMessage(new NicknameMessage(client.getNickname(), MessageSubtype.OK));
+	}
+
+	/**
+	 * Returns null if this nickname is not of a disconnected client,
+	 * Returns the match of the client if it is a disconnected participant.
+	 * @param nickname the nickname to check for.
+	 * @return the match of the client if it is a disconnected participant, or null if it isn't.
+	 */
+	private Match getMatchOfDisconnectedClient(String nickname) {
+		for(Match match : matches) {
+			for(AbstractConnectionToClient disconnectedClient : match.getDisconnectedParticipants()) {
+				if(disconnectedClient.getNickname().equals(nickname))
+					return match;
+			}
+		}
+		return null;
 	}
 
 	/**
