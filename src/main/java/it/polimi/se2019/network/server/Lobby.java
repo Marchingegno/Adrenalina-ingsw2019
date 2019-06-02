@@ -99,10 +99,8 @@ public class Lobby {
 	 */
 	private boolean isNicknameUsed(String nickname) {
 		// Check in the waiting room list.
-		for(AbstractConnectionToClient client : waitingRoom) {
-			if(client.getNickname().equals(nickname))
-				return true;
-		}
+		if(waitingRoom.stream().anyMatch(client -> client.getNickname().equals(nickname)))
+			return true;
 
 		// Check in the started matches.
 		for(Match match : matches) {
