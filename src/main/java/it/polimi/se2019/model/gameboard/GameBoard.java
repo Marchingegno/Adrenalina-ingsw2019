@@ -80,9 +80,12 @@ public class GameBoard extends Observable implements Representable {
 	 * The current player is set as last of the turn queue.
 	 */
 	public void nextPlayerTurn() {
-		playerQueue.peekFirst().setTurnStatus(TurnStatus.IDLE);
-		playerQueue.moveFirstToLast();
-		//playerQueue.peekFirst().setTurnStatus(TurnStatus.YOUR_TURN);
+		Player nextPlayer;
+		do {
+			nextPlayer = playerQueue.peekFirst();
+			playerQueue.moveFirstToLast();
+		} while(!nextPlayer.isConnected());
+		nextPlayer.setTurnStatus(TurnStatus.IDLE);
 		setChanged();
 	}
 

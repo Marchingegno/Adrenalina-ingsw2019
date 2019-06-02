@@ -34,6 +34,7 @@ public class Player extends Observable implements Representable {
 	private PlayerRep playerRep;
 	private int firingWeapon = -1; //The current weapon that the player is firing with.
 	private int powerupInExecution = -1; // The current powerup that the player is using.
+	private boolean connected = true;
 
 
 	public Player(String playerName, int playerID) {
@@ -44,6 +45,16 @@ public class Player extends Observable implements Representable {
 		setDamageStatus(new LowDamage());
 		setTurnStatus(TurnStatus.PRE_SPAWN);
 		setChanged();
+	}
+
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+		setChanged();
+	}
+
+	public boolean isConnected() {
+		return connected;
 	}
 
 	public boolean isActionRequested() {
