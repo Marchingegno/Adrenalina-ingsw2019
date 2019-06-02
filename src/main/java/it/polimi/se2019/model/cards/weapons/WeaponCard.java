@@ -8,13 +8,11 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Abstract class that defines the structure of a weapon card. Every subtype of weapon must extend this.
@@ -227,9 +225,9 @@ public abstract class WeaponCard extends ActivableCard {
 		return QuestionContainer.createCoordinatesQuestionContainer(question, options);
 	}
 
-	protected static QuestionContainer getCardinalQnO(){
+	protected static QuestionContainer getCardinalQnO(List<String> availableDirections) {
 		String question = "In which direction do you wish to fire?";
-		List<String> options = 	Arrays.stream(CardinalDirection.values()).map(Enum::toString).collect(Collectors.toList());
+		List<String> options = new ArrayList<>(availableDirections);
 		return QuestionContainer.createStringQuestionContainer(question,options);
 	}
 

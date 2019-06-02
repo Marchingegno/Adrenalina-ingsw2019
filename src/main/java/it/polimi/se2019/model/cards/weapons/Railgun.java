@@ -4,11 +4,13 @@ import com.google.gson.JsonObject;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.CardinalDirection;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Railgun extends AlternateFireWeapon {
+	private List<String> availableDirections;
 	private CardinalDirection chosenDirection;
 	private Player secondTarget;
 
@@ -22,15 +24,17 @@ public class Railgun extends AlternateFireWeapon {
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.maximumSteps = 4;
+		this.availableDirections = new ArrayList<>();
 	}
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if(getCurrentStep() == 2){
-			return getCardinalQnO();
+			this.availableDirections = getAvailableDirections();
+			return getCardinalQnO(availableDirections);
 		}
 		else if(getCurrentStep() == 3){
-			chosenDirection = CardinalDirection.values()[choice];
+			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
 		else if(getCurrentStep() == 4){
@@ -43,10 +47,11 @@ public class Railgun extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
 		if(getCurrentStep() == 2){
-			return getCardinalQnO();
+			this.availableDirections = getAvailableDirections();
+			return getCardinalQnO(availableDirections);
 		}
 		else if(getCurrentStep() == 3){
-			chosenDirection = CardinalDirection.values()[choice];
+			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 			return setSecondaryCurrentTargetsAndReturnTargetQnO();
 		}
 		else if(getCurrentStep() == 4){
@@ -100,18 +105,27 @@ public class Railgun extends AlternateFireWeapon {
 	@Override
 	public boolean canPrimaryBeActivated() {
 		//There's at least one direction with enemies in it.
+		return !getAvailableDirections().isEmpty();
+	}
+
+	private List<String> getAvailableDirections() {
+		List<String> directionsFound = new ArrayList<>();
 		for (CardinalDirection direction : CardinalDirection.values()) {
 			List<Player> playersInDirection = getGameMap().getPlayersInDirection(getGameMap().getPlayerCoordinates(getOwner()), direction);
 			playersInDirection.remove(getOwner());
+			Utils.logWeapon("RAILGUN: found in direction " + direction.toString() + " these player(s)");
+			playersInDirection.forEach(player -> Utils.logWeapon(player.getPlayerName()));
 			if (!playersInDirection.isEmpty()) {
-				return true;
+				directionsFound.add(direction.toString());
 			}
 		}
-		return false;
+		return directionsFound;
 	}
 
 	@Override
 	protected boolean canSecondaryBeActivated() {
 		return canPrimaryBeActivated();
 	}
+
+
 }

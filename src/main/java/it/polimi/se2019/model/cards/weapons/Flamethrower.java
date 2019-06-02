@@ -13,6 +13,7 @@ import java.util.List;
 public class Flamethrower extends AlternateFireWeapon {
 	private static final int SECONDARY_FOLLOWING_DAMAGE = 1;
 	private static final int SECONDARY_FOLLOWING_MARKS = 0;
+	private List<String> availableDirections;
 	private CardinalDirection chosenDirection;
 	private Player firstSquareTarget;
 	private Player secondSquareTarget;
@@ -30,6 +31,7 @@ public class Flamethrower extends AlternateFireWeapon {
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
 		this.maximumSteps = 5;
 		this.maximumAlternateSteps = 3;
+		this.availableDirections = new ArrayList<>();
 	}
 
 	@Override
@@ -97,10 +99,11 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	private QuestionContainer handleDirectionChoice(int choice){
 		if(getCurrentStep() == 2) {
-			return getCardinalQnO();
+			availableDirections = getAvailableDirections();
+			return getCardinalQnO(availableDirections);
 		}
 		else if(getCurrentStep() == 3){
-			chosenDirection = CardinalDirection.values()[choice];
+			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 		}
 		return null;
 	}
@@ -169,18 +172,23 @@ public class Flamethrower extends AlternateFireWeapon {
 		secondSquareTargets = new ArrayList<>();
 	}
 
-	@Override
-	public boolean canPrimaryBeActivated() {
-		//There's at least one player in two squares away in one direction.
+	private List<String> getAvailableDirections() {
+		List<String> directionsFound = new ArrayList<>();
 		for (CardinalDirection direction : CardinalDirection.values()) {
 			chosenDirection = direction;
 			List<Player> possibleTargets = getPrimaryTargets();
 			chosenDirection = null;
 			if (!possibleTargets.isEmpty()) {
-				return true;
+				directionsFound.add(direction.toString());
 			}
 		}
-		return false;
+		return directionsFound;
+	}
+
+	@Override
+	public boolean canPrimaryBeActivated() {
+		//There's at least one player in two squares away in one direction.
+		return !getAvailableDirections().isEmpty();
 	}
 
 	@Override
