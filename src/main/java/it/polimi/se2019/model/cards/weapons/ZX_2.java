@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import com.google.gson.JsonObject;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,23 +47,23 @@ public class ZX_2 extends AlternateFireWeapon {
 			case 3:
 				secondaryTargets = new ArrayList<>();
 				secondaryTargets.add(currentTargets.remove(choice));
+				Utils.logWeapon("This is currentTargets: ");
+				currentTargets.forEach(target -> Utils.logWeapon(target.getPlayerName()));
 				if (currentTargets.isEmpty()){
 					terminateSecondaryFire();
 					return null;
 				}
 				return getTargetPlayersQnO(currentTargets);
 			case 4:
+				secondaryTargets.add(currentTargets.remove(choice));
+				Utils.logWeapon("This is currentTargets: ");
+				currentTargets.forEach(target -> Utils.logWeapon(target.getPlayerName()));
 				if (currentTargets.isEmpty()){
 					terminateSecondaryFire();
 					return null;
 				}
-				secondaryTargets.add(currentTargets.remove(choice));
 				return getTargetPlayersQnO(currentTargets);
 			case 5:
-				if (currentTargets.isEmpty()){
-					terminateSecondaryFire();
-					return null;
-				}
 				secondaryTargets.add(currentTargets.remove(choice));
 				secondaryFire();
 		}

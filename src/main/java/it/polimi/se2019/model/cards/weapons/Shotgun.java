@@ -81,7 +81,6 @@ public class Shotgun extends AlternateFireWeapon {
 
 	@Override
 	public List<Player> getSecondaryTargets() {
-		//TODO this returns player in the other side of the map
 		List<Coordinates> listAdjacentCoordinates = getGameMap().reachableCoordinates(getOwner(), 1);
 		listAdjacentCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
 		List<Player> adjacentPlayers = new ArrayList<>();
