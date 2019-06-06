@@ -138,8 +138,13 @@ public class GameController {
 				break;
 			case CONNECTION:
 				if(messageSubtype == MessageSubtype.ERROR) {
-					model.setAsDisconnected(playerName);
-					// TODO cancel action and next turn
+					if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN) {
+						model.cancelAction(playerName);
+						model.setAsDisconnected(playerName);
+						handleEndTurn();
+					} else {
+						model.setAsDisconnected(playerName);
+					}
 				}
 				else if(messageSubtype == MessageSubtype.INFO) {
 					model.setAsReconnected(playerName);

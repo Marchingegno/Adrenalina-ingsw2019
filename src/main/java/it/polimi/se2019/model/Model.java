@@ -142,9 +142,22 @@ public class Model {
 		updateReps();
 	}
 
-	public boolean isConnected(String playerName) {
+	public void cancelAction(String playerName) {
 		Player player = getPlayerFromName(playerName);
-		return player.isConnected();
+
+		// Reset weapon.
+		if(player.isShootingWeapon())
+			player.handleWeaponEnd();
+
+		// Reset powerup.
+		if(player.isPowerupInExecution())
+			player.handlePowerupEnd();
+
+		// Finish actions.
+		while(player.getDamageStatus().hasMacroActionLeft())
+			player.getDamageStatus().decreaseMacroActionsToPerform();
+
+		// TODO maybe powerup payments needs to be reset?
 	}
 
 	public void movePlayerTo(String playerName, Coordinates coordinates) {
