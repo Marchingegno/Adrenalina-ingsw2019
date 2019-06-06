@@ -13,6 +13,7 @@ import it.polimi.se2019.view.server.VirtualView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class Match {
 
@@ -144,9 +145,12 @@ public class Match {
 	 * @param client the reconnected client.
 	 */
 	public void setParticipantAsReconnected(AbstractConnectionToClient client) {
-		if(disconnectedParticipants.contains(client)) {
+		Optional<AbstractConnectionToClient> oldClient = disconnectedParticipants.stream().filter(p -> p.getNickname().equals(client.getNickname())).findFirst();
+		if(oldClient.isPresent()) {
 			// Remove client from the disconnected participants list.
-			disconnectedParticipants.remove(client);
+			disconnectedParticipants.remove(oldClient.get());
+
+			Utils.logInfo("Match -> setParticipantAsReconnected(): reported reconnection of player \"" + client.getNickname() + "\" to the Match. In this match there are " + disconnectedParticipants.size() + " players disconnected.");
 
 			// Update client in the participants list.
 			for(AbstractConnectionToClient participant : participants) {
@@ -156,12 +160,13 @@ public class Match {
 			}
 			participants.add(client);
 
+			// Update client in the virtualviews hashmap.
+			VirtualView virtualView = getVirtualViewOfClient(oldClient.get());
+			virtualViews.remove(oldClient.get());
+			virtualViews.put(client, virtualView);
+
 			// Forward reconnection information to the VirtualView.
-			VirtualView virtualView = getVirtualViewOfClient(client);
-			if(virtualView == null)
-				Utils.logError("The VirtualView should always be set if the match is started.", new IllegalStateException());
-			else
-				virtualView.onClientReconnected(client);
+			virtualView.onClientReconnected(client);
 		}
 	}
 
