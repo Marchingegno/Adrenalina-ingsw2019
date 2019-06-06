@@ -129,6 +129,8 @@ public class Match {
 		// Add client to the disconnected participants list.
 		disconnectedParticipants.add(client);
 
+		Utils.logInfo("Match -> setParticipantAsDisconnected(): reported disconnection of player \"" + client.getNickname() + "\" to the Match. In this match there are " + disconnectedParticipants.size() + " players disconnected.");
+
 		// Forward disconnection information to the VirtualView.
 		VirtualView virtualView = getVirtualViewOfClient(client);
 		if(virtualView == null)

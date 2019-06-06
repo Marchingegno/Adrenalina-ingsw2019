@@ -50,6 +50,7 @@ public class Player extends Observable implements Representable {
 
 	public void setConnected(boolean connected) {
 		this.connected = connected;
+		Utils.logInfo("Player -> setConnected(): set player as " + (connected ? "connected" : "disconnected") + ".");
 		setChanged();
 	}
 

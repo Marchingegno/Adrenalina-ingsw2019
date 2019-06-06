@@ -47,13 +47,13 @@ public class VirtualView extends Observable implements ViewInterface {
 			setChanged();
 			notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
 		} else {
-			connected = true;
 			onClientReconnected(client);
 		}
 	}
 
 	public void onClientDisconnected() {
 		connected = false;
+		Utils.logInfo("VirtualView -> onClientDisconnected(): set client as disconnected.");
 		setChanged();
 		notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.ERROR)));
 	}
@@ -61,6 +61,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	public void onClientReconnected(AbstractConnectionToClient client) {
 		this.client = client;
 		connected = true;
+		Utils.logInfo("VirtualView -> onClientReconnected(): set client as connected.");
 		setChanged();
 		notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.INFO)));
 	}
