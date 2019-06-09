@@ -66,12 +66,12 @@ public class TractorBeam extends AlternateFireWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(standardDamagesAndMarks, target);
+		dealDamageAndConclude(standardDamagesAndMarks, target);
 	}
 
 	@Override
 	public void secondaryFire() {
-		dealDamage(secondaryDamagesAndMarks, target);
+		dealDamageAndConclude(secondaryDamagesAndMarks, target);
 	}
 
 

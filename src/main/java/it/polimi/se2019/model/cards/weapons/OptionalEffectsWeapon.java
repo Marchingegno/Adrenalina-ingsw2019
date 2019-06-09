@@ -115,19 +115,23 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return null;
 	}
 
+	protected QuestionContainer handleBothOptionalEffects(int choice) {
+		return null;
+	}
+
 	@Override
 	public void primaryFire() {
 		if(isBothOptionalActive()){
-			dealDamage(optionalBothDamagesAndMarks, currentTargets);
+			dealDamageAndConclude(optionalBothDamagesAndMarks, currentTargets);
 		}
 		else if(isOptionalActive(1)){
-			dealDamage(optional1DamagesAndMarks, currentTargets);
+			dealDamageAndConclude(optional1DamagesAndMarks, currentTargets);
 		}
 		else if(isOptionalActive(2)){
-			dealDamage(optional2DamagesAndMarks, currentTargets);
+			dealDamageAndConclude(optional2DamagesAndMarks, currentTargets);
 		}
 		else{
-			dealDamage(standardDamagesAndMarks,currentTargets);
+			dealDamageAndConclude(standardDamagesAndMarks, currentTargets);
 		}
 	}
 

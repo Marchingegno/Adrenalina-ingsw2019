@@ -110,7 +110,7 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(standardDamagesAndMarks, firstSquareTarget, secondSquareTarget);
+		dealDamageAndConclude(standardDamagesAndMarks, firstSquareTarget, secondSquareTarget);
 	}
 
 	@Override
@@ -124,8 +124,8 @@ public class Flamethrower extends AlternateFireWeapon {
 			secondSquareDamage.add(secondaryDamagesAndMarks.get(1));
 		}
 
-		dealDamage(firstSquareDamage, currentTargets);
-		dealDamage(secondSquareDamage, secondSquareTargets);
+		dealDamageAndConclude(firstSquareDamage, currentTargets);
+		dealDamageAndConclude(secondSquareDamage, secondSquareTargets);
 	}
 
 

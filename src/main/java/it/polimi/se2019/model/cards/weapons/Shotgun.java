@@ -64,7 +64,7 @@ public class Shotgun extends AlternateFireWeapon {
 
 	private void unifiedFire(){
 		List<DamageAndMarks> chosenDamagesAndMarks = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
-		dealDamage(chosenDamagesAndMarks, target);
+		dealDamageAndConclude(chosenDamagesAndMarks, target);
 	}
 
 	@Override

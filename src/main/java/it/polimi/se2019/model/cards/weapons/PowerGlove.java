@@ -88,13 +88,13 @@ public class PowerGlove extends AlternateFireWeapon {
 	@Override
 	public void primaryFire() {
 		relocateOwner(targetCoordinates);
-		dealDamage(standardDamagesAndMarks, target);
+		dealDamageAndConclude(standardDamagesAndMarks, target);
 	}
 
 	@Override
 	public void secondaryFire() {
 		relocateOwner(targetCoordinates);
-		dealDamage(secondaryDamagesAndMarks, getSecondaryTargets());
+		dealDamageAndConclude(secondaryDamagesAndMarks, getSecondaryTargets());
 	}
 
 	@Override

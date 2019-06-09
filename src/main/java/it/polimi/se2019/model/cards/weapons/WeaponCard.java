@@ -106,28 +106,42 @@ public abstract class WeaponCard extends ActivableCard {
 		this.loaded = true;
 	}
 
+
+	protected static QuestionContainer getActionTypeQnO(boolean moveActive, boolean shootActive) {
+		String question = "Select the type of action you want to execute.";
+		List<String> options = new ArrayList<>();
+		if (moveActive) {
+			options.add(ActionType.MOVE.toString());
+		}
+		if (shootActive) {
+			options.add(ActionType.SHOOT.toString());
+		}
+
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
+	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
+		dealDamage(damagesAndMarks, playersToShoot);
+		concludeActivation();
+	}
+
 	/**
 	 * This method will be called by the damage-dealer methods of the weapons.
 	 * The two arrays are ordered in such a way that the i-th playerToShoot will be dealt the i-th damageAndMark.
 	 * This method does NOT deload the weapon.
 	 * This method does check only the first array's size, so it can happen that playersToShoot is shorter than
 	 * damagesAndMarks.
+	 *
 	 * @param damagesAndMarks the damage and marks for each player.
-	 * @param playersToShoot the array of players that will receive damage and/or marks.
+	 * @param playersToShoot  the array of players that will receive damage and/or marks.
 	 */
-	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot){
+	protected void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
 		for (int i = 0; i < playersToShoot.size(); i++) {
-			if(playersToShoot.get(i) != null){
+			if (playersToShoot.get(i) != null) {
 				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
 				playersToShoot.get(i).addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
-		concludeActivation();
-	}
-
-	protected void dealDamage (List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
-		List<Player> list = Arrays.asList(playersToShoot);
-		dealDamage(damagesAndMarks, list);
 	}
 
 	/**
@@ -239,11 +253,9 @@ public abstract class WeaponCard extends ActivableCard {
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
-	protected static QuestionContainer getActionTypeQnO(){
-		String question = "Do you want to move or shoot?";
-		List<String> options = new ArrayList<>();
-		Arrays.stream(ActionType.values()).forEach(item -> options.add(item.toString()));
-		return QuestionContainer.createStringQuestionContainer(question, options);
+	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
+		List<Player> list = Arrays.asList(playersToShoot);
+		dealDamageAndConclude(damagesAndMarks, list);
 	}
 
 	protected QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO(){

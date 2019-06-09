@@ -74,7 +74,7 @@ public class Hellion extends AlternateFireWeapon {
 		for (int i = 0; i < finalTargets.size() - 1; i++) {
 			finalDamageAndMarks.add(damageAndMarksList.get(1));
 		}
-		dealDamage(finalDamageAndMarks, finalTargets);
+		dealDamageAndConclude(finalDamageAndMarks, finalTargets);
 	}
 
 	@Override

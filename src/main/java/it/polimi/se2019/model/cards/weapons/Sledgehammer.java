@@ -62,7 +62,7 @@ public class Sledgehammer extends AlternateFireWeapon {
 
 	private void unifiedFire(){
 		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
-		dealDamage(damageAndMarksList, target);
+		dealDamageAndConclude(damageAndMarksList, target);
 	}
 
 	public void secondaryFire() {

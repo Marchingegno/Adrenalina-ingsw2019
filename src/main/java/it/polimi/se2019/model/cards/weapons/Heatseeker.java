@@ -24,7 +24,7 @@ public class Heatseeker extends WeaponCard {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(standardDamagesAndMarks, target);
+		dealDamageAndConclude(standardDamagesAndMarks, target);
 	}
 
 

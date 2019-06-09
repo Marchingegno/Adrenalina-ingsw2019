@@ -72,11 +72,11 @@ public class Railgun extends AlternateFireWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(standardDamagesAndMarks, target);
+		dealDamageAndConclude(standardDamagesAndMarks, target);
 	}
 
 	public void secondaryFire() {
-		dealDamage(secondaryDamagesAndMarks, target, secondTarget);
+		dealDamageAndConclude(secondaryDamagesAndMarks, target, secondTarget);
 	}
 
 	@Override

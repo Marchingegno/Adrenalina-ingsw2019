@@ -88,7 +88,7 @@ public class Thor extends OptionalEffectsWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamage(standardDamagesAndMarks, chosenTargets);
+		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
 	}
 
 	@Override
@@ -130,5 +130,30 @@ public class Thor extends OptionalEffectsWeapon {
 		chosenTargets = new ArrayList<>();
 	}
 
+	@Override
+	protected boolean canAddOptionalEffect1() {
+		//There is at least a chain of two players.
+		return !getChainOfTwoPlayers()[1].isEmpty();
+	}
 
+	private List<Player>[] getChainOfTwoPlayers() {
+		List<Player> visiblePlayers = getPrimaryTargets();
+		List<Player> enemiesSeenByVisiblePlayers = new ArrayList<>();
+		for (Player visiblePlayer : visiblePlayers) {
+			List<Player> seenByVisiblePlayer = getGameMap().getVisiblePlayers(visiblePlayer);
+			seenByVisiblePlayer.remove(getOwner());
+			for (Player playerToAddIfNotPresent : seenByVisiblePlayer) {
+				if (!enemiesSeenByVisiblePlayers.contains(playerToAddIfNotPresent)) {
+					enemiesSeenByVisiblePlayers.add(playerToAddIfNotPresent);
+				}
+			}
+		}
+
+		return null;
+	}
+
+	@Override
+	protected boolean canAddBothOptionalEffects() {
+		return true;
+	}
 }

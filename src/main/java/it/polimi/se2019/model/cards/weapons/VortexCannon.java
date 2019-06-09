@@ -53,7 +53,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	@Override
 	public void primaryFire() {
 		chosenTargets.forEach(item -> relocateEnemy(item, vortexCoordinate));
-		dealDamage(standardDamagesAndMarks, chosenTargets);
+		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
 	}
 
 	@Override

@@ -59,7 +59,7 @@ public class Furnace extends AlternateFireWeapon {
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
 			damageAndMarksList.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		}
-		dealDamage(damageAndMarksList, currentTargets);
+		dealDamageAndConclude(damageAndMarksList, currentTargets);
 	}
 
 	public void secondaryFire() {
@@ -67,7 +67,7 @@ public class Furnace extends AlternateFireWeapon {
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
 			damageAndMarksList.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		}
-		dealDamage(damageAndMarksList, currentTargets);
+		dealDamageAndConclude(damageAndMarksList, currentTargets);
 	}
 
 	@Override
