@@ -7,7 +7,6 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.GameConstants;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -22,7 +21,7 @@ public class VortexCannonTest {
 	private Model model;
 	private List<Player> players;
 
-	@Before
+	//@Before
 	public void setUp() throws Exception {
 		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/Weapon.json")));
 		JsonArray weapons = new JsonParser().parse(reader).getAsJsonArray();
