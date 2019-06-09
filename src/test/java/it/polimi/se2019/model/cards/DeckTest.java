@@ -35,7 +35,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void drawCard_initialState_correctOuput() {
+	public void drawCard_initialState_correctOutput() {
 		// Check if all the cards are contained.
 		for (int i = 0; i < powerupCardsForTest.size(); i++)
 			assertTrue(powerupCardsForTest.indexOf(deck.drawCard()) != -1);
