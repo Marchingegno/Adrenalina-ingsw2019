@@ -1,17 +1,21 @@
 package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonObject;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.utils.QuestionContainer;
 
-public abstract class OptionalMoveWeapon extends OptionalEffectsWeapon {
-	private ActionType actionTypeInExecution;
-	private boolean shootingDone;
+import java.util.List;
 
+public abstract class OptionalMoveWeapon extends OptionalEffectsWeapon {
+	protected ActionType actionTypeInExecution;
+	boolean selectionDone;
+	boolean moveRequested;
+	List<Coordinates> possibleMoveCoordinates;
 
 	public OptionalMoveWeapon(JsonObject parameters) {
 		super(parameters);
 		actionTypeInExecution = null;
-		shootingDone = false;
+		selectionDone = false;
 	}
 
 	@Override
@@ -27,15 +31,37 @@ public abstract class OptionalMoveWeapon extends OptionalEffectsWeapon {
 		}
 
 		return handleNoOptionalEffects(choice);
-
 	}
+
+
+	protected QuestionContainer handleMoveRequestAnswer(int choice) {
+		if (!moveRequested) {
+			if (selectionDone) {
+				possibleMoveCoordinates = getMoveCoordinates();
+			} else {
+				possibleMoveCoordinates = getMoveBeforeFiringCoordinates();
+			}
+			moveRequested = true;
+			return getTargetCoordinatesQnO(possibleMoveCoordinates);
+		} else {
+			relocateOwner(possibleMoveCoordinates.get(choice));
+			relocationDone = true;
+			moveRequested = false;
+		}
+		return null;
+	}
+
+	protected abstract List<Coordinates> getMoveCoordinates();
+
+	protected abstract List<Coordinates> getMoveBeforeFiringCoordinates();
 
 	protected QuestionContainer handleNoOptionalEffects(int choice) {
 		return null;
 	}
 
 	protected QuestionContainer getPossibleActionTypeQnO() {
-		return getActionTypeQnO(relocationDone, shootingDone);
+		boolean canShoot = !getPrimaryTargets().isEmpty();
+		return getActionTypeQnO(relocationDone, selectionDone || canShoot);
 	}
 
 
