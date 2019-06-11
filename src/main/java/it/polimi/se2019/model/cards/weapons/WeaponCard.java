@@ -223,9 +223,7 @@ public abstract class WeaponCard extends ActivableCard {
 	 * @return the {@link QuestionContainer}.
 	 */
 	protected static QuestionContainer getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates){
-		String question = "Where do you want to move " + targetPlayer.getPlayerName() + "?";
-		List<Coordinates> options = new ArrayList<>(coordinates);
-		return QuestionContainer.createCoordinatesQuestionContainer(question, options);
+		return getCoordinatesQno(coordinates, "Where do you want to move " + targetPlayer.getPlayerName() + "?");
 	}
 
 	/**
@@ -234,9 +232,15 @@ public abstract class WeaponCard extends ActivableCard {
 	 * @return the {@link QuestionContainer}.
 	 */
 	protected static QuestionContainer getTargetCoordinatesQnO(List<Coordinates> coordinates){
-		String question = "Where do you want to fire?";
-		List<Coordinates> options = new ArrayList<>(coordinates);
-		return QuestionContainer.createCoordinatesQuestionContainer(question, options);
+		return getCoordinatesQno(coordinates, "Where do you want to fire?");
+	}
+
+	protected static QuestionContainer getMoveCoordinatesQnO(List<Coordinates> coordinates) {
+		return getCoordinatesQno(coordinates, "Where do you want to move?");
+	}
+
+	private static QuestionContainer getCoordinatesQno(List<Coordinates> coordinates, String question) {
+		return QuestionContainer.createCoordinatesQuestionContainer(question, new ArrayList<>(coordinates));
 	}
 
 	protected static QuestionContainer getCardinalQnO(List<String> availableDirections) {
