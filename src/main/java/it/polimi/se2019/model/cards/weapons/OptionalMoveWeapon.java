@@ -42,7 +42,7 @@ public abstract class OptionalMoveWeapon extends OptionalEffectsWeapon {
 				possibleMoveCoordinates = getMoveBeforeFiringCoordinates();
 			}
 			moveRequested = true;
-			return getTargetCoordinatesQnO(possibleMoveCoordinates);
+			return getMoveCoordinatesQnO(possibleMoveCoordinates);
 		} else {
 			relocateOwner(possibleMoveCoordinates.get(choice));
 			relocationDone = true;
@@ -51,9 +51,13 @@ public abstract class OptionalMoveWeapon extends OptionalEffectsWeapon {
 		return null;
 	}
 
-	protected abstract List<Coordinates> getMoveCoordinates();
+	protected List<Coordinates> getMoveCoordinates() {
+		return getGameMap().reachableCoordinates(getOwner(), getMoveDistance());
+	}
 
-	protected abstract List<Coordinates> getMoveBeforeFiringCoordinates();
+	protected List<Coordinates> getMoveBeforeFiringCoordinates() {
+		return getMoveCoordinates();
+	}
 
 	protected QuestionContainer handleNoOptionalEffects(int choice) {
 		return null;
