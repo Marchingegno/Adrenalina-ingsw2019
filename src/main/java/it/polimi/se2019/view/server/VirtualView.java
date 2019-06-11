@@ -11,6 +11,7 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -22,6 +23,8 @@ public class VirtualView extends Observable implements ViewInterface {
 
 	private AbstractConnectionToClient client;
 	private RepMessage repMessage = new RepMessage();
+	private boolean connected = true;
+	private SingleTimer singleTimer = new SingleTimer();
 
 
 	public VirtualView(AbstractConnectionToClient client) {
@@ -42,13 +45,29 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
-		//Utils.logInfo("\t\tThe VirtualView of \"" + getNickname() + "\" is creating an event with message of type " + message.getMessageType() + " and subtype " + message.getMessageSubtype() + ".");
-		setChanged();
-		notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
+		if(connected) {
+			singleTimer.cancel();
+			setChanged();
+			notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
+		} else {
+			onClientReconnected(client);
+		}
 	}
 
 	public void onClientDisconnected() {
-		// TODO inform controller/model and suspend the player
+		singleTimer.cancel();
+		connected = false;
+		Utils.logInfo("VirtualView -> onClientDisconnected(): set client as disconnected.");
+		setChanged();
+		notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.ERROR)));
+	}
+
+	public void onClientReconnected(AbstractConnectionToClient client) {
+		this.client = client;
+		connected = true;
+		Utils.logInfo("VirtualView -> onClientReconnected(): set client as connected.");
+		setChanged();
+		notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.INFO)));
 	}
 
 	public void sendReps() {
@@ -141,6 +160,10 @@ public class VirtualView extends Observable implements ViewInterface {
 
 
 	private void sendMessage(Message message) {
+		// If not connected don't send the message.
+		if(!connected)
+			return;
+
 		if (repMessage.hasReps()) {
 			Utils.logInfo("VirtualView -> sendMessage(): sending the reps with inner message " + message + " to " + getNickname() + ".");
 			repMessage.addMessage(message);
@@ -152,7 +175,18 @@ public class VirtualView extends Observable implements ViewInterface {
 		} else {
 			Utils.logInfo("VirtualView -> sendMessage(): nothing to send to " + getNickname() + " (null message and no reps).");
 		}
+
+
+		// Starts a timer for the player answer, but only if the message is a REQUEST.
+		if(message != null && message.getMessageSubtype() == MessageSubtype.REQUEST)
+			startRequestTimer();
 	}
+
+	private void startRequestTimer() {
+		Utils.logInfo("Starting timer for VirtualView answer.");
+		singleTimer.start(this::onClientDisconnected, Utils.getServerConfig().getTurnTimeLimitMs());
+	}
+
 
 	private class GameBoardObserver implements Observer {
 		@Override

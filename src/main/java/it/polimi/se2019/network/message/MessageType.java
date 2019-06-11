@@ -7,6 +7,7 @@ public enum MessageType {
 	WAITING_PLAYERS,
 	TIMER_FOR_START,
 	GAME_CONFIG,
+	CONNECTION,
 
 	// MessageTypes between VirtualView <=> RemoteView
 	SPAWN,

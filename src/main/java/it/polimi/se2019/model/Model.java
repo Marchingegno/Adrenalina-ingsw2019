@@ -2,7 +2,6 @@ package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.cards.Card;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
-import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
@@ -123,6 +122,43 @@ public class Model {
 	// ####################################
 	// PLAYERS MANAGEMENT METHODS
 	// ####################################
+
+	public void setAsDisconnected(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		player.setConnected(false);
+		long connectedPlayers = gameBoard.getPlayers().stream()
+				.filter(Player::isConnected)
+				.count();
+		if(connectedPlayers < GameConstants.MIN_PLAYERS) {
+			// TODO end game
+			Utils.logInfo("Here the game should had ended.");
+		}
+		updateReps();
+	}
+
+	public void setAsReconnected(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		player.setConnected(true);
+		updateReps();
+	}
+
+	public void cancelAction(String playerName) {
+		Player player = getPlayerFromName(playerName);
+
+		// Reset weapon.
+		if(player.isShootingWeapon())
+			player.handleWeaponEnd();
+
+		// Reset powerup.
+		if(player.isPowerupInExecution())
+			player.handlePowerupEnd();
+
+		// Finish actions.
+		while(player.getDamageStatus().hasMacroActionLeft())
+			player.getDamageStatus().decreaseMacroActionsToPerform();
+
+		// TODO maybe powerup payments needs to be reset?
+	}
 
 	public void movePlayerTo(String playerName, Coordinates coordinates) {
 		Player player = getPlayerFromName(playerName);

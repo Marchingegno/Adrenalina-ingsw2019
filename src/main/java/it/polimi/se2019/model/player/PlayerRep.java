@@ -31,6 +31,7 @@ public class PlayerRep implements Representation {
 	private List<WeaponRep> weaponReps;
 	private List<PowerupCardRep> powerupCards;
 	private int[] ammo;
+	private boolean connected;
 	private boolean hidden;
 
 
@@ -71,6 +72,8 @@ public class PlayerRep implements Representation {
 		for (AmmoType ammoType : AmmoType.values()) {
 			ammo[ammoType.ordinal()] = player.getPlayerBoard().getAmmoContainer().getAmmo(ammoType);
 		}
+
+		connected = player.isConnected();
 
 		hidden = false;
 	}
@@ -132,6 +135,10 @@ public class PlayerRep implements Representation {
 	 */
 	public int getPlayerID() {
 		return playerID;
+	}
+
+	public boolean isConnected() {
+		return connected;
 	}
 
 	/**
