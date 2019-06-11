@@ -2,7 +2,7 @@ package it.polimi.se2019.utils;
 
 public class ServerConfig {
 	private int waitingTimeInLobby;
-	private int turnTimeLimit;
+	private int answerTimeLimit;
 	private String host;
 	private int rmiPort;
 	private int socketPort;
@@ -12,7 +12,7 @@ public class ServerConfig {
 	}
 
 	public long getTurnTimeLimitMs() {
-		return turnTimeLimit * 1000L; // Convert seconds to milliseconds.
+		return answerTimeLimit * 1000L; // Convert seconds to milliseconds.
 	}
 
 	public String getHost() {
