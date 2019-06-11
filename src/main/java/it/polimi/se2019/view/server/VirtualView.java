@@ -55,11 +55,15 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onClientDisconnected() {
-		singleTimer.cancel();
-		connected = false;
-		Utils.logInfo("VirtualView -> onClientDisconnected(): set client as disconnected.");
-		setChanged();
-		notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.ERROR)));
+		if(connected) {
+			singleTimer.cancel();
+			connected = false;
+			Utils.logInfo("VirtualView -> onClientDisconnected(): set client as disconnected.");
+			setChanged();
+			notifyObservers(new Event(this, new Message(MessageType.CONNECTION, MessageSubtype.ERROR)));
+		} else {
+			Utils.logInfo("VirtualView -> onClientDisconnected(): client was already disconnected.");
+		}
 	}
 
 	public void onClientReconnected(AbstractConnectionToClient client) {
