@@ -138,11 +138,13 @@ public class GameController {
 				break;
 			case CONNECTION:
 				if(messageSubtype == MessageSubtype.ERROR) {
-					if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN) {
+					if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
+						Utils.logInfo("Received a CONNECTION ERROR from the player doing its turn.");
 						model.cancelAction(playerName);
 						model.setAsDisconnected(playerName);
 						handleEndTurn();
 					} else {
+						Utils.logInfo("Received a CONNECTION ERROR from a player waiting for its turn.");
 						model.setAsDisconnected(playerName);
 					}
 				}
