@@ -55,6 +55,7 @@ public class Match {
 		for(AbstractConnectionToClient client : participants)
 			client.sendMessage(new Message(MessageType.GAME_CONFIG, MessageSubtype.REQUEST));
 
+		Utils.logInfo("Starting timer for Match answer.");
 		singleTimer.start(this::initializeGame, (Utils.getServerConfig()).getTurnTimeLimitMs());
 	}
 
@@ -179,6 +180,7 @@ public class Match {
 	 * Start the match.
 	 */
 	private void initializeGame() {
+		Utils.logInfo("Cancelling timer for Match answer.");
 		singleTimer.cancel();
 
 		// Find votes.

@@ -11,6 +11,7 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.ViewInterface;
 
@@ -23,6 +24,7 @@ public class VirtualView extends Observable implements ViewInterface {
 	private AbstractConnectionToClient client;
 	private RepMessage repMessage = new RepMessage();
 	private boolean connected = true;
+	private SingleTimer singleTimer = new SingleTimer();
 
 
 	public VirtualView(AbstractConnectionToClient client) {
@@ -43,7 +45,8 @@ public class VirtualView extends Observable implements ViewInterface {
 	}
 
 	public void onMessageReceived(Message message) {
-		if(connected) { // If client was disconnected.
+		if(connected) {
+			singleTimer.cancel();
 			setChanged();
 			notifyObservers(new Event(this, message)); // Attach the VirtualView itself to the Event sent to Observer(s) (Controller).
 		} else {
@@ -171,7 +174,18 @@ public class VirtualView extends Observable implements ViewInterface {
 		} else {
 			Utils.logInfo("VirtualView -> sendMessage(): nothing to send to " + getNickname() + " (null message and no reps).");
 		}
+
+
+		// Starts a timer for the player answer, but only if the message is a REQUEST.
+		if(message != null && message.getMessageSubtype() == MessageSubtype.REQUEST)
+			startRequestTimer();
 	}
+
+	private void startRequestTimer() {
+		Utils.logInfo("Starting timer for VirtualView answer.");
+		singleTimer.start(this::onClientDisconnected, Utils.getServerConfig().getTurnTimeLimitMs());
+	}
+
 
 	private class GameBoardObserver implements Observer {
 		@Override
