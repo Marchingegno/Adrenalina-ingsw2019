@@ -74,6 +74,10 @@ public abstract class ActivableCard extends Card {
 		return gameBoard;
 	}
 
+	protected int getNumberOfPlayers() {
+		return gameBoard.getPlayers().size();
+	}
+
 	protected int getCurrentStep() {
 		return currentStep;
 	}
