@@ -57,8 +57,9 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		List<String> options = new ArrayList<>();
 		options.add("No optional effects.");
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
-			if (canAddThisOptionalEffect(i) && hasOptionalEffects[i]) {
-				options.add("Optional effect "+i+".");
+			if (canAddThisOptionalEffect(i + 1) && hasOptionalEffects[i]) {
+				int j = i + 1;
+				options.add("Optional effect " + j + ".");
 			}
 		}
 		//the following is hardcoded.
