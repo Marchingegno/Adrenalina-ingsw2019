@@ -4,39 +4,24 @@ import com.google.gson.JsonObject;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GrenadeLauncher extends OptionalEffectsWeapon {
-	private Pair<WeaponEffectType, EffectState> weaponState;
+public class GrenadeLauncher extends OptionalChoiceWeapon {
 	private List<Coordinates> possibleCoordinates;
-	private boolean baseCompleted;
-	private boolean moveCompleted;
-	private boolean extraCompleted;
-	private boolean effectHasChanged;
-	private WeaponEffectType[] currentEffectList;
-	private WeaponEffectType nextType;
 
 
 	public GrenadeLauncher(JsonObject parameters) {
 		super(parameters);
 		hasOptionalEffects[1] = false;
-		currentEffectList = new WeaponEffectType[3];
-		weaponState = new Pair<>(WeaponEffectType.ACTION, EffectState.REQUEST);
 		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
 			optional1DamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 		}
 
-		baseCompleted = false;
-		moveCompleted = false;
-		extraCompleted = false;
-		effectHasChanged = false;
-		nextType = null;
 	}
 
 	@Override
@@ -94,7 +79,8 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 		}
 	}
 
-	private QuestionContainer handleBase(int choice) {
+	@Override
+	protected QuestionContainer handleBase(int choice) {
 		switch (weaponState.getSecond()) {
 			case REQUEST:
 				return setPrimaryCurrentTargetsAndReturnTargetQnO();
@@ -105,7 +91,8 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 		return null;
 	}
 
-	private QuestionContainer handleMove(int choice) {
+	@Override
+	protected QuestionContainer handleMove(int choice) {
 		switch (weaponState.getSecond()) {
 			case REQUEST:
 				possibleCoordinates = getEnemyMovingCoordinates();
@@ -117,7 +104,8 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 		return null;
 	}
 
-	private QuestionContainer handleExtra(int choice) {
+	@Override
+	protected QuestionContainer handleExtra(int choice) {
 		switch (weaponState.getSecond()) {
 			case REQUEST:
 				possibleCoordinates = getExtraCoordinates();
@@ -132,7 +120,8 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 	}
 
 
-	private QuestionContainer handleActionSelect(int choice) {
+	@Override
+	protected QuestionContainer handleActionSelect(int choice) {
 		switch (weaponState.getSecond()) {
 			case REQUEST:
 				return setCurrentActionListReturnActionTypeQnO();
@@ -143,39 +132,6 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 		return null;
 	}
 
-
-	/**
-	 * Advance the weapon state from REQUEST to ANSWER, and set true to the correct boolean.
-	 *
-	 * @return true if weaponState is in ANSWER state.
-	 */
-	private boolean advanceState() {
-		Utils.logWeapon("Current weapon state: " + weaponState.toString());
-		if (weaponState.getSecond() == EffectState.ANSWER) {
-			switch (weaponState.getFirst()) {
-				case MOVE:
-					weaponState = new Pair<>(WeaponEffectType.ACTION, EffectState.REQUEST);
-					moveCompleted = true;
-					break;
-				case BASE:
-					weaponState = new Pair<>(WeaponEffectType.ACTION, EffectState.REQUEST);
-					baseCompleted = true;
-					break;
-				case EXTRA:
-					weaponState = new Pair<>(WeaponEffectType.ACTION, EffectState.REQUEST);
-					extraCompleted = true;
-					break;
-				case ACTION:
-					weaponState = new Pair<>(nextType, EffectState.REQUEST);
-			}
-			effectHasChanged = true;
-			return true;
-		} else {
-			weaponState = new Pair<>(weaponState.getFirst(), EffectState.values()[weaponState.getSecond().ordinal() + 1]);
-			Utils.logWeapon("Setting weapon state to: " + weaponState.toString());
-		}
-		return false;
-	}
 
 	@Override
 	public void primaryFire() {
@@ -250,15 +206,7 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 	@Override
 	public void reset() {
 		super.reset();
-		baseCompleted = false;
-		extraCompleted = false;
-		moveCompleted = false;
-		weaponState = new Pair<>(WeaponEffectType.ACTION, EffectState.REQUEST);
-		effectHasChanged = false;
-	}
-
-	private boolean ended() {
-		return extraCompleted && moveCompleted && baseCompleted;
+		possibleCoordinates = new ArrayList<>();
 	}
 
 	@Override
@@ -266,15 +214,4 @@ public class GrenadeLauncher extends OptionalEffectsWeapon {
 		return !getExtraCoordinates().isEmpty();
 	}
 
-	private enum EffectState {
-		REQUEST,
-		ANSWER
-	}
-
-	private enum WeaponEffectType {
-		BASE,
-		MOVE,
-		EXTRA,
-		ACTION
-	}
 }
