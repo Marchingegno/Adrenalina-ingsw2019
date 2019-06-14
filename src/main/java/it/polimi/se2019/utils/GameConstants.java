@@ -26,7 +26,7 @@ public class GameConstants {
 	public static final ImmutableListWithDefaultValue<Integer> FRENZY_SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{2}, 1);
 	public static final int MEDIUM_DAMAGE_THRESHOLD = 3;
 	public static final int HIGH_DAMAGE_THRESHOLD = 6;
-	public static final int MAX_NICKNAME_LENGHT = 16;
+	public static final int MAX_NICKNAME_LENGTH = 16;
 	public static final int MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE = 3;
 	public static final int NUM_OF_ROWS_IN_SQUARE = 9;
 	public static final int NUM_OF_COLUMNS_IN_SQUARE = 17;
