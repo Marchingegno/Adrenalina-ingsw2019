@@ -255,7 +255,7 @@ public class RepPrinter {
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
 			stringBuilder.append(Color.getColoredString("● ", playerRep.getPlayerName().equals(modelRep.getGameBoardRep().getCurrentPlayer()) ? Color.CharacterColorType.WHITE : Color.CharacterColorType.BLACK));
 			stringBuilder.append(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
-			for (int i = 0; i < GameConstants.MAX_NICKNAME_LENGHT - playerRep.getPlayerName().length(); i++) {
+			for (int i = 0; i < GameConstants.MAX_NICKNAME_LENGTH - playerRep.getPlayerName().length(); i++) {
 				stringBuilder.append(" ");
 			}
 
@@ -318,7 +318,7 @@ public class RepPrinter {
 	private void displayOwnPlayer() {
 		PlayerRep playerRep = modelRep.getClientPlayerRep();
 		CLIView.printLine(" ┌──────────────────┐                                                           ┌─────┐");
-		CLIView.printLine(" │ " + Utils.fillWithSpacesColored(playerRep.getPlayerName(), MAX_NICKNAME_LENGHT, playerRep.getPlayerColor()) + " │                                                           │ " + Utils.fillWithSpaces(Integer.toString(playerRep.getPoints()), 3) + " │");
+		CLIView.printLine(" │ " + Utils.fillWithSpacesColored(playerRep.getPlayerName(), MAX_NICKNAME_LENGTH, playerRep.getPlayerColor()) + " │                                                           │ " + Utils.fillWithSpaces(Integer.toString(playerRep.getPoints()), 3) + " │");
 		CLIView.printLine(" ├──────────────────┴───┬───────────────────────┬───────────────────────────────┼─────┤");
 		for (int i = 0; i < getNumOfLine(playerRep); i++) {
 			printOwnPlayerLine(playerRep, i);
