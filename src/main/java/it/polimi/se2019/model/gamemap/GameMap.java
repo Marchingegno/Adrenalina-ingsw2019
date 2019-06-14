@@ -413,9 +413,9 @@ public class GameMap extends Observable implements Representable {
 	/**
 	 * Returns true if and only if the player2 is visible from the player1. This is done looking at the rooms ID of the squares where the player are.
 	 *
-	 * @param watchingPlayer player how is observing
-	 * @param otherPlayer    player target
-	 * @return true if and only if the player2 is visible from the player1
+	 * @param watchingPlayer player how is observing.
+	 * @param otherPlayer    player target.
+	 * @return true if and only if the player2 is visible from the player1.
 	 */
 	public boolean isVisible(Player watchingPlayer, Player otherPlayer) {
 		Coordinates watchingPlayerPostition = playersPositions.get(watchingPlayer);
@@ -427,26 +427,59 @@ public class GameMap extends Observable implements Representable {
 		if (otherPlayerPostition == null)
 			return false;
 
-		Square squarePlayer1 = getSquare(playersPositions.get(watchingPlayer));
-		Square squarePlayer2 = getSquare(playersPositions.get(otherPlayer));
-
-		if (watchingPlayer.getPlayerName().equals(otherPlayer.getPlayerName())) {
+		if (watchingPlayer.getPlayerName().equals(otherPlayer.getPlayerName()))
 			throw new IllegalArgumentException("players must be different");
-		}
 
-		if (squarePlayer1.getRoomID() == squarePlayer2.getRoomID()) {
-			Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+		return isVisible(watchingPlayerPostition, otherPlayerPostition);
+	}
+
+	/**
+	 * Returns true if and only if the coordinate1 can see coordinate2. This is done looking at the rooms ID of the coordinates.
+	 *
+	 * @param coordinates1 starting coordinates.
+	 * @param coordinates2 end coordinates.
+	 * @return true if and only if the player2 is visible from the player1.
+	 */
+	public boolean isVisible(Coordinates coordinates1, Coordinates coordinates2) {
+
+		if (coordinates1 == null || coordinates2 == null)
+			throw new NullPointerException();
+
+		if (coordinates1.equals(coordinates2))
+			return true;
+
+		Square square1 = getSquare(coordinates1);
+		Square square2 = getSquare(coordinates2);
+
+		if (square1.getRoomID() == square2.getRoomID()) {
+			Utils.logInfo("GameMap -> isVisible(): " + square1.getCoordinates() + " can see " + square2.getCoordinates());
 			return true;
 		}
 
-		for (Square adjacentSquare : squarePlayer1.getAdjacentSquares()) {
-			if (adjacentSquare.getRoomID() == squarePlayer2.getRoomID()) {
-				Utils.logInfo("GameMap -> isVisible(): watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " can see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+		for (Square adjacentSquare : square1.getAdjacentSquares()) {
+			if (adjacentSquare.getRoomID() == square2.getRoomID()) {
+				Utils.logInfo("GameMap -> isVisible(): " + square1.getCoordinates() + " can see " + square2.getCoordinates());
 				return true;
 			}
 		}
-		Utils.logInfo("GameMap -> isVisible():  watchingPlayer in " + squarePlayer1.getCoordinates() + " " + squarePlayer1.getRoomID() + " cannot see otherPlayer in " + squarePlayer2.getCoordinates() + " " + squarePlayer2.getRoomID());
+		Utils.logInfo("GameMap -> isVisible():  " + square1.getCoordinates() + " cannot see " + square2.getCoordinates());
 		return false;
+	}
+
+	/**
+	 * Returns all visible players from the specified coordinate.
+	 *
+	 * @param coordinates starting coordinates.
+	 * @return all visible players from the specified coordinate.
+	 */
+	public List<Player> getVisiblePlayers(Coordinates coordinates) {
+		List<Player> visiblePlayers = new ArrayList<>();
+
+		for (Player player : playersPositions.keySet()) {
+			if (isVisible(coordinates, getPlayerCoordinates(player)))
+				visiblePlayers.add(player);
+		}
+		return visiblePlayers;
 	}
 
 	/**
