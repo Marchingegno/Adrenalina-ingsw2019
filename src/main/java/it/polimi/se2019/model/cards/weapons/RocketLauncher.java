@@ -19,7 +19,6 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 
 	public RocketLauncher(JsonObject parameters) {
 		super(parameters);
-		hasOptionalEffects[1] = false;
 		baseName = "Basic effect.";
 		moveName = "Move the target.";
 		extraName = "Move two steps.";
@@ -102,5 +101,9 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 		return getGameMap().reachableCoordinates(getOwner(), getMoveDistance());
 	}
 
-
+	@Override
+	protected boolean canPrimaryBeActivated() {
+		//Todo implement
+		return false;
+	}
 }
