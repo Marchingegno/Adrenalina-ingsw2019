@@ -28,7 +28,7 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	protected void updateBooleans() {
 		canAddBase = !baseCompleted && !getPrimaryTargets().isEmpty();
 		canAddMove = !moveCompleted && baseCompleted;
-		canAddExtra = extraCompleted && (baseCompleted || !getBeforeBaseExtraCoordinates().isEmpty());
+		canAddExtra = !extraCompleted && (baseCompleted || !getBeforeBaseExtraCoordinates().isEmpty());
 		canAddExtra = canAddExtra && isOptionalActive(1);
 	}
 

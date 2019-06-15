@@ -11,6 +11,7 @@ import java.util.List;
 public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	protected Pair<WeaponEffectType, EffectState> weaponState;
+	private boolean ended;
 	protected String baseName;
 	protected String moveName;
 	protected String extraName;
@@ -33,6 +34,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		effectHasChanged = false;
 		currentEffectList = new WeaponEffectType[3];
 		nextType = null;
+		ended = false;
 	}
 
 	/**
@@ -154,7 +156,8 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 		if (options.isEmpty()) {
 			primaryFire();
-			Utils.logWeapon("The player just lost the right to fire.");
+			ended = true;
+			Utils.logWeapon("Ended because no other options is available.");
 		}
 
 		return QuestionContainer.createStringQuestionContainer(question, options);
@@ -182,7 +185,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 				break;
 		}
 
-		if (ended()) {
+		if (ended) {
 			primaryFire();
 			return null;
 		}
@@ -205,6 +208,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		moveCompleted = false;
 		weaponState = new Pair<>(WeaponEffectType.ACTION, EffectState.REQUEST);
 		effectHasChanged = false;
+		ended = false;
 	}
 
 	enum EffectState {
