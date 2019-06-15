@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import com.google.gson.JsonObject;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	//EXTRA: Move at most 2 steps.
 
 	private List<Coordinates> possibleMoveCoordinates;
+	private Coordinates targetOriginalCoordinates;
 
 	public RocketLauncher(JsonObject parameters) {
 		super(parameters);
@@ -22,6 +24,10 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 		baseName = "Basic effect.";
 		moveName = "Move the target.";
 		extraName = "Move two steps.";
+		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
+			optional2DamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+		}
 	}
 
 	@Override
@@ -45,6 +51,9 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 
 	@Override
 	protected QuestionContainer handleMoveAnswer(int choice) {
+		if (isOptionalActive(2)) {
+			dealDamage(optional2DamagesAndMarks, getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(target)));
+		}
 		relocateEnemy(target, possibleMoveCoordinates.get(choice));
 		return null;
 	}
@@ -63,6 +72,7 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
+		//Visible players not in owner's square.
 		List<Player> possibleTargets = getGameMap().getVisiblePlayers(getOwner());
 		return possibleTargets.stream()
 				.filter(player -> !getGameMap().getPlayerCoordinates(player).equals(getGameMap().getPlayerCoordinates(getOwner())))
@@ -82,6 +92,11 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 			}
 		}
 		return coordWithVisiblePlayers;
+	}
+
+	@Override
+	public void primaryFire() {
+		dealDamageAndConclude(standardDamagesAndMarks, target);
 	}
 
 	private List<Coordinates> getAfterBaseExtraCoordinates() {
