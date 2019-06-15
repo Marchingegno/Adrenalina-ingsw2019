@@ -10,11 +10,11 @@ import java.util.List;
 
 public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
-	protected Pair<WeaponEffectType, EffectState> weaponState;
-	private boolean ended;
 	protected String baseName;
 	protected String moveName;
 	protected String extraName;
+
+	protected Pair<WeaponEffectType, EffectState> weaponState;
 	protected boolean canAddBase;
 	protected boolean canAddMove;
 	protected boolean canAddExtra;
@@ -22,6 +22,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 	protected boolean moveCompleted;
 	protected boolean extraCompleted;
 	protected boolean effectHasChanged;
+	private boolean ended;
 	protected WeaponEffectType[] currentEffectList;
 	protected WeaponEffectType nextType;
 
@@ -68,10 +69,6 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 			Utils.logWeapon("Setting weapon state to: " + weaponState.toString());
 		}
 		return false;
-	}
-
-	protected boolean ended() {
-		return extraCompleted && moveCompleted && baseCompleted;
 	}
 
 	protected QuestionContainer handleBase(int choice) {
