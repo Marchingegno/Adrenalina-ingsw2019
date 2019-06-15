@@ -5,9 +5,18 @@ import it.polimi.se2019.utils.Pair;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	protected Pair<WeaponEffectType, EffectState> weaponState;
+	protected String baseName;
+	protected String moveName;
+	protected String extraName;
+	protected boolean canAddBase;
+	protected boolean canAddMove;
+	protected boolean canAddExtra;
 	protected boolean baseCompleted;
 	protected boolean moveCompleted;
 	protected boolean extraCompleted;
@@ -63,13 +72,130 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		return extraCompleted && moveCompleted && baseCompleted;
 	}
 
-	protected abstract QuestionContainer handleBase(int choice);
+	protected QuestionContainer handleBase(int choice) {
+		switch (weaponState.getSecond()) {
+			case REQUEST:
+				return handleBaseRequest(choice);
+			case ANSWER:
+				handleBaseAnswer(choice);
+				break;
+		}
+		return null;
+	}
 
-	protected abstract QuestionContainer handleMove(int choice);
+	protected QuestionContainer handleBaseRequest(int choice) {
+		return setPrimaryCurrentTargetsAndReturnTargetQnO();
+	}
 
-	protected abstract QuestionContainer handleExtra(int choice);
+	protected QuestionContainer handleBaseAnswer(int choice) {
+		target = currentTargets.get(choice);
+		return null;
+	}
 
-	protected abstract QuestionContainer handleActionSelect(int choice);
+	protected QuestionContainer handleMove(int choice) {
+		switch (weaponState.getSecond()) {
+			case REQUEST:
+				return handleMoveRequest(choice);
+			case ANSWER:
+				handleMoveAnswer(choice);
+				break;
+		}
+		return null;
+	}
+
+	protected abstract QuestionContainer handleMoveRequest(int choice);
+
+	protected abstract QuestionContainer handleMoveAnswer(int choice);
+
+	protected QuestionContainer handleExtra(int choice) {
+		switch (weaponState.getSecond()) {
+			case REQUEST:
+				return handleExtraRequest(choice);
+			case ANSWER:
+				handleExtraAnswer(choice);
+				break;
+		}
+		return null;
+	}
+
+	protected abstract QuestionContainer handleExtraRequest(int choice);
+
+	protected abstract QuestionContainer handleExtraAnswer(int choice);
+
+	protected QuestionContainer handleActionSelect(int choice) {
+		switch (weaponState.getSecond()) {
+			case REQUEST:
+				return setCurrentActionListReturnActionTypeQnO();
+			case ANSWER:
+				nextType = currentEffectList[choice];
+				break;
+		}
+		return null;
+	}
+
+	protected QuestionContainer setCurrentActionListReturnActionTypeQnO() {
+		String question = "Which action do you want to do?";
+		List<String> options = new ArrayList<>();
+		currentEffectList = new WeaponEffectType[3];
+		updateBooleans();
+		int i = 0;
+		if (canAddBase) {
+			options.add(baseName);
+			currentEffectList[i++] = WeaponEffectType.BASE;
+		}
+		if (canAddMove) {
+			options.add(moveName);
+			currentEffectList[i++] = WeaponEffectType.MOVE;
+		}
+		if (canAddExtra) {
+			options.add(extraName);
+			currentEffectList[i] = WeaponEffectType.EXTRA;
+		}
+
+		if (options.isEmpty()) {
+			primaryFire();
+			Utils.logWeapon("The player just lost the right to fire.");
+		}
+
+		return QuestionContainer.createStringQuestionContainer(question, options);
+
+
+	}
+
+	protected QuestionContainer handleChoices(int choice) {
+		QuestionContainer qc;
+		switch (weaponState.getFirst()) {
+			case ACTION:
+				qc = handleActionSelect(choice);
+				break;
+			case BASE:
+				qc = handleBase(choice);
+				break;
+			case MOVE:
+				qc = handleMove(choice);
+				break;
+			case EXTRA:
+				qc = handleExtra(choice);
+				break;
+			default:
+				qc = null;
+				break;
+		}
+
+		if (ended()) {
+			primaryFire();
+			return null;
+		}
+		advanceState();
+		if (effectHasChanged) {
+			effectHasChanged = false;
+			return handleChoices(choice);
+		} else {
+			return qc;
+		}
+	}
+
+	protected abstract void updateBooleans();
 
 	@Override
 	public void reset() {
