@@ -16,7 +16,6 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	//EXTRA: Move at most 2 steps.
 
 	private List<Coordinates> possibleMoveCoordinates;
-	private Coordinates targetOriginalCoordinates;
 
 	public RocketLauncher(JsonObject parameters) {
 		super(parameters);
