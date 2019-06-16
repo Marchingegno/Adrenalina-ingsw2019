@@ -2,7 +2,7 @@ package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.cli.CLIView;
-import it.polimi.se2019.view.client.gui.ConnectionController;
+import it.polimi.se2019.view.client.gui.GUIController;
 import javafx.application.Application;
 
 import java.util.Locale;
@@ -27,17 +27,11 @@ public class Client {
 
 		// Bypass server configuration for debug.
 		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
-			if(Utils.DEBUG_BYPASS_USE_GUI)
-				new Thread(() -> {
-					Application.launch(ConnectionController.class);
-				}).start();
-			else {
-				CLIView cliView = new CLIView();
-				if (new Random().nextBoolean())
-					cliView.startConnectionWithRMI();
-				else
-					cliView.startConnectionWithSocket();
-			}
+			CLIView cliView = new CLIView();
+			if (new Random().nextBoolean())
+				cliView.startConnectionWithRMI();
+			else
+				cliView.startConnectionWithSocket();
 			return;
 		}
 
@@ -47,7 +41,7 @@ public class Client {
 		// Start GUI if requested.
 		if (isGUI)
 			new Thread(() -> {
-				Application.launch(ConnectionController.class);
+				Application.launch(GUIController.class);
 			}).start();
 		else
 			new CLIView().askForConnectionAndStartIt();

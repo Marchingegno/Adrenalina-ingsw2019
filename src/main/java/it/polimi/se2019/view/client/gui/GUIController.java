@@ -1,19 +1,25 @@
 package it.polimi.se2019.view.client.gui;
 
+import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class GUIController implements Initializable {
+public class GUIController extends Application {
+	private static Stage window;
+	private static GUIView guiView;
 	private ConnectionController connectionController;
-	private Stage window;
-	private GUIView guiView;
+	private LoginController loginController;
+
+	@FXML
+	private Button SocketButton;
+	@FXML
+	private Button RMIButton;
 
 	static Parent loadFXML(String fxmlName) {
 		try {
@@ -24,10 +30,29 @@ public class GUIController implements Initializable {
 		}
 	}
 
+	@Override
 	public void start(Stage primaryStage) {
 		window = primaryStage;
-		window.setTitle("Adrenalina");
+		Scene scene = new Scene(loadFXML("Connection"));
+		window.setScene(scene);
+		window.setTitle("Adrenaline");
+		window.show();
 	}
+
+	@FXML
+	public void startConnectionWithRMI() {
+		setGUIView(new GUIView(this));
+		guiView.startConnectionWithRMI();
+		window.setScene(new Scene(loadFXML("LoginController")));
+	}
+
+	@FXML
+	public void startConnectionWithSocket() {
+		setGUIView(new GUIView(this));
+		guiView.startConnectionWithSocket();
+		window.setScene(new Scene(loadFXML("LoginController")));
+	}
+
 
 	static Stage setSceneTo(String fxmlName, String sceneTitle) {
 			Scene scene = new Scene(loadFXML(fxmlName));
@@ -38,12 +63,11 @@ public class GUIController implements Initializable {
 		return stage;
 	}
 
-	public void setGUIView(GUIView guiView) {
-		this.guiView = guiView;
+	public void askNickname() {
+		LoginController.start(window, guiView);
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
+	public void setGUIView(GUIView guiView) {
+		GUIController.guiView = guiView;
 	}
 }

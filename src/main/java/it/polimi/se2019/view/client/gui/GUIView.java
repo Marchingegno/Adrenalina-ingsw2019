@@ -8,11 +8,9 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.view.client.RemoteView;
-import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,16 +26,12 @@ public class GUIView extends RemoteView {
 	private JFrame gameConfigFrame;
 	private JDialog gameConfigWaitingDialog;
 
-	public GUIView(Stage window) {
-		guiController = new GUIController();
-		guiController.start(window);
+	public GUIView(GUIController guiController) {
+		this.guiController = guiController;
 	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
-		guiController.setGUIView(this);
-
-//
 //		Object[] options = {"RMI", "Socket"};
 //		int answer = JOptionPane.showOptionDialog(null,
 //				"Which connection would you like to use?",
@@ -77,14 +71,15 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askNickname() {
-		String input = JOptionPane.showInputDialog(null,
-				"Enter your nickname.",
-				"Nickname",
-				JOptionPane.QUESTION_MESSAGE);
-		if(input == null)
-			closeProgram();
-		else
-			sendMessage(new NicknameMessage(input, MessageSubtype.ANSWER));
+		guiController.askNickname();
+//		String input = JOptionPane.showInputDialog(null,
+//				"Enter your nickname.",
+//				"Nickname",
+//				JOptionPane.QUESTION_MESSAGE);
+//		if(input == null)
+//			closeProgram();
+//		else
+//			sendMessage(new NicknameMessage(input, MessageSubtype.ANSWER));
 	}
 
 	@Override
