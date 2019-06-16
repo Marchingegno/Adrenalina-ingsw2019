@@ -5,10 +5,11 @@ import javafx.stage.Stage;
 
 public class GUIInitializer extends Application {
 
+	GUIInitializer() {
+		Application.launch();
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		GUIController guiController = new GUIController();
-		guiController.startGUI();
 	}
 }

@@ -18,6 +18,8 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class LoginController implements Initializable {
 
+	private Stage window;
+
 	@FXML
 	private ComboBox<String> connectionMenuButton;
 	@FXML
@@ -61,17 +63,16 @@ public class LoginController implements Initializable {
 		//Show nicknames stage.
 	}
 
-	public void startLogin() {
-			//Show the login scene.
-			Scene scene = new Scene(loadFXML("ConnectionAndNickname"));
-			Stage stage = new Stage();
-			stage.setTitle("Login");
-			stage.setScene(scene);
+	public void startLogin(Stage window) {
+		//Show the login scene.
+		Scene scene = new Scene(loadFXML("ConnectionAndNickname"));
+		window.setTitle("Adrenalina");
+		window.setScene(scene);
 		ObservableList<String> options = observableArrayList();
-			options.addAll("RMI", "Socket");
-			connectionMenuButton = new ComboBox<>();
-			connectionMenuButton.setItems(options);
-			stage.show();
+		options.addAll("RMI", "Socket");
+		connectionMenuButton = new ComboBox<>();
+		connectionMenuButton.setItems(options);
+		window.show();
 	}
 
 

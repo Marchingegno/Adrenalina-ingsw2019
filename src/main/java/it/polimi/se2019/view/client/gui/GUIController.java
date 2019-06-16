@@ -1,36 +1,33 @@
 package it.polimi.se2019.view.client.gui;
 
-import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.client.RemoteView;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class GUIController extends RemoteView {
-	private LoginController loginController;
+public class GUIController implements Initializable {
+	private ConnectionController connectionController;
+	private Stage window;
+	private GUIView guiView;
 
 	static Parent loadFXML(String fxmlName) {
 		try {
 			return new FXMLLoader(GUIInitializer.class.getResource("/gui/" + fxmlName + ".fxml")).load();
 		} catch (IOException e) {
-			Utils.logError("Error while loading FXML.", e);
+			//TODO chanche exception handling
+			throw new RuntimeException("Unable to load file");
 		}
-		return null;
 	}
 
-	public void startGUI() {
-		this.loginController = new LoginController();
-		loginController.startLogin();
+	public void start(Stage primaryStage) {
+		window = primaryStage;
+		window.setTitle("Adrenalina");
 	}
-
 
 	static Stage setSceneTo(String fxmlName, String sceneTitle) {
 			Scene scene = new Scene(loadFXML(fxmlName));
@@ -41,119 +38,12 @@ public class GUIController extends RemoteView {
 		return stage;
 	}
 
-
-	@Override
-	public void updateDisplay() {
-
+	public void setGUIView(GUIView guiView) {
+		this.guiView = guiView;
 	}
 
 	@Override
-	public void askForConnectionAndStartIt() {
-
-	}
-
-	@Override
-	public void failedConnectionToServer() {
-
-	}
-
-	@Override
-	public void lostConnectionToServer() {
-
-	}
-
-	@Override
-	public void askNickname() {
-
-	}
-
-	@Override
-	public void askNicknameError() {
-
-	}
-
-	@Override
-	public void displayWaitingPlayers(List<String> waitingPlayers) {
-
-	}
-
-	@Override
-	public void displayTimerStarted(long delayInMs) {
-
-	}
-
-	@Override
-	public void displayTimerStopped() {
-
-	}
-
-	@Override
-	public void askMapAndSkullsToUse() {
-
-	}
-
-	@Override
-	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
-
-	}
-
-	@Override
-	public void askAction(boolean activablePowerups, boolean activableWeapons) {
-
-	}
-
-	@Override
-	public void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
-
-	}
-
-	@Override
-	public void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
-
-	}
-
-	@Override
-	public void askMove(List<Coordinates> reachableCoordinates) {
-
-	}
-
-	@Override
-	public void askShoot(List<Integer> shootableWeapons) {
-
-	}
-
-	@Override
-	public void askReload(List<Integer> loadableWeapons) {
-
-	}
-
-	@Override
-	public void askSpawn() {
-
-	}
-
-	@Override
-	public void askWeaponChoice(QuestionContainer questionContainer) {
-
-	}
-
-	@Override
-	public void askPowerupActivation(List<Integer> activablePowerups) {
-
-	}
-
-	@Override
-	public void askPowerupChoice(QuestionContainer questionContainer) {
-
-	}
-
-	@Override
-	public void askEnd(boolean activablePowerups) {
-
-	}
-
-	@Override
-	public void askToPay(List<AmmoType> priceToPay){
+	public void initialize(URL location, ResourceBundle resources) {
 
 	}
 }

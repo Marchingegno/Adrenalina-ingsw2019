@@ -12,6 +12,7 @@ import it.polimi.se2019.network.message.NicknameMessage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.view.client.RemoteView;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,38 +21,46 @@ import java.util.List;
 
 public class GUIView extends RemoteView {
 
+	private GUIController guiController;
 	private JFrame waitingRoomFrame;
 	private JLabel waitingPlayersTextWaitingRoom;
 	private JLabel timerTextWaitingRoom;
 	private JFrame gameConfigFrame;
 	private JDialog gameConfigWaitingDialog;
 
+	public GUIView(Stage window) {
+		guiController = new GUIController();
+		guiController.start(window);
+	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
-		Object[] options = {"RMI", "Socket"};
-		int answer = JOptionPane.showOptionDialog(null,
-				"Which connection would you like to use?",
-				"Connection",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.QUESTION_MESSAGE,
-				null,
-				options,
-				options[0]);
-		switch(answer) {
-			case 0:
-				startConnectionWithRMI();
-				break;
-			case 1:
-				startConnectionWithSocket();
-				break;
-			case JOptionPane.CLOSED_OPTION:
-				closeProgram();
-				break;
-			default:
-				startConnectionWithRMI();
-				break;
-		}
+		guiController.setGUIView(this);
+
+//
+//		Object[] options = {"RMI", "Socket"};
+//		int answer = JOptionPane.showOptionDialog(null,
+//				"Which connection would you like to use?",
+//				"Connection",
+//				JOptionPane.DEFAULT_OPTION,
+//				JOptionPane.QUESTION_MESSAGE,
+//				null,
+//				options,
+//				options[0]);
+//		switch(answer) {
+//			case 0:
+//				startConnectionWithRMI();
+//				break;
+//			case 1:
+//				startConnectionWithSocket();
+//				break;
+//			case JOptionPane.CLOSED_OPTION:
+//				closeProgram();
+//				break;
+//			default:
+//				startConnectionWithRMI();
+//				break;
+//		}
 	}
 
 	@Override

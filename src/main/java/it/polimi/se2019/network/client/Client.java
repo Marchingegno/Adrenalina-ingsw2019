@@ -1,9 +1,9 @@
 package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.utils.Utils;
-import it.polimi.se2019.view.client.RemoteView;
 import it.polimi.se2019.view.client.cli.CLIView;
-import it.polimi.se2019.view.client.gui.GUIView;
+import it.polimi.se2019.view.client.gui.ConnectionController;
+import javafx.application.Application;
 
 import java.util.Locale;
 import java.util.Random;
@@ -27,15 +27,17 @@ public class Client {
 
 		// Bypass server configuration for debug.
 		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
-			RemoteView remoteView;
 			if(Utils.DEBUG_BYPASS_USE_GUI)
-				remoteView = new GUIView();
-			else
-				remoteView = new CLIView();
-			if(new Random().nextBoolean())
-				remoteView.startConnectionWithRMI();
-			else
-				remoteView.startConnectionWithSocket();
+				new Thread(() -> {
+					Application.launch(ConnectionController.class);
+				}).start();
+			else {
+				CLIView cliView = new CLIView();
+				if (new Random().nextBoolean())
+					cliView.startConnectionWithRMI();
+				else
+					cliView.startConnectionWithSocket();
+			}
 			return;
 		}
 
@@ -43,14 +45,12 @@ public class Client {
 		boolean isGUI = waitForChoiceInMenu("1", "2").equals("1");
 
 		// Start GUI if requested.
-		RemoteView remoteView;
 		if (isGUI)
-			remoteView = new GUIView();
+			new Thread(() -> {
+				Application.launch(ConnectionController.class);
+			}).start();
 		else
-			remoteView = new CLIView();
-
-		// Ask which connection to use and start it.
-		remoteView.askForConnectionAndStartIt();
+			new CLIView().askForConnectionAndStartIt();
 	}
 
 
