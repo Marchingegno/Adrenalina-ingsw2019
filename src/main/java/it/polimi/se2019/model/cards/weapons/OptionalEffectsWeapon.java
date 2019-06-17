@@ -63,7 +63,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 			}
 		}
 		//the following is hardcoded.
-		if (canAddBothOptionalEffects() && hasOptionalEffects[1]) {
+		if (canFireBothOptionalEffects() && hasOptionalEffects[1]) {
 			options.add("Optional effect 1 + Optional effect 2.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);
@@ -173,25 +173,50 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	protected boolean canAddThisOptionalEffect(int numberOfEffect) {
 		if (numberOfEffect == 1)
-			return canAddOptionalEffect1();
+			return canFireOptionalEffect1();
 		else
-			return canAddOptionalEffect2();
+			return canFireOptionalEffect2();
 	}
 
-	//To override
 	protected boolean canAddOptionalEffect1() {
-		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(1)));
+		return canAffordOptionalEffect1() && canFireOptionalEffect1();
 	}
 
-	//To override
 	protected boolean canAddOptionalEffect2() {
 		if (!hasOptionalEffects[1]) return false;
-		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(2)));
+		return canAffordOptionalEffect2() && canFireOptionalEffect2();
 	}
 
 	protected boolean canAddBothOptionalEffects() {
 		if (!hasOptionalEffects[1]) return false;
-		return getOwner().hasEnoughAmmo(optionalPrices) && canAddOptionalEffect1() && canAddOptionalEffect2();
+		return canAffordBothOptionalEffects() && canFireOptionalEffect2() && canFireOptionalEffect1();
+	}
+
+
+	protected boolean canAffordOptionalEffect1() {
+		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(1)));
+	}
+
+	protected boolean canAffordOptionalEffect2() {
+		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(2)));
+	}
+
+	protected boolean canAffordBothOptionalEffects() {
+		return getOwner().hasEnoughAmmo(optionalPrices) && canFireOptionalEffect1() && canFireOptionalEffect2();
+	}
+
+	//To override
+	protected boolean canFireOptionalEffect1() {
+		return false;
+	}
+
+	//To override
+	protected boolean canFireOptionalEffect2() {
+		return false;
+	}
+
+	protected boolean canFireBothOptionalEffects() {
+		return canFireOptionalEffect1() && canFireOptionalEffect2();
 	}
 
 }

@@ -118,7 +118,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	protected boolean canAddOptionalEffect1() {
+	protected boolean canFireOptionalEffect1() {
 		//there's at least one place where the owner can place the vortex that has more than one player next or on top of it.
 		List<Coordinates> possibleVortexCoordinates = getGameMap().getVisibleCoordinates(getOwner());
 		possibleVortexCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));

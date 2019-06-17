@@ -103,7 +103,7 @@ public class MachineGun extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	protected boolean canAddOptionalEffect2() {
+	protected boolean canFireOptionalEffect2() {
 		//There's at least 3 visible players.
 		return getPrimaryTargets().size() >= 3;
 	}

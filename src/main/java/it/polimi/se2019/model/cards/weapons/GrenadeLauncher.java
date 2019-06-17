@@ -126,7 +126,7 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected boolean canAddOptionalEffect1() {
+	protected boolean canFireOptionalEffect1() {
 		return !getExtraCoordinates().isEmpty();
 	}
 

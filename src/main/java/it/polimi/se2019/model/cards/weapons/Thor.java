@@ -102,7 +102,7 @@ public class Thor extends OptionalEffectsWeapon {
 			options.add("Optional effect 1.");
 		}
 		//Can add optionalEffect 1 + 2?
-		if (canAddBothOptionalEffects()) {
+		if (canFireBothOptionalEffects()) {
 			options.add("Optional effect 1 + Optional effect 2.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);
@@ -131,7 +131,7 @@ public class Thor extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	protected boolean canAddOptionalEffect1() {
+	protected boolean canFireOptionalEffect1() {
 		//There is at least a chain of two players.
 		return !getChainOfTwoPlayers()[1].isEmpty();
 	}
@@ -149,11 +149,12 @@ public class Thor extends OptionalEffectsWeapon {
 			}
 		}
 
+		// TODO Implement this
 		return null;
 	}
 
 	@Override
-	protected boolean canAddBothOptionalEffects() {
+	protected boolean canFireBothOptionalEffects() {
 		return true;
 	}
 }
