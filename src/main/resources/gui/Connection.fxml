@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="127.0" prefWidth="325.0"
             xmlns="http://javafx.com/javafx/8.0.212"
-            fx:controller="it.polimi.se2019.view.client.gui.GUIController">
+            fx:controller="it.polimi.se2019.view.client.gui.ConnectionController">
     <children>
         <Button fx:id="RMIButton" layoutX="57.0" layoutY="72.0" mnemonicParsing="false"
                 onAction="#startConnectionWithRMI" prefHeight="25.0" prefWidth="45.0" text="RMI"/>

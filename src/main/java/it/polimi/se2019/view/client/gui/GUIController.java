@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GUIController extends Application {
 	private static Stage window;
@@ -39,33 +40,34 @@ public class GUIController extends Application {
 		window.show();
 	}
 
-	@FXML
-	public void startConnectionWithRMI() {
-		setGUIView(new GUIView(this));
-		guiView.startConnectionWithRMI();
-		window.setScene(new Scene(loadFXML("LoginController")));
+//	@FXML
+//	public void startConnectionWithRMI() {
+//		setGUIView(new GUIView(this));
+//		guiView.startConnectionWithRMI();
+//		setSceneTo("LoginController", "Adrenaline");
+//	}
+//
+//	@FXML
+//	public void startConnectionWithSocket() {
+//		setGUIView(new GUIView(this));
+//		guiView.startConnectionWithSocket();
+//		setSceneTo("LoginController", "Adrenaline");
+//	}
+
+
+	private void setSceneTo(String fxmlName, String sceneTitle) {
+		Scene scene = new Scene(loadFXML(fxmlName));
+		window.setScene(scene);
+		window.setTitle(sceneTitle);
+//		stage.show();
 	}
 
-	@FXML
-	public void startConnectionWithSocket() {
-		setGUIView(new GUIView(this));
-		guiView.startConnectionWithSocket();
-		window.setScene(new Scene(loadFXML("LoginController")));
+
+	public void displayWaitingPlayers(List<String> waitingPlayers) {
+		setSceneTo("LobbyController", "Adrenaline");
+		LobbyController.addNickname(waitingPlayers);
 	}
 
-
-	static Stage setSceneTo(String fxmlName, String sceneTitle) {
-			Scene scene = new Scene(loadFXML(fxmlName));
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.setTitle(sceneTitle);
-//			stage.show();
-		return stage;
-	}
-
-	public void askNickname() {
-		LoginController.start(window, guiView);
-	}
 
 	public void setGUIView(GUIView guiView) {
 		GUIController.guiView = guiView;

@@ -10,25 +10,69 @@ import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.RemoteView;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
 public class GUIView extends RemoteView {
 
 	private GUIController guiController;
+
+	private ConnectionController connectionController;
+	private Scene connectionScene;
+
+	private LoginController loginController;
+	private Scene loginScene;
+
+	private Stage window;
+
+	//TO REMOVE
 	private JFrame waitingRoomFrame;
 	private JLabel waitingPlayersTextWaitingRoom;
 	private JLabel timerTextWaitingRoom;
 	private JFrame gameConfigFrame;
 	private JDialog gameConfigWaitingDialog;
 
-	public GUIView(GUIController guiController) {
-		this.guiController = guiController;
+	public GUIView(Stage window) {
+		this.window = window;
+		loadLoginController();
 	}
+
+	public void loadLoginController() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/LoginController.fxml"));
+		try {
+			Parent root = loader.load();
+			window.setTitle("Adrenaline");
+			loginScene = new Scene(root);
+			loginController = loader.getController();
+			loginController.setGui(this);
+		} catch (IOException e) {
+			Utils.logError("Error loading loginController", e);
+		}
+	}
+
+//	public void loadConnectionController(){
+//		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ConnectionController.fxml"));
+//		try {
+//			Parent root = loader.load();
+//			window.setTitle("Adrenaline");
+//			connectionScene = new Scene(root);
+//			connectionController = loader.getController();
+//		}catch(IOException e)
+//		{
+//			Utils.logError("Error loading loginController",e);
+//		}
+//	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
@@ -71,7 +115,11 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askNickname() {
-		guiController.askNickname();
+		Platform.runLater(() -> {
+			window.setScene(loginScene);
+			window.show();
+		});
+
 //		String input = JOptionPane.showInputDialog(null,
 //				"Enter your nickname.",
 //				"Nickname",
@@ -90,11 +138,12 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void displayWaitingPlayers(List<String> waitingPlayers) {
-		if(waitingRoomFrame == null)
-			showWaitingRoomFrame();
-
-		waitingPlayersTextWaitingRoom.setText("Players in the waiting room: " + waitingPlayers.toString() + ".");
-		waitingRoomFrame.pack();
+		guiController.displayWaitingPlayers(waitingPlayers);
+//		if(waitingRoomFrame == null)
+//			showWaitingRoomFrame();
+//
+//		waitingPlayersTextWaitingRoom.setText("Players in the waiting room: " + waitingPlayers.toString() + ".");
+//		waitingRoomFrame.pack();
 	}
 
 	@Override

@@ -2,8 +2,7 @@ package it.polimi.se2019.network.client;
 
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.cli.CLIView;
-import it.polimi.se2019.view.client.gui.GUIController;
-import javafx.application.Application;
+import it.polimi.se2019.view.client.gui.GUIInitializer;
 
 import java.util.Locale;
 import java.util.Random;
@@ -40,9 +39,7 @@ public class Client {
 
 		// Start GUI if requested.
 		if (isGUI)
-			new Thread(() -> {
-				Application.launch(GUIController.class);
-			}).start();
+			GUIInitializer.startGUIInitializer();
 		else
 			new CLIView().askForConnectionAndStartIt();
 	}

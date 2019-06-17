@@ -6,7 +6,6 @@ import it.polimi.se2019.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class LoginController {
 
@@ -16,8 +15,8 @@ public class LoginController {
 	@FXML
 	private TextField nicknameTextField;
 
-	public static void start(Stage stage, GUIView guiView1) {
-		guiView = guiView1;
+	public void setGui(GUIView guiView) {
+		LoginController.guiView = guiView;
 	}
 
 	@FXML
