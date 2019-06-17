@@ -100,10 +100,4 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	private List<Coordinates> getAfterBaseExtraCoordinates() {
 		return getGameMap().reachableCoordinates(getOwner(), getMoveDistance());
 	}
-
-	@Override
-	protected boolean canPrimaryBeActivated() {
-		//Todo implement
-		return false;
-	}
 }
