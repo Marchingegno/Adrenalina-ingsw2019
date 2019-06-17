@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 
 public class GUIController extends Application {
 	private static Stage window;
@@ -63,10 +62,10 @@ public class GUIController extends Application {
 	}
 
 
-	public void displayWaitingPlayers(List<String> waitingPlayers) {
-		setSceneTo("LobbyController", "Adrenaline");
-		LobbyController.addNickname(waitingPlayers);
-	}
+//	public void displayWaitingPlayers(List<String> waitingPlayers) {
+//		setSceneTo("LobbyController", "Adrenaline");
+//		LobbyController.addNickname(waitingPlayers);
+//	}
 
 
 	public void setGUIView(GUIView guiView) {

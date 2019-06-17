@@ -34,6 +34,9 @@ public class GUIView extends RemoteView {
 	private LoginController loginController;
 	private Scene loginScene;
 
+	private LobbyController lobbyController;
+	private Scene lobbyScene;
+
 	private Stage window;
 
 	//TO REMOVE
@@ -46,6 +49,7 @@ public class GUIView extends RemoteView {
 	public GUIView(Stage window) {
 		this.window = window;
 		loadLoginController();
+		loadLobbyController();
 	}
 
 	public void loadLoginController() {
@@ -61,18 +65,17 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-//	public void loadConnectionController(){
-//		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ConnectionController.fxml"));
-//		try {
-//			Parent root = loader.load();
-//			window.setTitle("Adrenaline");
-//			connectionScene = new Scene(root);
-//			connectionController = loader.getController();
-//		}catch(IOException e)
-//		{
-//			Utils.logError("Error loading loginController",e);
-//		}
-//	}
+	public void loadLobbyController() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/LobbyController.fxml"));
+		try {
+			Parent root = loader.load();
+			window.setTitle("Adrenaline");
+			lobbyScene = new Scene(root);
+			lobbyController = loader.getController();
+		} catch (IOException e) {
+			Utils.logError("Error loading loginController", e);
+		}
+	}
 
 	@Override
 	public void askForConnectionAndStartIt() {
@@ -138,7 +141,12 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void displayWaitingPlayers(List<String> waitingPlayers) {
-		guiController.displayWaitingPlayers(waitingPlayers);
+		Platform.runLater(() -> {
+			lobbyController.showNicknames(waitingPlayers);
+			window.setScene(lobbyScene);
+			window.show();
+		});
+//		guiController.displayWaitingPlayers(waitingPlayers);
 //		if(waitingRoomFrame == null)
 //			showWaitingRoomFrame();
 //
