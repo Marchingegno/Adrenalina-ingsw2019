@@ -22,6 +22,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GUIView extends RemoteView {
@@ -37,6 +38,9 @@ public class GUIView extends RemoteView {
 	private LobbyController lobbyController;
 	private Scene lobbyScene;
 
+	private MapAndSkullsController mapAndSkullsController;
+	private Scene mapAndSklullsScene;
+
 	private Stage window;
 
 	//TO REMOVE
@@ -50,6 +54,7 @@ public class GUIView extends RemoteView {
 		this.window = window;
 		loadLoginController();
 		loadLobbyController();
+		loadMapsAndSkulls();
 	}
 
 	public void loadLoginController() {
@@ -77,31 +82,21 @@ public class GUIView extends RemoteView {
 		}
 	}
 
+	public void loadMapsAndSkulls() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MapAndSkulls.fxml"));
+		try {
+			Parent root = loader.load();
+			mapAndSklullsScene = new Scene(root);
+			mapAndSkullsController = loader.getController();
+			mapAndSkullsController.setGui(this);
+			window.setTitle("Adrenaline");
+		} catch (IOException e) {
+			Utils.logError("Error loading loginController", e);
+		}
+	}
+
 	@Override
 	public void askForConnectionAndStartIt() {
-//		Object[] options = {"RMI", "Socket"};
-//		int answer = JOptionPane.showOptionDialog(null,
-//				"Which connection would you like to use?",
-//				"Connection",
-//				JOptionPane.DEFAULT_OPTION,
-//				JOptionPane.QUESTION_MESSAGE,
-//				null,
-//				options,
-//				options[0]);
-//		switch(answer) {
-//			case 0:
-//				startConnectionWithRMI();
-//				break;
-//			case 1:
-//				startConnectionWithSocket();
-//				break;
-//			case JOptionPane.CLOSED_OPTION:
-//				closeProgram();
-//				break;
-//			default:
-//				startConnectionWithRMI();
-//				break;
-//		}
 	}
 
 	@Override
@@ -122,15 +117,6 @@ public class GUIView extends RemoteView {
 			window.setScene(loginScene);
 			window.show();
 		});
-
-//		String input = JOptionPane.showInputDialog(null,
-//				"Enter your nickname.",
-//				"Nickname",
-//				JOptionPane.QUESTION_MESSAGE);
-//		if(input == null)
-//			closeProgram();
-//		else
-//			sendMessage(new NicknameMessage(input, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -146,12 +132,6 @@ public class GUIView extends RemoteView {
 			window.setScene(lobbyScene);
 			window.show();
 		});
-//		guiController.displayWaitingPlayers(waitingPlayers);
-//		if(waitingRoomFrame == null)
-//			showWaitingRoomFrame();
-//
-//		waitingPlayersTextWaitingRoom.setText("Players in the waiting room: " + waitingPlayers.toString() + ".");
-//		waitingRoomFrame.pack();
 	}
 
 	@Override
@@ -176,8 +156,17 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askMapAndSkullsToUse() {
-		closeWaitingRoomFrame();
-		showGameConfigFrame();
+		Platform.runLater(() -> {
+			List<String> mapsName = new ArrayList<>();
+			for (GameConstants.MapType map : GameConstants.MapType.values()) {
+				mapsName.add(map.getMapName());
+			}
+			mapAndSkullsController.set(mapsName, GameConstants.MIN_SKULLS, GameConstants.MAX_SKULLS);
+			window.setScene(mapAndSklullsScene);
+			window.show();
+		});
+//		closeWaitingRoomFrame();
+//		showGameConfigFrame();
 	}
 
 	@Override
