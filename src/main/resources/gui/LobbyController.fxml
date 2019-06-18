@@ -15,6 +15,7 @@
                 <Font size="27.0"/>
             </font>
         </Label>
-        <Label fx:id="timerLabel" layoutX="50.0" layoutY="261.0" textFill="WHITE"/>
+        <Label fx:id="timerLabel" layoutX="50.0" layoutY="261.0" text="The match will start soon..." textFill="WHITE"
+               visible="false"/>
     </children>
 </AnchorPane>

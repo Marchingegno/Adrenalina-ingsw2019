@@ -23,6 +23,10 @@ public class LobbyController {
 	}
 
 	public void startTimer() {
-		timerLabel.setText("The match will start soon...");
+		timerLabel.setVisible(true);
+	}
+
+	public void stopTimer() {
+		timerLabel.setVisible(false);
 	}
 }

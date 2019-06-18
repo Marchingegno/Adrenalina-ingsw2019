@@ -161,11 +161,15 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void displayTimerStopped() {
-		if(waitingRoomFrame == null)
-			showWaitingRoomFrame();
+		Platform.runLater(() ->
+				lobbyController.stopTimer()
+		);
 
-		timerTextWaitingRoom.setText("Timer for starting the match cancelled.");
-		waitingRoomFrame.pack();
+//		if(waitingRoomFrame == null)
+//			showWaitingRoomFrame();
+//
+//		timerTextWaitingRoom.setText("Timer for starting the match cancelled.");
+//		waitingRoomFrame.pack();
 	}
 
 	@Override
