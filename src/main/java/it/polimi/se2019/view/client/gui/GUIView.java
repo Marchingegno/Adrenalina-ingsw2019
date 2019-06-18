@@ -40,6 +40,9 @@ public class GUIView extends RemoteView {
 	private MapAndSkullsController mapAndSkullsController;
 	private Scene mapAndSklullsScene;
 
+	private GameBoardController gameBoardController;
+	private Scene gameBoardScene;
+
 	private Stage window;
 
 	//TO REMOVE
@@ -54,6 +57,7 @@ public class GUIView extends RemoteView {
 		loadLoginController();
 		loadLobbyController();
 		loadMapsAndSkulls();
+		loadGameBoard();
 	}
 
 	public void loadLoginController() {
@@ -94,6 +98,18 @@ public class GUIView extends RemoteView {
 		}
 	}
 
+	public void loadGameBoard() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GameBoardController.fxml"));
+		try {
+			Parent root = loader.load();
+			gameBoardScene = new Scene(root);
+			gameBoardController = loader.getController();
+			window.setTitle("Adrenaline");
+		} catch (IOException e) {
+			Utils.logError("Error loading loginController", e);
+		}
+	}
+
 	@Override
 	public void askForConnectionAndStartIt() {
 	}
@@ -120,8 +136,11 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askNicknameError() {
-		JOptionPane.showMessageDialog(null, "The nickname already exists or is not valid, please use a different one.", "Nickname Error", JOptionPane.WARNING_MESSAGE);
-		askNickname();
+		Platform.runLater(() -> {
+			loginController.nicknameAlreadyChoosen();
+		});
+//		JOptionPane.showMessageDialog(null, "The nickname already exists or is not valid, please use a different one.", "Nickname Error", JOptionPane.WARNING_MESSAGE);
+//		askNickname();
 	}
 
 	@Override
@@ -135,16 +154,9 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void displayTimerStarted(long delayInMs) {
-		Platform.runLater(() -> {
-			lobbyController.startTimer();
-		});
-//		if(waitingRoomFrame == null)
-//			showWaitingRoomFrame();
-//
-//		DecimalFormat decimalFormat = new DecimalFormat();
-//		decimalFormat.setMaximumFractionDigits(0);
-//		timerTextWaitingRoom.setText("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
-//		waitingRoomFrame.pack();
+		Platform.runLater(() ->
+				lobbyController.startTimer()
+		);
 	}
 
 	@Override
@@ -199,7 +211,10 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void updateDisplay() {
-
+		Platform.runLater(() -> {
+			window.setScene(gameBoardScene);
+			window.show();
+		});
 	}
 
 	@Override
