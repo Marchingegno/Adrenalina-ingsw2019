@@ -3,15 +3,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="255.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+            minWidth="-Infinity" prefHeight="255.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="it.polimi.se2019.view.client.gui.MapAndSkullsController">
     <children>
         <Button fx:id="doneButton" layoutX="473.0" layoutY="202.0" mnemonicParsing="false" onAction="#done"
                 text="Done"/>
-        <Label layoutX="126.0" layoutY="81.0" text="Choose the map"/>
-        <Label layoutX="369.0" layoutY="81.0" text="Choose the number of skulls"/>
+        <Label layoutX="127.0" layoutY="111.0" text="Choose the map"/>
+        <Label layoutX="370.0" layoutY="111.0" text="Choose the number of skulls"/>
         <ComboBox fx:id="mapComboBox" layoutX="95.0" layoutY="141.0" prefWidth="150.0"/>
         <ComboBox fx:id="skullsComboBox" layoutX="370.0" layoutY="141.0" prefWidth="150.0"/>
+        <Label fx:id="waitingLabel" layoutX="230.0" layoutY="51.0" text="Waiting for other players..." visible="false"/>
     </children>
 </AnchorPane>

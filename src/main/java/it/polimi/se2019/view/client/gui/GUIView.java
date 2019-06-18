@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,13 +135,16 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void displayTimerStarted(long delayInMs) {
-		if(waitingRoomFrame == null)
-			showWaitingRoomFrame();
-
-		DecimalFormat decimalFormat = new DecimalFormat();
-		decimalFormat.setMaximumFractionDigits(0);
-		timerTextWaitingRoom.setText("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
-		waitingRoomFrame.pack();
+		Platform.runLater(() -> {
+			lobbyController.startTimer();
+		});
+//		if(waitingRoomFrame == null)
+//			showWaitingRoomFrame();
+//
+//		DecimalFormat decimalFormat = new DecimalFormat();
+//		decimalFormat.setMaximumFractionDigits(0);
+//		timerTextWaitingRoom.setText("The match will start in " + decimalFormat.format(delayInMs / 1000d) + " seconds...");
+//		waitingRoomFrame.pack();
 	}
 
 	@Override

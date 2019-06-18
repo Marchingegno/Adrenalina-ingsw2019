@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 
 import java.util.List;
 
@@ -22,22 +23,23 @@ public class MapAndSkullsController {
 	private ComboBox<String> mapComboBox;
 	@FXML
 	private ComboBox<String> skullsComboBox;
+	@FXML
+	private Label waitingLabel;
 
 	public void setGui(GUIView guiView) {
 		this.guiView = guiView;
 	}
 
 	public void set(List<String> maps, int minSkulls, int maxSkulls) {
-		System.out.println(maps);
 		mapOptions = observableArrayList();
 		mapOptions.addAll(maps);
 		mapComboBox.setItems(mapOptions);
+		mapComboBox.setValue(maps.get(0));
 		ObservableList<String> skullsOptions = observableArrayList();
 		for (int i = minSkulls; i <= maxSkulls; i++)
 			skullsOptions.add(Integer.toString(i));
 		skullsComboBox.setItems(skullsOptions);
-
-		System.out.println(maps);
+		skullsComboBox.setValue(skullsOptions.get(0));
 	}
 
 	@FXML
@@ -47,5 +49,9 @@ public class MapAndSkullsController {
 		gameConfigMessage.setMapIndex(mapOptions.indexOf(chosenMap));
 		gameConfigMessage.setSkulls(Integer.parseInt(skullsComboBox.getSelectionModel().getSelectedItem()));
 		guiView.sendMessage(gameConfigMessage);
+		doneButton.setDisable(true);
+		mapComboBox.setDisable(true);
+		skullsComboBox.setDisable(true);
+		waitingLabel.setVisible(true);
 	}
 }
