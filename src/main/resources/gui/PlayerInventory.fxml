@@ -17,7 +17,7 @@
         <ImageView fx:id="playerBoard" fitHeight="193.0" fitWidth="792.0" layoutX="178.0" layoutY="113.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/dstructorNormalBoard.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorNormalBoard.png"/>
             </image>
         </ImageView>
         <Label fx:id="nickname" layoutX="56.0" layoutY="42.0" text="NICKNAME" textFill="WHITE">
