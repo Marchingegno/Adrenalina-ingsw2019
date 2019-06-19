@@ -4,47 +4,223 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="760.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1"
+            minWidth="-Infinity" prefHeight="857.0" prefWidth="1125.0" style="-fx-background-color: #131003;"
+            xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="it.polimi.se2019.view.client.gui.GameBoardController">
     <children>
-        <Button fx:id="button20" disable="true" layoutX="195.0" layoutY="449.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
-                textOverrun="CLIP" AnchorPane.bottomAnchor="191.0" AnchorPane.leftAnchor="195.0"
-                AnchorPane.rightAnchor="585.0" AnchorPane.topAnchor="449.0"/>
-        <Button fx:id="button02" disable="true" layoutX="456.0" layoutY="191.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <ImageView fx:id="backGround" fitHeight="820.0" fitWidth="1080.0" layoutX="20.0" layoutY="20.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/maps/BigMap.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="172.0" fitWidth="103.0" layoutX="960.0" layoutY="240.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/weapons/weapon_back.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull0" fitHeight="25.0" fitWidth="25.0" layoutX="106.0" layoutY="76.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull1" fitHeight="25.0" fitWidth="25.0" layoutX="155.0" layoutY="76.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull2" fitHeight="25.0" fitWidth="25.0" layoutX="201.0" layoutY="77.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull3" fitHeight="25.0" fitWidth="25.0" layoutX="244.0" layoutY="76.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull4" fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="77.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull5" fitHeight="25.0" fitWidth="25.0" layoutX="339.0" layoutY="78.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull6" fitHeight="25.0" fitWidth="25.0" layoutX="380.0" layoutY="77.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull7" fitHeight="25.0" fitWidth="25.0" layoutX="423.0" layoutY="76.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageBlue1" fitHeight="172.0" fitWidth="103.0" layoutX="711.0" layoutY="3.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageBlue0" fitHeight="172.0" fitWidth="103.0" layoutX="592.0" layoutY="3.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageBlue3" fitHeight="172.0" fitWidth="103.0" layoutX="828.0" layoutY="3.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageYellow0" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="450.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageYellow1" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="567.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageYellow2" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="685.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageRed0" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="284.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageRed1" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="401.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="cardImageRed2" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="519.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
+            <image>
+                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="111.0" fitWidth="81.0" layoutX="990.0" layoutY="64.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/powerups/powerups_back.png"/>
+            </image>
+        </ImageView>
+        <Button fx:id="button20" disable="true" layoutX="195.0" layoutY="570.0" mnemonicParsing="false"
+                prefHeight="178.0" prefWidth="167.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                textOverrun="CLIP" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="195.0"
+                AnchorPane.rightAnchor="763.0" AnchorPane.topAnchor="570.0"/>
+        <Button fx:id="button02" disable="true" layoutX="564.0" layoutY="189.0" mnemonicParsing="false"
+                prefHeight="180.0" prefWidth="197.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button12" disable="true" layoutX="456.0" layoutY="319.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button12" disable="true" layoutX="564.0" layoutY="366.0" mnemonicParsing="false"
+                prefHeight="203.0" prefWidth="196.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button11" disable="true" layoutX="325.0" layoutY="319.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button11" disable="true" layoutX="361.0" layoutY="367.0" mnemonicParsing="false"
+                prefHeight="203.0" prefWidth="203.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button10" disable="true" layoutX="195.0" layoutY="319.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button10" disable="true" layoutX="195.0" layoutY="368.0" mnemonicParsing="false"
+                prefHeight="203.0" prefWidth="167.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button01" disable="true" layoutX="325.0" layoutY="191.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button01" disable="true" layoutX="361.0" layoutY="189.0" mnemonicParsing="false"
+                prefHeight="180.0" prefWidth="203.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button21" disable="true" layoutX="325.0" layoutY="449.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button21" disable="true" layoutX="361.0" layoutY="568.0" mnemonicParsing="false"
+                prefHeight="178.0" prefWidth="203.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button00" disable="true" layoutX="195.0" layoutY="191.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button00" disable="true" layoutX="194.0" layoutY="189.0" mnemonicParsing="false"
+                prefHeight="180.0" prefWidth="167.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button22" disable="true" layoutX="456.0" layoutY="449.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button22" disable="true" layoutX="563.0" layoutY="568.0" mnemonicParsing="false"
+                prefHeight="178.0" prefWidth="197.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button03" disable="true" layoutX="586.0" layoutY="191.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button03" disable="true" layoutX="762.0" layoutY="188.0" mnemonicParsing="false"
+                prefHeight="180.0" prefWidth="170.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button13" disable="true" layoutX="586.0" layoutY="319.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button13" disable="true" layoutX="760.0" layoutY="368.0" mnemonicParsing="false"
+                prefHeight="203.0" prefWidth="170.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <Button fx:id="button23" disable="true" layoutX="586.0" layoutY="449.0" mnemonicParsing="false"
-                prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"
+        <Button fx:id="button23" disable="true" layoutX="759.0" layoutY="568.0" mnemonicParsing="false"
+                prefHeight="178.0" prefWidth="170.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                 textOverrun="CLIP"/>
-        <GridPane fx:id="square00" layoutX="195.0" layoutY="191.0" prefHeight="120.0" prefWidth="120.0">
+        <Button fx:id="weaponBlue0" layoutX="591.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponBlue1" layoutX="710.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponBlue3" layoutX="827.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponRed0" layoutX="36.0" layoutY="284.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="172.0" prefWidth="103.0"
+                rotate="90.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponRed1" layoutX="36.0" layoutY="401.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="172.0" prefWidth="103.0"
+                rotate="90.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponRed2" layoutX="36.0" layoutY="519.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="172.0" prefWidth="103.0"
+                rotate="90.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponYellow0" layoutX="986.0" layoutY="449.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
+                rotate="90.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponYellow1" layoutX="986.0" layoutY="566.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
+                rotate="90.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponYellow2" layoutX="986.0" layoutY="684.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
+                rotate="90.0"
+                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button layoutX="337.0" layoutY="799.0" mnemonicParsing="false"
+                style="-fx-background-color: trasparent; -fx-border-color: red;"/>
+        <Button layoutX="538.0" layoutY="787.0" mnemonicParsing="false"
+                style="-fx-background-color: trasparent; -fx-border-color: red;"/>
+        <Button layoutX="455.0" layoutY="799.0" mnemonicParsing="false"
+                style="-fx-background-color: trasparent; -fx-border-color: red;"/>
+        <Button layoutX="632.0" layoutY="799.0" mnemonicParsing="false"
+                style="-fx-background-color: trasparent; -fx-border-color: red;"/>
+        <Button layoutX="721.0" layoutY="799.0" mnemonicParsing="false"
+                style="-fx-background-color: trasparent; -fx-border-color: red;"/>
+        <GridPane fx:id="square22" layoutX="485.0" layoutY="-140.0" prefHeight="160.0" prefWidth="150.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -55,165 +231,5 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
         </GridPane>
-        <GridPane fx:id="square01" layoutX="325.0" layoutY="191.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square02" layoutX="456.0" layoutY="191.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square03" layoutX="586.0" layoutY="191.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square10" layoutX="195.0" layoutY="319.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square11" layoutX="325.0" layoutY="319.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square12" layoutX="456.0" layoutY="319.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square13" layoutX="586.0" layoutY="319.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square20" layoutX="195.0" layoutY="449.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square21" layoutX="325.0" layoutY="449.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square22" layoutX="456.0" layoutY="449.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <GridPane fx:id="square23" layoutX="586.0" layoutY="449.0" prefHeight="120.0" prefWidth="120.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-        <Button fx:id="weaponBlue1" layoutX="456.0" layoutY="14.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponBlue2" layoutX="586.0" layoutY="14.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponBlue3" layoutX="717.0" layoutY="14.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponRed1" layoutX="14.0" layoutY="319.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponRed2" layoutX="14.0" layoutY="449.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponRed3" layoutX="14.0" layoutY="579.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponYellow1" layoutX="766.0" layoutY="320.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponYellow2" layoutX="766.0" layoutY="449.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="weaponYellow3" layoutX="766.0" layoutY="579.0" mnemonicParsing="false" prefHeight="120.0"
-                prefWidth="120.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <ImageView fx:id="skull0" fitHeight="50.0" fitWidth="50.0" layoutX="29.0" layoutY="31.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <ImageView fx:id="skull1" fitHeight="50.0" fitWidth="50.0" layoutX="79.0" layoutY="32.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <ImageView fx:id="skull2" fitHeight="50.0" fitWidth="50.0" layoutX="129.0" layoutY="31.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <ImageView fx:id="skull3" fitHeight="50.0" fitWidth="50.0" layoutX="179.0" layoutY="31.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <ImageView fx:id="skull4" fitHeight="50.0" fitWidth="50.0" layoutX="229.0" layoutY="31.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <ImageView fx:id="skull5" fitHeight="50.0" fitWidth="50.0" layoutX="279.0" layoutY="31.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <ImageView fx:id="skull6" fitHeight="50.0" fitWidth="50.0" layoutX="329.0" layoutY="31.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <ImageView fx:id="skull7" fitHeight="50.0" fitWidth="50.0" layoutX="379.0" layoutY="31.0" pickOnBounds="true"
-                   preserveRatio="true"/>
-        <Button layoutX="229.0" layoutY="687.0" mnemonicParsing="false" text="Button"/>
-        <Button layoutX="348.0" layoutY="687.0" mnemonicParsing="false" text="Button"/>
-        <Button layoutX="289.0" layoutY="687.0" mnemonicParsing="false" text="Button"/>
-        <Button layoutX="413.0" layoutY="687.0" mnemonicParsing="false" text="Button"/>
-        <Button layoutX="473.0" layoutY="687.0" mnemonicParsing="false" text="Button"/>
     </children>
 </AnchorPane>
