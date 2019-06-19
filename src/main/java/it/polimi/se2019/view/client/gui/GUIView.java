@@ -1,10 +1,7 @@
 package it.polimi.se2019.view.client.gui;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
-import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.model.gamemap.GameMapRep;
-import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
@@ -215,8 +212,8 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void updateDisplay() {
-		updateGameBoardController();
 		Platform.runLater(() -> {
+			updateGameBoardController();
 			window.setScene(gameBoardScene);
 			window.show();
 		});
@@ -268,21 +265,6 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askEnd(boolean activablePowerups) {
-
-	}
-
-	@Override
-	public void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate) {
-
-	}
-
-	@Override
-	public void updateGameMapRep(GameMapRep gameMapRepToUpdate) {
-
-	}
-
-	@Override
-	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 
 	}
 
