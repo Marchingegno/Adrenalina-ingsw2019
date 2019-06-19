@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="857.0" prefWidth="1125.0" style="-fx-background-color: #131003;"
             xmlns="http://javafx.com/javafx/11.0.1"
@@ -19,54 +19,6 @@
                    preserveRatio="true">
             <image>
                 <Image url="@../graphicassets/weapons/weapon_back.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull0" fitHeight="25.0" fitWidth="25.0" layoutX="106.0" layoutY="76.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull1" fitHeight="25.0" fitWidth="25.0" layoutX="155.0" layoutY="76.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull2" fitHeight="25.0" fitWidth="25.0" layoutX="201.0" layoutY="77.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull3" fitHeight="25.0" fitWidth="25.0" layoutX="244.0" layoutY="76.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull4" fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="77.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull5" fitHeight="25.0" fitWidth="25.0" layoutX="339.0" layoutY="78.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull6" fitHeight="25.0" fitWidth="25.0" layoutX="380.0" layoutY="77.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
-            </image>
-        </ImageView>
-        <ImageView fx:id="skull7" fitHeight="25.0" fitWidth="25.0" layoutX="423.0" layoutY="76.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="cardImageBlue1" fitHeight="172.0" fitWidth="103.0" layoutX="711.0" layoutY="3.0"
@@ -159,56 +111,55 @@
                 <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
             </image>
         </ImageView>
-        <Group layoutX="195.0" layoutY="368.0">
+        <Group fx:id="square13" layoutX="759.0" layoutY="368.0">
+            <children>
+                <Button fx:id="button13" disable="true" mnemonicParsing="false" prefHeight="203.0" prefWidth="170.0"
+                        style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        textOverrun="CLIP"/>
+                <ImageView fx:id="ammoCard13" fitHeight="43.0" fitWidth="41.0" layoutX="2.0" layoutY="132.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../graphicassets/ammo/B_R_R.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="srprog13" fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="37.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="violet13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="37.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="playerIcon0122" fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="82.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="dozer13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="82.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="destructor13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="127.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </Group>
+        <Group fx:id="square20" layoutX="195.0" layoutY="368.0">
             <children>
                 <Button fx:id="button20" disable="true" layoutY="202.0" mnemonicParsing="false" prefHeight="178.0"
                         prefWidth="167.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
                         textOverrun="CLIP"/>
-                <Group layoutX="565.0">
-                    <children>
-                        <Button fx:id="button13" disable="true" mnemonicParsing="false" prefHeight="203.0"
-                                prefWidth="170.0"
-                                style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                                textOverrun="CLIP"/>
-                        <ImageView fx:id="ammoCard13" fitHeight="43.0" fitWidth="41.0" layoutX="2.0" layoutY="132.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphicassets/ammo/B_R_R.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="srprog13" fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="37.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="violet13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="37.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="playerIcon0122" fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="82.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="dozer13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="82.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="destructor13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="127.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
-                            </image>
-                        </ImageView>
-                    </children>
-                </Group>
                 <ImageView fx:id="ammoCard20" fitHeight="43.0" fitWidth="41.0" layoutX="51.0" layoutY="289.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -247,7 +198,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="564.0" layoutY="189.0">
+        <Group fx:id="square02" layoutX="564.0" layoutY="189.0">
             <children>
                 <Button fx:id="button02" disable="true" mnemonicParsing="false" prefHeight="180.0" prefWidth="197.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -284,7 +235,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="564.0" layoutY="366.0">
+        <Group fx:id="square12" layoutX="564.0" layoutY="366.0">
             <children>
                 <Button fx:id="button12" disable="true" mnemonicParsing="false" prefHeight="203.0" prefWidth="196.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -327,7 +278,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="361.0" layoutY="367.0">
+        <Group fx:id="square11" layoutX="361.0" layoutY="367.0">
             <children>
                 <Button fx:id="button11" disable="true" mnemonicParsing="false" prefHeight="203.0" prefWidth="203.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -370,7 +321,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="195.0" layoutY="368.0">
+        <Group fx:id="square10" layoutX="195.0" layoutY="368.0">
             <children>
                 <Button fx:id="button10" disable="true" mnemonicParsing="false" prefHeight="203.0" prefWidth="167.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -407,7 +358,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="361.0" layoutY="189.0">
+        <Group fx:id="square01" layoutX="361.0" layoutY="189.0">
             <children>
                 <Button fx:id="button01" disable="true" mnemonicParsing="false" prefHeight="180.0" prefWidth="203.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -450,7 +401,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="361.0" layoutY="568.0">
+        <Group fx:id="square21" layoutX="361.0" layoutY="568.0">
             <children>
                 <Button fx:id="button21" disable="true" mnemonicParsing="false" prefHeight="178.0" prefWidth="203.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -493,7 +444,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="194.0" layoutY="189.0">
+        <Group fx:id="square00" layoutX="194.0" layoutY="189.0">
             <children>
                 <Button fx:id="button00" disable="true" mnemonicParsing="false" prefHeight="180.0" prefWidth="167.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -536,7 +487,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="563.0" layoutY="568.0">
+        <Group fx:id="square22" layoutX="563.0" layoutY="568.0">
             <children>
                 <Button fx:id="button22" disable="true" mnemonicParsing="false" prefHeight="178.0" prefWidth="197.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -579,7 +530,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="762.0" layoutY="188.0">
+        <Group fx:id="square03" layoutX="762.0" layoutY="188.0">
             <children>
                 <Button fx:id="button03" disable="true" mnemonicParsing="false" prefHeight="180.0" prefWidth="170.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -622,7 +573,7 @@
                 </ImageView>
             </children>
         </Group>
-        <Group layoutX="759.0" layoutY="568.0">
+        <Group fx:id="square23" layoutX="759.0" layoutY="568.0">
             <children>
                 <Button fx:id="button23" disable="true" mnemonicParsing="false" prefHeight="178.0" prefWidth="170.0"
                         style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
@@ -694,17 +645,6 @@
                 style="-fx-background-color: trasparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
         <Button layoutX="388.0" layoutY="774.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="49.0"
                 style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <GridPane fx:id="square22" layoutX="485.0" layoutY="-140.0" prefHeight="160.0" prefWidth="150.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
         <Button layoutX="456.0" layoutY="774.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="49.0"
                 style="-fx-background-color: trasparent; -fx-border-color: red;"/>
         <Button layoutX="615.0" layoutY="773.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="49.0"
@@ -713,5 +653,329 @@
                 style="-fx-background-color: trasparent; -fx-border-color: red;"/>
         <Button layoutX="523.0" layoutY="754.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="69.0"
                 style="-fx-background-color: trasparent; -fx-border-color: red;"/>
+        <ImageView fx:id="skulltoken00" fitHeight="50.0" fitWidth="50.0" layoutX="91.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken01" fitHeight="50.0" fitWidth="50.0" layoutX="101.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken10" fitHeight="50.0" fitWidth="50.0" layoutX="138.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken11" fitHeight="50.0" fitWidth="50.0" layoutX="148.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken20" fitHeight="50.0" fitWidth="50.0" layoutX="183.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken21" fitHeight="50.0" fitWidth="50.0" layoutX="193.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken30" fitHeight="50.0" fitWidth="50.0" layoutX="229.0" layoutY="60.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken31" fitHeight="50.0" fitWidth="50.0" layoutX="239.0" layoutY="70.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken40" fitHeight="50.0" fitWidth="50.0" layoutX="275.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken41" fitHeight="50.0" fitWidth="50.0" layoutX="285.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken50" fitHeight="50.0" fitWidth="50.0" layoutX="320.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken51" fitHeight="50.0" fitWidth="50.0" layoutX="330.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken60" fitHeight="50.0" fitWidth="50.0" layoutX="365.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken61" fitHeight="50.0" fitWidth="50.0" layoutX="375.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken70" fitHeight="50.0" fitWidth="50.0" layoutX="410.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken71" fitHeight="50.0" fitWidth="50.0" layoutX="420.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken80" fitHeight="50.0" fitWidth="50.0" layoutX="448.0" layoutY="25.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken81" fitHeight="50.0" fitWidth="50.0" layoutX="458.0" layoutY="35.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken90" fitHeight="50.0" fitWidth="50.0" layoutX="484.0" layoutY="25.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken91" fitHeight="50.0" fitWidth="50.0" layoutX="494.0" layoutY="35.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken100" fitHeight="50.0" fitWidth="50.0" layoutX="520.0" layoutY="24.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken101" fitHeight="50.0" fitWidth="50.0" layoutX="530.0" layoutY="34.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken110" fitHeight="50.0" fitWidth="50.0" layoutX="448.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken111" fitHeight="50.0" fitWidth="50.0" layoutX="458.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken120" fitHeight="50.0" fitWidth="50.0" layoutX="484.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken121" fitHeight="50.0" fitWidth="50.0" layoutX="494.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken130" fitHeight="50.0" fitWidth="50.0" layoutX="520.0" layoutY="59.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken131" fitHeight="50.0" fitWidth="50.0" layoutX="530.0" layoutY="69.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken140" fitHeight="50.0" fitWidth="50.0" layoutX="448.0" layoutY="95.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken141" fitHeight="50.0" fitWidth="50.0" layoutX="458.0" layoutY="105.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken150" fitHeight="50.0" fitWidth="50.0" layoutX="485.0" layoutY="95.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken151" fitHeight="50.0" fitWidth="50.0" layoutX="495.0" layoutY="105.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken160" fitHeight="50.0" fitWidth="50.0" layoutX="521.0" layoutY="95.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skulltoken161" fitHeight="50.0" fitWidth="50.0" layoutX="531.0" layoutY="105.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken00" fitHeight="50.0" fitWidth="50.0" layoutX="56.0" layoutY="155.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken01" fitHeight="50.0" fitWidth="50.0" layoutX="66.0" layoutY="165.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken10" fitHeight="50.0" fitWidth="50.0" layoutX="92.0" layoutY="155.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken10" fitHeight="50.0" fitWidth="50.0" layoutX="102.0" layoutY="165.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken20" fitHeight="50.0" fitWidth="50.0" layoutX="128.0" layoutY="154.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken21" fitHeight="50.0" fitWidth="50.0" layoutX="138.0" layoutY="164.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken30" fitHeight="50.0" fitWidth="50.0" layoutX="46.0" layoutY="191.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken31" fitHeight="50.0" fitWidth="50.0" layoutX="56.0" layoutY="201.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken12" fitHeight="50.0" fitWidth="50.0" layoutX="82.0" layoutY="191.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken12" fitHeight="50.0" fitWidth="50.0" layoutX="92.0" layoutY="201.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken111" fitHeight="50.0" fitWidth="50.0" layoutX="118.0" layoutY="190.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="dobleKillToken111" fitHeight="50.0" fitWidth="50.0" layoutX="128.0" layoutY="200.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull0" fitHeight="25.0" fitWidth="25.0" layoutX="106.0" layoutY="80.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull1" fitHeight="25.0" fitWidth="25.0" layoutX="155.0" layoutY="80.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull2" fitHeight="25.0" fitWidth="25.0" layoutX="201.0" layoutY="81.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull3" fitHeight="25.0" fitWidth="25.0" layoutX="244.0" layoutY="80.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull4" fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="81.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull5" fitHeight="25.0" fitWidth="25.0" layoutX="339.0" layoutY="82.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull6" fitHeight="25.0" fitWidth="25.0" layoutX="380.0" layoutY="81.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="skull7" fitHeight="25.0" fitWidth="25.0" layoutX="423.0" layoutY="80.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>
