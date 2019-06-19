@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class GameMapRep implements Representation {
 
+	private String mapName;
 	private int numOfRows;
 	private int numOfColumns;
 	private SquareRep[][] mapRep;
@@ -38,6 +39,12 @@ public class GameMapRep implements Representation {
 
 		playersPositions = new HashMap<>();
 		gameMapToRepresent.getPlayersCoordinates().forEach((player, coordinates) -> playersPositions.put(player.getPlayerName(), coordinates));
+
+		mapName = gameMapToRepresent.getName();
+	}
+
+	public String getName() {
+		return mapName;
 	}
 
 	public int getNumOfRows() {

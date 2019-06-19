@@ -26,6 +26,7 @@ import java.util.*;
  */
 public class GameMap extends Observable implements Representable {
 
+	private String mapName;
 	private int numOfRows;
 	private int numOfColumns;
 	private Square[][] map;
@@ -45,12 +46,21 @@ public class GameMap extends Observable implements Representable {
 			playersPositions.put(playerToAdd, null);
 		}
 
+		this.mapName = mapName;
+
 		setChanged();
 	}
 
 	// ####################################
 	// MAP METHODS
 	// ####################################
+
+	/**
+	 * Returns the name of the map.
+	 */
+	public String getName() {
+		return mapName;
+	}
 
 	/**
 	 * Returns the number of rows.

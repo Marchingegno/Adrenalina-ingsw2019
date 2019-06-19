@@ -1,9 +1,10 @@
 package it.polimi.se2019.view.client.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 
 public class GameBoardController {
 	@FXML
@@ -32,48 +33,48 @@ public class GameBoardController {
 	private Button button23;
 
 	@FXML
-	private GridPane square00;
+	private Group square00;
 	@FXML
-	private GridPane square01;
+	private Group square01;
 	@FXML
-	private GridPane square02;
+	private Group square02;
 	@FXML
-	private GridPane square03;
+	private Group square03;
 	@FXML
-	private GridPane square10;
+	private Group square10;
 	@FXML
-	private GridPane square11;
+	private Group square11;
 	@FXML
-	private GridPane square12;
+	private Group square12;
 	@FXML
-	private GridPane square13;
+	private Group square13;
 	@FXML
-	private GridPane square20;
+	private Group square20;
 	@FXML
-	private GridPane square21;
+	private Group square21;
 	@FXML
-	private GridPane square22;
+	private Group square22;
 	@FXML
-	private GridPane square23;
+	private Group square23;
 
+	@FXML
+	private Button weaponRed0;
 	@FXML
 	private Button weaponRed1;
 	@FXML
 	private Button weaponRed2;
 	@FXML
-	private Button weaponRed3;
+	private Button weaponBlue0;
 	@FXML
 	private Button weaponBlue1;
 	@FXML
 	private Button weaponBlue2;
 	@FXML
-	private Button weaponBlue3;
+	private Button weaponYellow0;
 	@FXML
 	private Button weaponYellow1;
 	@FXML
 	private Button weaponYellow2;
-	@FXML
-	private Button weaponYellow3;
 
 	@FXML
 	private ImageView skull0;
@@ -92,4 +93,14 @@ public class GameBoardController {
 	@FXML
 	private ImageView skull7;
 
+	@FXML
+	private ImageView backGround;
+
+	private Image loadImage(String filePath) {
+		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
+	}
+
+	public void setMap(String mapName) {
+		backGround.setImage(loadImage("maps/" + mapName));
+	}
 }
