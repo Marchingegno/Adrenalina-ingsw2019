@@ -7,11 +7,13 @@ public class PowerupCardRep extends CardRep {
 
 	private AmmoType associatedAmmo;
 	private PowerupCard.PowerupUseCaseType powerupUseCaseType;
+	private String imagePath;
 
 	public PowerupCardRep(PowerupCard powerupCard) {
 		super(powerupCard);
 		this.associatedAmmo = powerupCard.getAssociatedAmmo();
 		this.powerupUseCaseType = powerupCard.getUseCase();
+		this.imagePath = powerupCard.getImagePath();
 	}
 
 	/**
@@ -30,5 +32,14 @@ public class PowerupCardRep extends CardRep {
 	 */
 	public PowerupCard.PowerupUseCaseType getUseCase() {
 		return powerupUseCaseType;
+	}
+
+	/**
+	 * Returns the image path.
+	 *
+	 * @return the image path.
+	 */
+	public String getImagePath() {
+		return imagePath;
 	}
 }

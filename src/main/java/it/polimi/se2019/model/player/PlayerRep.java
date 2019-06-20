@@ -132,6 +132,15 @@ public class PlayerRep implements Representation {
 	}
 
 	/**
+	 * Return the pg name.
+	 *
+	 * @return the pg name.
+	 */
+	public String getPgName() {
+		return pgName;
+	}
+
+	/**
 	 * Return the player ID.
 	 *
 	 * @return the player ID.

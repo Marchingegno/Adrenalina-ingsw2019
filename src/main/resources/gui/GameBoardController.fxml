@@ -84,31 +84,31 @@
         <ImageView fx:id="playerIcon1" fitHeight="60.0" fitWidth="49.0" layoutX="388.0" layoutY="774.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="playerIcon2" fitHeight="60.0" fitWidth="49.0" layoutX="456.0" layoutY="774.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="playerIcon0" fitHeight="68.0" fitWidth="87.0" layoutX="524.0" layoutY="754.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="playerIcon3" fitHeight="60.0" fitWidth="49.0" layoutX="615.0" layoutY="773.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="playerIcon4" fitHeight="60.0" fitWidth="49.0" layoutX="683.0" layoutY="773.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
             </image>
         </ImageView>
         <Group fx:id="square13" layoutX="759.0" layoutY="368.0">
@@ -125,31 +125,31 @@
                 <ImageView fx:id="banshee13" fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="37.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="37.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog13" fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="82.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="82.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="127.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -169,31 +169,31 @@
                 <ImageView fx:id="banshee20" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="225.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet20" fitHeight="45.0" fitWidth="45.0" layoutX="114.0" layoutY="225.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog20" fitHeight="45.0" fitWidth="45.0" layoutX="69.0" layoutY="225.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer20" fitHeight="45.0" fitWidth="45.0" layoutX="114.0" layoutY="270.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor20" fitHeight="45.0" fitWidth="45.0" layoutX="114.0" layoutY="315.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -206,31 +206,31 @@
                 <ImageView fx:id="banshee02" fitHeight="45.0" fitWidth="45.0" layoutX="46.0" layoutY="30.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet02" fitHeight="45.0" fitWidth="45.0" layoutX="91.0" layoutY="30.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog02" fitHeight="45.0" fitWidth="45.0" layoutX="46.0" layoutY="75.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer02" fitHeight="45.0" fitWidth="45.0" layoutX="91.0" layoutY="75.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor02" fitHeight="45.0" fitWidth="45.0" layoutX="91.0" layoutY="120.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -249,31 +249,31 @@
                 <ImageView fx:id="banshee12" fitHeight="45.0" fitWidth="45.0" layoutX="48.0" layoutY="40.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet12" fitHeight="45.0" fitWidth="45.0" layoutX="93.0" layoutY="40.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog12" fitHeight="45.0" fitWidth="45.0" layoutX="48.0" layoutY="85.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer12" fitHeight="45.0" fitWidth="45.0" layoutX="93.0" layoutY="85.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor12" fitHeight="45.0" fitWidth="45.0" layoutX="93.0" layoutY="130.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -292,31 +292,31 @@
                 <ImageView fx:id="banshee11" fitHeight="45.0" fitWidth="45.0" layoutX="84.0" layoutY="39.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet11" fitHeight="45.0" fitWidth="45.0" layoutX="129.0" layoutY="39.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog11" fitHeight="45.0" fitWidth="45.0" layoutX="84.0" layoutY="84.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer11" fitHeight="45.0" fitWidth="45.0" layoutX="129.0" layoutY="84.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor11" fitHeight="45.0" fitWidth="45.0" layoutX="129.0" layoutY="129.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -329,31 +329,31 @@
                 <ImageView fx:id="banshee10" fitHeight="45.0" fitWidth="45.0" layoutX="57.0" layoutY="45.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet10" fitHeight="45.0" fitWidth="45.0" layoutX="102.0" layoutY="45.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog10" fitHeight="45.0" fitWidth="45.0" layoutX="57.0" layoutY="90.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer10" fitHeight="45.0" fitWidth="45.0" layoutX="102.0" layoutY="90.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor10" fitHeight="45.0" fitWidth="45.0" layoutX="102.0" layoutY="135.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -372,31 +372,31 @@
                 <ImageView fx:id="banshee01" fitHeight="45.0" fitWidth="45.0" layoutX="92.0" layoutY="31.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet01" fitHeight="45.0" fitWidth="45.0" layoutX="137.0" layoutY="31.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog01" fitHeight="45.0" fitWidth="45.0" layoutX="93.0" layoutY="76.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer01" fitHeight="45.0" fitWidth="45.0" layoutX="138.0" layoutY="76.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor01" fitHeight="45.0" fitWidth="45.0" layoutX="138.0" layoutY="121.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -415,31 +415,31 @@
                 <ImageView fx:id="banshee21" fitHeight="45.0" fitWidth="45.0" layoutX="87.0" layoutY="29.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet21" fitHeight="45.0" fitWidth="45.0" layoutX="132.0" layoutY="29.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog21" fitHeight="45.0" fitWidth="45.0" layoutX="87.0" layoutY="74.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer21" fitHeight="45.0" fitWidth="45.0" layoutX="132.0" layoutY="74.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor21" fitHeight="45.0" fitWidth="45.0" layoutX="132.0" layoutY="119.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -458,31 +458,31 @@
                 <ImageView fx:id="banshee00" fitHeight="45.0" fitWidth="45.0" layoutX="52.0" layoutY="30.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet00" fitHeight="45.0" fitWidth="45.0" layoutX="97.0" layoutY="30.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog00" fitHeight="45.0" fitWidth="45.0" layoutX="52.0" layoutY="75.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer00" fitHeight="45.0" fitWidth="45.0" layoutX="97.0" layoutY="75.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor00" fitHeight="45.0" fitWidth="45.0" layoutX="97.0" layoutY="120.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -501,31 +501,31 @@
                 <ImageView fx:id="banshee22" fitHeight="45.0" fitWidth="45.0" layoutX="94.0" layoutY="20.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet22" fitHeight="45.0" fitWidth="45.0" layoutX="139.0" layoutY="20.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog22" fitHeight="45.0" fitWidth="45.0" layoutX="94.0" layoutY="65.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer22" fitHeight="45.0" fitWidth="45.0" layoutX="139.0" layoutY="65.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor22" fitHeight="45.0" fitWidth="45.0" layoutX="139.0" layoutY="110.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -544,31 +544,31 @@
                 <ImageView fx:id="banshee03" fitHeight="45.0" fitWidth="45.0" layoutX="27.0" layoutY="24.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet03" fitHeight="45.0" fitWidth="45.0" layoutX="72.0" layoutY="24.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog03" fitHeight="45.0" fitWidth="45.0" layoutX="27.0" layoutY="69.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer03" fitHeight="45.0" fitWidth="45.0" layoutX="72.0" layoutY="69.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor03" fitHeight="45.0" fitWidth="45.0" layoutX="27.0" layoutY="114.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -581,31 +581,31 @@
                 <ImageView fx:id="banshee23" fitHeight="45.0" fitWidth="45.0" layoutX="19.0" layoutY="20.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/banshee/bansheeIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/banshee/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="violet23" fitHeight="45.0" fitWidth="45.0" layoutX="64.0" layoutY="20.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/violetIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog23" fitHeight="45.0" fitWidth="45.0" layoutX="19.0" layoutY="65.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/sporg/sprogIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/sporg/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="dozer23" fitHeight="45.0" fitWidth="45.0" layoutX="64.0" layoutY="65.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/dozer/dozerIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/dozer/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="destructor23" fitHeight="45.0" fitWidth="45.0" layoutX="64.0" layoutY="110.0"
                            pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/destructor/destructorIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
             </children>
@@ -656,277 +656,277 @@
         <ImageView fx:id="skullToken00" fitHeight="50.0" fitWidth="50.0" layoutX="91.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken01" fitHeight="50.0" fitWidth="50.0" layoutX="101.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken10" fitHeight="50.0" fitWidth="50.0" layoutX="138.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken11" fitHeight="50.0" fitWidth="50.0" layoutX="148.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken20" fitHeight="50.0" fitWidth="50.0" layoutX="183.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken21" fitHeight="50.0" fitWidth="50.0" layoutX="193.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken30" fitHeight="50.0" fitWidth="50.0" layoutX="229.0" layoutY="60.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken31" fitHeight="50.0" fitWidth="50.0" layoutX="239.0" layoutY="70.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken40" fitHeight="50.0" fitWidth="50.0" layoutX="275.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken41" fitHeight="50.0" fitWidth="50.0" layoutX="285.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken50" fitHeight="50.0" fitWidth="50.0" layoutX="320.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken51" fitHeight="50.0" fitWidth="50.0" layoutX="330.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken60" fitHeight="50.0" fitWidth="50.0" layoutX="365.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken61" fitHeight="50.0" fitWidth="50.0" layoutX="375.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken70" fitHeight="50.0" fitWidth="50.0" layoutX="410.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken71" fitHeight="50.0" fitWidth="50.0" layoutX="420.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken80" fitHeight="50.0" fitWidth="50.0" layoutX="448.0" layoutY="25.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken81" fitHeight="50.0" fitWidth="50.0" layoutX="458.0" layoutY="35.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken90" fitHeight="50.0" fitWidth="50.0" layoutX="484.0" layoutY="25.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken91" fitHeight="50.0" fitWidth="50.0" layoutX="494.0" layoutY="35.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken100" fitHeight="50.0" fitWidth="50.0" layoutX="520.0" layoutY="24.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken101" fitHeight="50.0" fitWidth="50.0" layoutX="530.0" layoutY="34.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken110" fitHeight="50.0" fitWidth="50.0" layoutX="448.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken111" fitHeight="50.0" fitWidth="50.0" layoutX="458.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken120" fitHeight="50.0" fitWidth="50.0" layoutX="484.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken121" fitHeight="50.0" fitWidth="50.0" layoutX="494.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken130" fitHeight="50.0" fitWidth="50.0" layoutX="520.0" layoutY="59.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken131" fitHeight="50.0" fitWidth="50.0" layoutX="530.0" layoutY="69.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken140" fitHeight="50.0" fitWidth="50.0" layoutX="448.0" layoutY="95.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken141" fitHeight="50.0" fitWidth="50.0" layoutX="458.0" layoutY="105.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken150" fitHeight="50.0" fitWidth="50.0" layoutX="485.0" layoutY="95.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken151" fitHeight="50.0" fitWidth="50.0" layoutX="495.0" layoutY="105.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken160" fitHeight="50.0" fitWidth="50.0" layoutX="521.0" layoutY="95.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skullToken161" fitHeight="50.0" fitWidth="50.0" layoutX="531.0" layoutY="105.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken0" fitHeight="50.0" fitWidth="50.0" layoutX="56.0" layoutY="155.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken1" fitHeight="50.0" fitWidth="50.0" layoutX="66.0" layoutY="165.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken2" fitHeight="50.0" fitWidth="50.0" layoutX="92.0" layoutY="155.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken3" fitHeight="50.0" fitWidth="50.0" layoutX="102.0" layoutY="165.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken4" fitHeight="50.0" fitWidth="50.0" layoutX="128.0" layoutY="154.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken5" fitHeight="50.0" fitWidth="50.0" layoutX="138.0" layoutY="164.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken6" fitHeight="50.0" fitWidth="50.0" layoutX="46.0" layoutY="191.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken7" fitHeight="50.0" fitWidth="50.0" layoutX="56.0" layoutY="201.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken8" fitHeight="50.0" fitWidth="50.0" layoutX="82.0" layoutY="191.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken9" fitHeight="50.0" fitWidth="50.0" layoutX="92.0" layoutY="201.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken10" fitHeight="50.0" fitWidth="50.0" layoutX="118.0" layoutY="190.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="doubleKillToken11" fitHeight="50.0" fitWidth="50.0" layoutX="128.0" layoutY="200.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/playerBoards/destructor/destructorToken.png"/>
+                <Image url="@../graphicassets/playerBoards/destructor/token.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull0" fitHeight="25.0" fitWidth="25.0" layoutX="106.0" layoutY="80.0" pickOnBounds="true"

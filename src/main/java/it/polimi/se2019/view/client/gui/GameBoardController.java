@@ -1,10 +1,15 @@
 package it.polimi.se2019.view.client.gui;
 
+import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.view.client.ModelRep;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 
 public class GameBoardController {
 	@FXML
@@ -376,12 +381,30 @@ public class GameBoardController {
 	@FXML
 	private ImageView backGround;
 
+	private boolean initialized = false;
+
 
 	private Image loadImage(String filePath) {
 		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
 	}
 
-	public void setMap(String mapName) {
+	public void init_GameMap(ModelRep modelRep) {
+		GameMapRep gameMapRep = modelRep.getGameMapRep();
+		List<PlayerRep> playersRep = modelRep.getPlayersRep();
+		playersRep.get(0);
+		playersRep.get(1);
+		playersRep.get(2);
+		playersRep.get(3);
+		playersRep.get(4);
+		setMap(gameMapRep.getName());
+		initialized = true;
+	}
+
+	public boolean isInitialized() {
+		return initialized;
+	}
+
+	private void setMap(String mapName) {
 		backGround.setImage(loadImage("maps/" + mapName));
 	}
 }

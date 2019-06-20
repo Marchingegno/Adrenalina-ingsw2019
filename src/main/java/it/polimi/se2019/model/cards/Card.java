@@ -28,7 +28,7 @@ public abstract class Card implements Representable {
 		return description;
 	}
 
-	public String imagePath() {
+	public String getImagePath() {
 		return imagePath;
 	}
 

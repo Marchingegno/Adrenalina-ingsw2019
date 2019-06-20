@@ -1,12 +1,19 @@
 package it.polimi.se2019.view.client.gui;
 
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
+import it.polimi.se2019.model.cards.weapons.WeaponRep;
+import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.utils.Color;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerInventoryController {
@@ -48,7 +55,7 @@ public class PlayerInventoryController {
 	private ImageView yellowAmmo2;
 
 	@FXML
-	private Group damageToken;
+	private Group damageTokens;
 	@FXML
 	private ImageView damageToken0;
 	@FXML
@@ -98,31 +105,97 @@ public class PlayerInventoryController {
 	private ImageView marks32;
 
 	@FXML
+	private ImageView skull0;
+	@FXML
+	private ImageView skull1;
+	@FXML
+	private ImageView skull2;
+	@FXML
+	private ImageView skull3;
+
+	@FXML
 	private Label nickname;
 
 	@FXML
 	private Label points;
 
-	public void setNickname(String nickname) {
+	public void initializeInventory(PlayerRep playerRep) {
+		setNickname(playerRep.getPlayerName());
+		setPoints(playerRep.getPoints());
+		setPlayerBoard(playerRep.getPgName(), false); //TODO set correct playerboard if in frenzy
+		setAmmoContainer(playerRep);
+		setDamageToken(playerRep.getDamageBoard());
+
+		List<String> weaponsPath = new ArrayList<>();
+		for (WeaponRep weaponRep : playerRep.getWeaponReps()) {
+			weaponsPath.add("weapons/" + weaponRep.getImagePath());
+		}
+		setWeapons(weaponsPath);
+
+		List<String> powerupsPath = new ArrayList<>();
+		for (PowerupCardRep powerupCardRep : playerRep.getPowerupCards()) {
+			weaponsPath.add("powerup/" + powerupCardRep.getImagePath());
+		}
+		setPowerups(weaponsPath);
+
+	}
+
+	private void setNickname(String nickname) {
 		this.nickname.setText(nickname);
 	}
 
-	public void setPoints(int points) {
+	private void setPoints(int points) {
 		this.points.setText(Integer.toString(points));
 	}
 
-	public void setPlayerBoard(String characterName, boolean isFrenzy) {
-		String pathImage = "playerBoards/" + characterName + "/" + characterName + (isFrenzy ? "Frenzy" : "") + "Board";
+	private void setPlayerBoard(String characterName, boolean isFrenzy) {
+		String pathImage = "playerBoards/" + characterName + "/" + (isFrenzy ? "frenzy" : "") + "Board";
 		playerBoard.setImage(loadImage(pathImage));
 	}
 
-	public void setWepons(List<String> weapons) {
-		if (weapons.get(0) != null) weapon0.setImage(loadImage("weapons/"));
+	public void setWeapons(List<String> weaponsPath) {
+		if (weaponsPath.get(0) != null) weapon0.setImage(loadImage(weaponsPath.get(0)));
+		if (weaponsPath.get(1) != null) weapon1.setImage(loadImage(weaponsPath.get(1)));
+		if (weaponsPath.get(2) != null) weapon2.setImage(loadImage(weaponsPath.get(2)));
+	}
+
+	public void setPowerups(List<String> powerupsPath) {
+		if (powerupsPath.get(2) != null) powerup2.setImage(loadImage(powerupsPath.get(2)));
+		if (powerupsPath.get(1) != null) powerup1.setImage(loadImage(powerupsPath.get(1)));
+		if (powerupsPath.get(0) != null) powerup0.setImage(loadImage(powerupsPath.get(0)));
+	}
+
+	public void setAmmoContainer(PlayerRep playerRep) {
+		blueAmmo0.setVisible(playerRep.getAmmo(AmmoType.BLUE_AMMO) > 0);
+		blueAmmo1.setVisible(playerRep.getAmmo(AmmoType.BLUE_AMMO) > 1);
+		blueAmmo2.setVisible(playerRep.getAmmo(AmmoType.BLUE_AMMO) > 2);
+		redAmmo0.setVisible(playerRep.getAmmo(AmmoType.RED_AMMO) > 0);
+		redAmmo1.setVisible(playerRep.getAmmo(AmmoType.RED_AMMO) > 1);
+		redAmmo2.setVisible(playerRep.getAmmo(AmmoType.RED_AMMO) > 2);
+		yellowAmmo0.setVisible(playerRep.getAmmo(AmmoType.YELLOW_AMMO) > 0);
+		yellowAmmo1.setVisible(playerRep.getAmmo(AmmoType.YELLOW_AMMO) > 1);
+		yellowAmmo2.setVisible(playerRep.getAmmo(AmmoType.YELLOW_AMMO) > 2);
+	}
+
+	public void setDamageToken(List<Color.CharacterColorType> damageBoard) {
+		List<Node> damageTokenList = damageTokens.getChildren();
+		for (int i = 0; i < 12; i++) {
+			if (i <= damageBoard.size())
+				((ImageView) damageTokenList.get(i)).setImage(loadImage("playerBoards/" + damageBoard.get(i).getPgName() + "/token"));
+			else
+				damageTokenList.get(i).setVisible(false);
+		}
+	}
+
+	public void setMarks() {
+
+	}
+
+	public void setSkulls() {
+
 	}
 
 	private Image loadImage(String filePath) {
 		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
 	}
-
-
 }

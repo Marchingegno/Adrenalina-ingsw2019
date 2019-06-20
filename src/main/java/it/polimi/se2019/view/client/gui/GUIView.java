@@ -221,10 +221,8 @@ public class GUIView extends RemoteView {
 
 	public void updateGameBoardController() {
 		Platform.runLater(() -> {
-			System.out.println(getModelRep());
-			System.out.println(getModelRep().getGameMapRep());
-			System.out.println(getModelRep().getGameMapRep().getName());
-			gameBoardController.setMap(getModelRep().getGameMapRep().getName());
+			if (!gameBoardController.isInitialized())
+				gameBoardController.init_GameMap(getModelRep().getGameMapRep());
 		});
 	}
 
