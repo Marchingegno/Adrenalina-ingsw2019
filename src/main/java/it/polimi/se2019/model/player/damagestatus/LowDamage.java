@@ -36,4 +36,10 @@ public class LowDamage extends DamageStatus {
 	public String toString() {
 		return "LOW DAMAGE";
 	}
+
+
+	@Override
+	public boolean isFrenzy() {
+		return false;
+	}
 }

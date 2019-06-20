@@ -37,4 +37,8 @@ public class MediumDamage extends DamageStatus {
 		return "MEDIUM DAMAGE";
 	}
 
+	@Override
+	public boolean isFrenzy() {
+		return false;
+	}
 }

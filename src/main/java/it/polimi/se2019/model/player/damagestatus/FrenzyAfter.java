@@ -34,4 +34,8 @@ public class FrenzyAfter extends DamageStatus {
 		return "FRENZY AFTER";
 	}
 
+	@Override
+	public boolean isFrenzy() {
+		return true;
+	}
 }

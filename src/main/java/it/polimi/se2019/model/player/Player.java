@@ -59,6 +59,10 @@ public class Player extends Observable implements Representable {
 		return connected;
 	}
 
+	public boolean isFrenzied() {
+		return damageStatus.isFrenzy();
+	}
+
 	public boolean isActionRequested() {
 		return actionRequested;
 	}

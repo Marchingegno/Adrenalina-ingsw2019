@@ -37,4 +37,9 @@ public class FrenzyBefore extends DamageStatus {
 	public String toString() {
 		return "FRENZY BEFORE";
 	}
+
+	@Override
+	public boolean isFrenzy() {
+		return true;
+	}
 }

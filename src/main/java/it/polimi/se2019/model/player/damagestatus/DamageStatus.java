@@ -96,4 +96,6 @@ public abstract class DamageStatus implements Representable {
 	public Representation getRep() {
 		return new DamageStatusRep(this);
 	}
+
+	public abstract boolean isFrenzy();
 }

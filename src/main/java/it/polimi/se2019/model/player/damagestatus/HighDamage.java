@@ -38,4 +38,8 @@ public class HighDamage extends DamageStatus {
 		return "HIGH DAMAGE";
 	}
 
+	@Override
+	public boolean isFrenzy() {
+		return false;
+	}
 }
