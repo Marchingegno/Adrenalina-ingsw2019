@@ -38,6 +38,11 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		ended = false;
 	}
 
+	@Override
+	QuestionContainer handlePrimaryFire(int choice) {
+		return handleActionSelect(choice);
+	}
+
 	/**
 	 * Advance the weapon state from REQUEST to ANSWER, and set true to the correct boolean.
 	 *

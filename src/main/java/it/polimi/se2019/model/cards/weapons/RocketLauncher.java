@@ -37,11 +37,6 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	QuestionContainer handlePrimaryFire(int choice) {
-		return handleActionSelect(choice);
-	}
-
-	@Override
 	protected QuestionContainer handleMoveRequest(int choice) {
 		possibleMoveCoordinates = getGameMap().reachableCoordinates(target, 1);
 		return getMovingTargetEnemyCoordinatesQnO(target, possibleMoveCoordinates);
