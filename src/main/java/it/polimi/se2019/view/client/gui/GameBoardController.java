@@ -679,7 +679,22 @@ public class GameBoardController {
 
 	}
 
-	public void updateGameBoard() {
+	public void updateGameBoard(ModelRep modelRep) {
+		List<PlayerRep> playersRep = new ArrayList<>();
+		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
+			if (playerRep.isHidden())
+				playersRep.add(playerRep);
+		}
+		playerRep0 = modelRep.getClientPlayerRep();
+
+		if (!playersRep.isEmpty())
+			playerRep1 = playersRep.get(0);
+		if (playersRep.size() >= 2)
+			playerRep2 = playersRep.get(1);
+		if (playersRep.size() >= 3)
+			playerRep3 = playersRep.get(2);
+		if (playersRep.size() >= 4)
+			playerRep4 = playersRep.get(3);
 		//TODO update playersRep
 	}
 

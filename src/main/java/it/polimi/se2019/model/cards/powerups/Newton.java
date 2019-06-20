@@ -33,7 +33,7 @@ public class Newton extends PowerupCard {
 
 
 	public Newton(AmmoType associatedAmmo) {
-		super("Newton", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN, "newton_" + associatedAmmo.getCharacterColorType().toString().toLowerCase() + ".png");
+		super("Newton", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN, "newton_" + associatedAmmo.getCharacterColorType().toString().toLowerCase());
 	}
 
 

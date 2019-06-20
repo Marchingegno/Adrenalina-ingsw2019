@@ -215,6 +215,8 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() -> {
 			if (!gameBoardController.isInitialized())
 				gameBoardController.init_GameMap(getModelRep());
+			else
+				gameBoardController.updateGameBoard(getModelRep());
 			window.setScene(gameBoardScene);
 			window.show();
 		});

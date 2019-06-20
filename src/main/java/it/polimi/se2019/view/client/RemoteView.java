@@ -218,6 +218,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		for (PlayerRep playerRep : repMessage.getPlayersRep()) {
 			updatePlayerRep(playerRep);
 		}
+		Utils.logInfo("Reps Updated");
 		updateDisplay();
 	}
 

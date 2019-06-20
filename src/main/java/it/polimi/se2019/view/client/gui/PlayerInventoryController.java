@@ -135,7 +135,7 @@ public class PlayerInventoryController {
 		List<String> powerupsPath = new ArrayList<>();
 		if (!playerRep.isHidden()) {
 			for (PowerupCardRep powerupCardRep : playerRep.getPowerupCards()) {
-				weaponsPath.add("powerup/" + powerupCardRep.getImagePath());
+				powerupsPath.add("powerups/" + powerupCardRep.getImagePath());
 			}
 		}
 		setPowerups(powerupsPath);
@@ -155,15 +155,33 @@ public class PlayerInventoryController {
 	}
 
 	public void setWeapons(List<String> weaponsPath) {
-		if (!weaponsPath.isEmpty()) weapon0.setImage(loadImage(weaponsPath.get(0)));
-		if (weaponsPath.size() >= 2) weapon1.setImage(loadImage(weaponsPath.get(1)));
-		if (weaponsPath.size() >= 3) weapon2.setImage(loadImage(weaponsPath.get(2)));
+		if (!weaponsPath.isEmpty()) {
+			weapon0.setImage(loadImage(weaponsPath.get(0)));
+			weapon0.setVisible(true);
+		} else weapon0.setVisible(false);
+		if (weaponsPath.size() >= 2) {
+			weapon1.setImage(loadImage(weaponsPath.get(1)));
+			weapon1.setVisible(true);
+		} else weapon1.setVisible(false);
+		if (weaponsPath.size() >= 3) {
+			weapon2.setImage(loadImage(weaponsPath.get(2)));
+			weapon2.setVisible(true);
+		} else weapon2.setVisible(false);
 	}
 
 	public void setPowerups(List<String> powerupsPath) {
-		if (powerupsPath.size() >= 3) powerup2.setImage(loadImage(powerupsPath.get(2)));
-		if (powerupsPath.size() >= 2) powerup1.setImage(loadImage(powerupsPath.get(1)));
-		if (!powerupsPath.isEmpty()) powerup0.setImage(loadImage(powerupsPath.get(0)));
+		if (powerupsPath.size() >= 3) {
+			powerup2.setImage(loadImage(powerupsPath.get(2)));
+			powerup2.setVisible(true);
+		} else powerup2.setVisible(false);
+		if (powerupsPath.size() >= 2) {
+			powerup1.setImage(loadImage(powerupsPath.get(1)));
+			powerup1.setVisible(true);
+		} else powerup1.setVisible(false);
+		if (!powerupsPath.isEmpty()) {
+			powerup0.setImage(loadImage(powerupsPath.get(0)));
+			powerup0.setVisible(true);
+		} else powerup0.setVisible(false);
 	}
 
 	public void setAmmoContainer(PlayerRep playerRep) {

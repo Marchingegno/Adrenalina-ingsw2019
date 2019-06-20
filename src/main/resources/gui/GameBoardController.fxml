@@ -87,13 +87,13 @@
                 <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="playerIcon2" fitHeight="60.0" fitWidth="49.0" layoutX="456.0" layoutY="774.0"
+        <ImageView fx:id="playerIcon2" fitHeight="60.0" fitWidth="49.0" layoutX="458.0" layoutY="774.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="playerIcon0" fitHeight="68.0" fitWidth="87.0" layoutX="524.0" layoutY="754.0"
+        <ImageView fx:id="playerIcon0" fitHeight="68.0" fitWidth="87.0" layoutX="529.0" layoutY="754.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
@@ -131,7 +131,7 @@
                 <ImageView fx:id="violet13" fitHeight="45.0" fitWidth="45.0" layoutX="73.0" layoutY="37.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog13" fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="82.0"
@@ -175,7 +175,7 @@
                 <ImageView fx:id="violet20" fitHeight="45.0" fitWidth="45.0" layoutX="90.0" layoutY="225.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog20" fitHeight="45.0" fitWidth="45.0" layoutX="45.0" layoutY="269.0"
@@ -212,7 +212,7 @@
                 <ImageView fx:id="violet02" fitHeight="45.0" fitWidth="45.0" layoutX="91.0" layoutY="30.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog02" fitHeight="45.0" fitWidth="45.0" layoutX="46.0" layoutY="75.0"
@@ -255,7 +255,7 @@
                 <ImageView fx:id="violet12" fitHeight="45.0" fitWidth="45.0" layoutX="104.0" layoutY="42.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog12" fitHeight="45.0" fitWidth="45.0" layoutX="59.0" layoutY="87.0"
@@ -298,7 +298,7 @@
                 <ImageView fx:id="violet11" fitHeight="45.0" fitWidth="45.0" layoutX="99.0" layoutY="39.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog11" fitHeight="45.0" fitWidth="45.0" layoutX="54.0" layoutY="84.0"
@@ -335,7 +335,7 @@
                 <ImageView fx:id="violet10" fitHeight="45.0" fitWidth="45.0" layoutX="91.0" layoutY="45.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog10" fitHeight="45.0" fitWidth="45.0" layoutX="46.0" layoutY="90.0"
@@ -378,7 +378,7 @@
                 <ImageView fx:id="violet01" fitHeight="45.0" fitWidth="45.0" layoutX="98.0" layoutY="32.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog01" fitHeight="45.0" fitWidth="45.0" layoutX="54.0" layoutY="77.0"
@@ -421,7 +421,7 @@
                 <ImageView fx:id="violet21" fitHeight="45.0" fitWidth="45.0" layoutX="97.0" layoutY="29.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog21" fitHeight="45.0" fitWidth="45.0" layoutX="52.0" layoutY="74.0"
@@ -464,7 +464,7 @@
                 <ImageView fx:id="violet00" fitHeight="45.0" fitWidth="45.0" layoutX="84.0" layoutY="30.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog00" fitHeight="45.0" fitWidth="45.0" layoutX="39.0" layoutY="75.0"
@@ -507,7 +507,7 @@
                 <ImageView fx:id="violet22" fitHeight="45.0" fitWidth="45.0" layoutX="104.0" layoutY="20.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog22" fitHeight="45.0" fitWidth="45.0" layoutX="59.0" layoutY="65.0"
@@ -550,7 +550,7 @@
                 <ImageView fx:id="violet03" fitHeight="45.0" fitWidth="45.0" layoutX="79.0" layoutY="24.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog03" fitHeight="45.0" fitWidth="45.0" layoutX="34.0" layoutY="69.0"
@@ -587,7 +587,7 @@
                 <ImageView fx:id="violet23" fitHeight="45.0" fitWidth="45.0" layoutX="64.0" layoutY="20.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@../graphicassets/playerBoards/violet/iIcon.png"/>
+                        <Image url="@../graphicassets/playerBoards/violet/icon.png"/>
                     </image>
                 </ImageView>
                 <ImageView fx:id="sprog23" fitHeight="45.0" fitWidth="45.0" layoutX="19.0" layoutY="65.0"
@@ -644,18 +644,18 @@
                 rotate="90.0"
                 style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
         <Button fx:id="playerIconButton4" layoutX="388.0" layoutY="774.0" mnemonicParsing="false"
-                onAction="#showInventory1" prefHeight="49.0" prefWidth="49.0"
+                onAction="#showInventory4" prefHeight="49.0" prefWidth="49.0"
                 style="-fx-background-color: transparent; -fx-border-color: red;"/>
-        <Button fx:id="playerIconButton2" layoutX="456.0" layoutY="774.0" mnemonicParsing="false"
+        <Button fx:id="playerIconButton2" layoutX="458.0" layoutY="774.0" mnemonicParsing="false"
                 onAction="#showInventory2" prefHeight="49.0" prefWidth="49.0"
                 style="-fx-background-color: transparent; -fx-border-color: red;"/>
         <Button fx:id="playerIconButton1" layoutX="615.0" layoutY="773.0" mnemonicParsing="false"
-                onAction="#showInventory3" prefHeight="49.0" prefWidth="49.0"
+                onAction="#showInventory1" prefHeight="49.0" prefWidth="49.0"
                 style="-fx-background-color: transparent; -fx-border-color: red;"/>
         <Button fx:id="playerIconButton3" layoutX="683.0" layoutY="773.0" mnemonicParsing="false"
-                onAction="#showInventory4" prefHeight="49.0" prefWidth="49.0"
+                onAction="#showInventory3" prefHeight="49.0" prefWidth="49.0"
                 style="-fx-background-color: transparent; -fx-border-color: red;"/>
-        <Button fx:id="playerIconButton0" layoutX="523.0" layoutY="754.0" mnemonicParsing="false"
+        <Button fx:id="playerIconButton0" layoutX="528.0" layoutY="754.0" mnemonicParsing="false"
                 onAction="#showInventory0" prefHeight="69.0" prefWidth="69.0"
                 style="-fx-background-color: transparent; -fx-border-color: red;"/>
         <ImageView fx:id="skullToken00" fitHeight="50.0" fitWidth="50.0" layoutX="91.0" layoutY="59.0"

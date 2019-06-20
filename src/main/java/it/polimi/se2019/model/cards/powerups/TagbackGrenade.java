@@ -22,7 +22,7 @@ public class TagbackGrenade extends PowerupCard {
 
 
 	public TagbackGrenade(AmmoType associatedAmmo) {
-		super("Tagback grenade", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_DAMAGE, "tagback_grenade_" + associatedAmmo.getCharacterColorType().toString().toLowerCase() + ".png");
+		super("Tagback grenade", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_DAMAGE, "tagback_grenade_" + associatedAmmo.getCharacterColorType().toString().toLowerCase());
 	}
 
 
