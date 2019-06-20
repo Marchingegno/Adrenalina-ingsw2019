@@ -109,6 +109,7 @@ public class PlayerRep implements Representation {
 				newPlayerRep.weaponReps.add(weaponRep);
 		}
 		newPlayerRep.ammo = this.ammo.clone();
+		newPlayerRep.connected = this.connected;
 		newPlayerRep.hidden = true;
 		newPlayerRep.pgName = pgName;
 		return newPlayerRep;

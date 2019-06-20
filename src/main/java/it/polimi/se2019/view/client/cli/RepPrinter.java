@@ -264,6 +264,11 @@ public class RepPrinter {
 			stringBuilder.append("\t\t\t|");
 			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
 
+			if(!playerRep.isConnected()) {
+				stringBuilder.append("\t\t");
+				stringBuilder.append(Color.getColoredString("DISCONNECTED", Color.CharacterColorType.RED));
+			}
+
 			CLIView.printLine(stringBuilder.toString());
 			stringBuilder = new StringBuilder();
 		}
