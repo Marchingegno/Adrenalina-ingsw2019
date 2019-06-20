@@ -41,6 +41,7 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 		} catch (IOException e) {
 			Utils.logError("Failed to connect to the server.", e);
 			active = false;
+			messageReceiver.failedConnection();
 		}
 	}
 

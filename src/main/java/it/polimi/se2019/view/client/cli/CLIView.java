@@ -51,7 +51,7 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void failedConnectionToServer() {
-		print("Failed to connect to the server. Try again later.");
+		printLine("Failed to connect to the server. Try again later.");
 		Client.terminateClient();
 	}
 
