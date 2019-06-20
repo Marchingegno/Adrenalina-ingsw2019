@@ -110,6 +110,7 @@ public class PlayerRep implements Representation {
 		}
 		newPlayerRep.ammo = this.ammo.clone();
 		newPlayerRep.hidden = true;
+		newPlayerRep.pgName = pgName;
 		return newPlayerRep;
 	}
 
@@ -182,8 +183,6 @@ public class PlayerRep implements Representation {
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
 	public int getPoints() {
-		if (isHidden())
-			throw new HiddenException("The value of \"points\" is hidden in this PlayerRep.");
 		return points;
 	}
 
@@ -224,5 +223,21 @@ public class PlayerRep implements Representation {
 	 */
 	public int getAmmo(AmmoType ammoType) {
 		return ammo[ammoType.ordinal()];
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		return ((PlayerRep) o).getPlayerName().equals(playerName);
+	}
+
+	@Override
+	public int hashCode() {
+		return playerName.hashCode();
 	}
 }

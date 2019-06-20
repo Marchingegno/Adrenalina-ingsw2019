@@ -78,7 +78,7 @@ public class GUIView extends RemoteView {
 			lobbyScene = new Scene(root);
 			lobbyController = loader.getController();
 		} catch (IOException e) {
-			Utils.logError("Error loading loginController", e);
+			Utils.logError("Error loading lobbyController", e);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class GUIView extends RemoteView {
 			mapAndSkullsController.setGui(this);
 			window.setTitle("Adrenaline");
 		} catch (IOException e) {
-			Utils.logError("Error loading loginController", e);
+			Utils.logError("Error loading mapsAndSkullsController", e);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class GUIView extends RemoteView {
 			gameBoardController = loader.getController();
 			window.setTitle("Adrenaline");
 		} catch (IOException e) {
-			Utils.logError("Error loading loginController", e);
+			Utils.logError("Error loading gameBoardController", e);
 		}
 	}
 

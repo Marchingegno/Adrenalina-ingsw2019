@@ -8,7 +8,7 @@
 				"RED_AMMO"
 			],
 			"powerup": false,
-			"path": "B_R_R.png"
+			"path": "B_R_R"
 		},
 		{
 			"name": "B_R_R",
@@ -18,7 +18,7 @@
 				"RED_AMMO"
 			],
 			"powerup": false,
-			"path": "B_R_R.png"
+			"path": "B_R_R"
 		},
 		{
 			"name": "B_Y_Y",
@@ -28,7 +28,7 @@
 				"YELLOW_AMMO"
 			],
 			"powerup": false,
-			"path": "B_Y_Y.png"
+			"path": "B_Y_Y"
 		},
 		{
 			"name": "B_Y_Y",
@@ -38,7 +38,7 @@
 				"YELLOW_AMMO"
 			],
 			"powerup": false,
-			"path": "B_Y_Y.png"
+			"path": "B_Y_Y"
 		},
 		{
 			"name": "P_B_B",
@@ -47,7 +47,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": true,
-			"path": "P_B_B.png"
+			"path": "P_B_B"
 		},
 		{
 			"name": "P_R_B",
@@ -56,7 +56,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": true,
-			"path": "P_B_B.png"
+			"path": "P_B_B"
 		},
 		{
 			"name": "P_R_R",
@@ -65,7 +65,7 @@
 				"RED_AMMO"
 			],
 			"powerup": true,
-			"path": "P_R_R.png"
+			"path": "P_R_R"
 		},
 		{
 			"name": "P_R_R",
@@ -74,7 +74,7 @@
 				"RED_AMMO"
 			],
 			"powerup": true,
-			"path": "P_R_R.png"
+			"path": "P_R_R"
 		},
 		{
 			"name": "P_Y_B",
@@ -83,7 +83,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": true,
-			"path": "P_Y_B.png"
+			"path": "P_Y_B"
 		},
 		{
 			"name": "P_Y_B",
@@ -92,7 +92,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": true,
-			"path": "P_Y_B.png"
+			"path": "P_Y_B"
 		},
 		{
 			"name": "P_Y_R",
@@ -101,7 +101,7 @@
 				"RED_AMMO"
 			],
 			"powerup": true,
-			"path": "P_Y_R.png"
+			"path": "P_Y_R"
 		},
 		{
 			"name": "P_Y_R",
@@ -110,7 +110,7 @@
 				"RED_AMMO"
 			],
 			"powerup": true,
-			"path": "P_Y_R.png"
+			"path": "P_Y_R"
 		},
 		{
 			"name": "P_Y_Y",
@@ -119,7 +119,7 @@
 				"YELLOW_AMMO"
 			],
 			"powerup": true,
-			"path": "P_Y_Y.png"
+			"path": "P_Y_Y"
 		},
 		{
 			"name": "P_Y_Y",
@@ -128,7 +128,7 @@
 				"YELLOW_AMMO"
 			],
 			"powerup": true,
-			"path": "P_Y_Y.png"
+			"path": "P_Y_Y"
 		},
 		{
 			"name": "R_B_B",
@@ -138,7 +138,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": false,
-			"path": "R_B_B.png"
+			"path": "R_B_B"
 		},
 		{
 			"name": "R_B_B",
@@ -148,7 +148,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": false,
-			"path": "R_B_B.png"
+			"path": "R_B_B"
 		},
 		{
 			"name": "R_Y_Y",
@@ -158,7 +158,7 @@
 				"YELLOW_AMMO"
 			],
 			"powerup": false,
-			"path": "R_Y_Y.png"
+			"path": "R_Y_Y"
 		},
 		{
 			"name": "R_Y_Y",
@@ -168,7 +168,7 @@
 				"YELLOW_AMMO"
 			],
 			"powerup": false,
-			"path": "R_Y_Y.png"
+			"path": "R_Y_Y"
 		},
 		{
 			"name": "Y_B_B",
@@ -178,7 +178,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": false,
-			"path": "Y_B_B.png"
+			"path": "Y_B_B"
 		},
 		{
 			"name": "Y_B_B",
@@ -188,7 +188,7 @@
 				"BLUE_AMMO"
 			],
 			"powerup": false,
-			"path": "Y_B_B.png"
+			"path": "Y_B_B"
 		},
 		{
 			"name": "Y_R_R",
@@ -198,7 +198,7 @@
 				"RED_AMMO"
 			],
 			"powerup": false,
-			"path": "Y_R_R.png"
+			"path": "Y_R_R"
 		},
 		{
 			"name": "Y_R_R",
@@ -208,7 +208,7 @@
 				"RED_AMMO"
 			],
 			"powerup": false,
-			"path": "Y_R_R.png"
+			"path": "Y_R_R"
 		}
 	]
 }

@@ -136,7 +136,7 @@ public class PlayerInventoryController {
 		for (PowerupCardRep powerupCardRep : playerRep.getPowerupCards()) {
 			weaponsPath.add("powerup/" + powerupCardRep.getImagePath());
 		}
-		setPowerups(weaponsPath);
+		setPowerups(powerupsPath);
 
 	}
 
@@ -149,20 +149,20 @@ public class PlayerInventoryController {
 	}
 
 	private void setPlayerBoard(String characterName, boolean isFrenzy) {
-		String pathImage = "playerBoards/" + characterName + "/" + (isFrenzy ? "frenzy" : "") + "Board";
+		String pathImage = "playerBoards/" + characterName + "/" + (isFrenzy ? "frenzy" : "normal") + "Board";
 		playerBoard.setImage(loadImage(pathImage));
 	}
 
 	public void setWeapons(List<String> weaponsPath) {
-		if (weaponsPath.get(0) != null) weapon0.setImage(loadImage(weaponsPath.get(0)));
-		if (weaponsPath.get(1) != null) weapon1.setImage(loadImage(weaponsPath.get(1)));
-		if (weaponsPath.get(2) != null) weapon2.setImage(loadImage(weaponsPath.get(2)));
+		if (weaponsPath.size() >= 1) weapon0.setImage(loadImage(weaponsPath.get(0)));
+		if (weaponsPath.size() >= 2) weapon1.setImage(loadImage(weaponsPath.get(1)));
+		if (weaponsPath.size() >= 3) weapon2.setImage(loadImage(weaponsPath.get(2)));
 	}
 
 	public void setPowerups(List<String> powerupsPath) {
-		if (powerupsPath.get(2) != null) powerup2.setImage(loadImage(powerupsPath.get(2)));
-		if (powerupsPath.get(1) != null) powerup1.setImage(loadImage(powerupsPath.get(1)));
-		if (powerupsPath.get(0) != null) powerup0.setImage(loadImage(powerupsPath.get(0)));
+		if (powerupsPath.size() >= 3) powerup2.setImage(loadImage(powerupsPath.get(2)));
+		if (powerupsPath.size() >= 2) powerup1.setImage(loadImage(powerupsPath.get(1)));
+		if (powerupsPath.size() >= 1) powerup0.setImage(loadImage(powerupsPath.get(0)));
 	}
 
 	public void setAmmoContainer(PlayerRep playerRep) {
@@ -180,7 +180,7 @@ public class PlayerInventoryController {
 	public void setDamageToken(List<Color.CharacterColorType> damageBoard) {
 		List<Node> damageTokenList = damageTokens.getChildren();
 		for (int i = 0; i < 12; i++) {
-			if (i <= damageBoard.size())
+			if (i < damageBoard.size())
 				((ImageView) damageTokenList.get(i)).setImage(loadImage("playerBoards/" + damageBoard.get(i).getPgName() + "/token"));
 			else
 				damageTokenList.get(i).setVisible(false);
@@ -196,6 +196,7 @@ public class PlayerInventoryController {
 	}
 
 	private Image loadImage(String filePath) {
+		System.out.println("Loading: " + "/graphicassets/" + filePath + ".png");
 		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
 	}
 }

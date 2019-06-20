@@ -3,122 +3,122 @@
 		{
 			"name": "Teleporter",
 			"ammoType": "RED_AMMO",
-			"path": "teleporter_red.png"
+			"path": "teleporter_red"
 		},
 		{
 			"name": "Teleporter",
 			"ammoType": "BLUE_AMMO",
-			"path": "teleporter_blue.png"
+			"path": "teleporter_blue"
 		},
 		{
 			"name": "Teleporter",
 			"ammoType": "YELLOW_AMMO",
-			"path": "teleporter_yellow.png"
+			"path": "teleporter_yellow"
 		},
 		{
 			"name": "Teleporter",
 			"ammoType": "RED_AMMO",
-			"path": "teleporter_red.png"
+			"path": "teleporter_red"
 		},
 		{
 			"name": "Teleporter",
 			"ammoType": "BLUE_AMMO",
-			"path": "teleporter_blue.png"
+			"path": "teleporter_blue"
 		},
 		{
 			"name": "Teleporter",
 			"ammoType": "YELLOW_AMMO",
-			"path": "teleporter_yellow.png"
+			"path": "teleporter_yellow"
 		},
 		{
 			"name": "Newton",
 			"ammoType": "RED_AMMO",
-			"path": "newton_red.png"
+			"path": "newton_red"
 		},
 		{
 			"name": "Newton",
 			"ammoType": "BLUE_AMMO",
-			"path": "newton_blue.png"
+			"path": "newton_blue"
 		},
 		{
 			"name": "Newton",
 			"ammoType": "YELLOW_AMMO",
-			"path": "newton_yellow.png"
+			"path": "newton_yellow"
 		},
 		{
 			"name": "Newton",
 			"ammoType": "RED_AMMO",
-			"path": "newton_red.png"
+			"path": "newton_red"
 		},
 		{
 			"name": "Newton",
 			"ammoType": "BLUE_AMMO",
-			"path": "newton_blue.png"
+			"path": "newton_blue"
 		},
 		{
 			"name": "Newton",
 			"ammoType": "YELLOW_AMMO",
-			"path": "newton_yellow.png"
+			"path": "newton_yellow"
 		},
 		{
 			"name": "Targetting scope",
 			"ammoType": "RED_AMMO",
-			"path": "targetting_scope_red.png"
+			"path": "targetting_scope_red"
 		},
 		{
 			"name": "Targetting scope",
 			"ammoType": "BLUE_AMMO",
-			"path": "targetting_scope_blue.png"
+			"path": "targetting_scope_blue"
 		},
 		{
 			"name": "Targetting scope",
 			"ammoType": "YELLOW_AMMO",
-			"path": "targetting_scope_yellow.png"
+			"path": "targetting_scope_yellow"
 		},
 		{
 			"name": "Targetting scope",
 			"ammoType": "RED_AMMO",
-			"path": "targetting_scope_red.png"
+			"path": "targetting_scope_red"
 		},
 		{
 			"name": "Targetting scope",
 			"ammoType": "BLUE_AMMO",
-			"path": "targetting_scope_blue.png"
+			"path": "targetting_scope_blue"
 		},
 		{
 			"name": "Targetting scope",
 			"ammoType": "YELLOW_AMMO",
-			"path": "targetting_scope_yellow.png"
+			"path": "targetting_scope_yellow"
 		},
 		{
 			"name": "Tagback grenade",
 			"ammoType": "RED_AMMO",
-			"path": "tagback_grenade_red.png"
+			"path": "tagback_grenade_red"
 		},
 		{
 			"name": "Tagback grenade",
 			"ammoType": "BLUE_AMMO",
-			"path": "tagback_grenade_blue.png"
+			"path": "tagback_grenade_blue"
 		},
 		{
 			"name": "Tagback grenade",
 			"ammoType": "YELLOW_AMMO",
-			"path": "tagback_grenade_yellow.png"
+			"path": "tagback_grenade_yellow"
 		},
 		{
 			"name": "Tagback grenade",
 			"ammoType": "RED_AMMO",
-			"path": "tagback_grenade_red.png"
+			"path": "tagback_grenade_red"
 		},
 		{
 			"name": "Tagback grenade",
 			"ammoType": "BLUE_AMMO",
-			"path": "tagback_grenade_blue.png"
+			"path": "tagback_grenade_blue"
 		},
 		{
 			"name": "Tagback grenade",
 			"ammoType": "YELLOW_AMMO",
-			"path": "tagback_grenade_yellow.png"
+			"path": "tagback_grenade_yellow"
 		}
 	]
 }

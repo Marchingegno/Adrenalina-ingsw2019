@@ -2,13 +2,20 @@ package it.polimi.se2019.view.client.gui;
 
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.ModelRep;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameBoardController {
@@ -250,26 +257,33 @@ public class GameBoardController {
 	@FXML
 	private ImageView weponImageYellow2;
 
+	private PlayerInventoryController inventoryController;
+	private Stage inventoryStage;
 	@FXML
 	private ImageView playerIcon0;
 	@FXML
 	private Button playerIconButton0;
+	private PlayerRep playerRep0;
 	@FXML
 	private ImageView playerIcon1;
 	@FXML
 	private Button playerIconButton1;
+	private PlayerRep playerRep1;
 	@FXML
 	private ImageView playerIcon2;
 	@FXML
 	private Button playerIconButton2;
+	private PlayerRep playerRep2;
 	@FXML
 	private ImageView playerIcon3;
 	@FXML
 	private Button playerIconButton3;
+	private PlayerRep playerRep3;
 	@FXML
 	private ImageView playerIcon4;
 	@FXML
 	private Button playerIconButton4;
+	private PlayerRep playerRep4;
 
 	@FXML
 	private ImageView skullToken00;
@@ -384,20 +398,106 @@ public class GameBoardController {
 	private boolean initialized = false;
 
 
-	private Image loadImage(String filePath) {
-		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
+	@FXML
+	private void showInventory0() {
+		inventoryController.initializeInventory(playerRep0);
+		inventoryStage.show();
 	}
+
+	@FXML
+	private void showInventory1() {
+		inventoryController.initializeInventory(playerRep1);
+		inventoryStage.show();
+	}
+
+	@FXML
+	private void showInventory2() {
+		inventoryController.initializeInventory(playerRep2);
+		inventoryStage.show();
+	}
+
+	@FXML
+	private void showInventory3() {
+		inventoryController.initializeInventory(playerRep3);
+		inventoryStage.show();
+	}
+
+	@FXML
+	private void showInventory4() {
+		inventoryController.initializeInventory(playerRep4);
+		inventoryStage.show();
+	}
+
+
 
 	public void init_GameMap(ModelRep modelRep) {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
-		List<PlayerRep> playersRep = modelRep.getPlayersRep();
-		playersRep.get(0);
-		playersRep.get(1);
-		playersRep.get(2);
-		playersRep.get(3);
-		playersRep.get(4);
+		List<PlayerRep> playersRep = new ArrayList<>();
+		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
+			if (playerRep.isHidden()) {
+				System.out.println("Added " + playerRep.getPgName());
+				playersRep.add(playerRep);
+			}
+		}
+
+		playerRep0 = modelRep.getClientPlayerRep();
+		playerIcon0.setImage(loadImage("playerBoards/" + playerRep0.getPgName() + "/icon"));
+
+		if (playersRep.size() >= 1) {
+			playerRep1 = playersRep.get(0);
+			System.out.println(playerRep1);
+			playerIcon1.setImage(loadImage("playerBoards/" + playerRep1.getPgName() + "/icon"));
+		} else {
+			playerIcon1.setVisible(false);
+			playerIconButton1.setDisable(true);
+			playerIconButton1.setVisible(false);
+		}
+
+		if (playersRep.size() >= 2) {
+			playerRep2 = playersRep.get(1);
+			playerIcon2.setImage(loadImage("playerBoards/" + playerRep2.getPgName() + "/icon"));
+		} else {
+			playerIcon2.setVisible(false);
+			playerIconButton2.setDisable(true);
+			playerIconButton2.setVisible(false);
+		}
+
+		if (playersRep.size() >= 3) {
+			playerRep3 = playersRep.get(2);
+			playerIcon3.setImage(loadImage("playerBoards/" + playerRep3.getPgName() + "/icon"));
+		} else {
+			playerIcon3.setVisible(false);
+			playerIconButton3.setDisable(true);
+			playerIconButton3.setVisible(false);
+		}
+
+		if (playersRep.size() >= 4) {
+			playerRep4 = playersRep.get(3);
+			playerIcon4.setImage(loadImage("playerBoards/" + playerRep4.getPgName() + "/icon"));
+		} else {
+			playerIcon4.setVisible(false);
+			playerIconButton4.setDisable(true);
+			playerIconButton4.setVisible(false);
+		}
 		setMap(gameMapRep.getName());
+
+		inventoryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/PlayerInventory.fxml"));
+		try {
+			Parent root = loader.load();
+			inventoryStage.setTitle("Adrenaline");
+			inventoryStage.setScene(new Scene(root));
+			inventoryController = loader.getController();
+		} catch (IOException e) {
+			Utils.logError("Error loading loginController", e);
+		}
+		inventoryStage.hide();
+
 		initialized = true;
+	}
+
+	public void updateGameBoard() {
+		//TODO update playersRep
 	}
 
 	public boolean isInitialized() {
@@ -406,5 +506,10 @@ public class GameBoardController {
 
 	private void setMap(String mapName) {
 		backGround.setImage(loadImage("maps/" + mapName));
+	}
+
+	private Image loadImage(String filePath) {
+		System.out.println(filePath);
+		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
 	}
 }
