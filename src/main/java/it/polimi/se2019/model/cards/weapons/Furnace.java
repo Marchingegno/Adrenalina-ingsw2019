@@ -28,11 +28,10 @@ public class Furnace extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			targettableCoordinates = getPrimaryCoordinates();
 			return getTargetCoordinatesQnO(targettableCoordinates);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			targetCoordinate = targettableCoordinates.get(choice);
 			currentTargets = getPrimaryTargets();
 			primaryFire();
@@ -42,11 +41,10 @@ public class Furnace extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			targettableCoordinates = getSecondaryCoordinates();
 			return getTargetCoordinatesQnO(targettableCoordinates);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			targetCoordinate = targettableCoordinates.get(choice);
 			currentTargets = getSecondaryTargets();
 			secondaryFire();
@@ -85,7 +83,7 @@ public class Furnace extends AlternateFireWeapon {
 		return getGameMap().getPlayersFromCoordinates(targetCoordinate);
 	}
 
-	private List<Coordinates> getPrimaryCoordinates(){
+	private List<Coordinates> getPrimaryCoordinates() {
 		List<Coordinates> doorsOfNearbyRooms = getGameMap().getDoors(getOwner());
 		List<Coordinates> availableDoors = new ArrayList<>(doorsOfNearbyRooms);
 		for (Coordinates coordinates : doorsOfNearbyRooms) {
@@ -102,7 +100,7 @@ public class Furnace extends AlternateFireWeapon {
 		return availableDoors;
 	}
 
-	private List<Coordinates> getSecondaryCoordinates(){
+	private List<Coordinates> getSecondaryCoordinates() {
 		List<Coordinates> oneMoveCoordinates = getGameMap().reachableCoordinates(getOwner(), 1);
 		oneMoveCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
 		//Remove all coordinates that don't contain players.

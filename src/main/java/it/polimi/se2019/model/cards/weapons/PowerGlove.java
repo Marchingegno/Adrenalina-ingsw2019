@@ -49,11 +49,11 @@ public class PowerGlove extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2) {
+		if (getCurrentStep() == 2) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
 		}
-		if(getCurrentStep() == 3) {
+		if (getCurrentStep() == 3) {
 			target = currentTargets.get(choice);
 			targetCoordinates = getGameMap().getPlayerCoordinates(target);
 			primaryFire();
@@ -63,22 +63,18 @@ public class PowerGlove extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 2) {
+		if (getCurrentStep() == 2) {
 			return askDirection();
-		}
-		else if(getCurrentStep() == 3) {
+		} else if (getCurrentStep() == 3) {
 			saveDirectionChoice(choice);
 			return askFistDistance();
-		}
-		else if(getCurrentStep() == 4) {
+		} else if (getCurrentStep() == 4) {
 			saveFistDistanceChoice(choice);
 			return initialAskTargets();
-		}
-		else if(getCurrentStep() == 5) {
+		} else if (getCurrentStep() == 5) {
 			saveTargetChoice(choice);
 			return endOrSecondAskTargets();
-		}
-		else if(getCurrentStep() == 6) {
+		} else if (getCurrentStep() == 6) {
 			saveTargetChoice(choice);
 			endInSecondSquare();
 		}
@@ -135,7 +131,7 @@ public class PowerGlove extends AlternateFireWeapon {
 	}
 
 	private void saveFistDistanceChoice(int choice) {
-		if(choice == longFlyChoice)
+		if (choice == longFlyChoice)
 			isLongFly = true;
 	}
 
@@ -147,7 +143,7 @@ public class PowerGlove extends AlternateFireWeapon {
 	 */
 	private QuestionContainer initialAskTargets() {
 		currentTargets = getFirstSquareTargets();
-		if(currentTargets.isEmpty() && isLongFly) {
+		if (currentTargets.isEmpty() && isLongFly) {
 			incrementCurrentStep(); // Skip step 5.
 			currentTargets = getSecondSquareTargets();
 			return getTargetPlayersQnO(currentTargets, "Which of the following players, of the second square, do you want to target?");
@@ -162,7 +158,7 @@ public class PowerGlove extends AlternateFireWeapon {
 	 * @return the QuestionContainer for the second target question.
 	 */
 	private QuestionContainer endOrSecondAskTargets() {
-		if(isLongFly)
+		if (isLongFly)
 			return secondAskTargets();
 		else
 			endInFirstSquare();
@@ -186,7 +182,7 @@ public class PowerGlove extends AlternateFireWeapon {
 
 	private QuestionContainer secondAskTargets() {
 		currentTargets = getSecondSquareTargets();
-		if(currentTargets.isEmpty())
+		if (currentTargets.isEmpty())
 			endInSecondSquare();
 		else
 			return getTargetPlayersQnO(currentTargets, "Which of the following players, of the second square, do you want to target?");
@@ -201,18 +197,18 @@ public class PowerGlove extends AlternateFireWeapon {
 
 	private List<CardinalDirection> getTargettableDirections() {
 		ArrayList<CardinalDirection> targettableDirectionsTemp = new ArrayList<>();
-		for(CardinalDirection cardinalDirection : CardinalDirection.values()) {
+		for (CardinalDirection cardinalDirection : CardinalDirection.values()) {
 			Coordinates coordinates1 = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), cardinalDirection);
-			if(coordinates1 != null) {
+			if (coordinates1 != null) {
 				List<Player> players1 = getGameMap().getPlayersFromCoordinates(coordinates1);
-				if(!players1.isEmpty()) {
+				if (!players1.isEmpty()) {
 					targettableDirectionsTemp.add(cardinalDirection);
 					continue;
 				}
 				Coordinates coordinates2 = getGameMap().getCoordinatesFromDirection(coordinates1, cardinalDirection);
-				if(coordinates2 != null) {
+				if (coordinates2 != null) {
 					List<Player> players2 = getGameMap().getPlayersFromCoordinates(coordinates2);
-					if(!players2.isEmpty())
+					if (!players2.isEmpty())
 						targettableDirectionsTemp.add(cardinalDirection);
 				}
 			}
@@ -224,7 +220,7 @@ public class PowerGlove extends AlternateFireWeapon {
 		List<String> distanceAnswers = new ArrayList<>();
 
 		Coordinates coordinates1 = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), targetDirection);
-		if(getGameMap().getPlayersFromCoordinates(coordinates1).isEmpty()) {
+		if (getGameMap().getPlayersFromCoordinates(coordinates1).isEmpty()) {
 			longFlyChoice = 0;
 		} else {
 			distanceAnswers.add("1 square");
@@ -232,7 +228,7 @@ public class PowerGlove extends AlternateFireWeapon {
 		}
 
 		Coordinates coordinates2 = getGameMap().getCoordinatesFromDirection(coordinates1, targetDirection);
-		if(coordinates2 != null)
+		if (coordinates2 != null)
 			distanceAnswers.add("2 squares");
 		return distanceAnswers;
 	}

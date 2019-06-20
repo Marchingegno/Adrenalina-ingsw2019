@@ -29,11 +29,10 @@ public class Shockwave extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 
-		if(getCurrentStep() == 5){
+		if (getCurrentStep() == 5) {
 			chosenTargets.add(currentTargets.get(choice));
 			primaryFire();
-		}
-		else{
+		} else {
 			return handleChooseTargets(choice);
 		}
 		return null;
@@ -46,13 +45,13 @@ public class Shockwave extends AlternateFireWeapon {
 		return null;
 	}
 
-	private QuestionContainer handleChooseTargets(int choice){
+	private QuestionContainer handleChooseTargets(int choice) {
 		//Initial step: the player hasn't chosen yet.
-		if(getCurrentStep() != 2){
-			try{
+		if (getCurrentStep() != 2) {
+			try {
 				chosenTargets.add(currentTargets.get(choice));
-			} catch (IndexOutOfBoundsException e){
-				Utils.logWarning("Shockwave: no targets near "+getOwner().getPlayerName() + ".");
+			} catch (IndexOutOfBoundsException e) {
+				Utils.logWarning("Shockwave: no targets near " + getOwner().getPlayerName() + ".");
 			}
 		}
 		currentTargets = getPrimaryTargets();
@@ -82,7 +81,7 @@ public class Shockwave extends AlternateFireWeapon {
 		adjacentPlayersExceptChosen.removeAll(getGameMap().reachablePlayers(getOwner(), 0));
 		if (chosenTargets != null && !chosenTargets.isEmpty()) {
 			//Then the player has already chosen someone, we need to remove all the players in target's squares.
-			for (Player enemy:chosenTargets) {
+			for (Player enemy : chosenTargets) {
 				List<Player> playersToRemove = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(enemy));
 				adjacentPlayersExceptChosen.removeAll(playersToRemove);
 			}

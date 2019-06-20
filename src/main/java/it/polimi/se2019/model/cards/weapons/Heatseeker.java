@@ -38,11 +38,10 @@ public class Heatseeker extends WeaponCard {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 1){
+		if (getCurrentStep() == 1) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 2){
+		} else if (getCurrentStep() == 2) {
 			target = currentTargets.get(choice);
 			primaryFire();
 		}

@@ -29,10 +29,10 @@ public class TractorBeam extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		switch (getCurrentStep()){
+		switch (getCurrentStep()) {
 			case 2:
 				currentTargets = getPrimaryTargets();
-				if(currentTargets.isEmpty()) {
+				if (currentTargets.isEmpty()) {
 					Utils.logError("currentTargets is null! See TractorBeam", new IllegalStateException());
 					return null;
 				}
@@ -51,7 +51,7 @@ public class TractorBeam extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		switch (getCurrentStep()){
+		switch (getCurrentStep()) {
 			case 2:
 				currentTargets = getSecondaryTargets();
 				return getTargetPlayersQnO(currentTargets);
@@ -80,11 +80,11 @@ public class TractorBeam extends AlternateFireWeapon {
 		List<Coordinates> visibleCoordinates = getGameMap().getVisibleCoordinates(getOwner());
 		List<Player> players = getAllPlayers();
 		List<Player> targettablePlayers = new ArrayList<>();
-		for (Player player: players) {
+		for (Player player : players) {
 			if (player != getOwner() && getGameMap().isInTheMap(player)) {
 				List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(player, 2);
 				intersectionCoordinates.retainAll(visibleCoordinates);
-				if(!intersectionCoordinates.isEmpty()){
+				if (!intersectionCoordinates.isEmpty()) {
 					targettablePlayers.add(player);
 				}
 			}

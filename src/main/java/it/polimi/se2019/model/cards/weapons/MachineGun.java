@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MachineGun extends OptionalEffectsWeapon {
-	private List<Player> chosenTargets;
 	private static final int OPTIONAL2_EXTRA_DAMAGE = 1;
+	private List<Player> chosenTargets;
 
 	public MachineGun(JsonObject parameters) {
 		super(parameters);
@@ -39,12 +39,12 @@ public class MachineGun extends OptionalEffectsWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			chosenTargets = new ArrayList<>();
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
 		}
-		if(getCurrentStep() == 3){
+		if (getCurrentStep() == 3) {
 			//Chosen first target.
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = getPrimaryTargets();
@@ -56,16 +56,16 @@ public class MachineGun extends OptionalEffectsWeapon {
 			}
 			return getTargetPlayersAndRefusalQnO(currentTargets);
 		}
-		if(getCurrentStep() == 4) {
+		if (getCurrentStep() == 4) {
 			//Chosen second target.
 			if (!isThisChoiceRefusal(currentTargets, choice)) {
 				chosenTargets.add(currentTargets.get(choice));
 			}
 		}
 
-		if(isOptionalActive(2)){
+		if (isOptionalActive(2)) {
 			return handleOptionalEffect2(choice);
-		}else{
+		} else {
 			currentTargets = chosenTargets;
 			primaryFire();
 		}
@@ -74,11 +74,10 @@ public class MachineGun extends OptionalEffectsWeapon {
 
 	@Override
 	protected QuestionContainer handleOptionalEffect2(int choice) {
-		if(getCurrentStep() == 4){
+		if (getCurrentStep() == 4) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 5){
+		} else if (getCurrentStep() == 5) {
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = chosenTargets;
 		}

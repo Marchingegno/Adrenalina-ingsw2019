@@ -36,7 +36,7 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		switch (getCurrentStep()){
+		switch (getCurrentStep()) {
 			case 2:
 				return handleDirectionChoice(choice);
 			case 3:
@@ -44,35 +44,35 @@ public class Flamethrower extends AlternateFireWeapon {
 				currentTargets = getPrimaryTargets();
 				//If there are no targets on the first square, ask second square target.
 				//So I increment the step and re-call this method.
-				if (currentTargets.isEmpty()){
+				if (currentTargets.isEmpty()) {
 					incrementCurrentStep();
 					return handlePrimaryFire(0);
 				}
 				return getTargetPlayersQnO(currentTargets);
 			case 4:
-				try{
+				try {
 					firstSquareTarget = currentTargets.get(choice);
-				} catch (IndexOutOfBoundsException e){
-					Utils.logInfo("There are no players in the first square chosen by " + getOwner().getPlayerName() +".");
+				} catch (IndexOutOfBoundsException e) {
+					Utils.logInfo("There are no players in the first square chosen by " + getOwner().getPlayerName() + ".");
 					firstSquareTarget = null;
 				}
 
 				currentTargets = getSecondSquareTargets();
-				try{
-					if (currentTargets.isEmpty()){
+				try {
+					if (currentTargets.isEmpty()) {
 						incrementCurrentStep();
 						return handlePrimaryFire(0);
 					}
-				} catch (NullPointerException e){
+				} catch (NullPointerException e) {
 					Utils.logError("Flamethrower: currentTargets is null", e);
 				}
 
 				return getTargetPlayersQnO(currentTargets);
 			case 5:
-				try{
+				try {
 					secondSquareTarget = currentTargets.get(choice);
-				}catch (IndexOutOfBoundsException e){
-					Utils.logInfo("There are no players in the second square chosen by " + getOwner().getPlayerName() +".");
+				} catch (IndexOutOfBoundsException e) {
+					Utils.logInfo("There are no players in the second square chosen by " + getOwner().getPlayerName() + ".");
 					secondSquareTarget = null;
 				}
 				primaryFire();
@@ -97,12 +97,11 @@ public class Flamethrower extends AlternateFireWeapon {
 		return null;
 	}
 
-	private QuestionContainer handleDirectionChoice(int choice){
-		if(getCurrentStep() == 2) {
+	private QuestionContainer handleDirectionChoice(int choice) {
+		if (getCurrentStep() == 2) {
 			availableDirections = getAvailableDirections();
 			return getCardinalQnO(availableDirections);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 		}
 		return null;
@@ -132,7 +131,7 @@ public class Flamethrower extends AlternateFireWeapon {
 	@Override
 	public List<Player> getPrimaryTargets() {
 		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
-		if(nextSquare != null)
+		if (nextSquare != null)
 			return getGameMap().getPlayersFromCoordinates(nextSquare);
 		else
 			return new ArrayList<>();
@@ -140,9 +139,9 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	private List<Player> getSecondSquareTargets() {
 		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
-		if(nextSquare != null) {
+		if (nextSquare != null) {
 			Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
-			if(nextNextSquare != null){
+			if (nextNextSquare != null) {
 				return getGameMap().getPlayersFromCoordinates(nextNextSquare);
 			}
 		}
@@ -152,10 +151,10 @@ public class Flamethrower extends AlternateFireWeapon {
 	@Override
 	public List<Player> getSecondaryTargets() {
 		Coordinates nextSquare = getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), chosenDirection);
-		if(nextSquare != null) {
+		if (nextSquare != null) {
 			List<Player> targets = getGameMap().getPlayersFromCoordinates(nextSquare);
 			Coordinates nextNextSquare = getGameMap().getCoordinatesFromDirection(nextSquare, chosenDirection);
-			if(nextNextSquare != null)
+			if (nextNextSquare != null)
 				targets.addAll(getGameMap().getPlayersFromCoordinates(nextNextSquare));
 			return targets;
 		}

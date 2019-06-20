@@ -11,7 +11,7 @@ public class WeaponRep extends CardRep {
 	private boolean isLoaded;
 	private String weaponPath;
 
-	public WeaponRep(WeaponCard weaponCardToRepresent){
+	public WeaponRep(WeaponCard weaponCardToRepresent) {
 		super(weaponCardToRepresent);
 		price = weaponCardToRepresent.getReloadPrice();
 		this.isLoaded = weaponCardToRepresent.isLoaded();

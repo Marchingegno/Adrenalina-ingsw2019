@@ -29,15 +29,13 @@ public class Railgun extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			this.availableDirections = getAvailableDirections();
 			return getCardinalQnO(availableDirections);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
-		}
-		else if(getCurrentStep() == 4){
+		} else if (getCurrentStep() == 4) {
 			target = currentTargets.get(choice);
 			primaryFire();
 		}
@@ -46,22 +44,19 @@ public class Railgun extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			this.availableDirections = getAvailableDirections();
 			return getCardinalQnO(availableDirections);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 			return setSecondaryCurrentTargetsAndReturnTargetQnO();
-		}
-		else if(getCurrentStep() == 4){
+		} else if (getCurrentStep() == 4) {
 			target = currentTargets.get(choice);
 			//With refusal.
 			currentTargets = getSecondaryTargets();
 			return getTargetPlayersAndRefusalQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 5){
-			if(!isThisChoiceRefusal(currentTargets, choice)){
+		} else if (getCurrentStep() == 5) {
+			if (!isThisChoiceRefusal(currentTargets, choice)) {
 				secondTarget = currentTargets.get(choice);
 			}
 			secondaryFire();
@@ -89,7 +84,7 @@ public class Railgun extends AlternateFireWeapon {
 	@Override
 	public List<Player> getSecondaryTargets() {
 		List<Player> playersInDirection = getPrimaryTargets();
-		if(target != null){
+		if (target != null) {
 			playersInDirection.remove(target);
 		}
 		return playersInDirection;

@@ -31,11 +31,10 @@ public class Hellion extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			target = currentTargets.get(choice);
 			primaryFire();
 		}
@@ -44,11 +43,10 @@ public class Hellion extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			currentTargets = getSecondaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			target = currentTargets.get(choice);
 			secondaryFire();
 		}
@@ -63,7 +61,7 @@ public class Hellion extends AlternateFireWeapon {
 		unifiedFire();
 	}
 
-	private void unifiedFire(){
+	private void unifiedFire() {
 		//Get the right list of damages and marks to begin firing, depending on which fire mode is chosen.
 		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? new ArrayList<>(secondaryDamagesAndMarks) : new ArrayList<>(standardDamagesAndMarks);
 		//Get the player in the same square of the target, then add the target on top of the list.

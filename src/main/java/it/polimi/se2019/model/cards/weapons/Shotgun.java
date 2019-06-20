@@ -26,15 +26,13 @@ public class Shotgun extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			this.target = currentTargets.get(choice);
 			this.listEnemyMoveCoordinates = getEnemyMovingCoordinates();
 			return getMovingTargetEnemyCoordinatesQnO(target, listEnemyMoveCoordinates);
-		}
-		else if(getCurrentStep() == 4){
+		} else if (getCurrentStep() == 4) {
 			relocateEnemy(target, listEnemyMoveCoordinates.get(choice));
 			primaryFire();
 		}
@@ -43,11 +41,10 @@ public class Shotgun extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			currentTargets = getSecondaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			this.target = currentTargets.get(choice);
 			secondaryFire();
 		}
@@ -62,7 +59,7 @@ public class Shotgun extends AlternateFireWeapon {
 		unifiedFire();
 	}
 
-	private void unifiedFire(){
+	private void unifiedFire() {
 		List<DamageAndMarks> chosenDamagesAndMarks = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
 		dealDamageAndConclude(chosenDamagesAndMarks, target);
 	}
@@ -75,7 +72,7 @@ public class Shotgun extends AlternateFireWeapon {
 		return enemyPlayersInMySquare;
 	}
 
-	private List<Coordinates> getEnemyMovingCoordinates(){
+	private List<Coordinates> getEnemyMovingCoordinates() {
 		return getGameMap().reachableCoordinates(getOwner(), 1);
 	}
 
@@ -84,7 +81,7 @@ public class Shotgun extends AlternateFireWeapon {
 		List<Coordinates> listAdjacentCoordinates = getGameMap().reachableCoordinates(getOwner(), 1);
 		listAdjacentCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
 		List<Player> adjacentPlayers = new ArrayList<>();
-		for (Coordinates adjacentCoordinate: listAdjacentCoordinates) {
+		for (Coordinates adjacentCoordinate : listAdjacentCoordinates) {
 			adjacentPlayers.addAll(getGameMap().getPlayersFromCoordinates(adjacentCoordinate));
 		}
 		return adjacentPlayers;

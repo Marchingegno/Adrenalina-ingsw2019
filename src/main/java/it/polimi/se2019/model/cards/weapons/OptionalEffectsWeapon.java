@@ -14,12 +14,11 @@ import java.util.List;
 /**
  * Weapons with at most two optional effects. An optional effect is an enhancement the player can choose to give at the
  * primary fire mode. Some optional effect have an additional ammo cost.
- * @author  Marchingegno
+ *
+ * @author Marchingegno
  */
 public abstract class OptionalEffectsWeapon extends WeaponCard {
-	private boolean[] optionalEffectsActive;
 	boolean[] hasOptionalEffects;
-	private List<AmmoType> optionalPrices;
 	int optional1Damage;
 	int optional1Marks;
 	int optional2Damage;
@@ -27,6 +26,8 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	List<DamageAndMarks> optional1DamagesAndMarks;
 	List<DamageAndMarks> optional2DamagesAndMarks;
 	List<DamageAndMarks> optionalBothDamagesAndMarks;
+	private boolean[] optionalEffectsActive;
+	private List<AmmoType> optionalPrices;
 
 	public OptionalEffectsWeapon(JsonObject parameters) {
 		super(parameters);
@@ -70,7 +71,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	protected void registerChoice(int choice) {
-		switch (choice){
+		switch (choice) {
 			case 0:
 				//No optional effects.
 				break;
@@ -78,8 +79,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 				//If the first optional effect can't be added, then choice 1 is the second optional effect
 				if (canAddThisOptionalEffect(1)) {
 					optionalEffectsActive[0] = true;
-				}
-				else{
+				} else {
 					optionalEffectsActive[1] = true;
 				}
 				break;
@@ -91,7 +91,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 				optionalEffectsActive[1] = true;
 				break;
 			default:
-				Utils.logError("There is no options with choice number " +choice, new IllegalArgumentException());
+				Utils.logError("There is no options with choice number " + choice, new IllegalArgumentException());
 		}
 	}
 
@@ -99,20 +99,19 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	public QuestionContainer doActivationStep(int choice) {
 		incrementCurrentStep();
 		Utils.logWeapon(this.getCardName() + ": executing main method with currentStep " + getCurrentStep() + " and choice " + choice);
-		if(getCurrentStep() == 1){
+		if (getCurrentStep() == 1) {
 			return initialQuestion();
-		}
-		else if(getCurrentStep() == 2){
+		} else if (getCurrentStep() == 2) {
 			registerChoice(choice);
 		}
 		return handlePrimaryFire(choice);
 	}
 
-	protected QuestionContainer handleOptionalEffect1(int choice){
+	protected QuestionContainer handleOptionalEffect1(int choice) {
 		return null;
 	}
 
-	protected QuestionContainer handleOptionalEffect2(int choice){
+	protected QuestionContainer handleOptionalEffect2(int choice) {
 		return null;
 	}
 
@@ -122,30 +121,26 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	@Override
 	public void primaryFire() {
-		if(isBothOptionalActive()){
+		if (isBothOptionalActive()) {
 			dealDamageAndConclude(optionalBothDamagesAndMarks, currentTargets);
-		}
-		else if(isOptionalActive(1)){
+		} else if (isOptionalActive(1)) {
 			dealDamageAndConclude(optional1DamagesAndMarks, currentTargets);
-		}
-		else if(isOptionalActive(2)){
+		} else if (isOptionalActive(2)) {
 			dealDamageAndConclude(optional2DamagesAndMarks, currentTargets);
-		}
-		else{
+		} else {
 			dealDamageAndConclude(standardDamagesAndMarks, currentTargets);
 		}
 	}
 
 
-
-	public void optional1Fire(){
+	public void optional1Fire() {
 	}
 
-	public void optional2Fire(){
+	public void optional2Fire() {
 
 	}
 
-	void optionalReset(){
+	void optionalReset() {
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			optionalEffectsActive[i] = false;
 		}
@@ -158,7 +153,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	}
 
-	public AmmoType getCostOfOptionalEffect(int numberOfEffect){
+	public AmmoType getCostOfOptionalEffect(int numberOfEffect) {
 		return optionalPrices.get(numberOfEffect - 1);
 
 	}
@@ -167,7 +162,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return optionalEffectsActive[optionalIndex - 1];
 	}
 
-	protected boolean isBothOptionalActive(){
+	protected boolean isBothOptionalActive() {
 		return optionalEffectsActive[0] && optionalEffectsActive[1];
 	}
 

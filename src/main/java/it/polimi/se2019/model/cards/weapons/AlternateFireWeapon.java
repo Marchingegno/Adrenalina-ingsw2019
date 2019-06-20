@@ -15,6 +15,7 @@ import static java.lang.Boolean.FALSE;
 
 /**
  * Weapons with an alternate fire method. The player can choose one of the two firing modes the weapon has.
+ *
  * @author Marchingegno
  */
 public abstract class AlternateFireWeapon extends WeaponCard {
@@ -62,7 +63,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		Utils.logWeapon(this.getCardName() + ": executing main method with currentStep " + getCurrentStep() + " and choice " + choice);
 		if (getCurrentStep() == 1) {
 			return initialQuestion();
-		} else if(getCurrentStep() == 2){
+		} else if (getCurrentStep() == 2) {
 			registerChoice(choice);
 		}
 
@@ -94,6 +95,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 
 	/**
 	 * Get the targets of the secondary mode of fire for this weapon.
+	 *
 	 * @return the targettable players.
 	 */
 	public abstract List<Player> getSecondaryTargets();
@@ -109,7 +111,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		secondaryReset();
 	}
 
-	protected QuestionContainer setSecondaryCurrentTargetsAndReturnTargetQnO(){
+	protected QuestionContainer setSecondaryCurrentTargetsAndReturnTargetQnO() {
 		currentTargets = getSecondaryTargets();
 		return getTargetPlayersQnO(currentTargets);
 	}

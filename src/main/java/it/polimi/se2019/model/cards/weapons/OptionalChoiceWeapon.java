@@ -22,9 +22,9 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 	protected boolean moveCompleted;
 	protected boolean extraCompleted;
 	protected boolean effectHasChanged;
-	private boolean ended;
 	protected WeaponEffectType[] currentEffectList;
 	protected WeaponEffectType nextType;
+	private boolean ended;
 
 	public OptionalChoiceWeapon(JsonObject parameters) {
 		super(parameters);

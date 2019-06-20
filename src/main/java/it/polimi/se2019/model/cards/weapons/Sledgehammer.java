@@ -27,11 +27,10 @@ public class Sledgehammer extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			this.target = currentTargets.get(choice);
 			primaryFire();
 		}
@@ -40,16 +39,14 @@ public class Sledgehammer extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		if(getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			this.target = currentTargets.get(choice);
 			enemyMovingCoordinates = getEnemyMovingCoordinates();
 			return getMovingTargetEnemyCoordinatesQnO(target, enemyMovingCoordinates);
-		}
-		else if(getCurrentStep() == 4){
+		} else if (getCurrentStep() == 4) {
 			relocateEnemy(target, enemyMovingCoordinates.get(choice));
 			secondaryFire();
 		}
@@ -60,7 +57,7 @@ public class Sledgehammer extends AlternateFireWeapon {
 		unifiedFire();
 	}
 
-	private void unifiedFire(){
+	private void unifiedFire() {
 		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
 		dealDamageAndConclude(damageAndMarksList, target);
 	}
@@ -84,7 +81,6 @@ public class Sledgehammer extends AlternateFireWeapon {
 		coordinates.add(getGameMap().getPlayerCoordinates(getOwner()));
 		return coordinates;
 	}
-
 
 
 	@Override

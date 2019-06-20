@@ -22,22 +22,22 @@ import java.util.List;
  * This will return a {@link QuestionContainer} that the controller must send to the Virtual View of the shooting player.
  * The controller will need to {@link #reset()} the weapon
  * if it has finished firing. The method {@link #reset()} will deload and reset the weapon to its original state.
+ *
  * @author Marchingegno
  */
 public abstract class WeaponCard extends ActivableCard {
 
-	private boolean loaded;
+	private final ArrayList<AmmoType> reloadPrice;
+	private final int moveDistance; //Standard move for relocation of the player.
+	private final int primaryDamage;
+	private final int primaryMarks;
 	int maximumSteps; //Maximum advancement steps.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
 	List<Player> currentTargets;
 	Player target;
-
-	private final ArrayList<AmmoType> reloadPrice;
-	private final int moveDistance; //Standard move for relocation of the player.
-	private final int primaryDamage;
-	private final int primaryMarks;
+	private boolean loaded;
 
 
 	public WeaponCard(JsonObject parameters) {
@@ -57,6 +57,82 @@ public abstract class WeaponCard extends ActivableCard {
 		loaded = true;
 	}
 
+	protected static QuestionContainer getActionTypeQnO(boolean moveActive, boolean shootActive) {
+		String question = "Select the type of action you want to execute.";
+		List<String> options = new ArrayList<>();
+		if (moveActive) {
+			options.add(ActionType.MOVE.toString());
+		}
+		if (shootActive) {
+			options.add(ActionType.SHOOT.toString());
+		}
+
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
+	/**
+	 * Builds a {@link QuestionContainer} that asks which player to target.
+	 *
+	 * @param targets the target players to choose from.
+	 * @return the {@link QuestionContainer}.
+	 */
+	public static QuestionContainer getTargetPlayersQnO(List<Player> targets) {
+		return getTargetPlayersQnO(targets, "Which of the following players do you want to target?");
+	}
+
+	public static QuestionContainer getTargetPlayersQnO(List<Player> targets, String question) {
+		List<String> options = new ArrayList<>();
+		targets.forEach(target -> options.add(target.getPlayerName()));
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
+	/**
+	 * Builds a {@link QuestionContainer} that ask in which coordinate to move the enemy player.
+	 *
+	 * @param targetPlayer the player that will be moved.
+	 * @param coordinates  the list of coordinates to choose from.
+	 * @return the {@link QuestionContainer}.
+	 */
+	protected static QuestionContainer getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates) {
+		return getCoordinatesQno(coordinates, "Where do you want to move " + targetPlayer.getPlayerName() + "?");
+	}
+
+	/**
+	 * Builds a {@link QuestionContainer} that asks in which coordinate to fire at.
+	 *
+	 * @param coordinates the list of coordinates to choose from.
+	 * @return the {@link QuestionContainer}.
+	 */
+	protected static QuestionContainer getTargetCoordinatesQnO(List<Coordinates> coordinates) {
+		return getCoordinatesQno(coordinates, "Where do you want to fire?");
+	}
+
+	protected static QuestionContainer getMoveCoordinatesQnO(List<Coordinates> coordinates) {
+		return getCoordinatesQno(coordinates, "Where do you want to move?");
+	}
+
+	private static QuestionContainer getCoordinatesQno(List<Coordinates> coordinates, String question) {
+		return QuestionContainer.createCoordinatesQuestionContainer(question, new ArrayList<>(coordinates));
+	}
+
+	protected static QuestionContainer getCardinalQnO(List<String> availableDirections) {
+		String question = "In which direction do you wish to fire?";
+		List<String> options = new ArrayList<>(availableDirections);
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
+	protected static QuestionContainer getTargetPlayersAndRefusalQnO(List<Player> targets) {
+		String question = "Which of the following players do you want to target?";
+		List<String> options = new ArrayList<>();
+		targets.forEach(target -> options.add(target.getPlayerName()));
+		options.add("Nobody");
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
+	protected static boolean isThisChoiceRefusal(List listToCheck, int choice) {
+		return choice == listToCheck.size();
+	}
+
 	@Override
 	public boolean canBeActivated() {
 		return canPrimaryBeActivated() && isLoaded();
@@ -70,12 +146,17 @@ public abstract class WeaponCard extends ActivableCard {
 		return getGameBoard().getGameMap();
 	}
 
-	List<Player> getAllPlayers(){
+//	public void getAvailableOptions(){
+//		Utils.logInfo(getDescription());
+//	}
+
+	List<Player> getAllPlayers() {
 		return getGameBoard().getPlayers();
 	}
 
 	/**
 	 * Returns the reload price of this weapon.
+	 *
 	 * @return Reload price of this weapon.
 	 */
 	public List<AmmoType> getReloadPrice() {
@@ -84,14 +165,16 @@ public abstract class WeaponCard extends ActivableCard {
 
 	/**
 	 * Returns the grab price for this weapon. It consists of the reload price minus the first occurrence.
+	 *
 	 * @return grab price for this weapon.
 	 */
-	public List<AmmoType> getGrabPrice(){
+	public List<AmmoType> getGrabPrice() {
 		return new ArrayList<>(reloadPrice.subList(1, reloadPrice.size()));
 	}
 
 	/**
 	 * Returns whether or not the weapon is loaded.
+	 *
 	 * @return whether or not the weapon is loaded.
 	 */
 	public boolean isLoaded() {
@@ -104,20 +187,6 @@ public abstract class WeaponCard extends ActivableCard {
 	public void load() {
 		//TODO: Implement
 		this.loaded = true;
-	}
-
-
-	protected static QuestionContainer getActionTypeQnO(boolean moveActive, boolean shootActive) {
-		String question = "Select the type of action you want to execute.";
-		List<String> options = new ArrayList<>();
-		if (moveActive) {
-			options.add(ActionType.MOVE.toString());
-		}
-		if (shootActive) {
-			options.add(ActionType.SHOOT.toString());
-		}
-
-		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
 	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
@@ -158,12 +227,9 @@ public abstract class WeaponCard extends ActivableCard {
 	 */
 	abstract QuestionContainer handlePrimaryFire(int choice);
 
-//	public void getAvailableOptions(){
-//		Utils.logInfo(getDescription());
-//	}
-
 	/**
 	 * Get the targets of the primary mode of fire for this weapon.
+	 *
 	 * @return the targettable players of the primary mode of fire.
 	 */
 	public abstract List<Player> getPrimaryTargets();
@@ -172,7 +238,7 @@ public abstract class WeaponCard extends ActivableCard {
 	 * Deloads the weapon and reset eventually modified parameters.
 	 */
 	@Override
-	public void reset(){
+	public void reset() {
 		super.reset();
 		this.loaded = false;
 		this.relocationDone = false;
@@ -201,81 +267,21 @@ public abstract class WeaponCard extends ActivableCard {
 		return maximumSteps;
 	}
 
-	/**
-	 * Builds a {@link QuestionContainer} that asks which player to target.
-	 * @param targets the target players to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	public static QuestionContainer getTargetPlayersQnO(List<Player> targets) {
-		return getTargetPlayersQnO(targets, "Which of the following players do you want to target?");
-	}
-
-	public static QuestionContainer getTargetPlayersQnO(List<Player> targets, String question) {
-		List<String> options = new ArrayList<>();
-		targets.forEach(target-> options.add(target.getPlayerName()));
-		return QuestionContainer.createStringQuestionContainer(question, options);
-	}
-
-	/**
-	 * Builds a {@link QuestionContainer} that ask in which coordinate to move the enemy player.
-	 * @param targetPlayer the player that will be moved.
-	 * @param coordinates the list of coordinates to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	protected static QuestionContainer getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates){
-		return getCoordinatesQno(coordinates, "Where do you want to move " + targetPlayer.getPlayerName() + "?");
-	}
-
-	/**
-	 * Builds a {@link QuestionContainer} that asks in which coordinate to fire at.
-	 * @param coordinates the list of coordinates to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	protected static QuestionContainer getTargetCoordinatesQnO(List<Coordinates> coordinates){
-		return getCoordinatesQno(coordinates, "Where do you want to fire?");
-	}
-
-	protected static QuestionContainer getMoveCoordinatesQnO(List<Coordinates> coordinates) {
-		return getCoordinatesQno(coordinates, "Where do you want to move?");
-	}
-
-	private static QuestionContainer getCoordinatesQno(List<Coordinates> coordinates, String question) {
-		return QuestionContainer.createCoordinatesQuestionContainer(question, new ArrayList<>(coordinates));
-	}
-
-	protected static QuestionContainer getCardinalQnO(List<String> availableDirections) {
-		String question = "In which direction do you wish to fire?";
-		List<String> options = new ArrayList<>(availableDirections);
-		return QuestionContainer.createStringQuestionContainer(question,options);
-	}
-
-	protected static QuestionContainer getTargetPlayersAndRefusalQnO(List<Player> targets){
-		String question = "Which of the following players do you want to target?";
-		List<String> options = new ArrayList<>();
-		targets.forEach(target-> options.add(target.getPlayerName()));
-		options.add("Nobody");
-		return QuestionContainer.createStringQuestionContainer(question, options);
-	}
-
 	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
 		List<Player> list = Arrays.asList(playersToShoot);
 		dealDamageAndConclude(damagesAndMarks, list);
 	}
 
-	protected QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO(){
+	protected QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO() {
 		currentTargets = getPrimaryTargets();
 		return getTargetPlayersQnO(currentTargets);
 	}
 
-	protected static boolean isThisChoiceRefusal(List listToCheck, int choice){
-		return choice == listToCheck.size();
-	}
-
-	protected void relocateEnemy(Player enemy, Coordinates coordinates){
+	protected void relocateEnemy(Player enemy, Coordinates coordinates) {
 		getGameMap().movePlayerTo(enemy, coordinates);
 	}
 
-	protected void relocateOwner(Coordinates coordinates){
+	protected void relocateOwner(Coordinates coordinates) {
 		getGameMap().movePlayerTo(getOwner(), coordinates);
 	}
 
@@ -299,7 +305,7 @@ public abstract class WeaponCard extends ActivableCard {
 	// ENUM
 	// ####################################
 
-	protected enum ActionType{
+	protected enum ActionType {
 		MOVE,
 		SHOOT
 	}

@@ -27,11 +27,10 @@ public class ZX_2 extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if (getCurrentStep() == 2){
+		if (getCurrentStep() == 2) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 3){
+		} else if (getCurrentStep() == 3) {
 			target = currentTargets.get(choice);
 			primaryFire();
 		}
@@ -40,7 +39,7 @@ public class ZX_2 extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		switch (getCurrentStep()){
+		switch (getCurrentStep()) {
 			case 2:
 				currentTargets = getSecondaryTargets();
 				return getTargetPlayersQnO(currentTargets);
@@ -49,7 +48,7 @@ public class ZX_2 extends AlternateFireWeapon {
 				secondaryTargets.add(currentTargets.remove(choice));
 				Utils.logWeapon("This is currentTargets: ");
 				currentTargets.forEach(target -> Utils.logWeapon(target.getPlayerName()));
-				if (currentTargets.isEmpty()){
+				if (currentTargets.isEmpty()) {
 					terminateSecondaryFire();
 					return null;
 				}
@@ -58,7 +57,7 @@ public class ZX_2 extends AlternateFireWeapon {
 				secondaryTargets.add(currentTargets.remove(choice));
 				Utils.logWeapon("This is currentTargets: ");
 				currentTargets.forEach(target -> Utils.logWeapon(target.getPlayerName()));
-				if (currentTargets.isEmpty()){
+				if (currentTargets.isEmpty()) {
 					terminateSecondaryFire();
 					return null;
 				}
@@ -91,7 +90,7 @@ public class ZX_2 extends AlternateFireWeapon {
 	/**
 	 * Instantly fires the weapon. Called if there are no more target to choose from in secondary fire mode.
 	 */
-	private void terminateSecondaryFire(){
+	private void terminateSecondaryFire() {
 		secondaryFire();
 	}
 

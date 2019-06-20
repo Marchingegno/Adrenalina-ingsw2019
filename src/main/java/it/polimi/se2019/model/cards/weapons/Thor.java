@@ -21,19 +21,17 @@ public class Thor extends OptionalEffectsWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if(getCurrentStep() == 2){
-			 currentTargets = new ArrayList<>();
-			 currentTargets = getPrimaryTargets();
-			 return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 3) {
+		if (getCurrentStep() == 2) {
+			currentTargets = new ArrayList<>();
+			currentTargets = getPrimaryTargets();
+			return getTargetPlayersQnO(currentTargets);
+		} else if (getCurrentStep() == 3) {
 			chosenTargets.add(currentTargets.get(choice));
 		}
 
-		if(isOptionalActive(1)){
+		if (isOptionalActive(1)) {
 			return handleOptionalEffect1(choice);
-		}
-		else{
+		} else {
 			primaryFire();
 		}
 		return null;
@@ -41,18 +39,16 @@ public class Thor extends OptionalEffectsWeapon {
 
 	@Override
 	protected QuestionContainer handleOptionalEffect1(int choice) {
-		if(getCurrentStep() == 3){
+		if (getCurrentStep() == 3) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 4){
+		} else if (getCurrentStep() == 4) {
 			chosenTargets.add(currentTargets.get(choice));
 		}
 
-		if (isOptionalActive(2)){
+		if (isOptionalActive(2)) {
 			return handleOptionalEffect2(choice);
-		}
-		else{
+		} else {
 			primaryFire();
 		}
 		return null;
@@ -60,11 +56,10 @@ public class Thor extends OptionalEffectsWeapon {
 
 	@Override
 	protected QuestionContainer handleOptionalEffect2(int choice) {
-		if(getCurrentStep() == 4){
+		if (getCurrentStep() == 4) {
 			currentTargets = getPrimaryTargets();
 			return getTargetPlayersQnO(currentTargets);
-		}
-		else if(getCurrentStep() == 5){
+		} else if (getCurrentStep() == 5) {
 			chosenTargets.add(currentTargets.get(choice));
 			primaryFire();
 		}
@@ -77,8 +72,7 @@ public class Thor extends OptionalEffectsWeapon {
 		//Get a target that the last player can see, except already chosen targets.
 		if (chosenTargets.isEmpty()) {
 			return getGameMap().getVisiblePlayers(getOwner());
-		}
-		else{
+		} else {
 			List<Player> enemiesNotChosenSeenByLast = getGameMap().getVisiblePlayers(chosenTargets.get(chosenTargets.size() - 1));
 			enemiesNotChosenSeenByLast.removeAll(chosenTargets);
 			enemiesNotChosenSeenByLast.remove(getOwner());
@@ -111,15 +105,14 @@ public class Thor extends OptionalEffectsWeapon {
 	@Override
 	protected void registerChoice(int choice) {
 		//The choice 3 can't be made because of the overrided "initialQuestion".
-		if(choice == 3){
+		if (choice == 3) {
 			Utils.logError("Thor: received wrong choice number (3).", new IllegalArgumentException());
 		}
 
 		//If the choice is 2, the player has chosen both optional effects.
-		if(choice == 2){
+		if (choice == 2) {
 			super.registerChoice(3);
-		}
-		else{
+		} else {
 			super.registerChoice(choice);
 		}
 	}
@@ -133,18 +126,19 @@ public class Thor extends OptionalEffectsWeapon {
 	@Override
 	protected boolean canFireOptionalEffect1() {
 		//There is at least a chain of two players.
-		return !getChainOfTwoPlayers()[1].isEmpty();
+		return !getChainsOfTwoPlayers()[0].isEmpty();
 	}
 
-	private List<Player>[] getChainOfTwoPlayers() {
+
+	private List<Player>[] getChainsOfTwoPlayers() {
 		List<Player> visiblePlayers = getPrimaryTargets();
-		List<Player> enemiesSeenByVisiblePlayers = new ArrayList<>();
 		for (Player visiblePlayer : visiblePlayers) {
+			List<Player> enemiesSeenByVisiblePlayer = new ArrayList<>();
 			List<Player> seenByVisiblePlayer = getGameMap().getVisiblePlayers(visiblePlayer);
 			seenByVisiblePlayer.remove(getOwner());
 			for (Player playerToAddIfNotPresent : seenByVisiblePlayer) {
-				if (!enemiesSeenByVisiblePlayers.contains(playerToAddIfNotPresent)) {
-					enemiesSeenByVisiblePlayers.add(playerToAddIfNotPresent);
+				if (!enemiesSeenByVisiblePlayer.contains(playerToAddIfNotPresent)) {
+					enemiesSeenByVisiblePlayer.add(playerToAddIfNotPresent);
 				}
 			}
 		}
