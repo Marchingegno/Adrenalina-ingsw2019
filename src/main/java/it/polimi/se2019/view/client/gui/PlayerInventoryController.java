@@ -122,7 +122,7 @@ public class PlayerInventoryController {
 	public void initializeInventory(PlayerRep playerRep) {
 		setNickname(playerRep.getPlayerName());
 		setPoints(playerRep.getPoints());
-		setPlayerBoard(playerRep.getPgName(), false); //TODO set correct playerboard if in frenzy
+		setPlayerBoard(playerRep.getPgName(), false); //TODO set correct player board if in frenzy
 		setAmmoContainer(playerRep);
 		setDamageToken(playerRep.getDamageBoard());
 

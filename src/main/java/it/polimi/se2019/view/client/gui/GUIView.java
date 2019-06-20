@@ -222,7 +222,7 @@ public class GUIView extends RemoteView {
 	public void updateGameBoardController() {
 		Platform.runLater(() -> {
 			if (!gameBoardController.isInitialized())
-				gameBoardController.init_GameMap(getModelRep().getGameMapRep());
+				gameBoardController.init_GameMap(getModelRep());
 		});
 	}
 
