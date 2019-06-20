@@ -12,8 +12,8 @@ public abstract class ActivableCard extends Card {
 	private boolean activationConcluded;
 
 
-	public ActivableCard(String cardName, String description) {
-		super(cardName, description);
+	public ActivableCard(String cardName, String description, String imagePath) {
+		super(cardName, description, imagePath);
 		activationConcluded = false;
 	}
 

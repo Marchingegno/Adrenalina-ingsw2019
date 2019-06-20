@@ -11,10 +11,12 @@ public abstract class Card implements Representable {
 
 	private String description;
 	private String cardName;
+	private String imagePath;
 
-	public Card(String cardName, String description) {
+	public Card(String cardName, String description, String imagePath) {
 		this.cardName = cardName;
 		this.description = description;
+		this.imagePath = imagePath;
 	}
 
 	/**
@@ -24,6 +26,10 @@ public abstract class Card implements Representable {
 	 */
 	public String getCardDescription() {
 		return description;
+	}
+
+	public String imagePath() {
+		return imagePath;
 	}
 
 	public String getCardName() {

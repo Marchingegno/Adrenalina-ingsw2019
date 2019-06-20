@@ -27,7 +27,7 @@ public class Teleporter extends PowerupCard {
 
 
 	public Teleporter(AmmoType associatedAmmo) {
-		super("Teleporter", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN);
+		super("Teleporter", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN, "newton_" + associatedAmmo.getCharacterColorType().toString().toLowerCase() + ".png");
 	}
 
 

@@ -41,7 +41,7 @@ public abstract class WeaponCard extends ActivableCard {
 
 
 	public WeaponCard(JsonObject parameters) {
-		super(parameters.get("name").getAsString(), parameters.get("description").getAsString());
+		super(parameters.get("name").getAsString(), parameters.get("description").getAsString(), parameters.get("imagePath").getAsString());
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.reloadPrice = new ArrayList<>();
 

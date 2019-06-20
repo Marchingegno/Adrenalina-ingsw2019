@@ -17,8 +17,8 @@ public class AmmoCard extends Card {
 	private boolean hasPowerup;
 
 
-	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup, String name) {
-		super(name, createDescription(ammo, hasPowerup));
+	public AmmoCard(List<AmmoType> ammo, boolean hasPowerup, String name, String imagePath) {
+		super(name, createDescription(ammo, hasPowerup), imagePath);
 		this.ammo = new ArrayList<>(ammo);
 		this.hasPowerup = hasPowerup;
 	}

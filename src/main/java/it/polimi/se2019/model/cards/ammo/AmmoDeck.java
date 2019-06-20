@@ -37,7 +37,7 @@ public class AmmoDeck extends Deck<Card> {
 					ammo.add(AmmoType.valueOf(ammoToAdd.getAsString()));
 				}
 				Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammo + (cardToAdd.get("powerup").getAsBoolean() ? " Powerup" : ""));
-				addCard(new AmmoCard(ammo, cardToAdd.get("powerup").getAsBoolean(), cardToAdd.get("name").getAsString()));
+				addCard(new AmmoCard(ammo, cardToAdd.get("powerup").getAsBoolean(), cardToAdd.get("name").getAsString(), cardToAdd.get("path").getAsString()));
 			}
 		} catch (JsonParseException e) {
 			Utils.logError("Cannot parse ammo cards", e);

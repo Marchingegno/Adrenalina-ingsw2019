@@ -21,21 +21,21 @@ public class AmmoCardTest {
 
 	@Test
 	public void hasPowerup_standardInitialization_correctOutput() {
-		AmmoCard ammoCardWithPowerup = new AmmoCard(ammoInTheCard, true, "r_b_p");
-		AmmoCard ammoCardWithoutPowerup = new AmmoCard(ammoInTheCard, false, "r_b_p");
+		AmmoCard ammoCardWithPowerup = new AmmoCard(ammoInTheCard, true, "r_b_p", null);
+		AmmoCard ammoCardWithoutPowerup = new AmmoCard(ammoInTheCard, false, "r_b_p", null);
 		assertTrue(ammoCardWithPowerup.hasPowerup());
 		assertFalse(ammoCardWithoutPowerup.hasPowerup());
 	}
 
 	@Test
 	public void getAmmo_standardInitialization_correctOutput() {
-		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p");
+		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p", null);
 		assertEquals(ammoInTheCard, ammoCard.getAmmo());
 	}
 
 	@Test
 	public void getAmmo_changeContent_shouldBeImmutable() {
-		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p");
+		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p", null);
 		List<AmmoType> ammoTypeList = ammoCard.getAmmo();
 		ammoTypeList.add(AmmoType.RED_AMMO);
 		assertNotEquals(ammoInTheCard, ammoTypeList);
@@ -45,7 +45,7 @@ public class AmmoCardTest {
 
 	@Test
 	public void getRep_standardInitialization_correctRepresentation() {
-		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p");
+		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p", null);
 		AmmoCardRep ammoCardRep = (AmmoCardRep) ammoCard.getRep();
 
 		assertEquals(ammoCard.hasPowerup(), ammoCardRep.hasPowerup());
@@ -54,7 +54,7 @@ public class AmmoCardTest {
 
 	@Test
 	public void getDescription_noInput_sameDescription() {
-		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p");
+		AmmoCard ammoCard = new AmmoCard(ammoInTheCard, true, "r_b_p", null);
 		AmmoCardRep ammoCardRep = (AmmoCardRep) ammoCard.getRep();
 		assertEquals(ammoCard.getCardDescription(), ammoCardRep.getCardDescription());
 	}

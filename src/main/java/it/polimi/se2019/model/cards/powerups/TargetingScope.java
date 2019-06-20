@@ -31,7 +31,7 @@ public class TargetingScope extends PowerupCard {
 
 
 	public TargetingScope(AmmoType associatedAmmo) {
-		super("Targeting scope", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_SHOOT);
+		super("Targeting scope", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_SHOOT, "targeting_scope_" + associatedAmmo.getCharacterColorType().toString().toLowerCase() + ".png");
 	}
 
 

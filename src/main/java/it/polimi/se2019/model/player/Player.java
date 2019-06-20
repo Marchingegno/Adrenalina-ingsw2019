@@ -35,12 +35,13 @@ public class Player extends Observable implements Representable {
 	private int firingWeapon = -1; //The current weapon that the player is firing with.
 	private int powerupInExecution = -1; // The current powerup that the player is using.
 	private boolean connected = true;
-
+	private String pgName;
 
 	public Player(String playerName, int playerID) {
 		this.playerName = playerName;
 		this.playerID = playerID;
 		this.playerColor = Color.CharacterColorType.values()[playerID + 1]; // + 1 to avoid BLACK color
+		this.pgName = playerColor.getPgName();
 		playerBoard = new PlayerBoard();
 		setDamageStatus(new LowDamage());
 		setTurnStatus(TurnStatus.PRE_SPAWN);
@@ -76,6 +77,15 @@ public class Player extends Observable implements Representable {
 	 */
 	public String getPlayerName() {
 		return playerName;
+	}
+
+	/**
+	 * Returns the pg name.
+	 *
+	 * @return the pg name.
+	 */
+	public String getPgName() {
+		return pgName;
 	}
 
 	/**

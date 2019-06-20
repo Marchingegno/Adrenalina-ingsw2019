@@ -20,8 +20,8 @@ public abstract class PowerupCard extends ActivableCard {
 	private Player shootedPlayer;
 
 
-	public PowerupCard(String name, AmmoType associatedAmmo, String description, PowerupUseCaseType powerupUseCaseType) {
-		super(name, description);
+	public PowerupCard(String name, AmmoType associatedAmmo, String description, PowerupUseCaseType powerupUseCaseType, String imagePath) {
+		super(name, description, imagePath);
 		this.associatedAmmo = associatedAmmo;
 		this.powerupUseCaseType = powerupUseCaseType;
 	}

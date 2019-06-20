@@ -33,6 +33,7 @@ public class PlayerRep implements Representation {
 	private int[] ammo;
 	private boolean connected;
 	private boolean hidden;
+	private String pgName;
 
 
 	/**
@@ -72,6 +73,8 @@ public class PlayerRep implements Representation {
 		for (AmmoType ammoType : AmmoType.values()) {
 			ammo[ammoType.ordinal()] = player.getPlayerBoard().getAmmoContainer().getAmmo(ammoType);
 		}
+
+		this.pgName = player.getPgName();
 
 		connected = player.isConnected();
 
