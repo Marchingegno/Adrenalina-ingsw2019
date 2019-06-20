@@ -213,16 +213,10 @@ public class GUIView extends RemoteView {
 	@Override
 	public void updateDisplay() {
 		Platform.runLater(() -> {
-			updateGameBoardController();
-			window.setScene(gameBoardScene);
-			window.show();
-		});
-	}
-
-	public void updateGameBoardController() {
-		Platform.runLater(() -> {
 			if (!gameBoardController.isInitialized())
 				gameBoardController.init_GameMap(getModelRep());
+			window.setScene(gameBoardScene);
+			window.show();
 		});
 	}
 

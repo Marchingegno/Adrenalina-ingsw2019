@@ -132,7 +132,7 @@
 		{
 			"className": "Heatseeker",
 			"name": "Heatseeker",
-			"imagePath": "heat_seeker",
+			"imagePath": "heatseeker",
 			"price": [
 				"RED_AMMO",
 				"RED_AMMO",

@@ -6,10 +6,12 @@ public class CardRep implements Representation {
 
 	private String description;
 	private String cardName;
+	private String imagePath;
 
 	public CardRep(Card card) {
 		this.cardName = card.getCardName();
 		this.description = card.getCardDescription();
+		this.imagePath = card.getImagePath();
 	}
 
 	/**
@@ -23,5 +25,9 @@ public class CardRep implements Representation {
 
 	public String getCardName() {
 		return cardName;
+	}
+
+	public String getImagePath() {
+		return imagePath;
 	}
 }

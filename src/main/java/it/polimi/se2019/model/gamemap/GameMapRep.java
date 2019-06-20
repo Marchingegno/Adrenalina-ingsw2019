@@ -76,4 +76,8 @@ public class GameMapRep implements Representation {
 		return mapRep[playerCoordinates.getRow()][playerCoordinates.getColumn()];
 	}
 
+	public boolean isSpawn(Coordinates coordinates) {
+		return spawnSquares.containsValue(coordinates);
+	}
+
 }

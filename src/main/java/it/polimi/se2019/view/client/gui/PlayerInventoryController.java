@@ -133,11 +133,12 @@ public class PlayerInventoryController {
 		setWeapons(weaponsPath);
 
 		List<String> powerupsPath = new ArrayList<>();
-		for (PowerupCardRep powerupCardRep : playerRep.getPowerupCards()) {
-			weaponsPath.add("powerup/" + powerupCardRep.getImagePath());
+		if (!playerRep.isHidden()) {
+			for (PowerupCardRep powerupCardRep : playerRep.getPowerupCards()) {
+				weaponsPath.add("powerup/" + powerupCardRep.getImagePath());
+			}
 		}
 		setPowerups(powerupsPath);
-
 	}
 
 	private void setNickname(String nickname) {
@@ -154,7 +155,7 @@ public class PlayerInventoryController {
 	}
 
 	public void setWeapons(List<String> weaponsPath) {
-		if (weaponsPath.size() >= 1) weapon0.setImage(loadImage(weaponsPath.get(0)));
+		if (!weaponsPath.isEmpty()) weapon0.setImage(loadImage(weaponsPath.get(0)));
 		if (weaponsPath.size() >= 2) weapon1.setImage(loadImage(weaponsPath.get(1)));
 		if (weaponsPath.size() >= 3) weapon2.setImage(loadImage(weaponsPath.get(2)));
 	}
@@ -162,7 +163,7 @@ public class PlayerInventoryController {
 	public void setPowerups(List<String> powerupsPath) {
 		if (powerupsPath.size() >= 3) powerup2.setImage(loadImage(powerupsPath.get(2)));
 		if (powerupsPath.size() >= 2) powerup1.setImage(loadImage(powerupsPath.get(1)));
-		if (powerupsPath.size() >= 1) powerup0.setImage(loadImage(powerupsPath.get(0)));
+		if (!powerupsPath.isEmpty()) powerup0.setImage(loadImage(powerupsPath.get(0)));
 	}
 
 	public void setAmmoContainer(PlayerRep playerRep) {

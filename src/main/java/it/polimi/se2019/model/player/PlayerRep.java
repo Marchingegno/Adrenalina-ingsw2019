@@ -97,7 +97,7 @@ public class PlayerRep implements Representation {
 		newPlayerRep.playerName = this.playerName;
 		newPlayerRep.playerColor = this.playerColor;
 		newPlayerRep.playerID = this.playerID;
-		newPlayerRep.points = -1; // hidden
+		newPlayerRep.points = points;
 		newPlayerRep.damageBoard = new ArrayList<>(damageBoard);
 		newPlayerRep.marks = new ArrayList<>(marks);
 		newPlayerRep.damageStatusRep = null;//hidden

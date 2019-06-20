@@ -1,6 +1,11 @@
 package it.polimi.se2019.view.client.gui;
 
+import it.polimi.se2019.model.cards.CardRep;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
+import it.polimi.se2019.model.gamemap.SpawnSquareRep;
+import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.ModelRep;
@@ -19,6 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameBoardController {
+	private Group[][] map;
+	private ImageView[][] bansheePosition;
+	private ImageView[][] destructorPosition;
+	private ImageView[][] sprogPosition;
+	private ImageView[][] violetPosition;
+	private ImageView[][] dozerPosition;
+	private ImageView[][] ammoCardPosition;
+
+
 	@FXML
 	private Group square00;
 	@FXML
@@ -432,20 +446,130 @@ public class GameBoardController {
 
 	public void init_GameMap(ModelRep modelRep) {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
+		map = new Group[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		bansheePosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		destructorPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		sprogPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		violetPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		dozerPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		ammoCardPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		SquareRep[][] mapRep = gameMapRep.getMapRep();
+
+		map[0][1] = square01;
+		map[0][0] = square00;
+		map[0][2] = square02;
+		map[0][3] = square03;
+		map[1][0] = square10;
+		map[1][2] = square12;
+		map[1][1] = square11;
+		map[2][0] = square20;
+		map[1][3] = square13;
+		map[2][1] = square21;
+		map[2][3] = square23;
+		map[2][2] = square22;
+
+		bansheePosition[0][1] = banshee01;
+		bansheePosition[0][0] = banshee00;
+		bansheePosition[0][2] = banshee02;
+		bansheePosition[1][0] = banshee10;
+		bansheePosition[0][3] = banshee03;
+		bansheePosition[1][1] = banshee11;
+		bansheePosition[1][3] = banshee13;
+		bansheePosition[1][2] = banshee12;
+		bansheePosition[2][0] = banshee20;
+		bansheePosition[2][2] = banshee22;
+		bansheePosition[2][1] = banshee21;
+		bansheePosition[2][3] = banshee23;
+
+		destructorPosition[0][1] = destructor01;
+		destructorPosition[0][0] = destructor00;
+		destructorPosition[0][3] = destructor03;
+		destructorPosition[0][2] = destructor02;
+		destructorPosition[1][0] = destructor10;
+		destructorPosition[1][2] = destructor12;
+		destructorPosition[1][1] = destructor11;
+		destructorPosition[1][3] = destructor13;
+		destructorPosition[2][0] = destructor20;
+		destructorPosition[2][1] = destructor21;
+		destructorPosition[2][3] = destructor23;
+		destructorPosition[2][2] = destructor22;
+
+		sprogPosition[0][0] = sprog00;
+		sprogPosition[0][1] = sprog01;
+		sprogPosition[0][3] = sprog03;
+		sprogPosition[0][2] = sprog02;
+		sprogPosition[1][0] = sprog10;
+		sprogPosition[1][1] = sprog11;
+		sprogPosition[1][2] = sprog12;
+		sprogPosition[2][0] = sprog20;
+		sprogPosition[1][3] = sprog13;
+		sprogPosition[2][1] = sprog21;
+		sprogPosition[2][3] = sprog23;
+		sprogPosition[2][2] = sprog22;
+
+		violetPosition[0][0] = violet00;
+		violetPosition[0][2] = violet02;
+		violetPosition[0][1] = violet01;
+		violetPosition[0][3] = violet03;
+		violetPosition[1][0] = violet10;
+		violetPosition[1][1] = violet11;
+		violetPosition[1][2] = violet12;
+		violetPosition[1][3] = violet13;
+		violetPosition[2][1] = violet21;
+		violetPosition[2][0] = violet20;
+		violetPosition[2][2] = violet22;
+		violetPosition[2][3] = violet23;
+
+		dozerPosition[0][0] = dozer00;
+		dozerPosition[0][1] = dozer01;
+		dozerPosition[0][2] = dozer02;
+		dozerPosition[0][3] = dozer03;
+		dozerPosition[1][0] = dozer10;
+		dozerPosition[1][1] = dozer11;
+		dozerPosition[1][2] = dozer12;
+		dozerPosition[1][3] = dozer13;
+		dozerPosition[2][0] = dozer20;
+		dozerPosition[2][1] = dozer21;
+		dozerPosition[2][2] = dozer22;
+		dozerPosition[2][3] = dozer23;
+
+		ammoCardPosition[0][0] = ammoCard00;
+		ammoCardPosition[0][1] = ammoCard01;
+		ammoCardPosition[0][3] = ammoCard03;
+		ammoCardPosition[1][1] = ammoCard11;
+		ammoCardPosition[1][2] = ammoCard12;
+		ammoCardPosition[1][3] = ammoCard13;
+		ammoCardPosition[2][0] = ammoCard20;
+		ammoCardPosition[2][1] = ammoCard21;
+		ammoCardPosition[2][2] = ammoCard22;
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (mapRep[i][j].getRoomID() == -1) {
+					map[i][j].setVisible(false);
+					map[i][j].setDisable(true);
+				} else {
+					if (modelRep.getGameMapRep().isSpawn(new Coordinates(i, j))) {
+						updateWeapons(mapRep[i][j].getCards(), ((SpawnSquareRep) mapRep[i][j]).getAssociatedAmmo());
+					} else {
+						ammoCardPosition[i][j].setImage(loadImage("ammo/" + mapRep[i][j].getCards().get(0).getImagePath()));
+						ammoCardPosition[i][j].setVisible(true);
+					}
+				}
+			}
+		}
+
 		List<PlayerRep> playersRep = new ArrayList<>();
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
-			if (playerRep.isHidden()) {
-				System.out.println("Added " + playerRep.getPgName());
+			if (playerRep.isHidden())
 				playersRep.add(playerRep);
-			}
 		}
 
 		playerRep0 = modelRep.getClientPlayerRep();
 		playerIcon0.setImage(loadImage("playerBoards/" + playerRep0.getPgName() + "/icon"));
 
-		if (playersRep.size() >= 1) {
+		if (!playersRep.isEmpty()) {
 			playerRep1 = playersRep.get(0);
-			System.out.println(playerRep1);
 			playerIcon1.setImage(loadImage("playerBoards/" + playerRep1.getPgName() + "/icon"));
 		} else {
 			playerIcon1.setVisible(false);
@@ -493,7 +617,66 @@ public class GameBoardController {
 		}
 		inventoryStage.hide();
 
+
 		initialized = true;
+	}
+
+	private void updateWeapons(List<CardRep> card, AmmoType associatedAmmo) {
+		if (AmmoType.RED_AMMO.equals(associatedAmmo)) {
+			if (card.size() >= 2) {
+				weponImageRed1.setImage(loadImage("weapons/" + card.get(1).getImagePath()));
+			} else {
+				weponImageRed1.setVisible(false);
+			}
+			if (card.size() >= 1) {
+				weponImageRed0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
+			} else {
+				weponImageRed0.setVisible(false);
+			}
+			if (card.size() >= 3) {
+				weponImageRed2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
+			} else {
+				weponImageRed2.setVisible(false);
+			}
+		}
+
+		if (AmmoType.BLUE_AMMO.equals(associatedAmmo)) {
+			if (card.size() >= 1) {
+				weponImageBlue0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
+			} else {
+				weponImageBlue0.setVisible(false);
+			}
+			if (card.size() >= 2) {
+				weponImageBlue1.setImage(loadImage("weapons/" + card.get(1).getImagePath()));
+			} else {
+				weponImageBlue1.setVisible(false);
+			}
+			if (card.size() >= 3) {
+				System.out.println(loadImage("weapons/" + card.get(2).getImagePath()));
+				weponImageBlue2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
+			} else {
+				weponImageBlue2.setVisible(false);
+			}
+		}
+
+		if (AmmoType.YELLOW_AMMO.equals(associatedAmmo)) {
+			if (card.size() >= 3) {
+				weponImageYellow2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
+			} else {
+				weponImageYellow2.setVisible(false);
+			}
+			if (card.size() >= 2) {
+				weponImageYellow1.setImage(loadImage("weapons/" + card.get(1).getImagePath()));
+			} else {
+				weponImageYellow1.setVisible(false);
+			}
+			if (card.isEmpty()) {
+				weponImageYellow0.setVisible(false);
+			} else {
+				weponImageYellow0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
+			}
+		}
+
 	}
 
 	public void updateGameBoard() {
@@ -509,7 +692,7 @@ public class GameBoardController {
 	}
 
 	private Image loadImage(String filePath) {
-		System.out.println(filePath);
+		System.out.println("/graphicassets/" + filePath + ".png");
 		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
 	}
 }
