@@ -36,6 +36,10 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		currentEffectList = new WeaponEffectType[3];
 		nextType = null;
 		ended = false;
+
+		baseName = "Placeholder base name";
+		moveName = "Placeholder move name";
+		extraName = "Placeholder extra name";
 	}
 
 	@Override
