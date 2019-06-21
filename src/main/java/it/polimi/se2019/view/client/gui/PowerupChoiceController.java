@@ -30,7 +30,6 @@ public class PowerupChoiceController {
 	private Label title;
 
 	private GUIView guiView;
-	private int answer;
 	private Stage stage;
 
 	public void setPowerups(List<PowerupCardRep> powerups) {
@@ -39,8 +38,9 @@ public class PowerupChoiceController {
 			powerup0.setVisible(true);
 			powerupButton0.setVisible(true);
 			powerupButton0.setDisable(false);
-		} else
+		} else {
 			throw new IllegalStateException("You should be able to choose from at least one powerup");
+		}
 
 		if (powerups.size() >= 2) {
 			powerup1.setImage(loadImage(powerups.get(1).getImagePath()));

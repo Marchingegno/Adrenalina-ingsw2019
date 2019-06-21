@@ -19,6 +19,7 @@ public class GUIInitializer extends Application {
 		primaryStage.setScene(new Scene(root));
 		primaryStage.setTitle("Adrenaline");
 		primaryStage.setOnCloseRequest(event -> System.exit(0));
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 }

@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameBoardController {
@@ -410,6 +411,8 @@ public class GameBoardController {
 	@FXML
 	private ImageView backGround;
 
+	private HashMap<String, Coordinates> playerPositions;
+
 	private boolean initialized = false;
 
 
@@ -444,9 +447,9 @@ public class GameBoardController {
 	}
 
 
-
 	public void init_GameMap(ModelRep modelRep) {
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
+		playerPositions = new HashMap<>();
 		map = new Group[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
 		bansheePosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
 		destructorPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
@@ -607,6 +610,7 @@ public class GameBoardController {
 		setMap(gameMapRep.getName());
 
 		inventoryStage = new Stage();
+		inventoryStage.setResizable(false);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/PlayerInventory.fxml"));
 		try {
 			Parent root = loader.load();
@@ -653,7 +657,6 @@ public class GameBoardController {
 				weponImageBlue1.setVisible(false);
 			}
 			if (card.size() >= 3) {
-				System.out.println(loadImage("weapons/" + card.get(2).getImagePath()));
 				weponImageBlue2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
 			} else {
 				weponImageBlue2.setVisible(false);
@@ -681,6 +684,7 @@ public class GameBoardController {
 	}
 
 	public void updateGameBoard(ModelRep modelRep) {
+		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		List<PlayerRep> playersRep = new ArrayList<>();
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
 			if (playerRep.isHidden())
@@ -696,7 +700,61 @@ public class GameBoardController {
 			playerRep3 = playersRep.get(2);
 		if (playersRep.size() >= 4)
 			playerRep4 = playersRep.get(3);
-		//TODO update playersRep
+
+		Coordinates playerPosition;
+		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
+			playerPosition = gameMapRep.getPlayerCoordinates(playerRep.getPlayerName());
+			if (playerPosition != null) {
+				updatePlayerPosition(playerRep.getPgName(), playerPosition);
+			}
+		}
+	}
+
+	public void updatePlayerPosition(String pgName, Coordinates playerPosition) {
+		System.out.println(pgName + " " + playerPosition);
+		switch (pgName) {
+			case ("sprog"):
+				if (playerPositions.containsKey(pgName)) {
+					sprogPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
+					playerPositions.replace(pgName, playerPosition);
+				} else
+					playerPositions.put(pgName, playerPosition);
+				sprogPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
+				break;
+			case ("banshee"):
+				if (playerPositions.containsKey(pgName)) {
+					bansheePosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
+					playerPositions.replace(pgName, playerPosition);
+				} else
+					playerPositions.put(pgName, playerPosition);
+				bansheePosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
+				break;
+			case ("dozer"):
+				if (playerPositions.containsKey(pgName)) {
+					dozerPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
+					playerPositions.replace(pgName, playerPosition);
+				} else
+					playerPositions.put(pgName, playerPosition);
+				System.out.println("edfcsdfcws " + playerPositions.containsKey(pgName));
+				dozerPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
+				break;
+			case ("destructor"):
+				if (playerPositions.containsKey(pgName)) {
+					destructorPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
+					playerPositions.replace(pgName, playerPosition);
+				} else
+					playerPositions.put(pgName, playerPosition);
+				destructorPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
+				break;
+			case ("violet"):
+				if (playerPositions.containsKey(pgName)) {
+					violetPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
+					playerPositions.replace(pgName, playerPosition);
+				} else
+					playerPositions.put(pgName, playerPosition);
+				violetPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
+				break;
+		}
 	}
 
 	public boolean isInitialized() {

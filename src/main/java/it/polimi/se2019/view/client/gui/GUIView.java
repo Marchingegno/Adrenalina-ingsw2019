@@ -60,7 +60,7 @@ public class GUIView extends RemoteView {
 		loadLobbyController();
 		loadMapsAndSkulls();
 		loadGameBoard();
-		loadPowerupchoice();
+		loadPowerupChoice();
 	}
 
 	public void loadLoginController() {
@@ -113,14 +113,20 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-	public void loadPowerupchoice() {
-		powerupChoiceStage = new Stage();
+	public void loadPowerupChoice() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/PowerupChoice.fxml"));
 		try {
 			Parent root = loader.load();
-			powerupChoiceStage.setTitle("Adrenaline");
 			powerupChoiceScene = new Scene(root);
+			powerupChoiceStage = new Stage();
+			powerupChoiceStage.setTitle("Adrenaline");
+			powerupChoiceStage.setResizable(false);
 			powerupChoiceStage.initModality(Modality.APPLICATION_MODAL);
+			powerupChoiceStage.setOnCloseRequest(event -> {
+				Platform.runLater(() -> {
+					powerupChoiceStage.show();
+				});
+			});
 			powerupChoiceStage.setScene(powerupChoiceScene);
 			powerupChoiceController = loader.getController();
 			powerupChoiceController.setGuiAndStage(this, powerupChoiceStage);
@@ -276,6 +282,7 @@ public class GUIView extends RemoteView {
 	public void askSpawn() {
 		Platform.runLater(() -> {
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
+			powerupChoiceController.setTitle("Choose powerup to discard in order to spawn");
 			powerupChoiceStage.show();
 		});
 	}
