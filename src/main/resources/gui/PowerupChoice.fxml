@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="457.0" prefWidth="763.0"
             xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="it.polimi.se2019.view.client.gui.PowerupChoiceController">
@@ -30,11 +32,19 @@
                 <Image url="@../graphicassets/powerups/teleporter_red.png"/>
             </image>
         </ImageView>
-        <Button fx:id="powerupButton0" layoutX="172.0" layoutY="123.0" mnemonicParsing="false" prefHeight="148.0"
-                prefWidth="101.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="powerupButton1" layoutX="335.0" layoutY="123.0" mnemonicParsing="false" prefHeight="148.0"
-                prefWidth="101.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
-        <Button fx:id="powerupButton2" layoutX="499.0" layoutY="123.0" mnemonicParsing="false" prefHeight="148.0"
-                prefWidth="101.0" style="-fx-background-color: trasparent; -fx-border-color: red;"/>
+        <Button fx:id="powerupButton0" layoutX="172.0" layoutY="123.0" mnemonicParsing="false"
+                onAction="#powerupButton0Pressed" prefHeight="148.0" prefWidth="101.0"
+                style="-fx-background-color: transparent; -fx-border-color: red;"/>
+        <Button fx:id="powerupButton1" layoutX="335.0" layoutY="123.0" mnemonicParsing="false"
+                onAction="#powerupButton1Pressed" prefHeight="148.0" prefWidth="101.0"
+                style="-fx-background-color: transparent; -fx-border-color: red;"/>
+        <Button fx:id="powerupButton2" layoutX="499.0" layoutY="123.0" mnemonicParsing="false"
+                onAction="#powerupButton2Pressed" prefHeight="148.0" prefWidth="101.0"
+                style="-fx-background-color: transparent; -fx-border-color: red;"/>
+        <Label fx:id="title" layoutX="156.0" layoutY="34.0" text="Choose a powerup to discard" textFill="WHITE">
+            <font>
+                <Font size="36.0"/>
+            </font>
+        </Label>
     </children>
 </AnchorPane>

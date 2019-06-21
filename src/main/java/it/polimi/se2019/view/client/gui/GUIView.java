@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -40,6 +41,10 @@ public class GUIView extends RemoteView {
 	private GameBoardController gameBoardController;
 	private Scene gameBoardScene;
 
+	private PowerupChoiceController powerupChoiceController;
+	private Scene powerupChoiceScene;
+	private Stage powerupChoiceStage;
+
 	private Stage window;
 
 	//TO REMOVE
@@ -55,6 +60,7 @@ public class GUIView extends RemoteView {
 		loadLobbyController();
 		loadMapsAndSkulls();
 		loadGameBoard();
+		loadPowerupchoice();
 	}
 
 	public void loadLoginController() {
@@ -107,6 +113,22 @@ public class GUIView extends RemoteView {
 		}
 	}
 
+	public void loadPowerupchoice() {
+		powerupChoiceStage = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/PowerupChoice.fxml"));
+		try {
+			Parent root = loader.load();
+			powerupChoiceStage.setTitle("Adrenaline");
+			powerupChoiceScene = new Scene(root);
+			powerupChoiceStage.initModality(Modality.APPLICATION_MODAL);
+			powerupChoiceStage.setScene(powerupChoiceScene);
+			powerupChoiceController = loader.getController();
+			powerupChoiceController.setGuiAndStage(this, powerupChoiceStage);
+		} catch (IOException e) {
+			Utils.logError("Error loading powerupChoice", e);
+		}
+	}
+
 	@Override
 	public void askForConnectionAndStartIt() {
 	}
@@ -133,11 +155,9 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askNicknameError() {
-		Platform.runLater(() -> {
-			loginController.nicknameAlreadyChoosen();
-		});
-//		JOptionPane.showMessageDialog(null, "The nickname already exists or is not valid, please use a different one.", "Nickname Error", JOptionPane.WARNING_MESSAGE);
-//		askNickname();
+		Platform.runLater(() ->
+				loginController.nicknameAlreadyChoosen()
+		);
 	}
 
 	@Override
@@ -254,7 +274,10 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askSpawn() {
-
+		Platform.runLater(() -> {
+			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
+			powerupChoiceStage.show();
+		});
 	}
 
 	@Override

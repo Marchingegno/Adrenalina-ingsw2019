@@ -273,6 +273,7 @@ public class GameBoardController {
 
 	private PlayerInventoryController inventoryController;
 	private Stage inventoryStage;
+
 	@FXML
 	private ImageView playerIcon0;
 	@FXML
