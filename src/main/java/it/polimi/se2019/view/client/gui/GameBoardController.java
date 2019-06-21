@@ -7,14 +7,18 @@ import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.SpawnSquareRep;
 import it.polimi.se2019.model.gamemap.SquareRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.ModelRep;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -24,6 +28,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+enum Request {
+	MOVE,
+	CHOOSE
+}
+
 public class GameBoardController {
 	private Group[][] map;
 	private ImageView[][] bansheePosition;
@@ -32,6 +41,7 @@ public class GameBoardController {
 	private ImageView[][] violetPosition;
 	private ImageView[][] dozerPosition;
 	private ImageView[][] ammoCardPosition;
+	private Button[][] buttonPosition;
 
 
 	@FXML
@@ -409,12 +419,29 @@ public class GameBoardController {
 	private ImageView skull7;
 
 	@FXML
+	private Button actionButton0;
+	@FXML
+	private Button actionButton1;
+	@FXML
+	private Button actionButton2;
+	@FXML
+	private Button reloadButton;
+	@FXML
+	private Button powerupsButton;
+	@FXML
+	private Button endTurnButton;
+
+
+	@FXML
 	private ImageView backGround;
 
 	private HashMap<String, Coordinates> playerPositions;
 
+	private GUIView guiView;
+
 	private boolean initialized = false;
 
+	private Request request;
 
 	@FXML
 	private void showInventory0() {
@@ -447,7 +474,8 @@ public class GameBoardController {
 	}
 
 
-	public void init_GameMap(ModelRep modelRep) {
+	public void init_GameMap(ModelRep modelRep, GUIView guiView) {
+		this.guiView = guiView;
 		GameMapRep gameMapRep = modelRep.getGameMapRep();
 		playerPositions = new HashMap<>();
 		map = new Group[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
@@ -457,6 +485,7 @@ public class GameBoardController {
 		violetPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
 		dozerPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
 		ammoCardPosition = new ImageView[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
+		buttonPosition = new Button[gameMapRep.getNumOfRows()][gameMapRep.getNumOfColumns()];
 		SquareRep[][] mapRep = gameMapRep.getMapRep();
 
 		map[0][1] = square01;
@@ -471,6 +500,19 @@ public class GameBoardController {
 		map[2][1] = square21;
 		map[2][3] = square23;
 		map[2][2] = square22;
+
+		buttonPosition[0][0] = button00;
+		buttonPosition[1][3] = button13;
+		buttonPosition[1][2] = button12;
+		buttonPosition[0][1] = button01;
+		buttonPosition[0][3] = button03;
+		buttonPosition[1][0] = button10;
+		buttonPosition[1][1] = button11;
+		buttonPosition[2][0] = button20;
+		buttonPosition[2][1] = button21;
+		buttonPosition[2][2] = button22;
+		buttonPosition[2][3] = button23;
+		buttonPosition[0][2] = button02;
 
 		bansheePosition[0][1] = banshee01;
 		bansheePosition[0][0] = banshee00;
@@ -547,21 +589,7 @@ public class GameBoardController {
 		ammoCardPosition[2][1] = ammoCard21;
 		ammoCardPosition[2][2] = ammoCard22;
 
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (mapRep[i][j].getRoomID() == -1) {
-					map[i][j].setVisible(false);
-					map[i][j].setDisable(true);
-				} else {
-					if (modelRep.getGameMapRep().isSpawn(new Coordinates(i, j))) {
-						updateWeapons(mapRep[i][j].getCards(), ((SpawnSquareRep) mapRep[i][j]).getAssociatedAmmo());
-					} else {
-						ammoCardPosition[i][j].setImage(loadImage("ammo/" + mapRep[i][j].getCards().get(0).getImagePath()));
-						ammoCardPosition[i][j].setVisible(true);
-					}
-				}
-			}
-		}
+		updateGameMap(modelRep.getGameMapRep());
 
 		List<PlayerRep> playersRep = new ArrayList<>();
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
@@ -680,7 +708,6 @@ public class GameBoardController {
 				weponImageYellow0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
 			}
 		}
-
 	}
 
 	public void updateGameBoard(ModelRep modelRep) {
@@ -708,10 +735,36 @@ public class GameBoardController {
 				updatePlayerPosition(playerRep.getPgName(), playerPosition);
 			}
 		}
+
+		updateGameMap(modelRep.getGameMapRep());
+
+		if (inventoryStage.isShowing()) {
+			System.out.println("edwed");
+			inventoryStage.show();
+		}
+	}
+
+	private void updateGameMap(GameMapRep gameMapRep) {
+		SquareRep[][] mapRep = gameMapRep.getMapRep();
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (gameMapRep.isSpawn(new Coordinates(i, j))) {
+					updateWeapons(mapRep[i][j].getCards(), ((SpawnSquareRep) mapRep[i][j]).getAssociatedAmmo());
+				} else {
+					if (mapRep[i][j].getRoomID() != -1) {
+						if (!mapRep[i][j].getCards().isEmpty()) {
+							ammoCardPosition[i][j].setImage(loadImage("ammo/" + mapRep[i][j].getCards().get(0).getImagePath()));
+							ammoCardPosition[i][j].setVisible(true);
+
+						} else
+							ammoCardPosition[i][j].setVisible(false);
+					}
+				}
+			}
+		}
 	}
 
 	public void updatePlayerPosition(String pgName, Coordinates playerPosition) {
-		System.out.println(pgName + " " + playerPosition);
 		switch (pgName) {
 			case ("sprog"):
 				if (playerPositions.containsKey(pgName)) {
@@ -735,7 +788,6 @@ public class GameBoardController {
 					playerPositions.replace(pgName, playerPosition);
 				} else
 					playerPositions.put(pgName, playerPosition);
-				System.out.println("edfcsdfcws " + playerPositions.containsKey(pgName));
 				dozerPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
 				break;
 			case ("destructor"):
@@ -755,6 +807,198 @@ public class GameBoardController {
 				violetPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
 				break;
 		}
+	}
+
+	@FXML
+	public void selectedAction0() {
+		guiView.sendMessage(new IntMessage(0, MessageType.ACTION, MessageSubtype.ANSWER));
+		disableActionButtons();
+	}
+
+	@FXML
+	private void selectedAction1() {
+		guiView.sendMessage(new IntMessage(1, MessageType.ACTION, MessageSubtype.ANSWER));
+		disableActionButtons();
+	}
+
+	@FXML
+	private void selectedAction2() {
+		guiView.sendMessage(new IntMessage(2, MessageType.ACTION, MessageSubtype.ANSWER));
+		disableActionButtons();
+	}
+
+	@FXML
+	private void selectedPowerups() {
+		guiView.sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
+		disableActionButtons();
+	}
+
+	@FXML
+	private void selectedEndTurn() {
+		guiView.sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
+		disableActionButtons();
+	}
+
+	@FXML
+	private void selectedReload() {
+		guiView.sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
+		disableActionButtons();
+	}
+
+	private void disableActionButtons() {
+		actionButton0.setDisable(true);
+		actionButton1.setDisable(true);
+		actionButton2.setDisable(true);
+		powerupsButton.setDisable(true);
+		endTurnButton.setDisable(true);
+		reloadButton.setDisable(true);
+	}
+
+	private void disableSquareButtons() {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 4; j++) {
+				buttonPosition[i][j].setDisable(true);
+				buttonPosition[i][j].setVisible(false);
+			}
+		}
+	}
+
+	public void highlightCoordinates(List<Coordinates> reachableCoordinates, Request request) {
+		Platform.runLater(() -> {
+			this.request = request;
+			for (Coordinates coordinates : reachableCoordinates) {
+				buttonPosition[coordinates.getRow()][coordinates.getColumn()].setVisible(true);
+				buttonPosition[coordinates.getRow()][coordinates.getColumn()].setDisable(false);
+			}
+		});
+	}
+
+	public void setAvailableActions(boolean activablePowerups, boolean activableWeapons, DamageStatusRep damageStatusRep) {
+		Platform.runLater(() -> {
+			powerupsButton.setDisable(!activablePowerups);
+			endTurnButton.setDisable(true);
+			reloadButton.setDisable(true);
+			if (damageStatusRep.numOfMacroActions() >= 1) {
+				actionButton0.setText(damageStatusRep.getMacroActionName(0));
+				actionButton0.setDisable(false);
+				actionButton0.setTooltip(new Tooltip(damageStatusRep.getMacroActionString(0)));
+				if (!activableWeapons && damageStatusRep.isShootWithoutReload(0))
+					actionButton0.setDisable(true);
+			} else {
+				actionButton0.setDisable(true);
+				actionButton0.setVisible(false);
+			}
+			if (damageStatusRep.numOfMacroActions() >= 2) {
+				actionButton1.setText(damageStatusRep.getMacroActionName(1));
+				actionButton1.setTooltip(new Tooltip(damageStatusRep.getMacroActionString(1)));
+				actionButton1.setDisable(false);
+				if (!activableWeapons && damageStatusRep.isShootWithoutReload(1))
+					actionButton1.setDisable(true);
+			} else {
+				actionButton1.setDisable(true);
+				actionButton1.setVisible(false);
+			}
+			if (damageStatusRep.numOfMacroActions() >= 3) {
+				actionButton2.setText(damageStatusRep.getMacroActionName(2));
+				actionButton2.setTooltip(new Tooltip(damageStatusRep.getMacroActionString(2)));
+				actionButton2.setDisable(false);
+				if (!activableWeapons && damageStatusRep.isShootWithoutReload(2))
+					actionButton2.setDisable(true);
+			} else {
+				actionButton2.setDisable(true);
+				actionButton2.setVisible(false);
+			}
+		});
+	}
+
+	public void setEndTurnActions(boolean activablePowerups) {
+		powerupsButton.setDisable(!activablePowerups);
+		endTurnButton.setDisable(false);
+		reloadButton.setDisable(false);
+	}
+
+	@FXML
+	public void pressedButton00() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 0), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton01() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 1), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton02() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 2), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton03() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 3), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton10() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 0), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton11() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 1), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton12() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 2), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton13() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 3), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton20() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 0), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton21() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 1), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton22() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 2), MessageType.MOVE));
+		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedButton23() {
+		if (request == Request.MOVE)
+			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 3), MessageType.MOVE));
+		disableSquareButtons();
 	}
 
 	public boolean isInitialized() {

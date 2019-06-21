@@ -64,7 +64,7 @@ public class GUIView extends RemoteView {
 	}
 
 	public void loadLoginController() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/LoginController.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Login.fxml"));
 		try {
 			Parent root = loader.load();
 			window.setTitle("Adrenaline");
@@ -77,7 +77,7 @@ public class GUIView extends RemoteView {
 	}
 
 	public void loadLobbyController() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/LobbyController.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Lobby.fxml"));
 		try {
 			Parent root = loader.load();
 			window.setTitle("Adrenaline");
@@ -102,7 +102,7 @@ public class GUIView extends RemoteView {
 	}
 
 	public void loadGameBoard() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GameBoardController.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GameBoard.fxml"));
 		try {
 			Parent root = loader.load();
 			gameBoardScene = new Scene(root);
@@ -240,7 +240,7 @@ public class GUIView extends RemoteView {
 	public void updateDisplay() {
 		Platform.runLater(() -> {
 			if (!gameBoardController.isInitialized())
-				gameBoardController.init_GameMap(getModelRep());
+				gameBoardController.init_GameMap(getModelRep(), this);
 			else
 				gameBoardController.updateGameBoard(getModelRep());
 			window.setScene(gameBoardScene);
@@ -250,7 +250,7 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askAction(boolean activablePowerups, boolean activableWeapons) {
-
+		gameBoardController.setAvailableActions(activablePowerups, activableWeapons, getModelRep().getClientPlayerRep().getDamageStatusRep());
 	}
 
 	@Override
@@ -265,7 +265,7 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askMove(List<Coordinates> reachableCoordinates) {
-
+		gameBoardController.highlightCoordinates(reachableCoordinates, Request.MOVE);
 	}
 
 	@Override
@@ -289,11 +289,11 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askEnd(boolean activablePowerups) {
-
+		gameBoardController.setEndTurnActions(activablePowerups);
 	}
 
 	@Override
-	public void askToPay(List<AmmoType> priceToPay){
+	public void askToPay(List<AmmoType> priceToPay) {
 
 	}
 
@@ -301,7 +301,7 @@ public class GUIView extends RemoteView {
 	// Not used, here just for example
 	// TODO remove
 	private void dialogWithCancel() {
-		Object[] possibleValues = { "RMI", "Socket" };
+		Object[] possibleValues = {"RMI", "Socket"};
 		Object selectedValue = JOptionPane.showInputDialog(null,
 				"Choose one",
 				"Input",
@@ -309,11 +309,11 @@ public class GUIView extends RemoteView {
 				null,
 				possibleValues,
 				possibleValues[0]);
-		if(selectedValue == possibleValues[0])
+		if (selectedValue == possibleValues[0])
 			startConnectionWithRMI();
-		else if(selectedValue == possibleValues[1])
+		else if (selectedValue == possibleValues[1])
 			startConnectionWithSocket();
-		else if(selectedValue == null)
+		else if (selectedValue == null)
 			closeProgram();
 	}
 
@@ -347,7 +347,7 @@ public class GUIView extends RemoteView {
 	}
 
 	private void closeWaitingRoomFrame() {
-		if(waitingRoomFrame != null) {
+		if (waitingRoomFrame != null) {
 			waitingRoomFrame.setVisible(false);
 			waitingRoomFrame.dispose();
 		}
@@ -369,14 +369,14 @@ public class GUIView extends RemoteView {
 
 		// Up panel.
 		final JPanel upPanel = new JPanel();
-		GridLayout upGridLayout = new GridLayout(1,1);
+		GridLayout upGridLayout = new GridLayout(1, 1);
 		upPanel.setLayout(upGridLayout);
 		JLabel introductionText = new JLabel("Select the map and how many skulls you would like to use.");
 		upPanel.add(introductionText);
 
 		// Down panel.
 		JPanel downPanel = new JPanel();
-		downPanel.setLayout(new GridLayout(2,3));
+		downPanel.setLayout(new GridLayout(2, 3));
 		downPanel.add(new JLabel("Skulls:"));
 		downPanel.add(new JLabel("Map:"));
 		downPanel.add(new JLabel(" "));
@@ -411,7 +411,7 @@ public class GUIView extends RemoteView {
 	}
 
 	private void closeGameConfigFrame() {
-		if(gameConfigFrame != null) {
+		if (gameConfigFrame != null) {
 			gameConfigFrame.setVisible(false);
 			gameConfigFrame.dispose();
 		}
@@ -429,7 +429,7 @@ public class GUIView extends RemoteView {
 	}
 
 	private void closeGameConfigWaiting() {
-		if(gameConfigWaitingDialog != null) {
+		if (gameConfigWaitingDialog != null) {
 			gameConfigWaitingDialog.setVisible(false);
 			gameConfigWaitingDialog.dispose();
 		}

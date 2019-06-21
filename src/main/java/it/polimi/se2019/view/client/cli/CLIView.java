@@ -119,24 +119,24 @@ public class CLIView extends RemoteView {
 		printLine("Choose an action!");
 		int macroActionTotal = getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsPerTurn();
 		int macroActionsNum = macroActionTotal - getModelRep().getClientPlayerRep().getDamageStatusRep().getNumberOfMacroActionsToPerform() + 1;
-		printLine("Action " + macroActionsNum + " of " + macroActionTotal  + ".");
+		printLine("Action " + macroActionsNum + " of " + macroActionTotal + ".");
 
 		List<Integer> possibleAnswers = new ArrayList<>();
 		int i;
 		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++) {
-			if(!activableWeapons && damageStatusRep.isShootWithoutReload(i)) {
+			if (!activableWeapons && damageStatusRep.isShootWithoutReload(i)) {
 				printLine("X) No weapons loaded");
 			} else {
 				possibleAnswers.add(i);
 				printLine((i + 1) + ") " + damageStatusRep.getMacroActionName(i) + " " + damageStatusRep.getMacroActionString(i));
 			}
 		}
-		if(activablePowerups)
+		if (activablePowerups)
 			possibleAnswers.add(i);
 		printLine((activablePowerups ? ((i + 1) + ") Powerup") : "X) No powerup activable"));
 
 		int answer = askIntegerFromList(possibleAnswers, -1);
-		if(answer == i) // If answer is powerup.
+		if (answer == i) // If answer is powerup.
 			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
 		else
 			sendMessage(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
@@ -189,7 +189,7 @@ public class CLIView extends RemoteView {
 		List<WeaponRep> weaponReps = getModelRep().getClientPlayerRep().getWeaponReps();
 		printLine("Select the weapon to use:");
 		for (int i = 0; i < weaponReps.size(); i++) {
-			if(shootableWeapons.contains(i))
+			if (shootableWeapons.contains(i))
 				printLine((i + 1) + ") " + weaponReps.get(i).getCardName());
 		}
 		int answer = askIntegerFromList(shootableWeapons, -1);
@@ -232,7 +232,7 @@ public class CLIView extends RemoteView {
 		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
 		printLine("Select the Powerup card to activate:");
 		for (int i = 0; i < powerupCards.size(); i++) {
-			if(activablePowerups.contains(i))
+			if (activablePowerups.contains(i))
 				printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
 		}
 		int answer = askIntegerFromList(activablePowerups, -1);
@@ -251,12 +251,12 @@ public class CLIView extends RemoteView {
 		printLine("2) Reload");
 		printLine((activablePowerups ? ("3) Powerup") : "X) No powerup activable"));
 
-		int answer = (activablePowerups ? askInteger(1, 3) :  askInteger(1, 2));
-		if(answer == 1)
+		int answer = (activablePowerups ? askInteger(1, 3) : askInteger(1, 2));
+		if (answer == 1)
 			sendMessage(new Message(MessageType.END_TURN, MessageSubtype.ANSWER)); // End turn.
-		else if(answer == 2)
+		else if (answer == 2)
 			sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST)); // Reload.
-		else if(answer == 3)
+		else if (answer == 3)
 			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 	}
 
@@ -269,23 +269,23 @@ public class CLIView extends RemoteView {
 
 
 	@Override
-	public void askToPay(List<AmmoType> priceToPay){
+	public void askToPay(List<AmmoType> priceToPay) {
 		List<Integer> answer = new ArrayList<>();
 		printLine("Choose the method of payment:\n 1) Only ammo\n 2) Use also powerup");
 		if (askInteger(1, 2) == 1)
 			answer.add(-1);
-		else{
+		else {
 			List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
 			List<AmmoType> availableAmmoFromPowerups = powerupCardReps.stream().map(PowerupCardRep::getAssociatedAmmo).collect(Collectors.toList());
 			int choise = -1;
-			do{
+			do {
 				printLine("Choose the powerup to discard:");
-				for (int i  = 0; i < powerupCardReps.size(); i++){
+				for (int i = 0; i < powerupCardReps.size(); i++) {
 					PowerupCardRep powerupCardRep = powerupCardReps.get(i);
-					if(priceToPay.contains(powerupCardRep.getAssociatedAmmo()))
-						printLine((i+1) + "");
+					if (priceToPay.contains(powerupCardRep.getAssociatedAmmo()))
+						printLine((i + 1) + "");
 				}
-			}while(!priceToPay.isEmpty() || availableAmmoFromPowerups.isEmpty() || choise == powerupCardReps.size());
+			} while (!priceToPay.isEmpty() || availableAmmoFromPowerups.isEmpty() || choise == powerupCardReps.size());
 		}
 		sendMessage(new IntListMessage(answer, MessageType.PAYMENT, MessageSubtype.ANSWER));
 	}
@@ -309,7 +309,7 @@ public class CLIView extends RemoteView {
 
 	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
 		int answer = -1;
-		if(questionContainer.isAskString()) {
+		if (questionContainer.isAskString()) {
 			// Options question.
 			printLine(questionContainer.getQuestion());
 			for (int i = 1; i < questionContainer.getOptions().size() + 1; i++) {
@@ -317,7 +317,7 @@ public class CLIView extends RemoteView {
 			}
 			answer = askInteger(1, questionContainer.getOptions().size());
 			answer = answer - 1;
-		} else if(questionContainer.isAskCoordinates()) {
+		} else if (questionContainer.isAskCoordinates()) {
 			// Coordinates question.
 			repPrinter.displayGame(questionContainer.getCoordinates());
 			printLine(questionContainer.getQuestion());
@@ -357,7 +357,7 @@ public class CLIView extends RemoteView {
 	 * Repeatedly ask the integer if the input is the list.
 	 *
 	 * @param options the list containing the possible options.
-	 * @param offset number to add to the answer before checking if it is contained in the list.
+	 * @param offset  number to add to the answer before checking if it is contained in the list.
 	 * @return the integer chosen by the user + the offset.
 	 */
 	private int askIntegerFromList(List<Integer> options, int offset) {
