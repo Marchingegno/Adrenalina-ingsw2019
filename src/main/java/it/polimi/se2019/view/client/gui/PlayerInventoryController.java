@@ -119,7 +119,7 @@ public class PlayerInventoryController {
 	@FXML
 	private Label points;
 
-	public void initializeInventory(PlayerRep playerRep) {
+	public void setInventory(PlayerRep playerRep) {
 		setNickname(playerRep.getPlayerName());
 		setPoints(playerRep.getPoints());
 		setPlayerBoard(playerRep.getPgName(), false); //TODO set correct player board if in frenzy

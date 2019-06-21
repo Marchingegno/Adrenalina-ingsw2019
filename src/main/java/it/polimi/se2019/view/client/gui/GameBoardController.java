@@ -282,34 +282,42 @@ public class GameBoardController {
 	@FXML
 	private ImageView weponImageYellow2;
 
-	private PlayerInventoryController inventoryController;
-	private Stage inventoryStage;
 
 	@FXML
 	private ImageView playerIcon0;
 	@FXML
 	private Button playerIconButton0;
 	private PlayerRep playerRep0;
+	private PlayerInventoryController inventoryController0;
+	private Stage inventoryStage0;
 	@FXML
 	private ImageView playerIcon1;
 	@FXML
 	private Button playerIconButton1;
 	private PlayerRep playerRep1;
+	private PlayerInventoryController inventoryController1;
+	private Stage inventoryStage1;
 	@FXML
 	private ImageView playerIcon2;
 	@FXML
 	private Button playerIconButton2;
 	private PlayerRep playerRep2;
+	private PlayerInventoryController inventoryController2;
+	private Stage inventoryStage2;
 	@FXML
 	private ImageView playerIcon3;
 	@FXML
 	private Button playerIconButton3;
 	private PlayerRep playerRep3;
+	private PlayerInventoryController inventoryController3;
+	private Stage inventoryStage3;
 	@FXML
 	private ImageView playerIcon4;
 	@FXML
 	private Button playerIconButton4;
 	private PlayerRep playerRep4;
+	private PlayerInventoryController inventoryController4;
+	private Stage inventoryStage4;
 
 	@FXML
 	private ImageView skullToken00;
@@ -445,32 +453,32 @@ public class GameBoardController {
 
 	@FXML
 	private void showInventory0() {
-		inventoryController.initializeInventory(playerRep0);
-		inventoryStage.show();
+		inventoryController0.setInventory(playerRep0);
+		inventoryStage0.show();
 	}
 
 	@FXML
 	private void showInventory1() {
-		inventoryController.initializeInventory(playerRep1);
-		inventoryStage.show();
+		inventoryController1.setInventory(playerRep1);
+		inventoryStage1.show();
 	}
 
 	@FXML
 	private void showInventory2() {
-		inventoryController.initializeInventory(playerRep2);
-		inventoryStage.show();
+		inventoryController2.setInventory(playerRep2);
+		inventoryStage2.show();
 	}
 
 	@FXML
 	private void showInventory3() {
-		inventoryController.initializeInventory(playerRep3);
-		inventoryStage.show();
+		inventoryController3.setInventory(playerRep3);
+		inventoryStage3.show();
 	}
 
 	@FXML
 	private void showInventory4() {
-		inventoryController.initializeInventory(playerRep4);
-		inventoryStage.show();
+		inventoryController4.setInventory(playerRep4);
+		inventoryStage4.show();
 	}
 
 
@@ -637,19 +645,70 @@ public class GameBoardController {
 		}
 		setMap(gameMapRep.getName());
 
-		inventoryStage = new Stage();
-		inventoryStage.setResizable(false);
+		inventoryStage0 = new Stage();
+		inventoryStage0.setResizable(false);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/PlayerInventory.fxml"));
 		try {
 			Parent root = loader.load();
-			inventoryStage.setTitle("Adrenaline");
-			inventoryStage.setScene(new Scene(root));
-			inventoryController = loader.getController();
+			inventoryStage0.setTitle("Adrenaline");
+			inventoryStage0.setScene(new Scene(root));
+			inventoryController0 = loader.getController();
 		} catch (IOException e) {
-			Utils.logError("Error loading loginController", e);
+			Utils.logError("Error loading inventory", e);
 		}
-		inventoryStage.hide();
+		inventoryStage0.hide();
 
+		inventoryStage1 = new Stage();
+		loader = new FXMLLoader(getClass().getResource("/gui/PlayerInventory.fxml"));
+		inventoryStage1.setResizable(false);
+		try {
+			Parent root = loader.load();
+			inventoryStage1.setScene(new Scene(root));
+			inventoryStage1.setTitle("Adrenaline");
+			inventoryController1 = loader.getController();
+		} catch (IOException e) {
+			Utils.logError("Error loading inventory", e);
+		}
+		inventoryStage1.hide();
+
+		loader = new FXMLLoader(getClass().getResource("/gui/PlayerInventory.fxml"));
+		inventoryStage2 = new Stage();
+		inventoryStage2.setResizable(false);
+		try {
+			inventoryStage2.setTitle("Adrenaline");
+			Parent root = loader.load();
+			inventoryStage2.setScene(new Scene(root));
+			inventoryController2 = loader.getController();
+		} catch (IOException e) {
+			Utils.logError("Error loading inventory", e);
+		}
+		inventoryStage2.hide();
+
+		inventoryStage3 = new Stage();
+		loader = new FXMLLoader(getClass().getResource("/gui/PlayerInventory.fxml"));
+		try {
+			Parent root = loader.load();
+			inventoryStage3.setResizable(false);
+			inventoryStage3.setTitle("Adrenaline");
+			inventoryStage3.setScene(new Scene(root));
+			inventoryController3 = loader.getController();
+		} catch (IOException e) {
+			Utils.logError("Error loading inventory", e);
+		}
+		inventoryStage3.hide();
+
+		inventoryStage4 = new Stage();
+		loader = new FXMLLoader(getClass().getResource("/gui/PlayerInventory.fxml"));
+		try {
+			Parent root = loader.load();
+			inventoryStage4.setTitle("Adrenaline");
+			inventoryStage4.setScene(new Scene(root));
+			inventoryController4 = loader.getController();
+			inventoryStage4.setResizable(false);
+		} catch (IOException e) {
+			Utils.logError("Error loading inventory", e);
+		}
+		inventoryStage4.hide();
 
 		initialized = true;
 	}
@@ -718,15 +777,24 @@ public class GameBoardController {
 				playersRep.add(playerRep);
 		}
 		playerRep0 = modelRep.getClientPlayerRep();
+		inventoryController0.setInventory(playerRep0);
 
-		if (!playersRep.isEmpty())
+		if (!playersRep.isEmpty()) {
 			playerRep1 = playersRep.get(0);
-		if (playersRep.size() >= 2)
+			inventoryController1.setInventory(playerRep1);
+		}
+		if (playersRep.size() >= 2) {
 			playerRep2 = playersRep.get(1);
-		if (playersRep.size() >= 3)
+			inventoryController2.setInventory(playerRep2);
+		}
+		if (playersRep.size() >= 3) {
 			playerRep3 = playersRep.get(2);
-		if (playersRep.size() >= 4)
+			inventoryController3.setInventory(playerRep3);
+		}
+		if (playersRep.size() >= 4) {
 			playerRep4 = playersRep.get(3);
+			inventoryController4.setInventory(playerRep4);
+		}
 
 		Coordinates playerPosition;
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
@@ -737,11 +805,6 @@ public class GameBoardController {
 		}
 
 		updateGameMap(modelRep.getGameMapRep());
-
-		if (inventoryStage.isShowing()) {
-			System.out.println("edwed");
-			inventoryStage.show();
-		}
 	}
 
 	private void updateGameMap(GameMapRep gameMapRep) {
