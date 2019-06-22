@@ -295,6 +295,8 @@ public class GUIView extends RemoteView {
 			if (questionContainer.isAskString()) {
 				askStringController.setAskString(questionContainer, messageType);
 				askStringStage.show();
+			} else {
+				gameBoardController.highlightCoordinates(questionContainer.getCoordinates(), Request.CHOOSE, messageType);
 			}
 		});
 
@@ -337,7 +339,7 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askMove(List<Coordinates> reachableCoordinates) {
-		gameBoardController.highlightCoordinates(reachableCoordinates, Request.MOVE);
+		gameBoardController.highlightCoordinates(reachableCoordinates, Request.MOVE, MessageType.MOVE);
 	}
 
 	@Override

@@ -450,6 +450,8 @@ public class GameBoardController {
 	private boolean initialized = false;
 
 	private Request request;
+	private List<Coordinates> coordinatesToChoose;
+	private MessageType answerType;
 
 	@FXML
 	private void showInventory0() {
@@ -939,7 +941,6 @@ public class GameBoardController {
 			}
 		}
 	}
-
 	public void disableWeaponButtons() {
 		weaponBlue0.setDisable(true);
 		weaponBlue1.setDisable(true);
@@ -961,12 +962,16 @@ public class GameBoardController {
 		weaponYellow2.setVisible(false);
 	}
 
-	public void highlightCoordinates(List<Coordinates> reachableCoordinates, Request request) {
+	public void highlightCoordinates(List<Coordinates> coordinatesToHighlight, Request request, MessageType answerType) {
 		Platform.runLater(() -> {
 			this.request = request;
-			for (Coordinates coordinates : reachableCoordinates) {
+			for (Coordinates coordinates : coordinatesToHighlight) {
 				buttonPosition[coordinates.getRow()][coordinates.getColumn()].setVisible(true);
 				buttonPosition[coordinates.getRow()][coordinates.getColumn()].setDisable(false);
+			}
+			if (request == Request.CHOOSE) {
+				this.answerType = answerType;
+				coordinatesToChoose = coordinatesToHighlight;
 			}
 		});
 	}
@@ -1046,6 +1051,8 @@ public class GameBoardController {
 	public void pressedButton00() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 0), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(0, 0)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1053,6 +1060,8 @@ public class GameBoardController {
 	public void pressedButton01() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 1), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(0, 1)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1060,6 +1069,8 @@ public class GameBoardController {
 	public void pressedButton02() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 2), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(0, 2)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1067,6 +1078,8 @@ public class GameBoardController {
 	public void pressedButton03() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(0, 3), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(0, 3)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1074,6 +1087,8 @@ public class GameBoardController {
 	public void pressedButton10() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 0), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(1, 0)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1081,6 +1096,8 @@ public class GameBoardController {
 	public void pressedButton11() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 1), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(1, 1)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1088,6 +1105,8 @@ public class GameBoardController {
 	public void pressedButton12() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 2), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(1, 2)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1095,6 +1114,8 @@ public class GameBoardController {
 	public void pressedButton13() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(1, 3), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(1, 3)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1102,6 +1123,8 @@ public class GameBoardController {
 	public void pressedButton20() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 0), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(2, 0)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1109,6 +1132,8 @@ public class GameBoardController {
 	public void pressedButton21() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 1), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(2, 1)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1116,6 +1141,8 @@ public class GameBoardController {
 	public void pressedButton22() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 2), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(2, 2)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
@@ -1123,6 +1150,8 @@ public class GameBoardController {
 	public void pressedButton23() {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 3), MessageType.MOVE));
+		if (request == Request.CHOOSE)
+			guiView.sendMessage(new IntMessage(coordinatesToChoose.indexOf(new Coordinates(2, 3)), answerType, MessageSubtype.ANSWER));
 		disableSquareButtons();
 	}
 
