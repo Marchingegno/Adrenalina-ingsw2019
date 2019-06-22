@@ -22,7 +22,7 @@ public class GameTester {
 	private static final boolean TEST_MOVE = false; // Set to false if you think "Move" is a useless action.
 	private static final boolean TEST_SHOOT = true;
 	private static final boolean TEST_POWERUP = true;
-	private static final boolean DISPLAY_REPS = true;
+	private static final boolean DISPLAY_REPS = false;
 
 	// Options for the automatically started test (runTestGame)
 	private static final int NUMBER_OF_GAMES = 10;

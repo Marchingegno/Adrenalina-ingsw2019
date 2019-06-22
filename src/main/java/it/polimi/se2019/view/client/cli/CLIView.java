@@ -274,28 +274,27 @@ public class CLIView extends RemoteView {
 
 		List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
 		int choice;
-		int i;
+		int numOfOptions;
 		printLine("Which powerup you want to discard to pay?");
 		do{
-			i = 0;
-
 			//eliminates all powerups that cannot be used to pay
-			for (; i < powerupCardReps.size(); i++){
+			for (int i = 0; i < powerupCardReps.size(); i++) {
 				PowerupCardRep powerupCardRep = powerupCardReps.get(i);
 				if(price.contains(powerupCardRep.getAssociatedAmmo()))
 					printLine((i+1) + ") " + repPrinter.getPowerupRepString(powerupCardRep));
 				else
 					powerupCardReps.remove(powerupCardRep);
 			}
+			numOfOptions = powerupCardReps.size();
 			if (canAffordAlsoWithAmmo)
-				printLine((i+1) + ") End payment");
-			choice = askInteger(1, canAffordAlsoWithAmmo? i + 1 : i);
-			if (choice != (i+1)){
+				printLine((numOfOptions + 1) + ") End payment");
+			choice = askInteger(1, canAffordAlsoWithAmmo ? numOfOptions + 1 : numOfOptions);
+			if (choice != (numOfOptions + 1)) {
 				answer.add(choice - 1);
 				price.remove(powerupCardReps.get(choice - 1).getAssociatedAmmo());
 				powerupCardReps.remove(choice - 1);
 			}
-		} while (!powerupCardReps.isEmpty() && choice != (i + 1));
+		} while (!powerupCardReps.isEmpty() && choice != (numOfOptions + 1));
 
 		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 	}

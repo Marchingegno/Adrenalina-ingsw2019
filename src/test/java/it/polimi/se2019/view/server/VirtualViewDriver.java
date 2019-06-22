@@ -1,6 +1,7 @@
 package it.polimi.se2019.view.server;
 
 import it.polimi.se2019.GameTester;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
@@ -199,6 +200,34 @@ public class VirtualViewDriver extends VirtualView {
 	public void updatePlayerRep(PlayerRep playerRepToUpdate) {
 		modelRep.setPlayerRep(playerRepToUpdate);
 		Utils.logRep("Updated " + getNickname() + "'s Player rep of " + playerRepToUpdate.getPlayerName());
+	}
+
+	@Override
+	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo) {
+		List<Integer> answer = new ArrayList<>();
+		List<AmmoType> price = new ArrayList<>(priceToPay);
+
+		List<PowerupCardRep> powerupCardReps = new ArrayList<>(modelRep.getClientPlayerRep().getPowerupCards());
+		int choice;
+		int numOfOptions;
+		do {
+			//eliminates all powerups that cannot be used to pay
+			for (int i = 0; i < powerupCardReps.size(); i++) {
+				PowerupCardRep powerupCardRep = powerupCardReps.get(i);
+				if (!price.contains(powerupCardRep.getAssociatedAmmo()))
+					powerupCardReps.remove(powerupCardRep);
+			}
+			numOfOptions = powerupCardReps.size();
+			choice = new Random().nextInt(canAffordAlsoWithAmmo ? numOfOptions - 1 : numOfOptions);
+			if (choice != (numOfOptions)) {
+				answer.add(choice);
+				price.remove(powerupCardReps.get(choice).getAssociatedAmmo());
+				powerupCardReps.remove(choice);
+			}
+		} while (!powerupCardReps.isEmpty() && choice != (numOfOptions));
+
+		Utils.logInfo("VirtualViewDriver -> askToPay(): created random answer for payment: " + answer);
+		sendMessageToController(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 	}
 
 	// ####################################

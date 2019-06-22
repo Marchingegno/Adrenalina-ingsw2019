@@ -486,7 +486,7 @@ public class GameMap extends Observable implements Representable {
 		List<Player> visiblePlayers = new ArrayList<>();
 
 		for (Player player : playersPositions.keySet()) {
-			if (isVisible(coordinates, getPlayerCoordinates(player)))
+			if (isInTheMap(player) && isVisible(coordinates, getPlayerCoordinates(player)))
 				visiblePlayers.add(player);
 		}
 		return visiblePlayers;
@@ -501,7 +501,7 @@ public class GameMap extends Observable implements Representable {
 		List<Player> visiblePlayers = new ArrayList<>();
 
 		for (Player player : playersPositions.keySet()) {
-			if (!player.getPlayerName().equals(mainPlayer.getPlayerName()) && isVisible(mainPlayer, player))
+			if (isInTheMap(player) && !player.getPlayerName().equals(mainPlayer.getPlayerName()) && isVisible(mainPlayer, player))
 				visiblePlayers.add(player);
 		}
 		return visiblePlayers;
