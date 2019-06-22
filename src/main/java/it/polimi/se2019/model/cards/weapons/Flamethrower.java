@@ -176,6 +176,7 @@ public class Flamethrower extends AlternateFireWeapon {
 		for (CardinalDirection direction : CardinalDirection.values()) {
 			chosenDirection = direction;
 			List<Player> possibleTargets = getPrimaryTargets();
+			possibleTargets.addAll(getSecondSquareTargets());
 			chosenDirection = null;
 			if (!possibleTargets.isEmpty()) {
 				directionsFound.add(direction.toString());
