@@ -3,7 +3,7 @@
 		{
 			"className": "Electroscythe",
 			"name": "Electroscythe",
-			"imagePath": "electroscythe",
+			"imagePath": "electroscythe.png",
 			"price": [
 				"BLUE_AMMO"
 			],
@@ -19,31 +19,9 @@
 			"secondaryMarks": 0
 		},
 		{
-			"className": "MachineGun",
-			"name": "Machine Gun",
-			"imagePath": "machine_gun",
-			"price": [
-				"BLUE_AMMO",
-				"RED_AMMO"
-			],
-			"description": "Basic effect: Choose 1 or 2 targets you can see and deal 1 damage to each.\nWith focus shot: Deal 1 additional damage to one of those targets.\nWith turret tripod: Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see.\nNotes: If you deal both additional points of damage, they must be dealt to 2 different targets. If you see only\n2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the the turret tripod to give it 1 additional damage.",
-			"optionalPrices": [
-				"YELLOW_AMMO",
-				"BLUE_AMMO"
-			],
-			"primaryMarks": 0,
-			"primaryDamage": 1,
-			"moveDistance": 0,
-			"optional1Marks": 0,
-			"optional1Damage": 1,
-			"optional2Marks": 0,
-			"optional2Damage": 1,
-			"optional2ExtraDamage": 1
-		},
-		{
 			"className": "TractorBeam",
 			"name": "Tractor Beam",
-			"imagePath": "tractor_beam",
+			"imagePath": "tractor_beam.png",
 			"price": [
 				"BLUE_AMMO"
 			],
@@ -61,7 +39,7 @@
 		{
 			"className": "Thor",
 			"name": "T.H.O.R.",
-			"imagePath": "thor",
+			"imagePath": "thor.png",
 			"price": [
 				"BLUE_AMMO",
 				"RED_AMMO"
@@ -82,7 +60,7 @@
 		{
 			"className": "Whisper",
 			"name": "Whisper",
-			"imagePath": "whisper",
+			"imagePath": "whisper.png",
 			"price": [
 				"BLUE_AMMO",
 				"BLUE_AMMO",
@@ -96,7 +74,7 @@
 		{
 			"className": "VortexCannon",
 			"name": "Vortex Cannon",
-			"imagePath": "vortex_cannon",
+			"imagePath": "vortex_cannon.png",
 			"price": [
 				"RED_AMMO",
 				"BLUE_AMMO"
@@ -116,7 +94,7 @@
 		{
 			"className": "Furnace",
 			"name": "Furnace",
-			"imagePath": "furnace",
+			"imagePath": "furnace.png",
 			"price": [
 				"RED_AMMO",
 				"BLUE_AMMO"
@@ -132,7 +110,7 @@
 		{
 			"className": "Heatseeker",
 			"name": "Heatseeker",
-			"imagePath": "heatseeker",
+			"imagePath": "heat_seeker.png",
 			"price": [
 				"RED_AMMO",
 				"RED_AMMO",
@@ -146,7 +124,7 @@
 		{
 			"className": "Hellion",
 			"name": "Hellion",
-			"imagePath": "hellion",
+			"imagePath": "hellion.png",
 			"price": [
 				"RED_AMMO",
 				"YELLOW_AMMO"
@@ -168,7 +146,7 @@
 		{
 			"className": "Flamethrower",
 			"name": "Flamethrower",
-			"imagePath": "flamethrower",
+			"imagePath": "flamethrower.png",
 			"price": [
 				"RED_AMMO"
 			],
@@ -186,9 +164,28 @@
 			"secondaryFollowingMarks": 0
 		},
 		{
+			"className": "GrenadeLauncher",
+			"name": "Grenade Launcher",
+			"imagePath": "grenade_launcher.png",
+			"price": [
+				"RED_AMMO"
+			],
+			"description": "Basic effect: Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\nWith extra grenade: Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.\nNotes: For example, you can shoot a target, move it onto a square with other targets, then damage everyone including the first target. Or you can deal 2 to a main target, 1 to everyone else on that square, then move the main target. Or you can deal 1 to an isolated target and 1 to everyone on a different square. If you target your own square, you will not be moved or damaged.",
+			"optionalPrices": [
+				"RED_AMMO"
+			],
+			"primaryDamage": 1,
+			"primaryMarks": 0,
+			"moveDistance": 0,
+			"optional1Marks": 0,
+			"optional1Damage": 1,
+			"optional2Marks": 0,
+			"optional2Damage": 0
+		},
+		{
 			"className": "ZX_2",
 			"name": "ZX-2",
-			"imagePath": "zx-2",
+			"imagePath": "zx-2.png",
 			"price": [
 				"YELLOW_AMMO",
 				"RED_AMMO"
@@ -204,7 +201,7 @@
 		{
 			"className": "Shotgun",
 			"name": "Shotgun",
-			"imagePath": "shotgun",
+			"imagePath": "shotgun.png",
 			"price": [
 				"YELLOW_AMMO",
 				"YELLOW_AMMO"
@@ -218,9 +215,27 @@
 			"secondaryMarks": 0
 		},
 		{
+			"className": "PowerGlove",
+			"name": "Power Glove",
+			"imagePath": "power_glove.png",
+			"price": [
+				"YELLOW_AMMO",
+				"BLUE_AMMO"
+			],
+			"description": "Basic mode: Choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks.\nIn rocket fist mode: Choose a square exactly 1 move away. Move onto that square. You may deal 2 damage to 1 target there. If you want, you may move 1 more square in that same direction (but only if it is a legal move). You may deal 2 damage to 1 target there, as well.\nNotes: In rocket fist mode, you're flying 2 squares in a straight line, punching 1 person per square.",
+			"secondaryPrice": [
+				"BLUE_AMMO"
+			],
+			"primaryMarks": 2,
+			"primaryDamage": 1,
+			"moveDistance": 1,
+			"secondaryDamage": 2,
+			"secondaryMarks": 0
+		},
+		{
 			"className": "Railgun",
 			"name": "Railgun",
-			"imagePath": "railgun",
+			"imagePath": "railgun.png",
 			"price": [
 				"YELLOW_AMMO",
 				"YELLOW_AMMO",
@@ -231,13 +246,13 @@
 			"primaryMarks": 0,
 			"primaryDamage": 3,
 			"moveDistance": 0,
-          "secondaryDamage": 2,
+			"secondaryDamage": 2,
 			"secondaryMarks": 0
 		},
 		{
 			"className": "Shockwave",
 			"name": "Shockwave",
-			"imagePath": "shockwave",
+			"imagePath": "shockwave.png",
 			"price": [
 				"YELLOW_AMMO"
 			],
@@ -254,7 +269,7 @@
 		{
 			"className": "Sledgehammer",
 			"name": "Sledgehammer",
-			"imagePath": "sledgehammer",
+			"imagePath": "sledgehammer.png",
 			"price": [
 				"YELLOW_AMMO"
 			],

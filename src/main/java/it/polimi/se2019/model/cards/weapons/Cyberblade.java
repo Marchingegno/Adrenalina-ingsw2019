@@ -118,7 +118,7 @@ public class Cyberblade extends OptionalChoiceWeapon {
 
 	@Override
 	protected boolean canFireOptionalEffect1() {
-		//If the only player nearby is the one on your square
+		//If the only player nearby is the one on your square, can't fire.
 		List<Coordinates> nearbyPlayerCoordinatesList = getCoordinateWithEnemies(1).stream()
 				.filter(coordinates -> !coordinates.equals(getGameMap().getPlayerCoordinates(getOwner())))
 				.collect(Collectors.toList());
