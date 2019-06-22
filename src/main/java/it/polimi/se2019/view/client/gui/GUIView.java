@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -49,6 +50,10 @@ public class GUIView extends RemoteView {
 	private Scene weaponChoiceScene;
 	private Stage weaponChoiceStage;
 
+	private AskStringController askStringController;
+	private Scene askStringScene;
+	private Stage askStringStage;
+
 	private Stage window;
 
 	//TO REMOVE
@@ -66,6 +71,7 @@ public class GUIView extends RemoteView {
 		loadGameBoard();
 		loadPowerupChoice();
 		loadWeaponChoice();
+		loadAskString();
 	}
 
 	public void loadLoginController() {
@@ -162,6 +168,28 @@ public class GUIView extends RemoteView {
 		}
 	}
 
+	public void loadAskString() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/AskString.fxml"));
+		try {
+			Parent root = loader.load();
+			askStringScene = new Scene(root);
+			askStringStage = new Stage();
+			askStringStage.initModality(Modality.APPLICATION_MODAL);
+			askStringStage.setTitle("Adrenaline");
+			askStringStage.setResizable(false);
+			askStringStage.setScene(askStringScene);
+			askStringController = loader.getController();
+			askStringController.setGuiAndStage(this, askStringStage);
+			askStringStage.setOnCloseRequest(event -> {
+				Platform.runLater(() -> {
+					askStringStage.show();
+				});
+			});
+		} catch (IOException e) {
+			Utils.logError("Error loading askString", e);
+		}
+	}
+
 	@Override
 	public void askForConnectionAndStartIt() {
 	}
@@ -250,17 +278,34 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askWeaponChoice(QuestionContainer questionContainer) {
-
+		askQuestionContainerAndSendAnswer(questionContainer, MessageType.WEAPON);
 	}
 
 	@Override
 	public void askPowerupActivation(List<Integer> activablePowerups) {
-
 	}
 
 	@Override
 	public void askPowerupChoice(QuestionContainer questionContainer) {
+		askQuestionContainerAndSendAnswer(questionContainer, MessageType.POWERUP);
+	}
 
+	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
+		Platform.runLater(() -> {
+			if (questionContainer.isAskString()) {
+				askStringController.setAskString(questionContainer, messageType);
+				askStringStage.show();
+			}
+		});
+
+//		else if (questionContainer.isAskCoordinates()) {
+//			// Coordinates question.
+//			repPrinter.displayGame(questionContainer.getCoordinates());
+//			priLine(questionContainer.getQuestion());
+//			Coordinates coordinates = askCoordinates(questionContainer.getCoordinates());
+//			answer = questionContainer.getCoordinates().indexOf(coordinates);
+//		}
+//		sendMessage(new IntMessage(answer, messageType, MessageSubtype.ANSWER));
 	}
 
 	@Override
