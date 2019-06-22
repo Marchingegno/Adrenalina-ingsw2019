@@ -6,8 +6,6 @@ import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.Color;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -54,8 +52,8 @@ public class PlayerInventoryController {
 	@FXML
 	private ImageView yellowAmmo2;
 
-	@FXML
-	private Group damageTokens;
+
+	private List<ImageView> damageTokens = new ArrayList<>();
 	@FXML
 	private ImageView damageToken0;
 	@FXML
@@ -81,6 +79,8 @@ public class PlayerInventoryController {
 	@FXML
 	private ImageView damageToken11;
 
+	private List<ImageView> marks = new ArrayList<>();
+
 	@FXML
 	private ImageView marks00;
 	@FXML
@@ -89,6 +89,8 @@ public class PlayerInventoryController {
 	private ImageView marks02;
 	@FXML
 	private ImageView marks10;
+	@FXML
+	private ImageView marks11;
 	@FXML
 	private ImageView marks12;
 	@FXML
@@ -119,7 +121,34 @@ public class PlayerInventoryController {
 	@FXML
 	private Label points;
 
+
 	public void setInventory(PlayerRep playerRep) {
+
+		marks.add(marks00);
+		marks.add(marks01);
+		marks.add(marks02);
+		marks.add(marks10);
+		marks.add(marks11);
+		marks.add(marks12);
+		marks.add(marks20);
+		marks.add(marks21);
+		marks.add(marks22);
+		marks.add(marks30);
+		marks.add(marks31);
+		marks.add(marks31);
+
+		damageTokens.add(damageToken0);
+		damageTokens.add(damageToken1);
+		damageTokens.add(damageToken2);
+		damageTokens.add(damageToken3);
+		damageTokens.add(damageToken4);
+		damageTokens.add(damageToken5);
+		damageTokens.add(damageToken6);
+		damageTokens.add(damageToken7);
+		damageTokens.add(damageToken8);
+		damageTokens.add(damageToken9);
+		damageTokens.add(damageToken10);
+		damageTokens.add(damageToken11);
 		setNickname(playerRep.getPlayerName());
 		setPoints(playerRep.getPoints());
 		setPlayerBoard(playerRep.getPgName(), false); //TODO set correct player board if in frenzy
@@ -197,12 +226,11 @@ public class PlayerInventoryController {
 	}
 
 	public void setDamageToken(List<Color.CharacterColorType> damageBoard) {
-		List<Node> damageTokenList = damageTokens.getChildren();
 		for (int i = 0; i < 12; i++) {
 			if (i < damageBoard.size())
-				((ImageView) damageTokenList.get(i)).setImage(loadImage("playerBoards/" + damageBoard.get(i).getPgName() + "/token"));
+				(damageTokens.get(i)).setImage(loadImage("playerBoards/" + damageBoard.get(i).getPgName() + "/token"));
 			else
-				damageTokenList.get(i).setVisible(false);
+				damageTokens.get(i).setVisible(false);
 		}
 	}
 

@@ -14,11 +14,13 @@ public class KillShotRep implements Representation {
 	private String playerName;
 	private Color.CharacterColorType playerColor;
 	private boolean overkill;
+	private String pgName;
 
 
 	KillShotRep(Player killer, boolean overkill) {
 		playerName = killer.getPlayerName();
 		playerColor = killer.getPlayerColor();
+		pgName = killer.getPgName();
 		this.overkill = overkill;
 	}
 
@@ -45,5 +47,9 @@ public class KillShotRep implements Representation {
 	 */
 	public boolean isOverkill() {
 		return overkill;
+	}
+
+	public String getPgName() {
+		return pgName;
 	}
 }

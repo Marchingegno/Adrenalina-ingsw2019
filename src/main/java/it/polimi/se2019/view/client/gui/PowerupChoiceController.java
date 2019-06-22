@@ -113,15 +113,15 @@ public class PowerupChoiceController {
 		this.guiView = guiView;
 	}
 
-	public void setbuttonActive() {
+	public void setButtonActive() {
 		button.setVisible(true);
 		button.setDisable(false);
 	}
 
-	public int askChoice() {
-		request = Request.CHOOSE_INT;
+	public int askChoice(Request request) {
+		this.request = request;
 		stage.showAndWait();
-		request = null;
+		this.request = null;
 		return answer;
 	}
 

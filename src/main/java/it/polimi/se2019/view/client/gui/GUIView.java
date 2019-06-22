@@ -4,10 +4,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.client.Client;
-import it.polimi.se2019.network.message.GameConfigMessage;
-import it.polimi.se2019.network.message.MessageSubtype;
-import it.polimi.se2019.network.message.MessageType;
-import it.polimi.se2019.network.message.PaymentMessage;
+import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -285,6 +282,18 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askPowerupActivation(List<Integer> activablePowerups) {
+		Platform.runLater(() -> {
+			List<PowerupCardRep> activablePowerupsRep = getModelRep().getClientPlayerRep().getPowerupCards();
+			List<PowerupCardRep> options = new ArrayList<>();
+			powerupChoiceController.setTitle("Select the Powerup card to activate");
+			for (int i = 0; i < activablePowerupsRep.size(); i++) {
+				if (activablePowerups.contains(i))
+					options.add(activablePowerupsRep.get(i));
+			}
+			powerupChoiceController.setPowerups(options);
+			int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
+			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
+		});
 	}
 
 	@Override
@@ -394,9 +403,9 @@ public class GUIView extends RemoteView {
 				powerupChoiceController.setPowerups(powerupCardReps);
 
 				if (canAffordAlsoWithAmmo)
-					powerupChoiceController.setbuttonActive();
+					powerupChoiceController.setButtonActive();
 
-				choice = powerupChoiceController.askChoice();
+				choice = powerupChoiceController.askChoice(Request.CHOOSE_INT);
 
 				if (choice != -1) {
 					answer.add(choice);
@@ -409,7 +418,6 @@ public class GUIView extends RemoteView {
 			sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 		});
 	}
-
 
 	// Not used, here just for example
 	// TODO remove

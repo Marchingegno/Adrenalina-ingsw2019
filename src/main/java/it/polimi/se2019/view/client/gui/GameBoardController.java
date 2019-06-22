@@ -2,6 +2,7 @@ package it.polimi.se2019.view.client.gui;
 
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.gamemap.SpawnSquareRep;
@@ -320,6 +321,7 @@ public class GameBoardController {
 	private PlayerInventoryController inventoryController4;
 	private Stage inventoryStage4;
 
+	private List<ImageView> skullTokens = new ArrayList<>();
 	@FXML
 	private ImageView skullToken00;
 	@FXML
@@ -600,6 +602,39 @@ public class GameBoardController {
 		ammoCardPosition[2][1] = ammoCard21;
 		ammoCardPosition[2][2] = ammoCard22;
 
+		skullTokens.add(skullToken00);
+		skullTokens.add(skullToken01);
+		skullTokens.add(skullToken10);
+		skullTokens.add(skullToken11);
+		skullTokens.add(skullToken20);
+		skullTokens.add(skullToken21);
+		skullTokens.add(skullToken30);
+		skullTokens.add(skullToken31);
+		skullTokens.add(skullToken40);
+		skullTokens.add(skullToken41);
+		skullTokens.add(skullToken50);
+		skullTokens.add(skullToken51);
+		skullTokens.add(skullToken60);
+		skullTokens.add(skullToken61);
+		skullTokens.add(skullToken70);
+		skullTokens.add(skullToken71);
+		skullTokens.add(skullToken80);
+		skullTokens.add(skullToken81);
+		skullTokens.add(skullToken90);
+		skullTokens.add(skullToken91);
+		skullTokens.add(skullToken100);
+		skullTokens.add(skullToken101);
+		skullTokens.add(skullToken110);
+		skullTokens.add(skullToken111);
+		skullTokens.add(skullToken120);
+		skullTokens.add(skullToken121);
+		skullTokens.add(skullToken130);
+		skullTokens.add(skullToken131);
+		skullTokens.add(skullToken140);
+		skullTokens.add(skullToken141);
+		skullTokens.add(skullToken150);
+		skullTokens.add(skullToken151);
+
 		updateGameMap(modelRep.getGameMapRep());
 
 		List<PlayerRep> playersRep = new ArrayList<>();
@@ -778,6 +813,15 @@ public class GameBoardController {
 				weponImageYellow0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
 				weponImageYellow0.setVisible(true);
 			}
+		}
+	}
+
+	private void updateKillShootTrack(List<KillShotRep> killShotReps) {
+		for (int i = 0; i < 12; i++) {
+			if (i < killShotReps.size()) {
+				(skullTokens.get(i)).setImage(loadImage("playerBoards/" + killShotReps.get(i).getPgName() + "/token"));
+			} else
+				skullTokens.get(i).setVisible(false);
 		}
 	}
 
