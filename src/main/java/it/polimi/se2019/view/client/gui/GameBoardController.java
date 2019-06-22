@@ -750,7 +750,7 @@ public class GameBoardController {
 			}
 			if (card.size() >= 3) {
 				weponImageBlue2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
-				weponImageBlue1.setVisible(true);
+				weponImageBlue2.setVisible(true);
 			} else {
 				weponImageBlue2.setVisible(false);
 			}
@@ -1128,16 +1128,19 @@ public class GameBoardController {
 
 	@FXML
 	public void pressedWeaponBlue0() {
+		disableWeaponButtons();
 		guiView.sendMessage(new IntMessage(0, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@FXML
 	public void pressedWeaponBlue1() {
+		disableWeaponButtons();
 		guiView.sendMessage(new IntMessage(1, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@FXML
 	public void pressedWeaponBlue2() {
+		disableWeaponButtons();
 		guiView.sendMessage(new IntMessage(2, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 

@@ -22,55 +22,55 @@
             </image>
         </ImageView>
         <ImageView fx:id="weponImageBlue1" fitHeight="172.0" fitWidth="103.0" layoutX="711.0" layoutY="3.0"
-                   pickOnBounds="true" preserveRatio="true">
+                   pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageBlue0" fitHeight="172.0" fitWidth="103.0" layoutX="592.0" layoutY="3.0"
-                   pickOnBounds="true" preserveRatio="true">
+                   pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageBlue2" fitHeight="172.0" fitWidth="103.0" layoutX="828.0" layoutY="3.0"
-                   pickOnBounds="true" preserveRatio="true">
+                   pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageYellow0" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="450.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageYellow1" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="567.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageYellow2" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="685.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageRed0" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="284.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageRed1" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="401.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="weponImageRed2" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="519.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png"/>
             </image>

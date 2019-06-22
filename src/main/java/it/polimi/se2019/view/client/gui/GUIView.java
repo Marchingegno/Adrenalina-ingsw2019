@@ -45,6 +45,10 @@ public class GUIView extends RemoteView {
 	private Scene powerupChoiceScene;
 	private Stage powerupChoiceStage;
 
+	private WeaponChoiceController weaponChoiceController;
+	private Scene weaponChoiceScene;
+	private Stage weaponChoiceStage;
+
 	private Stage window;
 
 	//TO REMOVE
@@ -61,6 +65,7 @@ public class GUIView extends RemoteView {
 		loadMapsAndSkulls();
 		loadGameBoard();
 		loadPowerupChoice();
+		loadWeaponChoice();
 	}
 
 	public void loadLoginController() {
@@ -132,6 +137,28 @@ public class GUIView extends RemoteView {
 			powerupChoiceController.setGuiAndStage(this, powerupChoiceStage);
 		} catch (IOException e) {
 			Utils.logError("Error loading powerupChoice", e);
+		}
+	}
+
+	public void loadWeaponChoice() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/WeaponChoice.fxml"));
+		try {
+			Parent root = loader.load();
+			weaponChoiceScene = new Scene(root);
+			weaponChoiceStage = new Stage();
+			weaponChoiceStage.initModality(Modality.APPLICATION_MODAL);
+			weaponChoiceStage.setResizable(false);
+			weaponChoiceStage.setTitle("Adrenaline");
+			weaponChoiceStage.setOnCloseRequest(event -> {
+				Platform.runLater(() -> {
+					weaponChoiceStage.show();
+				});
+			});
+			weaponChoiceStage.setScene(weaponChoiceScene);
+			weaponChoiceController = loader.getController();
+			weaponChoiceController.setGuiAndStage(this, weaponChoiceStage);
+		} catch (IOException e) {
+			Utils.logError("Error loading weaponChoice", e);
 		}
 	}
 
@@ -270,7 +297,11 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askShoot(List<Integer> shootableWeapons) {
-
+		Platform.runLater(() -> {
+			weaponChoiceController.setWeaponsToChoose(shootableWeapons, getModelRep().getClientPlayerRep().getWeaponReps());
+			weaponChoiceController.setTitle("Choose the weapon to shoot with");
+			weaponChoiceStage.show();
+		});
 	}
 
 	@Override
