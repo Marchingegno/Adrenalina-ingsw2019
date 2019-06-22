@@ -18,6 +18,7 @@ import it.polimi.se2019.utils.*;
 import it.polimi.se2019.view.server.Event;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observer;
 

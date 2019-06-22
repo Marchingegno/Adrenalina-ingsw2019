@@ -58,7 +58,7 @@ public class TurnController{
 				break;
 			case SWAP_WEAPON:
 				if(!model.hasCurrentPlayerPayed())
-					handlePayment(virtualView, model.getPriceOfTheChosenWeapon(((IntMessage) event.getMessage()).getContent()), event);
+					handlePayment(virtualView, model.getPriceOfTheChosenWeapon(((SwapMessage) event.getMessage()).getIndexToGrab()), event);
 				else{
 					model.setPayed(false);
 					SwapMessage swapMessage = (SwapMessage) event.getMessage();

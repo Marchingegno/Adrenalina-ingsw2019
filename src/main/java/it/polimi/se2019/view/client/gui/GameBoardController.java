@@ -827,9 +827,9 @@ public class GameBoardController {
 						if (!mapRep[i][j].getCards().isEmpty()) {
 							ammoCardPosition[i][j].setImage(loadImage("ammo/" + mapRep[i][j].getCards().get(0).getImagePath()));
 							ammoCardPosition[i][j].setVisible(true);
-
-						} else
+						} else {
 							ammoCardPosition[i][j].setVisible(false);
+						}
 					}
 				}
 			}
