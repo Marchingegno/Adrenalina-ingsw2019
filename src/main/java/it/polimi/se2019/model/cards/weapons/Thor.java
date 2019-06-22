@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Thor extends OptionalEffectsWeapon {
 	private List<Player> chosenTargets;
+	private List<List<Player>> chainsOnHold;
 
 	public Thor(JsonObject parameters) {
 		super(parameters);
@@ -21,48 +22,48 @@ public class Thor extends OptionalEffectsWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		if (getCurrentStep() == 2) {
-			currentTargets = new ArrayList<>();
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
-		} else if (getCurrentStep() == 3) {
-			chosenTargets.add(currentTargets.get(choice));
+		if (isBothOptionalActive()) {
+			return handleBothOptionalEffects(choice);
 		}
-
 		if (isOptionalActive(1)) {
 			return handleOptionalEffect1(choice);
 		} else {
-			primaryFire();
+			if (getCurrentStep() == 2) {
+				currentTargets = new ArrayList<>();
+				currentTargets = getPrimaryTargets();
+				return getTargetPlayersQnO(currentTargets);
+			} else if (getCurrentStep() == 3) {
+				chosenTargets.add(currentTargets.get(choice));
+			}
 		}
+
+		primaryFire();
 		return null;
 	}
 
 	@Override
 	protected QuestionContainer handleOptionalEffect1(int choice) {
-		if (getCurrentStep() == 3) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
-		} else if (getCurrentStep() == 4) {
-			chosenTargets.add(currentTargets.get(choice));
+		if (getCurrentStep() == 2) {
+			chainsOnHold = getChainOfTwoPlayers();
+			return getChainPlayerQnO(chainsOnHold);
+		} else if (getCurrentStep() == 3) {
+			chosenTargets = chainsOnHold.get(choice);
 		}
 
-		if (isOptionalActive(2)) {
-			return handleOptionalEffect2(choice);
-		} else {
-			primaryFire();
-		}
+		primaryFire();
 		return null;
 	}
 
 	@Override
-	protected QuestionContainer handleOptionalEffect2(int choice) {
-		if (getCurrentStep() == 4) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
-		} else if (getCurrentStep() == 5) {
-			chosenTargets.add(currentTargets.get(choice));
-			primaryFire();
+	protected QuestionContainer handleBothOptionalEffects(int choice) {
+		if (getCurrentStep() == 2) {
+			chainsOnHold = getChainOfThreePlayers();
+			return getChainPlayerQnO(chainsOnHold);
+		} else if (getCurrentStep() == 3) {
+			chosenTargets = chainsOnHold.get(choice);
 		}
+
+		primaryFire();
 		return null;
 	}
 
@@ -118,37 +119,83 @@ public class Thor extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	public void reset() {
-		super.reset();
-		chosenTargets = new ArrayList<>();
-	}
-
-	@Override
 	protected boolean canFireOptionalEffect1() {
-		//There is at least a chain of two players.
-		return !getChainsOfTwoPlayers()[0].isEmpty();
+		return isThereAChainOfTwoPlayers();
 	}
 
+	private List<List<Player>> getChainOfTwoPlayers() {
+		List<List<Player>> chainsOfTwoPlayer = new ArrayList<>();
 
-	private List<Player>[] getChainsOfTwoPlayers() {
-		List<Player> visiblePlayers = getPrimaryTargets();
-		for (Player visiblePlayer : visiblePlayers) {
-			List<Player> enemiesSeenByVisiblePlayer = new ArrayList<>();
-			List<Player> seenByVisiblePlayer = getGameMap().getVisiblePlayers(visiblePlayer);
-			seenByVisiblePlayer.remove(getOwner());
-			for (Player playerToAddIfNotPresent : seenByVisiblePlayer) {
-				if (!enemiesSeenByVisiblePlayer.contains(playerToAddIfNotPresent)) {
-					enemiesSeenByVisiblePlayer.add(playerToAddIfNotPresent);
+		List<Player> visiblePlayers = getGameMap().getVisiblePlayers(getOwner());
+		for (Player firstPlayer : visiblePlayers) {
+			List<Player> visibleByFirst = getGameMap().getVisiblePlayers(firstPlayer);
+			visibleByFirst.remove(getOwner());
+			for (Player secondPlayer : visibleByFirst) {
+				List<Player> chain = new ArrayList<>();
+				chain.add(firstPlayer);
+				chain.add(secondPlayer);
+				chainsOfTwoPlayer.add(chain);
+			}
+		}
+		return chainsOfTwoPlayer;
+	}
+
+	private List<List<Player>> getChainOfThreePlayers() {
+		List<List<Player>> chainsOfThreePlayer = new ArrayList<>();
+
+		List<Player> visiblePlayers = getGameMap().getVisiblePlayers(getOwner());
+		for (Player firstPlayer : visiblePlayers) {
+			List<Player> visibleByFirst = getGameMap().getVisiblePlayers(firstPlayer);
+			visibleByFirst.remove(getOwner());
+			for (Player secondPlayer : visibleByFirst) {
+				List<Player> visibleBySecond = getGameMap().getVisiblePlayers(secondPlayer);
+				visibleBySecond.remove(getOwner());
+				visibleBySecond.remove(firstPlayer);
+				for (Player thirdPlayer : visibleBySecond) {
+					List<Player> chain = new ArrayList<>();
+					chain.add(firstPlayer);
+					chain.add(secondPlayer);
+					chain.add(thirdPlayer);
+					chainsOfThreePlayer.add(chain);
 				}
 			}
 		}
+		return chainsOfThreePlayer;
+	}
 
-		// TODO Implement this
-		return null;
+	private boolean isThereAChainOfThreePlayers() {
+		return !getChainOfThreePlayers().isEmpty();
+	}
+
+	private boolean isThereAChainOfTwoPlayers() {
+		return !getChainOfTwoPlayers().isEmpty();
 	}
 
 	@Override
 	protected boolean canFireBothOptionalEffects() {
-		return true;
+		return isThereAChainOfThreePlayers();
+	}
+
+	private QuestionContainer getChainPlayerQnO(List<List<Player>> chains) {
+		String question = "Which group of player do you want to target?";
+		List<String> options = new ArrayList<>();
+		for (List<Player> chain : chains) {
+			StringBuilder stringBuilder = new StringBuilder();
+			for (Player player : chain) {
+				stringBuilder.append(player.getPlayerName());
+				stringBuilder.append(" - ");
+			}
+			stringBuilder.delete(stringBuilder.length() - 3, stringBuilder.length());
+			options.add(stringBuilder.toString());
+		}
+
+		return QuestionContainer.createStringQuestionContainer(question, options);
+	}
+
+
+	@Override
+	public void reset() {
+		super.reset();
+		chosenTargets = new ArrayList<>();
 	}
 }
