@@ -3,7 +3,7 @@
     {
       "className": "LockRifle",
       "name": "Lock Rifle",
-      "imagePath": "lock_rifle.png",
+      "imagePath": "lock_rifle",
       "price": [
         "BLUE_AMMO",
         "BLUE_AMMO"
@@ -23,7 +23,7 @@
     {
       "className": "Electroscythe",
       "name": "Electroscythe",
-      "imagePath": "electroscythe.png",
+      "imagePath": "electroscythe",
       "price": [
         "BLUE_AMMO"
       ],
@@ -41,7 +41,7 @@
     {
       "className": "MachineGun",
       "name": "Machine Gun",
-      "imagePath": "machine_gun.png",
+      "imagePath": "machine_gun",
       "price": [
         "BLUE_AMMO",
         "RED_AMMO"
@@ -63,7 +63,7 @@
     {
       "className": "TractorBeam",
       "name": "Tractor Beam",
-      "imagePath": "tractor_beam.png",
+      "imagePath": "tractor_beam",
       "price": [
         "BLUE_AMMO"
       ],
@@ -81,7 +81,7 @@
     {
       "className": "Thor",
       "name": "T.H.O.R.",
-      "imagePath": "thor.png",
+      "imagePath": "thor",
       "price": [
         "BLUE_AMMO",
         "RED_AMMO"
@@ -102,7 +102,7 @@
     {
       "className": "PlasmaGun",
       "name": "Plasma Gun",
-      "imagePath": "plasma_gun.png",
+      "imagePath": "plasma_gun",
       "price": [
         "BLUE_AMMO",
         "YELLOW_AMMO"
@@ -123,7 +123,7 @@
     {
       "className": "Whisper",
       "name": "Whisper",
-      "imagePath": "whisper.png",
+      "imagePath": "whisper",
       "price": [
         "BLUE_AMMO",
         "BLUE_AMMO",
@@ -137,7 +137,7 @@
     {
       "className": "VortexCannon",
       "name": "Vortex Cannon",
-      "imagePath": "vortex_cannon.png",
+      "imagePath": "vortex_cannon",
       "price": [
         "RED_AMMO",
         "BLUE_AMMO"
@@ -157,7 +157,7 @@
     {
       "className": "Furnace",
       "name": "Furnace",
-      "imagePath": "furnace.png",
+      "imagePath": "furnace",
       "price": [
         "RED_AMMO",
         "BLUE_AMMO"
@@ -173,7 +173,7 @@
     {
       "className": "Heatseeker",
       "name": "Heatseeker",
-      "imagePath": "heat_seeker.png",
+      "imagePath": "heatseeker",
       "price": [
         "RED_AMMO",
         "RED_AMMO",
@@ -187,7 +187,7 @@
     {
       "className": "Hellion",
       "name": "Hellion",
-      "imagePath": "hellion.png",
+      "imagePath": "hellion",
       "price": [
         "RED_AMMO",
         "YELLOW_AMMO"
@@ -209,7 +209,7 @@
     {
       "className": "Flamethrower",
       "name": "Flamethrower",
-      "imagePath": "flamethrower.png",
+      "imagePath": "flamethrower",
       "price": [
         "RED_AMMO"
       ],
@@ -229,7 +229,7 @@
     {
       "className": "GrenadeLauncher",
       "name": "Grenade Launcher",
-      "imagePath": "grenade_launcher.png",
+      "imagePath": "grenade_launcher",
       "price": [
         "RED_AMMO"
       ],
@@ -248,7 +248,7 @@
     {
       "className": "RocketLauncher",
       "name": "Rocket Launcher",
-      "imagePath": "rocket_launcher.png",
+      "imagePath": "rocket_launcher",
       "price": [
         "RED_AMMO",
         "RED_AMMO"
@@ -269,7 +269,7 @@
     {
       "className": "ZX_2",
       "name": "ZX-2",
-      "imagePath": "zx-2.png",
+      "imagePath": "zx-2",
       "price": [
         "YELLOW_AMMO",
         "RED_AMMO"
@@ -285,7 +285,7 @@
     {
       "className": "Shotgun",
       "name": "Shotgun",
-      "imagePath": "shotgun.png",
+      "imagePath": "shotgun",
       "price": [
         "YELLOW_AMMO",
         "YELLOW_AMMO"
@@ -301,7 +301,7 @@
     {
       "className": "PowerGlove",
       "name": "Power Glove",
-      "imagePath": "power_glove.png",
+      "imagePath": "power_glove",
       "price": [
         "YELLOW_AMMO",
         "BLUE_AMMO"
@@ -319,7 +319,7 @@
     {
       "className": "Railgun",
       "name": "Railgun",
-      "imagePath": "railgun.png",
+      "imagePath": "railgun",
       "price": [
         "YELLOW_AMMO",
         "YELLOW_AMMO",
@@ -336,7 +336,7 @@
     {
       "className": "Shockwave",
       "name": "Shockwave",
-      "imagePath": "shockwave.png",
+      "imagePath": "shockwave",
       "price": [
         "YELLOW_AMMO"
       ],
@@ -353,7 +353,7 @@
     {
       "className": "Cyberblade",
       "name": "Cyberblade",
-      "imagePath": "cyberblade.png",
+      "imagePath": "cyberblade",
       "price": [
         "YELLOW_AMMO",
         "RED_AMMO"
@@ -374,7 +374,7 @@
     {
       "className": "Sledgehammer",
       "name": "Sledgehammer",
-      "imagePath": "sledgehammer.png",
+      "imagePath": "sledgehammer",
       "price": [
         "YELLOW_AMMO"
       ],
