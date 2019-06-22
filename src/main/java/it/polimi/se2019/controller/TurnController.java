@@ -85,7 +85,7 @@ public class TurnController{
 					}
 				} else {
 					if(!model.hasCurrentPlayerPayed())
-						handlePayment(virtualView, model.getPriceOfTheChosenWeapon(((IntMessage) event.getMessage()).getContent()), event);
+						handlePayment(virtualView, model.getPriceOfTheSelectedWeapon(((IntMessage) event.getMessage()).getContent()), event);
 					else{
 						model.setPayed(false);
 						model.reloadWeapon(playerName, ((IntMessage) event.getMessage()).getContent());

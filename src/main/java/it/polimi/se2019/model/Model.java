@@ -146,6 +146,10 @@ public class Model {
 		return ((WeaponCard) gameMap.getPlayerSquare(getCurrentPlayer()).getCards().get(index)).getGrabPrice();
 	}
 
+	public List<AmmoType> getPriceOfTheSelectedWeapon(int index) {
+		return ((getCurrentPlayer().getPlayerBoard().getWeaponCards()).get(index)).getGrabPrice();
+	}
+
 	public void setAsDisconnected(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		player.setConnected(false);
