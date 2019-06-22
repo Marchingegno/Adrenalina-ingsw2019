@@ -18,7 +18,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import static it.polimi.se2019.view.client.cli.CLIPrinter.*;
 
@@ -279,6 +278,8 @@ public class CLIView extends RemoteView {
 		printLine("Which powerup you want to discard to pay?");
 		do{
 			i = 0;
+
+			//eliminates all powerups that cannot be used to pay
 			for (; i < powerupCardReps.size(); i++){
 				PowerupCardRep powerupCardRep = powerupCardReps.get(i);
 				if(price.contains(powerupCardRep.getAssociatedAmmo()))
@@ -294,7 +295,7 @@ public class CLIView extends RemoteView {
 				price.remove(powerupCardReps.get(choice - 1).getAssociatedAmmo());
 				powerupCardReps.remove(choice - 1);
 			}
-		}while(!powerupCardReps.isEmpty() && (canAffordAlsoWithAmmo && (choice != (i + 1))));
+		} while (!powerupCardReps.isEmpty() && choice != (i + 1));
 
 		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 	}

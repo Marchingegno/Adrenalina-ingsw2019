@@ -28,9 +28,13 @@ public class PowerupChoiceController {
 	private Button powerupButton2;
 	@FXML
 	private Label title;
+	@FXML
+	private Button button;
 
+	private Request request;
 	private GUIView guiView;
 	private Stage stage;
+	private int answer;
 
 	public void setPowerups(List<PowerupCardRep> powerups) {
 		if (!powerups.isEmpty()) {
@@ -70,26 +74,55 @@ public class PowerupChoiceController {
 	}
 
 	@FXML
+	public void buttonPressed() {
+		button.setDisable(true);
+		button.setVisible(false);
+		answer = -1;
+		stage.close();
+	}
+
+	@FXML
 	public void powerupButton0Pressed() {
-		guiView.sendMessage(new IntMessage(0, MessageType.SPAWN, MessageSubtype.ANSWER));
+		if (request == Request.CHOOSE_INT)
+			answer = 0;
+		else
+			guiView.sendMessage(new IntMessage(0, MessageType.SPAWN, MessageSubtype.ANSWER));
 		stage.close();
 	}
 
 	@FXML
 	public void powerupButton1Pressed() {
-		guiView.sendMessage(new IntMessage(1, MessageType.SPAWN, MessageSubtype.ANSWER));
+		if (request == Request.CHOOSE_INT)
+			answer = 1;
+		else
+			guiView.sendMessage(new IntMessage(1, MessageType.SPAWN, MessageSubtype.ANSWER));
 		stage.close();
 	}
 
 	@FXML
 	public void powerupButton2Pressed() {
-		guiView.sendMessage(new IntMessage(2, MessageType.SPAWN, MessageSubtype.ANSWER));
+		if (request == Request.CHOOSE_INT)
+			answer = 2;
+		else
+			guiView.sendMessage(new IntMessage(2, MessageType.SPAWN, MessageSubtype.ANSWER));
 		stage.close();
 	}
 
 	public void setGuiAndStage(GUIView guiView, Stage stage) {
 		this.stage = stage;
 		this.guiView = guiView;
+	}
+
+	public void setbuttonActive() {
+		button.setVisible(true);
+		button.setDisable(false);
+	}
+
+	public int askChoice() {
+		request = Request.CHOOSE_INT;
+		stage.showAndWait();
+		request = null;
+		return answer;
 	}
 
 	private Image loadImage(String filePath) {

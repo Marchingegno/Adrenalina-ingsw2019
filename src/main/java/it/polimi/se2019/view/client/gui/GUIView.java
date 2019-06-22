@@ -1,11 +1,13 @@
 package it.polimi.se2019.view.client.gui;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.GameConfigMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.network.message.PaymentMessage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
@@ -353,7 +355,11 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askReload(List<Integer> loadableWeapons) {
-
+		Platform.runLater(() -> {
+			weaponChoiceController.setWeaponsToChoose(loadableWeapons, getModelRep().getClientPlayerRep().getWeaponReps());
+			weaponChoiceController.setTitle("Which weapon do you want to reload?");
+			weaponChoiceStage.show();
+		});
 	}
 
 	@Override
@@ -372,7 +378,36 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo){
+		Platform.runLater(() -> {
+			List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
+			List<Integer> answer = new ArrayList<>();
+			List<AmmoType> price = new ArrayList<>(priceToPay);
+			powerupChoiceController.setTitle("Which powerup you want to discard to pay?");
 
+			int choice;
+			do {
+				for (int i = 0; i < powerupCardReps.size(); i++) {
+					if (!price.contains(powerupCardReps.get(i).getAssociatedAmmo()))
+						powerupCardReps.remove(powerupCardReps.get(i));
+				}
+
+				powerupChoiceController.setPowerups(powerupCardReps);
+
+				if (canAffordAlsoWithAmmo)
+					powerupChoiceController.setbuttonActive();
+
+				choice = powerupChoiceController.askChoice();
+
+				if (choice != -1) {
+					answer.add(choice);
+					price.remove(powerupCardReps.get(choice).getAssociatedAmmo());
+					powerupCardReps.remove(choice);
+				}
+
+			} while (!powerupCardReps.isEmpty() && choice != -1);
+
+			sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
+		});
 	}
 
 
