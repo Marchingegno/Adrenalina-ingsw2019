@@ -717,16 +717,19 @@ public class GameBoardController {
 		if (AmmoType.RED_AMMO.equals(associatedAmmo)) {
 			if (card.size() >= 2) {
 				weponImageRed1.setImage(loadImage("weapons/" + card.get(1).getImagePath()));
+				weponImageRed1.setVisible(true);
 			} else {
 				weponImageRed1.setVisible(false);
 			}
 			if (card.size() >= 1) {
 				weponImageRed0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
+				weponImageRed0.setVisible(true);
 			} else {
 				weponImageRed0.setVisible(false);
 			}
 			if (card.size() >= 3) {
 				weponImageRed2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
+				weponImageRed2.setVisible(true);
 			} else {
 				weponImageRed2.setVisible(false);
 			}
@@ -735,16 +738,19 @@ public class GameBoardController {
 		if (AmmoType.BLUE_AMMO.equals(associatedAmmo)) {
 			if (card.size() >= 1) {
 				weponImageBlue0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
+				weponImageBlue0.setVisible(true);
 			} else {
 				weponImageBlue0.setVisible(false);
 			}
 			if (card.size() >= 2) {
 				weponImageBlue1.setImage(loadImage("weapons/" + card.get(1).getImagePath()));
+				weponImageBlue1.setVisible(true);
 			} else {
 				weponImageBlue1.setVisible(false);
 			}
 			if (card.size() >= 3) {
 				weponImageBlue2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
+				weponImageBlue1.setVisible(true);
 			} else {
 				weponImageBlue2.setVisible(false);
 			}
@@ -753,11 +759,13 @@ public class GameBoardController {
 		if (AmmoType.YELLOW_AMMO.equals(associatedAmmo)) {
 			if (card.size() >= 3) {
 				weponImageYellow2.setImage(loadImage("weapons/" + card.get(2).getImagePath()));
+				weponImageYellow2.setVisible(true);
 			} else {
 				weponImageYellow2.setVisible(false);
 			}
 			if (card.size() >= 2) {
 				weponImageYellow1.setImage(loadImage("weapons/" + card.get(1).getImagePath()));
+				weponImageYellow1.setVisible(true);
 			} else {
 				weponImageYellow1.setVisible(false);
 			}
@@ -765,6 +773,7 @@ public class GameBoardController {
 				weponImageYellow0.setVisible(false);
 			} else {
 				weponImageYellow0.setImage(loadImage("weapons/" + card.get(0).getImagePath()));
+				weponImageYellow0.setVisible(true);
 			}
 		}
 	}
@@ -833,40 +842,45 @@ public class GameBoardController {
 				if (playerPositions.containsKey(pgName)) {
 					sprogPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
 					playerPositions.replace(pgName, playerPosition);
-				} else
+				} else {
 					playerPositions.put(pgName, playerPosition);
+				}
 				sprogPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
 				break;
 			case ("banshee"):
 				if (playerPositions.containsKey(pgName)) {
 					bansheePosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
 					playerPositions.replace(pgName, playerPosition);
-				} else
+				} else {
 					playerPositions.put(pgName, playerPosition);
+				}
 				bansheePosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
 				break;
 			case ("dozer"):
 				if (playerPositions.containsKey(pgName)) {
 					dozerPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
 					playerPositions.replace(pgName, playerPosition);
-				} else
+				} else {
 					playerPositions.put(pgName, playerPosition);
+				}
 				dozerPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
 				break;
 			case ("destructor"):
 				if (playerPositions.containsKey(pgName)) {
 					destructorPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
 					playerPositions.replace(pgName, playerPosition);
-				} else
+				} else {
 					playerPositions.put(pgName, playerPosition);
+				}
 				destructorPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
 				break;
 			case ("violet"):
 				if (playerPositions.containsKey(pgName)) {
 					violetPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(false);
 					playerPositions.replace(pgName, playerPosition);
-				} else
+				} else {
 					playerPositions.put(pgName, playerPosition);
+				}
 				violetPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
 				break;
 		}
@@ -926,6 +940,27 @@ public class GameBoardController {
 		}
 	}
 
+	public void disableWeaponButtons() {
+		weaponBlue0.setDisable(true);
+		weaponBlue1.setDisable(true);
+		weaponBlue2.setDisable(true);
+		weaponBlue0.setVisible(false);
+		weaponBlue1.setVisible(false);
+		weaponBlue2.setVisible(false);
+		weaponRed0.setDisable(true);
+		weaponRed1.setDisable(true);
+		weaponRed2.setDisable(true);
+		weaponRed0.setVisible(false);
+		weaponRed1.setVisible(false);
+		weaponRed2.setVisible(false);
+		weaponYellow0.setDisable(true);
+		weaponYellow1.setDisable(true);
+		weaponYellow2.setDisable(true);
+		weaponYellow0.setVisible(false);
+		weaponYellow1.setVisible(false);
+		weaponYellow2.setVisible(false);
+	}
+
 	public void highlightCoordinates(List<Coordinates> reachableCoordinates, Request request) {
 		Platform.runLater(() -> {
 			this.request = request;
@@ -978,6 +1013,33 @@ public class GameBoardController {
 		powerupsButton.setDisable(!activablePowerups);
 		endTurnButton.setDisable(false);
 		reloadButton.setDisable(false);
+	}
+
+	public void grabWeapon(List<Integer> indexesOfTheGrabbableWeapons, Coordinates playerCoordinates) {
+		if (playerCoordinates.equals(new Coordinates(0, 2))) {
+			weaponBlue0.setDisable(!indexesOfTheGrabbableWeapons.contains(0));
+			weaponBlue0.setVisible(indexesOfTheGrabbableWeapons.contains(0));
+			weaponBlue1.setDisable(!indexesOfTheGrabbableWeapons.contains(1));
+			weaponBlue1.setVisible(indexesOfTheGrabbableWeapons.contains(1));
+			weaponBlue2.setDisable(!indexesOfTheGrabbableWeapons.contains(2));
+			weaponBlue2.setVisible(indexesOfTheGrabbableWeapons.contains(2));
+		}
+		if (playerCoordinates.equals(new Coordinates(1, 0))) {
+			weaponRed0.setDisable(!indexesOfTheGrabbableWeapons.contains(0));
+			weaponRed2.setVisible(indexesOfTheGrabbableWeapons.contains(2));
+			weaponRed0.setVisible(indexesOfTheGrabbableWeapons.contains(0));
+			weaponRed1.setDisable(!indexesOfTheGrabbableWeapons.contains(1));
+			weaponRed1.setVisible(indexesOfTheGrabbableWeapons.contains(1));
+			weaponRed2.setDisable(!indexesOfTheGrabbableWeapons.contains(2));
+		}
+		if (playerCoordinates.equals(new Coordinates(2, 3))) {
+			weaponYellow0.setDisable(!indexesOfTheGrabbableWeapons.contains(0));
+			weaponYellow1.setDisable(!indexesOfTheGrabbableWeapons.contains(1));
+			weaponYellow1.setVisible(indexesOfTheGrabbableWeapons.contains(1));
+			weaponYellow2.setDisable(!indexesOfTheGrabbableWeapons.contains(2));
+			weaponYellow0.setVisible(indexesOfTheGrabbableWeapons.contains(0));
+			weaponYellow2.setVisible(indexesOfTheGrabbableWeapons.contains(2));
+		}
 	}
 
 	@FXML
@@ -1062,6 +1124,57 @@ public class GameBoardController {
 		if (request == Request.MOVE)
 			guiView.sendMessage(new CoordinatesAnswerMessage(new Coordinates(2, 3), MessageType.MOVE));
 		disableSquareButtons();
+	}
+
+	@FXML
+	public void pressedWeaponBlue0() {
+		guiView.sendMessage(new IntMessage(0, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponBlue1() {
+		guiView.sendMessage(new IntMessage(1, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponBlue2() {
+		guiView.sendMessage(new IntMessage(2, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponRed0() {
+		disableWeaponButtons();
+		guiView.sendMessage(new IntMessage(0, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponRed1() {
+		disableWeaponButtons();
+		guiView.sendMessage(new IntMessage(1, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponRed2() {
+		disableWeaponButtons();
+		guiView.sendMessage(new IntMessage(2, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponYellow0() {
+		disableWeaponButtons();
+		guiView.sendMessage(new IntMessage(0, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponYellow1() {
+		disableWeaponButtons();
+		guiView.sendMessage(new IntMessage(1, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+	}
+
+	@FXML
+	public void pressedWeaponYellow2() {
+		disableWeaponButtons();
+		guiView.sendMessage(new IntMessage(2, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	public boolean isInitialized() {

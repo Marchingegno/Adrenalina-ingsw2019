@@ -255,7 +255,7 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
-
+		gameBoardController.grabWeapon(indexesOfTheGrabbableWeapons, getModelRep().getGameMapRep().getPlayerCoordinates(getNickname()));
 	}
 
 	@Override

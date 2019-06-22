@@ -621,39 +621,51 @@
                 </ImageView>
             </children>
         </Group>
-        <Button fx:id="weaponBlue0" layoutX="591.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponBlue1" layoutX="710.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponBlue2" layoutX="827.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponRed0" layoutX="36.0" layoutY="284.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="172.0" prefWidth="103.0"
-                rotate="90.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponRed1" layoutX="36.0" layoutY="401.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="172.0" prefWidth="103.0"
-                rotate="90.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponRed2" layoutX="36.0" layoutY="519.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="172.0" prefWidth="103.0"
-                rotate="90.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponYellow0" layoutX="986.0" layoutY="449.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
-                rotate="90.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponYellow1" layoutX="986.0" layoutY="566.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
-                rotate="90.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
-        <Button fx:id="weaponYellow2" layoutX="986.0" layoutY="684.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="174.0" prefWidth="103.0"
-                rotate="90.0"
-                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"/>
+        <Button fx:id="weaponBlue0" disable="true" layoutX="591.0" layoutY="2.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponBlue0" prefHeight="174.0" prefWidth="103.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponBlue1" disable="true" layoutX="710.0" layoutY="2.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponBlue1" prefHeight="174.0" prefWidth="103.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponBlue2" disable="true" layoutX="827.0" layoutY="2.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponBlue2" prefHeight="174.0" prefWidth="103.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponRed0" disable="true" layoutX="36.0" layoutY="284.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponRed0" prefHeight="172.0" prefWidth="103.0" rotate="90.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponRed1" disable="true" layoutX="36.0" layoutY="401.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponRed1" prefHeight="172.0" prefWidth="103.0" rotate="90.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponRed2" disable="true" layoutX="36.0" layoutY="519.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponRed2" prefHeight="172.0" prefWidth="103.0" rotate="90.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponYellow0" disable="true" layoutX="986.0" layoutY="449.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponYellow0" prefHeight="174.0" prefWidth="103.0" rotate="90.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponYellow1" disable="true" layoutX="986.0" layoutY="566.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponYellow1" prefHeight="174.0" prefWidth="103.0" rotate="90.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
+        <Button fx:id="weaponYellow2" disable="true" layoutX="986.0" layoutY="684.0" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#pressedWeaponYellow2" prefHeight="174.0" prefWidth="103.0" rotate="90.0"
+                style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                visible="false"/>
         <Button fx:id="playerIconButton4" layoutX="388.0" layoutY="774.0" mnemonicParsing="false"
                 onAction="#showInventory4" prefHeight="49.0" prefWidth="49.0"
                 style="-fx-background-color: transparent; -fx-border-color: red;"/>
