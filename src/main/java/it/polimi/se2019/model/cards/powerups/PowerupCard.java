@@ -95,6 +95,9 @@ public abstract class PowerupCard extends ActivableCard {
 		this.shootedPlayer = shootedPlayer;
 	}
 
+	public String toString(){
+		return getCardName() + " " + getAssociatedAmmo();
+	}
 
 	// ####################################
 	// PROTECTED METHODS (only for subclasses)

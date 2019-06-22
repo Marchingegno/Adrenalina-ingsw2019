@@ -108,14 +108,15 @@ public class PlayerBoard {
 	}
 
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck) {
-//		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
-//		for (PowerupCard powerup : powerupCards) {
-//			priceToPay.remove(powerup.getAssociatedAmmo());
-//		}
-//		if (priceToPay.isEmpty())
-//			return true;
+		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
+		Utils.logInfo("AmmoContainer -> hasEnoughAmmo(): trying to pay " + ammoToCheck + " with " + powerupCards + " and ammo");
 
-		return this.ammoContainer.hasEnoughAmmo(ammoToCheck);
+		for (PowerupCard powerup : powerupCards) {
+			priceToPay.remove(powerup.getAssociatedAmmo());
+		}
+		if (priceToPay.isEmpty())
+			return true;
+		return this.ammoContainer.hasEnoughAmmo(priceToPay);
 	}
 
 
@@ -212,8 +213,9 @@ public class PlayerBoard {
 		if(weaponCards.size() >= GameConstants.MAX_WEAPON_CARDS_PER_PLAYER)
 			throw new InventoryFullException("Cannot add another weapon card since the inventory is full. Use swapWeapon to setChanged the weapon.");
 		weaponCards.add(weaponToAdd);
-		List<AmmoType> price = weaponToAdd.getGrabPrice();
-		ammoContainer.removeAmmo(price);
+		//TODO check if this can be removes
+//		List<AmmoType> price = weaponToAdd.getGrabPrice();
+//		ammoContainer.removeAmmo(price);
 		Utils.logInfo("PlayerBoard -> addWeapon(): Added to the player " + weaponToAdd.getCardName());
 		setChanged();
 	}

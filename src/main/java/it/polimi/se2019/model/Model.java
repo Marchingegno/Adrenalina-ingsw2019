@@ -15,6 +15,7 @@ import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.*;
+import it.polimi.se2019.view.server.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,8 @@ public class Model {
 
 	private GameBoard gameBoard;
 	private GameMap gameMap;
+	private boolean hasPayed = false;
+	private Event savedEvent;
 
 	public Model(String mapName, List<String> playerNames, int startingSkulls) {
 		if(startingSkulls < GameConstants.MIN_SKULLS || startingSkulls > GameConstants.MAX_SKULLS)
@@ -118,10 +121,29 @@ public class Model {
 		updateReps();
 	}
 
+	public void setPayed(boolean hasPayed){
+		this.hasPayed = hasPayed;
+	}
+
+	public boolean hasCurrentPlayerPayed(){
+		return hasPayed;
+	}
+
+	public void saveEvent(Event event){
+		this.savedEvent = event;
+	}
+
+	public Event resumeAction(){
+		return savedEvent;
+	}
 
 	// ####################################
 	// PLAYERS MANAGEMENT METHODS
 	// ####################################
+
+	public List<AmmoType> getPriceOfTheChosenWeapon(int index){
+		return ((WeaponCard) gameMap.getPlayerSquare(getCurrentPlayer()).getCards().get(index)).getGrabPrice();
+	}
 
 	public void setAsDisconnected(String playerName) {
 		Player player = getPlayerFromName(playerName);
@@ -217,14 +239,35 @@ public class Model {
 	}
 
 	public void pay(String playerName, List<AmmoType> price){
-		Player player = getPlayerFromName(playerName);
-		player.getPlayerBoard().getAmmoContainer().removeAmmo(price);
+		pay(playerName, price, new ArrayList<>());
 	}
 
-	public boolean needsPowerupsToPay(String playerName, List<AmmoType> ammoToPay){
+	public void pay(String playerName, List<AmmoType> priceToPay, List<Integer> indexesOfPowerup){
 		Player player = getPlayerFromName(playerName);
-		player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
-		return !player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
+		PlayerBoard playerBoard = player.getPlayerBoard();
+		List<AmmoType> price = new ArrayList<>(priceToPay);
+		Utils.logInfo("Model -> pay(): " +playerName+" is paying " + price + " with powerups " + indexesOfPowerup);
+		while (!indexesOfPowerup.isEmpty()){
+			Integer max = Collections.max(indexesOfPowerup);
+			price.remove(playerBoard.removePowerup(max).getAssociatedAmmo());
+			indexesOfPowerup.remove(max);
+		}
+		playerBoard.getAmmoContainer().removeAmmo(price);
+		setPayed(true);
+	}
+
+	public boolean canUsePowerupToPay(String playerName, List<AmmoType> ammoToPay){
+		List<PowerupCard> powerupCards = getPlayerFromName(playerName).getPlayerBoard().getPowerupCards();
+		for (PowerupCard powerupCard :powerupCards ) {
+			if(ammoToPay.contains(powerupCard.getAssociatedAmmo()))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean canAffordWithOnlyAmmo(String playerName, List<AmmoType> ammoToPay){
+		Player player = getPlayerFromName(playerName);
+		return player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
 	}
 
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
@@ -644,7 +687,6 @@ class DamageDone {
 					pToSwap = players.get(i);
 					players.set(i, players.get(i - 1));
 					players.set(i - 1, pToSwap);
-
 				}
 			}
 		}
@@ -656,7 +698,6 @@ class DamageDone {
 				return false;
 			}
 		}
-
 		return true;
 	}
 }

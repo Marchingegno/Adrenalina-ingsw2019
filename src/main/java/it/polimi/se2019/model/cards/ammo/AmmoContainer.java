@@ -114,6 +114,7 @@ public class AmmoContainer {
 	 * ammo to pay the price.
 	 */
 	public boolean hasEnoughAmmo(List<AmmoType> price) {
+		Utils.logInfo("AmmoContainer -> hasEnoughAmmo(): trying to pay " + price + " with " + ammo[0] + "," + ammo[1] + "," + ammo[2]);
 		if (price == null || price.isEmpty()) {
 			return true;
 		}
