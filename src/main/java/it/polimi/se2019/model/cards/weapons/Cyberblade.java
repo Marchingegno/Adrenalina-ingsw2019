@@ -4,10 +4,10 @@ import com.google.gson.JsonObject;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Cyberblade extends OptionalChoiceWeapon {
 	//BASE: Hit one target.
@@ -19,6 +19,9 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	public Cyberblade(JsonObject parameters) {
 		super(parameters);
 		secondTarget = null;
+
+		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
 	}
 
 	@Override
@@ -81,23 +84,38 @@ public class Cyberblade extends OptionalChoiceWeapon {
 				reachableWithParamPlayers.add(coordinate);
 			}
 		}
+
+		Utils.logWeapon("Coordinates found in getCoordinateWithEnemies: ");
+		reachableWithParamPlayers.forEach(coordinates -> Utils.logWeapon(coordinates.toString()));
 		return reachableWithParamPlayers;
 	}
 
 	private int getNumberOfHitRemaining() {
+		int numberOfHitRemaining;
 		if (isExtraActive()) {
 			if (baseCompleted && extraCompleted)
-				return 0;
-			if (baseCompleted && !extraCompleted)
-				return 1;
-			if (!baseCompleted && extraCompleted)
-				return 1;
-			return 2;
+				numberOfHitRemaining = 0;
+			else if (baseCompleted && !extraCompleted)
+				numberOfHitRemaining = 1;
+			else if (!baseCompleted && extraCompleted)
+				numberOfHitRemaining = 1;
+			else {
+				numberOfHitRemaining = 2;
+			}
 		} else {
-			if (baseCompleted)
-				return 0;
-			return 1;
+			if (baseCompleted) {
+				numberOfHitRemaining = 0;
+			} else {
+				numberOfHitRemaining = 1;
+			}
 		}
+		Utils.logWeapon("Number of hit remaining: " + numberOfHitRemaining);
+		return numberOfHitRemaining;
+	}
+
+	@Override
+	public void primaryFire() {
+		dealDamageAndConclude(standardDamagesAndMarks, target, secondTarget);
 	}
 
 	@Override
@@ -105,6 +123,14 @@ public class Cyberblade extends OptionalChoiceWeapon {
 		canAddBase = !baseCompleted && !getPrimaryTargets().isEmpty();
 		canAddExtra = !extraCompleted && !getPrimaryTargets().isEmpty();
 		canAddMove = !moveCompleted && !getCoordinateWithEnemies(getNumberOfHitRemaining()).isEmpty();
+
+		canAddMove = canAddMove && isOptionalActive(1);
+		canAddExtra = canAddExtra && isOptionalActive(2);
+
+		Utils.logWeapon("is the first optional active: " + isOptionalActive(1));
+
+		Utils.logWeapon("canAddBase - canAddExtra - canAddMove");
+		Utils.logWeapon(canAddBase + " - " + canAddExtra + " - " + canAddBase);
 	}
 
 	private boolean isExtraActive() {
@@ -113,17 +139,22 @@ public class Cyberblade extends OptionalChoiceWeapon {
 
 	@Override
 	protected boolean canPrimaryBeActivated() {
-		return !getPrimaryTargets().isEmpty() && !getCoordinateWithEnemies(1).isEmpty();
+		return !getPrimaryTargets().isEmpty() || !getCoordinateWithEnemies(1).isEmpty();
 	}
 
 	@Override
 	protected boolean canFireOptionalEffect1() {
-		//If the only player nearby is the one on your square, can't fire.
-		List<Coordinates> nearbyPlayerCoordinatesList = getCoordinateWithEnemies(1).stream()
-				.filter(coordinates -> !coordinates.equals(getGameMap().getPlayerCoordinates(getOwner())))
-				.collect(Collectors.toList());
-		return !nearbyPlayerCoordinatesList.isEmpty();
+		return true;
 	}
+
+	//	@Override
+//	protected boolean canFireOptionalEffect1() {
+//		//If the only player nearby is the one on your square
+//		List<Coordinates> nearbyPlayerCoordinatesList = getCoordinateWithEnemies(1).stream()
+//				.filter(coordinates -> !coordinates.equals(getGameMap().getPlayerCoordinates(getOwner())))
+//				.collect(Collectors.toList());
+//		return !nearbyPlayerCoordinatesList.isEmpty();
+//	}
 
 	@Override
 	protected boolean canFireOptionalEffect2() {
@@ -144,6 +175,14 @@ public class Cyberblade extends OptionalChoiceWeapon {
 		//Since the owner is in the coordinates, i'm going to remove it one time.
 		nearbyPlayers.remove(getOwner());
 		return !nearbyPlayers.isEmpty();
+	}
+
+	@Override
+	protected boolean canAddBaseWithoutEffects() {
+		//If there's no people on your square, you can't fire only base effect.
+		List<Player> playersOnMySquare = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner()));
+		playersOnMySquare.remove(getOwner());
+		return !playersOnMySquare.isEmpty();
 	}
 
 	@Override

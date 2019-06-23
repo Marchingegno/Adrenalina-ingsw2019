@@ -56,7 +56,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	public QuestionContainer initialQuestion() {
 		String question = "Which optional effect do you want to activate?";
 		List<String> options = new ArrayList<>();
-		options.add("No optional effects.");
+
+		if (canAddBaseWithoutEffects()) {
+			options.add("No optional effects.");
+		}
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			if (canAddThisOptionalEffect(i + 1) && hasOptionalEffects[i]) {
 				int j = i + 1;
@@ -73,7 +76,13 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	protected void registerChoice(int choice) {
 		switch (choice) {
 			case 0:
-				//No optional effects.
+				if (!canAddBaseWithoutEffects()) {
+					if (canAddThisOptionalEffect(1)) {
+						optionalEffectsActive[0] = true;
+					} else {
+						optionalEffectsActive[1] = true;
+					}
+				}
 				break;
 			case 1:
 				//If the first optional effect can't be added, then choice 1 is the second optional effect
@@ -130,6 +139,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		} else {
 			dealDamageAndConclude(standardDamagesAndMarks, currentTargets);
 		}
+	}
+
+	protected boolean canAddBaseWithoutEffects() {
+		return true;
 	}
 
 

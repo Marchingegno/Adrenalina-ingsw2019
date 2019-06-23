@@ -44,13 +44,13 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		return handleActionSelect(choice);
+		return handleChoices(choice);
 	}
 
 	/**
 	 * Advance the weapon state from REQUEST to ANSWER, and set true to the correct boolean.
 	 *
-	 * @return true if weaponState is in ANSWER state.
+	 * @return true if weaponState was in ANSWER state.
 	 */
 	protected boolean advanceState() {
 		Utils.logWeapon("Current weapon state: " + weaponState.toString());
@@ -70,6 +70,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 					break;
 				case ACTION:
 					weaponState = new Pair<>(nextType, EffectState.REQUEST);
+					break;
 			}
 			effectHasChanged = true;
 			return true;
@@ -131,6 +132,9 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 	protected abstract QuestionContainer handleExtraAnswer(int choice);
 
 	protected QuestionContainer handleActionSelect(int choice) {
+		Utils.logWeapon("Weapon " + this.getCardName() + " : executing handleActionSelect with pair: ");
+		Utils.logWeapon(weaponState.toString());
+
 		switch (weaponState.getSecond()) {
 			case REQUEST:
 				return setCurrentActionListReturnActionTypeQnO();
@@ -160,8 +164,8 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 			currentEffectList[i] = WeaponEffectType.EXTRA;
 		}
 
+
 		if (options.isEmpty()) {
-			primaryFire();
 			ended = true;
 			Utils.logWeapon("Ended because no other options is available.");
 		}
@@ -173,6 +177,8 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	protected QuestionContainer handleChoices(int choice) {
 		QuestionContainer qc;
+		Utils.logWeapon("Executing handleChoices with choice " + choice + "and pair:");
+		Utils.logWeapon(weaponState.toString());
 		switch (weaponState.getFirst()) {
 			case ACTION:
 				qc = handleActionSelect(choice);
@@ -195,7 +201,9 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 			primaryFire();
 			return null;
 		}
+
 		advanceState();
+
 		if (effectHasChanged) {
 			effectHasChanged = false;
 			return handleChoices(choice);
