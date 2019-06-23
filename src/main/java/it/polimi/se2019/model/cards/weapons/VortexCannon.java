@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +73,22 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	@Override
 	protected QuestionContainer handleOptionalEffect1(int choice) {
 		if (getCurrentStep() == 4) {
-			return setPrimaryCurrentTargetsAndReturnTargetQnO();
+			currentTargets = getPrimaryTargets();
+			if (currentTargets.isEmpty()) {
+				Utils.logWeapon("The player cannot choose further targets.");
+				primaryFire();
+			} else {
+				return getTargetPlayersQnO(currentTargets);
+			}
 		} else if (getCurrentStep() == 5) {
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = getPrimaryTargets();
-			return getTargetPlayersAndRefusalQnO(currentTargets);
+			if (currentTargets.isEmpty()) {
+				Utils.logWeapon("The player cannot choose further targets.");
+				primaryFire();
+			} else {
+				return getTargetPlayersAndRefusalQnO(currentTargets);
+			}
 		} else if (getCurrentStep() == 6 && !isThisChoiceRefusal(currentTargets, choice)) {
 			//The player can refuse.
 			chosenTargets.add(currentTargets.get(choice));
@@ -113,8 +125,8 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	}
 
 	@Override
-	public boolean canBeActivated() {
-		return isLoaded() && !getVortexCoordinates().isEmpty();
+	protected boolean canPrimaryBeActivated() {
+		return !getVortexCoordinates().isEmpty();
 	}
 
 	@Override
