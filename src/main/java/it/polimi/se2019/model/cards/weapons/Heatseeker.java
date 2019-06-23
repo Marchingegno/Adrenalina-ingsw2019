@@ -6,6 +6,7 @@ import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Heatseeker extends WeaponCard {
 
@@ -30,7 +31,10 @@ public class Heatseeker extends WeaponCard {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		List<Player> nonVisiblePlayers = getAllPlayers();
+		List<Player> allPlayers = getAllPlayers();
+		List<Player> nonVisiblePlayers = allPlayers.stream()
+				.filter(player -> getGameMap().isInTheMap(player))
+				.collect(Collectors.toList());
 		nonVisiblePlayers.removeAll(getGameMap().getVisiblePlayers(getOwner()));
 		nonVisiblePlayers.remove(getOwner());
 		return nonVisiblePlayers;

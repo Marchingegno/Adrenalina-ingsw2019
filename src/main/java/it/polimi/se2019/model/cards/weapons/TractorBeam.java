@@ -9,6 +9,7 @@ import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TractorBeam extends AlternateFireWeapon {
 
@@ -39,7 +40,7 @@ public class TractorBeam extends AlternateFireWeapon {
 				return getTargetPlayersQnO(currentTargets);
 			case 3:
 				target = currentTargets.get(choice);
-				enemyRelocationCoordinates = getGameMap().getVisibleCoordinates(getOwner());
+				enemyRelocationCoordinates = getEnemyRelocationCoordinates();
 				return getMovingTargetEnemyCoordinatesQnO(target, enemyRelocationCoordinates);
 			case 4:
 				relocateEnemy(target, enemyRelocationCoordinates.get(choice));
@@ -78,16 +79,17 @@ public class TractorBeam extends AlternateFireWeapon {
 	@Override
 	public List<Player> getPrimaryTargets() {
 		List<Coordinates> visibleCoordinates = getGameMap().getVisibleCoordinates(getOwner());
-		List<Player> players = getAllPlayers();
+		//Only players in the map
+		List<Player> players = getAllPlayers().stream().filter(player -> getGameMap().isInTheMap(player)).collect(Collectors.toList());
+		players.remove(getOwner());
 		List<Player> targettablePlayers = new ArrayList<>();
 		for (Player player : players) {
-			if (player != getOwner() && getGameMap().isInTheMap(player)) {
 				List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(player, 2);
 				intersectionCoordinates.retainAll(visibleCoordinates);
 				if (!intersectionCoordinates.isEmpty()) {
 					targettablePlayers.add(player);
 				}
-			}
+
 		}
 		return targettablePlayers;
 	}
@@ -95,6 +97,12 @@ public class TractorBeam extends AlternateFireWeapon {
 	@Override
 	public List<Player> getSecondaryTargets() {
 		return getGameMap().reachablePlayers(getOwner(), 2);
+	}
+
+	public List<Coordinates> getEnemyRelocationCoordinates() {
+		List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(target, 2);
+		intersectionCoordinates.retainAll(getGameMap().getVisibleCoordinates(getOwner()));
+		return intersectionCoordinates;
 	}
 
 	@Override
