@@ -77,6 +77,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 			if (currentTargets.isEmpty()) {
 				Utils.logWeapon("The player cannot choose further targets.");
 				primaryFire();
+				return null;
 			} else {
 				return getTargetPlayersQnO(currentTargets);
 			}
@@ -86,6 +87,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 			if (currentTargets.isEmpty()) {
 				Utils.logWeapon("The player cannot choose further targets.");
 				primaryFire();
+				return null;
 			} else {
 				return getTargetPlayersAndRefusalQnO(currentTargets);
 			}
