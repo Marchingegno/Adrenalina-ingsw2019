@@ -108,6 +108,9 @@ public class PlayerBoard {
 	}
 
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck) {
+		if (ammoToCheck == null || ammoToCheck.isEmpty()) {
+			return true;
+		}
 		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
 		List<PowerupCard> powerups = new ArrayList<>(powerupCards);
 		Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): trying to pay " + ammoToCheck + " with " + powerupCards + " and ammo " + getAmmoContainer().getAmmo());
@@ -126,6 +129,7 @@ public class PlayerBoard {
 
 		if (priceToPay.isEmpty())
 			return true;
+
 		return this.ammoContainer.hasEnoughAmmo(priceToPay);
 	}
 
