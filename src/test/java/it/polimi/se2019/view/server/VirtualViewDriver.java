@@ -71,24 +71,24 @@ public class VirtualViewDriver extends VirtualView {
 		int i;
 		for (i = 0; i < damageStatusRep.numOfMacroActions(); i++) {
 			// Move actions.
-			if(damageStatusRep.getMacroActionName(i).equals("Move")) {
-				if(TEST_MOVE)
+			if (damageStatusRep.getMacroActionName(i).equals("Move")) {
+				if (TEST_MOVE)
 					possibleAnswers.add(i);
-			} else if(damageStatusRep.getMacroActionName(i).equals("Shoot")) {
-				if(TEST_SHOOT) {
-					if(activableWeapons || !damageStatusRep.isShootWithoutReload(i)) // If weapons loaded.
+			} else if (damageStatusRep.getMacroActionName(i).equals("Shoot")) {
+				if (TEST_SHOOT) {
+					if (activableWeapons || !damageStatusRep.isShootWithoutReload(i)) // If weapons loaded.
 						possibleAnswers.add(i);
 				}
 			} else {
 				possibleAnswers.add(i);
 			}
 		}
-		if(activablePowerups && TEST_POWERUP)
+		if (activablePowerups && TEST_POWERUP)
 			possibleAnswers.add(i + 1);
 
 		int randomIndex = new Random().nextInt(possibleAnswers.size());
 		int answer = possibleAnswers.get(randomIndex);
-		if(answer == i + 1) // If answer is powerup.
+		if (answer == i + 1) // If answer is powerup.
 			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
 		else
 			sendMessageToController(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
@@ -98,7 +98,7 @@ public class VirtualViewDriver extends VirtualView {
 	public void askGrabWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
 		int randomIndex = new Random().nextInt(indexesOfTheGrabbableWeapons.size());
 		Utils.logInfo("VirtualViewDriver -> askGrabWeapon(): created random answer for grab weapon: " + indexesOfTheGrabbableWeapons.get(randomIndex));
-		sendMessageToController(new IntMessage(indexesOfTheGrabbableWeapons.get(randomIndex),  MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
+		sendMessageToController(new IntMessage(indexesOfTheGrabbableWeapons.get(randomIndex), MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -158,27 +158,27 @@ public class VirtualViewDriver extends VirtualView {
 	@Override
 	public void askEnd(boolean activablePowerups) {
 		int randomNumber;
-		if(activablePowerups && TEST_POWERUP)
+		if (activablePowerups && TEST_POWERUP)
 			randomNumber = new Random().nextInt(3);
 		else
 			randomNumber = new Random().nextInt(2);
 
 		// End turn.
-		if(randomNumber == 0) {
-			if(canTestContinue()) {
+		if (randomNumber == 0) {
+			if (canTestContinue()) {
 				Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: END_TURN");
 				sendMessageToController(new Message(MessageType.END_TURN, MessageSubtype.ANSWER));
 			}
 		}
 
 		// Reload.
-		else if(randomNumber == 1) {
+		else if (randomNumber == 1) {
 			Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: RELOAD");
 			sendMessageToController(new Message(MessageType.RELOAD, MessageSubtype.REQUEST));
 		}
 
 		// Powerup.
-		else if(randomNumber == 2) {
+		else if (randomNumber == 2) {
 			Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: ACTIVATE_POWERUP");
 			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 		}
@@ -206,25 +206,31 @@ public class VirtualViewDriver extends VirtualView {
 	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo) {
 		List<Integer> answer = new ArrayList<>();
 		List<AmmoType> price = new ArrayList<>(priceToPay);
-
 		List<PowerupCardRep> powerupCardReps = new ArrayList<>(modelRep.getClientPlayerRep().getPowerupCards());
-		int choice;
-		int numOfOptions;
-		do {
-			//eliminates all powerups that cannot be used to pay
+		Utils.logInfo("VirtualViewDriver -> askToPay(): price of " + priceToPay + " with " + powerupCardReps + " and canAffordAlsoWithAmmo " + canAffordAlsoWithAmmo);
+		int choice = -1;
+		int numOfOptions = 0;
+		//eliminates all powerups that cannot be used to pay
+		for (int i = 0; i < powerupCardReps.size(); i++) {
+			PowerupCardRep powerupCardRep = powerupCardReps.get(i);
+			if (!price.contains(powerupCardRep.getAssociatedAmmo()))
+				powerupCardReps.remove(powerupCardRep);
+		}
+		while ((!powerupCardReps.isEmpty() && !(choice == (numOfOptions) && canAffordAlsoWithAmmo))) {
+			numOfOptions = powerupCardReps.size() + (canAffordAlsoWithAmmo ? 1 : 0);
+			choice = new Random().nextInt(numOfOptions);
+			if (choice == 0) choice++;
+			if (choice != (numOfOptions) || !canAffordAlsoWithAmmo) {
+				answer.add(choice - 1);
+				price.remove(powerupCardReps.get(choice - 1).getAssociatedAmmo());
+				powerupCardReps.remove(choice - 1);
+			}
 			for (int i = 0; i < powerupCardReps.size(); i++) {
 				PowerupCardRep powerupCardRep = powerupCardReps.get(i);
 				if (!price.contains(powerupCardRep.getAssociatedAmmo()))
 					powerupCardReps.remove(powerupCardRep);
 			}
-			numOfOptions = powerupCardReps.size();
-			choice = new Random().nextInt(canAffordAlsoWithAmmo ? numOfOptions - 1 : numOfOptions);
-			if (choice != (numOfOptions)) {
-				answer.add(choice);
-				price.remove(powerupCardReps.get(choice).getAssociatedAmmo());
-				powerupCardReps.remove(choice);
-			}
-		} while (!powerupCardReps.isEmpty() && choice != (numOfOptions));
+		}
 
 		Utils.logInfo("VirtualViewDriver -> askToPay(): created random answer for payment: " + answer);
 		sendMessageToController(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
@@ -244,7 +250,7 @@ public class VirtualViewDriver extends VirtualView {
 	// ####################################
 
 	protected void showRep() {
-		if(displayReps && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
+		if (displayReps && modelRep.getGameBoardRep() != null && modelRep.getGameMapRep() != null && modelRep.getPlayersRep().size() >= modelRep.getGameBoardRep().getNumberOfPlayers())
 			repPrinter.displayGame();
 	}
 
@@ -259,11 +265,11 @@ public class VirtualViewDriver extends VirtualView {
 
 	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
 		int randomIndex;
-		if(questionContainer.isAskString()) {
+		if (questionContainer.isAskString()) {
 			randomIndex = new Random().nextInt(questionContainer.getOptions().size());
 			Utils.logInfo("VirtualViewDriver -> askQuestionContainerAndSendAnswer(): created random answer for QuestionContainer with strings: " + questionContainer.getOptions().get(randomIndex));
 			sendMessageToController(new IntMessage(randomIndex, messageType, MessageSubtype.ANSWER));
-		} else if(questionContainer.isAskCoordinates()) {
+		} else if (questionContainer.isAskCoordinates()) {
 			randomIndex = new Random().nextInt(questionContainer.getCoordinates().size());
 			Utils.logInfo("VirtualViewDriver -> askQuestionContainerAndSendAnswer(): created random answer for QuestionContainer with coordinates: " + questionContainer.getCoordinates().get(randomIndex));
 			sendMessageToController(new IntMessage(randomIndex, messageType, MessageSubtype.ANSWER));
@@ -274,8 +280,8 @@ public class VirtualViewDriver extends VirtualView {
 
 	private boolean canTestContinue() {
 		numberOfTurns++;
-		if(numberOfTurns < GameTester.MAX_NUMBER_OF_TURNS) {
-			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.YELLOW) +  " TURN " + numberOfTurns + " ENDED (" + getNickname() + "'s turn) " + Color.getColoredString("##################", Color.CharacterColorType.YELLOW));
+		if (numberOfTurns < GameTester.MAX_NUMBER_OF_TURNS) {
+			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.YELLOW) + " TURN " + numberOfTurns + " ENDED (" + getNickname() + "'s turn) " + Color.getColoredString("##################", Color.CharacterColorType.YELLOW));
 			return true;
 		} else {
 			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.GREEN) + " TEST GAME FINISHED CORRECTLY " + Color.getColoredString("##################", Color.CharacterColorType.GREEN));

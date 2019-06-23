@@ -32,7 +32,8 @@ import java.util.List;
 enum Request {
 	MOVE,
 	CHOOSE,
-	CHOOSE_INT
+	CHOOSE_INT,
+	RELOAD
 }
 
 public class GameBoardController {

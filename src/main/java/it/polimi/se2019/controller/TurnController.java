@@ -185,12 +185,15 @@ public class TurnController{
 
 	private void handleWeaponQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
 		if (model.isTheWeaponConcluded(virtualView.getNickname())) {
+			Utils.logWeapon("Weapon ended.");
 			model.handleWeaponEnd(virtualView.getNickname());
 			handleNextAction(virtualView);
 		} else {
 			if (questionContainer == null || questionContainer.isThisQuestionContainerUseless()) {
 				Utils.logWarning("This QuestionContainer is either null or useless.");
 			}
+			Utils.logWeapon("Asking this question container to view:");
+			Utils.logWeapon(questionContainer.getQuestion());
 			virtualView.askWeaponChoice(questionContainer);
 		}
 	}

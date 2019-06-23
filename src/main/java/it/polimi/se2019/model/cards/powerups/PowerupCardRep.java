@@ -42,4 +42,9 @@ public class PowerupCardRep extends CardRep {
 	public String getImagePath() {
 		return imagePath;
 	}
+
+	@Override
+	public String toString() {
+		return getCardName() + "_" + associatedAmmo.getCharacterColorType();
+	}
 }

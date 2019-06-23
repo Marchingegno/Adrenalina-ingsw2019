@@ -268,33 +268,49 @@ public class CLIView extends RemoteView {
 
 
 	@Override
-	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo){
+	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo) {
 		List<Integer> answer = new ArrayList<>();
 		List<AmmoType> price = new ArrayList<>(priceToPay);
-
 		List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
-		int choice;
-		int numOfOptions;
+		List<PowerupCardRep> usablePoweups = new ArrayList<>(powerupCardReps);
+
+		int choice = -1;
+		int numOfOptions = 0;
 		printLine("Which powerup you want to discard to pay?");
-		do{
-			//eliminates all powerups that cannot be used to pay
+
+		for (int i = 0; i < powerupCardReps.size(); i++) {
+			if (!price.contains(powerupCardReps.get(i).getAssociatedAmmo()))
+				usablePoweups.remove(powerupCardReps.get(i));
+			else {
+				numOfOptions++;
+				printLine((numOfOptions) + ") " + repPrinter.getPowerupRepString(powerupCardReps.get(i)) + "");
+			}
+		}
+		numOfOptions = usablePoweups.size() + (canAffordAlsoWithAmmo ? 1 : 0);
+		if (canAffordAlsoWithAmmo) printLine((numOfOptions) + ") End payment");
+
+		while ((!usablePoweups.isEmpty() && !(choice == (numOfOptions) && canAffordAlsoWithAmmo))) {
+			numOfOptions = usablePoweups.size() + (canAffordAlsoWithAmmo ? 1 : 0);
+			choice = askInteger(1, numOfOptions);
+			if (choice != (numOfOptions) || !canAffordAlsoWithAmmo) {
+				answer.add(powerupCardReps.indexOf(usablePoweups.get(choice - 1)));
+				price.remove(usablePoweups.get(choice - 1).getAssociatedAmmo());
+				usablePoweups.remove(choice - 1);
+			}
+
+			numOfOptions = 0;
+			printLine("Which powerup you want to discard to pay?");
 			for (int i = 0; i < powerupCardReps.size(); i++) {
-				PowerupCardRep powerupCardRep = powerupCardReps.get(i);
-				if(price.contains(powerupCardRep.getAssociatedAmmo()))
-					printLine((i+1) + ") " + repPrinter.getPowerupRepString(powerupCardRep));
-				else
-					powerupCardReps.remove(powerupCardRep);
+				if (!price.contains(powerupCardReps.get(i).getAssociatedAmmo()))
+					usablePoweups.remove(powerupCardReps.get(i));
+				else {
+					numOfOptions++;
+					printLine((numOfOptions) + ") " + repPrinter.getPowerupRepString(powerupCardReps.get(i)));
+				}
 			}
-			numOfOptions = powerupCardReps.size();
-			if (canAffordAlsoWithAmmo)
-				printLine((numOfOptions + 1) + ") End payment");
-			choice = askInteger(1, canAffordAlsoWithAmmo ? numOfOptions + 1 : numOfOptions);
-			if (choice != (numOfOptions + 1)) {
-				answer.add(choice - 1);
-				price.remove(powerupCardReps.get(choice - 1).getAssociatedAmmo());
-				powerupCardReps.remove(choice - 1);
-			}
-		} while (!powerupCardReps.isEmpty() && choice != (numOfOptions + 1));
+			numOfOptions = usablePoweups.size() + (canAffordAlsoWithAmmo ? 1 : 0);
+			if (canAffordAlsoWithAmmo) printLine((numOfOptions) + ") End payment");
+		}
 
 		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 	}

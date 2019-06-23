@@ -109,11 +109,21 @@ public class PlayerBoard {
 
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck) {
 		List<AmmoType> priceToPay = new ArrayList<>(ammoToCheck);
-		Utils.logInfo("AmmoContainer -> hasEnoughAmmo(): trying to pay " + ammoToCheck + " with " + powerupCards + " and ammo");
+		List<PowerupCard> powerups = new ArrayList<>(powerupCards);
+		Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): trying to pay " + ammoToCheck + " with " + powerupCards + " and ammo " + getAmmoContainer().getAmmo());
 
 		for (PowerupCard powerup : powerupCards) {
-			priceToPay.remove(powerup.getAssociatedAmmo());
+			Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): this powerups " + powerups + " can be used to pay " + priceToPay + " ?");
+			for (int i = 0; i < priceToPay.size(); i++) {
+				if (priceToPay.get(i).equals(powerup.getAssociatedAmmo())) {
+					priceToPay.remove(i);
+					powerups.remove(powerup);
+					Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): can pay with " + powerup + " so it has been discarded1" +
+							"");
+				}
+			}
 		}
+
 		if (priceToPay.isEmpty())
 			return true;
 		return this.ammoContainer.hasEnoughAmmo(priceToPay);

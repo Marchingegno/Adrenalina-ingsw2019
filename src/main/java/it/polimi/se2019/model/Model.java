@@ -251,7 +251,7 @@ public class Model {
 		Player player = getPlayerFromName(playerName);
 		PlayerBoard playerBoard = player.getPlayerBoard();
 		List<AmmoType> price = new ArrayList<>(priceToPay);
-		Utils.logInfo("Model -> pay(): " +playerName+" is paying " + price + " with powerups " + indexesOfPowerup);
+		Utils.logInfo("Model -> pay(): " + playerName + " is paying the price of " + price + " with powerups " + indexesOfPowerup);
 		while (!indexesOfPowerup.isEmpty()){
 			Integer max = Collections.max(indexesOfPowerup);
 			price.remove(playerBoard.removePowerup(max).getAssociatedAmmo());
@@ -263,10 +263,12 @@ public class Model {
 
 	public boolean canUsePowerupToPay(String playerName, List<AmmoType> ammoToPay){
 		List<PowerupCard> powerupCards = getPlayerFromName(playerName).getPlayerBoard().getPowerupCards();
+		Utils.logInfo("Model() -> canUsePowerupToPay: " + playerName + " needs to pay " + ammoToPay + " and has " + powerupCards + " and " + getCurrentPlayer().getPlayerBoard().getAmmoContainer().getAmmo());
 		for (PowerupCard powerupCard :powerupCards ) {
 			if(ammoToPay.contains(powerupCard.getAssociatedAmmo()))
 				return true;
 		}
+		Utils.logInfo("Model() -> canUsePowerupToPay: " + playerName + " has no powerup to pay with");
 		return false;
 	}
 
@@ -407,7 +409,7 @@ public class Model {
 		List<Integer> loadableWeapons = new ArrayList<>();
 
 		for (int i = 0; i < weaponCards.size(); i++) {
-			if (!weaponCards.get(i).isLoaded())
+			if (!weaponCards.get(i).isLoaded() && getCurrentPlayer().hasEnoughAmmo(weaponCards.get(i).getReloadPrice()))
 				loadableWeapons.add(i);
 		}
 

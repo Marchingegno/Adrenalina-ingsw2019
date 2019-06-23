@@ -131,7 +131,6 @@ public class GUIView extends RemoteView {
 			powerupChoiceStage = new Stage();
 			powerupChoiceStage.setTitle("Adrenaline");
 			powerupChoiceStage.setResizable(false);
-			powerupChoiceStage.initModality(Modality.APPLICATION_MODAL);
 			powerupChoiceStage.setOnCloseRequest(event -> {
 				Platform.runLater(() -> {
 					powerupChoiceStage.show();
@@ -356,7 +355,7 @@ public class GUIView extends RemoteView {
 	@Override
 	public void askShoot(List<Integer> shootableWeapons) {
 		Platform.runLater(() -> {
-			weaponChoiceController.setWeaponsToChoose(shootableWeapons, getModelRep().getClientPlayerRep().getWeaponReps());
+			weaponChoiceController.setWeaponsToChoose(shootableWeapons, getModelRep().getClientPlayerRep().getWeaponReps(), Request.CHOOSE);
 			weaponChoiceController.setTitle("Choose the weapon to shoot with");
 			weaponChoiceStage.show();
 		});
@@ -365,7 +364,7 @@ public class GUIView extends RemoteView {
 	@Override
 	public void askReload(List<Integer> loadableWeapons) {
 		Platform.runLater(() -> {
-			weaponChoiceController.setWeaponsToChoose(loadableWeapons, getModelRep().getClientPlayerRep().getWeaponReps());
+			weaponChoiceController.setWeaponsToChoose(loadableWeapons, getModelRep().getClientPlayerRep().getWeaponReps(), Request.RELOAD);
 			weaponChoiceController.setTitle("Which weapon do you want to reload?");
 			weaponChoiceStage.show();
 		});
@@ -386,35 +385,58 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
-	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo){
+	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo) {
 		Platform.runLater(() -> {
-			List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
-			List<Integer> answer = new ArrayList<>();
 			List<AmmoType> price = new ArrayList<>(priceToPay);
+			List<Integer> answer = new ArrayList<>();
+			List<PowerupCardRep> powerupCardReps = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
+			List<PowerupCardRep> usablePoweups = new ArrayList<>(powerupCardReps);
 			powerupChoiceController.setTitle("Which powerup you want to discard to pay?");
 
-			int choice;
-			do {
-				for (int i = 0; i < powerupCardReps.size(); i++) {
-					if (!price.contains(powerupCardReps.get(i).getAssociatedAmmo()))
-						powerupCardReps.remove(powerupCardReps.get(i));
-				}
+			Utils.logInfo("GUIView -> askToPay(): price of " + priceToPay + " with " + powerupCardReps + " and canAffordAlsoWithAmmo " + canAffordAlsoWithAmmo);
 
+			int choice = -2;
+			int numOfOptions = 0;
+
+			for (int i = 0; i < powerupCardReps.size(); i++) {
+				if (!price.contains(powerupCardReps.get(i).getAssociatedAmmo()))
+					usablePoweups.remove(powerupCardReps.get(i));
+				else
+					numOfOptions++;
+			}
+
+			numOfOptions = usablePoweups.size() + (canAffordAlsoWithAmmo ? 1 : 0);
+			if (!powerupCardReps.isEmpty())
 				powerupChoiceController.setPowerups(powerupCardReps);
+			if (canAffordAlsoWithAmmo) powerupChoiceController.setButtonActive();
+			Utils.logInfo("GUIView -> askToPay(): usable powerups " + powerupCardReps);
 
-				if (canAffordAlsoWithAmmo)
-					powerupChoiceController.setButtonActive();
 
+			while ((!usablePoweups.isEmpty() && !(choice == -1 && canAffordAlsoWithAmmo))) {
+				numOfOptions = usablePoweups.size() + (canAffordAlsoWithAmmo ? 1 : 0);
 				choice = powerupChoiceController.askChoice(Request.CHOOSE_INT);
 
-				if (choice != -1) {
-					answer.add(choice);
-					price.remove(powerupCardReps.get(choice).getAssociatedAmmo());
-					powerupCardReps.remove(choice);
+				Utils.logInfo("GUIView -> askToPay(): chosen " + choice + " between " + numOfOptions + " options");
+
+				if (choice != -1 || !canAffordAlsoWithAmmo) {
+					answer.add(powerupCardReps.indexOf(usablePoweups.get(choice)));
+					price.remove(usablePoweups.get(choice).getAssociatedAmmo());
+					usablePoweups.remove(choice);
 				}
+				numOfOptions = 0;
+				for (int i = 0; i < powerupCardReps.size(); i++) {
+					if (!price.contains(powerupCardReps.get(i).getAssociatedAmmo()))
+						usablePoweups.remove(powerupCardReps.get(i));
+					else
+						numOfOptions++;
+				}
+				if (!powerupCardReps.isEmpty())
+					powerupChoiceController.setPowerups(powerupCardReps);
+				numOfOptions = usablePoweups.size() + (canAffordAlsoWithAmmo ? 1 : 0);
+				if (canAffordAlsoWithAmmo) powerupChoiceController.setButtonActive();
 
-			} while (!powerupCardReps.isEmpty() && choice != -1);
-
+				Utils.logInfo("GUIView -> askToPay(): usable powerups " + powerupCardReps);
+			}
 			sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 		});
 	}

@@ -31,26 +31,39 @@ public class WeaponChoiceController {
 
 	private GUIView guiView;
 	private Stage stage;
+	private Request request;
+	private List<WeaponRep> weaponReps;
 
 	@FXML
 	public void pressedWeapon0() {
-		guiView.sendMessage(new IntMessage(0, MessageType.WEAPON, MessageSubtype.ANSWER));
+		if (request == Request.RELOAD)
+			guiView.sendMessage(new IntMessage(0, MessageType.RELOAD, MessageSubtype.ANSWER));
+		else
+			guiView.sendMessage(new IntMessage(0, MessageType.WEAPON, MessageSubtype.ANSWER));
 		stage.close();
 	}
 
 	@FXML
 	public void pressedWeapon1() {
-		guiView.sendMessage(new IntMessage(1, MessageType.WEAPON, MessageSubtype.ANSWER));
+		if (request == Request.RELOAD)
+			guiView.sendMessage(new IntMessage(1, MessageType.RELOAD, MessageSubtype.ANSWER));
+		else
+			guiView.sendMessage(new IntMessage(1, MessageType.WEAPON, MessageSubtype.ANSWER));
 		stage.close();
 	}
 
 	@FXML
 	public void pressedWeapon2() {
-		guiView.sendMessage(new IntMessage(2, MessageType.WEAPON, MessageSubtype.ANSWER));
+		if (request == Request.RELOAD)
+			guiView.sendMessage(new IntMessage(2, MessageType.RELOAD, MessageSubtype.ANSWER));
+		else
+			guiView.sendMessage(new IntMessage(2, MessageType.WEAPON, MessageSubtype.ANSWER));
 		stage.close();
 	}
 
-	public void setWeaponsToChoose(List<Integer> indexesOfTheWeapons, List<WeaponRep> weapons) {
+	public void setWeaponsToChoose(List<Integer> indexesOfTheWeapons, List<WeaponRep> weapons, Request request) {
+		this.request = request;
+		this.weaponReps = weapons;
 		if (!indexesOfTheWeapons.isEmpty()) {
 			weapon0.setVisible(true);
 			weaponButton0.setDisable(false);

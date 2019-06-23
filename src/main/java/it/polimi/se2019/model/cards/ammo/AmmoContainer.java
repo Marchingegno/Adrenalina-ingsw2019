@@ -3,6 +3,7 @@ package it.polimi.se2019.model.cards.ammo;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +36,14 @@ public class AmmoContainer {
 	 */
 	public int getAmmo(AmmoType ammoType) {
 		return ammo[ammoType.ordinal()];
+	}
+
+	public List<Integer> getAmmo() {
+		List<Integer> arrayToReturn = new ArrayList<>();
+		for (int i : ammo) {
+			arrayToReturn.add(i);
+		}
+		return arrayToReturn;
 	}
 
 	/**
