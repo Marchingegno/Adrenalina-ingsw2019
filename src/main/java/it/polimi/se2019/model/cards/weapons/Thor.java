@@ -97,7 +97,7 @@ public class Thor extends OptionalEffectsWeapon {
 			options.add("Optional effect 1.");
 		}
 		//Can add optionalEffect 1 + 2?
-		if (canFireBothOptionalEffects()) {
+		if (canAddBothOptionalEffects()) {
 			options.add("Optional effect 1 + Optional effect 2.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);

@@ -166,12 +166,14 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected boolean canAddBothOptionalEffects() {
+	protected boolean canFireBothOptionalEffects() {
 		//There are at least 2 people nearby.
 		//Here i'm going to use the fact that reachableCoordinates in GameMap returns also the coordinates that you're in.
 		List<Coordinates> nearbyCoordinates = getCoordinateWithEnemies(1);
 		List<Player> nearbyPlayers = new ArrayList<>();
 		nearbyCoordinates.forEach(coordinates -> nearbyPlayers.addAll(getGameMap().getPlayersFromCoordinates(coordinates)));
+		Utils.logWeapon("canFireBothOptionalEffects: collected an array of these players:");
+		nearbyPlayers.forEach(player -> Utils.logWeapon(player.getPlayerName()));
 		//Since the owner is in the coordinates, i'm going to remove it one time.
 		nearbyPlayers.remove(getOwner());
 		return !nearbyPlayers.isEmpty();

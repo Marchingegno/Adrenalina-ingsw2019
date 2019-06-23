@@ -7,7 +7,6 @@ import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -67,7 +66,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 			}
 		}
 		//the following is hardcoded.
-		if (canFireBothOptionalEffects() && hasOptionalEffects[1]) {
+		if (canAddBothOptionalEffects() && hasOptionalEffects[1]) {
 			options.add("Optional effect 1 + Optional effect 2.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);
@@ -181,9 +180,9 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	protected boolean canAddThisOptionalEffect(int numberOfEffect) {
 		if (numberOfEffect == 1)
-			return canFireOptionalEffect1();
+			return canAddOptionalEffect1();
 		else
-			return canFireOptionalEffect2();
+			return canAddOptionalEffect2();
 	}
 
 	protected boolean canAddOptionalEffect1() {
@@ -197,20 +196,24 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 	protected boolean canAddBothOptionalEffects() {
 		if (!hasOptionalEffects[1]) return false;
-		return canAffordBothOptionalEffects() && canFireOptionalEffect2() && canFireOptionalEffect1();
+		return canAffordBothOptionalEffects() && canFireBothOptionalEffects();
 	}
 
 
 	protected boolean canAffordOptionalEffect1() {
-		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(1)));
+		List<AmmoType> optional1Cost = new ArrayList<>();
+		optional1Cost.add(getCostOfOptionalEffect(1));
+		return getOwner().hasEnoughAmmo(optional1Cost);
 	}
 
 	protected boolean canAffordOptionalEffect2() {
-		return getOwner().hasEnoughAmmo(Arrays.asList(getCostOfOptionalEffect(2)));
+		List<AmmoType> optional2Cost = new ArrayList<>();
+		optional2Cost.add(getCostOfOptionalEffect(2));
+		return getOwner().hasEnoughAmmo(optional2Cost);
 	}
 
 	protected boolean canAffordBothOptionalEffects() {
-		return getOwner().hasEnoughAmmo(optionalPrices) && canFireOptionalEffect1() && canFireOptionalEffect2();
+		return getOwner().hasEnoughAmmo(new ArrayList<>(optionalPrices));
 	}
 
 	//To override
