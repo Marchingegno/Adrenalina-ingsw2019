@@ -24,6 +24,6 @@ public class Pair<E,F> {
 
 	@Override
 	public String toString() {
-		return "This is a pair of "+first.toString()+"and " +second.toString();
+		return "Pair of " + first.toString() + " and " + second.toString();
 	}
 }
