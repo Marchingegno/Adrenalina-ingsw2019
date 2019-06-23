@@ -40,37 +40,53 @@ public class PowerupChoiceController {
 		if (!powerups.isEmpty()) {
 			powerup0.setImage(loadImage(powerups.get(0).getImagePath()));
 			powerup0.setVisible(true);
-			powerupButton0.setVisible(true);
-			powerupButton0.setDisable(false);
 		} else {
-			throw new IllegalStateException("You should be able to choose from at least one powerup");
+			powerup0.setVisible(false);
 		}
 
 		if (powerups.size() >= 2) {
 			powerup1.setImage(loadImage(powerups.get(1).getImagePath()));
 			powerup1.setVisible(true);
-			powerupButton1.setVisible(true);
-			powerupButton1.setDisable(false);
 		} else {
 			powerup1.setVisible(false);
-			powerupButton1.setVisible(false);
-			powerupButton1.setDisable(true);
 		}
 
 		if (powerups.size() >= 3) {
 			powerup2.setImage(loadImage(powerups.get(2).getImagePath()));
 			powerup2.setVisible(true);
-			powerupButton2.setVisible(true);
-			powerupButton2.setDisable(false);
 		} else {
 			powerup2.setVisible(false);
-			powerupButton2.setVisible(false);
-			powerupButton2.setDisable(true);
 		}
 	}
 
 	public void setTitle(String title) {
 		this.title.setText(title);
+	}
+
+	public void activatePowerupsButtons(List<Integer> powerupsToActivate) {
+		if (powerupsToActivate.contains(0)) {
+			powerupButton0.setVisible(true);
+			powerupButton0.setDisable(false);
+		} else {
+			powerupButton0.setVisible(false);
+			powerupButton0.setDisable(true);
+		}
+
+		if (powerupsToActivate.contains(1)) {
+			powerupButton1.setVisible(true);
+			powerupButton1.setDisable(false);
+		} else {
+			powerupButton1.setVisible(false);
+			powerupButton1.setDisable(true);
+		}
+		if (powerupsToActivate.contains(2)) {
+			powerupButton2.setVisible(true);
+			powerupButton2.setDisable(false);
+		} else {
+			powerupButton2.setVisible(false);
+			powerupButton2.setDisable(true);
+		}
+
 	}
 
 	@FXML
@@ -113,9 +129,9 @@ public class PowerupChoiceController {
 		this.guiView = guiView;
 	}
 
-	public void setButtonActive() {
-		button.setVisible(true);
-		button.setDisable(false);
+	public void activateNoPowerupButton(boolean active) {
+		button.setVisible(active);
+		button.setDisable(!active);
 	}
 
 	public int askChoice(Request request) {

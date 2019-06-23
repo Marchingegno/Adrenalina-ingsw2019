@@ -113,10 +113,6 @@
         </ImageView>
         <Group fx:id="square13" layoutX="759.0" layoutY="368.0">
             <children>
-                <Button fx:id="button13" mnemonicParsing="false" onAction="#pressedButton13" prefHeight="203.0"
-                        prefWidth="170.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard13" fitHeight="43.0" fitWidth="41.0" layoutX="30.0" layoutY="129.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -153,14 +149,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button13" mnemonicParsing="false" onAction="#pressedButton13" prefHeight="203.0"
+                        prefWidth="170.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square20" layoutX="195.0" layoutY="368.0">
             <children>
-                <Button fx:id="button20" layoutY="202.0" mnemonicParsing="false" onAction="#pressedButton20"
-                        prefHeight="178.0" prefWidth="167.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard20" fitHeight="43.0" fitWidth="41.0" layoutX="47.0" layoutY="317.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -197,14 +193,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button20" mnemonicParsing="false" onAction="#pressedButton20" prefHeight="178.0"
+                        prefWidth="167.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square02" layoutX="564.0" layoutY="189.0">
             <children>
-                <Button fx:id="button02" mnemonicParsing="false" onAction="#pressedButton02" prefHeight="180.0"
-                        prefWidth="197.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="banshee02" fitHeight="45.0" fitWidth="45.0" layoutX="46.0" layoutY="30.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -235,14 +231,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button02" mnemonicParsing="false" onAction="#pressedButton02" prefHeight="180.0"
+                        prefWidth="197.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square12" layoutX="564.0" layoutY="366.0">
             <children>
-                <Button fx:id="button12" mnemonicParsing="false" onAction="#pressedButton12" prefHeight="203.0"
-                        prefWidth="196.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard12" fitHeight="43.0" fitWidth="41.0" layoutX="59.0" layoutY="134.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -279,14 +275,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button12" mnemonicParsing="false" onAction="#pressedButton12" prefHeight="203.0"
+                        prefWidth="196.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square11" layoutX="361.0" layoutY="367.0">
             <children>
-                <Button fx:id="button11" mnemonicParsing="false" onAction="#pressedButton11" prefHeight="203.0"
-                        prefWidth="203.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard11" fitHeight="43.0" fitWidth="41.0" layoutX="56.0" layoutY="131.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -323,14 +319,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button11" mnemonicParsing="false" onAction="#pressedButton11" prefHeight="203.0"
+                        prefWidth="203.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square10" layoutX="195.0" layoutY="368.0">
             <children>
-                <Button fx:id="button10" mnemonicParsing="false" onAction="#pressedButton10" prefHeight="203.0"
-                        prefWidth="167.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="banshee10" fitHeight="45.0" fitWidth="45.0" layoutX="46.0" layoutY="45.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -361,14 +357,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button10" mnemonicParsing="false" onAction="#pressedButton10" prefHeight="203.0"
+                        prefWidth="167.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square01" layoutX="361.0" layoutY="189.0">
             <children>
-                <Button fx:id="button01" mnemonicParsing="false" onAction="#pressedButton01" prefHeight="180.0"
-                        prefWidth="203.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard01" fitHeight="43.0" fitWidth="41.0" layoutX="55.0" layoutY="124.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -405,14 +401,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button01" mnemonicParsing="false" onAction="#pressedButton01" prefHeight="180.0"
+                        prefWidth="203.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square21" layoutX="361.0" layoutY="568.0">
             <children>
-                <Button fx:id="button21" mnemonicParsing="false" onAction="#pressedButton21" prefHeight="178.0"
-                        prefWidth="203.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard21" fitHeight="43.0" fitWidth="41.0" layoutX="54.0" layoutY="121.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -449,14 +445,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button21" mnemonicParsing="false" onAction="#pressedButton21" prefHeight="178.0"
+                        prefWidth="203.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square00" layoutX="194.0" layoutY="189.0">
             <children>
-                <Button fx:id="button00" mnemonicParsing="false" onAction="#pressedButton00" prefHeight="180.0"
-                        prefWidth="167.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard00" fitHeight="43.0" fitWidth="41.0" layoutX="37.0" layoutY="124.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -493,14 +489,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button00" mnemonicParsing="false" onAction="#pressedButton00" prefHeight="180.0"
+                        prefWidth="167.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square22" layoutX="563.0" layoutY="568.0">
             <children>
-                <Button fx:id="button22" mnemonicParsing="false" onAction="#pressedButton22" prefHeight="178.0"
-                        prefWidth="197.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard22" fitHeight="43.0" fitWidth="41.0" layoutX="61.0" layoutY="112.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -537,14 +533,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button22" mnemonicParsing="false" onAction="#pressedButton22" prefHeight="178.0"
+                        prefWidth="197.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square03" layoutX="762.0" layoutY="188.0">
             <children>
-                <Button fx:id="button03" mnemonicParsing="false" onAction="#pressedButton03" prefHeight="180.0"
-                        prefWidth="170.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="ammoCard03" fitHeight="43.0" fitWidth="41.0" layoutX="81.0" layoutY="116.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -581,14 +577,14 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button03" mnemonicParsing="false" onAction="#pressedButton03" prefHeight="180.0"
+                        prefWidth="170.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Group fx:id="square23" layoutX="759.0" layoutY="568.0">
             <children>
-                <Button fx:id="button23" mnemonicParsing="false" onAction="#pressedButton23" prefHeight="178.0"
-                        prefWidth="170.0"
-                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
-                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
                 <ImageView fx:id="banshee23" fitHeight="45.0" fitWidth="45.0" layoutX="19.0" layoutY="20.0"
                            pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
@@ -619,6 +615,10 @@
                         <Image url="@../graphicassets/playerBoards/destructor/icon.png"/>
                     </image>
                 </ImageView>
+                <Button fx:id="button23" mnemonicParsing="false" onAction="#pressedButton23" prefHeight="178.0"
+                        prefWidth="170.0"
+                        style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;"
+                        stylesheets="@Style.css" textOverrun="CLIP" visible="false"/>
             </children>
         </Group>
         <Button fx:id="weaponBlue0" disable="true" layoutX="591.0" layoutY="2.0" maxHeight="-Infinity"

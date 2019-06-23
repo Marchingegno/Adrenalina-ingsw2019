@@ -226,6 +226,10 @@ public class PlayerRep implements Representation {
 		return ammo[ammoType.ordinal()];
 	}
 
+	public int[] getAmmo() {
+		return ammo;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {

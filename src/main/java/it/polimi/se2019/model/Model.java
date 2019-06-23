@@ -147,7 +147,7 @@ public class Model {
 	}
 
 	public List<AmmoType> getPriceOfTheSelectedWeapon(int index) {
-		return ((getCurrentPlayer().getPlayerBoard().getWeaponCards()).get(index)).getGrabPrice();
+		return ((getCurrentPlayer().getPlayerBoard().getWeaponCards()).get(index)).getReloadPrice();
 	}
 
 	public void setAsDisconnected(String playerName) {

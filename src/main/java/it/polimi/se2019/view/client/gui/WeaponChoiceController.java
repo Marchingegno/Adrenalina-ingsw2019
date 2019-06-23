@@ -64,33 +64,46 @@ public class WeaponChoiceController {
 	public void setWeaponsToChoose(List<Integer> indexesOfTheWeapons, List<WeaponRep> weapons, Request request) {
 		this.request = request;
 		this.weaponReps = weapons;
-		if (!indexesOfTheWeapons.isEmpty()) {
+
+		if (!weapons.isEmpty()) {
 			weapon0.setVisible(true);
-			weaponButton0.setDisable(false);
-			weaponButton0.setVisible(true);
-			weapon0.setImage(loadImage("weapons/" + weapons.get(indexesOfTheWeapons.get(0)).getImagePath()));
+			weapon0.setImage(loadImage("weapons/" + weapons.get(0).getImagePath()));
 		} else {
-			weaponButton0.setVisible(false);
 			weapon0.setVisible(false);
-			weaponButton0.setDisable(true);
 		}
-		if (indexesOfTheWeapons.size() >= 2) {
+
+		if (weapons.size() >= 2) {
 			weapon1.setVisible(true);
-			weaponButton1.setVisible(true);
-			weapon1.setImage(loadImage("weapons/" + weapons.get(indexesOfTheWeapons.get(1)).getImagePath()));
-			weaponButton1.setDisable(false);
+			weapon1.setImage(loadImage("weapons/" + weapons.get(1).getImagePath()));
 		} else {
 			weapon1.setVisible(false);
+		}
+
+		if (weapons.size() >= 3) {
+			weapon2.setVisible(true);
+			weapon2.setImage(loadImage("weapons/" + weapons.get(2).getImagePath()));
+		} else {
+			weapon2.setVisible(false);
+		}
+
+		if (indexesOfTheWeapons.contains(0)) {
+			weaponButton0.setDisable(false);
+			weaponButton0.setVisible(true);
+		} else {
+			weaponButton0.setVisible(false);
+			weaponButton0.setDisable(true);
+		}
+		if (indexesOfTheWeapons.contains(1)) {
+			weaponButton1.setVisible(true);
+			weaponButton1.setDisable(false);
+		} else {
 			weaponButton1.setVisible(false);
 			weaponButton1.setDisable(true);
 		}
-		if (indexesOfTheWeapons.size() >= 3) {
-			weapon2.setVisible(true);
+		if (indexesOfTheWeapons.contains(2)) {
 			weaponButton2.setVisible(true);
 			weaponButton2.setDisable(false);
-			weapon2.setImage(loadImage("weapons/" + weapons.get(indexesOfTheWeapons.get(2)).getImagePath()));
 		} else {
-			weapon2.setVisible(false);
 			weaponButton2.setVisible(false);
 			weaponButton2.setDisable(true);
 		}

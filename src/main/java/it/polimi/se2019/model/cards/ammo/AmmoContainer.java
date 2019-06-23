@@ -131,9 +131,11 @@ public class AmmoContainer {
 		for (int i = 0; i < AmmoType.values().length; i++) {
 			if (convertedAmmosToCheck[i] > ammo[i]) {
 				//Ammo requested is greater than ammo owned.
+				Utils.logInfo("AmmoContainer -> hasEnoughAmmo(): cannot afford");
 				return false;
 			}
 		}
+		Utils.logInfo("AmmoContainer -> hasEnoughAmmo(): can afford");
 		return true;
 	}
 

@@ -117,12 +117,11 @@ public class PlayerBoard {
 
 		for (PowerupCard powerup : powerupCards) {
 			Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): this powerups " + powerups + " can be used to pay " + priceToPay + " ?");
-			for (int i = 0; i < priceToPay.size(); i++) {
+			for (int i = priceToPay.size() - 1; i >= 0; i--) {
 				if (priceToPay.get(i).equals(powerup.getAssociatedAmmo())) {
 					priceToPay.remove(i);
 					powerups.remove(powerup);
-					Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): can pay with " + powerup + " so it has been discarded1" +
-							"");
+					Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): can pay with " + powerup + " so it has been discarded1");
 				}
 			}
 		}
