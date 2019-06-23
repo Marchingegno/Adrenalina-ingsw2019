@@ -256,5 +256,5 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);
 
-	public abstract void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo);
+	public abstract void askToPay(List<AmmoType> price, boolean canAffordAlsoWithAmmo);
 }

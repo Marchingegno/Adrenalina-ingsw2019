@@ -57,7 +57,7 @@ public class Newton extends PowerupCard {
 				.collect(Collectors.toList());
 
 		List<String> playerNames = targettablePlayers.stream()
-				.map(player -> Color.getColoredString(player.getPlayerName(), player.getPlayerColor()))
+				.map(player -> player.getPlayerName())
 				.collect(Collectors.toList());
 
 		return QuestionContainer.createStringQuestionContainer("Choose the player to move.", playerNames);

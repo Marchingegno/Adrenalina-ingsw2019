@@ -284,6 +284,7 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() -> {
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
+			powerupChoiceController.activateNoPowerupButton(true);
 			int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
 			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		});
@@ -371,6 +372,7 @@ public class GUIView extends RemoteView {
 			List<Integer> activablePowerups = new ArrayList<>();
 			activablePowerups.add(0);
 			activablePowerups.add(1);
+			powerupChoiceController.activateNoPowerupButton(true);
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
 			powerupChoiceController.setTitle("Choose powerup to discard in order to spawn");
 			powerupChoiceStage.show();
