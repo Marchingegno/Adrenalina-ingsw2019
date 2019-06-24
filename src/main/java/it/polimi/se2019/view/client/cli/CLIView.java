@@ -276,40 +276,45 @@ public class CLIView extends RemoteView {
 		List<PowerupCardRep> remainingPowerups = new ArrayList<>(playerPowerups);
 
 		int choice = -1;
-		boolean canAffordAlsoWithOnlyAmmo = false;
-		int numOfOptions = 0;
-		usablePowerups.add(0);
+		boolean canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(price);
+		int numOfOptions = 1;
 
-		while (!usablePowerups.isEmpty() && !(choice == (numOfOptions) && canAffordAlsoWithOnlyAmmo)) {
-			Utils.logInfo("CLIView -> askToPay: price " + priceToPay + " with  " + remainingPowerups);
-			printLine("Which powerup you want to discard to pay?");
-
-			usablePowerups = new ArrayList<>();
-			numOfOptions = 1;
-			for (int i = 0; i < playerPowerups.size(); i++) {
-				if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
-					printLine((numOfOptions) + ") " + repPrinter.getPowerupRepString(playerPowerups.get(i)));
-					usablePowerups.add(i);
-					numOfOptions++;
-				}
+		printLine("Which powerup you want to discard to pay?");
+		if (canAffordAlsoWithOnlyAmmo)
+			printLine("0) End payment");
+		for (int i = 0; i < playerPowerups.size(); i++) {
+			if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
+				printLine((numOfOptions) + ") " + repPrinter.getPowerupRepString(playerPowerups.get(i)));
+				usablePowerups.add(i);
+				numOfOptions++;
 			}
-			canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(priceToPay);
-			if (canAffordAlsoWithOnlyAmmo)
-				printLine((numOfOptions) + ") End payment");
-			else
-				numOfOptions--;
-			Utils.logInfo("CLIView -> askToPay(): indexes of usable powerups " + usablePowerups);
-			choice = askInteger(1, numOfOptions);
-			if (!(choice == numOfOptions && canAffordAlsoWithOnlyAmmo)) {
+		}
+
+		while (!usablePowerups.isEmpty() && choice != 0) {
+			Utils.logInfo("CLIView -> askToPay: price " + priceToPay + " with  " + remainingPowerups);
+			choice = askInteger(canAffordAlsoWithOnlyAmmo ? 0 : 1, numOfOptions);
+			if (choice != 0) {
 				Utils.logInfo("CLIView -> askToPay(): player has chosen " + playerPowerups.get(usablePowerups.get(choice - 1)) + " index of the usable powerups " + (choice - 1));
 				Utils.logInfo("CLIView -> askToPay(): removing from price " + playerPowerups.get(usablePowerups.get(choice - 1)).getAssociatedAmmo());
 				Utils.logInfo("CLIView -> askToPay(): adding to answer " + usablePowerups.get(choice - 1));
 				priceToPay.remove(playerPowerups.get(usablePowerups.get(choice - 1)).getAssociatedAmmo());
 				answer.add(usablePowerups.get(choice - 1));
 				remainingPowerups.remove(playerPowerups.get(usablePowerups.get(choice - 1)));
+				usablePowerups = new ArrayList<>();
+				numOfOptions = 1;
+				canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(priceToPay);
+				if (canAffordAlsoWithOnlyAmmo)
+					printLine("0) End payment");
+				for (int i = 0; i < playerPowerups.size(); i++) {
+					if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
+						usablePowerups.add(i);
+						printLine((numOfOptions) + ") " + repPrinter.getPowerupRepString(playerPowerups.get(i)));
+						numOfOptions++;
+					}
+				}
 			} else
 				Utils.logInfo("CLIView -> askToPay(): player decided to use ammo");
-
+			Utils.logInfo("CLIView -> askToPay(): indexes of usable powerups " + usablePowerups);
 		}
 
 

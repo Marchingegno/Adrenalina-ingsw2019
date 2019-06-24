@@ -284,7 +284,7 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() -> {
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
-			powerupChoiceController.activateNoPowerupButton(true);
+			powerupChoiceController.activateNoPowerupButton(false);
 			int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
 			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		});
@@ -372,7 +372,7 @@ public class GUIView extends RemoteView {
 			List<Integer> activablePowerups = new ArrayList<>();
 			activablePowerups.add(0);
 			activablePowerups.add(1);
-			powerupChoiceController.activateNoPowerupButton(true);
+			powerupChoiceController.activateNoPowerupButton(false);
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
 			powerupChoiceController.setTitle("Choose powerup to discard in order to spawn");
 			powerupChoiceStage.show();
@@ -389,6 +389,7 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() -> {
 			List<AmmoType> priceToPay = new ArrayList<>(price);
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
+			powerupChoiceController.setTitle("Choose powerup to discard to pay");
 			List<Integer> usablePowerups = new ArrayList<>();
 			List<Integer> answer = new ArrayList<>();
 			List<PowerupCardRep> playerPowerups = getModelRep().getClientPlayerRep().getPowerupCards();
@@ -418,18 +419,16 @@ public class GUIView extends RemoteView {
 					Utils.logInfo("GUIView -> askToPay(): adding to answer " + choice);
 					answer.add(choice);
 					remainingPowerups.remove(playerPowerups.get(choice));
+					Utils.logInfo("GUIView -> askToPay: price " + priceToPay + " with " + remainingPowerups);
+					usablePowerups = new ArrayList<>();
+					for (int i = 0; i < playerPowerups.size(); i++) {
+						if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
+							usablePowerups.add(i);
+						}
+					}
+					Utils.logInfo("GUIView -> askToPay(): indexes of usable powerups " + usablePowerups);
 				} else
 					Utils.logInfo("GUIView -> askToPay(): player decided to use ammo");
-
-				Utils.logInfo("GUIView -> askToPay: price " + priceToPay + " with " + remainingPowerups);
-				usablePowerups = new ArrayList<>();
-				for (int i = 0; i < playerPowerups.size(); i++) {
-					if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
-						usablePowerups.add(i);
-					}
-				}
-				Utils.logInfo("GUIView -> askToPay(): indexes of usable powerups " + usablePowerups);
-
 			}
 			sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 		});

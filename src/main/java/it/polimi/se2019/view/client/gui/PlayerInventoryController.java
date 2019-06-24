@@ -5,6 +5,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -226,9 +227,12 @@ public class PlayerInventoryController {
 	}
 
 	public void setDamageToken(List<Color.CharacterColorType> damageBoard) {
+		Utils.logInfo("PlayerInventoryController -> setDamageToken(): damageBoard size " + damageBoard.size());
 		for (int i = 0; i < 12; i++) {
-			if (i < damageBoard.size())
+			if (i < damageBoard.size()) {
 				(damageTokens.get(i)).setImage(loadImage("playerBoards/" + damageBoard.get(i).getPgName() + "/token"));
+				damageTokens.get(i).setVisible(true);
+			}
 			else
 				damageTokens.get(i).setVisible(false);
 		}
