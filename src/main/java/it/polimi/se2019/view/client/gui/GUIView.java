@@ -372,6 +372,7 @@ public class GUIView extends RemoteView {
 			List<Integer> activablePowerups = new ArrayList<>();
 			activablePowerups.add(0);
 			activablePowerups.add(1);
+			activablePowerups.add(2);
 			powerupChoiceController.activateNoPowerupButton(false);
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
 			powerupChoiceController.setTitle("Choose powerup to discard in order to spawn");
