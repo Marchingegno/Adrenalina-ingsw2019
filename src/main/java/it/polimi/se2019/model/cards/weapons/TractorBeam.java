@@ -84,11 +84,11 @@ public class TractorBeam extends AlternateFireWeapon {
 		players.remove(getOwner());
 		List<Player> targettablePlayers = new ArrayList<>();
 		for (Player player : players) {
-				List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(player, 2);
-				intersectionCoordinates.retainAll(visibleCoordinates);
-				if (!intersectionCoordinates.isEmpty()) {
-					targettablePlayers.add(player);
-				}
+			List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(player, 2);
+			intersectionCoordinates.retainAll(visibleCoordinates);
+			if (!intersectionCoordinates.isEmpty()) {
+				targettablePlayers.add(player);
+			}
 
 		}
 		return targettablePlayers;
