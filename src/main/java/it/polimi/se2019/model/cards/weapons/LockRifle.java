@@ -13,7 +13,7 @@ public class LockRifle extends OptionalEffectsWeapon {
 	public LockRifle(JsonObject parameters) {
 		super(parameters);
 		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional2Marks));
+		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 	}
 
 	@Override
