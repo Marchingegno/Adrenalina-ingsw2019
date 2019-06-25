@@ -135,12 +135,16 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	@Override
 	public void primaryFire() {
 		if (isBothOptionalActive()) {
+			Utils.logWeapon("Firing with optionalBothDamagesAndMarks");
 			dealDamageAndConclude(optionalBothDamagesAndMarks, currentTargets);
 		} else if (isOptionalActive(1)) {
+			Utils.logWeapon("Firing with optional1DamagesAndMarks");
 			dealDamageAndConclude(optional1DamagesAndMarks, currentTargets);
 		} else if (isOptionalActive(2)) {
+			Utils.logWeapon("Firing with optional2DamagesAndMarks");
 			dealDamageAndConclude(optional2DamagesAndMarks, currentTargets);
 		} else {
+			Utils.logWeapon("Firing with standardDamagesAndMarks");
 			dealDamageAndConclude(standardDamagesAndMarks, currentTargets);
 		}
 	}
@@ -149,15 +153,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return true;
 	}
 
-
-	public void optional1Fire() {
-	}
-
-	public void optional2Fire() {
-
-	}
-
-	void optionalReset() {
+	private void optionalReset() {
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			optionalEffectsActive[i] = false;
 		}

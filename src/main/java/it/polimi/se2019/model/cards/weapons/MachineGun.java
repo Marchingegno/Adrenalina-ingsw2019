@@ -3,7 +3,6 @@ package it.polimi.se2019.model.cards.weapons;
 import com.google.gson.JsonObject;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,21 +14,21 @@ public class MachineGun extends OptionalEffectsWeapon {
 	public MachineGun(JsonObject parameters) {
 		super(parameters);
 		this.standardDamagesAndMarks = new ArrayList<>();
-		this.optional1Damage = parameters.get("optional1Damage").getAsInt();
-		this.optional1Marks = parameters.get("optional1Marks").getAsInt();
-		this.optional2Damage = parameters.get("optional2Damage").getAsInt();
-		this.optional2Marks = parameters.get("optional2Marks").getAsInt();
+
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 
-		this.optional1DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
+		this.optional1DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.optional1DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.optional1DamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
 
-		this.optional2DamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
+		this.optional2DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.optional2DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.optional2DamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
 		this.optional2DamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
 
-		this.optionalBothDamagesAndMarks = new ArrayList<>(standardDamagesAndMarks);
+		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.optionalBothDamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
 		this.optionalBothDamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
 		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
@@ -49,10 +48,13 @@ public class MachineGun extends OptionalEffectsWeapon {
 			chosenTargets.add(currentTargets.get(choice));
 			currentTargets = getPrimaryTargets();
 			if (currentTargets.isEmpty()) {
-				//Skip step 4
-				//Recall this method with refusal choice of an empty array.
-				Utils.logWeapon("Skip of MachineGun");
-				return doActivationStep(0);
+//				//Skip step 4
+//				//Recall this method with refusal choice of an empty array.
+//				Utils.logWeapon("Skip of MachineGun");
+//				return doActivationStep(0);
+				currentTargets = chosenTargets;
+				primaryFire();
+				return null;
 			}
 			return getTargetPlayersAndRefusalQnO(currentTargets);
 		}
@@ -60,6 +62,8 @@ public class MachineGun extends OptionalEffectsWeapon {
 			//Chosen second target.
 			if (!isThisChoiceRefusal(currentTargets, choice)) {
 				chosenTargets.add(currentTargets.get(choice));
+			} else {
+				chosenTargets.add(null);
 			}
 		}
 
@@ -99,6 +103,11 @@ public class MachineGun extends OptionalEffectsWeapon {
 	public void reset() {
 		super.reset();
 		chosenTargets = new ArrayList<>();
+	}
+
+	@Override
+	protected boolean canFireOptionalEffect1() {
+		return true;
 	}
 
 	@Override
