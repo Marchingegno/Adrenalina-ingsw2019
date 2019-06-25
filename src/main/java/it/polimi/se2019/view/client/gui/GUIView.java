@@ -370,9 +370,10 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() -> {
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
 			List<Integer> activablePowerups = new ArrayList<>();
-			activablePowerups.add(0);
-			activablePowerups.add(1);
-			activablePowerups.add(2);
+			List<PowerupCardRep> playerPowerups = new ArrayList<>(getModelRep().getClientPlayerRep().getPowerupCards());
+			for (int i = 0; i < playerPowerups.size(); i++) {
+				activablePowerups.add(i);
+			}
 			powerupChoiceController.activateNoPowerupButton(false);
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
 			powerupChoiceController.setTitle("Choose powerup to discard in order to spawn");

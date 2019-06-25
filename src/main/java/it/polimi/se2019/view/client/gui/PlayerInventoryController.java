@@ -3,6 +3,7 @@ package it.polimi.se2019.view.client.gui;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.cards.weapons.WeaponRep;
+import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
@@ -11,9 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import sun.jvm.hotspot.jdi.IntegerTypeImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerInventoryController {
 	@FXML
@@ -54,7 +58,7 @@ public class PlayerInventoryController {
 	private ImageView yellowAmmo2;
 
 
-	private List<ImageView> damageTokens = new ArrayList<>();
+	private List<ImageView> marksTokens = new ArrayList<>();
 	@FXML
 	private ImageView damageToken0;
 	@FXML
@@ -106,6 +110,13 @@ public class PlayerInventoryController {
 	private ImageView marks31;
 	@FXML
 	private ImageView marks32;
+	@FXML
+	private ImageView marks40;
+	@FXML
+	private ImageView marks41;
+	@FXML
+	private ImageView marks42;
+
 
 	@FXML
 	private ImageView skull0;
@@ -136,25 +147,29 @@ public class PlayerInventoryController {
 		marks.add(marks22);
 		marks.add(marks30);
 		marks.add(marks31);
-		marks.add(marks31);
+		marks.add(marks32);
+		marks.add(marks40);
+		marks.add(marks41);
+		marks.add(marks42);
 
-		damageTokens.add(damageToken0);
-		damageTokens.add(damageToken1);
-		damageTokens.add(damageToken2);
-		damageTokens.add(damageToken3);
-		damageTokens.add(damageToken4);
-		damageTokens.add(damageToken5);
-		damageTokens.add(damageToken6);
-		damageTokens.add(damageToken7);
-		damageTokens.add(damageToken8);
-		damageTokens.add(damageToken9);
-		damageTokens.add(damageToken10);
-		damageTokens.add(damageToken11);
+		marksTokens.add(damageToken0);
+		marksTokens.add(damageToken1);
+		marksTokens.add(damageToken2);
+		marksTokens.add(damageToken3);
+		marksTokens.add(damageToken4);
+		marksTokens.add(damageToken5);
+		marksTokens.add(damageToken6);
+		marksTokens.add(damageToken7);
+		marksTokens.add(damageToken8);
+		marksTokens.add(damageToken9);
+		marksTokens.add(damageToken10);
+		marksTokens.add(damageToken11);
 		setNickname(playerRep.getPlayerName());
 		setPoints(playerRep.getPoints());
 		setPlayerBoard(playerRep.getPgName(), false); //TODO set correct player board if in frenzy
 		setAmmoContainer(playerRep);
 		setDamageToken(playerRep.getDamageBoard());
+		setMarks(playerRep.getMarks());
 
 		List<String> weaponsPath = new ArrayList<>();
 		for (WeaponRep weaponRep : playerRep.getWeaponReps()) {
@@ -169,6 +184,7 @@ public class PlayerInventoryController {
 			}
 		}
 		setPowerups(powerupsPath);
+
 	}
 
 	private void setNickname(String nickname) {
@@ -230,16 +246,116 @@ public class PlayerInventoryController {
 		Utils.logInfo("PlayerInventoryController -> setDamageToken(): damageBoard size " + damageBoard.size());
 		for (int i = 0; i < 12; i++) {
 			if (i < damageBoard.size()) {
-				(damageTokens.get(i)).setImage(loadImage("playerBoards/" + damageBoard.get(i).getPgName() + "/token"));
-				damageTokens.get(i).setVisible(true);
+				(marksTokens.get(i)).setImage(loadImage("playerBoards/" + damageBoard.get(i).getPgName() + "/token"));
+				marksTokens.get(i).setVisible(true);
 			}
 			else
-				damageTokens.get(i).setVisible(false);
+				marksTokens.get(i).setVisible(false);
 		}
 	}
 
-	public void setMarks() {
+	public void setMarks(List<Color.CharacterColorType> markList) {
+		Map<String, Integer> marksTokens = new HashMap<>();
+		for (ImageView mark : marks) {
+			mark.setVisible(false);
+		}
 
+		for (Color.CharacterColorType color : markList) {
+			if (marksTokens.containsKey(color.getPgName()))
+				marksTokens.replace(color.getPgName(), marksTokens.get(color.getPgName()) +1 );
+			else
+				marksTokens.put(color.getPgName(), 1);
+		}
+
+		for (String pgName: marksTokens.keySet()) {
+			switch (pgName) {
+				case ("sprog"):
+					if (marksTokens.containsKey(pgName)) {
+						if(marksTokens.get(pgName) >= 1){
+							marks00.setVisible(true);
+							marks00.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+						if(marksTokens.get(pgName) >= 2){
+							marks01.setVisible(true);
+							marks01.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+
+						if(marksTokens.get(pgName) >= 3){
+							marks02.setVisible(true);
+							marks02.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+					}
+					break;
+				case ("banshee"):
+					if (marksTokens.containsKey(pgName)) {
+						if(marksTokens.get(pgName) >= 1){
+							marks10.setVisible(true);
+							marks10.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+						if(marksTokens.get(pgName) >= 2){
+							marks11.setVisible(true);
+							marks11.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+
+						if(marksTokens.get(pgName) >= 3){
+							marks12.setVisible(true);
+							marks12.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+					}
+					break;
+				case ("dozer"):
+					if (marksTokens.containsKey(pgName)) {
+						if(marksTokens.get(pgName) >= 1){
+							marks20.setVisible(true);
+							marks20.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+						if(marksTokens.get(pgName) >= 2){
+							marks21.setVisible(true);
+							marks21.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+
+						if(marksTokens.get(pgName) >= 3){
+							marks22.setVisible(true);
+							marks22.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+					}
+					break;
+				case ("destructor"):
+					if (marksTokens.containsKey(pgName)) {
+						if(marksTokens.get(pgName) >= 1){
+							marks30.setVisible(true);
+							marks30.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+						if(marksTokens.get(pgName) >= 2){
+							marks31.setVisible(true);
+							marks31.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+
+						if(marksTokens.get(pgName) >= 3){
+							marks32.setVisible(true);
+							marks32.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+					}
+					break;
+				case ("violet"):
+					if (marksTokens.containsKey(pgName)) {
+						if(marksTokens.get(pgName) >= 1){
+							marks40.setVisible(true);
+							marks40.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+						if(marksTokens.get(pgName) >= 2){
+							marks41.setVisible(true);
+							marks41.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+
+						if(marksTokens.get(pgName) >= 3){
+							marks42.setVisible(true);
+							marks42.setImage(loadImage("playerboards/" + pgName + "/token"));
+						}
+					}
+					break;
+			}
+		}
 	}
 
 	public void setSkulls() {

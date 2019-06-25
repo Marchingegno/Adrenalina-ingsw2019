@@ -295,9 +295,9 @@ public class RepPrinter {
 		return stringBuilder.toString();
 	}
 
-	private String getMarksBoard(List<Color.CharacterColorType> damageBoard) {
+	private String getMarksBoard(List<Color.CharacterColorType> marksBoard) {
 		StringBuilder stringBuilder = new StringBuilder();
-		for (Color.CharacterColorType damage : damageBoard) {
+		for (Color.CharacterColorType damage : marksBoard) {
 			stringBuilder.append(Color.getColoredString("●", damage));
 		}
 		stringBuilder.append("|");
