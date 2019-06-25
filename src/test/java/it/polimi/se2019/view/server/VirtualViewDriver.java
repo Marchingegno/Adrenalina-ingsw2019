@@ -202,38 +202,88 @@ public class VirtualViewDriver extends VirtualView {
 		Utils.logRep("Updated " + getNickname() + "'s Player rep of " + playerRepToUpdate.getPlayerName());
 	}
 
+	public ModelRep getModelRep() {
+		return modelRep;
+	}
+
+	private int getRandomInteger(int min, int max) {
+		return new Random().nextInt((max - min) + 1) + min;
+	}
+
 	@Override
-	public void askToPay(List<AmmoType> priceToPay, boolean canAffordAlsoWithAmmo) {
+	public void askToPay(List<AmmoType> price, boolean canAffordAlsoWithAmmo) {
 		List<Integer> answer = new ArrayList<>();
-		List<AmmoType> price = new ArrayList<>(priceToPay);
-		List<PowerupCardRep> powerupCardReps = new ArrayList<>(modelRep.getClientPlayerRep().getPowerupCards());
-		Utils.logInfo("VirtualViewDriver -> askToPay(): price of " + priceToPay + " with " + powerupCardReps + " and canAffordAlsoWithAmmo " + canAffordAlsoWithAmmo);
+		List<AmmoType> priceToPay = new ArrayList<>(price);
+		List<Integer> usablePowerups = new ArrayList<>();
+		List<PowerupCardRep> playerPowerups = getModelRep().getClientPlayerRep().getPowerupCards();
+		List<PowerupCardRep> remainingPowerups = new ArrayList<>(playerPowerups);
+
 		int choice = -1;
+		boolean canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(price);
 		int numOfOptions = 0;
-		//eliminates all powerups that cannot be used to pay
-		for (int i = 0; i < powerupCardReps.size(); i++) {
-			PowerupCardRep powerupCardRep = powerupCardReps.get(i);
-			if (!price.contains(powerupCardRep.getAssociatedAmmo()))
-				powerupCardReps.remove(powerupCardRep);
-		}
-		while ((!powerupCardReps.isEmpty() && !(choice == (numOfOptions) && canAffordAlsoWithAmmo))) {
-			numOfOptions = powerupCardReps.size() + (canAffordAlsoWithAmmo ? 1 : 0);
-			choice = new Random().nextInt(numOfOptions);
-			if (choice == 0) choice++;
-			if (choice != (numOfOptions) || !canAffordAlsoWithAmmo) {
-				answer.add(choice - 1);
-				price.remove(powerupCardReps.get(choice - 1).getAssociatedAmmo());
-				powerupCardReps.remove(choice - 1);
-			}
-			for (int i = 0; i < powerupCardReps.size(); i++) {
-				PowerupCardRep powerupCardRep = powerupCardReps.get(i);
-				if (!price.contains(powerupCardRep.getAssociatedAmmo()))
-					powerupCardReps.remove(powerupCardRep);
+
+
+		if (canAffordAlsoWithOnlyAmmo)
+			numOfOptions++;
+		for (int i = 0; i < playerPowerups.size(); i++) {
+			if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
+				usablePowerups.add(i);
+				numOfOptions++;
 			}
 		}
 
-		Utils.logInfo("VirtualViewDriver -> askToPay(): created random answer for payment: " + answer);
+		while (!usablePowerups.isEmpty() && choice != 0) {
+			Utils.logInfo("CLIView -> askToPay: price " + priceToPay + " with  " + remainingPowerups);
+//			choice = askInteger(canAffordAlsoWithOnlyAmmo ? 0 : 1, numOfOptions);
+			choice = getRandomInteger(canAffordAlsoWithOnlyAmmo ? 0 : 1, numOfOptions - (canAffordAlsoWithOnlyAmmo ? 1 : 0));
+
+			if (choice != 0) {
+				Utils.logInfo("CLIView -> askToPay(): player has chosen " + playerPowerups.get(usablePowerups.get(choice - 1)) + " index of the usable powerups " + (choice - 1));
+				Utils.logInfo("CLIView -> askToPay(): removing from price " + playerPowerups.get(usablePowerups.get(choice - 1)).getAssociatedAmmo());
+				Utils.logInfo("CLIView -> askToPay(): adding to answer " + usablePowerups.get(choice - 1));
+				priceToPay.remove(playerPowerups.get(usablePowerups.get(choice - 1)).getAssociatedAmmo());
+				answer.add(usablePowerups.get(choice - 1));
+				remainingPowerups.remove(playerPowerups.get(usablePowerups.get(choice - 1)));
+				usablePowerups = new ArrayList<>();
+				numOfOptions = 0;
+				canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(priceToPay);
+				if (canAffordAlsoWithOnlyAmmo)
+					numOfOptions++;
+				for (int i = 0; i < playerPowerups.size(); i++) {
+					if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
+						usablePowerups.add(i);
+						numOfOptions++;
+					}
+				}
+			} else
+				Utils.logInfo("CLIView -> askToPay(): player decided to use ammo");
+			Utils.logInfo("CLIView -> askToPay(): indexes of usable powerups " + usablePowerups);
+		}
 		sendMessageToController(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
+	}
+
+	private boolean canAffordAlsoWithOnlyAmmo(List<AmmoType> price) {
+		List<AmmoType> priceToPay = new ArrayList<>(price);
+		List<AmmoType> playerAmmo = new ArrayList<>();
+		for (int i = 0; i < getModelRep().getClientPlayerRep().getAmmo().length; i++) {
+			for (int j = 0; j < getModelRep().getClientPlayerRep().getAmmo()[i]; j++) {
+				playerAmmo.add(AmmoType.values()[i]);
+			}
+		}
+		Utils.logInfo("CLIView -> canAffordAlsoWithOnlyAmmo(): player ammo " + playerAmmo + " price to pay " + priceToPay);
+
+		for (int i = priceToPay.size() - 1; i >= 0; i--) {
+			if (playerAmmo.contains(priceToPay.get(i))) {
+				playerAmmo.remove(priceToPay.get(i));
+				priceToPay.remove(i);
+			} else {
+				Utils.logInfo("CLIView -> canAffordAlsoWithOnlyAmmo(): player ammo " + playerAmmo + " price to pay " + priceToPay + " => player cannot afford");
+				return false;
+			}
+		}
+		Utils.logInfo("CLIView -> canAffordAlsoWithOnlyAmmo(): player ammo " + playerAmmo + " remaining price to pay " + priceToPay + " => player can afford");
+
+		return priceToPay.isEmpty();
 	}
 
 	// ####################################

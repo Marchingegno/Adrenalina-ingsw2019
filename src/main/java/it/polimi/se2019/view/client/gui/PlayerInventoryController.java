@@ -3,7 +3,6 @@ package it.polimi.se2019.view.client.gui;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.cards.weapons.WeaponRep;
-import it.polimi.se2019.model.gameboard.KillShotRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
@@ -12,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import sun.jvm.hotspot.jdi.IntegerTypeImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
