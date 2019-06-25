@@ -103,6 +103,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		//there's at least one place where the owner can place the vortex that has a player next or on top of it.
 		List<Coordinates> possibleVortexCoordinates = getGameMap().getVisibleCoordinates(getOwner());
 		possibleVortexCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));
+		int minimumNumberOfPlayerNearby = isOptionalActive(1) ? 2 : 1;
 
 		List<Coordinates> accettableVortexCoordinates = new ArrayList<>();
 		for (Coordinates coordinates : possibleVortexCoordinates) {
@@ -110,7 +111,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 			List<Player> playersOneMoveAway = new ArrayList<>();
 			coordinatesSurroundingThisVortex.forEach(item -> playersOneMoveAway.addAll(getGameMap().getPlayersFromCoordinates(item)));
 			playersOneMoveAway.remove(getOwner());
-			if (!playersOneMoveAway.isEmpty()) {
+			if (playersOneMoveAway.size() >= minimumNumberOfPlayerNearby) {
 				accettableVortexCoordinates.add(coordinates);
 			}
 		}
