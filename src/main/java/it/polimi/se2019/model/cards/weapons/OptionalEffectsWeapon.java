@@ -26,7 +26,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	List<DamageAndMarks> optional2DamagesAndMarks;
 	List<DamageAndMarks> optionalBothDamagesAndMarks;
 	private boolean[] optionalEffectsActive;
-	private List<AmmoType> optionalPrices;
+	private AmmoType optional1Price;
+	private AmmoType optional2Price;
+	private List<Integer> choices;
+
 
 	public OptionalEffectsWeapon(JsonObject parameters) {
 		super(parameters);
@@ -34,7 +37,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		hasOptionalEffects[0] = true;
 		hasOptionalEffects[1] = true;
 		optionalEffectsActive = new boolean[2];
-		optionalPrices = new ArrayList<>();
+		choices = new ArrayList<>();
 		optional1DamagesAndMarks = new ArrayList<>();
 		optional2DamagesAndMarks = new ArrayList<>();
 		optionalBothDamagesAndMarks = new ArrayList<>();
@@ -42,12 +45,18 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		this.optional1Marks = parameters.get("optional1Marks").getAsInt();
 		this.optional2Damage = parameters.get("optional2Damage").getAsInt();
 		this.optional2Marks = parameters.get("optional2Marks").getAsInt();
-		this.optionalPrices = new ArrayList<>();
+		optional1Price = null;
+		optional2Price = null;
+		int i = 1;
 		for (JsonElement price : parameters.getAsJsonArray("optionalPrices")) {
-			if (price.getAsString().equals("NONE"))
-				this.optionalPrices.add(null);
-			else
-				this.optionalPrices.add(AmmoType.valueOf(price.getAsString()));
+			if (!price.getAsString().equals("NONE")) {
+				if (i == 1) {
+					optional1Price = AmmoType.valueOf(price.getAsString());
+				} else {
+					optional2Price = AmmoType.valueOf(price.getAsString());
+				}
+			}
+			i++;
 		}
 	}
 
@@ -58,48 +67,44 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 		if (canAddBaseWithoutEffects()) {
 			options.add("No optional effects.");
+			choices.add(0);
 		}
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			if (canAddThisOptionalEffect(i + 1) && hasOptionalEffects[i]) {
 				int j = i + 1;
 				options.add("Optional effect " + j + ".");
+				choices.add(j);
 			}
 		}
 		//the following is hardcoded.
 		if (canAddBothOptionalEffects() && hasOptionalEffects[1]) {
 			options.add("Optional effect 1 + Optional effect 2.");
+			choices.add(12);
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
 	protected void registerChoice(int choice) {
-		switch (choice) {
+		switch (choices.get(choice)) {
 			case 0:
-				if (!canAddBaseWithoutEffects()) {
-					if (canAddThisOptionalEffect(1)) {
-						optionalEffectsActive[0] = true;
-					} else {
-						optionalEffectsActive[1] = true;
-					}
-				}
+				Utils.logWeapon("Only base effect selected.");
 				break;
 			case 1:
-				//If the first optional effect can't be added, then choice 1 is the second optional effect
-				if (canAddThisOptionalEffect(1)) {
-					optionalEffectsActive[0] = true;
-				} else {
-					optionalEffectsActive[1] = true;
-				}
+				optionalEffectsActive[0] = true;
+				Utils.logWeapon("Selected optional effect 1.");
 				break;
 			case 2:
 				optionalEffectsActive[1] = true;
+				Utils.logWeapon("Selected optional effect 2.");
 				break;
-			case 3:
+			case 12:
 				optionalEffectsActive[0] = true;
 				optionalEffectsActive[1] = true;
+				Utils.logWeapon("Selected optional effect 1.");
+				Utils.logWeapon("Selected optional effect 2.");
 				break;
 			default:
-				Utils.logError("There is no options with choice number " + choice, new IllegalArgumentException());
+				Utils.logError("Unexpected value: " + choices.get(choice), new IllegalStateException("Unexpected value: " + choices.get(choice)));
 		}
 	}
 
@@ -156,18 +161,13 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			optionalEffectsActive[i] = false;
 		}
+		choices = new ArrayList<>();
 	}
 
 	@Override
 	public void reset() {
 		super.reset();
 		optionalReset();
-
-	}
-
-	public AmmoType getCostOfOptionalEffect(int numberOfEffect) {
-		return optionalPrices.get(numberOfEffect - 1);
-
 	}
 
 	protected boolean isOptionalActive(int optionalIndex) {
@@ -201,19 +201,30 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 
 
 	protected boolean canAffordOptionalEffect1() {
+		if (optional1Price == null)
+			return true;
 		List<AmmoType> optional1Cost = new ArrayList<>();
-		optional1Cost.add(getCostOfOptionalEffect(1));
+		optional1Cost.add(optional1Price);
 		return getOwner().hasEnoughAmmo(optional1Cost);
 	}
 
 	protected boolean canAffordOptionalEffect2() {
+		if (optional2Price == null)
+			return true;
 		List<AmmoType> optional2Cost = new ArrayList<>();
-		optional2Cost.add(getCostOfOptionalEffect(2));
+		optional2Cost.add(optional2Price);
 		return getOwner().hasEnoughAmmo(optional2Cost);
 	}
 
 	protected boolean canAffordBothOptionalEffects() {
-		return getOwner().hasEnoughAmmo(new ArrayList<>(optionalPrices));
+		List<AmmoType> prices = new ArrayList<>();
+		if (optional1Price != null) {
+			prices.add(optional1Price);
+		}
+		if (optional2Price != null) {
+			prices.add(optional2Price);
+		}
+		return getOwner().hasEnoughAmmo(prices);
 	}
 
 	//To override

@@ -28,6 +28,10 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	public List<Player> getPrimaryTargets() {
 		List<Player> players = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner()));
 		players.remove(getOwner());
+		if (target != null)
+			players.remove(target);
+		if (secondTarget != null)
+			players.remove(secondTarget);
 		return players;
 	}
 
@@ -80,6 +84,9 @@ public class Cyberblade extends OptionalChoiceWeapon {
 		for (Coordinates coordinate : reachable) {
 			List<Player> playersInThisCoordinate = getGameMap().getPlayersFromCoordinates(coordinate);
 			playersInThisCoordinate.remove(getOwner());
+			//It's okay if i try to remove null because ArrayList is OP
+			playersInThisCoordinate.remove(target);
+			playersInThisCoordinate.remove(secondTarget);
 			if (playersInThisCoordinate.size() >= numberOfEnemies) {
 				reachableWithParamPlayers.add(coordinate);
 			}
@@ -91,24 +98,17 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	}
 
 	private int getNumberOfHitRemaining() {
-		int numberOfHitRemaining;
+		int numberOfHitRemaining = 0;
 		if (isExtraActive()) {
-			if (baseCompleted && extraCompleted)
-				numberOfHitRemaining = 0;
-			else if (baseCompleted && !extraCompleted)
-				numberOfHitRemaining = 1;
-			else if (!baseCompleted && extraCompleted)
-				numberOfHitRemaining = 1;
-			else {
-				numberOfHitRemaining = 2;
-			}
+			if (!baseCompleted)
+				numberOfHitRemaining++;
+			if (!extraCompleted)
+				numberOfHitRemaining++;
 		} else {
-			if (baseCompleted) {
-				numberOfHitRemaining = 0;
-			} else {
-				numberOfHitRemaining = 1;
-			}
+			if (!baseCompleted)
+				numberOfHitRemaining++;
 		}
+
 		Utils.logWeapon("Number of hit remaining: " + numberOfHitRemaining);
 		return numberOfHitRemaining;
 	}
@@ -128,6 +128,7 @@ public class Cyberblade extends OptionalChoiceWeapon {
 		canAddExtra = canAddExtra && isOptionalActive(2);
 
 		Utils.logWeapon("is the first optional active: " + isOptionalActive(1));
+		Utils.logWeapon("is the second optional active: " + isOptionalActive(2));
 
 		Utils.logWeapon("canAddBase - canAddExtra - canAddMove");
 		Utils.logWeapon(canAddBase + " - " + canAddExtra + " - " + canAddBase);
@@ -147,15 +148,6 @@ public class Cyberblade extends OptionalChoiceWeapon {
 		return true;
 	}
 
-	//	@Override
-//	protected boolean canFireOptionalEffect1() {
-//		//If the only player nearby is the one on your square
-//		List<Coordinates> nearbyPlayerCoordinatesList = getCoordinateWithEnemies(1).stream()
-//				.filter(coordinates -> !coordinates.equals(getGameMap().getPlayerCoordinates(getOwner())))
-//				.collect(Collectors.toList());
-//		return !nearbyPlayerCoordinatesList.isEmpty();
-//	}
-
 	@Override
 	protected boolean canFireOptionalEffect2() {
 		//If there are two people on your square
@@ -169,14 +161,26 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	protected boolean canFireBothOptionalEffects() {
 		//There are at least 2 people nearby.
 		//Here i'm going to use the fact that reachableCoordinates in GameMap returns also the coordinates that you're in.
-		List<Coordinates> nearbyCoordinates = getCoordinateWithEnemies(1);
-		List<Player> nearbyPlayers = new ArrayList<>();
-		nearbyCoordinates.forEach(coordinates -> nearbyPlayers.addAll(getGameMap().getPlayersFromCoordinates(coordinates)));
-		Utils.logWeapon("canFireBothOptionalEffects: collected an array of these players:");
-		nearbyPlayers.forEach(player -> Utils.logWeapon(player.getPlayerName()));
-		//Since the owner is in the coordinates, i'm going to remove it one time.
-		nearbyPlayers.remove(getOwner());
-		return !nearbyPlayers.isEmpty();
+		List<Coordinates> nearbyCoordinatesExceptOwn = getCoordinateWithEnemies(1);
+		nearbyCoordinatesExceptOwn.remove(getGameMap().getPlayerCoordinates(getOwner()));
+		//Here i check if the coordinate of the owner has 2 or more players.
+		List<Player> playersInOwnCoordinate = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner()));
+		playersInOwnCoordinate.remove(getOwner());
+		if (playersInOwnCoordinate.size() >= 2)
+			return true;
+
+		//In the following loop i check whether a nearby coordinate has 2 or more players.
+		if (nearbyCoordinatesExceptOwn.stream()
+				.map(coordinates -> getGameMap().getPlayersFromCoordinates(coordinates))
+				.anyMatch(players -> players.size() >= 2)) {
+			return true;
+		}
+
+		//In the following loop i check whether the sum a nearby coordinate and own coordinate's players is equal or greather than 2.
+		return nearbyCoordinatesExceptOwn.stream()
+				.map(coordinates -> getGameMap().getPlayersFromCoordinates(coordinates))
+				.map(players -> players.size() + playersInOwnCoordinate.size())
+				.anyMatch(integer -> integer >= 2);
 	}
 
 	@Override

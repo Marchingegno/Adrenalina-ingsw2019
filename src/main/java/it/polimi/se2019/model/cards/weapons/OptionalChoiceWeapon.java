@@ -53,7 +53,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 	 * @return true if weaponState was in ANSWER state.
 	 */
 	protected boolean advanceState() {
-		Utils.logWeapon("Current weapon state: " + weaponState.toString());
+//		Utils.logWeapon("Current weapon state: " + weaponState.toString());
 		if (weaponState.getSecond() == EffectState.ANSWER) {
 			switch (weaponState.getFirst()) {
 				case MOVE:
@@ -132,8 +132,8 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 	protected abstract QuestionContainer handleExtraAnswer(int choice);
 
 	protected QuestionContainer handleActionSelect(int choice) {
-		Utils.logWeapon("Weapon " + this.getCardName() + " : executing handleActionSelect with pair: ");
-		Utils.logWeapon(weaponState.toString());
+//		Utils.logWeapon("Weapon " + this.getCardName() + " : executing handleActionSelect with weapon state: ");
+//		Utils.logWeapon(weaponState.toString());
 
 		switch (weaponState.getSecond()) {
 			case REQUEST:
@@ -177,7 +177,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	protected QuestionContainer handleChoices(int choice) {
 		QuestionContainer qc;
-		Utils.logWeapon("Executing handleChoices with choice " + choice + "and pair:");
+		Utils.logWeapon("Executing handleChoices with choice " + choice + " and pair:");
 		Utils.logWeapon(weaponState.toString());
 		switch (weaponState.getFirst()) {
 			case ACTION:
