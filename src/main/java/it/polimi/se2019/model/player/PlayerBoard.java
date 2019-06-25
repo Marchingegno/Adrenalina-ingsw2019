@@ -57,7 +57,7 @@ public class PlayerBoard {
 	 */
 	public void addDamage(Player shootingPlayer, int amountOfDamage) {
 		if(amountOfDamage < 0)
-			throw new IllegalArgumentException("amountOfDamage cannot be negative or zero.");
+			throw new IllegalArgumentException("amountOfDamage cannot be negative.");
 		if(amountOfDamage == 0)
 			return;
 
@@ -67,7 +67,7 @@ public class PlayerBoard {
 				damageBoard.add(shootingPlayer);
 
 		int i;
-		for (i = 0; i < marks.size(); i++) {
+		for (i = marks.size() - 1; i >= 0; i--) {
 			if (marks.get(i).getPlayerName().equals(shootingPlayer.getPlayerName()) && damageBoard.size() < GameConstants.OVERKILL_DAMAGE) {
 				damageBoard.add(shootingPlayer);
 				marks.remove(i);

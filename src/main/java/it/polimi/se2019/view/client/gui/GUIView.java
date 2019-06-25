@@ -150,7 +150,6 @@ public class GUIView extends RemoteView {
 			Parent root = loader.load();
 			weaponChoiceScene = new Scene(root);
 			weaponChoiceStage = new Stage();
-			weaponChoiceStage.initModality(Modality.APPLICATION_MODAL);
 			weaponChoiceStage.setResizable(false);
 			weaponChoiceStage.setTitle("Adrenaline");
 			weaponChoiceStage.setOnCloseRequest(event -> {
@@ -172,7 +171,6 @@ public class GUIView extends RemoteView {
 			Parent root = loader.load();
 			askStringScene = new Scene(root);
 			askStringStage = new Stage();
-			askStringStage.initModality(Modality.APPLICATION_MODAL);
 			askStringStage.setTitle("Adrenaline");
 			askStringStage.setResizable(false);
 			askStringStage.setScene(askStringScene);
@@ -432,7 +430,7 @@ public class GUIView extends RemoteView {
 				} else
 					Utils.logInfo("GUIView -> askToPay(): player decided to use ammo");
 			}
-			sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
+			sendMessage(new PaymentMessage(price, MessageSubtype.ANSWER).setPowerupsUsed(answer));
 		});
 	}
 

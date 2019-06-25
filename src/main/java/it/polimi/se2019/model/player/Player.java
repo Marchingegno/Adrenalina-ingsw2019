@@ -132,7 +132,6 @@ public class Player extends Observable implements Representable {
 	 * @return if the player has as much ammo as the parameter.
 	 */
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
-
 		return getPlayerBoard().hasEnoughAmmo(ammoToCheck);
 	}
 
