@@ -75,6 +75,16 @@ public class PlasmaGun extends OptionalChoiceWeapon {
 	}
 
 	@Override
+	protected boolean canFireOptionalEffect1() {
+		return true;
+	}
+
+	@Override
+	protected boolean canFireOptionalEffect2() {
+		return true;
+	}
+
+	@Override
 	protected void updateBooleans() {
 		canAddBase = !baseCompleted && !getPrimaryTargets().isEmpty();
 		canAddMove = !moveCompleted && (baseCompleted || !getMoveCoordinateBeforeBase().isEmpty());
