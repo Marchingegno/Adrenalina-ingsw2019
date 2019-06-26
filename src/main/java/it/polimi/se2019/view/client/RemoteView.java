@@ -128,9 +128,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askWeaponChoice(((AskOptionsMessage) message).getQuestionContainer());
 				break;
-			case ACTIVATE_POWERUP:
+			case ACTIVATE_ON_TURN_POWERUP:
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
 					askPowerupActivation(((RequestChoiceInArrayMessage) message).getAvailableIndexes());
+				}
+				break;
+			case ACTIVATE_ON_DAMAGE_POWERUP:
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					askOnDamagePowerupActivation(((RequestChoiceWithExtraInfo) message).getAvailableIndexes(), ((RequestChoiceWithExtraInfo) message).getInfo());
 				}
 				break;
 			case POWERUP:

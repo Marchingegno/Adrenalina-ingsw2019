@@ -1056,7 +1056,7 @@ private List<PlayerRep> playerReps;
 
     @FXML
     private void selectedPowerups() {
-        guiView.sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
+        guiView.sendMessage(new Message(MessageType.ACTIVATE_ON_TURN_POWERUP, MessageSubtype.ANSWER));
         disableActionButtons();
     }
 

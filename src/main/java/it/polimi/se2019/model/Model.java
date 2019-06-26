@@ -18,10 +18,7 @@ import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.*;
 import it.polimi.se2019.view.server.Event;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Facade of the game board.
@@ -36,6 +33,7 @@ public class Model {
 	private GameMap gameMap;
 	private boolean hasPayed = false;
 	private Event savedEvent;
+	private ArrayDeque<String> playerWaitingForDamagePowerups;
 
 	// Game ending variables
 	private boolean gameEnded = false;
@@ -503,6 +501,7 @@ public class Model {
 
 	public void handleWeaponEnd(String playerName){
 		Player player = getPlayerFromName(playerName);
+		initiatePlayerWaitingForDamagePowerups(player);
 		player.handleWeaponEnd();
 		updateReps();
 	}
@@ -512,7 +511,7 @@ public class Model {
 	// PUBLIC POWERUPS USE METHODS
 	// ####################################
 
-	public boolean canOnTurnPowerupBeActivated(String playerName, int indexOfPowerup) {
+	public boolean canPowerupBeActivated(String playerName, int indexOfPowerup) {
 		Player player = getPlayerFromName(playerName);
 		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
 
@@ -520,9 +519,30 @@ public class Model {
 			return false;
 
 		PowerupCard powerupCard = powerupCards.get(indexOfPowerup);
-		if(powerupCard.getUseCase() != PowerupCard.PowerupUseCaseType.ON_TURN)
-			return false;
 		return powerupCard.canBeActivated();
+	}
+
+	public String getNextPlayerWaitingForDamagePowerups() {
+		return playerWaitingForDamagePowerups.poll();
+	}
+
+	public List<Integer> getActivableOnDamagePowerups(String damagedPlayerName, String shootingPlayerName) {
+		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
+		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
+		List<PowerupCard> powerupCards = damagedPlayer.getPlayerBoard().getPowerupCards();
+		List<Integer> activablePowerups = new ArrayList<>();
+
+		for (int i = 0; i < powerupCards.size(); i++) {
+			if(powerupCards.get(i).getUseCase() == PowerupCard.PowerupUseCaseType.ON_DAMAGE) {
+				powerupCards.get(i).setShootingPlayer(shootingPlayer);
+				if(powerupCards.get(i).canBeActivated())
+					activablePowerups.add(i);
+				else
+					powerupCards.get(i).setShootingPlayer(null);
+			}
+		}
+
+		return activablePowerups;
 	}
 
 	public List<Integer> getActivableOnTurnPowerups(String playerName) {
@@ -576,6 +596,19 @@ public class Model {
 	// ####################################
 	// PRIVATE METHODS
 	// ####################################
+
+	private void initiatePlayerWaitingForDamagePowerups(Player shootingPlayer) {
+		List<Player> playersHit = shootingPlayer.getPlayersHitWithWeapon();
+		playerWaitingForDamagePowerups = new ArrayDeque<>();
+		for(Player damagedPlayer : playersHit) {
+			if(doesPlayerHaveActivableOnDamagePowerups(damagedPlayer.getPlayerName(), shootingPlayer.getPlayerName()))
+				playerWaitingForDamagePowerups.add(damagedPlayer.getPlayerName());
+		}
+	}
+
+	private boolean doesPlayerHaveActivableOnDamagePowerups(String damagedPlayerName, String shootingPlayerName) {
+		return !getActivableOnDamagePowerups(damagedPlayerName, shootingPlayerName).isEmpty();
+	}
 
 	private Player getCurrentPlayer() {
 		return gameBoard.getCurrentPlayer();

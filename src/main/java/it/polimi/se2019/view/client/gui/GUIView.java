@@ -283,6 +283,11 @@ public class GUIView extends RemoteView {
 	}
 
 	@Override
+	public void askOnDamagePowerupActivation(List<Integer> activablePowerups, String shootingPlayer) {
+
+	}
+
+	@Override
 	public void askPowerupChoice(QuestionContainer questionContainer) {
 		askQuestionContainerAndSendAnswer(questionContainer, MessageType.POWERUP);
 	}

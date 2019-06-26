@@ -134,7 +134,7 @@ public class CLIView extends RemoteView {
 
 		int answer = askIntegerFromList(possibleAnswers, -1);
 		if (answer == i) // If answer is powerup.
-			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
+			sendMessage(new Message(MessageType.ACTIVATE_ON_TURN_POWERUP, MessageSubtype.ANSWER));
 		else
 			sendMessage(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
 	}
@@ -237,6 +237,18 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
+	public void askOnDamagePowerupActivation(List<Integer> activablePowerups, String shootingPlayer) {
+		printLine("You have just been damaged by " + shootingPlayer + "!");
+		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
+		printLine("Do you want to use a powerup for revenge? [yes/no]");
+		boolean usePowerup = askBoolean();
+		if(usePowerup)
+			askPowerupActivation(activablePowerups);
+		else
+			sendMessage(new IntMessage(-1, MessageType.POWERUP, MessageSubtype.ANSWER));
+	}
+
+	@Override
 	public void askPowerupChoice(QuestionContainer questionContainer) {
 		askQuestionContainerAndSendAnswer(questionContainer, MessageType.POWERUP);
 	}
@@ -254,7 +266,7 @@ public class CLIView extends RemoteView {
 		else if (answer == 2)
 			sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST)); // Reload.
 		else if (answer == 3)
-			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
+			sendMessage(new Message(MessageType.ACTIVATE_ON_TURN_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 	}
 
 	@Override

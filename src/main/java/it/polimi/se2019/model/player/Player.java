@@ -229,6 +229,13 @@ public class Player extends Observable implements Representable {
 		return getFiringWeapon().doActivationStep(choice);
 	}
 
+	public List<Player> getPlayersHitWithWeapon() {
+		if(firingWeapon == -1)
+			throw new IllegalStateException("No weapon firing!");
+		return getFiringWeapon().getPlayersHit();
+	}
+
+
 	public void handleWeaponEnd() {
 		this.getFiringWeapon().reset();
 		this.firingWeapon = -1;

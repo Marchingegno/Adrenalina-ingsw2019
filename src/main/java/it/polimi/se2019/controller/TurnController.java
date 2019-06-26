@@ -102,7 +102,7 @@ public class TurnController{
 				PaymentMessage paymentMessage = (PaymentMessage) event.getMessage();
 				resolvePayment(virtualView, paymentMessage.getPowerupsUsed(), paymentMessage.getPriceToPay());
 				break;
-			case ACTIVATE_POWERUP:
+			case ACTIVATE_ON_TURN_POWERUP:
 				virtualView.askPowerupActivation(model.getActivableOnTurnPowerups(playerName));
 				break;
 			case POWERUP:
@@ -187,7 +187,7 @@ public class TurnController{
 		if (model.isTheWeaponConcluded(virtualView.getNickname())) {
 			Utils.logWeapon("Weapon ended.");
 			model.handleWeaponEnd(virtualView.getNickname());
-			handleNextAction(virtualView);
+			handleInitialOnDamagePowerup();
 		} else {
 			if (questionContainer == null || questionContainer.isThisQuestionContainerUseless()) {
 				Utils.logWarning("This QuestionContainer is either null or useless.");
@@ -203,8 +203,22 @@ public class TurnController{
 	// POWERUPS METHODS
 	// ####################################
 
+	private void handleInitialOnDamagePowerup() {
+		String damagedPlayer = model.getNextPlayerWaitingForDamagePowerups();
+		if(damagedPlayer == null) {
+			handleNextAction(virtualViewsContainer.getVirtualViewFromPlayerName(model.getCurrentPlayerName()));
+		} else {
+			virtualViewsContainer.getVirtualViewFromPlayerName(damagedPlayer).askOnDamagePowerupActivation(model.getActivableOnDamagePowerups(damagedPlayer, model.getCurrentPlayerName()), model.getCurrentPlayerName());
+		}
+	}
+
 	private void initialPowerupActivation(VirtualView virtualView, int indexOfPowerup) {
-		if(model.canOnTurnPowerupBeActivated(virtualView.getNickname(), indexOfPowerup)) {
+		// If player doesn't want to use any powerup.
+		if(indexOfPowerup == -1) {
+			handleActionEndForPowerup(virtualView);
+		}
+
+		if(model.canPowerupBeActivated(virtualView.getNickname(), indexOfPowerup)) {
 			QuestionContainer questionContainer = model.initialPowerupActivation(virtualView.getNickname(), indexOfPowerup);
 			handlePowerupQuestionContainer(virtualView, questionContainer);
 		}
@@ -218,11 +232,19 @@ public class TurnController{
 	private void handlePowerupQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
 		if (model.isThePowerupConcluded(virtualView.getNickname())) {
 			model.handlePowerupEnd(virtualView.getNickname());
-			handleActionEnd(virtualView);
+			handleActionEndForPowerup(virtualView);
 		} else {
 			virtualView.askPowerupChoice(questionContainer);
 		}
 	}
+
+	private void handleActionEndForPowerup(VirtualView virtualView) {
+		if(virtualView.getNickname().equals(model.getCurrentPlayerName()))
+			handleActionEnd(virtualView);
+		else
+			handleInitialOnDamagePowerup();
+	}
+
 
 	// ####################################
 	// PAYMENT METHODS

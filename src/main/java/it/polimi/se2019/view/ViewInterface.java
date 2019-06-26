@@ -37,6 +37,8 @@ public interface ViewInterface {
 
 	void askPowerupActivation(List<Integer> activablePowerups);
 
+	void askOnDamagePowerupActivation(List<Integer> activablePowerups, String shootingPlayer);
+
 	void askPowerupChoice(QuestionContainer questionContainer);
 
 	void askEnd(boolean activablePowerups);
