@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class PlayerBoard {
 
+	private String playerName;
 	private List<Player> damageBoard;
 	private List<Player> marks;
 	private int numberOfDeaths;
@@ -31,10 +32,11 @@ public class PlayerBoard {
 	/**
 	 * Create an empty PlayerBoard ready to be used.
 	 */
-	public PlayerBoard() {
+	public PlayerBoard(String playerName) {
 		damageBoard = new ArrayList<>();
 		marks = new ArrayList<>();
 		numberOfDeaths = 0;
+		this.playerName = playerName;
 		points = 0;
 		ammoContainer = new AmmoContainer();
 		powerupCards = new ArrayList<>();
@@ -73,7 +75,7 @@ public class PlayerBoard {
 				marks.remove(i);
 			}
 		}
-		Utils.logInfo("PlayerBoard -> addDamage(): Recorded to the player board that " + shootingPlayer.getPlayerName() + " dealt " + amountOfDamage + " direct damage and " + i + " mark damage");
+		Utils.logInfo("PlayerBoard -> addDamage(): Recorded to the player board that " + shootingPlayer.getPlayerName() + " dealt " + amountOfDamage + " direct damage and " + i + " mark damage to " + playerName);
 		setChanged();
 	}
 

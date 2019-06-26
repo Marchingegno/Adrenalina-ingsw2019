@@ -19,7 +19,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class VortexCannonTest {
@@ -32,11 +32,10 @@ public class VortexCannonTest {
 	@Before
 	public void setUp() {
 		//The first player is the shooter.
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/Weapon.json")));
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/WeaponDeckWhole.json")));
 		JsonArray weapons = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("weapons");
 		for (JsonElement weapon : weapons) {
 			if (weapon.getAsJsonObject().get("className").getAsString().equals(name)) {
-				Utils.logWeapon("Found vortex cannon");
 				vortexCannon = new VortexCannon(weapon.getAsJsonObject());
 				break;
 			}
@@ -53,11 +52,13 @@ public class VortexCannonTest {
 
 		gameMap = model.getGameBoard().getGameMap();
 		players = model.getGameBoard().getPlayers();
+		vortexCannon.setOwner(players.get(0));
+
+
 		gameMap.movePlayerTo(players.get(0), new Coordinates(2, 1));
 		gameMap.movePlayerTo(players.get(1), new Coordinates(1, 1));
 		gameMap.movePlayerTo(players.get(2), new Coordinates(1, 0));
 		gameMap.movePlayerTo(players.get(3), new Coordinates(1, 2));
-		vortexCannon.setOwner(players.get(0));
 	}
 
 	@Test
@@ -75,6 +76,13 @@ public class VortexCannonTest {
 		}
 
 		assertTrue(vortexCannon.getPlayersHit().size() >= 3);
+		for (int i = 1; i <= 3; i++) {
+			assertEquals(gameMap.getPlayerCoordinates(players.get(i)), new Coordinates(1, 1));
+		}
+
+		vortexCannon.reset();
+		assertTrue(vortexCannon.currentTargets.isEmpty());
+		assertFalse(vortexCannon.isLoaded());
 	}
 
 

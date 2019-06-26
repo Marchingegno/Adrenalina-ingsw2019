@@ -42,7 +42,7 @@ public class Player extends Observable implements Representable {
 		this.playerID = playerID;
 		this.playerColor = Color.CharacterColorType.values()[playerID + 1]; // + 1 to avoid BLACK color
 		this.pgName = playerColor.getPgName();
-		playerBoard = new PlayerBoard();
+		playerBoard = new PlayerBoard(playerName);
 		setDamageStatus(new LowDamage());
 		setTurnStatus(TurnStatus.PRE_SPAWN);
 		setChanged();

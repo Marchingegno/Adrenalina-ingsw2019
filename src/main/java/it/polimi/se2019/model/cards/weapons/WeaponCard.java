@@ -187,7 +187,6 @@ public abstract class WeaponCard extends ActivableCard {
 	 * Loads the weapon.
 	 */
 	public void load() {
-		//TODO: Implement
 		this.loaded = true;
 	}
 
@@ -215,7 +214,7 @@ public abstract class WeaponCard extends ActivableCard {
 		for (int i = 0; i < playersToShoot.size(); i++) {
 			if (playersToShoot.get(i) != null) {
 				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
-				if (damagesAndMarks.get(i).getDamage() >= 1) {
+				if (damagesAndMarks.get(i).getDamage() >= 1 && !playersHit.contains(playersToShoot.get(i))) {
 					playersHit.add(playersToShoot.get(i));
 				}
 				playersToShoot.get(i).addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
