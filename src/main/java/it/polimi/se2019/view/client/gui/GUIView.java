@@ -8,6 +8,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.PlayersPosition;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.RemoteView;
@@ -15,7 +16,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -387,6 +387,11 @@ public class GUIView extends RemoteView {
 	@Override
 	public void askEnd(boolean activablePowerups) {
 		gameBoardController.setEndTurnActions(activablePowerups);
+	}
+
+	@Override
+	public void endOfGame(List<PlayersPosition> finalPlayersInfo) {
+
 	}
 
 	@Override

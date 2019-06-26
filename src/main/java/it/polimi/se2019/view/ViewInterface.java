@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.utils.PlayersPosition;
 import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.List;
@@ -39,6 +40,8 @@ public interface ViewInterface {
 	void askPowerupChoice(QuestionContainer questionContainer);
 
 	void askEnd(boolean activablePowerups);
+
+	void endOfGame(List<PlayersPosition> finalPlayersInfo);
 
 	void updateGameBoardRep(GameBoardRep gameBoardRepToUpdate);
 

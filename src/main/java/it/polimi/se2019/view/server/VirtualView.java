@@ -10,6 +10,7 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.network.server.AbstractConnectionToClient;
+import it.polimi.se2019.utils.PlayersPosition;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
@@ -142,6 +143,11 @@ public class VirtualView extends Observable implements ViewInterface {
 	@Override
 	public void askEnd(boolean activablePowerups) {
 		sendMessage(new EndRequestMessage(activablePowerups));
+	}
+
+	@Override
+	public void endOfGame(List<PlayersPosition> finalPlayersInfo) {
+		sendMessage(new EndGameMessage(finalPlayersInfo, MessageSubtype.INFO));
 	}
 
 	@Override

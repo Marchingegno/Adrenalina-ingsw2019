@@ -108,6 +108,27 @@ public class GameController {
 		virtualView.askSpawn();
 	}
 
+	private void handleConnectionError(String playerName) {
+		if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
+			Utils.logInfo("Received a CONNECTION ERROR from the player doing its turn.");
+			model.cancelAction(playerName);
+			model.setAsDisconnected(playerName);
+			if(model.isGameEnded())
+				virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
+			else
+				handleEndTurn();
+		} else {
+			Utils.logInfo("Received a CONNECTION ERROR from a player waiting for its turn.");
+			model.setAsDisconnected(playerName);
+			if(model.isGameEnded()) {
+				model.cancelAction(model.getCurrentPlayerName());
+				virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
+			} else {
+				handleEndTurn();
+			}
+		}
+	}
+
 
 	void processEvent(Event event){
 		VirtualView virtualView = event.getVirtualView();
@@ -137,20 +158,10 @@ public class GameController {
 				}
 				break;
 			case CONNECTION:
-				if(messageSubtype == MessageSubtype.ERROR) {
-					if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
-						Utils.logInfo("Received a CONNECTION ERROR from the player doing its turn.");
-						model.cancelAction(playerName);
-						model.setAsDisconnected(playerName);
-						handleEndTurn();
-					} else {
-						Utils.logInfo("Received a CONNECTION ERROR from a player waiting for its turn.");
-						model.setAsDisconnected(playerName);
-					}
-				}
-				else if(messageSubtype == MessageSubtype.INFO) {
+				if(messageSubtype == MessageSubtype.ERROR)
+					handleConnectionError(playerName);
+				else if(messageSubtype == MessageSubtype.INFO)
 					model.setAsReconnected(playerName);
-				}
 				break;
 			default: turnController.processEvent(event);
 				break;

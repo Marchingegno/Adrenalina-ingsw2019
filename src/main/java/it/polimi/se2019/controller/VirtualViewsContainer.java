@@ -1,5 +1,7 @@
 package it.polimi.se2019.controller;
 
+import it.polimi.se2019.model.player.PlayerRep;
+import it.polimi.se2019.utils.PlayersPosition;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -26,11 +28,14 @@ public class VirtualViewsContainer {
 	 * Note: if an action is requested to the player this methods mustn't be called before the request (otherwise two messages will be sent)!
 	 */
 	public void sendUpdatedReps() {
-		Utils.logInfo("\n      VirtualViewsContainer -> sendUpdatedReps(): sending latest reps to everyone");
+		Utils.logInfo("VirtualViewsContainer -> sendUpdatedReps(): sending latest reps to everyone");
 		for (VirtualView virtualView : virtualViews) {
 			virtualView.sendReps();
 		}
-		Utils.logInfo("");
+	}
+
+	public void sendEndGameMessage(List<PlayersPosition> finalPlayersInfo) {
+		virtualViews.forEach(virtualView -> virtualView.endOfGame(finalPlayersInfo));
 	}
 
 	public VirtualView getVirtualViewFromPlayerName(String playerName){

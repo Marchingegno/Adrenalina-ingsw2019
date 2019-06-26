@@ -137,6 +137,10 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askPowerupChoice(((AskOptionsMessage) message).getQuestionContainer());
 				break;
+			case END_GAME:
+				if(message.getMessageSubtype() == MessageSubtype.INFO)
+					endOfGame(((EndGameMessage) message).getFinalPlayersInfo());
+				break;
 			default:
 				Utils.logInfo("Received an unrecognized message of type " + message.getMessageType() + " and subtype: " + message.getMessageSubtype() + ".");
 				break;

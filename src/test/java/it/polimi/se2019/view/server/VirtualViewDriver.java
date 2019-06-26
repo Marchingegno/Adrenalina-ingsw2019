@@ -9,10 +9,7 @@ import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.message.*;
-import it.polimi.se2019.utils.Color;
-import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.*;
 import it.polimi.se2019.view.client.ModelRep;
 import it.polimi.se2019.view.client.cli.RepPrinter;
 
@@ -182,6 +179,11 @@ public class VirtualViewDriver extends VirtualView {
 			Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: ACTIVATE_POWERUP");
 			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 		}
+	}
+
+	@Override
+	public void endOfGame(List<PlayersPosition> finalPlayersInfo) {
+		Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.BLUE) + " GAME ENDED " + Color.getColoredString("##################", Color.CharacterColorType.BLUE));
 	}
 
 	@Override

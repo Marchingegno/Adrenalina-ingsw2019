@@ -5,13 +5,11 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
+import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
-import it.polimi.se2019.utils.Color;
-import it.polimi.se2019.utils.GameConstants;
-import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
+import it.polimi.se2019.utils.*;
 import it.polimi.se2019.view.client.RemoteView;
 
 import java.text.DecimalFormat;
@@ -257,6 +255,28 @@ public class CLIView extends RemoteView {
 			sendMessage(new Message(MessageType.RELOAD, MessageSubtype.REQUEST)); // Reload.
 		else if (answer == 3)
 			sendMessage(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
+	}
+
+	@Override
+	public void endOfGame(List<PlayersPosition> finalPlayersInfo) {
+		printLine("GAME ENDED!");
+
+		// Display winner(s).
+		if(finalPlayersInfo.get(0).getPlayerReps().size() > 1)
+			printLine("The winners are...");
+		else
+			printLine("The winner is...");
+		for(PlayerRep playerRep : finalPlayersInfo.get(0).getPlayerReps()) {
+			printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
+		}
+
+		// Display ranking.
+		for(int i = 0; i < finalPlayersInfo.size(); i++) {
+			for(PlayerRep playerRep : finalPlayersInfo.get(i).getPlayerReps()) {
+				printLine((i + 1) + ") " + Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()) + ": " + playerRep.getPoints() + " points.");
+
+			}
+		}
 	}
 
 	/**

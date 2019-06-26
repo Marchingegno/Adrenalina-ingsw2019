@@ -10,6 +10,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerBoard;
+import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.FrenzyAfter;
 import it.polimi.se2019.model.player.damagestatus.FrenzyBefore;
@@ -35,6 +36,10 @@ public class Model {
 	private GameMap gameMap;
 	private boolean hasPayed = false;
 	private Event savedEvent;
+
+	// Game ending variables
+	private boolean gameEnded = false;
+	private List<PlayersPosition> finalPlayersPosition;
 
 	public Model(String mapName, List<String> playerNames, int startingSkulls) {
 		if(startingSkulls < GameConstants.MIN_SKULLS || startingSkulls > GameConstants.MAX_SKULLS)
@@ -68,6 +73,10 @@ public class Model {
 	// ####################################
 	// GAME MANAGEMENT METHODS
 	// ####################################
+
+	public boolean isGameEnded() {
+		return gameEnded;
+	}
 
 	public boolean isFrenzyStarted() {
 		return gameBoard.isFrenzyStarted();
@@ -157,8 +166,8 @@ public class Model {
 				.filter(Player::isConnected)
 				.count();
 		if(connectedPlayers < GameConstants.MIN_PLAYERS) {
-			// TODO end game
-			Utils.logInfo("Here the game should had ended.");
+			Utils.logInfo("Connected players less than minimum, ending the game...");
+			endGameAndFindWinner();
 		}
 		updateReps();
 	}
@@ -336,6 +345,51 @@ public class Model {
 	public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
 		Player player = getPlayerFromName(playerName);
 		return gameMap.reachableCoordinates(player, distance);
+	}
+
+	public void endGameAndFindWinner() {
+		gameEnded = true;
+		// TODO punti tracciato colpo mortale, in caso di parità chi ha preso più punti da colpi mortali. Se entrambi nessun colpo mortale allora parità.
+
+		// Initialization.
+		finalPlayersPosition = new ArrayList<>();
+		for(Player player : gameBoard.getPlayers()) {
+			player.updateRep();
+		}
+
+		// First position.
+		PlayersPosition p1 = new PlayersPosition();
+		p1.addInPosition((PlayerRep) gameBoard.getPlayers().get(0).getRep());
+		finalPlayersPosition.add(p1);
+
+		for(int i = 1; i < gameBoard.getPlayers().size(); i++) {
+			Player currPlayer = gameBoard.getPlayers().get(i);
+			int currPoints = currPlayer.getPlayerBoard().getPoints();
+
+			// Check if curr must be put last.
+			if(currPoints < finalPlayersPosition.get(finalPlayersPosition.size() - 1).getPlayerReps().get(0).getPoints()) {
+				PlayersPosition newP = new PlayersPosition();
+				newP.addInPosition((PlayerRep) currPlayer.getRep());
+				finalPlayersPosition.add(newP);
+			} else {
+				for(int j = 0; j < finalPlayersPosition.size(); j++) {
+					// If curr has same points.
+					if(currPoints == finalPlayersPosition.get(j).getPlayerReps().get(0).getPoints()) {
+						finalPlayersPosition.get(j).addInPosition((PlayerRep) currPlayer.getRep());
+					}
+					// If curr has more points.
+					if(currPoints > finalPlayersPosition.get(j).getPlayerReps().get(0).getPoints()) {
+						PlayersPosition newP = new PlayersPosition();
+						newP.addInPosition((PlayerRep) currPlayer.getRep());
+						finalPlayersPosition.add(j, newP);
+					}
+				}
+			}
+		}
+	}
+
+	public List<PlayersPosition> getFinalPlayersInfo() {
+		return finalPlayersPosition;
 	}
 
 

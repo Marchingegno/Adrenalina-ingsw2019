@@ -24,4 +24,5 @@ public enum MessageType {
 	POWERUP,
 	PAYMENT,
 	END_TURN,
+	END_GAME,
 }
