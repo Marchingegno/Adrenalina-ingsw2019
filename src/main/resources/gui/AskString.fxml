@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane prefHeight="138.0" prefWidth="295.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.client.gui.AskStringController">
+<AnchorPane prefHeight="194.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.client.gui.AskStringController">
     <children>
-      <BorderPane prefHeight="180.0" prefWidth="357.0">
+      <BorderPane prefHeight="188.0" prefWidth="527.0">
          <top>
               <Label fx:id="string" text="Label" BorderPane.alignment="CENTER">
                <BorderPane.margin>
@@ -18,12 +18,12 @@
             </Label>
          </top>
          <center>
-              <ComboBox fx:id="choiceComboBox" prefWidth="150.0" BorderPane.alignment="CENTER" />
+              <ComboBox fx:id="choiceComboBox" prefHeight="27.0" prefWidth="247.0" BorderPane.alignment="CENTER" />
          </center>
          <bottom>
               <Button fx:id="doneButton" mnemonicParsing="false" onAction="#pressedDone" prefWidth="51.0" text="Done" textAlignment="RIGHT" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets bottom="10.0" left="210.0" />
+                  <Insets bottom="10.0" left="310.0" />
                </BorderPane.margin>
             </Button>
          </bottom>

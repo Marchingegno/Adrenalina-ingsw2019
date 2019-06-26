@@ -11,6 +11,7 @@ import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.model.player.damagestatus.DamageStatusRep;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.Color;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.client.ModelRep;
 import javafx.application.Platform;
@@ -23,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -286,7 +288,7 @@ public class GameBoardController {
     @FXML
     private ImageView weponImageYellow2;
 
-
+private List<PlayerRep> playerReps;
     @FXML
     private ImageView playerIcon0;
     @FXML
@@ -394,7 +396,7 @@ public class GameBoardController {
     @FXML
     private ImageView overKillToken161;
 
-    private List<ImageView> doubleKills ;
+    private List<ImageView> doubleKills;
     @FXML
     private ImageView doubleKillToken0;
     @FXML
@@ -450,6 +452,18 @@ public class GameBoardController {
     private Button powerupsButton;
     @FXML
     private Button endTurnButton;
+
+    private List<Circle> turnIcons;
+    @FXML
+    private Circle turnIcon0;
+    @FXML
+    private Circle turnIcon1;
+    @FXML
+    private Circle turnIcon2;
+    @FXML
+    private Circle turnIcon3;
+    @FXML
+    private Circle turnIcon4;
 
 
     @FXML
@@ -511,6 +525,14 @@ public class GameBoardController {
         skulls = new ArrayList<>();
         overKillTokens = new ArrayList<>();
         doubleKills = new ArrayList<>();
+        turnIcons = new ArrayList<>();
+        playerReps = new ArrayList<>();
+
+        turnIcons.add(turnIcon0);
+        turnIcons.add(turnIcon1);
+        turnIcons.add(turnIcon2);
+        turnIcons.add(turnIcon3);
+        turnIcons.add(turnIcon4);
 
         skulls.add(skull0);
         skulls.add(skull1);
@@ -783,7 +805,25 @@ public class GameBoardController {
             Utils.logError("Error loading inventory", e);
         }
         inventoryStage4.hide();
+
+        playerReps.add(playerRep0);
+        playerReps.add(playerRep1);
+        playerReps.add(playerRep2);
+        playerReps.add(playerRep3);
+        playerReps.add(playerRep4);
+
+        updateTurnIcon(modelRep.getGameBoardRep().getCurrentPlayer());
+
         initialized = true;
+    }
+
+    private void updateTurnIcon(String currentPlayer){
+        for (int i = 0; i < GameConstants.MAX_PLAYERS;i++) {
+            if(playerReps.get(i) != null)
+                turnIcons.get(i).setVisible(playerReps.get(i).getPlayerName().equals(currentPlayer));
+            else
+                turnIcons.get(i).setVisible(false);
+        }
     }
 
     private void updateWeapons(List<CardRep> card, AmmoType associatedAmmo) {
@@ -852,14 +892,15 @@ public class GameBoardController {
 
         for (int i = 0; i < 17; i++) {
             skullTokens.get(i).setVisible(false);
-        }        for (int i = 0; i < 17; i++) {
+        }
+        for (int i = 0; i < 17; i++) {
             overKillTokens.get(i).setVisible(false);
         }
     }
 
     private void updateKillShootTrack(List<KillShotRep> killShotReps, List<Color.CharacterColorType> doubleKillList, int numOfSkulls) {
-        for (int i = 0 ; i < 8; i++) {
-            if(i < 8 - numOfSkulls)
+        for (int i = 0; i < 8; i++) {
+            if (i < 8 - numOfSkulls)
                 skulls.get(i).setVisible(false);
             else
                 skulls.get(i).setVisible(true);
@@ -868,7 +909,7 @@ public class GameBoardController {
             if (i < 8 - numOfSkulls) {
                 (skullTokens.get(i)).setImage(loadImage("playerBoards/" + killShotReps.get(i).getPgName() + "/token"));
                 skullTokens.get(i).setVisible(true);
-                if(killShotReps.get(i).isOverkill()){
+                if (killShotReps.get(i).isOverkill()) {
                     (overKillTokens.get(i)).setImage(loadImage("playerBoards/" + killShotReps.get(i).getPgName() + "/token"));
                     overKillTokens.get(i).setVisible(true);
                 }
@@ -876,10 +917,10 @@ public class GameBoardController {
         }
 
         for (int i = 0; i < 12; i++) {
-            if(i < doubleKillList.size()){
+            if (i < doubleKillList.size()) {
                 doubleKills.get(i).setVisible(true);
                 doubleKills.get(i).setImage(loadImage("playerBoards/" + doubleKillList.get(i).getPgName() + "/token"));
-            }else{
+            } else {
                 doubleKills.get(i).setVisible(false);
             }
         }
@@ -922,6 +963,7 @@ public class GameBoardController {
 
         updateKillShootTrack(modelRep.getGameBoardRep().getKillShoots(), modelRep.getGameBoardRep().getDoubleKills(), modelRep.getGameBoardRep().getRemainingSkulls());
         updateGameMap(modelRep.getGameMapRep());
+        updateTurnIcon(modelRep.getGameBoardRep().getCurrentPlayer());
     }
 
     private void updateGameMap(GameMapRep gameMapRep) {
