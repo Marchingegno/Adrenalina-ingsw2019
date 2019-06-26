@@ -128,6 +128,11 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	}
 
 	@Override
+	protected boolean canAddBaseWithoutEffects() {
+		return canPrimaryBeActivated();
+	}
+
+	@Override
 	protected boolean canPrimaryBeActivated() {
 		return !getVortexCoordinates().isEmpty();
 	}

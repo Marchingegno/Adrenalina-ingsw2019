@@ -158,6 +158,11 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	}
 
 	@Override
+	protected boolean canAddBaseWithoutEffects() {
+		return super.canAddBaseWithoutEffects();
+	}
+
+	@Override
 	protected boolean canFireBothOptionalEffects() {
 		//There are at least 2 people nearby.
 		//Here i'm going to use the fact that reachableCoordinates in GameMap returns also the coordinates that you're in.
