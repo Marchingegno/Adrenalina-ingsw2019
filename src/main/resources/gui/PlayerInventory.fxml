@@ -283,7 +283,7 @@
          </image>
       </ImageView>
       <Circle fx:id="loaded0" fill="#1fff51" layoutX="401.0" layoutY="376.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="loaded1" fill="#1fff51" layoutX="914.0" layoutY="376.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="loaded2" fill="#1fff51" layoutX="659.0" layoutY="375.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="loaded1" fill="#1fff51" layoutX="659.0" layoutY="375.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="loaded2" fill="#1fff51" layoutX="914.0" layoutY="376.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
     </children>
 </AnchorPane>

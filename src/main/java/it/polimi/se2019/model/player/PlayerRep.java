@@ -109,7 +109,7 @@ public class PlayerRep implements Representation {
 		newPlayerRep.weaponReps = new ArrayList<>();
 		for (WeaponRep weaponRep : this.weaponReps) {
 			//maybe the rep should be cloned
-			if (weaponRep.isLoaded())
+			if (!weaponRep.isLoaded())
 				newPlayerRep.weaponReps.add(weaponRep);
 		}
 		newPlayerRep.deaths = deaths;

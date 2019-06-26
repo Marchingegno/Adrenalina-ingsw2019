@@ -1,52 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="653.0" prefWidth="1080.0"
-            xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="it.polimi.se2019.view.client.gui.WeaponChoiceController">
+
+<AnchorPane prefHeight="653.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.client.gui.WeaponChoiceController">
     <children>
-        <ImageView fitHeight="1177.0" fitWidth="1080.0" layoutX="-311.0" layoutY="-143.0" pickOnBounds="true"
-                   preserveRatio="true" AnchorPane.bottomAnchor="0.34332275390625" AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <ImageView fitHeight="1177.0" fitWidth="1080.0" layoutX="-311.0" layoutY="-143.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.34332275390625" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
-                <Image url="@../graphicassets/weaponChoiceBackground.png"/>
+                <Image url="@../graphicassets/weaponChoiceBackground.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weapon0" disable="true" fitHeight="298.0" fitWidth="155.0" layoutX="194.0" layoutY="186.0"
-                   pickOnBounds="true" preserveRatio="true" visible="false">
+      <BorderPane layoutX="-1.0" layoutY="-1.0" prefHeight="672.0" prefWidth="1080.0">
+         <top>
+              <Label fx:id="title" text="Label" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
+                  <font>
+                      <Font size="32.0" />
+                  </font>
+               <BorderPane.margin>
+                  <Insets top="65.0" />
+               </BorderPane.margin>
+              </Label>
+         </top>
+      </BorderPane>
+        <ImageView fx:id="weapon0" disable="true" fitHeight="298.0" fitWidth="155.0" layoutX="194.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
-                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+                <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weapon1" disable="true" fitHeight="298.0" fitWidth="155.0" layoutX="477.0" layoutY="186.0"
-                   pickOnBounds="true" preserveRatio="true" visible="false">
+        <ImageView fx:id="weapon1" disable="true" fitHeight="298.0" fitWidth="155.0" layoutX="477.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
-                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+                <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weapon2" disable="true" fitHeight="298.0" fitWidth="155.0" layoutX="761.0" layoutY="186.0"
-                   pickOnBounds="true" preserveRatio="true" visible="false">
+        <ImageView fx:id="weapon2" disable="true" fitHeight="298.0" fitWidth="155.0" layoutX="761.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <image>
-                <Image url="@../graphicassets/weapons/electroscythe.png"/>
+                <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <Button fx:id="weaponButton0" disable="true" layoutX="194.0" layoutY="186.0" mnemonicParsing="false"
-                onAction="#pressedWeapon0" prefHeight="262.0" prefWidth="155.0"
-                style="-fx-border-color: red; -fx-background-color: transparent;" visible="false"/>
-        <Button fx:id="weaponButton1" disable="true" layoutX="477.0" layoutY="186.0" mnemonicParsing="false"
-                onAction="#pressedWeapon1" prefHeight="262.0" prefWidth="155.0"
-                style="-fx-border-color: red; -fx-background-color: transparent;" visible="false"/>
-        <Button fx:id="weaponButton2" disable="true" layoutX="761.0" layoutY="186.0" mnemonicParsing="false"
-                onAction="#pressedWeapon2" prefHeight="262.0" prefWidth="155.0"
-                style="-fx-border-color: red; -fx-background-color: transparent;" visible="false"/>
-        <Label fx:id="title" layoutX="507.0" layoutY="63.0" text="Label" textFill="WHITE">
-            <font>
-                <Font size="41.0"/>
-            </font>
-        </Label>
+        <Button fx:id="weaponButton0" disable="true" layoutX="194.0" layoutY="186.0" mnemonicParsing="false" onAction="#pressedWeapon0" prefHeight="262.0" prefWidth="155.0" style="-fx-border-color: red; -fx-background-color: transparent;" visible="false" />
+        <Button fx:id="weaponButton1" disable="true" layoutX="477.0" layoutY="186.0" mnemonicParsing="false" onAction="#pressedWeapon1" prefHeight="262.0" prefWidth="155.0" style="-fx-border-color: red; -fx-background-color: transparent;" visible="false" />
+        <Button fx:id="weaponButton2" disable="true" layoutX="761.0" layoutY="186.0" mnemonicParsing="false" onAction="#pressedWeapon2" prefHeight="262.0" prefWidth="155.0" style="-fx-border-color: red; -fx-background-color: transparent;" visible="false" />
     </children>
 </AnchorPane>
