@@ -38,6 +38,7 @@ public abstract class WeaponCard extends ActivableCard {
 	List<Player> currentTargets;
 	Player target;
 	private boolean loaded;
+	private List<Player> playersHit;
 
 
 	public WeaponCard(JsonObject parameters) {
@@ -190,6 +191,11 @@ public abstract class WeaponCard extends ActivableCard {
 		concludeActivation();
 	}
 
+	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
+		List<Player> list = Arrays.asList(playersToShoot);
+		dealDamageAndConclude(damagesAndMarks, list);
+	}
+
 	/**
 	 * This method will be called by the damage-dealer methods of the weapons.
 	 * The two arrays are ordered in such a way that the i-th playerToShoot will be dealt the i-th damageAndMark.
@@ -204,6 +210,9 @@ public abstract class WeaponCard extends ActivableCard {
 		for (int i = 0; i < playersToShoot.size(); i++) {
 			if (playersToShoot.get(i) != null) {
 				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
+				if (damagesAndMarks.get(i).getDamage() >= 1) {
+					playersHit.add(playersToShoot.get(i));
+				}
 				playersToShoot.get(i).addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
 			}
 		}
@@ -245,6 +254,7 @@ public abstract class WeaponCard extends ActivableCard {
 		this.enemyRelocationDone = false;
 		this.currentTargets = new ArrayList<>();
 		this.target = null;
+		this.playersHit = new ArrayList<>();
 	}
 
 	protected List<DamageAndMarks> getStandardDamagesAndMarks() {
@@ -267,11 +277,6 @@ public abstract class WeaponCard extends ActivableCard {
 		return maximumSteps;
 	}
 
-	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
-		List<Player> list = Arrays.asList(playersToShoot);
-		dealDamageAndConclude(damagesAndMarks, list);
-	}
-
 	protected QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO() {
 		currentTargets = getPrimaryTargets();
 		return getTargetPlayersQnO(currentTargets);
@@ -285,6 +290,9 @@ public abstract class WeaponCard extends ActivableCard {
 		getGameMap().movePlayerTo(getOwner(), coordinates);
 	}
 
+	public List<Player> getPlayersHit() {
+		return new ArrayList<>(playersHit);
+	}
 
 	// ####################################
 	// OVERRIDDEN METHODS
