@@ -121,10 +121,6 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		return (canPrimaryBeActivated() || canSecondaryBeActivated()) && isLoaded();
 	}
 
-	int getMaximumAlternateSteps() {
-		return maximumAlternateSteps;
-	}
-
 	boolean isAlternateFireActive() {
 		return alternateFireActive;
 	}
@@ -136,5 +132,14 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 
 	protected boolean canSecondaryBeActivated() {
 		return !getSecondaryTargets().isEmpty() && getOwner().hasEnoughAmmo(secondaryPrice);
+	}
+
+	@Override
+	public List<AmmoType> getFiringCost() {
+		if (isAlternateFireActive()) {
+			return new ArrayList<>(secondaryPrice);
+		} else {
+			return new ArrayList<>();
+		}
 	}
 }

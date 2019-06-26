@@ -146,10 +146,6 @@ public abstract class WeaponCard extends ActivableCard {
 		return getGameBoard().getGameMap();
 	}
 
-//	public void getAvailableOptions(){
-//		Utils.logInfo(getDescription());
-//	}
-
 	List<Player> getAllPlayers() {
 		return getGameBoard().getPlayers();
 	}
@@ -233,6 +229,10 @@ public abstract class WeaponCard extends ActivableCard {
 	 * @return the targettable players of the primary mode of fire.
 	 */
 	public abstract List<Player> getPrimaryTargets();
+
+	public List<AmmoType> getFiringCost() {
+		return new ArrayList<>();
+	}
 
 	/**
 	 * Deloads the weapon and reset eventually modified parameters.
