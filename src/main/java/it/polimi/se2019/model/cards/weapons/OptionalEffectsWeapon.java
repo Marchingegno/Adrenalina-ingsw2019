@@ -68,23 +68,27 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		if (canAddBaseWithoutEffects()) {
 			options.add("No optional effects.");
 			choices.add(0);
+			Utils.logWeapon("Added 0 to choices.");
 		}
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			if (canAddThisOptionalEffect(i + 1) && hasOptionalEffects[i]) {
 				int j = i + 1;
 				options.add("Optional effect " + j + ".");
 				choices.add(j);
+				Utils.logWeapon("Added " + j + " to choices.");
 			}
 		}
 		//the following is hardcoded.
 		if (canAddBothOptionalEffects() && hasOptionalEffects[1]) {
 			options.add("Optional effect 1 + Optional effect 2.");
 			choices.add(12);
+			Utils.logWeapon("Added 12 to choices.");
 		}
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
 	protected void registerChoice(int choice) {
+		choices.forEach(item -> Utils.logWeapon(item.toString()));
 		switch (choices.get(choice)) {
 			case 0:
 				Utils.logWeapon("Only base effect selected.");

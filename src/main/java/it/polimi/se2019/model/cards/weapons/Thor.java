@@ -3,7 +3,6 @@ package it.polimi.se2019.model.cards.weapons;
 import com.google.gson.JsonObject;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
-import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ public class Thor extends OptionalEffectsWeapon {
 			return handleOptionalEffect1(choice);
 		} else {
 			if (getCurrentStep() == 2) {
-				currentTargets = new ArrayList<>();
 				currentTargets = getPrimaryTargets();
 				return getTargetPlayersQnO(currentTargets);
 			} else if (getCurrentStep() == 3) {
@@ -69,58 +67,12 @@ public class Thor extends OptionalEffectsWeapon {
 
 	@Override
 	public List<Player> getPrimaryTargets() {
-		//Get a target that the player can see if he has not chosen any target yet
-		//Get a target that the last player can see, except already chosen targets.
-		if (chosenTargets.isEmpty()) {
-			return getGameMap().getVisiblePlayers(getOwner());
-		} else {
-			List<Player> enemiesNotChosenSeenByLast = getGameMap().getVisiblePlayers(chosenTargets.get(chosenTargets.size() - 1));
-			enemiesNotChosenSeenByLast.removeAll(chosenTargets);
-			enemiesNotChosenSeenByLast.remove(getOwner());
-			return enemiesNotChosenSeenByLast;
-		}
+		return getGameMap().getVisiblePlayers(getOwner());
 	}
 
 	@Override
 	public void primaryFire() {
 		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
-	}
-
-	@Override
-	public QuestionContainer initialQuestion() {
-		String question = "Which optional effect do you want to activate?";
-		List<String> options = new ArrayList<>();
-		options.add("No optional effects.");
-
-		//Can add optionalEffect 1?
-		if (canAddThisOptionalEffect(1)) {
-			options.add("Optional effect 1.");
-		}
-		//Can add optionalEffect 1 + 2?
-		if (canAddBothOptionalEffects()) {
-			options.add("Optional effect 1 + Optional effect 2.");
-		}
-		return QuestionContainer.createStringQuestionContainer(question, options);
-	}
-
-	@Override
-	protected void registerChoice(int choice) {
-		//The choice 3 can't be made because of the overrided "initialQuestion".
-		if (choice == 3) {
-			Utils.logError("Thor: received wrong choice number (3).", new IllegalArgumentException());
-		}
-
-		//If the choice is 2, the player has chosen both optional effects.
-		if (choice == 2) {
-			super.registerChoice(3);
-		} else {
-			super.registerChoice(choice);
-		}
-	}
-
-	@Override
-	protected boolean canFireOptionalEffect1() {
-		return isThereAChainOfTwoPlayers();
 	}
 
 	private List<List<Player>> getChainOfTwoPlayers() {
@@ -171,11 +123,6 @@ public class Thor extends OptionalEffectsWeapon {
 		return !getChainOfTwoPlayers().isEmpty();
 	}
 
-	@Override
-	protected boolean canFireBothOptionalEffects() {
-		return isThereAChainOfThreePlayers();
-	}
-
 	private QuestionContainer getChainPlayerQnO(List<List<Player>> chains) {
 		String question = "Which group of player do you want to target?";
 		List<String> options = new ArrayList<>();
@@ -192,6 +139,20 @@ public class Thor extends OptionalEffectsWeapon {
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
+	@Override
+	protected boolean canFireOptionalEffect1() {
+		return isThereAChainOfTwoPlayers();
+	}
+
+	@Override
+	protected boolean canFireBothOptionalEffects() {
+		return isThereAChainOfThreePlayers();
+	}
+
+	@Override
+	protected boolean canFireOptionalEffect2() {
+		return false;
+	}
 
 	@Override
 	public void reset() {
