@@ -133,7 +133,9 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	protected static boolean isThisChoiceRefusal(List listToCheck, int choice) {
-		Utils.logWeapon("The player refused.");
+		if (choice == listToCheck.size()) {
+			Utils.logWeapon("The player refused.");
+		}
 		return choice == listToCheck.size();
 	}
 
