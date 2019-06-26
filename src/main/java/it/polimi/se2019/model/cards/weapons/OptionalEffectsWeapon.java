@@ -242,4 +242,21 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return canFireOptionalEffect1() && canFireOptionalEffect2();
 	}
 
+	@Override
+	public List<AmmoType> getFiringCost() {
+		List<AmmoType> firingCost = new ArrayList<>();
+		if (isOptionalActive(1)) {
+			if (optional1Price != null) {
+				firingCost.add(optional1Price);
+			}
+		}
+
+		if (isOptionalActive(2)) {
+			if (optional2Price != null) {
+				firingCost.add(optional2Price);
+			}
+		}
+
+		return firingCost;
+	}
 }
