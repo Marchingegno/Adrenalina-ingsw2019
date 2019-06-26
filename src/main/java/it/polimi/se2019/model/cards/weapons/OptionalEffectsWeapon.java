@@ -149,8 +149,13 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		}
 	}
 
+	@Override
+	protected boolean canPrimaryBeActivated() {
+		return canAddBaseWithoutEffects();
+	}
+
 	protected boolean canAddBaseWithoutEffects() {
-		return true;
+		return !getPrimaryTargets().isEmpty();
 	}
 
 	private void optionalReset() {

@@ -135,6 +135,6 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	}
 
 	protected boolean canSecondaryBeActivated() {
-		return !getSecondaryTargets().isEmpty();
+		return !getSecondaryTargets().isEmpty() && getOwner().hasEnoughAmmo(secondaryPrice);
 	}
 }

@@ -184,14 +184,6 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected boolean canAddBaseWithoutEffects() {
-		//If there's no people on your square, you can't fire only base effect.
-		List<Player> playersOnMySquare = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner()));
-		playersOnMySquare.remove(getOwner());
-		return !playersOnMySquare.isEmpty();
-	}
-
-	@Override
 	public void reset() {
 		super.reset();
 		secondTarget = null;

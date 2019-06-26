@@ -5,6 +5,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	private List<Coordinates> getBeforeBaseExtraCoordinates() {
 		//Only coordinates in which there are at least 1 visible player (except owner) not in the same coordinate..
 		List<Coordinates> twoMoveAwayCoordinates = getGameMap().reachableCoordinates(getOwner(), getMoveDistance());
+		Utils.logWeapon("Two move away coordinates");
 		List<Coordinates> coordWithVisiblePlayers = new ArrayList<>();
 		for (Coordinates coordinates : twoMoveAwayCoordinates) {
 			List<Player> visiblePlayers = getGameMap().getVisiblePlayers(coordinates);
@@ -88,8 +90,28 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	}
 
 	@Override
+	protected boolean canPrimaryBeActivated() {
+		return !getPrimaryTargets().isEmpty() || !getBeforeBaseExtraCoordinates().isEmpty();
+	}
+
+	@Override
 	public void primaryFire() {
 		dealDamageAndConclude(standardDamagesAndMarks, target);
+	}
+
+	@Override
+	protected boolean canFireOptionalEffect1() {
+		return true;
+	}
+
+	@Override
+	protected boolean canFireOptionalEffect2() {
+		return canAddBaseWithoutEffects();
+	}
+
+	@Override
+	protected boolean canFireBothOptionalEffects() {
+		return true;
 	}
 
 	private List<Coordinates> getAfterBaseExtraCoordinates() {
