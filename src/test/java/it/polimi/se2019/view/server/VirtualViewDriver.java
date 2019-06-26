@@ -86,7 +86,7 @@ public class VirtualViewDriver extends VirtualView {
 		int randomIndex = new Random().nextInt(possibleAnswers.size());
 		int answer = possibleAnswers.get(randomIndex);
 		if (answer == i + 1) // If answer is powerup.
-			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER));
+			sendMessageToController(new Message(MessageType.ACTIVATE_ON_TURN_POWERUP, MessageSubtype.ANSWER));
 		else
 			sendMessageToController(new IntMessage(answer, MessageType.ACTION, MessageSubtype.ANSWER));
 	}
@@ -148,6 +148,17 @@ public class VirtualViewDriver extends VirtualView {
 	}
 
 	@Override
+	public void askOnDamagePowerupActivation(List<Integer> activablePowerups, String shootingPlayer) {
+		int randomIndex = new Random().nextInt(activablePowerups.size() + 1);
+		if(randomIndex == activablePowerups.size()) {
+			Utils.logInfo("VirtualViewDriver -> askOnDamagePowerupActivation(): created random answer for on damage powerup activation: -1");
+			sendMessageToController(new IntMessage(-1, MessageType.POWERUP, MessageSubtype.ANSWER));
+		} else {Utils.logInfo("VirtualViewDriver -> askOnDamagePowerupActivation(): created random answer for on damage powerup activation: " + activablePowerups.get(randomIndex));
+			sendMessageToController(new IntMessage(activablePowerups.get(randomIndex), MessageType.POWERUP, MessageSubtype.ANSWER));
+		}
+	}
+
+	@Override
 	public void askPowerupChoice(QuestionContainer questionContainer) {
 		askQuestionContainerAndSendAnswer(questionContainer, MessageType.POWERUP);
 	}
@@ -176,8 +187,8 @@ public class VirtualViewDriver extends VirtualView {
 
 		// Powerup.
 		else if (randomNumber == 2) {
-			Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: ACTIVATE_POWERUP");
-			sendMessageToController(new Message(MessageType.ACTIVATE_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
+			Utils.logInfo("VirtualViewDriver -> askEnd(): created random answer for End: ACTIVATE_ON_TURN_POWERUP");
+			sendMessageToController(new Message(MessageType.ACTIVATE_ON_TURN_POWERUP, MessageSubtype.ANSWER)); // Powerup activation.
 		}
 	}
 
