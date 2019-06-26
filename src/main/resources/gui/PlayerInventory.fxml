@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="1197.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.client.gui.PlayerInventoryController">
@@ -271,5 +272,8 @@
                 <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png" />
             </image>
         </ImageView>
+      <Circle fx:id="loaded0" fill="#1fff51" layoutX="401.0" layoutY="376.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="loaded1" fill="#1fff51" layoutX="914.0" layoutY="376.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="loaded2" fill="#1fff51" layoutX="659.0" layoutY="375.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
     </children>
 </AnchorPane>
