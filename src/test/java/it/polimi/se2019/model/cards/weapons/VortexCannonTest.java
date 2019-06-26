@@ -9,6 +9,9 @@ import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,47 +23,58 @@ import static org.junit.Assert.assertTrue;
 
 
 public class VortexCannonTest {
+	private static String name = "VortexCannon";
 	private WeaponCard vortexCannon;
 	private GameMap gameMap;
 	private Model model;
 	private List<Player> players;
 
-	//@Before
-	public void setUp() throws Exception {
+	@Before
+	public void setUp() {
 		//The first player is the shooter.
 		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/Weapon.json")));
-		JsonArray weapons = new JsonParser().parse(reader).getAsJsonArray();
+		JsonArray weapons = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("weapons");
 		for (JsonElement weapon : weapons) {
-			if (weapon.getAsJsonObject().get("className").getAsString().equals(VortexCannon.class.getName())) {
+			if (weapon.getAsJsonObject().get("className").getAsString().equals(name)) {
+				Utils.logWeapon("Found vortex cannon");
 				vortexCannon = new VortexCannon(weapon.getAsJsonObject());
 				break;
 			}
 		}
 
 		List<String> playerNicknames = new ArrayList<>();
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 5; i++) {
 			playerNicknames.add("Player " + i);
 		}
 
 		model = new Model(GameConstants.MapType.SMALL_MAP.getMapName(), playerNicknames, 8);
+		vortexCannon.setGameBoard(model.getGameBoard());
+
 
 		gameMap = model.getGameBoard().getGameMap();
 		players = model.getGameBoard().getPlayers();
 		gameMap.movePlayerTo(players.get(0), new Coordinates(2, 1));
 		gameMap.movePlayerTo(players.get(1), new Coordinates(1, 1));
 		gameMap.movePlayerTo(players.get(2), new Coordinates(1, 0));
+		gameMap.movePlayerTo(players.get(3), new Coordinates(1, 2));
 		vortexCannon.setOwner(players.get(0));
 	}
 
-	//@Test
+	@Test
 	public void primaryFireShooting_correctBehaviour() {
-		//Without optional effects.
-		QuestionContainer initialQuestion = vortexCannon.initialQuestion();
-		//Select standard fire.
-		QuestionContainer vortexCoordinates = vortexCannon.doActivationStep(0);
+		//With optional effect.
+		QuestionContainer initialQuestion = vortexCannon.doActivationStep(0);
+		//Select optional effect 1.
+		QuestionContainer vortexCoordinates = vortexCannon.doActivationStep(initialQuestion.getOptions().indexOf("Optional effect 1."));
 		//Select vortex coordinates (1,1).
-		assertTrue(vortexCoordinates.getCoordinates().get(0).toString().equals("(1,1)"));
-		vortexCannon.doActivationStep(0);
+//		assertEquals("(1,1)", vortexCoordinates.getCoordinates().get(0).toString());
+		QuestionContainer targets = vortexCannon.doActivationStep(vortexCoordinates.getCoordinates().indexOf(new Coordinates(1, 1)));
+		while (!vortexCannon.isActivationConcluded()) {
+			targets.getOptions().forEach(Utils::logWeapon);
+			targets = vortexCannon.doActivationStep(0);
+		}
+
+		assertTrue(vortexCannon.getPlayersHit().size() >= 3);
 	}
 
 
