@@ -379,7 +379,7 @@ public class GUIView extends RemoteView {
 			}
 			powerupChoiceController.activateNoPowerupButton(false);
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
-			powerupChoiceController.setTitle("Choose powerup to discard in order to spawn");
+			powerupChoiceController.setTitle("Choose a powerup to discard in order to spawn");
 			powerupChoiceStage.show();
 		});
 	}
@@ -399,7 +399,7 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() -> {
 			List<AmmoType> priceToPay = new ArrayList<>(price);
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
-			powerupChoiceController.setTitle("Choose powerup to discard to pay");
+			powerupChoiceController.setTitle("Choose a powerup to discard to pay");
 			List<Integer> usablePowerups = new ArrayList<>();
 			List<Integer> answer = new ArrayList<>();
 			List<PowerupCardRep> playerPowerups = getModelRep().getClientPlayerRep().getPowerupCards();

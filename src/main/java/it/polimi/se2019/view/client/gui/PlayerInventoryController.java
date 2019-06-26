@@ -391,10 +391,6 @@ public class PlayerInventoryController {
         }
     }
 
-    public void setSkulls() {
-
-    }
-
     private Image loadImage(String filePath) {
         System.out.println("Loading: " + "/graphicassets/" + filePath + ".png");
         return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
