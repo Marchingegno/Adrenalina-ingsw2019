@@ -193,6 +193,6 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	@Override
 	protected boolean canSecondaryBeActivated() {
-		return canPrimaryBeActivated();
+		return canPrimaryBeActivated() && getOwner().hasEnoughAmmo(secondaryPrice);
 	}
 }

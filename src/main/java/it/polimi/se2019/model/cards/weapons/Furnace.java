@@ -122,7 +122,7 @@ public class Furnace extends AlternateFireWeapon {
 	@Override
 	protected boolean canSecondaryBeActivated() {
 		//There's at least one square next to the player with enemies in it.
-		return !getSecondaryCoordinates().isEmpty();
+		return !getSecondaryCoordinates().isEmpty() && getOwner().hasEnoughAmmo(secondaryPrice);
 	}
 
 	@Override

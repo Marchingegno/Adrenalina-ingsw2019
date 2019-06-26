@@ -81,7 +81,7 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 			options.add("Standard fire.");
 			Utils.logWeapon(this.getCardName() + ": added Standard fire to the options.");
 		}
-		if (canSecondaryBeActivated() && getOwner().hasEnoughAmmo(secondaryPrice)) {
+		if (canSecondaryBeActivated()) {
 			options.add("Alternate fire.");
 			Utils.logWeapon(this.getCardName() + ": added Alternate fire to the options.");
 		}
