@@ -277,22 +277,28 @@ public class CLIView extends RemoteView {
 
 		int choice = -1;
 		boolean canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(price);
-		int numOfOptions = 1;
+		int numOfOptions = 0;
+		int index = 1;
 
 		printLine("Which powerup you want to discard to pay?");
-		if (canAffordAlsoWithOnlyAmmo)
+		if (canAffordAlsoWithOnlyAmmo){
 			printLine("0) End payment");
+			numOfOptions++;
+		}
+
+
 		for (int i = 0; i < playerPowerups.size(); i++) {
 			if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
-				printLine((numOfOptions) + ") " + repPrinter.getPowerupRepString(playerPowerups.get(i)));
+				printLine((index) + ") " + repPrinter.getPowerupRepString(playerPowerups.get(i)));
 				usablePowerups.add(i);
 				numOfOptions++;
+				index++;
 			}
 		}
 
 		while (!usablePowerups.isEmpty() && choice != 0) {
 			Utils.logInfo("CLIView -> askToPay: price " + priceToPay + " with  " + remainingPowerups);
-			choice = askInteger(canAffordAlsoWithOnlyAmmo ? 0 : 1, numOfOptions);
+			choice = askInteger(canAffordAlsoWithOnlyAmmo ? 0 : 1, numOfOptions - (canAffordAlsoWithOnlyAmmo ? 1 : 0));
 			if (choice != 0) {
 				Utils.logInfo("CLIView -> askToPay(): player has chosen " + playerPowerups.get(usablePowerups.get(choice - 1)) + " index of the usable powerups " + (choice - 1));
 				Utils.logInfo("CLIView -> askToPay(): removing from price " + playerPowerups.get(usablePowerups.get(choice - 1)).getAssociatedAmmo());
@@ -301,15 +307,19 @@ public class CLIView extends RemoteView {
 				answer.add(usablePowerups.get(choice - 1));
 				remainingPowerups.remove(playerPowerups.get(usablePowerups.get(choice - 1)));
 				usablePowerups = new ArrayList<>();
-				numOfOptions = 1;
+				numOfOptions = 0;
+				index = 1;
 				canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(priceToPay);
-				if (canAffordAlsoWithOnlyAmmo)
+				if (canAffordAlsoWithOnlyAmmo){
+					numOfOptions++;
 					printLine("0) End payment");
+				}
 				for (int i = 0; i < playerPowerups.size(); i++) {
 					if (remainingPowerups.contains(playerPowerups.get(i)) && priceToPay.contains(playerPowerups.get(i).getAssociatedAmmo())) {
 						usablePowerups.add(i);
-						printLine((numOfOptions) + ") " + repPrinter.getPowerupRepString(playerPowerups.get(i)));
+						printLine((index) + ") " + repPrinter.getPowerupRepString(playerPowerups.get(i)));
 						numOfOptions++;
+						index++;
 					}
 				}
 			} else
