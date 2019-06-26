@@ -124,8 +124,7 @@ public class GameBoard extends Observable implements Representable {
 	 * @return a copy of the list of all the players.
 	 */
 	public List<Player> getPlayers() {
-		List<Player> playersToReturn = new ArrayList<>();
-		playersToReturn.addAll(players);
+		List<Player> playersToReturn = new ArrayList<>(players);
 		return playersToReturn;
 	}
 
