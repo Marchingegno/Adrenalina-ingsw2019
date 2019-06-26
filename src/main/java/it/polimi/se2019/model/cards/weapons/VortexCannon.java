@@ -21,7 +21,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		hasOptionalEffects[1] = false;
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+		this.standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 	}
 
 	private static QuestionContainer getVortexQnO(List<Coordinates> possibleVortexCoordinates) {

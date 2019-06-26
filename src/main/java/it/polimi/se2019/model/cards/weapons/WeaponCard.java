@@ -9,6 +9,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -132,6 +133,7 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	protected static boolean isThisChoiceRefusal(List listToCheck, int choice) {
+		Utils.logWeapon("The player refused.");
 		return choice == listToCheck.size();
 	}
 
