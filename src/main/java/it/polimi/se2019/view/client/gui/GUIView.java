@@ -55,6 +55,10 @@ public class GUIView extends RemoteView {
 	private Scene askStringScene;
 	private Stage askStringStage;
 
+	private EndGameController endGameController;
+	private Scene endGameScene;
+	private Stage endGameStage;
+
 	private Stage window;
 
 	//TO REMOVE
@@ -73,6 +77,7 @@ public class GUIView extends RemoteView {
 		loadPowerupChoice();
 		loadWeaponChoice();
 		loadAskString();
+		loadEndGame();
 	}
 
 	public void loadLoginController() {
@@ -185,6 +190,21 @@ public class GUIView extends RemoteView {
 			});
 		} catch (IOException e) {
 			Utils.logError("Error loading askString", e);
+		}
+	}
+
+	public void loadEndGame() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/EndGame.fxml"));
+		try {
+			Parent root = loader.load();
+			endGameStage = new Stage();
+			endGameScene = new Scene(root);
+			endGameStage.setTitle("Adrenaline");
+			endGameStage.setResizable(false);
+			endGameStage.setScene(endGameScene);
+			endGameController = loader.getController();
+		} catch (IOException e) {
+			Utils.logError("Error loading endGame", e);
 		}
 	}
 
@@ -396,7 +416,10 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void endOfGame(List<PlayersPosition> finalPlayersInfo) {
-
+		Platform.runLater(() -> {
+			endGameController.setValues(endGameStage, finalPlayersInfo);
+			endGameStage.show();
+		});
 	}
 
 	@Override
