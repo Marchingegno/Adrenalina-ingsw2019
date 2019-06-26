@@ -166,7 +166,7 @@ public class CLIView extends RemoteView {
 		}
 		indexOfTheWeaponToGrab = askIntegerFromList(indexesOfTheGrabbableWeapons, -1);
 
-		printLine("Select the weapon to Discard:");
+		printLine("Select the weapon to discard:");
 		for (int i = 0; i < weaponsOfThePlayer.size(); i++) {
 			printLine((i + 1) + ") " + repPrinter.getWeaponRepString(weaponsOfThePlayer.get(i)));
 		}

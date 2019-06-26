@@ -1,6 +1,4 @@
 {
-	"weapons": [
-      {
         "weapons": [
           {
             "className": "LockRifle",
@@ -370,6 +368,4 @@
             "secondaryMarks": 0
           }
         ]
-      }
-    ]
 }

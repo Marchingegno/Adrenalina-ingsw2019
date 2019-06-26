@@ -1,7 +1,9 @@
 package it.polimi.se2019.view.client.gui;
 
+import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
+import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
@@ -238,12 +240,6 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() ->
 				lobbyController.stopTimer()
 		);
-
-//		if(waitingRoomFrame == null)
-//			showWaitingRoomFrame();
-//
-//		timerTextWaitingRoom.setText("Timer for starting the match cancelled.");
-//		waitingRoomFrame.pack();
 	}
 
 	@Override
@@ -257,8 +253,6 @@ public class GUIView extends RemoteView {
 			window.setScene(mapAndSklullsScene);
 			window.show();
 		});
-//		closeWaitingRoomFrame();
-//		showGameConfigFrame();
 	}
 
 	@Override
@@ -302,15 +296,6 @@ public class GUIView extends RemoteView {
 				gameBoardController.highlightCoordinates(questionContainer.getCoordinates(), Request.CHOOSE, messageType);
 			}
 		});
-
-//		else if (questionContainer.isAskCoordinates()) {
-//			// Coordinates question.
-//			repPrinter.displayGame(questionContainer.getCoordinates());
-//			priLine(questionContainer.getQuestion());
-//			Coordinates coordinates = askCoordinates(questionContainer.getCoordinates());
-//			answer = questionContainer.getCoordinates().indexOf(coordinates);
-//		}
-//		sendMessage(new IntMessage(answer, messageType, MessageSubtype.ANSWER));
 	}
 
 	@Override
@@ -337,7 +322,27 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askSwapWeapon(List<Integer> indexesOfTheGrabbableWeapons) {
+		Platform.runLater(() -> {
+			int indexOfTheWeaponToDiscard;
+			int indexOfTheWeaponToGrab;
+			List<WeaponRep> weaponsInSpawn = new ArrayList<>();
+			for (CardRep card :getModelRep().getGameMapRep().getPlayerSquare(getNickname()).getCards()) {
+				weaponsInSpawn.add((WeaponRep)card);	
+			}
+			List<WeaponRep> weaponsOfThePlayer = getModelRep().getClientPlayerRep().getWeaponReps();
+			List<Integer> discardableWeapons = new ArrayList<>();
+			for (int i = 0; i < weaponsOfThePlayer.size(); i++) {
+				discardableWeapons.add(i);
+			}
 
+			weaponChoiceController.setTitle("Select the weapon to grab");
+			weaponChoiceController.setWeaponsToChoose(indexesOfTheGrabbableWeapons, weaponsInSpawn, Request.CHOOSE_INT);
+			indexOfTheWeaponToGrab = weaponChoiceController.askWeapon();
+			weaponChoiceController.setTitle("Select the weapon to discard");
+			weaponChoiceController.setWeaponsToChoose(discardableWeapons, weaponsOfThePlayer, Request.CHOOSE_INT);
+			indexOfTheWeaponToDiscard = weaponChoiceController.askWeapon();
+			sendMessage(new SwapMessage(indexOfTheWeaponToGrab, indexOfTheWeaponToDiscard, MessageType.SWAP_WEAPON));
+		});
 	}
 
 	@Override

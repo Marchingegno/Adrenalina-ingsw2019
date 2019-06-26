@@ -33,9 +33,12 @@ public class WeaponChoiceController {
 	private Stage stage;
 	private Request request;
 	private List<WeaponRep> weaponReps;
+	private int answer;
 
 	@FXML
 	public void pressedWeapon0() {
+		if(request == Request.CHOOSE_INT)
+			answer = 0;
 		if (request == Request.RELOAD)
 			guiView.sendMessage(new IntMessage(0, MessageType.RELOAD, MessageSubtype.ANSWER));
 		else
@@ -45,6 +48,8 @@ public class WeaponChoiceController {
 
 	@FXML
 	public void pressedWeapon1() {
+		if(request == Request.CHOOSE_INT)
+			answer = 1;
 		if (request == Request.RELOAD)
 			guiView.sendMessage(new IntMessage(1, MessageType.RELOAD, MessageSubtype.ANSWER));
 		else
@@ -54,6 +59,8 @@ public class WeaponChoiceController {
 
 	@FXML
 	public void pressedWeapon2() {
+		if(request == Request.CHOOSE_INT)
+			answer = 2;
 		if (request == Request.RELOAD)
 			guiView.sendMessage(new IntMessage(2, MessageType.RELOAD, MessageSubtype.ANSWER));
 		else
@@ -107,6 +114,11 @@ public class WeaponChoiceController {
 			weaponButton2.setVisible(false);
 			weaponButton2.setDisable(true);
 		}
+	}
+
+	public int askWeapon(){
+		stage.showAndWait();
+		return answer;
 	}
 
 	public void setTitle(String title) {
