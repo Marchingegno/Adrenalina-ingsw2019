@@ -25,6 +25,7 @@ public class PlayerRep implements Representation {
 	private Color.CharacterColorType playerColor;
 	private int points;
 	private int playerID;
+	private int deaths;
 	private List<Color.CharacterColorType> damageBoard;
 	private List<Color.CharacterColorType> marks;
 	private DamageStatusRep damageStatusRep;
@@ -33,6 +34,7 @@ public class PlayerRep implements Representation {
 	private int[] ammo;
 	private boolean connected;
 	private boolean hidden;
+	private boolean flippedBoard;
 	private String pgName;
 
 
@@ -74,7 +76,9 @@ public class PlayerRep implements Representation {
 			ammo[ammoType.ordinal()] = player.getPlayerBoard().getAmmoContainer().getAmmo(ammoType);
 		}
 
+		this.flippedBoard = player.getPlayerBoard().isFlipped();
 		this.pgName = player.getPgName();
+		this.deaths = player.getPlayerBoard().getNumberOfDeaths();
 
 		connected = player.isConnected();
 
@@ -108,6 +112,8 @@ public class PlayerRep implements Representation {
 			if (weaponRep.isLoaded())
 				newPlayerRep.weaponReps.add(weaponRep);
 		}
+		newPlayerRep.deaths = deaths;
+		newPlayerRep.flippedBoard = flippedBoard;
 		newPlayerRep.ammo = this.ammo.clone();
 		newPlayerRep.connected = this.connected;
 		newPlayerRep.hidden = true;
@@ -125,7 +131,16 @@ public class PlayerRep implements Representation {
 	}
 
 	/**
-	 * Return the player name.
+	 * Returns true if the bord is flipped.
+	 *
+	 * @return true if the board id flipped.
+	 */
+	public boolean isFlippedBoard() {
+		return flippedBoard;
+	}
+
+	/**
+	 * Returns the player name.
 	 *
 	 * @return the player name.
 	 */
@@ -134,7 +149,7 @@ public class PlayerRep implements Representation {
 	}
 
 	/**
-	 * Return the pg name.
+	 * Returns the pg name.
 	 *
 	 * @return the pg name.
 	 */
@@ -143,7 +158,7 @@ public class PlayerRep implements Representation {
 	}
 
 	/**
-	 * Return the player ID.
+	 * Returns the player ID.
 	 *
 	 * @return the player ID.
 	 */
@@ -164,12 +179,26 @@ public class PlayerRep implements Representation {
 		return playerColor;
 	}
 
+	/**
+	 * Returns the number of deaths
+	 *
+	 * @return the number of deaths.
+	 */
+	public int getPlayerDeaths() {
+		return deaths;
+	}
+
+	/**
+	 * Returns the list of player's weapons.
+	 *
+	 * @return the list of player's weapons.
+	 */
 	public List<WeaponRep> getWeaponReps() {
 		return weaponReps;
 	}
 
 	/**
-	 * Return the damage status representation.
+	 * Returns the damage status representation.
 	 *
 	 * @return the damage status representation.
 	 */

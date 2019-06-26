@@ -116,7 +116,7 @@ public class PlayerInventoryController {
     @FXML
     private ImageView marks42;
 
-
+    private List<ImageView> skulls = new ArrayList<>();
     @FXML
     private ImageView skull0;
     @FXML
@@ -125,6 +125,10 @@ public class PlayerInventoryController {
     private ImageView skull2;
     @FXML
     private ImageView skull3;
+    @FXML
+    private ImageView skull4;
+    @FXML
+    private ImageView skull5;
 
     @FXML
     private Circle loaded0;
@@ -170,17 +174,21 @@ public class PlayerInventoryController {
         marksTokens.add(damageToken9);
         marksTokens.add(damageToken10);
         marksTokens.add(damageToken11);
+
+        skulls.add(skull0);
+        skulls.add(skull1);
+        skulls.add(skull2);
+        skulls.add(skull3);
+        skulls.add(skull4);
+        skulls.add(skull5);
+
         setNickname(playerRep.getPlayerName());
         setPoints(playerRep.getPoints());
-        setPlayerBoard(playerRep.getPgName(), false); //TODO set correct player board if in frenzy
+        setPlayerBoard(playerRep.getPgName(), playerRep.isFlippedBoard());
         setAmmoContainer(playerRep);
         setDamageToken(playerRep.getDamageBoard());
         setMarks(playerRep.getMarks());
 
-        List<String> weaponsPath = new ArrayList<>();
-        for (WeaponRep weaponRep : playerRep.getWeaponReps()) {
-            weaponsPath.add("weapons/" + weaponRep.getImagePath());
-        }
         setWeapons(playerRep.getWeaponReps());
 
         List<String> powerupsPath = new ArrayList<>();
@@ -190,6 +198,10 @@ public class PlayerInventoryController {
             }
         }
         setPowerups(powerupsPath);
+
+        for (int i  = 0; i < skulls.size(); i++) {
+            skulls.get(i).setVisible(i < playerRep.getPlayerDeaths());
+        }
 
     }
 
