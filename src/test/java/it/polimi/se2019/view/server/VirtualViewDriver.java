@@ -1,6 +1,6 @@
 package it.polimi.se2019.view.server;
 
-import it.polimi.se2019.GameTester;
+import it.polimi.se2019.ControllerTest;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
@@ -142,9 +142,15 @@ public class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void askPowerupActivation(List<Integer> activablePowerups) {
-		int randomIndex = new Random().nextInt(activablePowerups.size());
-		Utils.logInfo("VirtualViewDriver -> askPowerupActivation(): created random answer for powerup activation: " + activablePowerups.get(randomIndex));
-		sendMessageToController(new IntMessage(activablePowerups.get(randomIndex), MessageType.POWERUP, MessageSubtype.ANSWER));
+		int randomIndex = new Random().nextInt(activablePowerups.size() + 1);
+		if(randomIndex == activablePowerups.size()) {
+			Utils.logInfo("VirtualViewDriver -> askPowerupActivation(): created random answer for powerup activation: -1");
+			sendMessageToController(new IntMessage(-1, MessageType.POWERUP, MessageSubtype.ANSWER));
+		} else {
+			Utils.logInfo("VirtualViewDriver -> askPowerupActivation(): created random answer for powerup activation: " + activablePowerups.get(randomIndex));
+			sendMessageToController(new IntMessage(activablePowerups.get(randomIndex), MessageType.POWERUP, MessageSubtype.ANSWER));
+		}
+
 	}
 
 	@Override
@@ -153,7 +159,8 @@ public class VirtualViewDriver extends VirtualView {
 		if(randomIndex == activablePowerups.size()) {
 			Utils.logInfo("VirtualViewDriver -> askOnDamagePowerupActivation(): created random answer for on damage powerup activation: -1");
 			sendMessageToController(new IntMessage(-1, MessageType.POWERUP, MessageSubtype.ANSWER));
-		} else {Utils.logInfo("VirtualViewDriver -> askOnDamagePowerupActivation(): created random answer for on damage powerup activation: " + activablePowerups.get(randomIndex));
+		} else {
+			Utils.logInfo("VirtualViewDriver -> askOnDamagePowerupActivation(): created random answer for on damage powerup activation: " + activablePowerups.get(randomIndex));
 			sendMessageToController(new IntMessage(activablePowerups.get(randomIndex), MessageType.POWERUP, MessageSubtype.ANSWER));
 		}
 	}
@@ -343,7 +350,7 @@ public class VirtualViewDriver extends VirtualView {
 
 	private boolean canTestContinue() {
 		numberOfTurns++;
-		if (numberOfTurns < GameTester.MAX_NUMBER_OF_TURNS) {
+		if (numberOfTurns < ControllerTest.MAX_NUMBER_OF_TURNS) {
 			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.YELLOW) + " TURN " + numberOfTurns + " ENDED (" + getNickname() + "'s turn) " + Color.getColoredString("##################", Color.CharacterColorType.YELLOW));
 			return true;
 		} else {
