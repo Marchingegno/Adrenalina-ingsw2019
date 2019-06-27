@@ -185,7 +185,7 @@ public class Model {
 
 		// Reset powerup.
 		if(player.isPowerupInExecution())
-			player.handlePowerupEnd();
+			handlePowerupEnd(playerName);
 
 		// Finish actions.
 		while(player.getDamageStatus().hasMacroActionLeft())
@@ -261,8 +261,10 @@ public class Model {
 		Utils.logInfo("Model -> pay(): " + playerName + " is paying the price of " + price + " with powerups " + indexesOfPowerup);
 		while (!indexesOfPowerup.isEmpty()){
 			Integer max = Collections.max(indexesOfPowerup);
-			price.remove(playerBoard.removePowerup(max).getAssociatedAmmo());
+			PowerupCard discardedPowerup = playerBoard.removePowerup(max);
+			price.remove(discardedPowerup.getAssociatedAmmo());
 			indexesOfPowerup.remove(max);
+			gameBoard.getPowerupDeck().discardCard(discardedPowerup); // Put discarded powerup in the discard deck.
 		}
 		playerBoard.getAmmoContainer().removeAmmo(price);
 		setPayed(true);
