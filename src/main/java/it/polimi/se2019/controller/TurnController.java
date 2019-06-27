@@ -195,6 +195,7 @@ public class TurnController{
 		} else {
 			if (questionContainer == null || questionContainer.isThisQuestionContainerUseless()) {
 				Utils.logWarning("This QuestionContainer is either null or useless.");
+				throw new IllegalStateException("Question container null");
 			}
 			Utils.logWeapon("Asking this question container to view:");
 			Utils.logWeapon(questionContainer.getQuestion());
