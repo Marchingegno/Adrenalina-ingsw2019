@@ -91,7 +91,7 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 
 	@Override
 	protected boolean canPrimaryBeActivated() {
-		return !getPrimaryTargets().isEmpty() || !getBeforeBaseExtraCoordinates().isEmpty();
+		return !getPrimaryTargets().isEmpty() || (!getBeforeBaseExtraCoordinates().isEmpty() && canAffordOptionalEffect1());
 	}
 
 	@Override
