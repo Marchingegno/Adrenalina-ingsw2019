@@ -531,12 +531,16 @@ public class Model {
 		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
 		List<PowerupCard> powerupCards = damagedPlayer.getPlayerBoard().getPowerupCards();
 		List<Integer> activablePowerups = new ArrayList<>();
+		Utils.logInfo("Model -> getActivableOnDamagePowerups(): checking if " + shootingPlayerName + " has activable powerups");
 
 		for (int i = 0; i < powerupCards.size(); i++) {
 			if(powerupCards.get(i).getUseCase() == PowerupCard.PowerupUseCaseType.ON_DAMAGE) {
+				Utils.logInfo("Model -> getActivableOnDamagePowerups(): checking powerup "+powerupCards.get(i));
 				powerupCards.get(i).setShootingPlayer(shootingPlayer);
-				if(powerupCards.get(i).canBeActivated())
+				if(powerupCards.get(i).canBeActivated()){
+					Utils.logInfo("Model -> getActivableOnDamagePowerups(): added "+powerupCards.get(i));
 					activablePowerups.add(i);
+				}
 				else
 					powerupCards.get(i).setShootingPlayer(null);
 			}
@@ -551,8 +555,9 @@ public class Model {
 		List<Integer> activablePowerups = new ArrayList<>();
 
 		for (int i = 0; i < powerupCards.size(); i++) {
-			if(powerupCards.get(i).getUseCase() == PowerupCard.PowerupUseCaseType.ON_TURN && powerupCards.get(i).canBeActivated())
+			if(powerupCards.get(i).getUseCase() == PowerupCard.PowerupUseCaseType.ON_TURN && powerupCards.get(i).canBeActivated()){
 				activablePowerups.add(i);
+			}
 		}
 
 		return activablePowerups;

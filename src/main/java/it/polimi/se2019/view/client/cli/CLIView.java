@@ -239,7 +239,6 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askOnDamagePowerupActivation(List<Integer> activablePowerups, String shootingPlayer) {
 		printLine("You have just been damaged by " + shootingPlayer + "!");
-		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
 		printLine("Do you want to use a powerup for revenge? [yes/no]");
 		boolean usePowerup = askBoolean();
 		if(usePowerup)

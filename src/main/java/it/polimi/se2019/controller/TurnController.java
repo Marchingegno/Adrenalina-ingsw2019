@@ -103,6 +103,7 @@ public class TurnController{
 				resolvePayment(virtualView, paymentMessage.getPowerupsUsed(), paymentMessage.getPriceToPay());
 				break;
 			case ACTIVATE_ON_TURN_POWERUP:
+				Utils.logInfo("Model -> getAc");
 				virtualView.askPowerupActivation(model.getActivableOnTurnPowerups(playerName));
 				break;
 			case POWERUP:

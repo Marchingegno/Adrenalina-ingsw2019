@@ -304,7 +304,15 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void askOnDamagePowerupActivation(List<Integer> activablePowerups, String shootingPlayer) {
-
+		Platform.runLater(() -> {
+			Utils.logInfo("GUIView -> askOnDamagePowerupActivation(): activable powerups" + activablePowerups);
+			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
+			powerupChoiceController.activatePowerupsButtons(activablePowerups);
+			powerupChoiceController.activateNoPowerupButton(true);
+			powerupChoiceController.setTitle("You have just been damaged by " + shootingPlayer + "!");
+			int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
+			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
+		});
 	}
 
 	@Override
