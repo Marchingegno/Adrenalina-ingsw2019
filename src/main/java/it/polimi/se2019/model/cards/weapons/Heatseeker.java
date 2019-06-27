@@ -14,7 +14,6 @@ public class Heatseeker extends WeaponCard {
 		super(parameters);
 		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.maximumSteps = 2;
 	}
 
 	@Override

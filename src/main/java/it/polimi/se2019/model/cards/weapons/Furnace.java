@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
+import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +23,13 @@ public class Furnace extends AlternateFireWeapon {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumAlternateSteps = 3;
-		this.maximumSteps = 3;
 	}
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 2) {
 			targettableCoordinates = getPrimaryCoordinates();
+			targettableCoordinates.forEach(coordinates -> Utils.logWeapon(coordinates.toString()));
 			return getTargetCoordinatesQnO(targettableCoordinates);
 		} else if (getCurrentStep() == 3) {
 			targetCoordinate = targettableCoordinates.get(choice);

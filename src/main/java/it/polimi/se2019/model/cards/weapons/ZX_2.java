@@ -21,7 +21,6 @@ public class ZX_2 extends AlternateFireWeapon {
 		for (int i = 0; i < 3; i++) {
 			this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		}
-		this.maximumSteps = 3;
 	}
 
 

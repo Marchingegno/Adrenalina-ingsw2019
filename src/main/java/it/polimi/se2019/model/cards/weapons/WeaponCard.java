@@ -32,7 +32,6 @@ public abstract class WeaponCard extends ActivableCard {
 	private final int moveDistance; //Standard move for relocation of the player.
 	private final int primaryDamage;
 	private final int primaryMarks;
-	int maximumSteps; //Maximum advancement steps.
 	boolean relocationDone; //If the player has already been relocated.
 	boolean enemyRelocationDone; //If the enemies have already been relocated. Not sure if this is useful.
 	List<DamageAndMarks> standardDamagesAndMarks;
@@ -275,10 +274,6 @@ public abstract class WeaponCard extends ActivableCard {
 
 	protected int getMoveDistance() {
 		return moveDistance;
-	}
-
-	protected int getMaximumSteps() {
-		return maximumSteps;
 	}
 
 	protected QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO() {

@@ -25,8 +25,6 @@ public class Hellion extends AlternateFireWeapon {
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryFollowingDamage, secondaryFollowingMarks));
-		this.maximumSteps = 3;
-		this.maximumAlternateSteps = 3;
 	}
 
 	@Override

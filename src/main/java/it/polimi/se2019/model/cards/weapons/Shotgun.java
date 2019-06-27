@@ -19,8 +19,6 @@ public class Shotgun extends AlternateFireWeapon {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.maximumSteps = 4;
-		this.maximumAlternateSteps = 3;
 	}
 
 

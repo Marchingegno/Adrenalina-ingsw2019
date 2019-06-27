@@ -13,8 +13,6 @@ public class Sledgehammer extends AlternateFireWeapon {
 
 	public Sledgehammer(JsonObject parameters) {
 		super(parameters);
-		this.maximumSteps = 3;
-		this.maximumAlternateSteps = 4;
 		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
 		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
 		this.standardDamagesAndMarks = new ArrayList<>();

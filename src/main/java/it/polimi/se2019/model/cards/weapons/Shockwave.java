@@ -22,8 +22,6 @@ public class Shockwave extends AlternateFireWeapon {
 		}
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumSteps = 5;
-		this.maximumAlternateSteps = 2;
 	}
 
 	@Override

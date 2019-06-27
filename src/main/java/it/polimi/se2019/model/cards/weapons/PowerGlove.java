@@ -30,8 +30,6 @@ public class PowerGlove extends AlternateFireWeapon {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumSteps = 3;
-		this.maximumAlternateSteps = 6;
 	}
 
 

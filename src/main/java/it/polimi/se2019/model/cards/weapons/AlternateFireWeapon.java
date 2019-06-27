@@ -19,10 +19,9 @@ import static java.lang.Boolean.FALSE;
  * @author Marchingegno
  */
 public abstract class AlternateFireWeapon extends WeaponCard {
-	int maximumAlternateSteps;
 	List<DamageAndMarks> secondaryDamagesAndMarks;
 	List<AmmoType> secondaryPrice;
-	boolean alternateFireActive;
+	private boolean alternateFireActive;
 	int secondaryDamage;
 	int secondaryMarks;
 

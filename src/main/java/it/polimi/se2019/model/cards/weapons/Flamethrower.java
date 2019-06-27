@@ -29,8 +29,6 @@ public class Flamethrower extends AlternateFireWeapon {
 		secondaryDamagesAndMarks = new ArrayList<>();
 		secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
-		this.maximumSteps = 5;
-		this.maximumAlternateSteps = 3;
 		this.availableDirections = new ArrayList<>();
 	}
 

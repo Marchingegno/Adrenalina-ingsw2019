@@ -23,7 +23,6 @@ public class Railgun extends AlternateFireWeapon {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumSteps = 4;
 		this.availableDirections = new ArrayList<>();
 	}
 

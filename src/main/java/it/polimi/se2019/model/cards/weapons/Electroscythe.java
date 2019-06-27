@@ -18,8 +18,6 @@ public class Electroscythe extends AlternateFireWeapon {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.maximumAlternateSteps = 2;
-		this.maximumSteps = 2;
 	}
 
 	@Override
