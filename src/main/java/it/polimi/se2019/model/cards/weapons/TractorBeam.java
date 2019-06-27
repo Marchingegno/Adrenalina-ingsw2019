@@ -17,11 +17,7 @@ public class TractorBeam extends AlternateFireWeapon {
 
 	public TractorBeam(JsonObject parameters) {
 		super(parameters);
-		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
-		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 
 	}
