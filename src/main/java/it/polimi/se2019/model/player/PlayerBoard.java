@@ -43,11 +43,6 @@ public class PlayerBoard {
 		weaponCards = new ArrayList<>();
 		isFlipped = false;
 		hasChanged = true;
-//		//TODO:DEBUG@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//		ArrayList<AmmoType> prova = new ArrayList<>();
-//		prova.add(AmmoType.BLUE_AMMO);
-//		this.weaponCards.add(new Electroscythe("STA ROBA",prova));
-//		//TODO:DEBUG@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	}
 
 
@@ -228,9 +223,6 @@ public class PlayerBoard {
 		if(weaponCards.size() >= GameConstants.MAX_WEAPON_CARDS_PER_PLAYER)
 			throw new InventoryFullException("Cannot add another weapon card since the inventory is full. Use swapWeapon to setChanged the weapon.");
 		weaponCards.add(weaponToAdd);
-		//TODO check if this can be removes
-//		List<AmmoType> price = weaponToAdd.getGrabPrice();
-//		ammoContainer.removeAmmo(price);
 		Utils.logInfo("PlayerBoard -> addWeapon(): Added to the player " + weaponToAdd.getCardName());
 		setChanged();
 	}
@@ -287,7 +279,6 @@ public class PlayerBoard {
 	 */
 	public void addPowerup(PowerupCard powerupToAdd) {
 		if(powerupCards.size() >= GameConstants.MAX_POWERUP_CARDS_PER_PLAYER) {
-			//throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
 			Utils.logError("Cannot add another powerup card since the inventory is full.", new InventoryFullException(""));
 		}
 		powerupCards.add(powerupToAdd);

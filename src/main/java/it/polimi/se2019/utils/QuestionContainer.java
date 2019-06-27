@@ -44,13 +44,10 @@ public class QuestionContainer implements Serializable {
 	 * @return true if this QuestionContainer does not contain anything.
 	 */
 	public boolean isThisQuestionContainerUseless() {
-		if (isAskCoordinates()) {
-			if (getCoordinates() == null || getCoordinates().size() == 0)
-				return true;
-		}
-		if (isAskString()) {
-			return getOptions() == null || getOptions().size() == 0;
-		}
+		if (isAskCoordinates() && (getCoordinates() == null || getCoordinates().isEmpty()))
+			return true;
+		if (isAskString())
+			return getOptions() == null || getOptions().isEmpty();
 		return false;
 	}
 

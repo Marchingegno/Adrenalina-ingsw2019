@@ -139,11 +139,12 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(match != null) { // If the client is in a match.
 			VirtualView virtualView = match.getVirtualViewOfClient(client);
 			if(virtualView != null) {
-				//Utils.logInfo("\tForwarding the message to the VirtualView.");
+				Utils.logInfo("\tForwarding the message to the VirtualView.");
 				virtualView.onMessageReceived(message);
 			}
-		} else
+		} else {
 			Utils.logError("Client has no match", new NullPointerException());
+		}
 	}
 
 }

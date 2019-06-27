@@ -66,16 +66,11 @@ public abstract class ActivableCard extends Card {
 	// ####################################
 
 	protected Player getOwner() {
-//		Utils.logInfo("The weapon " + super.getCardName() + "has owner +" + ownerPlayer.getPlayerName());
 		return ownerPlayer;
 	}
 
 	protected GameBoard getGameBoard() {
 		return gameBoard;
-	}
-
-	protected int getNumberOfPlayers() {
-		return gameBoard.getPlayers().size();
 	}
 
 	protected int getCurrentStep() {
