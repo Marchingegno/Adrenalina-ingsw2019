@@ -55,8 +55,6 @@ public class CLIPrinter {
 		print(ESC + numOfLines + "D");
 	}
 
-	public CLIPrinter(){}
-
 	public static void printChooseView() {
 		if (!Utils.DEBUG_CLI) {
 			setCursorHome();

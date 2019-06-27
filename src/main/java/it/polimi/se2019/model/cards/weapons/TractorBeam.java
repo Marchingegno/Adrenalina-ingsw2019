@@ -44,6 +44,8 @@ public class TractorBeam extends AlternateFireWeapon {
 				relocateEnemy(target, enemyRelocationCoordinates.get(choice));
 				primaryFire();
 				break;
+			default:
+				throw new IllegalStateException("Reached an illegal state.");
 		}
 		return null;
 	}
@@ -59,6 +61,8 @@ public class TractorBeam extends AlternateFireWeapon {
 				getGameMap().movePlayerTo(target, getGameMap().getPlayerCoordinates(getOwner()));
 				secondaryFire();
 				break;
+			default:
+				throw new IllegalStateException("Reached an illegal state.");
 		}
 		return null;
 	}

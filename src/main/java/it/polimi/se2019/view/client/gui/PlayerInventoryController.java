@@ -387,6 +387,8 @@ public class PlayerInventoryController {
                         }
                     }
                     break;
+                default:
+                    throw new IllegalArgumentException("Character name not recognized.");
             }
         }
     }

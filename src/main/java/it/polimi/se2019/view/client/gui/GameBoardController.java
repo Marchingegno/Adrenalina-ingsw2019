@@ -1033,6 +1033,8 @@ private List<PlayerRep> playerReps;
                 }
                 violetPosition[playerPositions.get(pgName).getRow()][playerPositions.get(pgName).getColumn()].setVisible(true);
                 break;
+            default:
+                throw new IllegalArgumentException("Character name not recognized.");
         }
     }
 

@@ -75,6 +75,8 @@ public class Flamethrower extends AlternateFireWeapon {
 				}
 				primaryFire();
 				break;
+			default:
+				throw new IllegalStateException("Reached an illegal state.");
 		}
 		return null;
 	}
@@ -82,15 +84,13 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		switch (getCurrentStep()) {
-			case 2:
-				return handleDirectionChoice(choice);
-			case 3:
-				handleDirectionChoice(choice);
-				currentTargets = getSecondaryTargets();
-				secondSquareTargets = getSecondSquareTargets();
-				secondaryFire();
-				break;
+		if(getCurrentStep() == 2) {
+			return handleDirectionChoice(choice);
+		} else if(getCurrentStep() == 3) {
+			handleDirectionChoice(choice);
+			currentTargets = getSecondaryTargets();
+			secondSquareTargets = getSecondSquareTargets();
+			secondaryFire();
 		}
 		return null;
 	}

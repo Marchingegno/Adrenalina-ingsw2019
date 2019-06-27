@@ -64,8 +64,10 @@ public class ZX_2 extends AlternateFireWeapon {
 			case 5:
 				secondaryTargets.add(currentTargets.remove(choice));
 				secondaryFire();
+				return null;
+			default:
+				throw new IllegalStateException("Reached an illegal state.");
 		}
-		return null;
 	}
 
 	public void primaryFire() {
