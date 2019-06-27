@@ -25,7 +25,7 @@ public class ControllerTest {
 	private static final boolean DISPLAY_REPS = false;
 
 	// Options for the automatically started test (runTestGame)
-	private static final int NUMBER_OF_GAMES = 10;
+	private static final int NUMBER_OF_GAMES = 1000;
 
 
 	/**
@@ -80,7 +80,7 @@ public class ControllerTest {
 		int numberOfPlayers = getRandomNumberOfPlayers();
 		for (int i = 0; i < numberOfPlayers; i++) {
 			String nickname = "test" +  i;
-			VirtualViewDriver virtualViewDriver = new VirtualViewDriverSync(nickname, true, false, true);
+			VirtualViewDriver virtualViewDriver = new VirtualViewDriverSync(nickname, true, true, true);
 			virtualViewDrivers.add(virtualViewDriver);
 		}
 
