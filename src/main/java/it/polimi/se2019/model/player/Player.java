@@ -25,7 +25,6 @@ import java.util.Observable;
 public class Player extends Observable implements Representable {
 
 	private TurnStatus turnStatus;
-	private boolean actionRequested; //If the player is already executing an action.
 	private String playerName;
 	private int playerID;
 	private Color.CharacterColorType playerColor;
@@ -61,10 +60,6 @@ public class Player extends Observable implements Representable {
 
 	public boolean isFrenzied() {
 		return damageStatus.isFrenzy();
-	}
-
-	public boolean isActionRequested() {
-		return actionRequested;
 	}
 
 	/**
@@ -133,14 +128,6 @@ public class Player extends Observable implements Representable {
 	 */
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck){
 		return getPlayerBoard().hasEnoughAmmo(ammoToCheck);
-	}
-
-	/**
-	 * Sets the action requested parameter.
-	 * @param bool the parameter to set to the player.
-	 */
-	public void setActionRequested(boolean bool){
-		this.actionRequested = bool;
 	}
 
 	/**

@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class PlayerRep implements Representation {
 
-	private boolean actionRequested; //If the player is already executing an action.
 	private String playerName;
 	private Color.CharacterColorType playerColor;
 	private int points;
@@ -49,7 +48,6 @@ public class PlayerRep implements Representation {
 		points = player.getPlayerBoard().getPoints();
 		playerID = player.getPlayerID();
 		damageStatusRep = (DamageStatusRep) player.getDamageStatus().getRep();
-		this.actionRequested = player.isActionRequested();
 
 		damageBoard = new ArrayList<>(player.getPlayerBoard().getDamageBoard().size());
 		for (Player player1 : player.getPlayerBoard().getDamageBoard()) {
