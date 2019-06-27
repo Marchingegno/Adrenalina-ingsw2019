@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameTester {
+public class ControllerTest {
 
 	// Options for all the tests.
 	public static final int MAX_NUMBER_OF_TURNS = 100;
