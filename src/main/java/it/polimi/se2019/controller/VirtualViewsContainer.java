@@ -1,6 +1,5 @@
 package it.polimi.se2019.controller;
 
-import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.PlayersPosition;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;

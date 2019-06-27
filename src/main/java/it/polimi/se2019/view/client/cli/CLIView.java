@@ -80,9 +80,7 @@ public class CLIView extends RemoteView {
 	public void displayTimerStarted(long delayInMs) {
 		DecimalFormat decimalFormat = new DecimalFormat();
 		decimalFormat.setMaximumFractionDigits(1);
-		new Thread(() -> {
-			printWaitingMatchStart(delayInMs);
-		}).start();
+		new Thread(() -> printWaitingMatchStart(delayInMs)).start();
 	}
 
 	@Override

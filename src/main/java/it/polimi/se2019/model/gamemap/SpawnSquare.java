@@ -2,7 +2,6 @@ package it.polimi.se2019.model.gamemap;
 
 import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.Card;
-import it.polimi.se2019.model.cards.ammo.AmmoContainer;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.cards.weapons.WeaponDeck;

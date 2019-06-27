@@ -2,7 +2,6 @@ package it.polimi.se2019.model.cards.weapons;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.se2019.model.Representation;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
@@ -122,11 +121,6 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 
 	boolean isAlternateFireActive() {
 		return alternateFireActive;
-	}
-
-	@Override
-	public Representation getRep() {
-		return super.getRep();
 	}
 
 	protected boolean canSecondaryBeActivated() {
