@@ -49,13 +49,8 @@ public class MacroActionBuilder {
 
 
 	public MacroAction build() {
-		isCorrect();
 		Utils.logInfo("MacroActionBuilder -> build(): Building " + name + ": moves = " + moveDistance + (grabActive ? " grab" : "") + (reloadActive ? " reload" : "") + (shootActive ? " shoot" : ""));
 		return new MacroAction(moveDistance, grabActive, reloadActive, shootActive, name);
-	}
-
-	private void isCorrect(){
-		return; //TODO: Implement isCorrect. It's not clear what this method should do.
 	}
 
 }
