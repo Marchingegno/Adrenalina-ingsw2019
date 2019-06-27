@@ -2,7 +2,6 @@ package it.polimi.se2019.model.cards.powerups;
 
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
-import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
@@ -19,6 +18,7 @@ import java.util.stream.Collectors;
 public class TargetingScope extends PowerupCard {
 
 	private ArrayList<AmmoType> ownedTypes;
+	private Player targetPlayer;
 
 	private static final String DESCRIPTION =
 			"You may play this card when you are dealing\n" +
@@ -48,14 +48,25 @@ public class TargetingScope extends PowerupCard {
 				break;
 			}
 		}
-
-		boolean weaponHasDamage = true; // TODO
-
-		return hasOneAmmo && weaponHasDamage;
+		return hasOneAmmo && !getShootedPlayers().isEmpty();
 	}
 
 	@Override
 	protected QuestionContainer firstStep() {
+
+
+		List<String> options = new ArrayList<>();
+		getShootedPlayers().forEach(target -> options.add(target.getPlayerName()));
+		return QuestionContainer.createStringQuestionContainer("Which of the following players do you want to target?", options);
+
+	}
+
+	@Override
+	protected QuestionContainer secondStep(int choice) {
+		// Save target chosen.
+		targetPlayer = getShootedPlayers().get(choice);
+
+		// Ask which ammo to use,
 		ownedTypes = new ArrayList<>();
 		for(AmmoType ammoType : AmmoType.values()) {
 			if(getOwner().getPlayerBoard().getAmmoContainer().getAmmo(ammoType) > 0) {
@@ -64,29 +75,23 @@ public class TargetingScope extends PowerupCard {
 		}
 
 		List<String> ownedNames = ownedTypes.stream()
-				.map(ammoType -> Color.getColoredString("●", ammoType.getCharacterColorType()))
+				.map(Enum::toString)
 				.collect(Collectors.toList());
 
 		return QuestionContainer.createStringQuestionContainer("Choose the ammo to use.", ownedNames);
 	}
 
 	@Override
-	protected QuestionContainer secondStep(int choice) {
+	protected QuestionContainer thirdStep(int choice) {
 		if (choice >= 0 && choice < ownedTypes.size()) {
 			AmmoType ammoToUse = ownedTypes.get(choice);
 			getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // Use ammo.
-			Player targetPlayer = getShootedPlayer();
 			targetPlayer.getPlayerBoard().addDamage(getOwner(), GIVEN_DAMAGE);
 		} else {
 			Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of owned types is " + ownedTypes.size(), new IllegalArgumentException());
 		}
 		concludeActivation();
 		return null;
-	}
-
-	@Override
-	protected QuestionContainer thirdStep(int choice) {
-		throw new UnsupportedOperationException("Not needed for " + getCardName());
 	}
 
 }

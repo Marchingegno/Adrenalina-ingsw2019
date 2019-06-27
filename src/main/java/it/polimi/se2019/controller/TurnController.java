@@ -188,7 +188,10 @@ public class TurnController{
 		if (model.isTheWeaponConcluded(virtualView.getNickname())) {
 			Utils.logWeapon("Weapon ended.");
 			model.handleWeaponEnd(virtualView.getNickname());
-			handleInitialOnDamagePowerup();
+			if(model.doesPlayerHaveActivableOnShootPowerups(virtualView.getNickname()))
+				virtualView.askPowerupActivation(model.getActivableOnShootPowerups(virtualView.getNickname()));
+			else
+				handleInitialOnDamagePowerup();
 		} else {
 			if (questionContainer == null || questionContainer.isThisQuestionContainerUseless()) {
 				Utils.logWarning("This QuestionContainer is either null or useless.");
@@ -240,7 +243,7 @@ public class TurnController{
 	}
 
 	private void handleActionEndForPowerup(VirtualView virtualView) {
-		if(virtualView.getNickname().equals(model.getCurrentPlayerName()))
+		if(virtualView.getNickname().equals(model.getCurrentPlayerName()) && model.isPlayerWaitingForDamagePowerupsEmpty())
 			handleActionEnd(virtualView);
 		else
 			handleInitialOnDamagePowerup();

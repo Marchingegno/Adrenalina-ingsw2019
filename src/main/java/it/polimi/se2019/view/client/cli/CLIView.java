@@ -228,10 +228,18 @@ public class CLIView extends RemoteView {
 	public void askPowerupActivation(List<Integer> activablePowerups) {
 		List<PowerupCardRep> powerupCards = getModelRep().getClientPlayerRep().getPowerupCards();
 		printLine("Select the Powerup card to activate:");
+
+		// Cancel option.
+		activablePowerups.add(-1);
+		printLine("0) Cancel");
+
+		// Activable powerups options.
 		for (int i = 0; i < powerupCards.size(); i++) {
 			if (activablePowerups.contains(i))
 				printLine((i + 1) + ") " + powerupCards.get(i).getCardName() + Color.getColoredString(" ●", powerupCards.get(i).getAssociatedAmmo().getCharacterColorType()));
 		}
+
+		// Send answer.
 		int answer = askIntegerFromList(activablePowerups, -1);
 		sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 	}

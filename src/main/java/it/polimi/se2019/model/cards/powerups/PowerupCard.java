@@ -6,6 +6,9 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.utils.QuestionContainer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This abstract class implements the powerup card
  *
@@ -17,7 +20,7 @@ public abstract class PowerupCard extends ActivableCard {
 	private AmmoType associatedAmmo;
 	private PowerupUseCaseType powerupUseCaseType;
 	private Player shootingPlayer;
-	private Player shootedPlayer;
+	private List<Player> shootedPlayers;
 
 
 	public PowerupCard(String name, AmmoType associatedAmmo, String description, PowerupUseCaseType powerupUseCaseType, String imagePath) {
@@ -91,8 +94,8 @@ public abstract class PowerupCard extends ActivableCard {
 		this.shootingPlayer = shootingPlayer;
 	}
 
-	public void setShootedPlayer(Player shootedPlayer) {
-		this.shootedPlayer = shootedPlayer;
+	public void setShootedPlayers(List<Player> shootedPlayers) {
+		this.shootedPlayers = new ArrayList<>(shootedPlayers);
 	}
 
 	public String toString(){
@@ -107,8 +110,8 @@ public abstract class PowerupCard extends ActivableCard {
 		return shootingPlayer;
 	}
 
-	protected Player getShootedPlayer() {
-		return shootedPlayer;
+	protected List<Player> getShootedPlayers() {
+		return shootedPlayers;
 	}
 
 
