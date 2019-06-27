@@ -550,7 +550,7 @@ public class Model {
 	}
 
 	public boolean isPlayerWaitingForDamagePowerupsEmpty() {
-		return playersWaitingForDamagePowerups.isEmpty();
+		return playersWaitingForDamagePowerups == null || playersWaitingForDamagePowerups.isEmpty();
 	}
 
 	public List<Integer> getActivableOnDamagePowerups(String damagedPlayerName, String shootingPlayerName) {
