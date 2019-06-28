@@ -3,7 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.ModelDriver;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
@@ -25,7 +25,7 @@ public class ZX_2Test {
 	private static String name = "ZX_2";
 	private WeaponCard zx2;
 	private GameMap gameMap;
-	private Model model;
+	private ModelDriver model;
 	private List<Player> players;
 
 	@Before
@@ -45,7 +45,7 @@ public class ZX_2Test {
 			playerNicknames.add("Player " + i);
 		}
 
-		model = new Model(GameConstants.MapType.SMALL_MAP.getMapName(), playerNicknames, 8);
+		model = new ModelDriver(GameConstants.MapType.SMALL_MAP.getMapName(), playerNicknames, 8);
 		zx2.setGameBoard(model.getGameBoard());
 
 

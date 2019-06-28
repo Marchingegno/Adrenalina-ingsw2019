@@ -1,6 +1,6 @@
 package it.polimi.se2019.model.gamemap;
 
-import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.ModelDriver;
 import it.polimi.se2019.model.gameboard.GameBoard;
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class MapRepTest {
 		players.add("Test 3");
 		players.add("Test 4");
 		players.add("Test 5");
-		Model model = new Model("MediumMap", players, 8);
+		ModelDriver model = new ModelDriver("MediumMap", players, 8);
 		gameBoard = model.getGameBoard();
 		gameMap = gameBoard.getGameMap();
 	}

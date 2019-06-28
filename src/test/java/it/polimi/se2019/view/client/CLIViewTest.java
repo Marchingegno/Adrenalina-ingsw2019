@@ -1,6 +1,6 @@
 package it.polimi.se2019.view.client;
 
-import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.ModelDriver;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
@@ -89,7 +89,7 @@ public class CLIViewTest {
 		playersName.add("Boo");
 		playersName.add("Pippo");
 		playersName.add("Pluto");
-		Model model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersName, 5);
+		ModelDriver model = new ModelDriver(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersName, 5);
 		GameMap gameMap = model.getGameBoard().getGameMap();
 		List<Player> players = model.getGameBoard().getPlayers();
 

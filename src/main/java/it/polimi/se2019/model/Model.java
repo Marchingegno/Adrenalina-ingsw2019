@@ -748,7 +748,7 @@ public class Model {
 	// METHODS ONLY FOR TESTS
  	// ####################################
 
-	public GameBoard getGameBoard() {
+	protected GameBoard getGameBoard() {
 		return gameBoard;
 	}
 }

@@ -3,7 +3,7 @@ package it.polimi.se2019.model.cards.weapons;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import it.polimi.se2019.model.Model;
+import it.polimi.se2019.model.ModelDriver;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
@@ -26,7 +26,7 @@ public class ElectroscytheTest {
 	private static String name = "Electroscythe";
 	private WeaponCard electroscythe;
 	private GameMap gameMap;
-	private Model model;
+	private ModelDriver model;
 	private List<Player> players;
 
 	@Before
@@ -46,7 +46,7 @@ public class ElectroscytheTest {
 			playerNicknames.add("Player " + i);
 		}
 
-		model = new Model(GameConstants.MapType.SMALL_MAP.getMapName(), playerNicknames, 8);
+		model = new ModelDriver(GameConstants.MapType.SMALL_MAP.getMapName(), playerNicknames, 8);
 		electroscythe.setGameBoard(model.getGameBoard());
 
 

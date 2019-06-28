@@ -72,4 +72,12 @@ public class Controller implements Observer {
 			Utils.logInfo("Controller now observes virtual View of "+virtualView.getNickname());
 		}
 	}
+
+	// ####################################
+	// METHODS ONLY FOR TESTS
+	// ####################################
+
+	protected Model getModel() {
+		return model;
+	}
 }
