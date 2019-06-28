@@ -33,6 +33,7 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 		if (isOptionalActive(1)) {
 			return handleChoices(choice);
 		}
+
 		if (getCurrentStep() == 2) {
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
