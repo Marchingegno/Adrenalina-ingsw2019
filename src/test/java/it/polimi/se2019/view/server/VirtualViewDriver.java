@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class VirtualViewDriver extends VirtualView {
+public abstract class VirtualViewDriver extends VirtualView {
 
 	private final boolean TEST_MOVE;
 	private final boolean TEST_SHOOT;
@@ -324,9 +324,7 @@ public class VirtualViewDriver extends VirtualView {
 			repPrinter.displayGame();
 	}
 
-	protected void sendMessageToController(Message message) {
-		throw new IllegalStateException("This method must be overridden.");
-	}
+	protected abstract void sendMessageToController(Message message);
 
 
 	// ####################################
