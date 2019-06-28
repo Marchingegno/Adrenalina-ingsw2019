@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ControllerTest {
+public class GameTester {
 
 	// Options for all the tests.
 	public static final int MAX_NUMBER_OF_TURNS = 100;
@@ -39,7 +39,7 @@ public class ControllerTest {
 
 	/**
 	 * This test runs a single synchronous game with random responses.
-	 * This test is automatically started when compiling so its test variables are set and shouldn't be changed.
+	 * This test can be automatically started when compiling so its test variables are set and shouldn't be changed.
 	 * DISPLAY_REPS = false, since we don't want to have too many logs;
 	 * TEST_SHOOT = true, TEST_MOVE = true, since we want to test everything.
 	 */

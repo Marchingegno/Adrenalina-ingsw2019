@@ -1,6 +1,6 @@
 package it.polimi.se2019.view.server;
 
-import it.polimi.se2019.ControllerTest;
+import it.polimi.se2019.GameTester;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
@@ -350,7 +350,7 @@ public class VirtualViewDriver extends VirtualView {
 
 	private boolean canTestContinue() {
 		numberOfTurns++;
-		if (numberOfTurns < ControllerTest.MAX_NUMBER_OF_TURNS) {
+		if (numberOfTurns < GameTester.MAX_NUMBER_OF_TURNS) {
 			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.YELLOW) + " TURN " + numberOfTurns + " ENDED (" + getNickname() + "'s turn) " + Color.getColoredString("##################", Color.CharacterColorType.YELLOW));
 			return true;
 		} else {
