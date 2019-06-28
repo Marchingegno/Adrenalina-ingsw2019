@@ -13,7 +13,6 @@ public class MachineGun extends OptionalEffectsWeapon {
 
 	public MachineGun(JsonObject parameters) {
 		super(parameters);
-		this.standardDamagesAndMarks = new ArrayList<>();
 
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
