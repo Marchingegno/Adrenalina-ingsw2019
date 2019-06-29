@@ -53,12 +53,9 @@ public class TargetingScope extends PowerupCard {
 
 	@Override
 	protected QuestionContainer firstStep() {
-
-
 		List<String> options = new ArrayList<>();
 		getShootedPlayers().forEach(target -> options.add(target.getPlayerName()));
 		return QuestionContainer.createStringQuestionContainer("Which of the following players do you want to target?", options);
-
 	}
 
 	@Override

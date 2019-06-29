@@ -62,7 +62,7 @@ public class NewtonTest {
 		Assert.assertFalse(newton.isActivationConcluded());
 		Coordinates coordinatesChosen = questionContainer2.getCoordinates().get(0);
 
-		// Do thrid step.
+		// Do third step.
 		QuestionContainer questionContainer3 = newton.thirdStep(0);
 		Assert.assertNull(questionContainer3);
 		Assert.assertEquals(coordinatesChosen, gameMap.getPlayerCoordinates(playerChosen));

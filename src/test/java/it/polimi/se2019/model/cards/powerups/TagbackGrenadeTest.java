@@ -18,6 +18,7 @@ public class TagbackGrenadeTest {
 	private PowerupCard tagback;
 	private GameMap gameMap;
 	private ModelDriver model;
+	private Player ownerPlayer;
 
 	@Before
 	public void setUp() {
@@ -33,7 +34,8 @@ public class TagbackGrenadeTest {
 
 
 		gameMap = model.getGameBoard().getGameMap();
-		tagback.setOwner(model.getGameBoard().getPlayers().get(0));
+		ownerPlayer = model.getGameBoard().getPlayers().get(0);
+		tagback.setOwner(ownerPlayer);
 
 
 		for(String playerName : playerNicknames) {
@@ -51,11 +53,11 @@ public class TagbackGrenadeTest {
 	public void allSteps_initialState_correctOutput() {
 		// Set a player as shooting.
 		Player shootingPlayer = model.getGameBoard().getPlayers().get(1);
-		Player ownerPlayer = model.getGameBoard().getPlayers().get(0);
 		gameMap.movePlayerTo(shootingPlayer, gameMap.getPlayerCoordinates(ownerPlayer));
 		tagback.setShootingPlayer(shootingPlayer);
 		Assert.assertTrue(tagback.canBeActivated());
 
+		// First step.
 		QuestionContainer questionContainer1 = tagback.firstStep();
 		Assert.assertNull(questionContainer1);
 		Assert.assertTrue(shootingPlayer.getPlayerBoard().getMarks().contains(ownerPlayer));
