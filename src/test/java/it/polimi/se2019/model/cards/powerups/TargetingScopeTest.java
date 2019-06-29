@@ -45,7 +45,7 @@ public class TargetingScopeTest {
 
 	@Test
 	public void canBeActivated_noShootedPlayers_correctOutput() {
-		targetingScope.setShootedPlayers(new ArrayList<>());
+		targetingScope.setShotPlayers(new ArrayList<>());
 		Assert.assertFalse(targetingScope.canBeActivated());
 	}
 
@@ -56,7 +56,7 @@ public class TargetingScopeTest {
 		}
 		List<Player> shotPlayers = new ArrayList<>();
 		shotPlayers.add(model.getGameBoard().getPlayers().get(1));
-		targetingScope.setShootedPlayers(shotPlayers);
+		targetingScope.setShotPlayers(shotPlayers);
 		Assert.assertFalse(targetingScope.canBeActivated());
 	}
 
@@ -67,7 +67,7 @@ public class TargetingScopeTest {
 		List<Player> shotPlayers = new ArrayList<>();
 		shotPlayers.add(model.getGameBoard().getPlayers().get(1));
 		shotPlayers.add(model.getGameBoard().getPlayers().get(2));
-		targetingScope.setShootedPlayers(shotPlayers); // Has 2 shot players.
+		targetingScope.setShotPlayers(shotPlayers); // Has 2 shot players.
 		Assert.assertTrue(targetingScope.canBeActivated());
 
 		// First step
@@ -95,7 +95,7 @@ public class TargetingScopeTest {
 		List<Player> shotPlayers = new ArrayList<>();
 		shotPlayers.add(model.getGameBoard().getPlayers().get(1));
 		shotPlayers.add(model.getGameBoard().getPlayers().get(2));
-		targetingScope.setShootedPlayers(shotPlayers); // Has 2 shot players.
+		targetingScope.setShotPlayers(shotPlayers); // Has 2 shot players.
 		Assert.assertTrue(targetingScope.canBeActivated());
 
 		QuestionContainer questionContainer1 = targetingScope.firstStep();
@@ -113,7 +113,7 @@ public class TargetingScopeTest {
 		List<Player> shotPlayers = new ArrayList<>();
 		shotPlayers.add(model.getGameBoard().getPlayers().get(1));
 		shotPlayers.add(model.getGameBoard().getPlayers().get(2));
-		targetingScope.setShootedPlayers(shotPlayers); // Has 2 shot players.
+		targetingScope.setShotPlayers(shotPlayers); // Has 2 shot players.
 		Assert.assertTrue(targetingScope.canBeActivated());
 
 		QuestionContainer questionContainer1 = targetingScope.firstStep();

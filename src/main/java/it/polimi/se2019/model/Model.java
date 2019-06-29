@@ -649,7 +649,7 @@ public class Model {
 		List<Player> playersHit = shootingPlayer.getPlayersHitWithWeapon();
 		for(PowerupCard powerupCard : shootingPlayer.getPlayerBoard().getPowerupCards()) {
 			if(powerupCard.getUseCase() == PowerupCard.PowerupUseCaseType.ON_SHOOT)
-				powerupCard.setShootedPlayers(playersHit);
+				powerupCard.setShotPlayers(playersHit);
 		}
 	}
 

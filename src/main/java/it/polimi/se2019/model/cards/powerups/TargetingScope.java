@@ -48,20 +48,20 @@ public class TargetingScope extends PowerupCard {
 				break;
 			}
 		}
-		return hasOneAmmo && !getShootedPlayers().isEmpty();
+		return hasOneAmmo && !getShotPlayers().isEmpty();
 	}
 
 	@Override
 	protected QuestionContainer firstStep() {
 		List<String> options = new ArrayList<>();
-		getShootedPlayers().forEach(target -> options.add(target.getPlayerName()));
+		getShotPlayers().forEach(target -> options.add(target.getPlayerName()));
 		return QuestionContainer.createStringQuestionContainer("Which of the following players do you want to target?", options);
 	}
 
 	@Override
 	protected QuestionContainer secondStep(int choice) {
 		// Save target chosen.
-		targetPlayer = getShootedPlayers().get(choice);
+		targetPlayer = getShotPlayers().get(choice);
 
 		// Ask which ammo to use,
 		ownedTypes = new ArrayList<>();

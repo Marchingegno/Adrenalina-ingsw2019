@@ -20,7 +20,7 @@ public abstract class PowerupCard extends ActivableCard {
 	private AmmoType associatedAmmo;
 	private PowerupUseCaseType powerupUseCaseType;
 	private Player shootingPlayer;
-	private List<Player> shootedPlayers;
+	private List<Player> shotPlayers;
 
 
 	public PowerupCard(String name, AmmoType associatedAmmo, String description, PowerupUseCaseType powerupUseCaseType, String imagePath) {
@@ -94,8 +94,8 @@ public abstract class PowerupCard extends ActivableCard {
 		this.shootingPlayer = shootingPlayer;
 	}
 
-	public void setShootedPlayers(List<Player> shootedPlayers) {
-		this.shootedPlayers = new ArrayList<>(shootedPlayers);
+	public void setShotPlayers(List<Player> shotPlayers) {
+		this.shotPlayers = new ArrayList<>(shotPlayers);
 	}
 
 	public String toString(){
@@ -110,8 +110,8 @@ public abstract class PowerupCard extends ActivableCard {
 		return shootingPlayer;
 	}
 
-	protected List<Player> getShootedPlayers() {
-		return shootedPlayers;
+	protected List<Player> getShotPlayers() {
+		return shotPlayers;
 	}
 
 
