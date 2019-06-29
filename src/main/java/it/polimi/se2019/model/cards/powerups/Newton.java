@@ -4,7 +4,6 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
-import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
@@ -69,7 +68,7 @@ public class Newton extends PowerupCard {
 			targetPlayer = targettablePlayers.get(choice);
 			allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinates(targetPlayer, 2);
 
-			return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + Color.getColoredString(targetPlayer.getPlayerName(), targetPlayer.getPlayerColor()) + ".", allowedCoordinates);
+			return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + targetPlayer.getPlayerName() + ".", allowedCoordinates);
 		} else {
 			Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of targettable players is: " + targettablePlayers.size(), new IllegalArgumentException());
 			concludeActivation();
