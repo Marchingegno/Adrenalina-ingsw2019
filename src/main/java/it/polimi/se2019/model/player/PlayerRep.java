@@ -99,7 +99,7 @@ public class PlayerRep implements Representation {
 		newPlayerRep.playerName = this.playerName;
 		newPlayerRep.playerColor = this.playerColor;
 		newPlayerRep.playerID = this.playerID;
-		newPlayerRep.points = points;
+		newPlayerRep.points = -1; // hidden
 		newPlayerRep.damageBoard = new ArrayList<>(damageBoard);
 		newPlayerRep.marks = new ArrayList<>(marks);
 		newPlayerRep.damageStatusRep = null;//hidden
@@ -211,6 +211,8 @@ public class PlayerRep implements Representation {
 	 * @throws HiddenException if the PlayerRep is hidden and doesn't contain sensitive information.
 	 */
 	public int getPoints() {
+		if (isHidden())
+			throw new HiddenException("The value of \"points\" is hidden in this PlayerRep.");
 		return points;
 	}
 
