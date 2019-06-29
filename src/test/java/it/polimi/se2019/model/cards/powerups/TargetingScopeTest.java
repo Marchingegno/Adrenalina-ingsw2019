@@ -105,4 +105,22 @@ public class TargetingScopeTest {
 		QuestionContainer questionContainer3 = targetingScope.thirdStep(questionContainer2.getOptions().size());
 		Assert.assertTrue(targetingScope.isActivationConcluded());
 	}
+
+	@Test
+	public void thirdStep_lessThan0Choice_shouldConclude() {
+		// Prepare players.
+		ownerPlayer.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO); // Has at least one ammo.
+		List<Player> shotPlayers = new ArrayList<>();
+		shotPlayers.add(model.getGameBoard().getPlayers().get(1));
+		shotPlayers.add(model.getGameBoard().getPlayers().get(2));
+		targetingScope.setShootedPlayers(shotPlayers); // Has 2 shot players.
+		Assert.assertTrue(targetingScope.canBeActivated());
+
+		QuestionContainer questionContainer1 = targetingScope.firstStep();
+
+		QuestionContainer questionContainer2 = targetingScope.secondStep(0);
+
+		QuestionContainer questionContainer3 = targetingScope.thirdStep(-1);
+		Assert.assertTrue(targetingScope.isActivationConcluded());
+	}
 }

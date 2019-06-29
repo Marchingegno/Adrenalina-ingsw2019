@@ -78,12 +78,30 @@ public class NewtonTest {
 	}
 
 	@Test
+	public void secondStep_lessThan0Choice_shouldConclude() {
+		QuestionContainer questionContainer1 = newton.firstStep();
+
+		QuestionContainer questionContainer2 = newton.secondStep(-1);
+		Assert.assertTrue(newton.isActivationConcluded());
+	}
+
+	@Test
 	public void thirdStep_wrongChoice_shouldConclude() {
 		QuestionContainer questionContainer1 = newton.firstStep();
 
 		QuestionContainer questionContainer2 = newton.secondStep(0);
 
 		QuestionContainer questionContainer3 = newton.thirdStep(questionContainer2.getCoordinates().size());
+		Assert.assertTrue(newton.isActivationConcluded());
+	}
+
+	@Test
+	public void thirdStep_lessThan0Choice_shouldConclude() {
+		QuestionContainer questionContainer1 = newton.firstStep();
+
+		QuestionContainer questionContainer2 = newton.secondStep(0);
+
+		QuestionContainer questionContainer3 = newton.thirdStep(-1);
 		Assert.assertTrue(newton.isActivationConcluded());
 	}
 }

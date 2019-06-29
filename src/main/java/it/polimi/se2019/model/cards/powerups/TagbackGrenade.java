@@ -47,12 +47,8 @@ public class TagbackGrenade extends PowerupCard {
 
 	@Override
 	public QuestionContainer firstStep() {
-		if(canBeActivated()) {
-			Player targetPlayer = getShootingPlayer();
-			targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
-		} else {
-			throw new IllegalArgumentException(getCardName() + " was activated but it can't be activated.");
-		}
+		Player targetPlayer = getShootingPlayer();
+		targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
 		concludeActivation();
 		return null;
 	}
