@@ -107,6 +107,7 @@ public class Model {
 		gameBoard.getPlayers().stream()
 				.filter(item -> item.getPlayerBoard().isDead())
 				.forEach(this::scoreDeadPlayer);
+		gameBoard.setKillShotInThisTurn(false);
 		updateReps();
 	}
 

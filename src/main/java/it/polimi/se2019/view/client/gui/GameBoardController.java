@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -693,7 +694,7 @@ private List<PlayerRep> playerReps;
         overKillTokens.add(overKillToken161);
 
         updateGameMap(modelRep.getGameMapRep());
-        updateKillShootTrack(modelRep.getGameBoardRep().getKillShoots(), modelRep.getGameBoardRep().getDoubleKills(), modelRep.getGameBoardRep().getRemainingSkulls());
+        updateKillShootTrack(modelRep.getGameBoardRep().getKillShoots(), modelRep.getGameBoardRep().getDoubleKills(), modelRep.getGameBoardRep().getRemainingSkulls(), modelRep.getGameBoardRep().getStartingSkulls());
 
         List<PlayerRep> playersRep = new ArrayList<>();
         for (PlayerRep playerRep : modelRep.getPlayersRep()) {
@@ -889,28 +890,29 @@ private List<PlayerRep> playerReps;
                 weponImageYellow0.setVisible(true);
             }
         }
+    }
 
+    private void updateKillShootTrack(List<KillShotRep> killShotReps, List<Color.CharacterColorType> doubleKillList, int numOfSkulls, int startingSkulls) {
+        List<KillShotRep> killShotRepList = new ArrayList<>(killShotReps);
+        Collections.reverse(killShotRepList);
         for (int i = 0; i < 17; i++) {
             skullTokens.get(i).setVisible(false);
         }
         for (int i = 0; i < 17; i++) {
             overKillTokens.get(i).setVisible(false);
         }
-    }
-
-    private void updateKillShootTrack(List<KillShotRep> killShotReps, List<Color.CharacterColorType> doubleKillList, int numOfSkulls) {
         for (int i = 0; i < 8; i++) {
             if (i < 8 - numOfSkulls)
                 skulls.get(i).setVisible(false);
             else
                 skulls.get(i).setVisible(true);
         }
-        for (int i = 8 - numOfSkulls - killShotReps.size(); i < 8; i++) {
-            if (i < 8 - numOfSkulls) {
-                (skullTokens.get(i)).setImage(loadImage("playerBoards/" + killShotReps.get(i).getPgName() + "/token"));
+        for (int i = 8 - startingSkulls, j = 0; i < 17; i++, j++) {
+            if (j < killShotRepList.size()) {
+                (skullTokens.get(i)).setImage(loadImage("playerBoards/" + killShotRepList.get(j).getPgName() + "/token"));
                 skullTokens.get(i).setVisible(true);
-                if (killShotReps.get(i).isOverkill()) {
-                    (overKillTokens.get(i)).setImage(loadImage("playerBoards/" + killShotReps.get(i).getPgName() + "/token"));
+                if (killShotRepList.get(j).isOverkill()) {
+                    (overKillTokens.get(i)).setImage(loadImage("playerBoards/" + killShotRepList.get(j).getPgName() + "/token"));
                     overKillTokens.get(i).setVisible(true);
                 }
             }
@@ -961,7 +963,7 @@ private List<PlayerRep> playerReps;
             }
         }
 
-        updateKillShootTrack(modelRep.getGameBoardRep().getKillShoots(), modelRep.getGameBoardRep().getDoubleKills(), modelRep.getGameBoardRep().getRemainingSkulls());
+        updateKillShootTrack(modelRep.getGameBoardRep().getKillShoots(), modelRep.getGameBoardRep().getDoubleKills(), modelRep.getGameBoardRep().getRemainingSkulls(), modelRep.getGameBoardRep().getStartingSkulls());
         updateGameMap(modelRep.getGameMapRep());
         updateTurnIcon(modelRep.getGameBoardRep().getCurrentPlayer());
     }

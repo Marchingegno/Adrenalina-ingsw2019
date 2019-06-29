@@ -297,8 +297,8 @@ public class GUIView extends RemoteView {
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
             powerupChoiceController.activateNoPowerupButton(true);
-			int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
-            powerupChoiceController.setTitle("Choose the poweup to used");
+            powerupChoiceController.setTitle("Choose the powerup you want to use");
+            int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
 			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		});
 	}

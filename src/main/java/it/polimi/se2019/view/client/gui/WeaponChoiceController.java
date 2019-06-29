@@ -41,7 +41,7 @@ public class WeaponChoiceController {
 			answer = 0;
 		if (request == Request.RELOAD)
 			guiView.sendMessage(new IntMessage(0, MessageType.RELOAD, MessageSubtype.ANSWER));
-		else
+		if (request == Request.CHOOSE)
 			guiView.sendMessage(new IntMessage(0, MessageType.WEAPON, MessageSubtype.ANSWER));
 		stage.close();
 	}
@@ -52,7 +52,7 @@ public class WeaponChoiceController {
 			answer = 1;
 		if (request == Request.RELOAD)
 			guiView.sendMessage(new IntMessage(1, MessageType.RELOAD, MessageSubtype.ANSWER));
-		else
+		if (request == Request.CHOOSE)
 			guiView.sendMessage(new IntMessage(1, MessageType.WEAPON, MessageSubtype.ANSWER));
 		stage.close();
 	}
@@ -63,7 +63,7 @@ public class WeaponChoiceController {
 			answer = 2;
 		if (request == Request.RELOAD)
 			guiView.sendMessage(new IntMessage(2, MessageType.RELOAD, MessageSubtype.ANSWER));
-		else
+		if (request == Request.CHOOSE)
 			guiView.sendMessage(new IntMessage(2, MessageType.WEAPON, MessageSubtype.ANSWER));
 		stage.close();
 	}

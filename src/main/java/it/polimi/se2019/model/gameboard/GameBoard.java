@@ -33,6 +33,7 @@ public class GameBoard extends Observable implements Representable {
 	private boolean frenzyStarted;
 	private List<Player> players;
 	private int remainingSkulls;
+	private int startingSkulls;
 	private List<KillShot> killShots;
 	private List<Player> doubleKills;
 	private WeaponDeck weaponDeck;
@@ -48,6 +49,7 @@ public class GameBoard extends Observable implements Representable {
 
 		// initialize GameBoard attributes
 		remainingSkulls = startingSkulls;
+		this.startingSkulls = startingSkulls;
 		killShots = new ArrayList<>();
 		doubleKills = new ArrayList<>();
 		weaponDeck = new WeaponDeck(this);
@@ -74,6 +76,15 @@ public class GameBoard extends Observable implements Representable {
 	 */
 	public PlayerQueue getPlayerQueue() {
 		return playerQueue;
+	}
+
+	/**
+	 * Returns the number of starting skulls.
+	 *
+	 * @return the number of starting skulls.
+	 */
+	public int getStartingSkulls() {
+		return startingSkulls;
 	}
 
 	/**
@@ -175,7 +186,6 @@ public class GameBoard extends Observable implements Representable {
 
 			killShotInThisTurn = true;
 		}
-
 		setChanged();
 	}
 
@@ -226,6 +236,15 @@ public class GameBoard extends Observable implements Representable {
 	 */
 	public AmmoDeck getAmmoDeck() {
 		return ammoDeck;
+	}
+
+	/**
+	 * Sets killShotInThisTurn to the specified value.
+	 *
+	 * @param bool
+	 */
+	public void setKillShotInThisTurn(boolean bool) {
+		killShotInThisTurn = bool;
 	}
 
 	/**

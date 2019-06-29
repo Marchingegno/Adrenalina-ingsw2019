@@ -19,7 +19,7 @@ public class GameBoardRep implements Representation {
 	private List<KillShotRep> killShoots;
 	private String currentPlayer;
 	private int numberOfPlayers;
-
+	private int startingSkulls;
 
 	public GameBoardRep(GameBoard gameBoard) {
 		this.remainingSkulls = gameBoard.getRemainingSkulls();
@@ -31,6 +31,16 @@ public class GameBoardRep implements Representation {
 			killShoots.add((KillShotRep) killShot.getRep());
 		this.currentPlayer = gameBoard.getCurrentPlayer().getPlayerName();
 		this.numberOfPlayers = gameBoard.getPlayers().size();
+		this.startingSkulls = gameBoard.getStartingSkulls();
+	}
+
+	/**
+	 * Returns the number of starting skulls.
+	 *
+	 * @return the number of starting skulls.
+	 */
+	public int getStartingSkulls() {
+		return startingSkulls;
 	}
 
 	/**

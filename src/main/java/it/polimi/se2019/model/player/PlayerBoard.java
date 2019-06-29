@@ -118,7 +118,8 @@ public class PlayerBoard {
 				if (priceToPay.get(i).equals(powerup.getAssociatedAmmo())) {
 					priceToPay.remove(i);
 					powerups.remove(powerup);
-					Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): can pay with " + powerup + " so it has been discarded1");
+					Utils.logInfo("PlayerBoard -> hasEnoughAmmo(): can pay with " + powerup + " so it has been discarded");
+					break;
 				}
 			}
 		}
