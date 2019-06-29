@@ -193,8 +193,12 @@ public class PlayerRepTest {
 
 	@Test
 	public void equals_initialState_correctOutput() {
+		PlayerRep playerRep = new PlayerRep(player1);
+		assertEquals(playerRep, playerRep);
 		assertEquals(new PlayerRep(player1), new PlayerRep(player1));
 		assertNotEquals(new PlayerRep(player1), new PlayerRep(player2));
+		assertNotEquals(new PlayerRep(player1), "test");
+		assertNotEquals(new PlayerRep(player1), null);
 	}
 
 	@Test

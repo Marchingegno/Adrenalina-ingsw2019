@@ -106,7 +106,6 @@ public class PlayerRep implements Representation {
 		newPlayerRep.powerupCards = null; // hidden
 		newPlayerRep.weaponReps = new ArrayList<>();
 		for (WeaponRep weaponRep : this.weaponReps) {
-			//maybe the rep should be cloned
 			if (!weaponRep.isLoaded())
 				newPlayerRep.weaponReps.add(weaponRep);
 		}

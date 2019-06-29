@@ -280,7 +280,7 @@ public class PlayerBoard {
 	 */
 	public void addPowerup(PowerupCard powerupToAdd) {
 		if(powerupCards.size() >= GameConstants.MAX_POWERUP_CARDS_PER_PLAYER) {
-			Utils.logError("Cannot add another powerup card since the inventory is full.", new InventoryFullException(""));
+			throw new InventoryFullException("Cannot add another powerup card since the inventory is full.");
 		}
 		powerupCards.add(powerupToAdd);
 		Utils.logInfo("PlayerBoard -> addPowerup(): Added to the player " + powerupToAdd.getCardName());
