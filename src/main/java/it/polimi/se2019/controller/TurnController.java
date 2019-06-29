@@ -86,10 +86,11 @@ public class TurnController{
 				} else {
 					if(!model.hasCurrentPlayerPayed())
 						handlePayment(virtualView, model.getPriceOfTheSelectedWeapon(((IntMessage) event.getMessage()).getContent()), event);
-					else{
+					else {
 						model.setPayed(false);
 						model.reloadWeapon(playerName, ((IntMessage) event.getMessage()).getContent());
-						virtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerName));}
+						handleReloadEnd(virtualView);
+					}
 				}
 				break;
 			case WEAPON:
@@ -158,8 +159,14 @@ public class TurnController{
 		}
 	}
 
+	private void handleReloadEnd(VirtualView playerVirtualView) {
+		if (model.isInAMacroAction(playerVirtualView.getNickname())) handleNextAction(playerVirtualView);
+		else playerVirtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerVirtualView.getNickname()));
+	}
+
 	private void handleActionEnd(VirtualView playerVirtualView) {
 		String playerName = playerVirtualView.getNickname();
+		model.endAction(playerName);
 		if(model.doesThePlayerHaveActionsLeft(playerName)){
 			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveLoadedWeapons(playerName));
 		} else {
@@ -167,9 +174,9 @@ public class TurnController{
 		}
 	}
 
-
 	// ####################################
 	// WEAPONS METHODS
+
 	// ####################################
 
 	private void initialWeaponActivation(VirtualView virtualView, int indexOfWeapon) {
@@ -203,9 +210,9 @@ public class TurnController{
 		}
 	}
 
-
 	// ####################################
 	// POWERUPS METHODS
+
 	// ####################################
 
 	private void handleInitialOnDamagePowerup() {
@@ -250,16 +257,15 @@ public class TurnController{
 			handleInitialOnDamagePowerup();
 	}
 
-
 	// ####################################
 	// PAYMENT METHODS
+
 	// ####################################
 
 	private void resolvePayment(VirtualView virtualView, List<Integer> integers, List<AmmoType> priceToPay){
 		model.pay(virtualView.getNickname(), priceToPay, integers);
 		processEvent(model.resumeAction());
 	}
-
 	private void handlePayment(VirtualView virtualView, List<AmmoType> ammoToPay, Event eventToSave){
 		model.saveEvent(eventToSave);
 		if(!model.canUsePowerupToPay(virtualView.getNickname(), ammoToPay)){
@@ -268,4 +274,5 @@ public class TurnController{
 			virtualView.askToPay(ammoToPay, model.canAffordWithOnlyAmmo(virtualView.getNickname(), ammoToPay));
 		}
 	}
+
 }

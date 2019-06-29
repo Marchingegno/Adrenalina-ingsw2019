@@ -154,6 +154,16 @@ public class Model {
 		return ((WeaponCard) gameMap.getPlayerSquare(getCurrentPlayer()).getCards().get(index)).getGrabPrice();
 	}
 
+	public boolean isInAMacroAction(String playerName){
+		Player player = getPlayerFromName(playerName);
+		return player.getDamageStatus().getCurrentMacroActionIndex() != -1;
+	}
+
+	public void endAction(String playerName){
+		Player player = getPlayerFromName(playerName);
+		gameBoard.endAction(player);
+	}
+
 	public List<AmmoType> getPriceOfTheSelectedWeapon(int index) {
 		return ((getCurrentPlayer().getPlayerBoard().getWeaponCards()).get(index)).getReloadPrice();
 	}
@@ -170,6 +180,8 @@ public class Model {
 		}
 		updateReps();
 	}
+
+
 
 	public void setAsReconnected(String playerName) {
 		Player player = getPlayerFromName(playerName);

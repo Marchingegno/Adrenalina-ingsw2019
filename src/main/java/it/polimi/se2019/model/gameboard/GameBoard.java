@@ -189,6 +189,10 @@ public class GameBoard extends Observable implements Representable {
 		setChanged();
 	}
 
+	public void endAction(Player player){
+		player.getDamageStatus().setCurrentMacroActionIndex(-1);
+	}
+
 	/**
 	 * Returns a copy of the kill shot track.
 	 *
