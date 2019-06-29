@@ -1,7 +1,7 @@
 package it.polimi.se2019.view.client.gui;
 
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.utils.PlayersPosition;
+import it.polimi.se2019.utils.PlayerRepPosition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +26,7 @@ public class EndGameController {
 	private Stage stage;
 	private ObservableList<Scores> finalScores = FXCollections.observableArrayList();
 
-	public void setValues(Stage stage, List<PlayersPosition> finalPlayersInfo) {
+	public void setValues(Stage stage, List<PlayerRepPosition> finalPlayersInfo) {
 		this.stage = stage;
 		for (int i = 0; i < finalPlayersInfo.size(); i++) {
 			for (int j = 0; j < finalPlayersInfo.get(i).getPlayerReps().size(); j++) {

@@ -200,7 +200,7 @@ public abstract class VirtualViewDriver extends VirtualView {
 	}
 
 	@Override
-	public void endOfGame(List<PlayersPosition> finalPlayersInfo) {
+	public void endOfGame(List<PlayerRepPosition> finalPlayersInfo) {
 		Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.BLUE) + " GAME ENDED " + Color.getColoredString("##################", Color.CharacterColorType.BLUE));
 	}
 

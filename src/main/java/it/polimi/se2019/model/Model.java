@@ -38,7 +38,7 @@ public class Model {
 
 	// Game ending variables
 	private boolean gameEnded = false;
-	private List<PlayersPosition> finalPlayersPosition;
+	private List<PlayerRepPosition> finalPlayerRepPosition;
 
 	public Model(String mapName, List<String> playerNames, int startingSkulls) {
 		if(startingSkulls < GameConstants.MIN_SKULLS || startingSkulls > GameConstants.MAX_SKULLS)
@@ -360,17 +360,24 @@ public class Model {
 		return gameMap.reachableCoordinates(player, distance);
 	}
 
-	public void endGame() {
+	// ####################################
+	// ENDGAME METHODS
+	// ####################################
+
+	public void endGameAndFindWinner() {
 		gameEnded = true;
-		finalPlayersPosition = new ArrayList<>();
-		List<PlayersPosition> tempPlayersPosition = new ArrayList<>();
+		finalPlayerRepPosition = new ArrayList<>();
+		List<LeaderboardSlot> tempLeaderBoard;
 
 
 		scorePlayersInEndGame();
 		awardKillshotTrackPoint();
-		//TODO from here
-		setWinners(tempPlayersPosition);
-		finalPlayersPosition = tieBreak(tempPlayersPosition);
+
+		//This sets the winners in their positions without tiebreaking.
+		tempLeaderBoard = setWinners();
+
+		//tieBreak returns the final scores.
+		finalPlayerRepPosition = tieBreak(tempLeaderBoard);
 	}
 
 	private void scorePlayersInEndGame() {
@@ -407,13 +414,15 @@ public class Model {
 
 		int offset = 0;
 		for (Player p : sortedPlayers) {
+			Utils.logInfo("Killshot: player " + p.getPlayerName() + " is awarded " + GameConstants.KILLSHOT_SCORES.get(offset) + " points.");
 			p.getPlayerBoard().addPoints(GameConstants.KILLSHOT_SCORES.get(offset));
 			offset++;
 		}
 
 	}
 
-	private void setWinners(List<PlayersPosition> positions) {
+	private List<LeaderboardSlot> setWinners() {
+		List<LeaderboardSlot> leaderboard = new ArrayList<>();
 
 		for (Player player : gameBoard.getPlayers()) {
 			player.updateRep();
@@ -429,56 +438,68 @@ public class Model {
 		List<Player> players = gameBoard.getPlayers();
 		players.sort(playerComparator);
 
-
-	}
-
-	private List<PlayersPosition> tieBreak(List<PlayersPosition> positions) {
-		return null;
-	}
-
-	public void endGameAndFindWinner() {
-		gameEnded = true;
-		// TODO punti tracciato colpo mortale, in caso di parità chi ha preso più punti da colpi mortali. Se entrambi nessun colpo mortale allora parità.
-
-		// Initialization.
-		finalPlayersPosition = new ArrayList<>();
-		for(Player player : gameBoard.getPlayers()) {
-			player.updateRep();
-		}
-
-		// First position.
-		PlayersPosition p1 = new PlayersPosition();
-		p1.addInPosition((PlayerRep) gameBoard.getPlayers().get(0).getRep());
-		finalPlayersPosition.add(p1);
-
-		for(int i = 1; i < gameBoard.getPlayers().size(); i++) {
-			Player currPlayer = gameBoard.getPlayers().get(i);
-			int currPoints = currPlayer.getPlayerBoard().getPoints();
-
-			// Check if curr must be put last.
-			if(currPoints < finalPlayersPosition.get(finalPlayersPosition.size() - 1).getPlayerReps().get(0).getPoints()) {
-				PlayersPosition newP = new PlayersPosition();
-				newP.addInPosition((PlayerRep) currPlayer.getRep());
-				finalPlayersPosition.add(newP);
+		int precPoint = -1;
+		int precIndex = -1;
+		for (int i = 0; i < players.size(); i++) {
+			Player currPlayer = players.get(i);
+			if (currPlayer.getPlayerBoard().getPoints() == precPoint) {
+				//This is a tie,
+				leaderboard.get(precIndex).addInPosition(currPlayer);
 			} else {
-				for(int j = 0; j < finalPlayersPosition.size(); j++) {
-					// If curr has same points.
-					if(currPoints == finalPlayersPosition.get(j).getPlayerReps().get(0).getPoints()) {
-						finalPlayersPosition.get(j).addInPosition((PlayerRep) currPlayer.getRep());
-					}
-					// If curr has more points.
-					if(currPoints > finalPlayersPosition.get(j).getPlayerReps().get(0).getPoints()) {
-						PlayersPosition newP = new PlayersPosition();
-						newP.addInPosition((PlayerRep) currPlayer.getRep());
-						finalPlayersPosition.add(j, newP);
-					}
-				}
+				precPoint = currPlayer.getPlayerBoard().getPoints();
+				precIndex = i;
+				leaderboard.add(i, new LeaderboardSlot());
+				leaderboard.get(i).addInPosition(currPlayer);
 			}
 		}
+
+		return leaderboard;
 	}
 
-	public List<PlayersPosition> getFinalPlayersInfo() {
-		return finalPlayersPosition;
+	private List<PlayerRepPosition> tieBreak(List<LeaderboardSlot> leaderboard) {
+		List<PlayerRepPosition> playerRepLeaderboard = new ArrayList<>();
+
+		int nextPosition = 0;
+		for (int i = 0; i < leaderboard.size(); i++) {
+			if (leaderboard.get(i).isATie()) {
+				List<Player> tiedPlayers = leaderboard.get(i).getPlayersInThisPosition();
+				List<Player> orderedPlayers = new ArrayList<>();
+
+				List<KillShot> killShotTrack = gameBoard.getKillShots();
+				for (int j = 0; j < killShotTrack.size(); j++) {
+					if (tiedPlayers.indexOf(killShotTrack.get(i).getPlayer()) != -1) {
+						//I found a tied player in the killshot track.
+						//This player should be the next in leaderboard.
+						orderedPlayers.add(killShotTrack.get(i).getPlayer());
+					}
+				}
+				//Here, if the size of orderedPlayers is less than tiedPlayers, it means that
+				//one or more tied players has not obtained killshots.
+				//These player(s) should be classified right after ordered players.
+				for (Player player : orderedPlayers) {
+					playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
+					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
+					nextPosition++;
+				}
+
+				tiedPlayers.removeAll(orderedPlayers);
+				//These remaining players are DEFINITELY tied together.
+				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
+				for (Player player : tiedPlayers) {
+					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
+				}
+				nextPosition++;
+			} else {
+				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
+				playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) leaderboard.get(i).getPlayer().getRep());
+				nextPosition++;
+			}
+		}
+		return playerRepLeaderboard;
+	}
+
+	public List<PlayerRepPosition> getFinalPlayersInfo() {
+		return finalPlayerRepPosition;
 	}
 
 
