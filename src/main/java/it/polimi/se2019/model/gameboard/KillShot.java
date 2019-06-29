@@ -9,7 +9,7 @@ import it.polimi.se2019.model.player.Player;
  *
  * @author Desno365
  */
-class KillShot implements Representable {
+public class KillShot implements Representable {
 
 	private Player player;
 	private boolean overkill;
@@ -18,6 +18,16 @@ class KillShot implements Representable {
 	KillShot(Player shootingPlayer, boolean overkill) {
 		player = shootingPlayer;
 		this.overkill = overkill;
+	}
+
+	/**
+	 * Returns the points associated with this KillShot.
+	 * 2 points if is an overkill, otherwise 1 point.
+	 *
+	 * @return the points associated with this KillShot.
+	 */
+	public int getPoints() {
+		return isOverkill() ? 2 : 1;
 	}
 
 	/**

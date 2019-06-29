@@ -1,6 +1,7 @@
 package it.polimi.se2019.model;
 
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.DamageDone;
 import org.junit.Test;
 
 import java.util.ArrayList;

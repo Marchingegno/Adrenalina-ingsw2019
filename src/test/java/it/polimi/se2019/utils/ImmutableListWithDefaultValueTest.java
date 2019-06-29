@@ -31,7 +31,7 @@ public class ImmutableListWithDefaultValueTest {
 	@Test
 	public void getDefaultValue_shouldGiveLastElement() {
 		assertEquals(1, listToTest.getDefaultValue());
-		assertEquals(1, (int) GameConstants.SCORES.getDefaultValue());
+		assertEquals(1, (int) GameConstants.PLAYER_SCORES.getDefaultValue());
 		assertEquals(1, (int) GameConstants.FRENZY_SCORES.getDefaultValue());
 	}
 

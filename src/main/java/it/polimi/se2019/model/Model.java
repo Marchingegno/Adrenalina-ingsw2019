@@ -6,6 +6,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.gameboard.KillShot;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
@@ -80,7 +81,6 @@ public class Model {
 		return gameBoard.isFrenzyStarted();
 	}
 
-	//TODO: Revisit the location of the first player. I don't know if he is the player that just ended the turn, or the following.
 	public void startFrenzy() {
 		gameBoard.startFrenzy();
 
@@ -358,6 +358,82 @@ public class Model {
 	public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
 		Player player = getPlayerFromName(playerName);
 		return gameMap.reachableCoordinates(player, distance);
+	}
+
+	public void endGame() {
+		gameEnded = true;
+		finalPlayersPosition = new ArrayList<>();
+		List<PlayersPosition> tempPlayersPosition = new ArrayList<>();
+
+
+		scorePlayersInEndGame();
+		awardKillshotTrackPoint();
+		//TODO from here
+		setWinners(tempPlayersPosition);
+		finalPlayersPosition = tieBreak(tempPlayersPosition);
+	}
+
+	private void scorePlayersInEndGame() {
+		//This will score EVERY player in the endgame phase.
+		gameBoard.getPlayers().forEach(this::scorePlayerEndGame);
+	}
+
+	private void scorePlayerEndGame(Player player) {
+		PlayerBoard playerBoard = player.getPlayerBoard();
+		DamageDone damageDone = new DamageDone();
+		List<Player> sortedPlayers;
+
+		playerBoard.getDamageBoard().forEach(damageDone::damageUp);
+
+		sortedPlayers = damageDone.getSortedPlayers();
+		awardPoints(playerBoard, sortedPlayers);
+	}
+
+	private void awardKillshotTrackPoint() {
+		//Here I will use DamageDone since it's a similar procedure
+		//to scoring DamageBoards and has the capability to sort itself.
+		DamageDone damageDone = new DamageDone();
+		List<KillShot> killShotList = gameBoard.getKillShots();
+		List<Player> sortedPlayers;
+
+		for (KillShot killShot : killShotList) {
+			damageDone.damageUp(killShot.getPlayer());
+			if (killShot.isOverkill()) {
+				damageDone.damageUp(killShot.getPlayer());
+			}
+		}
+
+		sortedPlayers = damageDone.getSortedPlayers();
+
+		int offset = 0;
+		for (Player p : sortedPlayers) {
+			p.getPlayerBoard().addPoints(GameConstants.KILLSHOT_SCORES.get(offset));
+			offset++;
+		}
+
+	}
+
+	private void setWinners(List<PlayersPosition> positions) {
+
+		for (Player player : gameBoard.getPlayers()) {
+			player.updateRep();
+		}
+
+		Comparator<Player> playerComparator = (o1, o2) -> {
+			int firstPoints = o1.getPlayerBoard().getPoints();
+			int secondPoints = o2.getPlayerBoard().getPoints();
+
+			return firstPoints - secondPoints;
+		};
+
+		List<Player> players = gameBoard.getPlayers();
+		players.sort(playerComparator);
+
+
+	}
+
+	private List<PlayersPosition> tieBreak(List<PlayersPosition> positions) {
+		return null;
 	}
 
 	public void endGameAndFindWinner() {
@@ -718,13 +794,14 @@ public class Model {
 		updateReps();
 	}
 
-	private void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers) {
+	private void awardPoints(PlayerBoard playerBoardToScore, List<Player> sortedPlayers) {
 		int offset = 0;
 
 		//TODO: The implementation is WRONG. A player should give FRENZY_SCORES only if the playerBoard is flipped. @Marchingegno
+		//I think this is solved.
 
-		//This method relies on the "SCORES" array defined in GameConstants.
-		if (deadPlayerBoard.isFlipped()) {
+		//This method relies on the "PLAYER_SCORES" array defined in GameConstants.
+		if (playerBoardToScore.isFlipped()) {
 			for (Player p : sortedPlayers) {
 				p.getPlayerBoard().addPoints(GameConstants.FRENZY_SCORES.get(offset));
 				offset++;
@@ -734,13 +811,8 @@ public class Model {
 			sortedPlayers.get(0).getPlayerBoard().addPoints(1);
 
 			for (Player p : sortedPlayers) {
-				p.getPlayerBoard().addPoints(GameConstants.SCORES.get(deadPlayerBoard.getNumberOfDeaths() + offset));
+				p.getPlayerBoard().addPoints(GameConstants.PLAYER_SCORES.get(playerBoardToScore.getNumberOfDeaths() + offset));
 				offset++;
-				/*Se con questa morte si attiva la frenzy, o la frenzy è già attivata,
-				 *si deve swappare la damageBoard e il damageStatus del player.
-				 *
-				 * Fatto dal gameController!
-				 */
 			}
 
 		}
@@ -771,87 +843,3 @@ public class Model {
 	}
 }
 
-/**
- * Data structure that helps with counting players and damage done on damage boards.
- *
- * @author Marchingegno
- */
-class DamageDone {
-	private ArrayList<Player> players;
-	private ArrayList<Integer> damages;
-
-
-	DamageDone() {
-		this.players = new ArrayList<>();
-		this.damages = new ArrayList<>();
-	}
-
-	/**
-	 * Only for testing purposes.
-	 */
-	List<Integer> getDamages() {
-		return new ArrayList<>(damages);
-	}
-
-
-	/**
-	 * Only for testing purposes.
-	 */
-	List<Player> getPlayers() {
-		return new ArrayList<>(players);
-	}
-
-	void damageUp(Player player) {
-
-		int indexOfPlayer;
-		int oldDamage;
-
-		if (!players.contains(player)) {
-			addPlayer(player);
-		}
-
-		indexOfPlayer = players.indexOf(player);
-		oldDamage = damages.get(indexOfPlayer);
-		damages.set(indexOfPlayer, (oldDamage + 1));
-	}
-
-	ArrayList<Player> getSortedPlayers() {
-		sort();
-		return new ArrayList<>(players);
-	}
-
-	private void addPlayer(Player player) {
-		players.add(player);
-		damages.add(0);
-	}
-
-	private void sort() {
-		Player pToSwap;
-		Integer iToSwap;
-
-		while (!isSorted()) {
-			for (int i = damages.size() - 1; i > 0; i--) {
-				if (damages.get(i) > damages.get(i - 1)) {
-					//Swap in damages
-					iToSwap = damages.get(i);
-					damages.set(i, damages.get(i - 1));
-					damages.set(i - 1, iToSwap);
-
-					//Swap in players
-					pToSwap = players.get(i);
-					players.set(i, players.get(i - 1));
-					players.set(i - 1, pToSwap);
-				}
-			}
-		}
-	}
-
-	private boolean isSorted() {
-		for (int i = 0; i < damages.size() - 1; i++) {
-			if (damages.get(i) < damages.get(i + 1)) {
-				return false;
-			}
-		}
-		return true;
-	}
-}
