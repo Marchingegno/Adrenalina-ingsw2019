@@ -20,6 +20,7 @@ public interface RMIServerSkeletonInterface extends Remote {
 
 	/**
 	 * Receives a message from the client and handles it. This method is called remotely by the client.
+	 * @param rmiClientInterface the client sending the message
 	 * @param message the message received from the client.
 	 * @throws RemoteException
 	 */
@@ -28,6 +29,7 @@ public interface RMIServerSkeletonInterface extends Remote {
 	/**
 	 * Called by the RMI client to check for a connection lost.
 	 * When this method interrupts the client knows the connection has been lost.
+	 * @param rmiClientInterface the client checking for connection lost.
 	 * @throws RemoteException
 	 * @throws InterruptedException
 	 */

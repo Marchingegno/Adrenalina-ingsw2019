@@ -92,7 +92,7 @@ public class Coordinates implements Serializable {
 	}
 
 	/**
-	 * Returns the hash code of the object. To generate it is used the bijective function from f: NXN -> N where f(n, m) = 2^(n - 1) * (2 * m - 1).
+	 * Returns the hash code of the object. To generate it is used the bijective function from f: NXN : N where f(n, m) = 2^(n - 1) * (2 * m - 1).
 	 * @return the hash code of the object
 	 */
 	@Override

@@ -241,7 +241,7 @@ public class GameBoard extends Observable implements Representable {
 	/**
 	 * Sets killShotInThisTurn to the specified value.
 	 *
-	 * @param bool
+	 * @param bool the value to set killShotInThisTurn.
 	 */
 	public void setKillShotInThisTurn(boolean bool) {
 		killShotInThisTurn = bool;

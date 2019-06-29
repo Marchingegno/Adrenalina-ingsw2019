@@ -50,7 +50,7 @@ public class AmmoContainer {
 	 * Adds the specified number of ammo of the specified type.
 	 *
 	 * @param ammoToAdd      type of ammo to add.
-	 * @param numOfAmmoToAdd number of ammo to add, must be >= 0.
+	 * @param numOfAmmoToAdd number of ammo to add, must be greater or equal to than 0.
 	 * @throws IllegalArgumentException if the amount of ammo to add is negative.
 	 */
 	public void addAmmo(AmmoType ammoToAdd, int numOfAmmoToAdd) {
@@ -78,7 +78,7 @@ public class AmmoContainer {
 	 * Removes the the specified number of ammo.
 	 *
 	 * @param ammoToRemove      type of ammo to remove.
-	 * @param numOfAmmoToRemove number of ammo remove, must be >= 0.
+	 * @param numOfAmmoToRemove number of ammo remove, must be greater or equal to 0.
 	 * @throws IllegalArgumentException if the amount of ammo to remove is negative.
 	 * @throws IllegalArgumentException if the amount of ammo to remove is grater than the ammo available.
 	 */

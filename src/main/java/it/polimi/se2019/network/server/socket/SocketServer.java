@@ -23,6 +23,7 @@ public class SocketServer extends Thread implements Closeable {
 	/**
 	 * Starts a thread that listens for new connection requests.
 	 * @param serverEventsListener the event listener to which all events are forwarded.
+	 * @throws IOException
 	 */
 	public SocketServer(ServerEventsListenerInterface serverEventsListener) throws IOException {
 		super("CUSTOM: Socket Connection Request Listener"); // Give a name to the thread for debugging purposes.

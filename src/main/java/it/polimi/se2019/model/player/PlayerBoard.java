@@ -31,6 +31,7 @@ public class PlayerBoard {
 
 	/**
 	 * Create an empty PlayerBoard ready to be used.
+	 * @param playerName the name of the player (only used for debugging purposes).
 	 */
 	public PlayerBoard(String playerName) {
 		damageBoard = new ArrayList<>();

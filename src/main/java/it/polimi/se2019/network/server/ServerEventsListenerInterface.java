@@ -19,6 +19,7 @@ public interface ServerEventsListenerInterface {
 	/**
 	 * Called when receiving a message from the client.
 	 * This method will process messages of type GAME_CONFIG or NICKNAME. Other messages are forwarded to the VirtualView.
+	 * @param client the client that sent the message.
 	 * @param message the message received.
 	 */
 	void onMessageReceived(AbstractConnectionToClient client, Message message);

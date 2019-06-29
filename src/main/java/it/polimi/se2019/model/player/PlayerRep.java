@@ -246,8 +246,9 @@ public class PlayerRep implements Representation {
 	}
 
 	/**
-	 * Returns the total amount of red ammo this player posses.
+	 * Returns the total amount of ammo of a particular ammo type this player posses.
 	 *
+	 * @param ammoType the ammoType to check for.
 	 * @return the total amount of red ammo this player posses.
 	 */
 	public int getAmmo(AmmoType ammoType) {

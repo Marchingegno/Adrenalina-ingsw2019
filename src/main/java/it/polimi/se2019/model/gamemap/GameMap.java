@@ -57,6 +57,7 @@ public class GameMap extends Observable implements Representable {
 
 	/**
 	 * Returns the name of the map.
+	 * @return the name of the map.
 	 */
 	public String getName() {
 		return mapName;
@@ -274,9 +275,6 @@ public class GameMap extends Observable implements Representable {
 			throw new PlayerNotInTheMapException("player position is null");
 	}
 
-	/**
-	 *
-	 */
 	public boolean isInTheMap(Player player) {
 		return playersPositions.get(player) != null;
 	}
@@ -377,10 +375,11 @@ public class GameMap extends Observable implements Representable {
 	}
 
 	/**
-	 * Returns a list of all coordinates reachable with 2 moves but following only the cardinal directions.
+	 * Returns a list of all coordinates reachable with a number of moves but following only the cardinal directions.
 	 *
 	 * @param player the player that wants to move.
-	 * @return a list of all coordinates reachable with 2 moves but following only cardinal directions.
+	 * @param distance the maximum amount of moves.
+	 * @return a list of all coordinates reachable with the number of moves specified but following only cardinal directions.
 	 */
 	public List<Coordinates> reachablePerpendicularCoordinates(Player player, int distance) {
 		ArrayList<Coordinates> possibleMoves = new ArrayList<>();
