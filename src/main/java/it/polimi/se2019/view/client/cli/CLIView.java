@@ -294,6 +294,8 @@ public class CLIView extends RemoteView {
 
 			}
 		}
+
+		Client.terminateClient();
 	}
 
 	/**
