@@ -376,6 +376,8 @@ public class Model {
 		//This sets the winners in their positions without tiebreaking.
 		tempLeaderBoard = setWinners();
 
+		updateReps();
+
 		//tieBreak returns the final scores.
 		finalPlayerRepPosition = tieBreak(tempLeaderBoard);
 	}
