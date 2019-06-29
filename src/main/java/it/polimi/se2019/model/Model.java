@@ -628,6 +628,19 @@ public class Model {
 
 
 	// ####################################
+	// PROTECTED METHODS
+	// ####################################
+
+	protected Player getPlayerFromName(String playerName) {
+		for (Player player : gameBoard.getPlayers()) {
+			if (playerName.equals(player.getPlayerName()))
+				return player;
+		}
+		throw new IllegalArgumentException("No player with name: " + playerName);
+	}
+
+
+	// ####################################
 	// PRIVATE METHODS
 	// ####################################
 
@@ -723,14 +736,6 @@ public class Model {
 
 	private boolean hasEnoughAmmo(Player player, WeaponCard weapon) {
 		return player.hasEnoughAmmo(weapon.getGrabPrice());
-	}
-
-	private Player getPlayerFromName(String playerName) {
-		for (Player player : gameBoard.getPlayers()) {
-			if (playerName.equals(player.getPlayerName()))
-				return player;
-		}
-		throw new IllegalArgumentException("No player with name: " + playerName);
 	}
 
 	private void updateReps() {
