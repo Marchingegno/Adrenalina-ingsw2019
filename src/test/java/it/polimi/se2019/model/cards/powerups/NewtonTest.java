@@ -9,7 +9,6 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,14 +16,9 @@ import java.util.List;
 
 public class NewtonTest {
 
-	@BeforeClass
-	public static void oneTimeSetUp() {
-	}
-
 	private PowerupCard newton;
 	private GameMap gameMap;
 	private ModelDriver model;
-	private List<Player> players;
 
 	@Before
 	public void setUp() {
@@ -40,8 +34,7 @@ public class NewtonTest {
 
 
 		gameMap = model.getGameBoard().getGameMap();
-		players = model.getGameBoard().getPlayers();
-		newton.setOwner(players.get(0));
+		newton.setOwner(model.getGameBoard().getPlayers().get(0));
 
 
 		for(String playerName : playerNicknames) {
@@ -56,17 +49,20 @@ public class NewtonTest {
 
 	@Test
 	public void allSteps_initialState_correctOutput() {
+		// Do first step.
 		QuestionContainer questionContainer1 = newton.firstStep();
 		Assert.assertTrue(questionContainer1.isAskString());
 		Assert.assertEquals(4, questionContainer1.getOptions().size());
 		Assert.assertFalse(newton.isActivationConcluded());
 		Player playerChosen = model.getPlayerFromName(questionContainer1.getOptions().get(0));
 
+		// Do second step.
 		QuestionContainer questionContainer2 = newton.secondStep(0);
 		Assert.assertTrue(questionContainer2.isAskCoordinates());
 		Assert.assertFalse(newton.isActivationConcluded());
 		Coordinates coordinatesChosen = questionContainer2.getCoordinates().get(0);
 
+		// Do thrid step.
 		QuestionContainer questionContainer3 = newton.thirdStep(0);
 		Assert.assertNull(questionContainer3);
 		Assert.assertEquals(coordinatesChosen, gameMap.getPlayerCoordinates(playerChosen));
