@@ -60,6 +60,9 @@ public class DamageDone {
 	}
 
 	private void sort() {
+		if (damages.size() <= 1) {
+			return;
+		}
 		Player pToSwap;
 		Integer iToSwap;
 

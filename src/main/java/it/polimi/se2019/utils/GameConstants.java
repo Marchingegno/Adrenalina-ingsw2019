@@ -9,8 +9,8 @@ package it.polimi.se2019.utils;
 public class GameConstants {
 
 	public static final int MAX_PLAYERS = 5;
-	public static final int DEATH_DAMAGE = 11;
-	public static final int OVERKILL_DAMAGE = 12;
+	public static final int DEATH_DAMAGE = 2;
+	public static final int OVERKILL_DAMAGE = 3;
 	public static final int MAX_MARKS_PER_PLAYER = 3;
 	public static final int MAX_WEAPON_CARDS_PER_PLAYER = 3;
 	public static final int MAX_POWERUP_CARDS_PER_PLAYER = 3;
@@ -20,8 +20,9 @@ public class GameConstants {
 	public static final int MAX_SKULLS = 8;
 	public static final int MIN_PLAYERS = 3;
 	public static final int NUMBER_OF_ACTIONS_PER_TURN = 2;
-	public static final int FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN = 1;
+	public static final int FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN = 2;
 	public static final int FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN = 1;
+	public static final int FIRST_BLOOD_SCORE = 1;
 	public static final ImmutableListWithDefaultValue<Integer> KILLSHOT_SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{8, 6, 4, 2}, 1);
 	public static final ImmutableListWithDefaultValue<Integer> PLAYER_SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{8, 6, 4, 2}, 1);
 	public static final ImmutableListWithDefaultValue<Integer> FRENZY_SCORES = new ImmutableListWithDefaultValue<>(new Integer[]{2}, 1);

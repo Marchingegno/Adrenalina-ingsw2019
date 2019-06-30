@@ -369,6 +369,7 @@ public class Model {
 		finalPlayerRepPosition = new ArrayList<>();
 		List<LeaderboardSlot> tempLeaderBoard;
 
+		Utils.logInfo("Initiating endGame.");
 
 		scorePlayersInEndGame();
 		awardKillshotTrackPoint();
@@ -388,6 +389,7 @@ public class Model {
 	}
 
 	private void scorePlayerEndGame(Player player) {
+		Utils.logInfo("Scoring " + player.getPlayerName());
 		PlayerBoard playerBoard = player.getPlayerBoard();
 		DamageDone damageDone = new DamageDone();
 		List<Player> sortedPlayers;
@@ -404,6 +406,8 @@ public class Model {
 		DamageDone damageDone = new DamageDone();
 		List<KillShot> killShotList = gameBoard.getKillShots();
 		List<Player> sortedPlayers;
+
+		Utils.logInfo("Awarding killshots points.");
 
 		for (KillShot killShot : killShotList) {
 			damageDone.damageUp(killShot.getPlayer());
@@ -429,6 +433,8 @@ public class Model {
 		for (Player player : gameBoard.getPlayers()) {
 			player.updateRep();
 		}
+
+		Utils.logInfo("Finding winners.");
 
 		Comparator<Player> playerComparator = (o1, o2) -> {
 			int firstPoints = o1.getPlayerBoard().getPoints();
@@ -460,6 +466,8 @@ public class Model {
 
 	private List<PlayerRepPosition> tieBreak(List<LeaderboardSlot> leaderboard) {
 		List<PlayerRepPosition> playerRepLeaderboard = new ArrayList<>();
+
+		Utils.logInfo("Breaking ties.");
 
 		int nextPosition = 0;
 		for (int i = 0; i < leaderboard.size(); i++) {
@@ -819,9 +827,9 @@ public class Model {
 
 	private void awardPoints(PlayerBoard playerBoardToScore, List<Player> sortedPlayers) {
 		int offset = 0;
-
-		//TODO: The implementation is WRONG. A player should give FRENZY_SCORES only if the playerBoard is flipped. @Marchingegno
-		//I think this is solved.
+		if (playerBoardToScore.getDamageBoard().isEmpty()) {
+			return;
+		}
 
 		//This method relies on the "PLAYER_SCORES" array defined in GameConstants.
 		if (playerBoardToScore.isFlipped()) {
@@ -830,8 +838,8 @@ public class Model {
 				offset++;
 			}
 		} else {
-			//AWARD FIRST BLOOD POINT
-			sortedPlayers.get(0).getPlayerBoard().addPoints(1);
+			//AWARD FIRST BLOOD POINT wronggg
+			sortedPlayers.get(sortedPlayers.indexOf(playerBoardToScore.getDamageBoard().get(0))).getPlayerBoard().addPoints(GameConstants.FIRST_BLOOD_SCORE);
 
 			for (Player p : sortedPlayers) {
 				p.getPlayerBoard().addPoints(GameConstants.PLAYER_SCORES.get(playerBoardToScore.getNumberOfDeaths() + offset));
