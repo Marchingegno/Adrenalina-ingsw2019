@@ -103,7 +103,7 @@ public abstract class VirtualViewDriver extends VirtualView {
 		int randomIndex = new Random().nextInt(indexesOfTheGrabbableWeapons.size());
 		int randomAnswer = new Random().nextInt(GameConstants.MAX_WEAPON_CARDS_PER_PLAYER);
 		Utils.logInfo("VirtualViewDriver -> askSwapWeapon(): created random answer for swap weapon: grab " + indexesOfTheGrabbableWeapons.get(randomIndex) + " discard " + randomAnswer);
-		sendMessageToController(new SwapMessage(indexesOfTheGrabbableWeapons.get(randomIndex), randomAnswer, MessageType.SWAP_WEAPON));
+		sendMessageToController(new SwapMessage(indexesOfTheGrabbableWeapons.get(randomIndex), randomAnswer));
 	}
 
 	@Override
