@@ -440,11 +440,21 @@ public class Model {
 			int firstPoints = o1.getPlayerBoard().getPoints();
 			int secondPoints = o2.getPlayerBoard().getPoints();
 
-			return firstPoints - secondPoints;
+			return secondPoints - firstPoints;
 		};
 
 		List<Player> players = gameBoard.getPlayers();
+
+		Utils.logInfo("Players before sorting: ");
+		players.forEach(player -> Utils.logInfo(player.getPlayerName() + "with points " + player.getPlayerBoard().getPoints()));
+
 		players.sort(playerComparator);
+
+		Utils.logInfo("----------------------------------------------------------");
+		Utils.logInfo("Players after sorting: ");
+		players.forEach(player -> Utils.logInfo(player.getPlayerName() + "with points " + player.getPlayerBoard().getPoints()));
+
+
 
 		int precPoint = -1;
 		int precIndex = -1;
