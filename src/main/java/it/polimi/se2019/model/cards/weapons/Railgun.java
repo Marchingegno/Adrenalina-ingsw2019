@@ -9,6 +9,9 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Railgun.
+ */
 public class Railgun extends AlternateFireWeapon {
 	private List<String> availableDirections;
 	private CardinalDirection chosenDirection;
@@ -18,8 +21,6 @@ public class Railgun extends AlternateFireWeapon {
 		super(parameters);
 		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
 		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks = new ArrayList<>();
 		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
 		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
@@ -102,6 +103,11 @@ public class Railgun extends AlternateFireWeapon {
 		return !getAvailableDirections().isEmpty();
 	}
 
+	/**
+	 * Finds the available directions the player can fire at.
+	 *
+	 * @return the directions found.
+	 */
 	private List<String> getAvailableDirections() {
 		List<String> directionsFound = new ArrayList<>();
 		for (CardinalDirection direction : CardinalDirection.values()) {

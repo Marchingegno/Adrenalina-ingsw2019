@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class of the weapon Rocket launcher.
+ */
 public class RocketLauncher extends OptionalChoiceWeapon {
 	//BASE: Shoot at someone
 	//MOVE: Move the target shot
@@ -73,6 +76,11 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Get the coordinates of the EXTRA choice before base is completed.
+	 *
+	 * @return the coordinates found.
+	 */
 	private List<Coordinates> getBeforeBaseExtraCoordinates() {
 		//Only coordinates in which there are at least 1 visible player (except owner) not in the same coordinate..
 		List<Coordinates> twoMoveAwayCoordinates = getGameMap().reachableCoordinates(getOwner(), getMoveDistance());
@@ -114,6 +122,10 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 		return true;
 	}
 
+	/**
+	 * Get the coordinates of the EXTRA choice after base is completed.
+	 * @return the coordinates found.
+	 */
 	private List<Coordinates> getAfterBaseExtraCoordinates() {
 		return getGameMap().reachableCoordinates(getOwner(), getMoveDistance());
 	}

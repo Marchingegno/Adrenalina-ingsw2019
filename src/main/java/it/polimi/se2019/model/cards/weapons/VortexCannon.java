@@ -10,6 +10,9 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Vortex cannon.
+ */
 public class VortexCannon extends OptionalEffectsWeapon {
 	private Coordinates vortexCoordinate;
 	private List<Coordinates> temporaryPossibleVortexCoordinates;
@@ -24,6 +27,12 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		this.standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
 	}
 
+	/**
+	 * Builds a {@link QuestionContainer} that asks in which coordinate the owner would like to create the vortex.
+	 *
+	 * @param possibleVortexCoordinates the list of coordinates to choose from.
+	 * @return the {@link QuestionContainer}.
+	 */
 	private static QuestionContainer getVortexQnO(List<Coordinates> possibleVortexCoordinates) {
 		String question = "Where do you want to place the vortex?";
 		List<Coordinates> options = new ArrayList<>(possibleVortexCoordinates);
@@ -99,6 +108,10 @@ public class VortexCannon extends OptionalEffectsWeapon {
 		return null;
 	}
 
+	/**
+	 * Get available vortex coordinates.
+	 * @return the list of available coordinates.
+	 */
 	private List<Coordinates> getVortexCoordinates() {
 		//there's at least one place where the owner can place the vortex that has a player next or on top of it.
 		List<Coordinates> possibleVortexCoordinates = getGameMap().getVisibleCoordinates(getOwner());

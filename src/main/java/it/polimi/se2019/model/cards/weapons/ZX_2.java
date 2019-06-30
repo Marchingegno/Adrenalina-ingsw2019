@@ -8,6 +8,9 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon ZX_2.
+ */
 public class ZX_2 extends AlternateFireWeapon {
 	private List<Player> secondaryTargets;
 
@@ -70,10 +73,12 @@ public class ZX_2 extends AlternateFireWeapon {
 		}
 	}
 
-	public void primaryFire() {
+	@Override
+	protected void primaryFire() {
 		dealDamageAndConclude(standardDamagesAndMarks, target);
 	}
 
+	@Override
 	public void secondaryFire() {
 		dealDamageAndConclude(secondaryDamagesAndMarks, secondaryTargets);
 	}

@@ -9,6 +9,9 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Plasma gun.
+ */
 public class PlasmaGun extends OptionalChoiceWeapon {
 	private List<Coordinates> possibleMoveCoordinates;
 
@@ -17,6 +20,9 @@ public class PlasmaGun extends OptionalChoiceWeapon {
 		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		optional2DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage() + optional2Damage, optional2Marks));
 		possibleMoveCoordinates = new ArrayList<>();
+
+		baseName = "Shoot somebody!";
+		moveName = "Move!";
 	}
 
 	@Override

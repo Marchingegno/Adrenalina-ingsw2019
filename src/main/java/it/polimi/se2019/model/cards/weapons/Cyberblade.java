@@ -19,9 +19,12 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	public Cyberblade(JsonObject parameters) {
 		super(parameters);
 		secondTarget = null;
-
 		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+
+		baseName = "Whack a player";
+		moveName = "Move";
+		extraName = "Whack a player";
 	}
 
 	@Override
@@ -97,6 +100,11 @@ public class Cyberblade extends OptionalChoiceWeapon {
 		return reachableWithParamPlayers;
 	}
 
+	/**
+	 * Returns the number of times you can hit a player.
+	 *
+	 * @return the number of times you can hit a player.
+	 */
 	private int getNumberOfHitRemaining() {
 		int numberOfHitRemaining = 0;
 		if (isExtraActive()) {

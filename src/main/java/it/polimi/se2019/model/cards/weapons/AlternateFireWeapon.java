@@ -160,8 +160,6 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		return !getSecondaryTargets().isEmpty();
 	}
 
-
-
 	@Override
 	public List<AmmoType> getFiringCost() {
 		if (isAlternateFireActive()) {

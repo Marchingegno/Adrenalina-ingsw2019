@@ -7,6 +7,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class of the weapon Heatseeker.
+ */
 public class Heatseeker extends WeaponCard {
 
 	public Heatseeker(JsonObject parameters) {

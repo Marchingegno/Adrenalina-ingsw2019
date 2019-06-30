@@ -8,6 +8,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Hellion.
+ */
 public class Hellion extends AlternateFireWeapon {
 	private final int primaryFollowingDamage;
 	private final int secondaryFollowingDamage;
@@ -51,14 +54,19 @@ public class Hellion extends AlternateFireWeapon {
 		return null;
 	}
 
-	public void primaryFire() {
+	@Override
+	protected void primaryFire() {
 		unifiedFire();
 	}
 
+	@Override
 	public void secondaryFire() {
 		unifiedFire();
 	}
 
+	/**
+	 * PrimaryFire and SecondaryFire can be unified via this method.
+	 */
 	private void unifiedFire() {
 		//Get the right list of damages and marks to begin firing, depending on which fire mode is chosen.
 		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? new ArrayList<>(secondaryDamagesAndMarks) : new ArrayList<>(standardDamagesAndMarks);

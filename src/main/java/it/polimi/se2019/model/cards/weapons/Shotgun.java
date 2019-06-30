@@ -8,6 +8,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Shotgun.
+ */
 public class Shotgun extends AlternateFireWeapon {
 	private List<Coordinates> listEnemyMoveCoordinates;
 
@@ -47,14 +50,19 @@ public class Shotgun extends AlternateFireWeapon {
 		return null;
 	}
 
-	public void primaryFire() {
+	@Override
+	protected void primaryFire() {
 		unifiedFire();
 	}
 
+	@Override
 	public void secondaryFire() {
 		unifiedFire();
 	}
 
+	/**
+	 * Unifies primary/secondary fire.
+	 */
 	private void unifiedFire() {
 		List<DamageAndMarks> chosenDamagesAndMarks = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
 		dealDamageAndConclude(chosenDamagesAndMarks, target);
@@ -68,6 +76,10 @@ public class Shotgun extends AlternateFireWeapon {
 		return enemyPlayersInMySquare;
 	}
 
+	/**
+	 * Finds the coordinate in which the target can be moved.
+	 * @return the coordinates found.
+	 */
 	private List<Coordinates> getEnemyMovingCoordinates() {
 		return getGameMap().reachableCoordinates(getOwner(), 1);
 	}

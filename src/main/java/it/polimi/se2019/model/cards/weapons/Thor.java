@@ -7,6 +7,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon T.H.O.R.
+ */
 public class Thor extends OptionalEffectsWeapon {
 	private List<Player> chosenTargets;
 	private List<List<Player>> chainsOnHold;
@@ -75,6 +78,13 @@ public class Thor extends OptionalEffectsWeapon {
 		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
 	}
 
+	/**
+	 * Finds the chains of two players;
+	 * This means that for every elements in the list, there are two different players that comply with the following rules:
+	 * The first player can see the second player, and the owner must see the first player.
+	 *
+	 * @return the list of chains.
+	 */
 	private List<List<Player>> getChainOfTwoPlayers() {
 		List<List<Player>> chainsOfTwoPlayer = new ArrayList<>();
 
@@ -92,6 +102,13 @@ public class Thor extends OptionalEffectsWeapon {
 		return chainsOfTwoPlayer;
 	}
 
+	/**
+	 * Finds the chains of three players;
+	 * This means that for every elements in the list, there are three different players that comply with the following rules:
+	 * The first player can see the second player, and the second player can see the third player.
+	 * The owner must see the first player.
+	 * @return the list of chains.
+	 */
 	private List<List<Player>> getChainOfThreePlayers() {
 		List<List<Player>> chainsOfThreePlayer = new ArrayList<>();
 
@@ -115,14 +132,28 @@ public class Thor extends OptionalEffectsWeapon {
 		return chainsOfThreePlayer;
 	}
 
+	/**
+	 * Checks whether or not there is a chain of three players branching from the owner.
+	 * @return true if there is a chain of three players; otherwise, returns false.
+	 */
 	private boolean isThereAChainOfThreePlayers() {
 		return !getChainOfThreePlayers().isEmpty();
 	}
 
+	/**
+	 * Checks whether or not there is a chain of two players branching from the owner.
+	 * @return true if there is a chain of two players; otherwise, returns false.
+	 */
 	private boolean isThereAChainOfTwoPlayers() {
 		return !getChainOfTwoPlayers().isEmpty();
 	}
 
+	/**
+	 * Builds a {@link QuestionContainer} that asks which chain of players to choose..
+	 *
+	 * @param chains the list of chains to choose from.
+	 * @return the {@link QuestionContainer}.
+	 */
 	private QuestionContainer getChainPlayerQnO(List<List<Player>> chains) {
 		String question = "Which group of player do you want to target?";
 		List<String> options = new ArrayList<>();

@@ -8,6 +8,9 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Shockwave.
+ */
 public class Shockwave extends AlternateFireWeapon {
 	private List<Player> chosenTargets;
 
@@ -43,6 +46,12 @@ public class Shockwave extends AlternateFireWeapon {
 		return null;
 	}
 
+	/**
+	 * Handles choosing targets.
+	 *
+	 * @param choice the choice of the player.
+	 * @return the QuestionContainer containing the targets.
+	 */
 	private QuestionContainer handleChooseTargets(int choice) {
 		//Initial step: the player hasn't chosen yet.
 		if (getCurrentStep() != 2) {
@@ -60,11 +69,12 @@ public class Shockwave extends AlternateFireWeapon {
 		return getTargetPlayersQnO(currentTargets);
 	}
 
-
-	public void primaryFire() {
+	@Override
+	protected void primaryFire() {
 		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
 	}
 
+	@Override
 	public void secondaryFire() {
 		for (int i = 0; i < currentTargets.size(); i++) {
 			this.secondaryDamagesAndMarks.add(this.secondaryDamagesAndMarks.get(0));

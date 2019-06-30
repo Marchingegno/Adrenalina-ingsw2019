@@ -10,6 +10,9 @@ import it.polimi.se2019.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Flamethrower.
+ */
 public class Flamethrower extends AlternateFireWeapon {
 	private static final int SECONDARY_FOLLOWING_DAMAGE = 1;
 	private static final int SECONDARY_FOLLOWING_MARKS = 0;
@@ -95,6 +98,12 @@ public class Flamethrower extends AlternateFireWeapon {
 		return null;
 	}
 
+	/**
+	 * Handles the choosing of a direction by the owner.
+	 *
+	 * @param choice the choice of the owner.
+	 * @return the QuestionContainer to be asked to the owner.
+	 */
 	private QuestionContainer handleDirectionChoice(int choice) {
 		if (getCurrentStep() == 2) {
 			availableDirections = getAvailableDirections();

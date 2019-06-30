@@ -8,6 +8,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Electroscythe.
+ */
 public class Electroscythe extends AlternateFireWeapon {
 
 	public Electroscythe(JsonObject parameters) {

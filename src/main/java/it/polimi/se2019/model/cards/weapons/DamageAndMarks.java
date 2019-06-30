@@ -9,15 +9,22 @@ public class DamageAndMarks {
 	private int damage;
 	private int marks;
 
+	/**
+	 * The constructor of the class.
+	 *
+	 * @param damage the damage that this class contains.
+	 * @param marks  the marks that this class contains.
+	 */
 	public DamageAndMarks(int damage, int marks) {
 		this.damage = damage;
 		this.marks = marks;
 	}
 
-	public void enrich(DamageAndMarks damageAndMarksToAdd) {
-		enrich(damageAndMarksToAdd.getDamage(), damageAndMarksToAdd.getMarks());
-	}
-
+	/**
+	 * Add more damage and more marks to this class.
+	 * @param damageToAdd the damage to add.
+	 * @param marksToAdd the marks to add.
+	 */
 	void enrich(int damageToAdd, int marksToAdd) {
 		this.damage += damageToAdd;
 		this.marks += marksToAdd;

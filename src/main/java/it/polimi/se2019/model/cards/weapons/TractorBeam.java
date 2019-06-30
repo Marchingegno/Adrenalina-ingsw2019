@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class of the weapon Tractor beam.
+ */
 public class TractorBeam extends AlternateFireWeapon {
 
 	private List<Coordinates> enemyRelocationCoordinates;
@@ -97,7 +100,12 @@ public class TractorBeam extends AlternateFireWeapon {
 		return getGameMap().reachablePlayers(getOwner(), 2);
 	}
 
-	public List<Coordinates> getEnemyRelocationCoordinates() {
+	/**
+	 * Find the coordinate in which the enemy can be moved.
+	 *
+	 * @return the list of available coordinates.
+	 */
+	private List<Coordinates> getEnemyRelocationCoordinates() {
 		List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(target, 2);
 		intersectionCoordinates.retainAll(getGameMap().getVisibleCoordinates(getOwner()));
 		return intersectionCoordinates;

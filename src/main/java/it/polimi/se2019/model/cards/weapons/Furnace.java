@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class of the weapon Furnace.
+ */
 public class Furnace extends AlternateFireWeapon {
 
 	private List<Coordinates> targettableCoordinates;
@@ -52,7 +55,8 @@ public class Furnace extends AlternateFireWeapon {
 		return null;
 	}
 
-	public void primaryFire() {
+	@Override
+	protected void primaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getStandardDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
 			damageAndMarksList.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
@@ -60,6 +64,7 @@ public class Furnace extends AlternateFireWeapon {
 		dealDamageAndConclude(damageAndMarksList, currentTargets);
 	}
 
+	@Override
 	public void secondaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getSecondaryDamagesAndMarks());
 		for (int i = 0; i < currentTargets.size() - 1; i++) {
@@ -100,6 +105,11 @@ public class Furnace extends AlternateFireWeapon {
 		return availableDoors;
 	}
 
+	/**
+	 * Get the coordinates associated with the secondary mode of firing.
+	 *
+	 * @return the coordinates associated with the secondary mode of firing.
+	 */
 	private List<Coordinates> getSecondaryCoordinates() {
 		List<Coordinates> oneMoveCoordinates = getGameMap().reachableCoordinates(getOwner(), 1);
 		oneMoveCoordinates.remove(getGameMap().getPlayerCoordinates(getOwner()));

@@ -7,6 +7,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.List;
 
+/**
+ * Class of the weapon Lock rifle.
+ */
 public class LockRifle extends OptionalEffectsWeapon {
 	private Player secondTarget;
 

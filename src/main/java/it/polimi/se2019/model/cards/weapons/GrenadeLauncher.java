@@ -9,9 +9,11 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Grenade launcher.
+ */
 public class GrenadeLauncher extends OptionalChoiceWeapon {
 	private List<Coordinates> possibleCoordinates;
-
 
 	public GrenadeLauncher(JsonObject parameters) {
 		super(parameters);
@@ -108,6 +110,11 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 		return coordinatesWithPlayer;
 	}
 
+	/**
+	 * Finds the coordinate in which the target can be moved.
+	 *
+	 * @return the coordinates in which the target can be moved.
+	 */
 	private List<Coordinates> getEnemyMovingCoordinates() {
 		return getGameMap().reachableCoordinates(target, 1);
 	}

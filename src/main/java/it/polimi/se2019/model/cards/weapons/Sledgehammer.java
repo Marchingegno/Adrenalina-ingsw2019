@@ -8,6 +8,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Sledgehammer.
+ */
 public class Sledgehammer extends AlternateFireWeapon {
 	private List<Coordinates> enemyMovingCoordinates;
 
@@ -47,15 +50,20 @@ public class Sledgehammer extends AlternateFireWeapon {
 		return null;
 	}
 
-	public void primaryFire() {
+	@Override
+	protected void primaryFire() {
 		unifiedFire();
 	}
 
+	/**
+	 * Unifies primary/secondary fire.
+	 */
 	private void unifiedFire() {
 		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
 		dealDamageAndConclude(damageAndMarksList, target);
 	}
 
+	@Override
 	public void secondaryFire() {
 		unifiedFire();
 	}
@@ -70,6 +78,10 @@ public class Sledgehammer extends AlternateFireWeapon {
 		return getPrimaryTargets();
 	}
 
+	/**
+	 * Finds the coordinate in which the target can be moved.
+	 * @return the coordinates found.
+	 */
 	private List<Coordinates> getEnemyMovingCoordinates() {
 		List<Coordinates> coordinates = getGameMap().reachablePerpendicularCoordinates(getOwner(), 2);
 		coordinates.add(getGameMap().getPlayerCoordinates(getOwner()));

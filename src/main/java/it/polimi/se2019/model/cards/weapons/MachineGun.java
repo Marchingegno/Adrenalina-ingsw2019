@@ -7,6 +7,9 @@ import it.polimi.se2019.utils.QuestionContainer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the weapon Machine gun.
+ */
 public class MachineGun extends OptionalEffectsWeapon {
 	private static final int OPTIONAL2_EXTRA_DAMAGE = 1;
 	private List<Player> chosenTargets;
