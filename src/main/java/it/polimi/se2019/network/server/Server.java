@@ -19,6 +19,10 @@ public class Server {
 	private SocketServer socketServer;
 	private RMIServer rmiServer;
 
+	/**
+	 * Starts the Server program.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.startRMIServerAsynchronously();

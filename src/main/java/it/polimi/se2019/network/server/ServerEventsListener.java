@@ -73,7 +73,9 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		}
 	}
 
-
+	/**
+	 * Closes all the connections with the clients.
+	 */
 	public void closeAllConnections() {
 		for(AbstractConnectionToClient client : connectedClients) {
 			client.closeConnectionWithClient();

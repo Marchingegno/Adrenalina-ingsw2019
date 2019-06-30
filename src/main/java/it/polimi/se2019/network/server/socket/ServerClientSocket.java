@@ -24,6 +24,11 @@ public class ServerClientSocket extends AbstractConnectionToClient implements Ru
 	private ObjectInputStream objInStream;
 	private ObjectOutputStream objOutStream;
 
+	/**
+	 * Create a new ServerClientSocket instance.
+	 * @param serverEventsListener the event listener to which all events are forwarded.
+	 * @param socket the socket to associate to this instance.
+	 */
 	public ServerClientSocket(ServerEventsListenerInterface serverEventsListener, Socket socket){
 		active = true;
 		this.serverEventsListener = serverEventsListener;

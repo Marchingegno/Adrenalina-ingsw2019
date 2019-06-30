@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Represents a single Match with all his participants.
+ */
 public class Match {
 
 	private final int numberOfParticipants;
@@ -59,6 +62,12 @@ public class Match {
 		singleTimer.start(this::initializeGame, (Utils.getServerConfig()).getTurnTimeLimitMs());
 	}
 
+	/**
+	 * Add the vote of a client for game configurations.
+	 * @param client the client tha made the vote.
+	 * @param skulls skulls voted.
+	 * @param mapIndex map voted.
+	 */
 	public void addConfigVote(AbstractConnectionToClient client, int skulls, int mapIndex) {
 		if(isMatchStarted()) {
 			Utils.logInfo("\tMatch already started, GameConfigMessage ignored.");

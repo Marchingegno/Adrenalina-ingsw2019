@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represents the waiting room of the server.
+ */
 public class Lobby {
 
 	private ArrayList<Match> matches = new ArrayList<>();
@@ -118,6 +121,11 @@ public class Lobby {
 		return false;
 	}
 
+	/**
+	 * Sets the nickname to a client,
+	 * @param client the client.
+	 * @param nickname the nickname to set to the client.
+	 */
 	private void setNickname(AbstractConnectionToClient client, String nickname) {
 		Utils.logInfo("\tNickname of client \"" + client.hashCode() + "\" set to \"" + nickname + "\".");
 		client.setNickname(nickname);
@@ -194,6 +202,9 @@ public class Lobby {
 		match.requestMatchConfig();
 	}
 
+	/**
+	 * Sends a message to all the players in the waiting room with the list of players in the waiting room.
+	 */
 	private void sendWaitingPlayersMessages() {
 		if(!waitingRoom.isEmpty()) {
 			// Create a list of player names.
@@ -206,6 +217,9 @@ public class Lobby {
 		}
 	}
 
+	/**
+	 * Starts the timer that make the match start.
+	 */
 	private void startTimerForMatchStart() {
 		timeTimerStart = System.currentTimeMillis();
 		final Lobby lobby = this;
@@ -215,10 +229,16 @@ public class Lobby {
 		}, Utils.getServerConfig().getWaitingTimeInLobbyMs());
 	}
 
+	/**
+	 * Sends a message to all the players in the waiting room, informing them about the start of the timer.
+	 */
 	private void sendTimerStartedMessages() {
 		waitingRoom.forEach(client -> client.sendMessage(new TimerForStartMessage(Utils.getServerConfig().getWaitingTimeInLobbyMs(), MessageSubtype.INFO)));
 	}
 
+	/**
+	 * Sends a message to all the players in the waiting room, informing them about the cancellation of the timer.
+	 */
 	private void sendTimerCanceledMessages() {
 		waitingRoom.forEach(client -> client.sendMessage(new Message(MessageType.TIMER_FOR_START, MessageSubtype.ERROR)));
 	}

@@ -19,6 +19,11 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 	private boolean active;
 
 
+	/**
+	 * Create a new ServerClientRMI instance.
+	 * @param serverEventsListener the event listener to which all events are forwarded.
+	 * @param rmiClientInterface the client to associate with this instance.
+	 */
 	public ServerClientRMI(ServerEventsListenerInterface serverEventsListener, RMIClientInterface rmiClientInterface) {
 		active = true;
 		this.serverEventsListener = serverEventsListener;
@@ -74,10 +79,18 @@ public class ServerClientRMI extends AbstractConnectionToClient {
 		}, "CUSTOM: RMI Connection Listener").start();
 	}
 
+	/**
+	 * Returns true if and only if the connection with the client is active.
+	 * @return true if and only if the connection with the client is active.
+	 */
 	public boolean isConnectionActive() {
 		return active;
 	}
 
+	/**
+	 * Method to use as subject to check for connectivity change.
+	 * @throws InterruptedException
+	 */
 	public synchronized void connectionListenerSubjectInServer() throws InterruptedException {
 		while(isConnectionActive())
 			wait();

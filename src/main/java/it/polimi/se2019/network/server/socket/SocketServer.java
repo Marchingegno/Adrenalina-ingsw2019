@@ -77,6 +77,10 @@ public class SocketServer extends Thread implements Closeable {
 	 */
 	public boolean isActive() {	return active;}
 
+	/**
+	 * Starts the socket server.
+	 * @throws IOException
+	 */
 	private void startServerSocket() throws IOException {
 		serverSocket = new ServerSocket(Utils.getServerConfig().getSocketPort());
 		active = true;
