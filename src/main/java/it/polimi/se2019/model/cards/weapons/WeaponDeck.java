@@ -11,6 +11,9 @@ import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Class that represents a deck of WeaponCards.
+ */
 public class WeaponDeck extends ActivableDeck<WeaponCard> {
 
 	public WeaponDeck(GameBoard gameBoard) {
@@ -19,7 +22,7 @@ public class WeaponDeck extends ActivableDeck<WeaponCard> {
 
 	@Override
 	public void initializeDeck() {
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/Weapon.json")));
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/WeaponTest.json")));
 		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();

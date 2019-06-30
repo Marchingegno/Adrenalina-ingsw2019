@@ -201,6 +201,7 @@ public class PlayerInventoryController {
             }
         }
         setPowerups(powerupsPath);
+		Utils.logInfo("The player " + playerRep.getPlayerName() + " now has " + playerRep.getPlayerDeaths() + " deaths.");
 
         for (int i  = 0; i < skulls.size(); i++) {
             skulls.get(i).setVisible(i < playerRep.getPlayerDeaths());

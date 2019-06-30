@@ -205,6 +205,7 @@ public class PlayerBoard {
 
 		numberOfDeaths++;
 
+		Utils.logInfo("The player " + playerName + " now has " + numberOfDeaths + " deaths.");
 		//resets the damage board
 		damageBoard = new ArrayList<>();
 		Utils.logInfo("PlayerBoard -> resetBoardAfterDeath(): Damage board has been reset after death, now the player has " + numberOfDeaths + " deaths");

@@ -94,5 +94,7 @@ public class PlasmaGun extends OptionalChoiceWeapon {
 		canAddBase = !baseCompleted && !getPrimaryTargets().isEmpty();
 		canAddMove = !moveCompleted && (baseCompleted || !getMoveCoordinateBeforeBase().isEmpty());
 		canAddExtra = false;
+
+		canAddMove = canAddMove && isOptionalActive(1);
 	}
 }

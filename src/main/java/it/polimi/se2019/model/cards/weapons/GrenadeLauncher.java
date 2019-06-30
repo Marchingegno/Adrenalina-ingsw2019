@@ -29,11 +29,11 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
-		//Only move and base.
 		if (isOptionalActive(1)) {
 			return handleChoices(choice);
 		}
 
+		//Only move and base.
 		if (getCurrentStep() == 2) {
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
@@ -118,6 +118,8 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 		canAddBase = !baseCompleted && !getPrimaryTargets().isEmpty();
 		canAddMove = !moveCompleted && baseCompleted;
 		canAddExtra = !extraCompleted && !getExtraCoordinates().isEmpty();
+
+
 	}
 
 	@Override
