@@ -211,7 +211,7 @@ public class Model {
     }
 
 	/**
-	 * ùhandles the payment.
+     * Handles the payment.
 	 *
 	 * @param playerName       name odf the player who is paying.
 	 * @param priceToPay       the price in AmmoType that needs to be payed.

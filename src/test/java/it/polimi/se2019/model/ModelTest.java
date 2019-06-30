@@ -298,7 +298,8 @@ public class ModelTest {
     }
 
     @Test
-    public void pay() {
+    public void pay_() {
+
     }
 
     @Test

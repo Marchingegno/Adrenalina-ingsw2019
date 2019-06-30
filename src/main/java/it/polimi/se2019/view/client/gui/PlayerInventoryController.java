@@ -183,7 +183,10 @@ public class PlayerInventoryController {
         skulls.add(skull5);
 
         setNickname(playerRep.getPlayerName());
-        setPoints(playerRep.getPoints());
+        if (!playerRep.isHidden())
+            setPoints(playerRep.getPoints());
+        else
+            points.setVisible(false);
         setPlayerBoard(playerRep.getPgName(), playerRep.isFlippedBoard());
         setAmmoContainer(playerRep);
         setDamageToken(playerRep.getDamageBoard());
