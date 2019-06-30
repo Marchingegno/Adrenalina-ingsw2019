@@ -57,7 +57,7 @@ public class ModelTest {
 
     @Test
     public void canGameContinue_correctInput_correctOutput() {
-        assertFalse(model.canGameContinue());
+        assertTrue(model.canGameContinue());
     }
 
 

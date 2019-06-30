@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -183,6 +184,7 @@ public class GUIView extends RemoteView {
 			endGameStage.setTitle("Adrenaline");
 			endGameStage.setResizable(false);
 			endGameStage.setScene(endGameScene);
+			endGameStage.initModality(Modality.APPLICATION_MODAL);
 			endGameController = loader.getController();
 		} catch (IOException e) {
 			Utils.logError("Error loading endGame", e);
