@@ -66,13 +66,15 @@ public class PlayerBoard {
 				damageBoard.add(shootingPlayer);
 
 		int i;
+		int marksDealt = 0;
 		for (i = marks.size() - 1; i >= 0; i--) {
 			if (marks.get(i).getPlayerName().equals(shootingPlayer.getPlayerName()) && damageBoard.size() < GameConstants.OVERKILL_DAMAGE) {
 				damageBoard.add(shootingPlayer);
 				marks.remove(i);
+				marksDealt++;
 			}
 		}
-		Utils.logInfo("PlayerBoard -> addDamage(): Recorded to the player board that " + shootingPlayer.getPlayerName() + " dealt " + amountOfDamage + " direct damage and " + i + " mark damage to " + playerName);
+		Utils.logInfo("PlayerBoard -> addDamage(): Recorded to the player board that " + shootingPlayer.getPlayerName() + " dealt " + amountOfDamage + " direct damage and " + marksDealt + " mark damage to " + playerName);
 		setChanged();
 	}
 
@@ -84,7 +86,7 @@ public class PlayerBoard {
 	 */
 	public void addMarks(Player shootingPlayer, int amountOfMarks) {
 		if(amountOfMarks < 0)
-			throw new IllegalArgumentException("amountOfMarks cannot be negative or zero.");
+			throw new IllegalArgumentException("amountOfMarks cannot be negative");
 		if(amountOfMarks == 0)
 			return;
 
