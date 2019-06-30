@@ -120,7 +120,7 @@ public class Model {
         Player firstPlayer = gameBoard.getPlayers().get(0);
 
         boolean isAfterFirstPlayer = false;
-        for (Player player : gameBoard.getPlayerQueue()) {
+		for (Player player : gameBoard.getPlayers()) {
             //The first must also receive the Frenzy After damage status
             if (player.getPlayerName().equals(firstPlayer.getPlayerName()))
                 isAfterFirstPlayer = true;

@@ -126,7 +126,7 @@ public class GameBoard extends Observable implements Representable {
 	 * @return true if and only if the game can continue.
 	 */
 	public boolean canGameContinue() {
-		return turnsLeftInFrenzy < 0;
+		return turnsLeftInFrenzy >= 0;
 	}
 
 
