@@ -420,7 +420,7 @@ public class TurnController {
 
 	private void handleActionEndForPowerup(VirtualView virtualView) {
 		if (virtualView.getNickname().equals(model.getCurrentPlayerName()) && model.isPlayerWaitingForDamagePowerupsEmpty())
-			handleActionEnd(virtualView);
+			handleNextAction(virtualView);
 		else
 			handleInitialOnDamagePowerup();
 	}
