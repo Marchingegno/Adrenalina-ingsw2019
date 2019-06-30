@@ -13,7 +13,9 @@ import java.util.Observer;
 import java.util.stream.Collectors;
 
 /**
- * This class is the top level controller. Its jobs are to delegate the model initialization and to start the game.
+ * This class is the top level controller.
+ * Its jobs are to create the model, to set observers and to start the game.
+ *
  * @author Marchingegno
  */
 public class Controller implements Observer {
@@ -23,6 +25,13 @@ public class Controller implements Observer {
 	private Model model;
 
 
+	/**
+	 * Constructor of the class.
+	 *
+	 * @param mapType      the type of the map, chosen from one of the values in GameConstants.
+	 * @param virtualViews the VirtualViews of the players.
+	 * @param skulls       the amount of skulls that the player chose to play with.
+	 */
 	public Controller(GameConstants.MapType mapType, Collection<VirtualView> virtualViews, int skulls) {
 		this.virtualViewsContainer = new VirtualViewsContainer(virtualViews);
 
@@ -37,26 +46,23 @@ public class Controller implements Observer {
 		Utils.logInfo("Created controller.");
 	}
 
-
+	/**
+	 * Starts the game.
+	 */
 	public void startGame() {
 		Utils.logInfo("Controller -> startGame(): Starting the game");
 		gameController.startGame();
 	}
 
-	/**
-	 * This method is called whenever the observed object is changed. An
-	 * application calls an <tt>Observable</tt> object's
-	 * <code>notifyObservers</code> method to have all the object's
-	 * observers notified of the change.
-	 *
-	 * @param o   the observable object.
-	 * @param arg an argument passed to the <code>notifyObservers</code>
-	 */
+
 	@Override
 	public void update(Observable o, Object arg) {
 		gameController.processEvent((Event) arg);
 	}
 
+	/**
+	 * For every VirtualView, attach its observers to the corresponding observable classes of the model.
+	 */
 	private void setObservers() {
 		for (VirtualView virtualView : virtualViewsContainer.getVirtualViews()) {
 			// Add VirtualView's observers to the model. (VirtualView -👀-> Model)

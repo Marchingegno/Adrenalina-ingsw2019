@@ -11,7 +11,8 @@ import it.polimi.se2019.view.server.VirtualView;
 import java.util.Optional;
 
 /**
- * This class is in a lower level than Controller. It handles the logic relative to the game.
+ * This class is in a lower level than Controller. It handles the logic relative to the game advancement, spawning,
+ * starting turns, starting frenzy and connection errors.
  * @author Marchingegno
  */
 public class GameController {
@@ -20,26 +21,36 @@ public class GameController {
 	private TurnController turnController;
 	private Model model;
 
-
+	/**
+	 * Constructor of the class.
+	 *
+	 * @param model                 the model of this game.
+	 * @param virtualViewsContainer the VirtualViewsContainer of this game's players.
+	 */
 	public GameController(Model model, VirtualViewsContainer virtualViewsContainer) {
 		this.virtualViewsContainer = virtualViewsContainer;
 		this.model = model;
 		turnController = new TurnController(model, virtualViewsContainer);
 	}
 
-
+	/**
+	 * Start the turn and send the updated reps.
+	 */
 	void startGame() {
+		Utils.logInfo("GameController -> startGame(): Game has started");
 		startTurn();
 		virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.
-		Utils.logInfo("GameController -> startGame(): Game has started");
 	}
 
+	/**
+	 * Refills the map with AmmoCards and WeaponCards.
+	 */
 	private void refillCardsOnMap() {
 		model.fillGameMap();
 	}
 
 	/**
-	 * This method handles the beginning of a new turn. Starts frenzy if it needs to be started
+	 * Handles the beginning of a new turn. Starts frenzy if it needs to be started
 	 * and calls the method to begin the next turn.
 	 */
 	private void handleTurnBeginning() {
@@ -67,6 +78,9 @@ public class GameController {
 		startTurn();
 	}
 
+	/**
+	 * Start the turn.
+	 */
 	private void startTurn(){
 		String currentPlayerName = model.getCurrentPlayerName();
 
@@ -81,12 +95,18 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * End the turn of the current player, scores dead players and spawns dead players, then begin the next turn.
+	 */
 	private void handleEndTurn() {
 		model.setTurnStatusOfCurrentPlayer(TurnStatus.IDLE);
 		model.scoreDeadPlayers();
 		spawnNextDeadPlayerOrBeginTurn();
 	}
 
+	/**
+	 * Check if there are dead players to be spawned and spawn them, otherwise start next turn.
+	 */
 	private void spawnNextDeadPlayerOrBeginTurn() {
 		Optional<VirtualView> virtualViewOfPlayerToSpawn = virtualViewsContainer.getVirtualViews().stream()
 				.filter(virtualView -> model.getTurnStatus(virtualView.getNickname()) == TurnStatus.DEAD)
@@ -109,6 +129,10 @@ public class GameController {
 		virtualView.askSpawn();
 	}
 
+	/**
+	 * Handle a connection error from a player.
+	 * @param playerName the name of the player that has a connection error.
+	 */
 	private void handleConnectionError(String playerName) {
 		if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
 			Utils.logInfo("Received a CONNECTION ERROR from the player doing its turn.");
@@ -130,7 +154,10 @@ public class GameController {
 		}
 	}
 
-
+	/**
+	 * Process an event observed by the Controller.
+	 * @param event the event observed.
+	 */
 	void processEvent(Event event){
 		VirtualView virtualView = event.getVirtualView();
 		String playerName = virtualView.getNickname();
