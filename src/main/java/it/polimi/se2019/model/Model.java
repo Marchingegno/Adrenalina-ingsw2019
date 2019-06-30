@@ -480,7 +480,6 @@ public class Model {
 		Utils.logInfo("Breaking ties.");
 
 		int nextPosition = 0;
-		Utils.logInfo("Adding in position " + nextPosition + "player +");
 		for (int i = 0; i < leaderboard.size(); i++) {
 			if (leaderboard.get(i).isATie()) {
 				List<Player> tiedPlayers = leaderboard.get(i).getPlayersInThisPosition();
