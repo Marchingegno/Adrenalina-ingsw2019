@@ -56,124 +56,221 @@ public class Model {
 	// OBSERVERS MANAGEMENT METHODS
 	// ####################################
 
-	public void addGameBoardObserver(Observer observer) {
-		gameBoard.addObserver(observer);
-	}
+    /**
+     * Adds an observer to the associated gameBoard.
+     *
+     * @param observer the observer that wants to observe the gameBoard.
+     */
+    public void addGameBoardObserver(Observer observer) {
+        gameBoard.addObserver(observer);
+    }
 
-	public void addGameMapObserver(Observer observer) {
-		gameBoard.getGameMap().addObserver(observer);
-	}
+    /**
+     * Adds an observer to the associated gameMap.
+     * @param observer the observer that wants to observe the gameMap.
+     */
+    public void addGameMapObserver(Observer observer) {
+        gameBoard.getGameMap().addObserver(observer);
+    }
 
-	public void addPlayersObserver(Observer observer) {
-		for (Player player : gameBoard.getPlayers()) {
-			player.addObserver(observer);
-		}
-	}
+    /**
+     * Adds an observer to all the associated players.
+     * @param observer the observer that wants to observe all the players.
+     */
+    public void addPlayersObserver(Observer observer) {
+        for (Player player : gameBoard.getPlayers()) {
+            player.addObserver(observer);
+        }
+    }
 
 
 	// ####################################
 	// GAME MANAGEMENT METHODS
 	// ####################################
 
-	public boolean canGameContinue() {
-		return turnsLeft < 0;
-	}
+    /**
+     * Returns true if and only of the game can continue.
+     * @return true if and only of the game can continue.
+     */
+    public boolean canGameContinue() {
+        return turnsLeft < 0;
+    }
 
-	public boolean isGameEnded() {
-		return gameEnded;
-	}
+    /**
+     * Returns true if and only of the game is ended.
+     * @return true if and only of the game is ended.
+     */
+    public boolean isGameEnded() {
+        return gameEnded;
+    }
 
-	public boolean isFrenzyStarted() {
-		return gameBoard.isFrenzyStarted();
-	}
+    /**
+     * Returns true if and only of the frenzy is started.
+     * @return true if and only of the frenzy is started.
+     */
+    public boolean isFrenzyStarted() {
+        return gameBoard.isFrenzyStarted();
+    }
 
-	public void startFrenzy() {
-		gameBoard.startFrenzy();
+    /**
+     * Starts the frenzy status.
+     */
+    public void startFrenzy() {
+        gameBoard.startFrenzy();
 
-		Player firstPlayer = gameBoard.getPlayers().get(0);
+        Player firstPlayer = gameBoard.getPlayers().get(0);
 
-		boolean isAfterFirstPlayer = false;
-		for (Player player : gameBoard.getPlayerQueue()) {
-			//The first must also receive the Frenzy After damage status
-			if (player.getPlayerName().equals(firstPlayer.getPlayerName()))
-				isAfterFirstPlayer = true;
+        boolean isAfterFirstPlayer = false;
+        for (Player player : gameBoard.getPlayerQueue()) {
+            //The first must also receive the Frenzy After damage status
+            if (player.getPlayerName().equals(firstPlayer.getPlayerName()))
+                isAfterFirstPlayer = true;
 
-			player.setDamageStatus(isAfterFirstPlayer ? new FrenzyAfter() : new FrenzyBefore());
-		}
-		flipPlayersWithNoDamage();
+            player.setDamageStatus(isAfterFirstPlayer ? new FrenzyAfter() : new FrenzyBefore());
+        }
+        flipPlayersWithNoDamage();
 
-		updateReps();
-	}
+        updateReps();
+    }
 
-	public boolean areSkullsFinished() {
-		return gameBoard.areSkullsFinished();
-	}
+    /**
+     * Returns true if and only of the skulls are finished.
+     * @return true if and only of the skulls are finished.
+     */
+    public boolean areSkullsFinished() {
+        return gameBoard.areSkullsFinished();
+    }
 
-	public void scoreDeadPlayers() {
-		gameBoard.getPlayers().stream()
-				.filter(item -> item.getPlayerBoard().isDead())
-				.forEach(this::scoreDeadPlayer);
-		gameBoard.setKillShotInThisTurn(false);
-		updateReps();
-	}
+    /**
+     * Solves the points of the dead players in this turn and updates the reps.
+     */
+    public void scoreDeadPlayers() {
+        gameBoard.getPlayers().stream()
+                .filter(item -> item.getPlayerBoard().isDead())
+                .forEach(this::scoreDeadPlayer);
+        gameBoard.setKillShotInThisTurn(false);
+        updateReps();
+    }
 
-	public boolean isTheWeaponConcluded(String playerName) {
-		return getPlayerFromName(playerName).isTheWeaponConcluded();
-	}
+    /**
+     * Returns true if and only if the current weapon has finished to shoot.
+     * @param playerName the name of the player who is shooting.
+     * @return true if and only if the current weapon has finished to shoot.
+     */
+    public boolean isTheWeaponConcluded(String playerName) {
+        return getPlayerFromName(playerName).isTheWeaponConcluded();
+    }
 
-	public boolean isThePowerupConcluded(String playerName) {
-		Player player = getPlayerFromName(playerName);
-		return player.isThePowerupConcluded();
-	}
+    /**
+     * Returns true if and only if the current powerup id concluded.
+     * @param playerName the name of the player who is using the powerup.
+     * @return true if and only if the current powerup id concluded.
+     */
+    public boolean isThePowerupConcluded(String playerName) {
+        Player player = getPlayerFromName(playerName);
+        return player.isThePowerupConcluded();
+    }
 
-	public void fillGameMap() {
-		gameMap.refillMap();
-		updateReps();
-	}
+    /**
+     * Refills the map and updates the reps.
+     */
+    public void fillGameMap() {
+        gameMap.refillMap();
+        updateReps();
+    }
 
-	public void flipPlayersWithNoDamage() {
-		gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
-		updateReps();
-	}
+    /**
+     * Flips the board of the players who have no damage and updates the reps.
+     */
+    public void flipPlayersWithNoDamage() {
+        gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
+        updateReps();
+    }
 
-	public void setPayed(boolean hasPayed){
-		this.hasPayed = hasPayed;
-	}
+    // ####################################
+    // PAYMENT METHODS
+    // ####################################
 
-	public boolean hasCurrentPlayerPayed(){
-		return hasPayed;
-	}
+    /**
+     * Returns the price of the selected weapon in the square.
+     *
+     * @param index of the weapon in the square.
+     * @return the price of the selected weapon in the square.
+     */
+    public List<AmmoType> getPriceOfTheChosenWeapon(int index) {
+        return ((WeaponCard) gameMap.getPlayerSquare(getCurrentPlayer()).getCards().get(index)).getGrabPrice();
+    }
 
-	public void saveEvent(Event event){
-		this.savedEvent = event;
-	}
+    /**
+     * Returns the price of the selected weapon in the player's inventory.
+     *
+     * @param index of the weapon in the inventory.
+     * @return the price of the selected weapon in the player's inventory.
+     */
+    public List<AmmoType> getPriceOfTheSelectedWeapon(int index) {
+        return ((getCurrentPlayer().getPlayerBoard().getWeaponCards()).get(index)).getReloadPrice();
+    }
 
-	public Event resumeAction(){
-		return savedEvent;
-	}
+    /**
+     * Sets the hasPayed variable to the specified value.
+     * @param hasPayed
+     */
+    public void setPayed(boolean hasPayed) {
+        this.hasPayed = hasPayed;
+    }
+
+    /**
+     * Returns true if and only if the current player has already payed.
+     * @return true if and only if the current player has already payed.
+     */
+    public boolean hasCurrentPlayerPayed() {
+        return hasPayed;
+    }
+
+    /**
+     * Saves the event so that it can be processed later.
+     * @param event the event to save.
+     */
+    public void saveEvent(Event event) {
+        this.savedEvent = event;
+    }
+
+    /**
+     * Returns the event to resume.
+     * @return the event to resume;
+     */
+    public Event resumeAction(){
+        return savedEvent;
+    }
 
 	// ####################################
 	// PLAYERS MANAGEMENT METHODS
-	// ####################################
+    // ####################################
 
-	public List<AmmoType> getPriceOfTheChosenWeapon(int index){
-		return ((WeaponCard) gameMap.getPlayerSquare(getCurrentPlayer()).getCards().get(index)).getGrabPrice();
-	}
 
-	public boolean isInAMacroAction(String playerName){
-		Player player = getPlayerFromName(playerName);
-		return player.getDamageStatus().getCurrentMacroActionIndex() != -1;
-	}
+    /**
+     * Returns true if and only if the specified player is in a macro action.
+     * @param playerName player name of the player to check.
+     * @return true if and only if the specified player is in a macro action.
+     */
+    public boolean isInAMacroAction(String playerName){
+        Player player = getPlayerFromName(playerName);
+        return player.getDamageStatus().getCurrentMacroActionIndex() != -1;
+    }
 
-	public void endAction(String playerName){
-		Player player = getPlayerFromName(playerName);
-		gameBoard.endAction(player);
-	}
+    /**
+     * Ends the action of the specified player.
+     * @param playerName name of the player.
+     */
+    public void endAction(String playerName){
+        Player player = getPlayerFromName(playerName);
+        gameBoard.endAction(player);
+    }
 
-	public List<AmmoType> getPriceOfTheSelectedWeapon(int index) {
-		return ((getCurrentPlayer().getPlayerBoard().getWeaponCards()).get(index)).getReloadPrice();
-	}
-
+    /**
+     * Sets the specified player as disconnected and updates the reps.
+     * @param playerName name of the player to set as disconnected.
+	 */
 	public void setAsDisconnected(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		player.setConnected(false);
@@ -182,59 +279,88 @@ public class Model {
 				.count();
 		if(connectedPlayers < GameConstants.MIN_PLAYERS) {
 			Utils.logInfo("Connected players less than minimum, ending the game...");
-			endGameAndFindWinner();
-		}
-		updateReps();
-	}
+            endGameAndFindWinner();
+        }
+        updateReps();
+    }
 
+    /**
+     * Sets the specified player as reconnected and updates the reps.
+     * @param playerName name of the player that has reconnected.
+	 */
+    public void setAsReconnected(String playerName) {
+        Player player = getPlayerFromName(playerName);
+        player.setConnected(true);
+        updateReps();
+    }
 
+    /**
+     * Resets the action of the specified player.
+     * @param playerName name of the player that needs to be reset.
+     */
+    public void cancelAction(String playerName) {
+        Player player = getPlayerFromName(playerName);
 
-	public void setAsReconnected(String playerName) {
-		Player player = getPlayerFromName(playerName);
-		player.setConnected(true);
-		updateReps();
-	}
+        // Reset weapon.
+        if(player.isShootingWeapon())
+            player.handleWeaponEnd();
 
-	public void cancelAction(String playerName) {
-		Player player = getPlayerFromName(playerName);
+        // Reset powerup.
+        if(player.isPowerupInExecution())
+            handlePowerupEnd(playerName);
 
-		// Reset weapon.
-		if(player.isShootingWeapon())
-			player.handleWeaponEnd();
+        // Finish actions.
+        while(player.getDamageStatus().hasMacroActionLeft())
+            player.getDamageStatus().decreaseMacroActionsToPerform();
 
-		// Reset powerup.
-		if(player.isPowerupInExecution())
-			handlePowerupEnd(playerName);
+        // Reset payment
+        hasPayed = false;
+        savedEvent = null;
+    }
 
-		// Finish actions.
-		while(player.getDamageStatus().hasMacroActionLeft())
-			player.getDamageStatus().decreaseMacroActionsToPerform();
+    /**
+     * Moves the player to the specified coordinates and updates the reps.
+     * @param playerName name of the player to move.
+     * @param coordinates coordinates of the square where the player needs to be moved.
+     */
+    public void movePlayerTo(String playerName, Coordinates coordinates) {
+        Player player = getPlayerFromName(playerName);
+        gameMap.movePlayerTo(player, coordinates);
+        updateReps();
+    }
 
-		// TODO maybe powerup payments needs to be reset?
-	}
+    /**
+     * Spawns the player and updates the reps.
+     * @param playerName name of the player that needs to spawn.
+     * @param indexOfCard index of the powerup chosen to spawn.
+     */
+    public void spawnPlayer(String playerName, int indexOfCard) {
+        Player player = getPlayerFromName(playerName);
+        gameBoard.spawnPlayer(player, indexOfCard);
+        updateReps();
+    }
 
-	public void movePlayerTo(String playerName, Coordinates coordinates) {
-		Player player = getPlayerFromName(playerName);
-		gameMap.movePlayerTo(player, coordinates);
-		updateReps();
-	}
+    /**
+     * Adds a powerup to the specified player's inventory and updates the reps.
+     * @param playerName name of the player that needs to receive the powerup.
+     */
+    public void addPowerupCardTo(String playerName) {
+        Player player = getPlayerFromName(playerName);
+        gameBoard.addPowerupCardTo(player);
+        updateReps();
+    }
 
-	public void spawnPlayer(String playerName, int indexOfCard) {
-		Player player = getPlayerFromName(playerName);
-		gameBoard.spawnPlayer(player, indexOfCard);
-		updateReps();
-	}
+    /**
+     * Returns the name of the current player.
+     * @return the name of the current player.
+     */
+    public String getCurrentPlayerName() {
+        return gameBoard.getCurrentPlayer().getPlayerName();
+    }
 
-	public void addPowerupCardTo(String playerName) {
-		Player player = getPlayerFromName(playerName);
-		gameBoard.addPowerupCardTo(player);
-		updateReps();
-	}
-
-	public String getCurrentPlayerName() {
-		return gameBoard.getCurrentPlayer().getPlayerName();
-	}
-
+	/**
+	 * 
+	 */
 	public void nextPlayerTurn() {
 		if (isFrenzyStarted()) {
 			turnsLeft--;
