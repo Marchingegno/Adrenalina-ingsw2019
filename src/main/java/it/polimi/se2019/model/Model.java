@@ -470,6 +470,7 @@ public class Model {
 		Utils.logInfo("Breaking ties.");
 
 		int nextPosition = 0;
+		Utils.logInfo("Adding in position " + nextPosition + "player +");
 		for (int i = 0; i < leaderboard.size(); i++) {
 			if (leaderboard.get(i).isATie()) {
 				List<Player> tiedPlayers = leaderboard.get(i).getPlayersInThisPosition();
@@ -489,6 +490,7 @@ public class Model {
 				for (Player player : orderedPlayers) {
 					playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
 					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
+					Utils.logInfo("Adding in position " + nextPosition + " player " + player.getPlayerName());
 					nextPosition++;
 				}
 
@@ -497,11 +499,13 @@ public class Model {
 				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
 				for (Player player : tiedPlayers) {
 					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
+					Utils.logInfo("Adding in position " + nextPosition + " player " + player.getPlayerName());
 				}
 				nextPosition++;
 			} else {
 				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
 				playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) leaderboard.get(i).getPlayer().getRep());
+				Utils.logInfo("Adding in position " + nextPosition + " player " + leaderboard.get(i).getPlayer().getPlayerName());
 				nextPosition++;
 			}
 		}
