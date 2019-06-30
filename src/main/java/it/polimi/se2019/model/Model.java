@@ -210,6 +210,45 @@ public class Model {
         return ((getCurrentPlayer().getPlayerBoard().getWeaponCards()).get(index)).getReloadPrice();
     }
 
+	/**
+	 * ùhandles the payment.
+	 *
+	 * @param playerName       name odf the player who is paying.
+	 * @param priceToPay       the price in AmmoType that needs to be payed.
+	 * @param indexesOfPowerup indexes of the poweups used to pay.
+	 */
+	public void pay(String playerName, List<AmmoType> priceToPay, List<Integer> indexesOfPowerup) {
+		Player player = getPlayerFromName(playerName);
+		PlayerBoard playerBoard = player.getPlayerBoard();
+		List<AmmoType> price = new ArrayList<>(priceToPay);
+		Utils.logInfo("Model -> pay(): " + playerName + " is paying the price of " + price + " with powerups " + indexesOfPowerup);
+		while (!indexesOfPowerup.isEmpty()) {
+			Integer max = Collections.max(indexesOfPowerup);
+			PowerupCard discardedPowerup = playerBoard.removePowerup(max);
+			price.remove(discardedPowerup.getAssociatedAmmo());
+			indexesOfPowerup.remove(max);
+			gameBoard.getPowerupDeck().discardCard(discardedPowerup); // Put discarded powerup in the discard deck.
+		}
+		playerBoard.getAmmoContainer().removeAmmo(price);
+		setPayed(true);
+	}
+
+	public boolean canUsePowerupToPay(String playerName, List<AmmoType> ammoToPay) {
+		List<PowerupCard> powerupCards = getPlayerFromName(playerName).getPlayerBoard().getPowerupCards();
+		Utils.logInfo("Model() -> canUsePowerupToPay: " + playerName + " needs to pay " + ammoToPay + " and has " + powerupCards + " and " + getCurrentPlayer().getPlayerBoard().getAmmoContainer().getAmmo());
+		for (PowerupCard powerupCard : powerupCards) {
+			if (ammoToPay.contains(powerupCard.getAssociatedAmmo()))
+				return true;
+		}
+		Utils.logInfo("Model() -> canUsePowerupToPay: " + playerName + " has no powerup to pay with");
+		return false;
+	}
+
+	public boolean canAffordWithOnlyAmmo(String playerName, List<AmmoType> ammoToPay) {
+		Player player = getPlayerFromName(playerName);
+		return player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
+	}
+
     /**
      * Sets the hasPayed variable to the specified value.
      * @param hasPayed
@@ -355,36 +394,58 @@ public class Model {
      */
     public String getCurrentPlayerName() {
         return gameBoard.getCurrentPlayer().getPlayerName();
-    }
+	}
 
 	/**
-	 * 
+	 * Sets the current player to IDLE and the next player as YOUR_TURN; then updates the reps.
 	 */
 	public void nextPlayerTurn() {
 		gameBoard.nextPlayerTurn();
 		updateReps();
 	}
 
+	/**
+	 * Sets the correct damage status according to the damage of the player and if the game is in frenzy;
+	 * then updates the reps.
+	 * @param playerName name of the player to whom the damage status needs to be changed.
+	 */
 	public void setCorrectDamageStatus(String playerName){
 		Player player = getPlayerFromName(playerName);
 		gameBoard.setCorrectDamageStatus(player);
 		updateReps();
 	}
 
+	/**
+	 * Returns the turn status of the specified player.
+	 * @param playerName name of the player.
+	 * @return the turn status of the specified player.
+	 */
 	public TurnStatus getTurnStatus(String playerName) {
 		return getPlayerFromName(playerName).getTurnStatus();
 	}
 
+	/**
+	 * Sets the specified turn status to the current player and updates the reps.
+	 * @param turnStatus the turn status to set.
+	 */
 	public void setTurnStatusOfCurrentPlayer(TurnStatus turnStatus) {
 		Player player = getCurrentPlayer();
 		gameBoard.setTurnStatus(player, turnStatus);
 		updateReps();
 	}
 
+	/**
+	 * Returns true if and only if the player's weapon inventory is full.
+	 * @return true if and only if the player's weapon inventory is full.
+	 */
 	public boolean currPlayerHasWeaponInventoryFull() {
 		return getCurrentPlayer().getPlayerBoard().numOfWeapons() == GameConstants.MAX_WEAPON_CARDS_PER_PLAYER;
 	}
 
+	/**
+	 * Returns the coordinates where the current player can move and perform an action.
+	 * @return the coordinates where the current player can move and perform an action.
+	 */
 	public List<Coordinates> getCoordinatesWherePlayerCanMove() {
 		if (getCurrentPlayer().getDamageStatus().getCurrentMacroAction().isGrab()) {
 			int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
@@ -394,42 +455,10 @@ public class Model {
 		}
 	}
 
-	public void pay(String playerName, List<AmmoType> price){
-		pay(playerName, price, new ArrayList<>());
-	}
-
-	public void pay(String playerName, List<AmmoType> priceToPay, List<Integer> indexesOfPowerup){
-		Player player = getPlayerFromName(playerName);
-		PlayerBoard playerBoard = player.getPlayerBoard();
-		List<AmmoType> price = new ArrayList<>(priceToPay);
-		Utils.logInfo("Model -> pay(): " + playerName + " is paying the price of " + price + " with powerups " + indexesOfPowerup);
-		while (!indexesOfPowerup.isEmpty()){
-			Integer max = Collections.max(indexesOfPowerup);
-			PowerupCard discardedPowerup = playerBoard.removePowerup(max);
-			price.remove(discardedPowerup.getAssociatedAmmo());
-			indexesOfPowerup.remove(max);
-			gameBoard.getPowerupDeck().discardCard(discardedPowerup); // Put discarded powerup in the discard deck.
-		}
-		playerBoard.getAmmoContainer().removeAmmo(price);
-		setPayed(true);
-	}
-
-	public boolean canUsePowerupToPay(String playerName, List<AmmoType> ammoToPay){
-		List<PowerupCard> powerupCards = getPlayerFromName(playerName).getPlayerBoard().getPowerupCards();
-		Utils.logInfo("Model() -> canUsePowerupToPay: " + playerName + " needs to pay " + ammoToPay + " and has " + powerupCards + " and " + getCurrentPlayer().getPlayerBoard().getAmmoContainer().getAmmo());
-		for (PowerupCard powerupCard :powerupCards ) {
-			if(ammoToPay.contains(powerupCard.getAssociatedAmmo()))
-				return true;
-		}
-		Utils.logInfo("Model() -> canUsePowerupToPay: " + playerName + " has no powerup to pay with");
-		return false;
-	}
-
-	public boolean canAffordWithOnlyAmmo(String playerName, List<AmmoType> ammoToPay){
-		Player player = getPlayerFromName(playerName);
-		return player.getPlayerBoard().getAmmoContainer().hasEnoughAmmo(ammoToPay);
-	}
-
+	/**
+	 * Returns the coordinate where the current player can move.
+	 * @return the coordinate where the current player can move.
+	 */
 	public List<Coordinates> getReachableCoordinatesOfTheCurrentPlayer() {
 		int numberOfMovements = gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction().getNumOfMovements();
 		return getReachableCoordinates(getCurrentPlayerName(), numberOfMovements);

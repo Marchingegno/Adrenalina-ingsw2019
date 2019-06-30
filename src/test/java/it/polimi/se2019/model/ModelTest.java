@@ -3,6 +3,8 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.model.player.TurnStatus;
+import it.polimi.se2019.model.player.damagestatus.HighDamage;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -203,26 +205,96 @@ public class ModelTest {
 
     @Test
     public void nextPlayerTurn_correctInput_correctOutput() {
+        List<Player> playerList = model.getGameBoard().getPlayers();
+        model.spawnPlayer(playerList.get(0).getPlayerName(), 0);
+        assertEquals(TurnStatus.YOUR_TURN, model.getTurnStatus(playerList.get(0).getPlayerName()));
+        assertEquals(TurnStatus.PRE_SPAWN, model.getTurnStatus(playerList.get(1).getPlayerName()));
+        model.nextPlayerTurn();
+        model.spawnPlayer(playerList.get(1).getPlayerName(), 0);
+        assertEquals(TurnStatus.IDLE, model.getTurnStatus(playerList.get(0).getPlayerName()));
+        assertEquals(TurnStatus.YOUR_TURN, model.getTurnStatus(playerList.get(1).getPlayerName()));
     }
 
     @Test
-    public void setCorrectDamageStatus() {
+    public void setCorrectDamageStatus_correctInput_correctOutput() {
+        List<Player> playerList = model.getGameBoard().getPlayers();
+        model.spawnPlayer(model.getCurrentPlayerName(), 0);
+        playerList.get(0).addDamage(playerList.get(1), 5);
+        playerList.get(0).addDamage(playerList.get(2), 5);
+        model.setCorrectDamageStatus(playerList.get(0).getPlayerName());
+        assertEquals(new HighDamage().toString(), playerList.get(0).getDamageStatus().toString());
     }
 
     @Test
-    public void getTurnStatus() {
+    public void getTurnStatus_correctInput_correctOutput() {
+        assertEquals(TurnStatus.PRE_SPAWN, model.getTurnStatus(model.getCurrentPlayerName()));
+        model.spawnPlayer(model.getCurrentPlayerName(), 0);
+        assertEquals(TurnStatus.YOUR_TURN, model.getTurnStatus(model.getCurrentPlayerName()));
+        model.getGameBoard().getPlayers().get(1).addDamage(model.getGameBoard().getPlayers().get(0), 11);
+        assertEquals(TurnStatus.DEAD, model.getTurnStatus(model.getGameBoard().getPlayers().get(1).getPlayerName()));
+        model.nextPlayerTurn();
+        assertEquals(TurnStatus.IDLE, model.getTurnStatus(model.getGameBoard().getPlayers().get(0).getPlayerName()));
     }
 
     @Test
-    public void setTurnStatusOfCurrentPlayer() {
+    public void setTurnStatusOfCurrentPlayer_correctInput_correctOutput() {
+        model.setTurnStatusOfCurrentPlayer(TurnStatus.YOUR_TURN);
+        assertEquals(TurnStatus.YOUR_TURN, model.getGameBoard().getCurrentPlayer().getTurnStatus());
     }
 
     @Test
-    public void currPlayerHasWeaponInventoryFull() {
+    public void currPlayerHasWeaponInventoryFull_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        assertFalse(model.currPlayerHasWeaponInventoryFull());
+        player.getPlayerBoard().addWeapon((WeaponCard) model.getGameBoard().getGameMap().grabCard(new Coordinates(0, 2), 0));
+        assertFalse(model.currPlayerHasWeaponInventoryFull());
+
+        player.getPlayerBoard().addWeapon((WeaponCard) model.getGameBoard().getGameMap().grabCard(new Coordinates(0, 2), 0));
+        assertFalse(model.currPlayerHasWeaponInventoryFull());
+
+        player.getPlayerBoard().addWeapon((WeaponCard) model.getGameBoard().getGameMap().grabCard(new Coordinates(0, 2), 0));
+        assertTrue(model.currPlayerHasWeaponInventoryFull());
+
     }
 
     @Test
-    public void getCoordinatesWherePlayerCanMove() {
+    public void getCoordinatesWherePlayerCanMove_3Movement_correctOutput() {
+        model.movePlayerTo(model.getCurrentPlayerName(), new Coordinates(0, 0));
+        List<Coordinates> correctAnswer = new ArrayList<>();
+        correctAnswer.add(new Coordinates(0, 3));
+        correctAnswer.add(new Coordinates(1, 2));
+        correctAnswer.add(new Coordinates(0, 1));
+        correctAnswer.add(new Coordinates(0, 2));
+        correctAnswer.add(new Coordinates(1, 0));
+        correctAnswer.add(new Coordinates(0, 0));
+        correctAnswer.add(new Coordinates(1, 1));
+        correctAnswer.add(new Coordinates(2, 1));
+        List<Coordinates> answer = model.getCoordinatesWherePlayerCanMove();
+
+        for (Coordinates coordinates : answer) {
+            assertTrue(correctAnswer.contains(coordinates));
+        }
+        for (Coordinates coordinates : correctAnswer) {
+            assertTrue(answer.contains(coordinates));
+        }
+    }
+
+    @Test
+    public void getCoordinatesWherePlayerCanMove_cantGrabEverywhere_correctOutput() {
+        model.movePlayerTo(model.getCurrentPlayerName(), new Coordinates(0, 0));
+        model.getGameBoard().getGameMap().grabCard(new Coordinates(0, 1), 0);
+        model.getGameBoard().getCurrentPlayer().getDamageStatus().setCurrentMacroActionIndex(1);
+        List<Coordinates> correctAnswer = new ArrayList<>();
+        correctAnswer.add(new Coordinates(0, 0));
+        correctAnswer.add(new Coordinates(1, 0));
+        List<Coordinates> answer = model.getCoordinatesWherePlayerCanMove();
+
+        for (Coordinates coordinates : answer) {
+            assertTrue(correctAnswer.contains(coordinates));
+        }
+        for (Coordinates coordinates : correctAnswer) {
+            assertTrue(answer.contains(coordinates));
+        }
     }
 
     @Test
@@ -239,10 +311,6 @@ public class ModelTest {
 
     @Test
     public void canAffordWithOnlyAmmo() {
-    }
-
-    @Test
-    public void getReachableCoordinatesOfTheCurrentPlayer() {
     }
 
     @Test
