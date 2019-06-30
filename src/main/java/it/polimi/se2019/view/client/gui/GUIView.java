@@ -25,11 +25,6 @@ import java.util.List;
 
 public class GUIView extends RemoteView {
 
-	private GUIController guiController;
-
-	private ConnectionController connectionController;
-	private Scene connectionScene;
-
 	private LoginController loginController;
 	private Scene loginScene;
 
@@ -60,13 +55,6 @@ public class GUIView extends RemoteView {
 
 	private Stage window;
 
-	//TO REMOVE
-	private JFrame waitingRoomFrame;
-	private JLabel waitingPlayersTextWaitingRoom;
-	private JLabel timerTextWaitingRoom;
-	private JFrame gameConfigFrame;
-	private JDialog gameConfigWaitingDialog;
-
 	public GUIView(Stage window) {
 		this.window = window;
 		loadLoginController();
@@ -79,7 +67,7 @@ public class GUIView extends RemoteView {
 		loadEndGame();
 	}
 
-	public void loadLoginController() {
+	private void loadLoginController() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Login.fxml"));
 		try {
 			Parent root = loader.load();
@@ -92,7 +80,7 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-	public void loadLobbyController() {
+	private void loadLobbyController() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Lobby.fxml"));
 		try {
 			Parent root = loader.load();
@@ -104,7 +92,7 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-	public void loadMapsAndSkulls() {
+	private void loadMapsAndSkulls() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MapAndSkulls.fxml"));
 		try {
 			Parent root = loader.load();
@@ -117,7 +105,7 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-	public void loadGameBoard() {
+	private void loadGameBoard() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GameBoard.fxml"));
 		try {
 			Parent root = loader.load();
@@ -129,7 +117,7 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-	public void loadPowerupChoice() {
+	private void loadPowerupChoice() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/PowerupChoice.fxml"));
 		try {
 			Parent root = loader.load();
@@ -137,11 +125,9 @@ public class GUIView extends RemoteView {
 			powerupChoiceStage = new Stage();
 			powerupChoiceStage.setTitle("Adrenaline");
 			powerupChoiceStage.setResizable(false);
-			powerupChoiceStage.setOnCloseRequest(event -> {
-				Platform.runLater(() -> {
-					powerupChoiceStage.show();
-				});
-			});
+			powerupChoiceStage.setOnCloseRequest(event ->
+					Platform.runLater(() -> powerupChoiceStage.show())
+			);
 			powerupChoiceStage.setScene(powerupChoiceScene);
 			powerupChoiceController = loader.getController();
 			powerupChoiceController.setGuiAndStage(this, powerupChoiceStage);
@@ -150,7 +136,7 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-	public void loadWeaponChoice() {
+	private void loadWeaponChoice() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/WeaponChoice.fxml"));
 		try {
 			Parent root = loader.load();
@@ -158,11 +144,9 @@ public class GUIView extends RemoteView {
 			weaponChoiceStage = new Stage();
 			weaponChoiceStage.setResizable(false);
 			weaponChoiceStage.setTitle("Adrenaline");
-			weaponChoiceStage.setOnCloseRequest(event -> {
-				Platform.runLater(() -> {
-					weaponChoiceStage.show();
-				});
-			});
+			weaponChoiceStage.setOnCloseRequest(event ->
+					Platform.runLater(() -> weaponChoiceStage.show())
+			);
 			weaponChoiceStage.setScene(weaponChoiceScene);
 			weaponChoiceController = loader.getController();
 			weaponChoiceController.setGuiAndStage(this, weaponChoiceStage);
@@ -171,7 +155,7 @@ public class GUIView extends RemoteView {
 		}
 	}
 
-	public void loadAskString() {
+	private void loadAskString() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/AskString.fxml"));
 		try {
 			Parent root = loader.load();
@@ -182,17 +166,15 @@ public class GUIView extends RemoteView {
 			askStringStage.setScene(askStringScene);
 			askStringController = loader.getController();
 			askStringController.setGuiAndStage(this, askStringStage);
-			askStringStage.setOnCloseRequest(event -> {
-				Platform.runLater(() -> {
-					askStringStage.show();
-				});
-			});
+			askStringStage.setOnCloseRequest(event ->
+					Platform.runLater(() -> askStringStage.show())
+			);
 		} catch (IOException e) {
 			Utils.logError("Error loading askString", e);
 		}
 	}
 
-	public void loadEndGame() {
+	private void loadEndGame() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/EndGame.fxml"));
 		try {
 			Parent root = loader.load();
@@ -276,9 +258,6 @@ public class GUIView extends RemoteView {
 
 	@Override
 	public void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType) {
-		closeGameConfigFrame();
-		closeGameConfigWaiting();
-
 		String message = "Average of voted skulls: " + skulls + ".\n" +
 				"Most voted map: " + mapType.getDescription() + "\n\n" +
 				"Match ready to start!";
@@ -502,30 +481,5 @@ public class GUIView extends RemoteView {
 		Utils.logInfo("GUIView -> canAffordAlsoWithOnlyAmmo(): player ammo " + playerAmmo + " remaining price to pay " + priceToPay + " => player can afford");
 
 		return priceToPay.isEmpty();
-	}
-
-	private void closeGameConfigFrame() {
-		if (gameConfigFrame != null) {
-			gameConfigFrame.setVisible(false);
-			gameConfigFrame.dispose();
-		}
-	}
-
-	private void showGameConfigWaiting() {
-		gameConfigWaitingDialog = new JDialog();
-		gameConfigWaitingDialog.setTitle("Waiting for other clients...");
-
-		JLabel label = new JLabel("Waiting for other clients to answer...");
-
-		gameConfigWaitingDialog.add(label);
-		gameConfigWaitingDialog.pack();
-		gameConfigWaitingDialog.setVisible(true);
-	}
-
-	private void closeGameConfigWaiting() {
-		if (gameConfigWaitingDialog != null) {
-			gameConfigWaitingDialog.setVisible(false);
-			gameConfigWaitingDialog.dispose();
-		}
 	}
 }

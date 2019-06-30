@@ -22,7 +22,7 @@ public class WeaponDeck extends ActivableDeck<WeaponCard> {
 
 	@Override
 	public void initializeDeck() {
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/Weapon.json")));
+        Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/WeaponTest.json")));
 		try {
 			JsonParser parser = new JsonParser();
 			JsonObject rootObject = parser.parse(reader).getAsJsonObject();

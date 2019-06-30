@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 public class ConnectionController {
 
 	private static GUIView guiView;
-	private static Stage window;
-	private static GUIController guiController;
 	@FXML
 	private Button SocketButton;
 	@FXML
@@ -18,13 +16,15 @@ public class ConnectionController {
 	@FXML
 	public void startConnectionWithRMI() {
 		SocketButton.setDisable(true);
-		guiView = new GUIView((Stage) SocketButton.getScene().getWindow());
+        RMIButton.setDisable(true);
+        guiView = new GUIView((Stage) RMIButton.getScene().getWindow());
 		guiView.startConnectionWithRMI();
 	}
 
 	@FXML
 	public void startConnectionWithSocket() {
-		SocketButton.setDisable(true);
+        SocketButton.setDisable(true);
+        RMIButton.setDisable(true);
 		guiView = new GUIView((Stage) SocketButton.getScene().getWindow());
 		guiView.startConnectionWithSocket();
 	}

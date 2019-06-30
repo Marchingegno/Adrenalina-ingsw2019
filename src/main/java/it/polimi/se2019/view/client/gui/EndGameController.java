@@ -2,6 +2,7 @@ package it.polimi.se2019.view.client.gui;
 
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.PlayerRepPosition;
+import it.polimi.se2019.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,44 +16,36 @@ import java.util.List;
 public class EndGameController {
 
 	@FXML
-	private TableView tablePoints;
+	private TableView<Score> tablePoints;
 	@FXML
-	private TableColumn rankColumn;
+	private TableColumn<Score, String> rankColumn;
 	@FXML
-	private TableColumn nicknameColumn;
+	private TableColumn<Score, String> nicknameColumn;
 	@FXML
-	private TableColumn pointsColumn;
+	private TableColumn<Score, String> pointsColumn;
 
-	private Stage stage;
-	private ObservableList<Scores> finalScores = FXCollections.observableArrayList();
+	private ObservableList<Score> finalScores = FXCollections.observableArrayList();
 
 	public void setValues(Stage stage, List<PlayerRepPosition> finalPlayersInfo) {
-		this.stage = stage;
+
+		stage.setOnCloseRequest(event -> System.exit(0));
 		for (int i = 0; i < finalPlayersInfo.size(); i++) {
 			for (int j = 0; j < finalPlayersInfo.get(i).getPlayerReps().size(); j++) {
 				PlayerRep playerRep = finalPlayersInfo.get(i).getPlayerReps().get(j);
-				finalScores.add(new Scores(playerRep.getPlayerName(), i, playerRep.getPoints()));
+				finalScores.add(new Score(playerRep.getPlayerName(), i + 1, playerRep.getPoints()));
 			}
 		}
-		rankColumn.setCellValueFactory(new PropertyValueFactory<Scores, String>("rank"));
-		nicknameColumn.setCellValueFactory(new PropertyValueFactory<Scores, String>("nickname"));
-		pointsColumn.setCellValueFactory(new PropertyValueFactory<Scores, String>("points"));
+		Utils.logInfo("Final scores: " + finalScores);
+
+		rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+		nicknameColumn.setCellValueFactory(new PropertyValueFactory<>("nickname"));
+		pointsColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
+		tablePoints.setItems(finalScores);
 	}
 
 	@FXML
 	private void closeStage() {
-		stage.close();
+		System.exit(0);
 	}
 
-	class Scores {
-		private String nickname;
-		private int rank;
-		private int points;
-
-		public Scores(String nickname, int rank, int points) {
-			this.nickname = nickname;
-			this.rank = rank;
-			this.points = points;
-		}
-	}
 }
