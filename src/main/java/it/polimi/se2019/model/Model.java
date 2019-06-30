@@ -30,6 +30,7 @@ import java.util.*;
  */
 public class Model {
 
+	private int turnsLeft;
 	private GameBoard gameBoard;
 	private GameMap gameMap;
 	private boolean hasPayed = false;
@@ -47,6 +48,7 @@ public class Model {
 			throw new IllegalArgumentException("Invalid number of players!");
 		gameBoard = new GameBoard(mapName, playerNames, startingSkulls);
 		gameMap = gameBoard.getGameMap();
+		turnsLeft = playerNames.size();
 	}
 
 
@@ -72,6 +74,10 @@ public class Model {
 	// ####################################
 	// GAME MANAGEMENT METHODS
 	// ####################################
+
+	public boolean canGameContinue() {
+		return turnsLeft < 0;
+	}
 
 	public boolean isGameEnded() {
 		return gameEnded;
@@ -230,6 +236,9 @@ public class Model {
 	}
 
 	public void nextPlayerTurn() {
+		if (isFrenzyStarted()) {
+			turnsLeft--;
+		}
 		gameBoard.nextPlayerTurn();
 		updateReps();
 	}

@@ -53,7 +53,18 @@ public class GameController {
 			model.flipPlayersWithNoDamage();
 		}
 
-		nextPlayerTurn();
+		//Move the next player at the top of the queue.
+		model.nextPlayerTurn();
+
+		//Checks if the game can continue, if the game is in frenzy mode.
+		//If it can't, end the game.
+		if (model.isFrenzyStarted() && !model.canGameContinue()) {
+			model.endGameAndFindWinner();
+			virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
+		}
+
+		//start its turn.
+		startTurn();
 	}
 
 	private void startTurn(){
@@ -86,16 +97,6 @@ public class GameController {
 		} else {
 			handleTurnBeginning();
 		}
-	}
-
-	/**
-	 * Move the first player at the bottom of the queue and starts the next turn.
-	 */
-	private void nextPlayerTurn() {
-		//Move the next player at the top of the queue.
-		model.nextPlayerTurn();
-		//start its turn.
-		startTurn();
 	}
 
 	/**
