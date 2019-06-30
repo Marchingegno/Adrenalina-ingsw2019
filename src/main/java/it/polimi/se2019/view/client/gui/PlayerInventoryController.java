@@ -143,44 +143,50 @@ public class PlayerInventoryController {
     @FXML
     private Label points;
 
-
     public void setInventory(PlayerRep playerRep) {
 
-        marks.add(marks00);
-        marks.add(marks01);
-        marks.add(marks02);
-        marks.add(marks10);
-        marks.add(marks11);
-        marks.add(marks12);
-        marks.add(marks20);
-        marks.add(marks21);
-        marks.add(marks22);
-        marks.add(marks30);
-        marks.add(marks31);
-        marks.add(marks32);
-        marks.add(marks40);
-        marks.add(marks41);
-        marks.add(marks42);
+        if (marks.isEmpty()) {
+            marks.add(marks00);
+            marks.add(marks01);
+            marks.add(marks02);
+            marks.add(marks10);
+            marks.add(marks11);
+            marks.add(marks12);
+            marks.add(marks20);
+            marks.add(marks21);
+            marks.add(marks22);
+            marks.add(marks30);
+            marks.add(marks31);
+            marks.add(marks32);
+            marks.add(marks40);
+            marks.add(marks41);
+            marks.add(marks42);
+        }
 
-        marksTokens.add(damageToken0);
-        marksTokens.add(damageToken1);
-        marksTokens.add(damageToken2);
-        marksTokens.add(damageToken3);
-        marksTokens.add(damageToken4);
-        marksTokens.add(damageToken5);
-        marksTokens.add(damageToken6);
-        marksTokens.add(damageToken7);
-        marksTokens.add(damageToken8);
-        marksTokens.add(damageToken9);
-        marksTokens.add(damageToken10);
-        marksTokens.add(damageToken11);
+        if (marksTokens.isEmpty()) {
+            marksTokens.add(damageToken0);
+            marksTokens.add(damageToken1);
+            marksTokens.add(damageToken2);
+            marksTokens.add(damageToken3);
+            marksTokens.add(damageToken4);
+            marksTokens.add(damageToken5);
+            marksTokens.add(damageToken6);
+            marksTokens.add(damageToken7);
+            marksTokens.add(damageToken8);
+            marksTokens.add(damageToken9);
+            marksTokens.add(damageToken10);
+            marksTokens.add(damageToken11);
+        }
 
-        skulls.add(skull0);
-        skulls.add(skull1);
-        skulls.add(skull2);
-        skulls.add(skull3);
-        skulls.add(skull4);
-        skulls.add(skull5);
+        if (skulls.isEmpty()) {
+            skulls.add(skull0);
+            skulls.add(skull1);
+            skulls.add(skull2);
+            skulls.add(skull3);
+            skulls.add(skull4);
+            skulls.add(skull5);
+        }
+
 
         setNickname(playerRep.getPlayerName());
         if (!playerRep.isHidden())
@@ -201,9 +207,9 @@ public class PlayerInventoryController {
             }
         }
         setPowerups(powerupsPath);
-		Utils.logInfo("The player " + playerRep.getPlayerName() + " now has " + playerRep.getPlayerDeaths() + " deaths.");
+        Utils.logInfo("The player " + playerRep.getPlayerName() + " now has " + playerRep.getPlayerDeaths() + " deaths.");
 
-        for (int i  = 0; i < skulls.size(); i++) {
+        for (int i = 0; i < skulls.size(); i++) {
             skulls.get(i).setVisible(i < playerRep.getPlayerDeaths());
         }
 
@@ -247,7 +253,7 @@ public class PlayerInventoryController {
             weapon2.setImage(loadImage(weaponsPath.get(2)));
             weapon2.setVisible(true);
             loaded2.setVisible(weaponReps.get(2).isLoaded());
-        } else{
+        } else {
             loaded2.setVisible(false);
             weapon2.setVisible(false);
         }
