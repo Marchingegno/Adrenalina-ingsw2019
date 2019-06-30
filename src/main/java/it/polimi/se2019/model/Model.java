@@ -119,8 +119,18 @@ public class Model {
 
         Player firstPlayer = gameBoard.getPlayers().get(0);
 
+
         boolean isAfterFirstPlayer = false;
-		for (Player player : gameBoard.getPlayers()) {
+		boolean playerStartingFrenzy = true;
+		for (Player player : gameBoard.getPlayerQueue()) {
+			//The player that started the frenzy is still at the top of the queue, since nextPlayerTurn has not been called yet.
+			//So he should receive FrenzyAfter status, even though he is before first player.
+			if (playerStartingFrenzy) {
+				playerStartingFrenzy = false;
+				player.setDamageStatus(new FrenzyAfter());
+				continue;
+			}
+
             //The first must also receive the Frenzy After damage status
             if (player.getPlayerName().equals(firstPlayer.getPlayerName()))
                 isAfterFirstPlayer = true;
