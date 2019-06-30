@@ -34,13 +34,11 @@ public class Player extends Observable implements Representable {
 	private int firingWeapon = -1; //The current weapon that the player is firing with.
 	private int powerupInExecution = -1; // The current powerup that the player is using.
 	private boolean connected = true;
-	private String pgName;
 
 	public Player(String playerName, int playerID) {
 		this.playerName = playerName;
 		this.playerID = playerID;
 		this.playerColor = Color.CharacterColorType.values()[playerID + 1]; // + 1 to avoid BLACK color
-		this.pgName = playerColor.getPgName();
 		playerBoard = new PlayerBoard(playerName);
 		setDamageStatus(new LowDamage());
 		setTurnStatus(TurnStatus.PRE_SPAWN);
@@ -84,7 +82,7 @@ public class Player extends Observable implements Representable {
 	 * @return the pg name.
 	 */
 	public String getPgName() {
-		return pgName;
+		return playerColor.getPgName();
 	}
 
 	/**
@@ -189,11 +187,6 @@ public class Player extends Observable implements Representable {
 		return temp;
 	}
 
-	public void reload(int indexOfWeaponToReload) {
-		playerBoard.getWeaponCards().get(indexOfWeaponToReload).load();
-		setChanged();
-	}
-
 	// ####################################
 	// WEAPONS USE
 	// ####################################
@@ -233,6 +226,11 @@ public class Player extends Observable implements Representable {
 		if(firingWeapon == -1)
 			throw new IllegalStateException("No weapon firing!");
 		return getPlayerBoard().getWeaponCards().get(firingWeapon);
+	}
+
+	public void reload(int indexOfWeaponToReload) {
+		playerBoard.getWeaponCards().get(indexOfWeaponToReload).load();
+		setChanged();
 	}
 
 
