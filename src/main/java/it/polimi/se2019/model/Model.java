@@ -30,7 +30,6 @@ import java.util.*;
  */
 public class Model {
 
-	private int turnsLeft;
 	private GameBoard gameBoard;
 	private GameMap gameMap;
 	private boolean hasPayed = false;
@@ -48,7 +47,6 @@ public class Model {
 			throw new IllegalArgumentException("Invalid number of players!");
 		gameBoard = new GameBoard(mapName, playerNames, startingSkulls);
 		gameMap = gameBoard.getGameMap();
-		turnsLeft = playerNames.size();
 	}
 
 
@@ -89,24 +87,25 @@ public class Model {
 	// ####################################
 
     /**
-     * Returns true if and only of the game can continue.
-     * @return true if and only of the game can continue.
-     */
-    public boolean canGameContinue() {
-        return turnsLeft < 0;
-    }
-
-    /**
-     * Returns true if and only of the game is ended.
-     * @return true if and only of the game is ended.
+	 * Returns true if and only if the game is ended.
+	 * @return true if and only if the game is ended.
      */
     public boolean isGameEnded() {
         return gameEnded;
     }
 
-    /**
-     * Returns true if and only of the frenzy is started.
-     * @return true if and only of the frenzy is started.
+	/**
+	 * Returns true if and only if the game can continue.
+	 *
+	 * @return true if and only if the game can continue.
+	 */
+	public boolean canGameContinue() {
+		return gameBoard.canGameContinue();
+	}
+
+	/**
+	 * Returns true if and only if the frenzy is started.
+	 * @return true if and only if the frenzy is started.
      */
     public boolean isFrenzyStarted() {
         return gameBoard.isFrenzyStarted();
@@ -362,9 +361,6 @@ public class Model {
 	 * 
 	 */
 	public void nextPlayerTurn() {
-		if (isFrenzyStarted()) {
-			turnsLeft--;
-		}
 		gameBoard.nextPlayerTurn();
 		updateReps();
 	}

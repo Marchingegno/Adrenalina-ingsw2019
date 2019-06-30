@@ -30,6 +30,7 @@ import java.util.Observable;
  */
 public class GameBoard extends Observable implements Representable {
 
+	private int turnsLeftInFrenzy;
 	private boolean frenzyStarted;
 	private List<Player> players;
 	private int remainingSkulls;
@@ -57,6 +58,7 @@ public class GameBoard extends Observable implements Representable {
 		powerupDeck = new PowerupDeck(this);
 		killShotInThisTurn = false;
 		frenzyStarted = false;
+		turnsLeftInFrenzy = playerNames.size();
 
 		players = new ArrayList<>(playerNames.size());
 		int id = 0;
@@ -93,13 +95,18 @@ public class GameBoard extends Observable implements Representable {
 	public void nextPlayerTurn() {
 		playerQueue.peekFirst().setTurnStatus(TurnStatus.IDLE);
 		playerQueue.moveFirstToLast();
-
+		if (isFrenzyStarted()) {
+			turnsLeftInFrenzy--;
+		}
 		// Skip turns of disconnected players.
 		Player currentPlayer = playerQueue.peekFirst();
 		while(!currentPlayer.isConnected()) {
 			currentPlayer.setTurnStatus(TurnStatus.IDLE);
 			playerQueue.moveFirstToLast();
 			currentPlayer = playerQueue.peekFirst();
+			if (isFrenzyStarted()) {
+				turnsLeftInFrenzy--;
+			}
 		}
 
 		setChanged();
@@ -112,6 +119,16 @@ public class GameBoard extends Observable implements Representable {
 	public boolean isFrenzyStarted() {
 		return frenzyStarted;
 	}
+
+	/**
+	 * Returns true if and only if the game can continue.
+	 *
+	 * @return true if and only if the game can continue.
+	 */
+	public boolean canGameContinue() {
+		return turnsLeftInFrenzy < 0;
+	}
+
 
 	/**
 	 * Starts Frenzy.
