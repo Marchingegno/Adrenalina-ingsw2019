@@ -101,8 +101,8 @@ public class PowerGlove extends AlternateFireWeapon {
 	}
 
 	@Override
-	protected boolean canSecondaryBeActivated() {
-		return !getTargettableDirections().isEmpty() && getOwner().hasEnoughAmmo(secondaryPrice);
+	boolean canSecondaryBeFired() {
+		return !getTargettableDirections().isEmpty();
 	}
 
 

@@ -8,6 +8,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
@@ -272,7 +273,9 @@ public abstract class WeaponCard extends ActivableCard {
 	void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
 		for (int i = 0; i < playersToShoot.size(); i++) {
 			if (playersToShoot.get(i) != null) {
-				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage());
+
+				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage() + GameConstants
+						.DAMAGE_OVERLOAD);
 				if (damagesAndMarks.get(i).getDamage() >= 1 && !playersHit.contains(playersToShoot.get(i))) {
 					playersHit.add(playersToShoot.get(i));
 				}

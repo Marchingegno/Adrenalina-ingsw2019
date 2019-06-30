@@ -117,8 +117,8 @@ public class Railgun extends AlternateFireWeapon {
 	}
 
 	@Override
-	protected boolean canSecondaryBeActivated() {
-		return canPrimaryBeActivated() && getOwner().hasEnoughAmmo(secondaryPrice);
+	protected boolean canSecondaryBeFired() {
+		return canPrimaryBeActivated();
 	}
 
 

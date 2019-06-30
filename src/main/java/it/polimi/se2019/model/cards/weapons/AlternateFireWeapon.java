@@ -24,6 +24,11 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	int secondaryDamage;
 	int secondaryMarks;
 
+	/**
+	 * Constructor of the class.
+	 *
+	 * @param parameters the JsonObject with the parameters needed for the weapon.
+	 */
 	public AlternateFireWeapon(JsonObject parameters) {
 		super(parameters);
 		this.secondaryDamagesAndMarks = new ArrayList<>();
@@ -40,6 +45,10 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		return secondaryDamagesAndMarks;
 	}
 
+	/**
+	 * Register whether or not the player has chosen to fire in alternate mode.
+	 * @param choice the choice of the player.
+	 */
 	private void registerChoice(int choice) {
 		if (!canPrimaryBeActivated() || choice == 1) {
 			alternateFireActive = true;
@@ -99,6 +108,9 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	public abstract List<Player> getSecondaryTargets();
 
 
+	/**
+	 * Resets the alternate mode.
+	 */
 	private void secondaryReset() {
 		this.alternateFireActive = FALSE;
 	}
@@ -109,6 +121,12 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		secondaryReset();
 	}
 
+	/**
+	 * After getting the secondary targets,
+	 * builds a {@link QuestionContainer} that asks in which coordinate to fire at.
+	 *
+	 * @return the {@link QuestionContainer}.
+	 */
 	QuestionContainer setSecondaryCurrentTargetsAndReturnTargetQnO() {
 		currentTargets = getSecondaryTargets();
 		return getTargetPlayersQnO(currentTargets);
@@ -123,9 +141,26 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		return alternateFireActive;
 	}
 
-	protected boolean canSecondaryBeActivated() {
-		return !getSecondaryTargets().isEmpty() && getOwner().hasEnoughAmmo(secondaryPrice);
+	/**
+	 * Check whether the player can activate alternate mode and has enough ammo to do so.
+	 *
+	 * @return if the player can activate the alternate mode.
+	 */
+	private boolean canSecondaryBeActivated() {
+		return canSecondaryBeFired() && getOwner().hasEnoughAmmo(secondaryPrice);
 	}
+
+	/**
+	 * Check if the player can activate alternate mode.
+	 * It can be different depending on the weapon.
+	 *
+	 * @return if the player can activate alternate mode.
+	 */
+	boolean canSecondaryBeFired() {
+		return !getSecondaryTargets().isEmpty();
+	}
+
+
 
 	@Override
 	public List<AmmoType> getFiringCost() {
