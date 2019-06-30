@@ -8,17 +8,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class VirtualViewsContainer {
+/**
+ * Container for the VirtualViews of the player.
+ */
+class VirtualViewsContainer {
 
 	private ArrayList<VirtualView> virtualViews;
 
 
-	public VirtualViewsContainer(Collection<VirtualView> virtualViews) {
+	/**
+	 * Constructor of the class.
+	 *
+	 * @param virtualViews the collection of the player's VirtualViews.
+	 */
+	VirtualViewsContainer(Collection<VirtualView> virtualViews) {
 		this.virtualViews = new ArrayList<>(virtualViews);
 	}
 
 
-	public List<VirtualView> getVirtualViews() {
+	List<VirtualView> getVirtualViews() {
 		return virtualViews;
 	}
 
@@ -26,18 +34,29 @@ public class VirtualViewsContainer {
 	 * Sends the updated reps contained in the VirtualView and sent by the model.
 	 * Note: if an action is requested to the player this methods mustn't be called before the request (otherwise two messages will be sent)!
 	 */
-	public void sendUpdatedReps() {
+	void sendUpdatedReps() {
 		Utils.logInfo("VirtualViewsContainer -> sendUpdatedReps(): sending latest reps to everyone");
 		for (VirtualView virtualView : virtualViews) {
 			virtualView.sendReps();
 		}
 	}
 
-	public void sendEndGameMessage(List<PlayerRepPosition> finalPlayersInfo) {
+	/**
+	 * Sends the end game message to the players.
+	 *
+	 * @param finalPlayersInfo the leaderboard of the ended game.
+	 */
+	void sendEndGameMessage(List<PlayerRepPosition> finalPlayersInfo) {
 		virtualViews.forEach(virtualView -> virtualView.endOfGame(finalPlayersInfo));
 	}
 
-	public VirtualView getVirtualViewFromPlayerName(String playerName){
+	/**
+	 * Returns the VirtualView associated with the nickname of the player.
+	 *
+	 * @param playerName the nickname of the player.
+	 * @return the VirtualView of the player.
+	 */
+	VirtualView getVirtualViewFromPlayerName(String playerName){
 		return virtualViews.stream()
 				.filter(item -> item.getNickname().equals(playerName))
 				.findFirst()
