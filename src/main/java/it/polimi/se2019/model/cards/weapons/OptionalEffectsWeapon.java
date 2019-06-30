@@ -87,7 +87,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
-	protected void registerChoice(int choice) {
+	private void registerChoice(int choice) {
 		choices.forEach(item -> Utils.logWeapon(item.toString()));
 		switch (choices.get(choice)) {
 			case 0:
@@ -175,37 +175,37 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		optionalReset();
 	}
 
-	protected boolean isOptionalActive(int optionalIndex) {
+	boolean isOptionalActive(int optionalIndex) {
 		return optionalEffectsActive[optionalIndex - 1];
 	}
 
-	protected boolean isBothOptionalActive() {
+	boolean isBothOptionalActive() {
 		return optionalEffectsActive[0] && optionalEffectsActive[1];
 	}
 
-	protected boolean canAddThisOptionalEffect(int numberOfEffect) {
+	private boolean canAddThisOptionalEffect(int numberOfEffect) {
 		if (numberOfEffect == 1)
 			return canAddOptionalEffect1();
 		else
 			return canAddOptionalEffect2();
 	}
 
-	protected boolean canAddOptionalEffect1() {
+	private boolean canAddOptionalEffect1() {
 		return canAffordOptionalEffect1() && canFireOptionalEffect1();
 	}
 
-	protected boolean canAddOptionalEffect2() {
+	private boolean canAddOptionalEffect2() {
 		if (!hasOptionalEffects[1]) return false;
 		return canAffordOptionalEffect2() && canFireOptionalEffect2();
 	}
 
-	protected boolean canAddBothOptionalEffects() {
+	private boolean canAddBothOptionalEffects() {
 		if (!hasOptionalEffects[1]) return false;
 		return canAffordBothOptionalEffects() && canFireBothOptionalEffects();
 	}
 
 
-	protected boolean canAffordOptionalEffect1() {
+	boolean canAffordOptionalEffect1() {
 		if (optional1Price == null)
 			return true;
 		List<AmmoType> optional1Cost = new ArrayList<>();
@@ -213,7 +213,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return getOwner().hasEnoughAmmo(optional1Cost);
 	}
 
-	protected boolean canAffordOptionalEffect2() {
+	private boolean canAffordOptionalEffect2() {
 		if (optional2Price == null)
 			return true;
 		List<AmmoType> optional2Cost = new ArrayList<>();
@@ -221,7 +221,7 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return getOwner().hasEnoughAmmo(optional2Cost);
 	}
 
-	protected boolean canAffordBothOptionalEffects() {
+	private boolean canAffordBothOptionalEffects() {
 		List<AmmoType> prices = new ArrayList<>();
 		if (optional1Price != null) {
 			prices.add(optional1Price);

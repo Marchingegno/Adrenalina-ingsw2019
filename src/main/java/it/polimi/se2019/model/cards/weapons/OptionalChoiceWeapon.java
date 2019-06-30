@@ -10,20 +10,19 @@ import java.util.List;
 
 public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
-	protected String baseName;
-	protected String moveName;
-	protected String extraName;
-
-	protected Pair<WeaponEffectType, EffectState> weaponState;
-	protected boolean canAddBase;
-	protected boolean canAddMove;
-	protected boolean canAddExtra;
-	protected boolean baseCompleted;
-	protected boolean moveCompleted;
-	protected boolean extraCompleted;
-	protected boolean effectHasChanged;
-	protected WeaponEffectType[] currentEffectList;
-	protected WeaponEffectType nextType;
+	String baseName;
+	String moveName;
+	String extraName;
+	boolean canAddBase;
+	boolean canAddMove;
+	boolean canAddExtra;
+	boolean baseCompleted;
+	boolean moveCompleted;
+	boolean extraCompleted;
+	private Pair<WeaponEffectType, EffectState> weaponState;
+	private boolean effectHasChanged;
+	private WeaponEffectType[] currentEffectList;
+	private WeaponEffectType nextType;
 	private boolean ended;
 
 	public OptionalChoiceWeapon(JsonObject parameters) {
@@ -52,8 +51,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 	 *
 	 * @return true if weaponState was in ANSWER state.
 	 */
-	protected boolean advanceState() {
-//		Utils.logWeapon("Current weapon state: " + weaponState.toString());
+	private boolean advanceState() {
 		if (weaponState.getSecond() == EffectState.ANSWER) {
 			switch (weaponState.getFirst()) {
 				case MOVE:
@@ -81,7 +79,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		return false;
 	}
 
-	protected QuestionContainer handleBase(int choice) {
+	private QuestionContainer handleBase(int choice) {
 		switch (weaponState.getSecond()) {
 			case REQUEST:
 				return handleBaseRequest(choice);
@@ -96,7 +94,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		return setPrimaryCurrentTargetsAndReturnTargetQnO();
 	}
 
-	protected QuestionContainer handleBaseAnswer(int choice) {
+	private QuestionContainer handleBaseAnswer(int choice) {
 		target = currentTargets.get(choice);
 		return null;
 	}
@@ -116,7 +114,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	protected abstract QuestionContainer handleMoveAnswer(int choice);
 
-	protected QuestionContainer handleExtra(int choice) {
+	private QuestionContainer handleExtra(int choice) {
 		switch (weaponState.getSecond()) {
 			case REQUEST:
 				return handleExtraRequest(choice);
@@ -131,9 +129,9 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	protected abstract QuestionContainer handleExtraAnswer(int choice);
 
-	protected QuestionContainer handleActionSelect(int choice) {
-//		Utils.logWeapon("Weapon " + this.getCardName() + " : executing handleActionSelect with weapon state: ");
-//		Utils.logWeapon(weaponState.toString());
+	private QuestionContainer handleActionSelect(int choice) {
+		Utils.logWeapon("Weapon " + this.getCardName() + " : executing handleActionSelect with weapon state: ");
+		Utils.logWeapon(weaponState.toString());
 
 		switch (weaponState.getSecond()) {
 			case REQUEST:
@@ -145,7 +143,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		return null;
 	}
 
-	protected QuestionContainer setCurrentActionListReturnActionTypeQnO() {
+	private QuestionContainer setCurrentActionListReturnActionTypeQnO() {
 		String question = "Which action do you want to do?";
 		List<String> options = new ArrayList<>();
 		currentEffectList = new WeaponEffectType[3];
@@ -175,7 +173,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
 	}
 
-	protected QuestionContainer handleChoices(int choice) {
+	QuestionContainer handleChoices(int choice) {
 		QuestionContainer qc;
 		Utils.logWeapon("Executing handleChoices with choice " + choice + " and pair:");
 		Utils.logWeapon(weaponState.toString());

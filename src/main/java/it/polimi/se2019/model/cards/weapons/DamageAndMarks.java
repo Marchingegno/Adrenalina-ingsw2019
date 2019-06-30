@@ -18,7 +18,7 @@ public class DamageAndMarks {
 		enrich(damageAndMarksToAdd.getDamage(), damageAndMarksToAdd.getMarks());
 	}
 
-	public void enrich(int damageToAdd, int marksToAdd) {
+	void enrich(int damageToAdd, int marksToAdd) {
 		this.damage += damageToAdd;
 		this.marks += marksToAdd;
 	}
