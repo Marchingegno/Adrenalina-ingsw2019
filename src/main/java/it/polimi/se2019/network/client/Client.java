@@ -18,6 +18,10 @@ import static it.polimi.se2019.view.client.cli.CLIPrinter.waitForChoiceInMenu;
  */
 public class Client {
 
+	/**
+	 * Starts the Client program.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// Set English language.
 		Locale.setDefault(Locale.ENGLISH);

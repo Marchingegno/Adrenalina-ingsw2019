@@ -1,14 +1,12 @@
 package it.polimi.se2019;
 
 import it.polimi.se2019.controller.Controller;
-import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 import it.polimi.se2019.view.server.VirtualViewDriver;
 import it.polimi.se2019.view.server.VirtualViewDriverAsync;
 import it.polimi.se2019.view.server.VirtualViewDriverSync;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,6 +29,7 @@ public class GameTester {
 	/**
 	 * Run this main to start an asynchronous test game.
 	 * This test can be personalized using the final attributes in the class.
+	 * @param args
 	 */
 	public static void main(String[] args) {
 		runSingleAsyncTestGame();
@@ -43,14 +42,14 @@ public class GameTester {
 	 * DISPLAY_REPS = false, since we don't want to have too many logs;
 	 * TEST_SHOOT = true, TEST_MOVE = true, since we want to test everything.
 	 */
-	@Test
+	//@Test
 	public void runTestGame() {
-		for (int i = 0; i < NUMBER_OF_GAMES; i++) {
+		/*for (int i = 0; i < NUMBER_OF_GAMES; i++) {
 			runSingleSyncTestGame();
 			Utils.logInfo(Color.getColoredString("####################################", Color.CharacterColorType.GREEN));
 			Utils.logInfo(Color.getColoredString("##################", Color.CharacterColorType.GREEN) + " TEST GAME " + (i + 1) + " FINISHED CORRECTLY " + Color.getColoredString("##################", Color.CharacterColorType.GREEN));
 			Utils.logInfo(Color.getColoredString("####################################", Color.CharacterColorType.GREEN));
-		}
+		}*/
 	}
 
 

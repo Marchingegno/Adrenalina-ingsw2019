@@ -353,7 +353,7 @@ public class GUIView extends RemoteView {
 			weaponChoiceController.setTitle("Select the weapon to discard");
 			weaponChoiceController.setWeaponsToChoose(discardableWeapons, weaponsOfThePlayer, Request.CHOOSE_INT);
 			indexOfTheWeaponToDiscard = weaponChoiceController.askWeapon();
-			sendMessage(new SwapMessage(indexOfTheWeaponToGrab, indexOfTheWeaponToDiscard, MessageType.SWAP_WEAPON));
+			sendMessage(new SwapMessage(indexOfTheWeaponToGrab, indexOfTheWeaponToDiscard));
 		});
 	}
 

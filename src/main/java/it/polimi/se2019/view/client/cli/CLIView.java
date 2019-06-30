@@ -168,7 +168,7 @@ public class CLIView extends RemoteView {
 		}
 		indexOfTheWeaponToDiscard = askInteger(1, weaponsOfThePlayer.size()) - 1;
 
-		sendMessage(new SwapMessage(indexOfTheWeaponToGrab, indexOfTheWeaponToDiscard, MessageType.SWAP_WEAPON));
+		sendMessage(new SwapMessage(indexOfTheWeaponToGrab, indexOfTheWeaponToDiscard));
 	}
 
 	@Override
