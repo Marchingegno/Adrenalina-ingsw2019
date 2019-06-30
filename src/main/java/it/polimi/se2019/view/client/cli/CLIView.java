@@ -275,7 +275,7 @@ public class CLIView extends RemoteView {
 	}
 
 	@Override
-	public void endOfGame(List<PlayersPosition> finalPlayersInfo) {
+	public void endOfGame(List<PlayerRepPosition> finalPlayersInfo) {
 		printLine("GAME ENDED!");
 
 		// Display winner(s).

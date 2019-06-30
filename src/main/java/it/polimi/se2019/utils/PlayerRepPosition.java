@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayersPosition implements Serializable {
+public class PlayerRepPosition implements Serializable {
 
 	private final ArrayList<PlayerRep> playerReps;
 
 
-	public PlayersPosition() {
+	public PlayerRepPosition() {
 		playerReps = new ArrayList<>();
 	}
 
@@ -23,5 +23,6 @@ public class PlayersPosition implements Serializable {
 	public void addInPosition(PlayerRep playerRep) {
 		playerReps.add(playerRep);
 	}
+
 
 }

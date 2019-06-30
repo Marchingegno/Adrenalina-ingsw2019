@@ -6,6 +6,7 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCard;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gameboard.GameBoard;
+import it.polimi.se2019.model.gameboard.KillShot;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
@@ -37,7 +38,7 @@ public class Model {
 
 	// Game ending variables
 	private boolean gameEnded = false;
-	private List<PlayersPosition> finalPlayersPosition;
+	private List<PlayerRepPosition> finalPlayerRepPosition;
 
 	public Model(String mapName, List<String> playerNames, int startingSkulls) {
 		if(startingSkulls < GameConstants.MIN_SKULLS || startingSkulls > GameConstants.MAX_SKULLS)
@@ -80,7 +81,6 @@ public class Model {
 		return gameBoard.isFrenzyStarted();
 	}
 
-	//TODO: Revisit the location of the first player. I don't know if he is the player that just ended the turn, or the following.
 	public void startFrenzy() {
 		gameBoard.startFrenzy();
 
@@ -360,49 +360,156 @@ public class Model {
 		return gameMap.reachableCoordinates(player, distance);
 	}
 
+	// ####################################
+	// ENDGAME METHODS
+	// ####################################
+
 	public void endGameAndFindWinner() {
 		gameEnded = true;
-		// TODO punti tracciato colpo mortale, in caso di parità chi ha preso più punti da colpi mortali. Se entrambi nessun colpo mortale allora parità.
+		finalPlayerRepPosition = new ArrayList<>();
+		List<LeaderboardSlot> tempLeaderBoard;
 
-		// Initialization.
-		finalPlayersPosition = new ArrayList<>();
-		for(Player player : gameBoard.getPlayers()) {
+		Utils.logInfo("Initiating endGame.");
+
+		scorePlayersInEndGame();
+		awardKillshotTrackPoint();
+
+		//This sets the winners in their positions without tiebreaking.
+		tempLeaderBoard = setWinners();
+
+		updateReps();
+
+		//tieBreak returns the final scores.
+		finalPlayerRepPosition = tieBreak(tempLeaderBoard);
+	}
+
+	private void scorePlayersInEndGame() {
+		//This will score EVERY player in the endgame phase.
+		gameBoard.getPlayers().forEach(this::scorePlayerEndGame);
+	}
+
+	private void scorePlayerEndGame(Player player) {
+		Utils.logInfo("Scoring " + player.getPlayerName());
+		PlayerBoard playerBoard = player.getPlayerBoard();
+		DamageDone damageDone = new DamageDone();
+		List<Player> sortedPlayers;
+
+		playerBoard.getDamageBoard().forEach(damageDone::damageUp);
+
+		sortedPlayers = damageDone.getSortedPlayers();
+		awardPoints(playerBoard, sortedPlayers);
+	}
+
+	private void awardKillshotTrackPoint() {
+		//Here I will use DamageDone since it's a similar procedure
+		//to scoring DamageBoards and has the capability to sort itself.
+		DamageDone damageDone = new DamageDone();
+		List<KillShot> killShotList = gameBoard.getKillShots();
+		List<Player> sortedPlayers;
+
+		Utils.logInfo("Awarding killshots points.");
+
+		for (KillShot killShot : killShotList) {
+			damageDone.damageUp(killShot.getPlayer());
+			if (killShot.isOverkill()) {
+				damageDone.damageUp(killShot.getPlayer());
+			}
+		}
+
+		sortedPlayers = damageDone.getSortedPlayers();
+
+		int offset = 0;
+		for (Player p : sortedPlayers) {
+			Utils.logInfo("Killshot: player " + p.getPlayerName() + " is awarded " + GameConstants.KILLSHOT_SCORES.get(offset) + " points.");
+			p.getPlayerBoard().addPoints(GameConstants.KILLSHOT_SCORES.get(offset));
+			offset++;
+		}
+
+	}
+
+	private List<LeaderboardSlot> setWinners() {
+		List<LeaderboardSlot> leaderboard = new ArrayList<>();
+
+		for (Player player : gameBoard.getPlayers()) {
 			player.updateRep();
 		}
 
-		// First position.
-		PlayersPosition p1 = new PlayersPosition();
-		p1.addInPosition((PlayerRep) gameBoard.getPlayers().get(0).getRep());
-		finalPlayersPosition.add(p1);
+		Utils.logInfo("Finding winners.");
 
-		for(int i = 1; i < gameBoard.getPlayers().size(); i++) {
-			Player currPlayer = gameBoard.getPlayers().get(i);
-			int currPoints = currPlayer.getPlayerBoard().getPoints();
+		Comparator<Player> playerComparator = (o1, o2) -> {
+			int firstPoints = o1.getPlayerBoard().getPoints();
+			int secondPoints = o2.getPlayerBoard().getPoints();
 
-			// Check if curr must be put last.
-			if(currPoints < finalPlayersPosition.get(finalPlayersPosition.size() - 1).getPlayerReps().get(0).getPoints()) {
-				PlayersPosition newP = new PlayersPosition();
-				newP.addInPosition((PlayerRep) currPlayer.getRep());
-				finalPlayersPosition.add(newP);
+			return firstPoints - secondPoints;
+		};
+
+		List<Player> players = gameBoard.getPlayers();
+		players.sort(playerComparator);
+
+		int precPoint = -1;
+		int precIndex = -1;
+		for (int i = 0; i < players.size(); i++) {
+			Player currPlayer = players.get(i);
+			if (currPlayer.getPlayerBoard().getPoints() == precPoint) {
+				//This is a tie,
+				leaderboard.get(precIndex).addInPosition(currPlayer);
 			} else {
-				for(int j = 0; j < finalPlayersPosition.size(); j++) {
-					// If curr has same points.
-					if(currPoints == finalPlayersPosition.get(j).getPlayerReps().get(0).getPoints()) {
-						finalPlayersPosition.get(j).addInPosition((PlayerRep) currPlayer.getRep());
-					}
-					// If curr has more points.
-					if(currPoints > finalPlayersPosition.get(j).getPlayerReps().get(0).getPoints()) {
-						PlayersPosition newP = new PlayersPosition();
-						newP.addInPosition((PlayerRep) currPlayer.getRep());
-						finalPlayersPosition.add(j, newP);
-					}
-				}
+				precPoint = currPlayer.getPlayerBoard().getPoints();
+				precIndex = i;
+				leaderboard.add(i, new LeaderboardSlot());
+				leaderboard.get(i).addInPosition(currPlayer);
 			}
 		}
+
+		return leaderboard;
 	}
 
-	public List<PlayersPosition> getFinalPlayersInfo() {
-		return finalPlayersPosition;
+	private List<PlayerRepPosition> tieBreak(List<LeaderboardSlot> leaderboard) {
+		List<PlayerRepPosition> playerRepLeaderboard = new ArrayList<>();
+
+		Utils.logInfo("Breaking ties.");
+
+		int nextPosition = 0;
+		for (int i = 0; i < leaderboard.size(); i++) {
+			if (leaderboard.get(i).isATie()) {
+				List<Player> tiedPlayers = leaderboard.get(i).getPlayersInThisPosition();
+				List<Player> orderedPlayers = new ArrayList<>();
+
+				List<KillShot> killShotTrack = gameBoard.getKillShots();
+				for (int j = 0; j < killShotTrack.size(); j++) {
+					if (tiedPlayers.indexOf(killShotTrack.get(i).getPlayer()) != -1) {
+						//I found a tied player in the killshot track.
+						//This player should be the next in leaderboard.
+						orderedPlayers.add(killShotTrack.get(i).getPlayer());
+					}
+				}
+				//Here, if the size of orderedPlayers is less than tiedPlayers, it means that
+				//one or more tied players has not obtained killshots.
+				//These player(s) should be classified right after ordered players.
+				for (Player player : orderedPlayers) {
+					playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
+					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
+					nextPosition++;
+				}
+
+				tiedPlayers.removeAll(orderedPlayers);
+				//These remaining players are DEFINITELY tied together.
+				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
+				for (Player player : tiedPlayers) {
+					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
+				}
+				nextPosition++;
+			} else {
+				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
+				playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) leaderboard.get(i).getPlayer().getRep());
+				nextPosition++;
+			}
+		}
+		return playerRepLeaderboard;
+	}
+
+	public List<PlayerRepPosition> getFinalPlayersInfo() {
+		return finalPlayerRepPosition;
 	}
 
 
@@ -718,29 +825,25 @@ public class Model {
 		updateReps();
 	}
 
-	private void awardPoints(PlayerBoard deadPlayerBoard, ArrayList<Player> sortedPlayers) {
+	private void awardPoints(PlayerBoard playerBoardToScore, List<Player> sortedPlayers) {
 		int offset = 0;
+		if (playerBoardToScore.getDamageBoard().isEmpty()) {
+			return;
+		}
 
-		//TODO: The implementation is WRONG. A player should give FRENZY_SCORES only if the playerBoard is flipped. @Marchingegno
-
-		//This method relies on the "SCORES" array defined in GameConstants.
-		if (deadPlayerBoard.isFlipped()) {
+		//This method relies on the "PLAYER_SCORES" array defined in GameConstants.
+		if (playerBoardToScore.isFlipped()) {
 			for (Player p : sortedPlayers) {
 				p.getPlayerBoard().addPoints(GameConstants.FRENZY_SCORES.get(offset));
 				offset++;
 			}
 		} else {
-			//AWARD FIRST BLOOD POINT
-			sortedPlayers.get(0).getPlayerBoard().addPoints(1);
+			//AWARD FIRST BLOOD POINT wronggg
+			sortedPlayers.get(sortedPlayers.indexOf(playerBoardToScore.getDamageBoard().get(0))).getPlayerBoard().addPoints(GameConstants.FIRST_BLOOD_SCORE);
 
 			for (Player p : sortedPlayers) {
-				p.getPlayerBoard().addPoints(GameConstants.SCORES.get(deadPlayerBoard.getNumberOfDeaths() + offset));
+				p.getPlayerBoard().addPoints(GameConstants.PLAYER_SCORES.get(playerBoardToScore.getNumberOfDeaths() + offset));
 				offset++;
-				/*Se con questa morte si attiva la frenzy, o la frenzy è già attivata,
-				 *si deve swappare la damageBoard e il damageStatus del player.
-				 *
-				 * Fatto dal gameController!
-				 */
 			}
 
 		}
@@ -771,87 +874,3 @@ public class Model {
 	}
 }
 
-/**
- * Data structure that helps with counting players and damage done on damage boards.
- *
- * @author Marchingegno
- */
-class DamageDone {
-	private ArrayList<Player> players;
-	private ArrayList<Integer> damages;
-
-
-	DamageDone() {
-		this.players = new ArrayList<>();
-		this.damages = new ArrayList<>();
-	}
-
-	/**
-	 * Only for testing purposes.
-	 */
-	List<Integer> getDamages() {
-		return new ArrayList<>(damages);
-	}
-
-
-	/**
-	 * Only for testing purposes.
-	 */
-	List<Player> getPlayers() {
-		return new ArrayList<>(players);
-	}
-
-	void damageUp(Player player) {
-
-		int indexOfPlayer;
-		int oldDamage;
-
-		if (!players.contains(player)) {
-			addPlayer(player);
-		}
-
-		indexOfPlayer = players.indexOf(player);
-		oldDamage = damages.get(indexOfPlayer);
-		damages.set(indexOfPlayer, (oldDamage + 1));
-	}
-
-	ArrayList<Player> getSortedPlayers() {
-		sort();
-		return new ArrayList<>(players);
-	}
-
-	private void addPlayer(Player player) {
-		players.add(player);
-		damages.add(0);
-	}
-
-	private void sort() {
-		Player pToSwap;
-		Integer iToSwap;
-
-		while (!isSorted()) {
-			for (int i = damages.size() - 1; i > 0; i--) {
-				if (damages.get(i) > damages.get(i - 1)) {
-					//Swap in damages
-					iToSwap = damages.get(i);
-					damages.set(i, damages.get(i - 1));
-					damages.set(i - 1, iToSwap);
-
-					//Swap in players
-					pToSwap = players.get(i);
-					players.set(i, players.get(i - 1));
-					players.set(i - 1, pToSwap);
-				}
-			}
-		}
-	}
-
-	private boolean isSorted() {
-		for (int i = 0; i < damages.size() - 1; i++) {
-			if (damages.get(i) < damages.get(i + 1)) {
-				return false;
-			}
-		}
-		return true;
-	}
-}

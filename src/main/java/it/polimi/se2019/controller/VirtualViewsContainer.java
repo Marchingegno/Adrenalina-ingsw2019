@@ -1,6 +1,6 @@
 package it.polimi.se2019.controller;
 
-import it.polimi.se2019.utils.PlayersPosition;
+import it.polimi.se2019.utils.PlayerRepPosition;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
@@ -33,7 +33,7 @@ public class VirtualViewsContainer {
 		}
 	}
 
-	public void sendEndGameMessage(List<PlayersPosition> finalPlayersInfo) {
+	public void sendEndGameMessage(List<PlayerRepPosition> finalPlayersInfo) {
 		virtualViews.forEach(virtualView -> virtualView.endOfGame(finalPlayersInfo));
 	}
 
