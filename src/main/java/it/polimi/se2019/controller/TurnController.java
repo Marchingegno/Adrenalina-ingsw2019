@@ -386,6 +386,10 @@ public class TurnController {
 	// POWERUPS METHODS
 	// ####################################
 
+	/**
+	 * Checks if the there are players that have a powerup of use case ON_DAMAGE.
+	 * If there are any player with a ON_DAMAGE powerup, the virtualview will be ask to use a powerup.
+	 */
 	private void handleInitialOnDamagePowerup() {
 		String damagedPlayer = model.getNextPlayerWaitingForDamagePowerups();
 		if (damagedPlayer == null) {
@@ -395,6 +399,11 @@ public class TurnController {
 		}
 	}
 
+	/**
+	 * Initial activation of a powerup. This method is called when activating a powerup.
+	 * @param virtualView the virtualview of the player activating the powerup.
+	 * @param indexOfPowerup the powerup to activate.
+	 */
 	private void initialPowerupActivation(VirtualView virtualView, int indexOfPowerup) {
 		// If player doesn't want to use any powerup.
 		if (indexOfPowerup == -1) {
@@ -409,7 +418,7 @@ public class TurnController {
 
 	/**
 	 * Advance the process of activating a powerup.
-	 * @param virtualView the VirtualView of the player activating the powerup..
+	 * @param virtualView the VirtualView of the player activating the powerup.
 	 * @param choice the choice of the player.
 	 */
 	private void doPowerupStep(VirtualView virtualView, int choice) {
@@ -418,7 +427,7 @@ public class TurnController {
 	}
 
 	/**
-	 * Handles the {@link QuestionContainer} that the powerup returns when doPowerupStep is called.
+	 * Handles the {@link QuestionContainer} that the powerup returns when doPowerupStep or initialPowerupActivation is called.
 	 * @param virtualView the VirtualView of the player activating the powerup.
 	 * @param questionContainer the QuestionContainer to be asked to the player.
 	 */
@@ -431,11 +440,20 @@ public class TurnController {
 		}
 	}
 
+	/**
+	 * Called when a powerup has finished its activation.
+	 * @param virtualView the player that finished the powerup activation.
+	 */
 	private void handleActionEndForPowerup(VirtualView virtualView) {
-		if (virtualView.getNickname().equals(model.getCurrentPlayerName()) && model.isPlayerWaitingForDamagePowerupsEmpty())
-			handleNextAction(virtualView);
-		else
+		if (virtualView.getNickname().equals(model.getCurrentPlayerName()) && model.isPlayerWaitingForDamagePowerupsEmpty()) {
+			// The player that finished the powerup activation is the current player of the model, and there aren't any players left for ON_DAMAGE powerups.
+			// So we can end the action.
+			handleActionEnd(virtualView);
+		} else {
+			// The player that finished the powerup activation is not the current player or there are players that have an ON_DAMAGE powerup.
+			// So we need to check if there are other players that have an ON_DAMAGE powerup.
 			handleInitialOnDamagePowerup();
+		}
 	}
 
 	// ####################################
