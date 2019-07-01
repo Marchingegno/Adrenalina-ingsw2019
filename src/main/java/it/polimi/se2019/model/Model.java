@@ -432,6 +432,17 @@ public class Model {
     }
 
     /**
+     * Adds a powerup to the specified player's inventory in order to spawn and updates the reps.
+     *
+     * @param playerName name of the player that needs to receive the powerup.
+     */
+    public void addSpawnPowerupCardTo(String playerName) {
+        Player player = getPlayerFromName(playerName);
+        getPlayerFromName(playerName).getPlayerBoard().addSpawnPowerup(gameBoard.getPowerupDeck().drawCard());
+        updateReps();
+    }
+
+    /**
      * Returns the name of the current player.
      *
      * @return the name of the current player.

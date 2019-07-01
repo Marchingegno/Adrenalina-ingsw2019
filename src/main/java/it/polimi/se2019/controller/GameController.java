@@ -124,7 +124,7 @@ public class GameController {
 	 * @param playerName the name of the player to be spawned.
 	 */
 	private void askToSpawn(String playerName) {
-		model.addPowerupCardTo(playerName);
+        model.addSpawnPowerupCardTo(playerName);
 		VirtualView virtualView = virtualViewsContainer.getVirtualViewFromPlayerName(playerName);
 		virtualView.askSpawn();
 	}

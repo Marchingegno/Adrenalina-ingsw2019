@@ -275,10 +275,15 @@ public class RepPrinter {
 	}
 
 
-	private String getDamageBoard(List<Color.CharacterColorType> damageBoard) {
+	private String getDamageBoard(List<Color.CharacterColorType> damageList) {
 		ArrayList<String> strings = new ArrayList<>();
 		StringBuilder stringBuilder = new StringBuilder();
 		strings.add("|");
+		List<Color.CharacterColorType> damageBoard = new ArrayList<>();
+		for (int i = 0; i < damageList.size(); i++) {
+			if (i < 12)
+				damageBoard.add(damageList.get(i));
+		}
 		for (Color.CharacterColorType damage : damageBoard) {
 			strings.add(Color.getColoredString("●", damage));
 		}

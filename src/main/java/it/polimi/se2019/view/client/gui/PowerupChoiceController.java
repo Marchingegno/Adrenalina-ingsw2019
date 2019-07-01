@@ -21,11 +21,15 @@ public class PowerupChoiceController {
 	@FXML
 	private ImageView powerup2;
 	@FXML
+	private ImageView powerup3;
+	@FXML
 	private Button powerupButton0;
 	@FXML
 	private Button powerupButton1;
 	@FXML
 	private Button powerupButton2;
+	@FXML
+	private Button powerupButton3;
 	@FXML
 	private Label title;
 	@FXML
@@ -57,6 +61,13 @@ public class PowerupChoiceController {
 		} else {
 			powerup2.setVisible(false);
 		}
+
+		if (powerups.size() >= 4) {
+			powerup3.setImage(loadImage(powerups.get(3).getImagePath()));
+			powerup3.setVisible(true);
+		} else {
+			powerup3.setVisible(false);
+		}
 	}
 
 	public void setTitle(String title) {
@@ -85,6 +96,12 @@ public class PowerupChoiceController {
 		} else {
 			powerupButton2.setVisible(false);
 			powerupButton2.setDisable(true);
+		}
+		if (powerupsToActivate.contains(3)) {
+			powerupButton3.setVisible(true);
+			powerupButton3.setDisable(false);
+		} else {
+			powerupButton3.setVisible(false);
 		}
 
 	}
@@ -119,6 +136,15 @@ public class PowerupChoiceController {
 	public void powerupButton2Pressed() {
 		if (request == Request.CHOOSE_INT)
 			answer = 2;
+		else
+			guiView.sendMessage(new IntMessage(2, MessageType.SPAWN, MessageSubtype.ANSWER));
+		stage.close();
+	}
+
+	@FXML
+	void pwerupButton3Pressed() {
+		if (request == Request.CHOOSE_INT)
+			answer = 3;
 		else
 			guiView.sendMessage(new IntMessage(2, MessageType.SPAWN, MessageSubtype.ANSWER));
 		stage.close();

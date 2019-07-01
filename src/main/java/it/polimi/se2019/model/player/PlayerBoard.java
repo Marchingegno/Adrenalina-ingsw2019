@@ -108,6 +108,12 @@ public class PlayerBoard {
 		return new ArrayList<>(damageBoard);
 	}
 
+	/**
+	 * Returns true if and only if the player can afford, using both ammo and powerups, the price.
+	 *
+	 * @param ammoToCheck price to pay.
+	 * @return true if and only if the player can afford, using both ammo and powerups, the price.
+	 */
 	public boolean hasEnoughAmmo(List<AmmoType> ammoToCheck) {
 		if (ammoToCheck == null || ammoToCheck.isEmpty()) {
 			return true;
@@ -132,12 +138,6 @@ public class PlayerBoard {
 			return true;
 
 		return this.ammoContainer.hasEnoughAmmo(priceToPay);
-	}
-
-
-	public boolean isFrenzy() {
-		//TODO: Implementare metodo dopo l'implementazione del DamageStatus
-		return false;
 	}
 
 	/**
@@ -291,6 +291,18 @@ public class PlayerBoard {
 		Utils.logInfo("PlayerBoard -> addPowerup(): Added to the player " + powerupToAdd.getCardName());
 		setChanged();
 	}
+
+	/**
+	 * Add the powerup card to the player's inventory that is spawning.
+	 *
+	 * @param powerupToAdd powerup card to add to the player inventory.
+	 */
+	public void addSpawnPowerup(PowerupCard powerupToAdd) {
+		powerupCards.add(powerupToAdd);
+		Utils.logInfo("PlayerBoard -> addSpawnPowerup(): Added to the player " + powerupToAdd.getCardName());
+		setChanged();
+	}
+
 
 	/**
 	 * Returns a copy of the powerup cards in player's inventory.
