@@ -104,7 +104,7 @@ public class TurnController {
 	 * @param event the event to be processed.
 	 */
 	private void handleGrabAmmoEvent(Event event) {
-		model.grabAmmoCard(event.getVirtualView().getNickname(), ((IntMessage) event.getMessage()).getContent());
+        model.grabAmmoCard(event.getVirtualView().getNickname());
 		handleNextAction(event.getVirtualView());
 	}
 
@@ -274,7 +274,7 @@ public class TurnController {
 			else
 				playerVirtualView.askGrabWeapon(model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
 		} else {
-			model.grabAmmoCard(playerVirtualView.getNickname(), 0);
+            model.grabAmmoCard(playerVirtualView.getNickname());
 			handleNextAction(playerVirtualView);
 		}
 	}
@@ -429,8 +429,15 @@ public class TurnController {
 	// PAYMENT METHODS
 	// ####################################
 
-	private void resolvePayment(VirtualView virtualView, List<Integer> integers, List<AmmoType> priceToPay) {
-		model.pay(virtualView.getNickname(), priceToPay, integers);
+    /**
+     * Executes the transaction.
+     *
+     * @param virtualView              the VirtualView of the player paying.
+     * @param indexesOfThePowerupToUse indexes of the powerups the player has decided to use in order to pay.
+     * @param priceToPay               the ammo to be payed for this transaction.
+     */
+    private void resolvePayment(VirtualView virtualView, List<Integer> indexesOfThePowerupToUse, List<AmmoType> priceToPay) {
+        model.pay(virtualView.getNickname(), priceToPay, indexesOfThePowerupToUse);
 		processEvent(model.resumeAction());
 	}
 

@@ -1,10 +1,14 @@
 package it.polimi.se2019.model;
 
+import it.polimi.se2019.model.cards.ammo.AmmoCard;
+import it.polimi.se2019.model.cards.ammo.AmmoType;
+import it.polimi.se2019.model.cards.powerups.Newton;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.HighDamage;
+import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -298,36 +302,155 @@ public class ModelTest {
     }
 
     @Test
-    public void pay_() {
+    public void pay_PriceYRR_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        player.getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.RED_AMMO);
+        player.getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.YELLOW_AMMO);
+        player.getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.BLUE_AMMO);
+        player.getPlayerBoard().removePowerup(0);
+        List<AmmoType> price = new ArrayList<>();
+        price.add(AmmoType.YELLOW_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        price.add(AmmoType.RED_AMMO);
 
+        player.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);
+        player.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);
+        player.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.BLUE_AMMO);
+        player.getPlayerBoard().addPowerup(new Newton(AmmoType.YELLOW_AMMO));
+        player.getPlayerBoard().addPowerup(new Newton(AmmoType.RED_AMMO));
+
+        List<Integer> indexesOfThePowerups = new ArrayList<>();
+        indexesOfThePowerups.add(0);
+
+        model.pay(player.getPlayerName(), price, indexesOfThePowerups);
+
+        assertEquals(0, player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.YELLOW_AMMO));
+        assertEquals(0, player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.RED_AMMO));
+        assertEquals(1, player.getPlayerBoard().getAmmoContainer().getAmmo(AmmoType.BLUE_AMMO));
+        assertEquals(1, player.getPlayerBoard().getPowerupCards().size());
     }
 
     @Test
-    public void pay1() {
+    public void canUsePowerupToPay_correctInput_playerCannotPayWithPowerups() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        player.getPlayerBoard().removePowerup(0);
+        List<AmmoType> price = new ArrayList<>();
+        price.add(AmmoType.YELLOW_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        player.getPlayerBoard().addPowerup(new Newton(AmmoType.BLUE_AMMO));
+
+        assertFalse(model.canUsePowerupToPay(player.getPlayerName(), price));
     }
 
     @Test
-    public void canUsePowerupToPay() {
+    public void canUsePowerupToPay_correctInput_playerCanPayWithPowerups() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        player.getPlayerBoard().removePowerup(0);
+        List<AmmoType> price = new ArrayList<>();
+        price.add(AmmoType.YELLOW_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        player.getPlayerBoard().addPowerup(new Newton(AmmoType.RED_AMMO));
+
+        assertTrue(model.canUsePowerupToPay(player.getPlayerName(), price));
     }
 
     @Test
-    public void canAffordWithOnlyAmmo() {
+    public void canAffordWithOnlyAmmo_correcrtInput_playerCannotAfford() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        player.getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.RED_AMMO);
+        player.getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.YELLOW_AMMO);
+        player.getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.BLUE_AMMO);
+        List<AmmoType> price = new ArrayList<>();
+        price.add(AmmoType.YELLOW_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        assertFalse(model.canAffordWithOnlyAmmo(player.getPlayerName(), price));
     }
 
     @Test
-    public void getIndexesOfTheGrabbableWeaponCurrentPlayer() {
+    public void canAffordWithOnlyAmmo_correcrtInput_playerCanAfford() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        player.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);
+        List<AmmoType> price = new ArrayList<>();
+        price.add(AmmoType.YELLOW_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        price.add(AmmoType.RED_AMMO);
+        assertTrue(model.canAffordWithOnlyAmmo(player.getPlayerName(), price));
     }
 
     @Test
-    public void getGrabMessageType() {
+    public void getIndexesOfTheGrabbableWeaponCurrentPlayer_correctInput_correctOutput() {
+        model.movePlayerTo("player1", new Coordinates(0, 2));
+        List<Integer> indexes = new ArrayList<>();
+        indexes.add(0);
+        indexes.add(1);
+        indexes.add(2);
+        assertEquals(indexes, model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
+    }
+
+    @Test()
+    public void getIndexesOfTheGrabbableWeaponCurrentPlayer_playerCanPayOnlyWithPowerups_canAfford() {
+        WeaponCard weaponCard = model.getGameBoard().getWeaponDeck().drawCard();
+        List<AmmoType> weaponPrice = weaponCard.getGrabPrice();
+        Player player = model.getGameBoard().getCurrentPlayer();
+
+        while (weaponPrice.isEmpty()) {
+            weaponCard = model.getGameBoard().getWeaponDeck().drawCard();
+            weaponPrice = weaponCard.getGrabPrice();
+            if (model.getGameBoard().getWeaponDeck().isEmpty())
+                return;
+        }
+
+        player.getPlayerBoard().removePowerup(0);
+        player.getPlayerBoard().addPowerup(new Newton(weaponPrice.get(0)));
+        if (weaponPrice.size() > 1)
+            player.getPlayerBoard().addPowerup(new Newton(weaponPrice.get(1)));
+        player.getPlayerBoard().getAmmoContainer().removeAmmo(weaponPrice);
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.getGameBoard().getGameMap().getPlayerSquare(player).grabCard(0);
+        model.getGameBoard().getGameMap().getPlayerSquare(player).grabCard(0);
+        model.getGameBoard().getGameMap().getPlayerSquare(player).grabCard(0);
+        model.getGameBoard().getGameMap().getPlayerSquare(player).addCard(weaponCard);
+        assertTrue(model.getIndexesOfTheGrabbableWeaponCurrentPlayer().contains(0));
     }
 
     @Test
-    public void grabWeaponCard() {
+    public void getGrabMessageType_playerInAmmoSquare_grabAmmoMessage() {
+        model.movePlayerTo(model.getCurrentPlayerName(), new Coordinates(0, 0));
+        assertEquals(MessageType.GRAB_AMMO, model.getGrabMessageType());
+    }
+
+    @Test
+    public void getGrabMessageType_playerInSpawnSquare_grabWeaponMessage() {
+        model.movePlayerTo(model.getCurrentPlayerName(), new Coordinates(0, 2));
+        assertEquals(MessageType.GRAB_WEAPON, model.getGrabMessageType());
+    }
+
+    @Test
+    public void grabWeaponCard_correctInput_correctOutput() {
+        model.movePlayerTo(model.getCurrentPlayerName(), new Coordinates(0, 2));
+        WeaponCard weaponToGrab = (WeaponCard) model.getGameBoard().getGameMap().getPlayerSquare(model.getGameBoard().getCurrentPlayer()).getCards().get(1);
+        model.grabWeaponCard(model.getCurrentPlayerName(), 1);
+        assertEquals(2, model.getGameBoard().getGameMap().getPlayerSquare(model.getGameBoard().getCurrentPlayer()).getCards().size());
+        assertEquals(weaponToGrab, model.getGameBoard().getCurrentPlayer().getPlayerBoard().getWeaponCards().get(0));
     }
 
     @Test
     public void grabAmmoCard() {
+        model.movePlayerTo(model.getCurrentPlayerName(), new Coordinates(0, 0));
+        model.getGameBoard().getCurrentPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.BLUE_AMMO);
+        model.getGameBoard().getCurrentPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.RED_AMMO);
+        model.getGameBoard().getCurrentPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.YELLOW_AMMO);
+        AmmoCard ammoCardToGrab = (AmmoCard) model.getGameBoard().getGameMap().getPlayerSquare(model.getGameBoard().getCurrentPlayer()).getCards().get(0);
+        List<AmmoType> ammo = ammoCardToGrab.getAmmo();
+
+        model.grabAmmoCard(model.getCurrentPlayerName());
+
+        assertTrue(model.canAffordWithOnlyAmmo(model.getCurrentPlayerName(), ammo));
+        if (ammoCardToGrab.hasPowerup())
+            assertEquals(2, model.getGameBoard().getCurrentPlayer().getPlayerBoard().getPowerupCards().size());
     }
 
     @Test
