@@ -17,21 +17,19 @@ public class Shockwave extends AlternateFireWeapon {
 	public Shockwave(JsonObject parameters) {
 		super(parameters);
 		this.chosenTargets = new ArrayList<>();
-		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
-		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks = new ArrayList<>();
+		this.setSecondaryDamage(parameters.get("secondaryDamage").getAsInt());
+		this.setSecondaryMarks(parameters.get("secondaryMarks").getAsInt());
 		for (int i = 0; i < 3; i++) {
-			this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+			this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		}
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 	}
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 
 		if (getCurrentStep() == 5) {
-			chosenTargets.add(currentTargets.get(choice));
+			chosenTargets.add(getCurrentTargets().get(choice));
 			primaryFire();
 		} else {
 			return handleChooseTargets(choice);
@@ -41,7 +39,7 @@ public class Shockwave extends AlternateFireWeapon {
 
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
-		currentTargets = getSecondaryTargets();
+		setCurrentTargets(getSecondaryTargets());
 		secondaryFire();
 		return null;
 	}
@@ -56,30 +54,30 @@ public class Shockwave extends AlternateFireWeapon {
 		//Initial step: the player hasn't chosen yet.
 		if (getCurrentStep() != 2) {
 			try {
-				chosenTargets.add(currentTargets.get(choice));
+				chosenTargets.add(getCurrentTargets().get(choice));
 			} catch (IndexOutOfBoundsException e) {
 				Utils.logWarning("Shockwave: no targets near " + getOwner().getPlayerName() + ".");
 			}
 		}
-		currentTargets = getPrimaryTargets();
-		if (currentTargets.isEmpty()) {
+		setCurrentTargets(getPrimaryTargets());
+		if (getCurrentTargets().isEmpty()) {
 			primaryFire();
 			return null;
 		}
-		return getTargetPlayersQnO(currentTargets);
+		return getTargetPlayersQnO(getCurrentTargets());
 	}
 
 	@Override
 	protected void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), chosenTargets);
 	}
 
 	@Override
 	public void secondaryFire() {
-		for (int i = 0; i < currentTargets.size(); i++) {
-			this.secondaryDamagesAndMarks.add(this.secondaryDamagesAndMarks.get(0));
+		for (int i = 0; i < getCurrentTargets().size(); i++) {
+			this.getSecondaryDamagesAndMarks().add(this.getSecondaryDamagesAndMarks().get(0));
 		}
-		dealDamageAndConclude(secondaryDamagesAndMarks, currentTargets);
+		dealDamageAndConclude(getSecondaryDamagesAndMarks(), getCurrentTargets());
 	}
 
 	@Override

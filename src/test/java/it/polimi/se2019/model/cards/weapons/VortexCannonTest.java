@@ -81,7 +81,7 @@ public class VortexCannonTest {
 		}
 
 		vortexCannon.reset();
-		assertTrue(vortexCannon.currentTargets.isEmpty());
+		assertTrue(vortexCannon.getCurrentTargets().isEmpty());
 		assertFalse(vortexCannon.isLoaded());
 	}
 

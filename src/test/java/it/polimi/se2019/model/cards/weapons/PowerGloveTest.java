@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import it.polimi.se2019.model.ModelDriver;
-import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.Player;
@@ -75,7 +74,7 @@ public class PowerGloveTest {
 
 		powerglove.reset();
 		assertFalse(powerglove.isLoaded());
-		assertTrue(powerglove.currentTargets.isEmpty());
+		assertTrue(powerglove.getCurrentTargets().isEmpty());
 
 	}
 
@@ -102,7 +101,7 @@ public class PowerGloveTest {
 
 		powerglove.reset();
 		assertFalse(powerglove.isLoaded());
-		assertTrue(powerglove.currentTargets.isEmpty());
+		assertTrue(powerglove.getCurrentTargets().isEmpty());
 	}
 
 }

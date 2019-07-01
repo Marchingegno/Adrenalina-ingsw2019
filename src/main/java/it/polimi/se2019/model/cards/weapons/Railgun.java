@@ -19,11 +19,11 @@ public class Railgun extends AlternateFireWeapon {
 
 	public Railgun(JsonObject parameters) {
 		super(parameters);
-		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
-		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.setSecondaryDamage(parameters.get("secondaryDamage").getAsInt());
+		this.setSecondaryMarks(parameters.get("secondaryMarks").getAsInt());
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 		this.availableDirections = new ArrayList<>();
 	}
 
@@ -36,7 +36,7 @@ public class Railgun extends AlternateFireWeapon {
 			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		} else if (getCurrentStep() == 4) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			primaryFire();
 		}
 		return null;
@@ -51,13 +51,13 @@ public class Railgun extends AlternateFireWeapon {
 			chosenDirection = Enum.valueOf(CardinalDirection.class, availableDirections.get(choice));
 			return setSecondaryCurrentTargetsAndReturnTargetQnO();
 		} else if (getCurrentStep() == 4) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			//With refusal.
-			currentTargets = getSecondaryTargets();
-			return getTargetPlayersAndRefusalQnO(currentTargets);
+			setCurrentTargets(getSecondaryTargets());
+			return getTargetPlayersAndRefusalQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 5) {
-			if (!isThisChoiceRefusal(currentTargets, choice)) {
-				secondTarget = currentTargets.get(choice);
+			if (!isThisChoiceRefusal(getCurrentTargets(), choice)) {
+				secondTarget = getCurrentTargets().get(choice);
 			}
 			secondaryFire();
 		}
@@ -67,11 +67,11 @@ public class Railgun extends AlternateFireWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 	public void secondaryFire() {
-		dealDamageAndConclude(secondaryDamagesAndMarks, target, secondTarget);
+		dealDamageAndConclude(getSecondaryDamagesAndMarks(), getTarget(), secondTarget);
 	}
 
 	@Override
@@ -84,8 +84,8 @@ public class Railgun extends AlternateFireWeapon {
 	@Override
 	public List<Player> getSecondaryTargets() {
 		List<Player> playersInDirection = getPrimaryTargets();
-		if (target != null) {
-			playersInDirection.remove(target);
+		if (getTarget() != null) {
+			playersInDirection.remove(getTarget());
 		}
 		return playersInDirection;
 	}

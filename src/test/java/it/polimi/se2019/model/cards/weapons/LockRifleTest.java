@@ -79,7 +79,7 @@ public class LockRifleTest {
 
 		lockRifle.reset();
 		assertFalse(lockRifle.isLoaded());
-		assertTrue(lockRifle.currentTargets.isEmpty());
+		assertTrue(lockRifle.getCurrentTargets().isEmpty());
 
 	}
 }

@@ -15,8 +15,8 @@ public class LockRifle extends OptionalEffectsWeapon {
 
 	public LockRifle(JsonObject parameters) {
 		super(parameters);
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(optional1Damage, optional1Marks));
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class LockRifle extends OptionalEffectsWeapon {
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
 		if (getCurrentStep() == 3) {
-			target = currentTargets.remove(choice);
+			setTarget(getCurrentTargets().remove(choice));
 		}
 		if (isOptionalActive(1)) {
 			return handleOptionalEffect1(choice);
@@ -43,10 +43,10 @@ public class LockRifle extends OptionalEffectsWeapon {
 	@Override
 	protected QuestionContainer handleOptionalEffect1(int choice) {
 		if (getCurrentStep() == 3) {
-			return getTargetPlayersQnO(currentTargets);
+			return getTargetPlayersQnO(getCurrentTargets());
 		}
 		if (getCurrentStep() == 4) {
-			secondTarget = currentTargets.remove(choice);
+			secondTarget = getCurrentTargets().remove(choice);
 			primaryFire();
 		}
 		return null;
@@ -55,9 +55,9 @@ public class LockRifle extends OptionalEffectsWeapon {
 	@Override
 	public void primaryFire() {
 		if (isOptionalActive(1)) {
-			dealDamageAndConclude(standardDamagesAndMarks, target, secondTarget);
+			dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget(), secondTarget);
 		} else {
-			dealDamageAndConclude(standardDamagesAndMarks, target);
+			dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 		}
 	}
 

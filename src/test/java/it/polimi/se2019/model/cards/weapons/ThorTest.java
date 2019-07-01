@@ -79,7 +79,7 @@ public class ThorTest {
 
 		thor.reset();
 		assertFalse(thor.isLoaded());
-		assertTrue(thor.currentTargets.isEmpty());
+		assertTrue(thor.getCurrentTargets().isEmpty());
 
 	}
 
@@ -98,7 +98,7 @@ public class ThorTest {
 
 		thor.reset();
 		assertFalse(thor.isLoaded());
-		assertTrue(thor.currentTargets.isEmpty());
+		assertTrue(thor.getCurrentTargets().isEmpty());
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class ThorTest {
 
 		thor.reset();
 		assertFalse(thor.isLoaded());
-		assertTrue(thor.currentTargets.isEmpty());
+		assertTrue(thor.getCurrentTargets().isEmpty());
 	}
 
 

@@ -21,10 +21,10 @@ public class VortexCannon extends OptionalEffectsWeapon {
 
 	public VortexCannon(JsonObject parameters) {
 		super(parameters);
-		hasOptionalEffects[1] = false;
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
+		getHasOptionalEffects()[1] = false;
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(optional1Damage, optional1Marks));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(optional1Damage, optional1Marks));
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		} else if (getCurrentStep() == 4) {
 			chosenTargets = new ArrayList<>();
-			chosenTargets.add(currentTargets.get(choice));
+			chosenTargets.add(getCurrentTargets().get(choice));
 		}
 
 		if (isOptionalActive(1)) {
@@ -63,7 +63,7 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	@Override
 	public void primaryFire() {
 		chosenTargets.forEach(item -> relocateEnemy(item, vortexCoordinate));
-		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), chosenTargets);
 	}
 
 	@Override
@@ -82,27 +82,27 @@ public class VortexCannon extends OptionalEffectsWeapon {
 	@Override
 	protected QuestionContainer handleOptionalEffect1(int choice) {
 		if (getCurrentStep() == 4) {
-			currentTargets = getPrimaryTargets();
-			if (currentTargets.isEmpty()) {
+			setCurrentTargets(getPrimaryTargets());
+			if (getCurrentTargets().isEmpty()) {
 				Utils.logWeapon("The player cannot choose further targets.");
 				primaryFire();
 				return null;
 			} else {
-				return getTargetPlayersQnO(currentTargets);
+				return getTargetPlayersQnO(getCurrentTargets());
 			}
 		} else if (getCurrentStep() == 5) {
-			chosenTargets.add(currentTargets.get(choice));
-			currentTargets = getPrimaryTargets();
-			if (currentTargets.isEmpty()) {
+			chosenTargets.add(getCurrentTargets().get(choice));
+			setCurrentTargets(getPrimaryTargets());
+			if (getCurrentTargets().isEmpty()) {
 				Utils.logWeapon("The player cannot choose further targets.");
 				primaryFire();
 				return null;
 			} else {
-				return getTargetPlayersAndRefusalQnO(currentTargets);
+				return getTargetPlayersAndRefusalQnO(getCurrentTargets());
 			}
-		} else if (getCurrentStep() == 6 && !isThisChoiceRefusal(currentTargets, choice)) {
+		} else if (getCurrentStep() == 6 && !isThisChoiceRefusal(getCurrentTargets(), choice)) {
 			//The player can refuse.
-			chosenTargets.add(currentTargets.get(choice));
+			chosenTargets.add(getCurrentTargets().get(choice));
 		}
 		primaryFire();
 		return null;

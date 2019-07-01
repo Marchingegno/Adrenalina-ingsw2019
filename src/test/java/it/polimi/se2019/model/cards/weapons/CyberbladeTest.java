@@ -85,6 +85,6 @@ public class CyberbladeTest {
 
 		cyberblade.reset();
 		assertFalse(cyberblade.isLoaded());
-		assertTrue(cyberblade.currentTargets.isEmpty());
+		assertTrue(cyberblade.getCurrentTargets().isEmpty());
 	}
 }

@@ -82,7 +82,7 @@ public class MachineGunTest {
 
 		machinegun.reset();
 		assertFalse(machinegun.isLoaded());
-		assertTrue(machinegun.currentTargets.isEmpty());
+		assertTrue(machinegun.getCurrentTargets().isEmpty());
 
 	}
 

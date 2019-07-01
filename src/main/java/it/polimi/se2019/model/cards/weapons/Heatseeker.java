@@ -14,7 +14,7 @@ public class Heatseeker extends WeaponCard {
 
 	public Heatseeker(JsonObject parameters) {
 		super(parameters);
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class Heatseeker extends WeaponCard {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 
@@ -43,10 +43,10 @@ public class Heatseeker extends WeaponCard {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 1) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 2) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			primaryFire();
 		}
 		return null;

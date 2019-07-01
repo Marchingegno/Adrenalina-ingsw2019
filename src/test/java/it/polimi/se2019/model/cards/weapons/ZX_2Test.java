@@ -83,7 +83,7 @@ public class ZX_2Test {
 
 		zx2.reset();
 		assertFalse(zx2.isLoaded());
-		assertTrue(zx2.currentTargets.isEmpty());
+		assertTrue(zx2.getCurrentTargets().isEmpty());
 
 	}
 
@@ -103,7 +103,7 @@ public class ZX_2Test {
 
 		zx2.reset();
 		assertFalse(zx2.isLoaded());
-		assertTrue(zx2.currentTargets.isEmpty());
+		assertTrue(zx2.getCurrentTargets().isEmpty());
 
 	}
 

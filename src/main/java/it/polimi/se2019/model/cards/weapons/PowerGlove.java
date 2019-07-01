@@ -26,10 +26,10 @@ public class PowerGlove extends AlternateFireWeapon {
 
 	public PowerGlove(JsonObject parameters) {
 		super(parameters);
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.setSecondaryDamagesAndMarks(new ArrayList<>());
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 	}
 
 
@@ -48,12 +48,12 @@ public class PowerGlove extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 2) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		}
 		if (getCurrentStep() == 3) {
-			target = currentTargets.get(choice);
-			targetCoordinates = getGameMap().getPlayerCoordinates(target);
+			setTarget(getCurrentTargets().get(choice));
+			targetCoordinates = getGameMap().getPlayerCoordinates(getTarget());
 			primaryFire();
 		}
 		return null;
@@ -82,13 +82,13 @@ public class PowerGlove extends AlternateFireWeapon {
 	@Override
 	public void primaryFire() {
 		relocateOwner(targetCoordinates);
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 	@Override
 	public void secondaryFire() {
 		relocateOwner(targetCoordinates);
-		dealDamageAndConclude(secondaryDamagesAndMarks, getSecondaryTargets());
+		dealDamageAndConclude(getSecondaryDamagesAndMarks(), getSecondaryTargets());
 	}
 
 	@Override
@@ -113,21 +113,38 @@ public class PowerGlove extends AlternateFireWeapon {
 	// PRIVATE METHODS FOR ALTERNATE FIRE STEPS
 	// ####################################
 
+	/**
+	 * Finds directions and returns the Question Container to ask to the player.
+	 *
+	 * @return the Question Container.
+	 */
 	private QuestionContainer askDirection() {
 		targettableDirections = getTargettableDirections();
 		List<String> directionNames = targettableDirections.stream().map(Enum::toString).collect(Collectors.toList());
 		return QuestionContainer.createStringQuestionContainer("In which direction do you want to fly?", directionNames);
 	}
 
+	/**
+	 * Saves the chosen direction.
+	 * @param choice the choice of the player.
+	 */
 	private void saveDirectionChoice(int choice) {
 		targetDirection = targettableDirections.get(choice);
 	}
 
+	/**
+	 * Finds the possible flying distances.
+	 * @return the Question Container to ask to the player.
+	 */
 	private QuestionContainer askFistDistance() {
 		List<String> distanceAnswers = getPossibleDistanceAnswers();
 		return QuestionContainer.createStringQuestionContainer("How long do you want to fly?", distanceAnswers);
 	}
 
+	/**
+	 * Saves the chosen distance of flight.
+	 * @param choice the choice of the player.
+	 */
 	private void saveFistDistanceChoice(int choice) {
 		if (choice == longFlyChoice)
 			isLongFly = true;
@@ -140,13 +157,13 @@ public class PowerGlove extends AlternateFireWeapon {
 	 * @return the QuestionContainer for the first or second target question.
 	 */
 	private QuestionContainer initialAskTargets() {
-		currentTargets = getFirstSquareTargets();
-		if (currentTargets.isEmpty() && isLongFly) {
+		setCurrentTargets(getFirstSquareTargets());
+		if (getCurrentTargets().isEmpty() && isLongFly) {
 			incrementCurrentStep(); // Skip step 5.
-			currentTargets = getSecondSquareTargets();
-			return getTargetPlayersQnO(currentTargets, "Which of the following players, of the second square, do you want to target?");
+			setCurrentTargets(getSecondSquareTargets());
+			return getTargetPlayersQnO(getCurrentTargets(), "Which of the following players, of the second square, do you want to target?");
 		}
-		return getTargetPlayersQnO(currentTargets, "Which of the following players, of the first square, do you want to target?");
+		return getTargetPlayersQnO(getCurrentTargets(), "Which of the following players, of the first square, do you want to target?");
 	}
 
 	/**
@@ -164,10 +181,17 @@ public class PowerGlove extends AlternateFireWeapon {
 		return null;
 	}
 
+	/**
+	 * Saves the chosen target.
+	 * @param choice the choice of the player.
+	 */
 	private void saveTargetChoice(int choice) {
-		secondaryTargets.add(currentTargets.get(choice));
+		secondaryTargets.add(getCurrentTargets().get(choice));
 	}
 
+	/**
+	 * Called if the player ended in the second square.
+	 */
 	private void endInSecondSquare() {
 		targetCoordinates = getSecondSquareCoordinates();
 		secondaryFire();
@@ -178,21 +202,32 @@ public class PowerGlove extends AlternateFireWeapon {
 	// PRIVATE HELPER METHODS FOR ALTERNATE FIRE
 	// ####################################
 
+	/**
+	 * Finds the possible targets on the second square and builds the relative Question Container.
+	 * @return the Question Container to be asked to the player.
+	 */
 	private QuestionContainer secondAskTargets() {
-		currentTargets = getSecondSquareTargets();
-		if (currentTargets.isEmpty())
+		setCurrentTargets(getSecondSquareTargets());
+		if (getCurrentTargets().isEmpty())
 			endInSecondSquare();
 		else
-			return getTargetPlayersQnO(currentTargets, "Which of the following players, of the second square, do you want to target?");
+			return getTargetPlayersQnO(getCurrentTargets(), "Which of the following players, of the second square, do you want to target?");
 
 		return null;
 	}
 
+	/**
+	 * Called if the player ended on the first square.
+	 */
 	private void endInFirstSquare() {
 		targetCoordinates = getFirstSquareCoordinates();
 		secondaryFire();
 	}
 
+	/**
+	 * Finds the possible Cardinal Directions available to fly to.
+	 * @return the list of available Cardinal Direction.
+	 */
 	private List<CardinalDirection> getTargettableDirections() {
 		ArrayList<CardinalDirection> targettableDirectionsTemp = new ArrayList<>();
 		for (CardinalDirection cardinalDirection : CardinalDirection.values()) {
@@ -214,6 +249,10 @@ public class PowerGlove extends AlternateFireWeapon {
 		return targettableDirectionsTemp;
 	}
 
+	/**
+	 * Finds the possible options, of the length of flight, from which the player can choose.
+	 * @return the list of possible options.
+	 */
 	private List<String> getPossibleDistanceAnswers() {
 		List<String> distanceAnswers = new ArrayList<>();
 
@@ -231,18 +270,34 @@ public class PowerGlove extends AlternateFireWeapon {
 		return distanceAnswers;
 	}
 
+	/**
+	 * Finds the coordinates of the first square.
+	 * @return the coordinates of the first square.
+	 */
 	private Coordinates getFirstSquareCoordinates() {
 		return getGameMap().getCoordinatesFromDirection(getGameMap().getPlayerCoordinates(getOwner()), targetDirection);
 	}
 
+	/**
+	 * Finds the coordinates of the second square.
+	 * @return the coordinates of the second square.
+	 */
 	private Coordinates getSecondSquareCoordinates() {
 		return getGameMap().getCoordinatesFromDirection(getFirstSquareCoordinates(), targetDirection);
 	}
 
+	/**
+	 * Finds the targets of the first square.
+	 * @return the list of player in the first square.
+	 */
 	private List<Player> getFirstSquareTargets() {
 		return getGameMap().getPlayersFromCoordinates(getFirstSquareCoordinates());
 	}
 
+	/**
+	 * Finds the targets of the second square.
+	 * @return the list of player in the second square.
+	 */
 	private List<Player> getSecondSquareTargets() {
 		return getGameMap().getPlayersFromCoordinates(getSecondSquareCoordinates());
 	}

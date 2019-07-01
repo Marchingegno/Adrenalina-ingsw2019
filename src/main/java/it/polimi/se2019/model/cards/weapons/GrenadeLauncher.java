@@ -17,15 +17,15 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 
 	public GrenadeLauncher(JsonObject parameters) {
 		super(parameters);
-		hasOptionalEffects[1] = false;
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		getHasOptionalEffects()[1] = false;
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
-			optional1DamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
+			getOptional1DamagesAndMarks().add(new DamageAndMarks(optional1Damage, optional1Marks));
 		}
 
-		baseName = "Basic effect.";
-		moveName = "Move the target.";
-		extraName = "Extra grenade.";
+		setBaseName("Basic effect.");
+		setMoveName("Move the target.");
+		setExtraName("Extra grenade.");
 
 	}
 
@@ -40,12 +40,12 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		}
 		if (getCurrentStep() == 3) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			possibleCoordinates = getEnemyMovingCoordinates();
-			return getMovingTargetEnemyCoordinatesQnO(target, possibleCoordinates);
+			return getMovingTargetEnemyCoordinatesQnO(getTarget(), possibleCoordinates);
 		}
 		if (getCurrentStep() == 4) {
-			relocateEnemy(target, possibleCoordinates.get(choice));
+			relocateEnemy(getTarget(), possibleCoordinates.get(choice));
 			primaryFire();
 		}
 		return null;
@@ -54,12 +54,12 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 	@Override
 	protected QuestionContainer handleMoveRequest(int choice) {
 		possibleCoordinates = getEnemyMovingCoordinates();
-		return getMovingTargetEnemyCoordinatesQnO(target, possibleCoordinates);
+		return getMovingTargetEnemyCoordinatesQnO(getTarget(), possibleCoordinates);
 	}
 
 	@Override
 	protected QuestionContainer handleMoveAnswer(int choice) {
-		relocateEnemy(target, possibleCoordinates.get(choice));
+		relocateEnemy(getTarget(), possibleCoordinates.get(choice));
 		return null;
 	}
 
@@ -73,13 +73,13 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 	protected QuestionContainer handleExtraAnswer(int choice) {
 		List<Player> playersToShoot = getGameMap().getPlayersFromCoordinates(possibleCoordinates.get(choice));
 		playersToShoot.remove(getOwner());
-		dealDamage(optional1DamagesAndMarks, playersToShoot);
+		dealDamage(getOptional1DamagesAndMarks(), playersToShoot);
 		return null;
 	}
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 	 * @return the coordinates in which the target can be moved.
 	 */
 	private List<Coordinates> getEnemyMovingCoordinates() {
-		return getGameMap().reachableCoordinates(target, 1);
+		return getGameMap().reachableCoordinates(getTarget(), 1);
 	}
 
 

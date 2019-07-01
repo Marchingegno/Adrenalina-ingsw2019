@@ -24,14 +24,12 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	public Flamethrower(JsonObject parameters) {
 		super(parameters);
-		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
-		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		secondaryDamagesAndMarks = new ArrayList<>();
-		secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		secondaryDamagesAndMarks.add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
+		this.setSecondaryDamage(parameters.get("secondaryDamage").getAsInt());
+		this.setSecondaryMarks(parameters.get("secondaryMarks").getAsInt());
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
+		getSecondaryDamagesAndMarks().add(new DamageAndMarks(SECONDARY_FOLLOWING_DAMAGE, SECONDARY_FOLLOWING_MARKS));
 		this.availableDirections = new ArrayList<>();
 	}
 
@@ -42,25 +40,25 @@ public class Flamethrower extends AlternateFireWeapon {
 				return handleDirectionChoice(choice);
 			case 3:
 				handleDirectionChoice(choice);
-				currentTargets = getPrimaryTargets();
+				setCurrentTargets(getPrimaryTargets());
 				//If there are no targets on the first square, ask second square target.
 				//So I increment the step and re-call this method.
-				if (currentTargets.isEmpty()) {
+				if (getCurrentTargets().isEmpty()) {
 					incrementCurrentStep();
 					return handlePrimaryFire(0);
 				}
-				return getTargetPlayersQnO(currentTargets);
+				return getTargetPlayersQnO(getCurrentTargets());
 			case 4:
 				try {
-					firstSquareTarget = currentTargets.get(choice);
+					firstSquareTarget = getCurrentTargets().get(choice);
 				} catch (IndexOutOfBoundsException e) {
 					Utils.logInfo("There are no players in the first square chosen by " + getOwner().getPlayerName() + ".");
 					firstSquareTarget = null;
 				}
 
-				currentTargets = getSecondSquareTargets();
+				setCurrentTargets(getSecondSquareTargets());
 				try {
-					if (currentTargets.isEmpty()) {
+					if (getCurrentTargets().isEmpty()) {
 						incrementCurrentStep();
 						return handlePrimaryFire(0);
 					}
@@ -68,10 +66,10 @@ public class Flamethrower extends AlternateFireWeapon {
 					Utils.logError("Flamethrower: currentTargets is null", e);
 				}
 
-				return getTargetPlayersQnO(currentTargets);
+				return getTargetPlayersQnO(getCurrentTargets());
 			case 5:
 				try {
-					secondSquareTarget = currentTargets.get(choice);
+					secondSquareTarget = getCurrentTargets().get(choice);
 				} catch (IndexOutOfBoundsException e) {
 					Utils.logInfo("There are no players in the second square chosen by " + getOwner().getPlayerName() + ".");
 					secondSquareTarget = null;
@@ -91,7 +89,7 @@ public class Flamethrower extends AlternateFireWeapon {
 			return handleDirectionChoice(choice);
 		} else if(getCurrentStep() == 3) {
 			handleDirectionChoice(choice);
-			currentTargets = getSecondaryTargets();
+			setCurrentTargets(getSecondaryTargets());
 			secondSquareTargets = getSecondSquareTargets();
 			secondaryFire();
 		}
@@ -116,21 +114,21 @@ public class Flamethrower extends AlternateFireWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, firstSquareTarget, secondSquareTarget);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), firstSquareTarget, secondSquareTarget);
 	}
 
 	@Override
 	public void secondaryFire() {
 		List<DamageAndMarks> firstSquareDamage = new ArrayList<>();
 		List<DamageAndMarks> secondSquareDamage = new ArrayList<>();
-		for (int i = 0; i < currentTargets.size(); i++) {
-			firstSquareDamage.add(secondaryDamagesAndMarks.get(0));
+		for (int i = 0; i < getCurrentTargets().size(); i++) {
+			firstSquareDamage.add(getSecondaryDamagesAndMarks().get(0));
 		}
 		for (int i = 0; i < secondSquareTargets.size(); i++) {
-			secondSquareDamage.add(secondaryDamagesAndMarks.get(1));
+			secondSquareDamage.add(getSecondaryDamagesAndMarks().get(1));
 		}
 
-		dealDamageAndConclude(firstSquareDamage, currentTargets);
+		dealDamageAndConclude(firstSquareDamage, getCurrentTargets());
 		dealDamageAndConclude(secondSquareDamage, secondSquareTargets);
 	}
 

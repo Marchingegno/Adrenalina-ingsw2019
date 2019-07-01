@@ -73,7 +73,7 @@ public class SledgehammerTest {
 
 		sledgehammer.reset();
 		assertFalse(sledgehammer.isLoaded());
-		assertTrue(sledgehammer.currentTargets.isEmpty());
+		assertTrue(sledgehammer.getCurrentTargets().isEmpty());
 
 	}
 
@@ -97,7 +97,7 @@ public class SledgehammerTest {
 
 		sledgehammer.reset();
 		assertFalse(sledgehammer.isLoaded());
-		assertTrue(sledgehammer.currentTargets.isEmpty());
+		assertTrue(sledgehammer.getCurrentTargets().isEmpty());
 	}
 
 }

@@ -75,7 +75,7 @@ public class HellionTest {
 
 		hellion.reset();
 		assertFalse(hellion.isLoaded());
-		assertTrue(hellion.currentTargets.isEmpty());
+		assertTrue(hellion.getCurrentTargets().isEmpty());
 
 	}
 
@@ -98,7 +98,7 @@ public class HellionTest {
 
 		hellion.reset();
 		assertFalse(hellion.isLoaded());
-		assertTrue(hellion.currentTargets.isEmpty());
+		assertTrue(hellion.getCurrentTargets().isEmpty());
 	}
 
 }

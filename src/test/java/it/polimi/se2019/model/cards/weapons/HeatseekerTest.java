@@ -73,7 +73,7 @@ public class HeatseekerTest {
 
 		heatseeker.reset();
 		assertFalse(heatseeker.isLoaded());
-		assertTrue(heatseeker.currentTargets.isEmpty());
+		assertTrue(heatseeker.getCurrentTargets().isEmpty());
 
 	}
 

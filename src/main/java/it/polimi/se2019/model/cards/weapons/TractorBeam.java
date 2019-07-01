@@ -20,8 +20,8 @@ public class TractorBeam extends AlternateFireWeapon {
 
 	public TractorBeam(JsonObject parameters) {
 		super(parameters);
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 
 	}
 
@@ -29,18 +29,18 @@ public class TractorBeam extends AlternateFireWeapon {
 	QuestionContainer handlePrimaryFire(int choice) {
 		switch (getCurrentStep()) {
 			case 2:
-				currentTargets = getPrimaryTargets();
-				if (currentTargets.isEmpty()) {
+				setCurrentTargets(getPrimaryTargets());
+				if (getCurrentTargets().isEmpty()) {
 					Utils.logError("currentTargets is null! See TractorBeam", new IllegalStateException());
 					return null;
 				}
-				return getTargetPlayersQnO(currentTargets);
+				return getTargetPlayersQnO(getCurrentTargets());
 			case 3:
-				target = currentTargets.get(choice);
+				setTarget(getCurrentTargets().get(choice));
 				enemyRelocationCoordinates = getEnemyRelocationCoordinates();
-				return getMovingTargetEnemyCoordinatesQnO(target, enemyRelocationCoordinates);
+				return getMovingTargetEnemyCoordinatesQnO(getTarget(), enemyRelocationCoordinates);
 			case 4:
-				relocateEnemy(target, enemyRelocationCoordinates.get(choice));
+				relocateEnemy(getTarget(), enemyRelocationCoordinates.get(choice));
 				primaryFire();
 				break;
 			default:
@@ -53,11 +53,11 @@ public class TractorBeam extends AlternateFireWeapon {
 	QuestionContainer handleSecondaryFire(int choice) {
 		switch (getCurrentStep()) {
 			case 2:
-				currentTargets = getSecondaryTargets();
-				return getTargetPlayersQnO(currentTargets);
+				setCurrentTargets(getSecondaryTargets());
+				return getTargetPlayersQnO(getCurrentTargets());
 			case 3:
-				target = currentTargets.get(choice);
-				getGameMap().movePlayerTo(target, getGameMap().getPlayerCoordinates(getOwner()));
+				setTarget(getCurrentTargets().get(choice));
+				getGameMap().movePlayerTo(getTarget(), getGameMap().getPlayerCoordinates(getOwner()));
 				secondaryFire();
 				break;
 			default:
@@ -68,12 +68,12 @@ public class TractorBeam extends AlternateFireWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 	@Override
 	public void secondaryFire() {
-		dealDamageAndConclude(secondaryDamagesAndMarks, target);
+		dealDamageAndConclude(getSecondaryDamagesAndMarks(), getTarget());
 	}
 
 
@@ -106,7 +106,7 @@ public class TractorBeam extends AlternateFireWeapon {
 	 * @return the list of available coordinates.
 	 */
 	private List<Coordinates> getEnemyRelocationCoordinates() {
-		List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(target, 2);
+		List<Coordinates> intersectionCoordinates = getGameMap().reachableCoordinates(getTarget(), 2);
 		intersectionCoordinates.retainAll(getGameMap().getVisibleCoordinates(getOwner()));
 		return intersectionCoordinates;
 	}

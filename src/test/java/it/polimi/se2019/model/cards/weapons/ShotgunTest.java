@@ -78,7 +78,7 @@ public class ShotgunTest {
 
 		shotgun.reset();
 		assertFalse(shotgun.isLoaded());
-		assertTrue(shotgun.currentTargets.isEmpty());
+		assertTrue(shotgun.getCurrentTargets().isEmpty());
 
 	}
 
@@ -100,7 +100,7 @@ public class ShotgunTest {
 
 		shotgun.reset();
 		assertFalse(shotgun.isLoaded());
-		assertTrue(shotgun.currentTargets.isEmpty());
+		assertTrue(shotgun.getCurrentTargets().isEmpty());
 	}
 
 }

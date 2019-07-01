@@ -16,8 +16,8 @@ public class Sledgehammer extends AlternateFireWeapon {
 
 	public Sledgehammer(JsonObject parameters) {
 		super(parameters);
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 
 	}
 
@@ -25,10 +25,10 @@ public class Sledgehammer extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 2) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 3) {
-			this.target = currentTargets.get(choice);
+			this.setTarget(getCurrentTargets().get(choice));
 			primaryFire();
 		}
 		return null;
@@ -37,14 +37,14 @@ public class Sledgehammer extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
 		if (getCurrentStep() == 2) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 3) {
-			this.target = currentTargets.get(choice);
+			this.setTarget(getCurrentTargets().get(choice));
 			enemyMovingCoordinates = getEnemyMovingCoordinates();
-			return getMovingTargetEnemyCoordinatesQnO(target, enemyMovingCoordinates);
+			return getMovingTargetEnemyCoordinatesQnO(getTarget(), enemyMovingCoordinates);
 		} else if (getCurrentStep() == 4) {
-			relocateEnemy(target, enemyMovingCoordinates.get(choice));
+			relocateEnemy(getTarget(), enemyMovingCoordinates.get(choice));
 			secondaryFire();
 		}
 		return null;
@@ -59,8 +59,8 @@ public class Sledgehammer extends AlternateFireWeapon {
 	 * Unifies primary/secondary fire.
 	 */
 	private void unifiedFire() {
-		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
-		dealDamageAndConclude(damageAndMarksList, target);
+		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? getSecondaryDamagesAndMarks() : getStandardDamagesAndMarks();
+		dealDamageAndConclude(damageAndMarksList, getTarget());
 	}
 
 	@Override

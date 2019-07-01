@@ -17,23 +17,23 @@ public class MachineGun extends OptionalEffectsWeapon {
 	public MachineGun(JsonObject parameters) {
 		super(parameters);
 
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 
-		this.optional1DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.optional1DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.optional1DamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
+		this.getOptional1DamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getOptional1DamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getOptional1DamagesAndMarks().get(0).enrich(optional1Damage, optional1Marks);
 
-		this.optional2DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.optional2DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.optional2DamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
-		this.optional2DamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+		this.getOptional2DamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getOptional2DamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getOptional2DamagesAndMarks().get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
+		this.getOptional2DamagesAndMarks().add(new DamageAndMarks(optional2Damage, optional2Marks));
 
-		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.optionalBothDamagesAndMarks.get(0).enrich(optional1Damage, optional1Marks);
-		this.optionalBothDamagesAndMarks.get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
-		this.optionalBothDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+		this.getOptionalBothDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getOptionalBothDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getOptionalBothDamagesAndMarks().get(0).enrich(optional1Damage, optional1Marks);
+		this.getOptionalBothDamagesAndMarks().get(1).enrich(OPTIONAL2_EXTRA_DAMAGE, 0);
+		this.getOptionalBothDamagesAndMarks().add(new DamageAndMarks(optional2Damage, optional2Marks));
 
 	}
 
@@ -42,28 +42,28 @@ public class MachineGun extends OptionalEffectsWeapon {
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 2) {
 			chosenTargets = new ArrayList<>();
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		}
 		if (getCurrentStep() == 3) {
 			//Chosen first target.
-			chosenTargets.add(currentTargets.get(choice));
-			currentTargets = getPrimaryTargets();
-			if (currentTargets.isEmpty()) {
+			chosenTargets.add(getCurrentTargets().get(choice));
+			setCurrentTargets(getPrimaryTargets());
+			if (getCurrentTargets().isEmpty()) {
 //				//Skip step 4
 //				//Recall this method with refusal choice of an empty array.
 //				Utils.logWeapon("Skip of MachineGun");
 //				return doActivationStep(0);
-				currentTargets = chosenTargets;
+				setCurrentTargets(chosenTargets);
 				primaryFire();
 				return null;
 			}
-			return getTargetPlayersAndRefusalQnO(currentTargets);
+			return getTargetPlayersAndRefusalQnO(getCurrentTargets());
 		}
 		if (getCurrentStep() == 4) {
 			//Chosen second target.
-			if (!isThisChoiceRefusal(currentTargets, choice)) {
-				chosenTargets.add(currentTargets.get(choice));
+			if (!isThisChoiceRefusal(getCurrentTargets(), choice)) {
+				chosenTargets.add(getCurrentTargets().get(choice));
 			} else {
 				chosenTargets.add(null);
 			}
@@ -72,7 +72,7 @@ public class MachineGun extends OptionalEffectsWeapon {
 		if (isOptionalActive(2)) {
 			return handleOptionalEffect2(choice);
 		} else {
-			currentTargets = chosenTargets;
+			setCurrentTargets(chosenTargets);
 			primaryFire();
 		}
 		return null;
@@ -81,11 +81,11 @@ public class MachineGun extends OptionalEffectsWeapon {
 	@Override
 	protected QuestionContainer handleOptionalEffect2(int choice) {
 		if (getCurrentStep() == 4) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 5) {
-			chosenTargets.add(currentTargets.get(choice));
-			currentTargets = chosenTargets;
+			chosenTargets.add(getCurrentTargets().get(choice));
+			setCurrentTargets(chosenTargets);
 		}
 		primaryFire();
 		return null;

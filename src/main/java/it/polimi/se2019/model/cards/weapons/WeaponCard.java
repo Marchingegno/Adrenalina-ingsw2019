@@ -33,9 +33,9 @@ public abstract class WeaponCard extends ActivableCard {
 	private final int moveDistance; //Standard move for relocation of the player.
 	private final int primaryDamage;
 	private final int primaryMarks;
-	List<DamageAndMarks> standardDamagesAndMarks;
-	List<Player> currentTargets;
-	Player target;
+	private List<DamageAndMarks> standardDamagesAndMarks;
+	private List<Player> currentTargets;
+	private Player target;
 	private boolean loaded;
 	private List<Player> playersHit;
 
@@ -371,5 +371,21 @@ public abstract class WeaponCard extends ActivableCard {
 	@Override
 	public Representation getRep() {
 		return new WeaponRep(this);
+	}
+
+	List<Player> getCurrentTargets() {
+		return currentTargets;
+	}
+
+	void setCurrentTargets(List<Player> currentTargets) {
+		this.currentTargets = currentTargets;
+	}
+
+	Player getTarget() {
+		return target;
+	}
+
+	void setTarget(Player target) {
+		this.target = target;
 	}
 }

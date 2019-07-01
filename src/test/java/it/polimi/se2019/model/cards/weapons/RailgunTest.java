@@ -78,7 +78,7 @@ public class RailgunTest {
 
 		railgun.reset();
 		assertFalse(railgun.isLoaded());
-		assertTrue(railgun.currentTargets.isEmpty());
+		assertTrue(railgun.getCurrentTargets().isEmpty());
 
 	}
 
@@ -107,7 +107,7 @@ public class RailgunTest {
 
 		railgun.reset();
 		assertFalse(railgun.isLoaded());
-		assertTrue(railgun.currentTargets.isEmpty());
+		assertTrue(railgun.getCurrentTargets().isEmpty());
 	}
 
 }

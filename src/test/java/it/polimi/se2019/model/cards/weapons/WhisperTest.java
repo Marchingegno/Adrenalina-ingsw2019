@@ -73,7 +73,7 @@ public class WhisperTest {
 
 		whisper.reset();
 		assertFalse(whisper.isLoaded());
-		assertTrue(whisper.currentTargets.isEmpty());
+		assertTrue(whisper.getCurrentTargets().isEmpty());
 
 	}
 

@@ -23,20 +23,20 @@ public class Hellion extends AlternateFireWeapon {
 		this.secondaryFollowingDamage = parameters.get("secondaryFollowingDamage").getAsInt();
 		this.primaryFollowingMarks = parameters.get("primaryFollowingMarks").getAsInt();
 		this.secondaryFollowingMarks = parameters.get("secondaryFollowingMarks").getAsInt();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.standardDamagesAndMarks.add(new DamageAndMarks(primaryFollowingDamage, primaryFollowingMarks));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryFollowingDamage, secondaryFollowingMarks));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(primaryFollowingDamage, primaryFollowingMarks));
+		this.setSecondaryDamagesAndMarks(new ArrayList<>());
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(secondaryFollowingDamage, secondaryFollowingMarks));
 	}
 
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 2) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 3) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			primaryFire();
 		}
 		return null;
@@ -45,10 +45,10 @@ public class Hellion extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
 		if (getCurrentStep() == 2) {
-			currentTargets = getSecondaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getSecondaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 3) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			secondaryFire();
 		}
 		return null;
@@ -69,10 +69,10 @@ public class Hellion extends AlternateFireWeapon {
 	 */
 	private void unifiedFire() {
 		//Get the right list of damages and marks to begin firing, depending on which fire mode is chosen.
-		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? new ArrayList<>(secondaryDamagesAndMarks) : new ArrayList<>(standardDamagesAndMarks);
+		List<DamageAndMarks> damageAndMarksList = isAlternateFireActive() ? new ArrayList<>(getSecondaryDamagesAndMarks()) : new ArrayList<>(getStandardDamagesAndMarks());
 		//Get the player in the same square of the target, then add the target on top of the list.
-		List<Player> finalTargets = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(target));
-		finalTargets.add(0, target);
+		List<Player> finalTargets = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getTarget()));
+		finalTargets.add(0, getTarget());
 		//Add the additional marks for the other players in the square.
 		List<DamageAndMarks> finalDamageAndMarks = new ArrayList<>(damageAndMarksList);
 		for (int i = 0; i < finalTargets.size() - 1; i++) {

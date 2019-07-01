@@ -86,7 +86,7 @@ public class RocketLauncherTest {
 		assertEquals(3, rocketLauncher.getPlayersHit().size());
 
 		rocketLauncher.reset();
-		assertTrue(rocketLauncher.currentTargets.isEmpty());
+		assertTrue(rocketLauncher.getCurrentTargets().isEmpty());
 		assertFalse(rocketLauncher.isLoaded());
 	}
 

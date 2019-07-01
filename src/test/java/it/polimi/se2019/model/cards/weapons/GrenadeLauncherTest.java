@@ -78,7 +78,7 @@ public class GrenadeLauncherTest {
 
 		grenadelauncher.reset();
 		assertFalse(grenadelauncher.isLoaded());
-		assertTrue(grenadelauncher.currentTargets.isEmpty());
+		assertTrue(grenadelauncher.getCurrentTargets().isEmpty());
 
 	}
 
@@ -111,7 +111,7 @@ public class GrenadeLauncherTest {
 
 		grenadelauncher.reset();
 		assertFalse(grenadelauncher.isLoaded());
-		assertTrue(grenadelauncher.currentTargets.isEmpty());
+		assertTrue(grenadelauncher.getCurrentTargets().isEmpty());
 
 	}
 

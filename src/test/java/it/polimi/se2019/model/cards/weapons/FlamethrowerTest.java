@@ -81,7 +81,7 @@ public class FlamethrowerTest {
 
 		flamethrower.reset();
 		assertFalse(flamethrower.isLoaded());
-		assertTrue(flamethrower.currentTargets.isEmpty());
+		assertTrue(flamethrower.getCurrentTargets().isEmpty());
 
 	}
 
@@ -100,6 +100,6 @@ public class FlamethrowerTest {
 
 		flamethrower.reset();
 		assertFalse(flamethrower.isLoaded());
-		assertTrue(flamethrower.currentTargets.isEmpty());
+		assertTrue(flamethrower.getCurrentTargets().isEmpty());
 	}
 }

@@ -81,6 +81,6 @@ public class PlasmaGunTest {
 
 		plasmaGun.reset();
 		assertFalse(plasmaGun.isLoaded());
-		assertTrue(plasmaGun.currentTargets.isEmpty());
+		assertTrue(plasmaGun.getCurrentTargets().isEmpty());
 	}
 }

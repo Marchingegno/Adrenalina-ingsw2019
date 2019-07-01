@@ -23,12 +23,12 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 
 	public RocketLauncher(JsonObject parameters) {
 		super(parameters);
-		baseName = "Basic effect.";
-		moveName = "Move the target.";
-		extraName = "Move two steps.";
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		setBaseName("Basic effect.");
+		setMoveName("Move the target.");
+		setExtraName("Move two steps.");
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
-			optional2DamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+			getOptional2DamagesAndMarks().add(new DamageAndMarks(optional2Damage, optional2Marks));
 		}
 	}
 
@@ -42,16 +42,16 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 
 	@Override
 	protected QuestionContainer handleMoveRequest(int choice) {
-		possibleMoveCoordinates = getGameMap().reachableCoordinates(target, 1);
-		return getMovingTargetEnemyCoordinatesQnO(target, possibleMoveCoordinates);
+		possibleMoveCoordinates = getGameMap().reachableCoordinates(getTarget(), 1);
+		return getMovingTargetEnemyCoordinatesQnO(getTarget(), possibleMoveCoordinates);
 	}
 
 	@Override
 	protected QuestionContainer handleMoveAnswer(int choice) {
 		if (isOptionalActive(2)) {
-			dealDamage(optional2DamagesAndMarks, getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(target)));
+			dealDamage(getOptional2DamagesAndMarks(), getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getTarget())));
 		}
-		relocateEnemy(target, possibleMoveCoordinates.get(choice));
+		relocateEnemy(getTarget(), possibleMoveCoordinates.get(choice));
 		return null;
 	}
 
@@ -104,7 +104,7 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 	@Override

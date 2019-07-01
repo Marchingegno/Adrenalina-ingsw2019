@@ -77,7 +77,7 @@ public class TractorBeamTest {
 
 		tractorbeam.reset();
 		assertFalse(tractorbeam.isLoaded());
-		assertTrue(tractorbeam.currentTargets.isEmpty());
+		assertTrue(tractorbeam.getCurrentTargets().isEmpty());
 
 	}
 
@@ -98,7 +98,7 @@ public class TractorBeamTest {
 
 		tractorbeam.reset();
 		assertFalse(tractorbeam.isLoaded());
-		assertTrue(tractorbeam.currentTargets.isEmpty());
+		assertTrue(tractorbeam.getCurrentTargets().isEmpty());
 	}
 
 }

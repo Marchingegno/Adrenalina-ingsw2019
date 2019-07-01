@@ -17,12 +17,12 @@ public class PlasmaGun extends OptionalChoiceWeapon {
 
 	public PlasmaGun(JsonObject parameters) {
 		super(parameters);
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		optional2DamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage() + optional2Damage, optional2Marks));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		getOptional2DamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage() + optional2Damage, optional2Marks));
 		possibleMoveCoordinates = new ArrayList<>();
 
-		baseName = "Shoot somebody!";
-		moveName = "Move!";
+		setBaseName("Shoot somebody!");
+		setMoveName("Move!");
 	}
 
 	@Override
@@ -74,9 +74,9 @@ public class PlasmaGun extends OptionalChoiceWeapon {
 	@Override
 	public void primaryFire() {
 		if (isOptionalActive(2)) {
-			dealDamageAndConclude(optional2DamagesAndMarks, target);
+			dealDamageAndConclude(getOptional2DamagesAndMarks(), getTarget());
 		} else {
-			dealDamageAndConclude(standardDamagesAndMarks, target);
+			dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 		}
 	}
 

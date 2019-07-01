@@ -16,9 +16,9 @@ public class Thor extends OptionalEffectsWeapon {
 
 	public Thor(JsonObject parameters) {
 		super(parameters);
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		standardDamagesAndMarks.add(new DamageAndMarks(optional1Damage, optional1Marks));
-		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(optional1Damage, optional1Marks));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(optional2Damage, optional2Marks));
 		chosenTargets = new ArrayList<>();
 	}
 
@@ -31,10 +31,10 @@ public class Thor extends OptionalEffectsWeapon {
 			return handleOptionalEffect1(choice);
 		} else {
 			if (getCurrentStep() == 2) {
-				currentTargets = getPrimaryTargets();
-				return getTargetPlayersQnO(currentTargets);
+				setCurrentTargets(getPrimaryTargets());
+				return getTargetPlayersQnO(getCurrentTargets());
 			} else if (getCurrentStep() == 3) {
-				chosenTargets.add(currentTargets.get(choice));
+				chosenTargets.add(getCurrentTargets().get(choice));
 			}
 		}
 
@@ -75,7 +75,7 @@ public class Thor extends OptionalEffectsWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, chosenTargets);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), chosenTargets);
 	}
 
 	/**

@@ -16,13 +16,11 @@ public class ZX_2 extends AlternateFireWeapon {
 
 	public ZX_2(JsonObject parameters) {
 		super(parameters);
-		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
-		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks = new ArrayList<>();
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
+		this.setSecondaryDamage(parameters.get("secondaryDamage").getAsInt());
+		this.setSecondaryMarks(parameters.get("secondaryMarks").getAsInt());
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		for (int i = 0; i < 3; i++) {
-			this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+			this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 		}
 	}
 
@@ -30,10 +28,10 @@ public class ZX_2 extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 2) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 3) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			primaryFire();
 		}
 		return null;
@@ -43,29 +41,29 @@ public class ZX_2 extends AlternateFireWeapon {
 	QuestionContainer handleSecondaryFire(int choice) {
 		switch (getCurrentStep()) {
 			case 2:
-				currentTargets = getSecondaryTargets();
-				return getTargetPlayersQnO(currentTargets);
+				setCurrentTargets(getSecondaryTargets());
+				return getTargetPlayersQnO(getCurrentTargets());
 			case 3:
 				secondaryTargets = new ArrayList<>();
-				secondaryTargets.add(currentTargets.remove(choice));
+				secondaryTargets.add(getCurrentTargets().remove(choice));
 				Utils.logWeapon("This is currentTargets: ");
-				currentTargets.forEach(target -> Utils.logWeapon(target.getPlayerName()));
-				if (currentTargets.isEmpty()) {
+				getCurrentTargets().forEach(target -> Utils.logWeapon(target.getPlayerName()));
+				if (getCurrentTargets().isEmpty()) {
 					terminateSecondaryFire();
 					return null;
 				}
-				return getTargetPlayersQnO(currentTargets);
+				return getTargetPlayersQnO(getCurrentTargets());
 			case 4:
-				secondaryTargets.add(currentTargets.remove(choice));
+				secondaryTargets.add(getCurrentTargets().remove(choice));
 				Utils.logWeapon("This is currentTargets: ");
-				currentTargets.forEach(target -> Utils.logWeapon(target.getPlayerName()));
-				if (currentTargets.isEmpty()) {
+				getCurrentTargets().forEach(target -> Utils.logWeapon(target.getPlayerName()));
+				if (getCurrentTargets().isEmpty()) {
 					terminateSecondaryFire();
 					return null;
 				}
-				return getTargetPlayersQnO(currentTargets);
+				return getTargetPlayersQnO(getCurrentTargets());
 			case 5:
-				secondaryTargets.add(currentTargets.remove(choice));
+				secondaryTargets.add(getCurrentTargets().remove(choice));
 				secondaryFire();
 				return null;
 			default:
@@ -75,12 +73,12 @@ public class ZX_2 extends AlternateFireWeapon {
 
 	@Override
 	protected void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 	@Override
 	public void secondaryFire() {
-		dealDamageAndConclude(secondaryDamagesAndMarks, secondaryTargets);
+		dealDamageAndConclude(getSecondaryDamagesAndMarks(), secondaryTargets);
 	}
 
 	@Override

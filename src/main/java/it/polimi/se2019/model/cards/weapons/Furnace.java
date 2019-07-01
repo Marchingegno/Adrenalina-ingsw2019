@@ -20,12 +20,10 @@ public class Furnace extends AlternateFireWeapon {
 
 	public Furnace(JsonObject parameters) {
 		super(parameters);
-		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
-		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks = new ArrayList<>();
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		this.setSecondaryDamage(parameters.get("secondaryDamage").getAsInt());
+		this.setSecondaryMarks(parameters.get("secondaryMarks").getAsInt());
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 	}
 
 	@Override
@@ -36,7 +34,7 @@ public class Furnace extends AlternateFireWeapon {
 			return getTargetCoordinatesQnO(targettableCoordinates);
 		} else if (getCurrentStep() == 3) {
 			targetCoordinate = targettableCoordinates.get(choice);
-			currentTargets = getPrimaryTargets();
+			setCurrentTargets(getPrimaryTargets());
 			primaryFire();
 		}
 		return null;
@@ -49,7 +47,7 @@ public class Furnace extends AlternateFireWeapon {
 			return getTargetCoordinatesQnO(targettableCoordinates);
 		} else if (getCurrentStep() == 3) {
 			targetCoordinate = targettableCoordinates.get(choice);
-			currentTargets = getSecondaryTargets();
+			setCurrentTargets(getSecondaryTargets());
 			secondaryFire();
 		}
 		return null;
@@ -58,19 +56,19 @@ public class Furnace extends AlternateFireWeapon {
 	@Override
 	protected void primaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getStandardDamagesAndMarks());
-		for (int i = 0; i < currentTargets.size() - 1; i++) {
+		for (int i = 0; i < getCurrentTargets().size() - 1; i++) {
 			damageAndMarksList.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 		}
-		dealDamageAndConclude(damageAndMarksList, currentTargets);
+		dealDamageAndConclude(damageAndMarksList, getCurrentTargets());
 	}
 
 	@Override
 	public void secondaryFire() {
 		List<DamageAndMarks> damageAndMarksList = new ArrayList<>(getSecondaryDamagesAndMarks());
-		for (int i = 0; i < currentTargets.size() - 1; i++) {
-			damageAndMarksList.add(new DamageAndMarks(secondaryDamage, secondaryMarks));
+		for (int i = 0; i < getCurrentTargets().size() - 1; i++) {
+			damageAndMarksList.add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 		}
-		dealDamageAndConclude(damageAndMarksList, currentTargets);
+		dealDamageAndConclude(damageAndMarksList, getCurrentTargets());
 	}
 
 	@Override

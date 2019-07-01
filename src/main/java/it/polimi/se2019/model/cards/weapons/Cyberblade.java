@@ -19,20 +19,20 @@ public class Cyberblade extends OptionalChoiceWeapon {
 	public Cyberblade(JsonObject parameters) {
 		super(parameters);
 		secondTarget = null;
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		standardDamagesAndMarks.add(new DamageAndMarks(optional2Damage, optional2Marks));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(optional2Damage, optional2Marks));
 
-		baseName = "Whack a player";
-		moveName = "Move";
-		extraName = "Whack a player";
+		setBaseName("Whack a player");
+		setMoveName("Move");
+		setExtraName("Whack a player");
 	}
 
 	@Override
 	public List<Player> getPrimaryTargets() {
 		List<Player> players = getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getOwner()));
 		players.remove(getOwner());
-		if (target != null)
-			players.remove(target);
+		if (getTarget() != null)
+			players.remove(getTarget());
 		if (secondTarget != null)
 			players.remove(secondTarget);
 		return players;
@@ -52,25 +52,25 @@ public class Cyberblade extends OptionalChoiceWeapon {
 
 	@Override
 	protected QuestionContainer handleBaseRequest(int choice) {
-		currentTargets = getPrimaryTargets();
+		setCurrentTargets(getPrimaryTargets());
 		if (secondTarget != null) {
-			currentTargets.remove(secondTarget);
+			getCurrentTargets().remove(secondTarget);
 		}
-		return getTargetPlayersQnO(currentTargets);
+		return getTargetPlayersQnO(getCurrentTargets());
 	}
 
 	@Override
 	protected QuestionContainer handleExtraRequest(int choice) {
-		currentTargets = getPrimaryTargets();
-		if (target != null) {
-			currentTargets.remove(target);
+		setCurrentTargets(getPrimaryTargets());
+		if (getTarget() != null) {
+			getCurrentTargets().remove(getTarget());
 		}
-		return getTargetPlayersQnO(currentTargets);
+		return getTargetPlayersQnO(getCurrentTargets());
 	}
 
 	@Override
 	protected QuestionContainer handleExtraAnswer(int choice) {
-		secondTarget = currentTargets.remove(choice);
+		secondTarget = getCurrentTargets().remove(choice);
 		return null;
 	}
 
@@ -88,7 +88,7 @@ public class Cyberblade extends OptionalChoiceWeapon {
 			List<Player> playersInThisCoordinate = getGameMap().getPlayersFromCoordinates(coordinate);
 			playersInThisCoordinate.remove(getOwner());
 			//It's okay if i try to remove null because ArrayList is OP
-			playersInThisCoordinate.remove(target);
+			playersInThisCoordinate.remove(getTarget());
 			playersInThisCoordinate.remove(secondTarget);
 			if (playersInThisCoordinate.size() >= numberOfEnemies) {
 				reachableWithParamPlayers.add(coordinate);
@@ -123,7 +123,7 @@ public class Cyberblade extends OptionalChoiceWeapon {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target, secondTarget);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget(), secondTarget);
 	}
 
 	@Override

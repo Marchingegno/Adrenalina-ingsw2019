@@ -76,7 +76,7 @@ public class FurnaceTest {
 
 		furnace.reset();
 		assertFalse(furnace.isLoaded());
-		assertTrue(furnace.currentTargets.isEmpty());
+		assertTrue(furnace.getCurrentTargets().isEmpty());
 
 	}
 
@@ -97,7 +97,7 @@ public class FurnaceTest {
 
 		furnace.reset();
 		assertFalse(furnace.isLoaded());
-		assertTrue(furnace.currentTargets.isEmpty());
+		assertTrue(furnace.getCurrentTargets().isEmpty());
 	}
 
 }

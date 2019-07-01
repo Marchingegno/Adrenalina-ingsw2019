@@ -75,7 +75,7 @@ public class ElectroscytheTest {
 
 		electroscythe.reset();
 		assertFalse(electroscythe.isLoaded());
-		assertTrue(electroscythe.currentTargets.isEmpty());
+		assertTrue(electroscythe.getCurrentTargets().isEmpty());
 
 	}
 
@@ -94,7 +94,7 @@ public class ElectroscytheTest {
 
 		electroscythe.reset();
 		assertFalse(electroscythe.isLoaded());
-		assertTrue(electroscythe.currentTargets.isEmpty());
+		assertTrue(electroscythe.getCurrentTargets().isEmpty());
 	}
 
 }

@@ -17,14 +17,14 @@ import java.util.List;
  * @author Marchingegno
  */
 public abstract class OptionalEffectsWeapon extends WeaponCard {
-	boolean[] hasOptionalEffects;
+	private boolean[] hasOptionalEffects;
 	int optional1Damage;
 	int optional1Marks;
 	int optional2Damage;
 	int optional2Marks;
-	List<DamageAndMarks> optional1DamagesAndMarks;
-	List<DamageAndMarks> optional2DamagesAndMarks;
-	List<DamageAndMarks> optionalBothDamagesAndMarks;
+	private List<DamageAndMarks> optional1DamagesAndMarks;
+	private List<DamageAndMarks> optional2DamagesAndMarks;
+	private List<DamageAndMarks> optionalBothDamagesAndMarks;
 	private boolean[] optionalEffectsActive;
 	private AmmoType optional1Price;
 	private AmmoType optional2Price;
@@ -140,16 +140,16 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	public void primaryFire() {
 		if (isBothOptionalActive()) {
 			Utils.logWeapon("Firing with optionalBothDamagesAndMarks");
-			dealDamageAndConclude(optionalBothDamagesAndMarks, currentTargets);
+			dealDamageAndConclude(optionalBothDamagesAndMarks, getCurrentTargets());
 		} else if (isOptionalActive(1)) {
 			Utils.logWeapon("Firing with optional1DamagesAndMarks");
-			dealDamageAndConclude(optional1DamagesAndMarks, currentTargets);
+			dealDamageAndConclude(optional1DamagesAndMarks, getCurrentTargets());
 		} else if (isOptionalActive(2)) {
 			Utils.logWeapon("Firing with optional2DamagesAndMarks");
-			dealDamageAndConclude(optional2DamagesAndMarks, currentTargets);
+			dealDamageAndConclude(optional2DamagesAndMarks, getCurrentTargets());
 		} else {
 			Utils.logWeapon("Firing with standardDamagesAndMarks");
-			dealDamageAndConclude(standardDamagesAndMarks, currentTargets);
+			dealDamageAndConclude(getStandardDamagesAndMarks(), getCurrentTargets());
 		}
 	}
 
@@ -262,5 +262,23 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		}
 
 		return firingCost;
+	}
+
+	boolean[] getHasOptionalEffects() {
+		return hasOptionalEffects;
+	}
+
+
+	List<DamageAndMarks> getOptional1DamagesAndMarks() {
+		return optional1DamagesAndMarks;
+	}
+
+	List<DamageAndMarks> getOptional2DamagesAndMarks() {
+		return optional2DamagesAndMarks;
+	}
+
+
+	List<DamageAndMarks> getOptionalBothDamagesAndMarks() {
+		return optionalBothDamagesAndMarks;
 	}
 }

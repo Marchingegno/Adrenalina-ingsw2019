@@ -10,9 +10,9 @@ import java.util.List;
 
 public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
-	String baseName;
-	String moveName;
-	String extraName;
+	private String baseName;
+	private String moveName;
+	private String extraName;
 	boolean canAddBase;
 	boolean canAddMove;
 	boolean canAddExtra;
@@ -95,7 +95,7 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 	}
 
 	private QuestionContainer handleBaseAnswer(int choice) {
-		target = currentTargets.get(choice);
+		setTarget(getCurrentTargets().get(choice));
 		return null;
 	}
 
@@ -221,6 +221,18 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 		weaponState = new Pair<>(WeaponEffectType.ACTION, EffectState.REQUEST);
 		effectHasChanged = false;
 		ended = false;
+	}
+
+	void setBaseName(String baseName) {
+		this.baseName = baseName;
+	}
+
+	void setMoveName(String moveName) {
+		this.moveName = moveName;
+	}
+
+	void setExtraName(String extraName) {
+		this.extraName = extraName;
 	}
 
 	enum EffectState {

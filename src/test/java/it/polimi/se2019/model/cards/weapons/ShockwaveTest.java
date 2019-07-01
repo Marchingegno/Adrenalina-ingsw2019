@@ -79,7 +79,7 @@ public class ShockwaveTest {
 
 		shockwave.reset();
 		assertFalse(shockwave.isLoaded());
-		assertTrue(shockwave.currentTargets.isEmpty());
+		assertTrue(shockwave.getCurrentTargets().isEmpty());
 
 	}
 
@@ -100,7 +100,7 @@ public class ShockwaveTest {
 
 		shockwave.reset();
 		assertFalse(shockwave.isLoaded());
-		assertTrue(shockwave.currentTargets.isEmpty());
+		assertTrue(shockwave.getCurrentTargets().isEmpty());
 	}
 
 }

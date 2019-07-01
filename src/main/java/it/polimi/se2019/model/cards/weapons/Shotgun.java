@@ -16,10 +16,10 @@ public class Shotgun extends AlternateFireWeapon {
 
 	public Shotgun(JsonObject parameters) {
 		super(parameters);
-		this.secondaryDamage = parameters.get("secondaryDamage").getAsInt();
-		this.secondaryMarks = parameters.get("secondaryMarks").getAsInt();
-		this.standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.secondaryDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.setSecondaryDamage(parameters.get("secondaryDamage").getAsInt());
+		this.setSecondaryMarks(parameters.get("secondaryMarks").getAsInt());
+		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 	}
 
 
@@ -28,11 +28,11 @@ public class Shotgun extends AlternateFireWeapon {
 		if (getCurrentStep() == 2) {
 			return setPrimaryCurrentTargetsAndReturnTargetQnO();
 		} else if (getCurrentStep() == 3) {
-			this.target = currentTargets.get(choice);
+			this.setTarget(getCurrentTargets().get(choice));
 			this.listEnemyMoveCoordinates = getEnemyMovingCoordinates();
-			return getMovingTargetEnemyCoordinatesQnO(target, listEnemyMoveCoordinates);
+			return getMovingTargetEnemyCoordinatesQnO(getTarget(), listEnemyMoveCoordinates);
 		} else if (getCurrentStep() == 4) {
-			relocateEnemy(target, listEnemyMoveCoordinates.get(choice));
+			relocateEnemy(getTarget(), listEnemyMoveCoordinates.get(choice));
 			primaryFire();
 		}
 		return null;
@@ -41,10 +41,10 @@ public class Shotgun extends AlternateFireWeapon {
 	@Override
 	QuestionContainer handleSecondaryFire(int choice) {
 		if (getCurrentStep() == 2) {
-			currentTargets = getSecondaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getSecondaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 3) {
-			this.target = currentTargets.get(choice);
+			this.setTarget(getCurrentTargets().get(choice));
 			secondaryFire();
 		}
 		return null;
@@ -64,8 +64,8 @@ public class Shotgun extends AlternateFireWeapon {
 	 * Unifies primary/secondary fire.
 	 */
 	private void unifiedFire() {
-		List<DamageAndMarks> chosenDamagesAndMarks = isAlternateFireActive() ? secondaryDamagesAndMarks : standardDamagesAndMarks;
-		dealDamageAndConclude(chosenDamagesAndMarks, target);
+		List<DamageAndMarks> chosenDamagesAndMarks = isAlternateFireActive() ? getSecondaryDamagesAndMarks() : getStandardDamagesAndMarks();
+		dealDamageAndConclude(chosenDamagesAndMarks, getTarget());
 	}
 
 	@Override

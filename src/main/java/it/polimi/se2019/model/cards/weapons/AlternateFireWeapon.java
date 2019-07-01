@@ -18,11 +18,11 @@ import static java.lang.Boolean.FALSE;
  * @author Marchingegno
  */
 public abstract class AlternateFireWeapon extends WeaponCard {
-	List<DamageAndMarks> secondaryDamagesAndMarks;
-	List<AmmoType> secondaryPrice;
+	private List<DamageAndMarks> secondaryDamagesAndMarks;
+	private List<AmmoType> secondaryPrice;
 	private boolean alternateFireActive;
-	int secondaryDamage;
-	int secondaryMarks;
+	private int secondaryDamage;
+	private int secondaryMarks;
 
 	/**
 	 * Constructor of the class.
@@ -128,8 +128,8 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	 * @return the {@link QuestionContainer}.
 	 */
 	QuestionContainer setSecondaryCurrentTargetsAndReturnTargetQnO() {
-		currentTargets = getSecondaryTargets();
-		return getTargetPlayersQnO(currentTargets);
+		setCurrentTargets(getSecondaryTargets());
+		return getTargetPlayersQnO(getCurrentTargets());
 	}
 
 	@Override
@@ -167,5 +167,25 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 		} else {
 			return new ArrayList<>();
 		}
+	}
+
+	void setSecondaryDamagesAndMarks(List<DamageAndMarks> secondaryDamagesAndMarks) {
+		this.secondaryDamagesAndMarks = secondaryDamagesAndMarks;
+	}
+
+	int getSecondaryDamage() {
+		return secondaryDamage;
+	}
+
+	void setSecondaryDamage(int secondaryDamage) {
+		this.secondaryDamage = secondaryDamage;
+	}
+
+	int getSecondaryMarks() {
+		return secondaryMarks;
+	}
+
+	void setSecondaryMarks(int secondaryMarks) {
+		this.secondaryMarks = secondaryMarks;
 	}
 }

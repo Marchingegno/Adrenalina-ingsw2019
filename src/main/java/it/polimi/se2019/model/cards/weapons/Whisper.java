@@ -12,7 +12,7 @@ public class Whisper extends WeaponCard {
 	 */
 	public Whisper(JsonObject parameters) {
 		super(parameters);
-		standardDamagesAndMarks.add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class Whisper extends WeaponCard {
 
 	@Override
 	public void primaryFire() {
-		dealDamageAndConclude(standardDamagesAndMarks, target);
+		dealDamageAndConclude(getStandardDamagesAndMarks(), getTarget());
 	}
 
 
@@ -39,10 +39,10 @@ public class Whisper extends WeaponCard {
 	@Override
 	QuestionContainer handlePrimaryFire(int choice) {
 		if (getCurrentStep() == 1) {
-			currentTargets = getPrimaryTargets();
-			return getTargetPlayersQnO(currentTargets);
+			setCurrentTargets(getPrimaryTargets());
+			return getTargetPlayersQnO(getCurrentTargets());
 		} else if (getCurrentStep() == 2) {
-			target = currentTargets.get(choice);
+			setTarget(getCurrentTargets().get(choice));
 			primaryFire();
 		}
 		return null;
