@@ -618,7 +618,7 @@ public class Model {
         finalPlayerRepPosition = new ArrayList<>();
         List<LeaderboardSlot> tempLeaderBoard;
 
-        Utils.logInfo("Initiating endGame.");
+        Utils.logInfo("Model -> endGameAndFindWinner(): Initiating endGame.");
 
         scorePlayersInEndGame();
         awardKillshotTrackPoint();
@@ -638,7 +638,7 @@ public class Model {
     }
 
     private void scorePlayerEndGame(Player player) {
-        Utils.logInfo("Scoring " + player.getPlayerName());
+        Utils.logInfo("Model -> scorePlayerEndGame(): Scoring " + player.getPlayerName());
         PlayerBoard playerBoard = player.getPlayerBoard();
         DamageDone damageDone = new DamageDone();
         List<Player> sortedPlayers;
@@ -656,7 +656,7 @@ public class Model {
         List<KillShot> killShotList = gameBoard.getKillShots();
         List<Player> sortedPlayers;
 
-        Utils.logInfo("Awarding killshots points.");
+        Utils.logInfo("Model -> awardKillshotTrackPoint(): Awarding killshots points.");
 
         for (KillShot killShot : killShotList) {
             damageDone.damageUp(killShot.getPlayer());
@@ -669,7 +669,7 @@ public class Model {
 
         int offset = 0;
         for (Player p : sortedPlayers) {
-            Utils.logInfo("Killshot: player " + p.getPlayerName() + " is awarded " + GameConstants.KILLSHOT_SCORES.get(offset) + " points.");
+            Utils.logInfo("Model -> awardKillShotTrackPoint(): Killshot: player " + p.getPlayerName() + " is awarded " + GameConstants.KILLSHOT_SCORES.get(offset) + " points.");
             p.getPlayerBoard().addPoints(GameConstants.KILLSHOT_SCORES.get(offset));
             offset++;
         }
@@ -683,7 +683,7 @@ public class Model {
             player.updateRep();
         }
 
-        Utils.logInfo("Finding winners.");
+        Utils.logInfo("Model -> setWinners(): Finding winners.");
 
         Comparator<Player> playerComparator = (o1, o2) -> {
             int firstPoints = o1.getPlayerBoard().getPoints();
@@ -694,14 +694,14 @@ public class Model {
 
         List<Player> players = gameBoard.getPlayers();
 
-        Utils.logInfo("Players before sorting: ");
-        players.forEach(player -> Utils.logInfo(player.getPlayerName() + "with points " + player.getPlayerBoard().getPoints()));
+        Utils.logInfo("Model -> setWinners(): Players before sorting: ");
+        players.forEach(player -> Utils.logInfo("\t\t" + player.getPlayerName() + "with points " + player.getPlayerBoard().getPoints()));
 
         players.sort(playerComparator);
 
         Utils.logInfo("----------------------------------------------------------");
-        Utils.logInfo("Players after sorting: ");
-        players.forEach(player -> Utils.logInfo(player.getPlayerName() + "with points " + player.getPlayerBoard().getPoints()));
+        Utils.logInfo("Model -> setWinners(): Players after sorting: ");
+        players.forEach(player -> Utils.logInfo("\t\t" + player.getPlayerName() + "with points " + player.getPlayerBoard().getPoints()));
 
 
         int precPoint = -1;
@@ -725,7 +725,7 @@ public class Model {
     private List<PlayerRepPosition> tieBreak(List<LeaderboardSlot> leaderboard) {
         List<PlayerRepPosition> playerRepLeaderboard = new ArrayList<>();
 
-        Utils.logInfo("Breaking ties.");
+        Utils.logInfo("Model -> tieBreak(): Breaking ties.");
 
         int nextPosition = 0;
         for (int i = 0; i < leaderboard.size(); i++) {
@@ -747,7 +747,7 @@ public class Model {
                 for (Player player : orderedPlayers) {
                     playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
                     playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
-                    Utils.logInfo("Adding in position " + nextPosition + " player " + player.getPlayerName());
+                    Utils.logInfo("Model -> tieBreak(): Adding in position " + nextPosition + " player " + player.getPlayerName());
                     nextPosition++;
                 }
 
@@ -756,13 +756,13 @@ public class Model {
                 playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
                 for (Player player : tiedPlayers) {
                     playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
-                    Utils.logInfo("Adding in position " + nextPosition + " player " + player.getPlayerName());
+                    Utils.logInfo("Model -> tieBreak(): Adding in position " + nextPosition + " player " + player.getPlayerName());
                 }
                 nextPosition++;
             } else {
                 playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
                 playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) leaderboard.get(i).getPlayer().getRep());
-                Utils.logInfo("Adding in position " + nextPosition + " player " + leaderboard.get(i).getPlayer().getPlayerName());
+                Utils.logInfo("Model -> tieBreak(): Adding in position " + nextPosition + " player " + leaderboard.get(i).getPlayer().getPlayerName());
                 nextPosition++;
             }
         }
