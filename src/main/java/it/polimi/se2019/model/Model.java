@@ -778,19 +778,39 @@ public class Model {
     // MACRO ACTION METHODS
     // ####################################
 
+    /**
+     * Returns true if and only of the player has actions left.
+     *
+     * @param playerName name of the player to check.
+     * @return true if and only of the player has actions left.
+     */
     public boolean doesThePlayerHaveActionsLeft(String playerName) {
         return getPlayerFromName(playerName).getDamageStatus().hasMacroActionLeft();
     }
 
+    /**
+     * Returns the macroaction of the current player.
+     * @return the macroaction of the current player.
+     */
     public MacroAction getCurrentAction() {
         return gameBoard.getCurrentPlayer().getDamageStatus().getCurrentMacroAction();
     }
 
+    /**
+     * Returns the next action the specified player needs to perform and than sets that action as current.
+     * @param playerName name of the player to check.
+     * @return the next action the specified player needs to perform.
+     */
     public ActionType getNextActionToExecuteAndAdvance(String playerName) {
         Player player = getPlayerFromName(playerName);
         return player.getDamageStatus().getNextActionToExecuteAndAdvance();
     }
 
+    /**
+     * Sets the nex macroaction.
+     * @param playerName name of the player to whom set the next macroaction.
+     * @param indexOfMacroAction index of the macroaction to set.
+     */
     public void setNextMacroAction(String playerName, int indexOfMacroAction) {
         Player player = getPlayerFromName(playerName);
         player.getDamageStatus().decreaseMacroActionsToPerform();
@@ -804,6 +824,12 @@ public class Model {
     // PUBLIC WEAPONS USE METHODS
     // ####################################
 
+    /**
+     * Returns true if and only if the specified weapon can be activated.
+     * @param playerName name of the owner of the weapon.
+     * @param indexOfWeapon index of the weapon in the player's inventory.
+     * @return true if and only if the specified weapon can be activated.
+     */
     public boolean canWeaponBeActivated(String playerName, int indexOfWeapon) {
         Player player = getPlayerFromName(playerName);
         List<WeaponCard> weaponCards = player.getPlayerBoard().getWeaponCards();
@@ -865,11 +891,22 @@ public class Model {
         return weaponCards.stream().anyMatch(WeaponCard::isLoaded);
     }
 
+    /**
+     * Returns true if and only if the player is shooting.
+     * @param playerName name of the player to check.
+     * @return true if and only if the player is shooting.
+     */
     public boolean isShootingWeapon(String playerName) {
         Player player = getPlayerFromName(playerName);
         return player.isShootingWeapon();
     }
 
+    /**
+     * Sets the specified weapon as the shooting weapon of the player and then updates the reps.
+     * @param playerName name of the player to whom set the weapon.
+     * @param indexOfWeapon index of the weapon to set as the shooting weapon.
+     * @return the initial question container.
+     */
     public QuestionContainer initialWeaponActivation(String playerName, int indexOfWeapon) {
         Player player = getPlayerFromName(playerName);
         QuestionContainer questionContainer = player.initialWeaponActivation(indexOfWeapon);
@@ -877,6 +914,12 @@ public class Model {
         return questionContainer;
     }
 
+    /**
+     * Communicates the choi oc the player, advance the weapon step and updates the reps.
+     * @param playerName name of the player that is shooting.
+     * @param choice index of the choice of the player.
+     * @return the next question container to show to the player.
+     */
     public QuestionContainer doWeaponStep(String playerName, int choice) {
         Player player = getPlayerFromName(playerName);
         QuestionContainer questionContainer = player.doWeaponStep(choice);
@@ -884,6 +927,11 @@ public class Model {
         return questionContainer;
     }
 
+    /**
+     * Handles the end of the weapon, and checks if the shooting player has the targeting scope
+     * and the damaged players have the tagback grenade; then updates the reps.
+     * @param playerName name of the shooting player.
+     */
     public void handleWeaponEnd(String playerName) {
         Player player = getPlayerFromName(playerName);
         saveShootedPlayersForShootPowerups(player);

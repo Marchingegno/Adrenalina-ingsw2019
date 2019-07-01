@@ -9,6 +9,7 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.model.player.damagestatus.HighDamage;
 import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -488,51 +489,87 @@ public class ModelTest {
     }
 
     @Test
-    public void doesThePlayerHaveActionsLeft() {
+    public void doesThePlayerHaveActionsLeft_correctInput_correctOutput() {
+        assertTrue(model.doesThePlayerHaveActionsLeft(model.getCurrentPlayerName()));
+        model.getGameBoard().getCurrentPlayer().getDamageStatus().decreaseMacroActionsToPerform();
+        model.getGameBoard().getCurrentPlayer().getDamageStatus().decreaseMacroActionsToPerform();
+        assertFalse(model.doesThePlayerHaveActionsLeft(model.getCurrentPlayerName()));
+
     }
 
     @Test
-    public void getCurrentAction() {
+    public void getCurrentAction_correctInput_correctOutput() {
+        assertNotNull(model.getCurrentAction());
     }
 
     @Test
-    public void getNextActionToExecuteAndAdvance() {
+    public void getNextActionToExecuteAndAdvance_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.setNextMacroAction(player.getPlayerName(), 0);
+        ActionType nextAction = model.getNextActionToExecuteAndAdvance(player.getPlayerName());
+        assertEquals(ActionType.MOVE, nextAction);
+        nextAction = model.getNextActionToExecuteAndAdvance(player.getPlayerName());
+        assertEquals(ActionType.END, nextAction);
     }
 
     @Test
-    public void setNextMacroAction() {
+    public void canWeaponBeActivated_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        assertFalse(model.canWeaponBeActivated(player.getPlayerName(), -1));
+        assertFalse(model.canWeaponBeActivated(player.getPlayerName(), 1));
+        player.getPlayerBoard().getWeaponCards().get(0).reset();
+        assertFalse(model.canWeaponBeActivated(player.getPlayerName(), 0));
     }
 
     @Test
-    public void canWeaponBeActivated() {
+    public void getActivableWeapons_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        assertTrue(model.getActivableWeapons(player.getPlayerName()).isEmpty());
     }
 
     @Test
-    public void getActivableWeapons() {
+    public void getLoadableWeapons_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        player.getPlayerBoard().getWeaponCards().get(0).reset();
+        player.getPlayerBoard().getWeaponCards().get(2).reset();
+        player.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO, 2);
+        player.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.BLUE_AMMO, 2);
+        player.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.YELLOW_AMMO, 2);
+        List<Integer> correctAnswer = new ArrayList<>();
+        correctAnswer.add(0);
+        correctAnswer.add(2);
+        assertEquals(correctAnswer, model.getLoadableWeapons(player.getPlayerName()));
     }
 
     @Test
-    public void getLoadableWeapons() {
+    public void doesPlayerHaveLoadedWeapons_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        player.getPlayerBoard().getWeaponCards().get(0).reset();
+        assertFalse(model.doesPlayerHaveLoadedWeapons(player.getPlayerName()));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        assertTrue(model.doesPlayerHaveLoadedWeapons(player.getPlayerName()));
     }
 
     @Test
-    public void doesPlayerHaveLoadedWeapons() {
-    }
-
-    @Test
-    public void isShootingWeapon() {
-    }
-
-    @Test
-    public void initialWeaponActivation() {
-    }
-
-    @Test
-    public void doWeaponStep() {
-    }
-
-    @Test
-    public void handleWeaponEnd() {
+    public void isShootingWeapon_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        assertFalse(model.isShootingWeapon(player.getPlayerName()));
+        model.initialWeaponActivation(player.getPlayerName(), 0);
+        assertTrue(model.isShootingWeapon(player.getPlayerName()));
     }
 
     @Test
