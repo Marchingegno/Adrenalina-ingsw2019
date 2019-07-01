@@ -18,7 +18,7 @@ public class GameConstants {
 	public static final int INITIAL_AMMO_PER_AMMO_TYPE = 1;
 	public static final int MIN_SKULLS = 5;
 	public static final int MAX_SKULLS = 8;
-	public static final int MIN_PLAYERS = 2;
+	public static final int MIN_PLAYERS = 3;
 	public static final int NUMBER_OF_ACTIONS_PER_TURN = 2;
 	public static final int FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN = 2;
 	public static final int FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN = 1;
