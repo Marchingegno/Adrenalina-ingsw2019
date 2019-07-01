@@ -454,8 +454,8 @@ public class TurnController {
 		if (virtualView.getNickname().equals(model.getCurrentPlayerName()) && model.isPlayerWaitingForDamagePowerupsEmpty()) {
 			// The player that finished the powerup activation is the current player of the model, and there aren't any players left for ON_DAMAGE powerups.
 			// So we can end the action.
-			//If the player is in a MacroAction (ex: he used targeting scopre while firing, we need to continue the MacroAction
-			//Else, we need to resume its turn, whether he has actions left or no.
+			// If the player is in a MacroAction (ex: he used targeting scope while firing, we need to continue the MacroAction.
+			// Else, we need to resume its turn, whether he has actions left or no.
 			if (model.isInAMacroAction(virtualView.getNickname())) {
 				handleNextMacroActionStep(virtualView);
 			} else {

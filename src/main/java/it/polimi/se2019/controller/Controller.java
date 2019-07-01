@@ -54,10 +54,19 @@ public class Controller implements Observer {
 		gameController.startGame();
 	}
 
+	/**
+	 * Returns true if the game is ended.
+	 * @return true if the game is ended.
+	 */
+	public boolean isGameEnded() {
+		return model.isGameEnded();
+	}
+
 
 	@Override
 	public void update(Observable o, Object arg) {
-		gameController.processEvent((Event) arg);
+		if(!isGameEnded())
+			gameController.processEvent((Event) arg);
 	}
 
 	/**

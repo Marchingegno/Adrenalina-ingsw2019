@@ -6,6 +6,7 @@ import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,6 +94,23 @@ public class Lobby {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Dismantle all finished matches and disconnect their participant if still connected.
+	 */
+	public void dismantleFinishedMatches() {
+		Iterator<Match> iter = matches.iterator();
+		while (iter.hasNext()) {
+			Match match = iter.next();
+			if(match.isMatchFinished()) {
+				iter.remove();
+				Utils.logInfo("A match has been dismantled. There are now " + matches.size() + " matches.");
+				for(AbstractConnectionToClient client : match.getParticipants()) {
+					client.closeConnectionWithClient();
+				}
+			}
+		}
 	}
 
 

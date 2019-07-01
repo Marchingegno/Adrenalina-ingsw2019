@@ -60,6 +60,8 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(!connectedClients.contains(client))
 			return;
 
+		lobby.dismantleFinishedMatches();
+
 		Utils.logInfo("ServerEventsListener -> onMessageReceived(): received a message from \"" + client.hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
 		if(client.isNicknameSet()) {
