@@ -95,7 +95,7 @@ public class TurnController {
 	private void handleActionEvent(Event event) {
 //TODO check if the player can do the action
 		model.setNextMacroAction(event.getVirtualView().getNickname(), ((IntMessage) event.getMessage()).getContent());
-		handleNextAction(event.getVirtualView());
+		handleNextMacroActionStep(event.getVirtualView());
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class TurnController {
 	 */
 	private void handleGrabAmmoEvent(Event event) {
         model.grabAmmoCard(event.getVirtualView().getNickname());
-		handleNextAction(event.getVirtualView());
+		handleNextMacroActionStep(event.getVirtualView());
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class TurnController {
 		else {
 			model.setPayed(false);
 			model.grabWeaponCard(event.getVirtualView().getNickname(), ((IntMessage) event.getMessage()).getContent());
-			handleNextAction(event.getVirtualView());
+			handleNextMacroActionStep(event.getVirtualView());
 		}
 	}
 
@@ -136,7 +136,7 @@ public class TurnController {
 			model.setPayed(false);
 			SwapMessage swapMessage = (SwapMessage) event.getMessage();
 			model.swapWeapons(swapMessage.getIndexToDiscard(), swapMessage.getIndexToGrab());
-			handleNextAction(event.getVirtualView());
+			handleNextMacroActionStep(event.getVirtualView());
 		}
 	}
 
@@ -150,7 +150,7 @@ public class TurnController {
 		Coordinates playerChoice = ((CoordinatesAnswerMessage) event.getMessage()).getSingleCoordinates();
 		if (model.getReachableCoordinatesOfTheCurrentPlayer().contains(playerChoice)) {
 			model.movePlayerTo(event.getVirtualView().getNickname(), playerChoice);
-			handleNextAction(event.getVirtualView());
+			handleNextMacroActionStep(event.getVirtualView());
 		} else {
 			event.getVirtualView().askMove(model.getReachableCoordinatesOfTheCurrentPlayer());
 		}
@@ -176,7 +176,8 @@ public class TurnController {
 				model.setPayed(false);
 				model.reloadWeapon(event.getVirtualView().getNickname(), ((IntMessage) event.getMessage()).getContent());
 				VirtualView playerVirtualView = event.getVirtualView();
-				if (model.isInAMacroAction(playerVirtualView.getNickname())) handleNextAction(playerVirtualView);
+				if (model.isInAMacroAction(playerVirtualView.getNickname()))
+					handleNextMacroActionStep(playerVirtualView);
 				else
 					playerVirtualView.askEnd(model.doesPlayerHaveActivableOnTurnPowerups(playerVirtualView.getNickname()));
 			}
@@ -247,9 +248,9 @@ public class TurnController {
 	 * Handles the logic relative to a {@link it.polimi.se2019.utils.MacroAction}
 	 * @param playerVirtualView the VirtualView of the player currently executing the MacroAction
 	 */
-	private void handleNextAction(VirtualView playerVirtualView) {
+	private void handleNextMacroActionStep(VirtualView playerVirtualView) {
 		ActionType actionType = model.getNextActionToExecuteAndAdvance(playerVirtualView.getNickname());
-		Utils.logInfo("TurnController -> handleNextAction(): Performing " + actionType + " of " + model.getCurrentAction());
+		Utils.logInfo("TurnController -> handleNextMacroActionStep(): Performing " + actionType + " of " + model.getCurrentAction());
 		switch (actionType) {
 			case MOVE:
 				playerVirtualView.askMove(model.getCoordinatesWherePlayerCanMove());
@@ -265,7 +266,7 @@ public class TurnController {
 				break;
 			case END:
 				//The MacroAction is already refilled.
-				handleActionEnd(playerVirtualView);
+				handleMacroActionEnd(playerVirtualView);
 				break;
 			default:
 				Utils.logError("This action type cannot be processed.", new IllegalStateException());
@@ -286,7 +287,7 @@ public class TurnController {
 				playerVirtualView.askGrabWeapon(model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
 		} else {
             model.grabAmmoCard(playerVirtualView.getNickname());
-			handleNextAction(playerVirtualView);
+			handleNextMacroActionStep(playerVirtualView);
 		}
 	}
 
@@ -298,7 +299,7 @@ public class TurnController {
 	private void handleReloadAction(VirtualView playerVirtualView) {
 		List<Integer> loadableWeapons = model.getLoadableWeapons(playerVirtualView.getNickname());
 		if (loadableWeapons.isEmpty())
-			handleNextAction(playerVirtualView);
+			handleNextMacroActionStep(playerVirtualView);
 		else
 			playerVirtualView.askReload(loadableWeapons);
 	}
@@ -311,7 +312,7 @@ public class TurnController {
 	private void handleShootAction(VirtualView playerVirtualView) {
 		List<Integer> activableWeapons = model.getActivableWeapons(playerVirtualView.getNickname());
 		if (activableWeapons.isEmpty())
-			handleNextAction(playerVirtualView);
+			handleNextMacroActionStep(playerVirtualView);
 		else
 			playerVirtualView.askShoot(activableWeapons);
 	}
@@ -320,9 +321,14 @@ public class TurnController {
 	 * Handles an end action.
 	 * @param playerVirtualView the VirtualView of the player executing this action.
 	 */
-	private void handleActionEnd(VirtualView playerVirtualView) {
+	private void handleMacroActionEnd(VirtualView playerVirtualView) {
 		String playerName = playerVirtualView.getNickname();
 		model.endAction(playerName);
+		endOnTurnAction(playerVirtualView);
+	}
+
+	private void endOnTurnAction(VirtualView playerVirtualView) {
+		String playerName = playerVirtualView.getNickname();
 		if (model.doesThePlayerHaveActionsLeft(playerName)) {
 			playerVirtualView.askAction(model.doesPlayerHaveActivableOnTurnPowerups(playerName), model.doesPlayerHaveLoadedWeapons(playerName));
 		} else {
@@ -393,7 +399,7 @@ public class TurnController {
 	private void handleInitialOnDamagePowerup() {
 		String damagedPlayer = model.getNextPlayerWaitingForDamagePowerups();
 		if (damagedPlayer == null) {
-			handleNextAction(virtualViewsContainer.getVirtualViewFromPlayerName(model.getCurrentPlayerName()));
+			handleNextMacroActionStep(virtualViewsContainer.getVirtualViewFromPlayerName(model.getCurrentPlayerName()));
 		} else {
 			virtualViewsContainer.getVirtualViewFromPlayerName(damagedPlayer).askOnDamagePowerupActivation(model.getActivableOnDamagePowerups(damagedPlayer, model.getCurrentPlayerName()), model.getCurrentPlayerName());
 		}
@@ -448,7 +454,13 @@ public class TurnController {
 		if (virtualView.getNickname().equals(model.getCurrentPlayerName()) && model.isPlayerWaitingForDamagePowerupsEmpty()) {
 			// The player that finished the powerup activation is the current player of the model, and there aren't any players left for ON_DAMAGE powerups.
 			// So we can end the action.
-			handleActionEnd(virtualView);
+			//If the player is in a MacroAction (ex: he used targeting scopre while firing, we need to continue the MacroAction
+			//Else, we need to resume its turn, whether he has actions left or no.
+			if (model.isInAMacroAction(virtualView.getNickname())) {
+				handleNextMacroActionStep(virtualView);
+			} else {
+				endOnTurnAction(virtualView);
+			}
 		} else {
 			// The player that finished the powerup activation is not the current player or there are players that have an ON_DAMAGE powerup.
 			// So we need to check if there are other players that have an ON_DAMAGE powerup.
