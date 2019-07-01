@@ -3,6 +3,9 @@ package it.polimi.se2019.model;
 import it.polimi.se2019.model.cards.ammo.AmmoCard;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.Newton;
+import it.polimi.se2019.model.cards.powerups.PowerupCard;
+import it.polimi.se2019.model.cards.powerups.TargetingScope;
+import it.polimi.se2019.model.cards.powerups.Teleporter;
 import it.polimi.se2019.model.cards.weapons.WeaponCard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.player.Player;
@@ -41,6 +44,24 @@ public class ModelTest {
         playersNames.add(player5Name);
 
         model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersNames, 6);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void model_invalidSkulls_shouldThrowException() {
+        List<String> players = new ArrayList<>();
+        for (int i = 0; i < GameConstants.MIN_PLAYERS; i++) {
+            players.add("" + i);
+        }
+        new Model(GameConstants.MapType.SMALL_MAP.getMapName(), players, GameConstants.MAX_SKULLS + 1);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void model_invalidPlayers_shouldThrowException() {
+        List<String> players = new ArrayList<>();
+        for (int i = 0; i < GameConstants.MIN_PLAYERS - 1; i++) {
+            players.add("" + i);
+        }
+        new Model(GameConstants.MapType.SMALL_MAP.getMapName(), players, GameConstants.MAX_SKULLS);
     }
 
     @Test
@@ -537,7 +558,6 @@ public class ModelTest {
         assertEquals(finalLeaderboard.get(3).getPlayerReps().get(1), model.getPlayerFromName(player5Name).getRep());
     }
 
-
     @Test
     public void getFinalPlayersInfo() {
     }
@@ -627,18 +647,36 @@ public class ModelTest {
     }
 
     @Test
-    public void canPowerupBeActivated() {
+    public void canPowerupBeActivated_wrongIndex_shouldGiveFalse() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        assertFalse(model.canPowerupBeActivated(player.getPlayerName(), -1));
     }
 
     @Test
-    public void doesPlayerHaveActivableOnShootPowerups() {
+    public void onShootPowerups_correctInput_correctOutput() {
+        // Prepare powerups.
+        Player player1 = model.getGameBoard().getPlayers().get(0);
+        Player player2 = model.getGameBoard().getPlayers().get(1);
+
+        for(PowerupCard powerupCard : player1.getPlayerBoard().getPowerupCards()) {
+            player1.getPlayerBoard().removePowerup(0);
+        }
+        PowerupCard powerupCard = new TargetingScope(AmmoType.RED_AMMO);
+        player1.getPlayerBoard().addPowerup(powerupCard);
+        powerupCard.setOwner(player1);
+        powerupCard.setGameBoard(model.getGameBoard());
+        List<Player> shotPlayers = new ArrayList<>();
+        shotPlayers.add(player2);
+        powerupCard.setShotPlayers(shotPlayers);
+
+        player1.getPlayerBoard().getAmmoContainer().addAmmo(AmmoType.RED_AMMO);
+
+        // Asserts.
+        assertTrue(model.doesPlayerHaveActivableOnShootPowerups(player1.getPlayerName()));
+        assertEquals(1, model.getActivableOnShootPowerups(player1.getPlayerName()).size());
     }
 
-    @Test
-    public void getActivableOnShootPowerups() {
-    }
-
-    @Test
+    /*@Test
     public void getNextPlayerWaitingForDamagePowerups() {
     }
 
@@ -648,37 +686,37 @@ public class ModelTest {
 
     @Test
     public void getActivableOnDamagePowerups() {
-    }
+    }*/
 
     @Test
-    public void getActivableOnTurnPowerups() {
-    }
+    public void onTurnPowerup_correctInput_correctOutput() {
+        // Prepare powerups.
+        Player player1 = model.getGameBoard().getPlayers().get(0);
+        Player player2 = model.getGameBoard().getPlayers().get(1);
 
-    @Test
-    public void doesPlayerHaveActivableOnTurnPowerups() {
-    }
+        for(PowerupCard powerupCard : player1.getPlayerBoard().getPowerupCards()) {
+            player1.getPlayerBoard().removePowerup(0);
+        }
+        PowerupCard powerupCard = new Teleporter(AmmoType.RED_AMMO);
+        player1.getPlayerBoard().addPowerup(powerupCard);
+        powerupCard.setOwner(player1);
+        powerupCard.setGameBoard(model.getGameBoard());
 
-    @Test
-    public void isPowerupInExecution() {
-    }
+        model.getGameBoard().getGameMap().movePlayerTo(model.getGameBoard().getPlayers().get(0), new Coordinates(0, 0));
 
-    @Test
-    public void initialPowerupActivation() {
-    }
+        // Asserts.
+        assertTrue(model.doesPlayerHaveActivableOnTurnPowerups(player1.getPlayerName()));
+        assertEquals(1, model.getActivableOnTurnPowerups(player1.getPlayerName()).size());
 
-    @Test
-    public void doPowerupStep() {
-    }
-
-    @Test
-    public void handlePowerupEnd() {
-    }
-
-    @Test
-    public void getPlayerFromName() {
-    }
-
-    @Test
-    public void getGameBoard() {
+        // Start utilization.
+        assertFalse(model.isPowerupInExecution(player1.getPlayerName()));
+        model.initialPowerupActivation(player1.getPlayerName(), 0);
+        assertTrue(model.isPowerupInExecution(player1.getPlayerName()));
+        assertFalse(model.isThePowerupConcluded(player1.getPlayerName()));
+        model.doPowerupStep(player1.getPlayerName(), 0);
+        assertTrue(model.isPowerupInExecution(player1.getPlayerName()));
+        assertTrue(model.isThePowerupConcluded(player1.getPlayerName()));
+        model.handlePowerupEnd(player1.getPlayerName());
+        assertFalse(model.isPowerupInExecution(player1.getPlayerName()));
     }
 }
