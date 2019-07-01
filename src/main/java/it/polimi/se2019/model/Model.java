@@ -515,6 +515,18 @@ public class Model {
     }
 
     /**
+     * Returns the coordinate where the current player can move within the specified distance.
+     *
+     * @param playerName the name of the player who is moving.
+     * @param distance   max distance that the player can travel.
+     * @return the coordinate where the current player can move within the specified distance.
+     */
+    public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
+        Player player = getPlayerFromName(playerName);
+        return gameMap.reachableCoordinates(player, distance);
+    }
+
+    /**
      * Returns the indexes of the weapons that the current player can afford in the square where he is.
      *
      * @return the indexes of the weapons that the current player can afford in the square where he is.
@@ -544,7 +556,7 @@ public class Model {
     }
 
     /**
-     * Removes from the square where the player is standing the specified weapon and adds it to the player inventory.
+     * Removes from the square where the player is standing the specified weapon and adds it to the player inventory and then updates the reps.
      *
      * @param playerName player who is grabbing the weapon.
      * @param index      of the weapon to grab.
@@ -559,7 +571,7 @@ public class Model {
     }
 
     /**
-     * Removes the ammo card from the square where the player is standing and adds its content to the player inventory.
+     * Removes the ammo card from the square where the player is standing and adds its content to the player inventory and then updates the reps.
      *
      * @param playerName player who is grabbing.
      */
@@ -570,6 +582,11 @@ public class Model {
         updateReps();
     }
 
+    /**
+     * Swaps the specified weapon in the player's inventory with the specified weapon in the spawn square and then updates the reps.
+     * @param indexOfThePlayerWeapon index of the player's weapon to swap.
+     * @param indexOfTheSpawnWeapon index of the weapon in the square to grab.
+     */
     public void swapWeapons(int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
         Player player = getCurrentPlayer();
         Coordinates playerCoordinates = gameMap.getPlayerCoordinates(player);
@@ -581,15 +598,15 @@ public class Model {
         updateReps();
     }
 
+    /**
+     * Reloads the specified weapon in the player's inventory and then updates the reps.
+     * @param playerName player who is reloading.
+     * @param indexOfTheWeapon index of the weapon to reload.
+     */
     public void reloadWeapon(String playerName, int indexOfTheWeapon) {
         Player player = getPlayerFromName(playerName);
         player.reload(indexOfTheWeapon);
         updateReps();
-    }
-
-    public List<Coordinates> getReachableCoordinates(String playerName, int distance) {
-        Player player = getPlayerFromName(playerName);
-        return gameMap.reachableCoordinates(player, distance);
     }
 
     // ####################################

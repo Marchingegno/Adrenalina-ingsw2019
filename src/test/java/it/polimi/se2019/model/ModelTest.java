@@ -438,7 +438,7 @@ public class ModelTest {
     }
 
     @Test
-    public void grabAmmoCard() {
+    public void grabAmmoCard_correctInput_correctOutput() {
         model.movePlayerTo(model.getCurrentPlayerName(), new Coordinates(0, 0));
         model.getGameBoard().getCurrentPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.BLUE_AMMO);
         model.getGameBoard().getCurrentPlayer().getPlayerBoard().getAmmoContainer().removeAmmo(AmmoType.RED_AMMO);
@@ -454,16 +454,30 @@ public class ModelTest {
     }
 
     @Test
-    public void swapWeapons() {
+    public void swapWeapons_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        WeaponCard playerWeapon = player.getPlayerBoard().getWeaponCards().get(0);
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(1, 0));
+        WeaponCard weaponCardInSquare = (WeaponCard) model.getGameBoard().getGameMap().getPlayerSquare(player).getCards().get(0);
+        model.swapWeapons(0, 0);
+
+        assertTrue(player.getPlayerBoard().getWeaponCards().get(0).equals(weaponCardInSquare));
+        assertTrue(model.getGameBoard().getGameMap().getPlayerSquare(player).getCards().get(2).equals(playerWeapon));
     }
 
     @Test
-    public void reloadWeapon() {
+    public void reloadWeapon_correctInput_correctOutput() {
+        Player player = model.getGameBoard().getCurrentPlayer();
+        model.movePlayerTo(player.getPlayerName(), new Coordinates(0, 2));
+        model.grabWeaponCard(player.getPlayerName(), 0);
+        player.getPlayerBoard().getWeaponCards().get(0).reset();
+        assertFalse(player.getPlayerBoard().getWeaponCards().get(0).isLoaded());
+        model.reloadWeapon(player.getPlayerName(), 0);
+        assertTrue(player.getPlayerBoard().getWeaponCards().get(0).isLoaded());
     }
 
-    @Test
-    public void getReachableCoordinates() {
-    }
 
     @Test
     public void endGameAndFindWinner() {
