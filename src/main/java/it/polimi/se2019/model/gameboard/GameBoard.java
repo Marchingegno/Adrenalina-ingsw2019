@@ -340,5 +340,11 @@ public class GameBoard extends Observable implements Representable {
 		player.getPlayerBoard().addPowerup(powerupCard);
 	}
 
+    public void addSpawnPowerupCardTo(Player player) {
+        PowerupCard powerupCard = powerupDeck.drawCard();
+        powerupCard.setOwner(player);
+        player.getPlayerBoard().addSpawnPowerup(powerupCard);
+    }
+
 }
 

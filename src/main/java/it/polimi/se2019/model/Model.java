@@ -437,8 +437,7 @@ public class Model {
      * @param playerName name of the player that needs to receive the powerup.
      */
     public void addSpawnPowerupCardTo(String playerName) {
-        Player player = getPlayerFromName(playerName);
-        getPlayerFromName(playerName).getPlayerBoard().addSpawnPowerup(gameBoard.getPowerupDeck().drawCard());
+        getGameBoard().addSpawnPowerupCardTo(getPlayerFromName(playerName));
         updateReps();
     }
 
