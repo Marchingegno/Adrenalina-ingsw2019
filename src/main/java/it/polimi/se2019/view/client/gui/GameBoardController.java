@@ -21,6 +21,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -465,7 +466,8 @@ private List<PlayerRep> playerReps;
     private Circle turnIcon3;
     @FXML
     private Circle turnIcon4;
-
+    @FXML
+    private Label question;
 
     @FXML
     private ImageView backGround;
@@ -1086,6 +1088,7 @@ private List<PlayerRep> playerReps;
     }
 
     private void disableSquareButtons() {
+        question.setVisible(false);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 buttonPosition[i][j].setDisable(true);
@@ -1198,6 +1201,11 @@ private List<PlayerRep> playerReps;
             weaponYellow0.setVisible(indexesOfTheGrabbableWeapons.contains(0));
             weaponYellow2.setVisible(indexesOfTheGrabbableWeapons.contains(2));
         }
+    }
+
+    public void setQuestion(String question) {
+        this.question.setVisible(true);
+        this.question.setText(question);
     }
 
     @FXML

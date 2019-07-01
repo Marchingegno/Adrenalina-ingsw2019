@@ -307,6 +307,7 @@ public class GUIView extends RemoteView {
 				askStringController.setAskString(questionContainer, messageType);
 				askStringStage.show();
 			} else {
+                gameBoardController.setQuestion(questionContainer.getQuestion());
 				gameBoardController.highlightCoordinates(questionContainer.getCoordinates(), Request.CHOOSE, messageType);
 			}
 		});

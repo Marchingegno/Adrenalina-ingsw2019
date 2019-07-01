@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
-
+<?import javafx.scene.shape.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="857.0" prefWidth="1125.0" style="-fx-background-color: #131003;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.client.gui.GameBoardController">
     <children>
         <ImageView fx:id="backGround" fitHeight="820.0" fitWidth="1080.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -34,32 +32,38 @@
                 <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weponImageYellow0" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false">
+        <ImageView fx:id="weponImageYellow0" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="450.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weponImageYellow1" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="567.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false">
+        <ImageView fx:id="weponImageYellow1" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="567.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weponImageYellow2" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="685.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false">
+        <ImageView fx:id="weponImageYellow2" fitHeight="172.0" fitWidth="103.0" layoutX="987.0" layoutY="685.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weponImageRed0" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+        <ImageView fx:id="weponImageRed0" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="284.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weponImageRed1" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+        <ImageView fx:id="weponImageRed1" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="401.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="weponImageRed2" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+        <ImageView fx:id="weponImageRed2" fitHeight="172.0" fitWidth="104.0" layoutX="36.0" layoutY="519.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-90.0">
             <image>
                 <Image url="@../graphicassets/weapons/electroscythe.png" />
             </image>
@@ -794,5 +798,6 @@
       <Circle fx:id="turnIcon1" fill="#21ff24" layoutX="664.0" layoutY="777.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="turnIcon3" fill="#21ff24" layoutX="732.0" layoutY="777.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
           <Button fx:id="button20" layoutX="194.0" layoutY="572.0" mnemonicParsing="false" onAction="#pressedButton20" prefHeight="177.0" prefWidth="167.0" style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 3; -fx-border-style: solid;" stylesheets="@Style.css" textOverrun="CLIP" visible="false" />
+        <Label fx:id="question" layoutX="191.0" layoutY="147.0" text="Label" textFill="WHITE" visible="false"/>
     </children>
 </AnchorPane>
