@@ -11,6 +11,7 @@ import it.polimi.se2019.model.player.damagestatus.HighDamage;
 import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.ActionType;
 import it.polimi.se2019.utils.GameConstants;
+import it.polimi.se2019.utils.PlayerRepPosition;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
 import org.junit.Before;
@@ -23,15 +24,21 @@ import static org.junit.Assert.*;
 
 public class ModelTest {
     private Model model;
+    private final static String player1Name = "player1";
+    private final static String player2Name = "player2";
+    private final static String player3Name = "player3";
+    private final static String player4Name = "player4";
+    private final static String player5Name = "player5";
+
 
     @Before
     public void setUp() throws Exception {
         List<String> playersNames = new ArrayList<>();
-        playersNames.add("player1");
-        playersNames.add("player2");
-        playersNames.add("player3");
-        playersNames.add("player4");
-        playersNames.add("player5");
+        playersNames.add(player1Name);
+        playersNames.add(player2Name);
+        playersNames.add(player3Name);
+        playersNames.add(player4Name);
+        playersNames.add(player5Name);
 
         model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersNames, 6);
     }
@@ -165,10 +172,10 @@ public class ModelTest {
 
     @Test
     public void setAsDisconnected_numOfConnectedPlayerLessThanMINPLAYERS_endingTheGame() {
-        model.setAsDisconnected("player1");
-        model.setAsDisconnected("player2");
-        model.setAsDisconnected("player3");
-        model.setAsDisconnected("player4");
+        model.setAsDisconnected(player1Name);
+        model.setAsDisconnected(player2Name);
+        model.setAsDisconnected(player3Name);
+        model.setAsDisconnected(player4Name);
         assertTrue(model.isGameEnded());
     }
 
@@ -464,8 +471,8 @@ public class ModelTest {
         WeaponCard weaponCardInSquare = (WeaponCard) model.getGameBoard().getGameMap().getPlayerSquare(player).getCards().get(0);
         model.swapWeapons(0, 0);
 
-        assertTrue(player.getPlayerBoard().getWeaponCards().get(0).equals(weaponCardInSquare));
-        assertTrue(model.getGameBoard().getGameMap().getPlayerSquare(player).getCards().get(2).equals(playerWeapon));
+        assertEquals(player.getPlayerBoard().getWeaponCards().get(0), weaponCardInSquare);
+        assertEquals(model.getGameBoard().getGameMap().getPlayerSquare(player).getCards().get(2), playerWeapon);
     }
 
     @Test
@@ -481,8 +488,55 @@ public class ModelTest {
 
 
     @Test
-    public void endGameAndFindWinner() {
+    public void endGameAndFindWinner_noTies_correctOutput() {
+        List<PlayerRepPosition> finalLeaderboard;
+
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player1Name), true);
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player1Name), true);
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player2Name), true);
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player3Name), false);
+        model.endGameAndFindWinner();
+        finalLeaderboard = model.getFinalPlayersInfo();
+
+        assertEquals((int) GameConstants.KILLSHOT_SCORES.get(0), model.getPlayerFromName(player1Name).getPlayerBoard().getPoints());
+        assertEquals((int) GameConstants.KILLSHOT_SCORES.get(1), model.getPlayerFromName(player2Name).getPlayerBoard().getPoints());
+        assertEquals((int) GameConstants.KILLSHOT_SCORES.get(2), model.getPlayerFromName(player3Name).getPlayerBoard().getPoints());
+        assertEquals(0, model.getPlayerFromName(player4Name).getPlayerBoard().getPoints());
+
+        assertEquals(finalLeaderboard.get(0).getPlayerReps().get(0), model.getPlayerFromName(player1Name).getRep());
+        assertEquals(finalLeaderboard.get(1).getPlayerReps().get(0), model.getPlayerFromName(player2Name).getRep());
+        assertEquals(finalLeaderboard.get(2).getPlayerReps().get(0), model.getPlayerFromName(player3Name).getRep());
+        assertEquals(finalLeaderboard.get(3).getPlayerReps().get(0), model.getPlayerFromName(player4Name).getRep());
+        assertEquals(finalLeaderboard.get(3).getPlayerReps().get(1), model.getPlayerFromName(player5Name).getRep());
     }
+
+    @Test
+    public void endGameAndFindWinner_resolvingTies_correctOutput() {
+        List<PlayerRepPosition> finalLeaderboard;
+
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player2Name), true);
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player1Name), true);
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player1Name), true);
+        model.getGameBoard().addKillShot(model.getPlayerFromName(player3Name), false);
+        int gapPoints = GameConstants.KILLSHOT_SCORES.get(0) - GameConstants.KILLSHOT_SCORES.get(1);
+        model.getPlayerFromName(player2Name).getPlayerBoard().addPoints(gapPoints);
+
+
+        model.endGameAndFindWinner();
+        finalLeaderboard = model.getFinalPlayersInfo();
+
+        assertEquals(model.getPlayerFromName(player1Name).getPlayerBoard().getPoints(), model.getPlayerFromName(player2Name).getPlayerBoard().getPoints());
+        assertEquals((int) GameConstants.KILLSHOT_SCORES.get(2), model.getPlayerFromName(player3Name).getPlayerBoard().getPoints());
+
+        assertEquals(0, model.getPlayerFromName(player4Name).getPlayerBoard().getPoints());
+
+        assertEquals(finalLeaderboard.get(0).getPlayerReps().get(0), model.getPlayerFromName(player2Name).getRep());
+        assertEquals(finalLeaderboard.get(1).getPlayerReps().get(0), model.getPlayerFromName(player1Name).getRep());
+        assertEquals(finalLeaderboard.get(2).getPlayerReps().get(0), model.getPlayerFromName(player3Name).getRep());
+        assertEquals(finalLeaderboard.get(3).getPlayerReps().get(0), model.getPlayerFromName(player4Name).getRep());
+        assertEquals(finalLeaderboard.get(3).getPlayerReps().get(1), model.getPlayerFromName(player5Name).getRep());
+    }
+
 
     @Test
     public void getFinalPlayersInfo() {

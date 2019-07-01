@@ -716,16 +716,23 @@ public class Model {
 
         int precPoint = -1;
         int precIndex = -1;
+		int tiesFound = 0;
         for (int i = 0; i < players.size(); i++) {
             Player currPlayer = players.get(i);
+			Utils.logInfo("Adding to leaderbord player " + currPlayer.getPlayerName());
             if (currPlayer.getPlayerBoard().getPoints() == precPoint) {
                 //This is a tie,
+				Utils.logInfo("Found a tie. Points " + currPlayer.getPlayerBoard().getPoints());
+				Utils.logInfo("Adding in position " + precIndex);
                 leaderboard.get(precIndex).addInPosition(currPlayer);
+				tiesFound++;
             } else {
+				Utils.logInfo("Adding in position " + (i - tiesFound));
                 precPoint = currPlayer.getPlayerBoard().getPoints();
-                precIndex = i;
-                leaderboard.add(i, new LeaderboardSlot());
-                leaderboard.get(i).addInPosition(currPlayer);
+				precIndex = i - tiesFound;
+				leaderboard.add(i - tiesFound, new LeaderboardSlot());
+				leaderboard.get(i - tiesFound).addInPosition(currPlayer);
+
             }
         }
 
@@ -742,18 +749,23 @@ public class Model {
             if (leaderboard.get(i).isATie()) {
                 List<Player> tiedPlayers = leaderboard.get(i).getPlayersInThisPosition();
                 List<Player> orderedPlayers = new ArrayList<>();
+				List<Player> alreadyAddedPlayers = new ArrayList<>();
 
                 List<KillShot> killShotTrack = gameBoard.getKillShots();
                 for (int j = 0; j < killShotTrack.size(); j++) {
                     if (tiedPlayers.indexOf(killShotTrack.get(i).getPlayer()) != -1) {
                         //I found a tied player in the killshot track.
                         //This player should be the next in leaderboard.
-                        orderedPlayers.add(killShotTrack.get(i).getPlayer());
+						if (alreadyAddedPlayers.indexOf(killShotTrack.get(i).getPlayer()) == -1) {
+							orderedPlayers.add(killShotTrack.get(i).getPlayer());
+							alreadyAddedPlayers.add(killShotTrack.get(i).getPlayer());
+						}
                     }
                 }
                 //Here, if the size of orderedPlayers is less than tiedPlayers, it means that
-                //one or more tied players has not obtained killshots.
+				//one or more tied players have not obtained killshots.
                 //These player(s) should be classified right after ordered players.
+				//Let's add the player we found to the leaderboard.
                 for (Player player : orderedPlayers) {
                     playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
                     playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
