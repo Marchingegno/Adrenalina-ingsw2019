@@ -26,6 +26,10 @@ class VirtualViewsContainer {
 	}
 
 
+	/**
+	 * Returns a list with all the VirtualViews in this container.
+	 * @return a list with all the VirtualViews in this container.
+	 */
 	List<VirtualView> getVirtualViews() {
 		return virtualViews;
 	}

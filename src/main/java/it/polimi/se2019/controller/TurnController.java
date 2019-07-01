@@ -24,6 +24,7 @@ public class TurnController {
 	private VirtualViewsContainer virtualViewsContainer;
 	private Model model;
 
+
 	/**
 	 * The constructor of the class.
 	 *
@@ -34,6 +35,7 @@ public class TurnController {
 		this.virtualViewsContainer = virtualViewsContainer;
 		this.model = model;
 	}
+
 
 	// ####################################
 	// EVENT HANDLING METHODS
@@ -240,6 +242,7 @@ public class TurnController {
 			initialPowerupActivation(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
 	}
 
+
 	// ####################################
 	// MACROACTION HANDLING METHODS
 	// ####################################
@@ -336,6 +339,7 @@ public class TurnController {
 		}
 	}
 
+
 	// ####################################
 	// WEAPONS METHODS
 	// ####################################
@@ -387,6 +391,7 @@ public class TurnController {
 			virtualView.askWeaponChoice(questionContainer);
 		}
 	}
+
 
 	// ####################################
 	// POWERUPS METHODS
@@ -467,6 +472,7 @@ public class TurnController {
 			handleInitialOnDamagePowerup();
 		}
 	}
+
 
 	// ####################################
 	// PAYMENT METHODS

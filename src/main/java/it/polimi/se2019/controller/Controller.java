@@ -92,6 +92,10 @@ public class Controller implements Observer {
 	// METHODS ONLY FOR TESTS
 	// ####################################
 
+	/**
+	 * Returns the Model.
+	 * @return the Model.
+	 */
 	protected Model getModel() {
 		return model;
 	}
