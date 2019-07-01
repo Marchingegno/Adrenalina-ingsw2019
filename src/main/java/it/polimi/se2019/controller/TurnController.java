@@ -190,8 +190,19 @@ public class TurnController {
 	 * @param event the event to be processed.
 	 */
 	private void handleWeaponEvent(Event event) {
-		if (model.isShootingWeapon(event.getVirtualView().getNickname()))
-			doWeaponStep(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
+
+		if (model.isShootingWeapon(event.getVirtualView().getNickname())) {
+			if (model.isPaymentStep(event.getVirtualView().getNickname())) {
+				if (!model.hasCurrentPlayerPayed()) {
+					handlePayment(event.getVirtualView(), model.getFiringCost(event.getVirtualView().getNickname(), ((IntMessage) event.getMessage()).getContent()), event);
+				} else {
+					model.setPayed(false);
+					doWeaponStep(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
+				}
+			} else {
+				doWeaponStep(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
+			}
+		}
 		else
 			initialWeaponActivation(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
 	}
@@ -342,6 +353,8 @@ public class TurnController {
 	 */
 	private void doWeaponStep(VirtualView virtualView, int choice) {
 		QuestionContainer questionContainer = model.doWeaponStep(virtualView.getNickname(), choice);
+
+
 		handleWeaponQuestionContainer(virtualView, questionContainer);
 	}
 

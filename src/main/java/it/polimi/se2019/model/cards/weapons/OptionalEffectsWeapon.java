@@ -247,20 +247,28 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 	}
 
 	@Override
-	public List<AmmoType> getFiringCost() {
+	public List<AmmoType> getFiringCost(int choice) {
 		List<AmmoType> firingCost = new ArrayList<>();
-		if (isOptionalActive(1)) {
-			if (optional1Price != null) {
-				firingCost.add(optional1Price);
-			}
+		switch (choices.get(choice)) {
+			case 0:
+				break;
+			case 1:
+				if (optional1Price != null)
+					firingCost.add(optional1Price);
+				break;
+			case 2:
+				if (optional2Price != null)
+					firingCost.add(optional2Price);
+				break;
+			case 12:
+				if (optional1Price != null)
+					firingCost.add(optional1Price);
+				if (optional2Price != null)
+					firingCost.add(optional2Price);
+				break;
+			default:
+				Utils.logError("Unexpected value: " + choices.get(choice), new IllegalStateException("Unexpected value: " + choices.get(choice)));
 		}
-
-		if (isOptionalActive(2)) {
-			if (optional2Price != null) {
-				firingCost.add(optional2Price);
-			}
-		}
-
 		return firingCost;
 	}
 

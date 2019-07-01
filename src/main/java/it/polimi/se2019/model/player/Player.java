@@ -222,7 +222,7 @@ public class Player extends Observable implements Representable {
 		setChanged();
 	}
 
-	private WeaponCard getFiringWeapon(){
+	public WeaponCard getFiringWeapon() {
 		if(firingWeapon == -1)
 			throw new IllegalStateException("No weapon firing!");
 		return getPlayerBoard().getWeaponCards().get(firingWeapon);

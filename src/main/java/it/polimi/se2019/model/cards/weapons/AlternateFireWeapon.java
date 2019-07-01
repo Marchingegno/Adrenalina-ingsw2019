@@ -161,8 +161,8 @@ public abstract class AlternateFireWeapon extends WeaponCard {
 	}
 
 	@Override
-	public List<AmmoType> getFiringCost() {
-		if (isAlternateFireActive()) {
+	public List<AmmoType> getFiringCost(int choice) {
+		if (!canPrimaryBeActivated() || choice == 1) {
 			return new ArrayList<>(secondaryPrice);
 		} else {
 			return new ArrayList<>();

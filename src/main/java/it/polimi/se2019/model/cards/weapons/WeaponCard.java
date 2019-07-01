@@ -38,6 +38,7 @@ public abstract class WeaponCard extends ActivableCard {
 	private Player target;
 	private boolean loaded;
 	private List<Player> playersHit;
+	private static final int PAYMENT_STEP = 1;
 
 
 	/**
@@ -125,11 +126,12 @@ public abstract class WeaponCard extends ActivableCard {
 	}
 
 	/**
-	 * Gets the firing cost after choosing eventual effects/mode of firing.
+	 * Gets the firing cost for this effects/mode of firing.
 	 *
 	 * @return the price.
+	 * @param choice the choice of the player.
 	 */
-	public List<AmmoType> getFiringCost() {
+	public List<AmmoType> getFiringCost(int choice) {
 		return new ArrayList<>();
 	}
 
@@ -387,5 +389,14 @@ public abstract class WeaponCard extends ActivableCard {
 
 	void setTarget(Player target) {
 		this.target = target;
+	}
+
+	/**
+	 * Checks if the current step is when the player should be paying.
+	 *
+	 * @return true if the current step is equal to PAYMENT_STEP, which is 1 by standard..
+	 */
+	public boolean isPaymentStep() {
+		return getCurrentStep() == PAYMENT_STEP;
 	}
 }

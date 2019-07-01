@@ -840,6 +840,16 @@ public class Model {
         return weaponCards.get(indexOfWeapon).canBeActivated();
     }
 
+	public boolean isPaymentStep(String playerName) {
+		Player player = getPlayerFromName(playerName);
+		return player.getFiringWeapon().isPaymentStep();
+	}
+
+	public List<AmmoType> getFiringCost(String playerName, int choice) {
+		Player player = getPlayerFromName(playerName);
+		return player.getFiringWeapon().getFiringCost(choice);
+	}
+
     /**
      * Returns a list of weapons that can be activated in the current state.
      *
