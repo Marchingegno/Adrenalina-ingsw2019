@@ -28,11 +28,7 @@ public class DamageDoneTest {
 		assertEquals(player1, players.get(0));
 		assertEquals(player2, players.get(1));
 		assertEquals(2, (int) damages.get(0));
-
-
 	}
-
-
 
 	@Test
 	public void getSortedPlayers_correctArray_correctOutput() {
@@ -61,7 +57,6 @@ public class DamageDoneTest {
 		expectedArray.add(player3);
 		ArrayList<Player> sortedArray = damageDoneTest.getSortedPlayers();
 		assertArrayEquals(new ArrayList[]{expectedArray}, new ArrayList[]{sortedArray});
-
 	}
 
 }
