@@ -49,7 +49,7 @@ public class DamageDone {
 		damages.set(indexOfPlayer, (oldDamage + 1));
 	}
 
-	public ArrayList<Player> getSortedPlayers() {
+	public List<Player> getSortedPlayers() {
 		sort();
 		return new ArrayList<>(players);
 	}

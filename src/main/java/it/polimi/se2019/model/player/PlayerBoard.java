@@ -22,7 +22,6 @@ public class PlayerBoard {
 	private List<Player> marks;
 	private int numberOfDeaths;
 	private int points;
-	private int killshotPoints;
 	private boolean isFlipped; //Indicates if the damageBoard is flipped to the frenzy side.
 	private AmmoContainer ammoContainer;
 	private List<PowerupCard> powerupCards;

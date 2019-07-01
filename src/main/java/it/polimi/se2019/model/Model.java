@@ -1149,7 +1149,7 @@ public class Model {
     private void scoreDeadPlayer(Player player) {
         PlayerBoard playerBoard = player.getPlayerBoard();
         DamageDone damageDone = new DamageDone();
-        ArrayList<Player> sortedPlayers;
+        List<Player> sortedPlayers;
         Player killingPlayer;
         boolean overkill = false;
 

@@ -361,8 +361,9 @@ public class CLIView extends RemoteView {
 						index++;
 					}
 				}
-			} else
+			} else {
 				Utils.logInfo("CLIView -> askToPay(): player decided to use ammo");
+			}
 			Utils.logInfo("CLIView -> askToPay(): indexes of usable powerups " + usablePowerups);
 		}
 		sendMessage(new PaymentMessage(priceToPay, MessageSubtype.ANSWER).setPowerupsUsed(answer));
