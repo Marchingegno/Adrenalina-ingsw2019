@@ -54,7 +54,7 @@ public interface ViewInterface {
 
 	/**
 	 * Asks the user which weapon to reload.
-	 * @param loadableWeapons
+	 * @param loadableWeapons the weapons to choose from.
 	 */
 	void askReload(List<Integer> loadableWeapons);
 
