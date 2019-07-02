@@ -7,12 +7,12 @@ package it.polimi.se2019.utils.exceptions;
  */
 public class PlayerNotInTheMapException extends RuntimeException {
 
-	/**
-	 * Constructs an PlayerNotInTheMapException with the specified message.
-	 *
-	 * @param message the detail message.
-	 */
-	public PlayerNotInTheMapException(String message) {
-		super(message);
-	}
+    /**
+     * Constructs an PlayerNotInTheMapException with the specified message.
+     *
+     * @param message the detail message.
+     */
+    public PlayerNotInTheMapException(String message) {
+        super(message);
+    }
 }

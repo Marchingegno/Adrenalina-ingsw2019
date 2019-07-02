@@ -7,12 +7,12 @@ package it.polimi.se2019.utils.exceptions;
  */
 public class OutOfBoundariesException extends RuntimeException {
 
-	/**
-	 * Constructs an OutOfBoundariesException with the specified message.
-	 *
-	 * @param message the detail message.
-	 */
-	public OutOfBoundariesException(String message) {
-		super(message);
-	}
+    /**
+     * Constructs an OutOfBoundariesException with the specified message.
+     *
+     * @param message the detail message.
+     */
+    public OutOfBoundariesException(String message) {
+        super(message);
+    }
 }
