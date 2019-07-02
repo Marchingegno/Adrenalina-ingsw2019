@@ -5,7 +5,6 @@ import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.message.Message;
 import it.polimi.se2019.utils.PlayerRepPosition;
 import it.polimi.se2019.utils.QuestionContainer;
 
@@ -125,10 +124,4 @@ public interface ViewInterface {
 	 * @param playerRepToUpdate the representation of the player.
 	 */
 	void updatePlayerRep(PlayerRep playerRepToUpdate);
-
-	/**
-	 * Sends a message to the server.
-	 * @param message the message to send.
-	 */
-	void sendMessage(Message message);
 }
