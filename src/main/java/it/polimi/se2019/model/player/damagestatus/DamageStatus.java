@@ -12,8 +12,8 @@ import java.util.List;
  * @author Marchingegno
  */
 public abstract class DamageStatus implements Representable {
-	int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
-	int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
+	private int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
+	private int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
 	private int currentActionIndex; //Action currently in execution.
 	List<MacroAction> availableActions;
 	private boolean hasChanged = true;
@@ -97,4 +97,12 @@ public abstract class DamageStatus implements Representable {
 	}
 
 	public abstract boolean isFrenzy();
+
+	void setNumberOfMacroActionsPerTurn(int numberOfMacroActionsPerTurn) {
+		this.numberOfMacroActionsPerTurn = numberOfMacroActionsPerTurn;
+	}
+
+	void setNumberOfMacroActionsToPerform(int numberOfMacroActionsToPerform) {
+		this.numberOfMacroActionsToPerform = numberOfMacroActionsToPerform;
+	}
 }

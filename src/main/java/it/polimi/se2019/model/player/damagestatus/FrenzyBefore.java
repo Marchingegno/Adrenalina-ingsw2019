@@ -29,8 +29,8 @@ public class FrenzyBefore extends DamageStatus {
 		grabStuffBuilder.setName("Grab");
 		availableActions.add(grabStuffBuilder.build());
 
-		numberOfMacroActionsPerTurn = FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN;
-		numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
+		setNumberOfMacroActionsPerTurn(FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN);
+		setNumberOfMacroActionsToPerform(getNumberOfMacroActionsPerTurn());
 	}
 
 	@Override

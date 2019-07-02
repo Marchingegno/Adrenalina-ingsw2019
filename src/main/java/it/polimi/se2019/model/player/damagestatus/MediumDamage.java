@@ -28,8 +28,8 @@ public class MediumDamage extends DamageStatus {
 		shootPeopleBuilder.setName("Shoot");
 		availableActions.add(shootPeopleBuilder.build());
 
-		numberOfMacroActionsPerTurn = NUMBER_OF_ACTIONS_PER_TURN;
-		numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
+		setNumberOfMacroActionsPerTurn(NUMBER_OF_ACTIONS_PER_TURN);
+		setNumberOfMacroActionsToPerform(getNumberOfMacroActionsPerTurn());
 	}
 
 	@Override
