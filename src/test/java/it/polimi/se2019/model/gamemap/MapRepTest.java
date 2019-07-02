@@ -48,13 +48,10 @@ public class MapRepTest {
 	public void getMapRep_correctInput_correctOutput() {
 		GameMapRep gameMapRep = new GameMapRep(gameMap);
 		SquareRep[][] mapRep = gameMapRep.getMapRep();
-		SquareRep mapSquareRep;
-		Square square;
 
 		for (int i = 0; i < gameMapRep.getNumOfRows(); i++) {
 			for (int j = 0; j < gameMapRep.getNumOfColumns(); j++) {
 				SquareRep squareRep = gameMap.getSquareRep(new Coordinates(i, j));
-				//mapSquareRep.getCards(); TODO
 				assertEquals(mapRep[i][j].getCoordinates(), squareRep.getCoordinates());
 				assertEquals(mapRep[i][j].getRoomID(), squareRep.getRoomID());
 			}

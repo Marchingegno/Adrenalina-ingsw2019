@@ -290,7 +290,7 @@ public class GameBoardController {
     @FXML
     private ImageView weponImageYellow2;
 
-private List<PlayerRep> playerReps;
+    private List<PlayerRep> playerReps;
     @FXML
     private ImageView playerIcon0;
     @FXML
@@ -820,9 +820,9 @@ private List<PlayerRep> playerReps;
         initialized = true;
     }
 
-    private void updateTurnIcon(String currentPlayer){
-        for (int i = 0; i < GameConstants.MAX_PLAYERS;i++) {
-            if(playerReps.get(i) != null)
+    private void updateTurnIcon(String currentPlayer) {
+        for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
+            if (playerReps.get(i) != null)
                 turnIcons.get(i).setVisible(playerReps.get(i).getPlayerName().equals(currentPlayer));
             else
                 turnIcons.get(i).setVisible(false);

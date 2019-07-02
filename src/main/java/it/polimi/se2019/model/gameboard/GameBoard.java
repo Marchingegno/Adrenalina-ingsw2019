@@ -298,7 +298,6 @@ public class GameBoard extends Observable implements Representable {
 
 		List<Player> damageBoard = player.getPlayerBoard().getDamageBoard();
 
-		//TODO wrong implementation
 		//If the game is in frenzy mode, then the player already has the right damageStatus.
 		if (isFrenzyStarted())
 			player.getDamageStatus().refillMacroActions();

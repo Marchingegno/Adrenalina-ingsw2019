@@ -3,7 +3,6 @@ package it.polimi.se2019.view.client;
 import it.polimi.se2019.model.gameboard.GameBoardRep;
 import it.polimi.se2019.model.gamemap.GameMapRep;
 import it.polimi.se2019.model.player.PlayerRep;
-import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.client.ConnectionToServerInterface;
 import it.polimi.se2019.network.client.MessageReceiverInterface;
 import it.polimi.se2019.network.client.rmi.RMIClient;
@@ -25,6 +24,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	/**
 	 * Receive and process the message sent by the server both by socket or by RMI.
+	 *
 	 * @param message the message received.
 	 */
 	@Override // Of MessageReceiverInterface.
@@ -32,7 +32,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		Utils.logInfo("RemoteView -> processMessage(): Received a message of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 		switch (message.getMessageType()) {
 			case NICKNAME:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
 					if (Utils.DEBUG_BYPASS_CONFIGURATION) {
 						String randomNickname = UUID.randomUUID().toString().substring(0, 3).replace("-", "");
 						sendMessage(new NicknameMessage(randomNickname, MessageSubtype.ANSWER));
@@ -40,29 +40,29 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					}
 					askNickname();
 				}
-				if(message.getMessageSubtype() == MessageSubtype.ERROR)
+				if (message.getMessageSubtype() == MessageSubtype.ERROR)
 					askNicknameError();
-				if(message.getMessageSubtype() == MessageSubtype.OK)
-					this.nickname = ((NicknameMessage)message).getContent();
+				if (message.getMessageSubtype() == MessageSubtype.OK)
+					this.nickname = ((NicknameMessage) message).getContent();
 				break;
 			case WAITING_PLAYERS:
-				if(message.getMessageSubtype() == MessageSubtype.INFO) {
+				if (message.getMessageSubtype() == MessageSubtype.INFO) {
 					WaitingPlayersMessage waitingPlayersMessage = (WaitingPlayersMessage) message;
 					displayWaitingPlayers(waitingPlayersMessage.getWaitingPlayersNames());
 				}
 				break;
 			case TIMER_FOR_START:
-				if(message.getMessageSubtype() == MessageSubtype.INFO) {
+				if (message.getMessageSubtype() == MessageSubtype.INFO) {
 					TimerForStartMessage timerForStartMessage = (TimerForStartMessage) message;
 					displayTimerStarted(timerForStartMessage.getDelayInMs());
 				}
-				if(message.getMessageSubtype() == MessageSubtype.ERROR) {
+				if (message.getMessageSubtype() == MessageSubtype.ERROR) {
 					displayTimerStopped();
 				}
 				break;
 			case GAME_CONFIG:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
-					if(Utils.DEBUG_BYPASS_CONFIGURATION){
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
+					if (Utils.DEBUG_BYPASS_CONFIGURATION) {
 						GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 						gameConfigMessage.setMapIndex(0);
 						gameConfigMessage.setSkulls(GameConstants.MIN_SKULLS);
@@ -71,13 +71,13 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					}
 					askMapAndSkullsToUse();
 				}
-				if(message.getMessageSubtype() == MessageSubtype.OK) {
+				if (message.getMessageSubtype() == MessageSubtype.OK) {
 					GameConfigMessage gameConfigMessage = (GameConfigMessage) message;
 					showMapAndSkullsInUse(gameConfigMessage.getSkulls(), GameConstants.MapType.values()[gameConfigMessage.getMapIndex()]);
 				}
 				break;
 			case UPDATE_REPS:
-				if (message.getMessageSubtype() == MessageSubtype.INFO){
+				if (message.getMessageSubtype() == MessageSubtype.INFO) {
 					Utils.logInfo("\tRemoteView -> processMessage(): Updating reps.");
 					RepMessage repMessage = (RepMessage) message;
 					updateReps(repMessage);
@@ -86,13 +86,13 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				}
 				break;
 			case ACTION:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST) {
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST) {
 					ActionRequestMessage arm = (ActionRequestMessage) message;
 					askAction(arm.isActivablePowerups(), arm.isActivableWeapons());
 				}
 				break;
 			case ACTIVATE_WEAPON:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askShoot(((RequestChoiceInArrayMessage) message).getAvailableIndexes());
 				break;
 			case RELOAD:
@@ -104,7 +104,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 				askMove(((CoordinatesRequestMessage) message).getCoordinates());
 				break;
 			case END_TURN:
-				if(message.getMessageSubtype() == MessageSubtype.REQUEST)
+				if (message.getMessageSubtype() == MessageSubtype.REQUEST)
 					askEnd(((EndRequestMessage) message).isActivablePowerups());
 				break;
 			case GRAB_AMMO:
@@ -142,7 +142,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					askPowerupChoice(((AskOptionsMessage) message).getQuestionContainer());
 				break;
 			case END_GAME:
-				if(message.getMessageSubtype() == MessageSubtype.INFO)
+				if (message.getMessageSubtype() == MessageSubtype.INFO)
 					endOfGame(((EndGameMessage) message).getFinalPlayersInfo());
 				break;
 			default:
@@ -153,7 +153,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	@Override // Of ViewInterface.
 	public String getNickname() {
-		if(nickname == null)
+		if (nickname == null)
 			Utils.logWarning("Attribute nickname is null.");
 		return nickname;
 	}
@@ -209,10 +209,11 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	/**
 	 * Sends a message to the server.
+	 *
 	 * @param message the message to send.
 	 */
 	public void sendMessage(Message message) {
-		if(connectionToServer == null)
+		if (connectionToServer == null)
 			throw new IllegalStateException("Before sending any message, a connection must be started!");
 		connectionToServer.sendMessage(message);
 	}
@@ -235,16 +236,6 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		}
 		Utils.logInfo("Reps Updated");
 		updateDisplay();
-	}
-
-	/**
-	 * Closes the program.
-	 */
-	public void closeProgram() {
-		Utils.logInfo("Closing the program...");
-		if(connectionToServer != null)
-			connectionToServer.closeConnectionWithServer();
-		Client.terminateClient();
 	}
 
 	/**
@@ -280,12 +271,14 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 
 	/**
 	 * Displays the waiting players in the lobby.
+	 *
 	 * @param waitingPlayers the waiting players.
 	 */
 	public abstract void displayWaitingPlayers(List<String> waitingPlayers);
 
 	/**
 	 * Tells the user that a timer has started.
+	 *
 	 * @param delayInMs the time left.
 	 */
 	public abstract void displayTimerStarted(long delayInMs);
@@ -301,8 +294,9 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	public abstract void askMapAndSkullsToUse();
 
 	/**
-	 *	Shows to the user which map and which skulls will be used for the game.
-	 * @param skulls the number of skulls.
+	 * Shows to the user which map and which skulls will be used for the game.
+	 *
+	 * @param skulls  the number of skulls.
 	 * @param mapType the type of the map.
 	 */
 	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);

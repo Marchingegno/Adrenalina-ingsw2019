@@ -5,7 +5,7 @@ public class Score {
     private String rank;
     private String points;
 
-    public Score(String nickname, int rank, int points) {
+    Score(String nickname, int rank, int points) {
         this.nickname = nickname;
         this.rank = Integer.toString(rank);
         this.points = Integer.toString(points);

@@ -14,8 +14,6 @@ public class CLIPrinter {
 	private static final String ESC = (char) 27 + "[";
 	private static final String CLEAN = ESC + "J";
 	private static final String HOME = ESC + "H";
-	private static final String SAVE = ESC + "s";
-	private static final String LOAD = ESC + "u";
 
 	private static final String TITLE = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\u001b[33;49m" +
 			"								       ___       _______  .______       _______ .__   __.      ___       __       __  .__   __. _______ \n" +
@@ -26,32 +24,32 @@ public class CLIPrinter {
 			"								  /__/     \\__\\ |_______/ | _| `._____||_______||__| \\__| /__/     \\__\\ |_______||__| |__| \\__||_______| \n\n\n\u001b[39;49m";
 
 
-	public static void cleanConsole(){
+	static void cleanConsole() {
 		print(CLEAN);
 		System.out.flush();
 	}
 
-	public static void setCursorHome() {
+	static void setCursorHome() {
 		print(HOME);
 	}
 
-	public static void moveCursorTo(int row, int column) {
+	private static void moveCursorTo(int row, int column) {
 		print(ESC + row + ";" + column + "H");
 	}
 
-	public static void moveCursorUP(int numOfLines) {
+	static void moveCursorUP(int numOfLines) {
 		print(ESC + numOfLines + "A");
 	}
 
-	public static void moveCursorDOWN(int numOfLines) {
+	static void moveCursorDOWN(int numOfLines) {
 		print(ESC + numOfLines + "C");
 	}
 
-	public static void moveCursorRIGHT(int numOfLines) {
+	static void moveCursorRIGHT(int numOfLines) {
 		print(ESC + numOfLines + "C");
 	}
 
-	public static void moveCursorLEFT(int numOfLines) {
+	private static void moveCursorLEFT(int numOfLines) {
 		print(ESC + numOfLines + "D");
 	}
 
@@ -73,7 +71,7 @@ public class CLIPrinter {
 		moveCursorUP(3);
 	}
 
-	public static void printChooseConnection() {
+	static void printChooseConnection() {
 		if (!Utils.DEBUG_CLI) {
 			setCursorHome();
 			cleanConsole();
@@ -91,7 +89,7 @@ public class CLIPrinter {
 		moveCursorUP(3);
 	}
 
-	public static void printChooseNickname() {
+	static void printChooseNickname() {
 		if (!Utils.DEBUG_CLI) {
 			setCursorHome();
 			cleanConsole();
@@ -110,7 +108,7 @@ public class CLIPrinter {
 		moveCursorRIGHT(120);
 	}
 
-	public static void printChooseMap() {
+	static void printChooseMap() {
 		if (!Utils.DEBUG_CLI) {
 			setCursorHome();
 			cleanConsole();
@@ -131,7 +129,7 @@ public class CLIPrinter {
 		moveCursorLEFT(100);
 	}
 
-	public static void printChooseSkulls() {
+	static void printChooseSkulls() {
 		if (!Utils.DEBUG_CLI) {
 			setCursorHome();
 			cleanConsole();
@@ -149,7 +147,7 @@ public class CLIPrinter {
 		moveCursorUP(3);
 	}
 
-	public static void printWaitingRoom(List<String> waitingPlayers) {
+	static void printWaitingRoom(List<String> waitingPlayers) {
 		synchronized (lock) {
 			if (!Utils.DEBUG_CLI) {
 				setCursorHome();
@@ -171,7 +169,7 @@ public class CLIPrinter {
 		}
 	}
 
-	public static void printWaitingMatchStart(long milliSeconds) {
+	static void printWaitingMatchStart(long milliSeconds) {
 		for (long i = milliSeconds / 1000; i > 0; i--) {
 			synchronized (lock) {
 				setCursorHome();
@@ -184,7 +182,7 @@ public class CLIPrinter {
 				Utils.logInfo("Error in match countdown");
 				Thread.currentThread().interrupt();
 			}
-			}
+		}
 	}
 
 	public static String waitForChoiceInMenu(List<String> possibleChoices) {
@@ -213,16 +211,5 @@ public class CLIPrinter {
 			choice = scanner.nextLine();
 		} while (!Utils.contains(possibleChoices, choice));
 		return choice;
-	}
-
-	public void printColor() {
-		for (int i = 0; i < 16; i++) {
-			for (int j = 0; j < 16; j++) {
-				Integer code = (i * 16 + j);
-				String coString = code.toString();
-				System.out.print("\u001b[48;5;" + coString + "m " + String.format("%-" + 4 + "s", coString));
-			}
-			System.out.print("\u001b[0m");
-		}
 	}
 }

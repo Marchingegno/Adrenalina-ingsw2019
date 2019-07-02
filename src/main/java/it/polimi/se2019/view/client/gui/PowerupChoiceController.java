@@ -70,11 +70,11 @@ public class PowerupChoiceController {
 		}
 	}
 
-	public void setTitle(String title) {
+	void setTitle(String title) {
 		this.title.setText(title);
 	}
 
-	public void activatePowerupsButtons(List<Integer> powerupsToActivate) {
+	void activatePowerupsButtons(List<Integer> powerupsToActivate) {
 		if (powerupsToActivate.contains(0)) {
 			powerupButton0.setVisible(true);
 			powerupButton0.setDisable(false);
@@ -142,7 +142,7 @@ public class PowerupChoiceController {
 	}
 
 	@FXML
-	void pwerupButton3Pressed() {
+	void powerupButton3Pressed() {
 		if (request == Request.CHOOSE_INT)
 			answer = 3;
 		else
@@ -150,18 +150,18 @@ public class PowerupChoiceController {
 		stage.close();
 	}
 
-	public void setGuiAndStage(GUIView guiView, Stage stage) {
+	void setGuiAndStage(GUIView guiView, Stage stage) {
 		this.stage = stage;
 		this.guiView = guiView;
 	}
 
-	public void activateNoPowerupButton(boolean active) {
+	void activateNoPowerupButton(boolean active) {
 		button.setVisible(active);
 		button.setDisable(!active);
 	}
 
-	public int askChoice(Request request) {
-		this.request = request;
+	int askChoice() {
+		this.request = Request.CHOOSE_INT;
 		stage.showAndWait();
 		this.request = null;
 		return answer;

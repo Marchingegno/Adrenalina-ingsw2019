@@ -143,7 +143,7 @@ public class PlayerInventoryController {
     @FXML
     private Label points;
 
-    public void setInventory(PlayerRep playerRep) {
+    void setInventory(PlayerRep playerRep) {
 
         if (marks.isEmpty()) {
             marks.add(marks00);
@@ -284,7 +284,7 @@ public class PlayerInventoryController {
         yellowAmmo2.setVisible(playerRep.getAmmo(AmmoType.YELLOW_AMMO) > 2);
     }
 
-    public void setDamageToken(List<Color.CharacterColorType> damageBoard) {
+    void setDamageToken(List<Color.CharacterColorType> damageBoard) {
         Utils.logInfo("PlayerInventoryController -> setDamageToken(): damageBoard size " + damageBoard.size());
         for (int i = 0; i < 12; i++) {
             if (i < damageBoard.size()) {

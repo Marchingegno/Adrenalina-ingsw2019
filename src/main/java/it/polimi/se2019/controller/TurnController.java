@@ -48,7 +48,6 @@ public class TurnController {
 	 * @param event the event observed.
 	 */
 	void processEvent(Event event) {
-		//TODO: Control veridicity of the message.
 
 		Utils.logInfo("TurnController -> processEvent(): processing an event received from \"" + event.getVirtualView().getNickname() + "\" with a message of type " + event.getMessage().getMessageType() + " and subtype " + event.getMessage().getMessageSubtype() + ".");
 
@@ -95,7 +94,6 @@ public class TurnController {
 	 * @param event the event to be processed.
 	 */
 	private void handleActionEvent(Event event) {
-//TODO check if the player can do the action
 		model.setNextMacroAction(event.getVirtualView().getNickname(), ((IntMessage) event.getMessage()).getContent());
 		handleNextMacroActionStep(event.getVirtualView());
 	}

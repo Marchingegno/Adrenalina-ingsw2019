@@ -9,25 +9,25 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
 
-	private static GUIView guiView;
-	@FXML
-	private Button startButton;
-	@FXML
-	private TextField nicknameTextField;
-	@FXML
-	private Label nameLabel;
+    private static GUIView guiView;
+    @FXML
+    private Button startButton;
+    @FXML
+    private TextField nicknameTextField;
+    @FXML
+    private Label nameLabel;
 
-	public void setGui(GUIView guiView) {
-		LoginController.guiView = guiView;
-	}
+    public void setGui(GUIView guiView) {
+        LoginController.guiView = guiView;
+    }
 
-	@FXML
-	public void sendNickname() {
-		nameLabel.setVisible(false);
-		guiView.sendMessage(new NicknameMessage(nicknameTextField.getCharacters().toString(), MessageSubtype.ANSWER));
-	}
+    @FXML
+    public void sendNickname() {
+        nameLabel.setVisible(false);
+        guiView.sendMessage(new NicknameMessage(nicknameTextField.getCharacters().toString(), MessageSubtype.ANSWER));
+    }
 
-	public void nicknameAlreadyChoosen() {
-		nameLabel.setVisible(true);
-	}
+    void nicknameAlreadyChoosen() {
+        nameLabel.setVisible(true);
+    }
 }

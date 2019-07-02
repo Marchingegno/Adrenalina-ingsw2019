@@ -50,7 +50,7 @@
         <Button fx:id="powerupButton1" layoutX="335.0" layoutY="123.0" mnemonicParsing="false" onAction="#powerupButton1Pressed" prefHeight="148.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: red;" />
         <Button fx:id="powerupButton2" layoutX="499.0" layoutY="123.0" mnemonicParsing="false" onAction="#powerupButton2Pressed" prefHeight="148.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: red;" />
         <Button fx:id="powerupButton3" layoutX="645.0" layoutY="120.0" mnemonicParsing="false"
-                onAction="#powerupButton2Pressed" prefHeight="148.0" prefWidth="101.0"
+                onAction="#powerupButton3Pressed" prefHeight="148.0" prefWidth="101.0"
                 style="-fx-background-color: transparent; -fx-border-color: red;"/>
         <Button fx:id="button" disable="true" layoutX="329.0" layoutY="346.0" mnemonicParsing="false" onAction="#buttonPressed" text="Dont use powerups" visible="false" />
     </children>

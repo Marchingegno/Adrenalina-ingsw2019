@@ -39,19 +39,15 @@ public class GUIView extends RemoteView {
 	private Scene gameBoardScene;
 
 	private PowerupChoiceController powerupChoiceController;
-	private Scene powerupChoiceScene;
 	private Stage powerupChoiceStage;
 
 	private WeaponChoiceController weaponChoiceController;
-	private Scene weaponChoiceScene;
 	private Stage weaponChoiceStage;
 
 	private AskStringController askStringController;
-	private Scene askStringScene;
 	private Stage askStringStage;
 
 	private EndGameController endGameController;
-	private Scene endGameScene;
 	private Stage endGameStage;
 
 	private Stage window;
@@ -122,7 +118,7 @@ public class GUIView extends RemoteView {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/PowerupChoice.fxml"));
 		try {
 			Parent root = loader.load();
-			powerupChoiceScene = new Scene(root);
+			Scene powerupChoiceScene = new Scene(root);
 			powerupChoiceStage = new Stage();
 			powerupChoiceStage.setTitle("Adrenaline");
 			powerupChoiceStage.setResizable(false);
@@ -141,7 +137,7 @@ public class GUIView extends RemoteView {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/WeaponChoice.fxml"));
 		try {
 			Parent root = loader.load();
-			weaponChoiceScene = new Scene(root);
+			Scene weaponChoiceScene = new Scene(root);
 			weaponChoiceStage = new Stage();
 			weaponChoiceStage.setResizable(false);
 			weaponChoiceStage.setTitle("Adrenaline");
@@ -160,7 +156,7 @@ public class GUIView extends RemoteView {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/AskString.fxml"));
 		try {
 			Parent root = loader.load();
-			askStringScene = new Scene(root);
+			Scene askStringScene = new Scene(root);
 			askStringStage = new Stage();
 			askStringStage.setTitle("Adrenaline");
 			askStringStage.setResizable(false);
@@ -180,7 +176,7 @@ public class GUIView extends RemoteView {
 		try {
 			Parent root = loader.load();
 			endGameStage = new Stage();
-			endGameScene = new Scene(root);
+			Scene endGameScene = new Scene(root);
 			endGameStage.setTitle("Adrenaline");
 			endGameStage.setResizable(false);
 			endGameStage.setScene(endGameScene);
@@ -278,7 +274,7 @@ public class GUIView extends RemoteView {
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
             powerupChoiceController.activateNoPowerupButton(true);
             powerupChoiceController.setTitle("Choose the powerup you want to use");
-            int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
+			int answer = powerupChoiceController.askChoice();
 			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		});
 	}
@@ -291,7 +287,7 @@ public class GUIView extends RemoteView {
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
 			powerupChoiceController.activateNoPowerupButton(true);
 			powerupChoiceController.setTitle("You have just been damaged by " + shootingPlayer + "!");
-			int answer = powerupChoiceController.askChoice(Request.CHOOSE_INT);
+			int answer = powerupChoiceController.askChoice();
 			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		});
 	}
@@ -341,8 +337,8 @@ public class GUIView extends RemoteView {
 			int indexOfTheWeaponToDiscard;
 			int indexOfTheWeaponToGrab;
 			List<WeaponRep> weaponsInSpawn = new ArrayList<>();
-			for (CardRep card :getModelRep().getGameMapRep().getPlayerSquare(getNickname()).getCards()) {
-				weaponsInSpawn.add((WeaponRep)card);	
+			for (CardRep card : getModelRep().getGameMapRep().getPlayerSquare(getNickname()).getCards()) {
+				weaponsInSpawn.add((WeaponRep) card);
 			}
 			List<WeaponRep> weaponsOfThePlayer = getModelRep().getClientPlayerRep().getWeaponReps();
 			List<Integer> discardableWeapons = new ArrayList<>();
@@ -439,7 +435,7 @@ public class GUIView extends RemoteView {
 				canAffordAlsoWithOnlyAmmo = canAffordAlsoWithOnlyAmmo(priceToPay);
 				powerupChoiceController.activatePowerupsButtons(usablePowerups);
 				powerupChoiceController.activateNoPowerupButton(canAffordAlsoWithOnlyAmmo);
-				choice = powerupChoiceController.askChoice(Request.CHOOSE_INT);
+				choice = powerupChoiceController.askChoice();
 				if (choice != -1) {
 					Utils.logInfo("GUIView -> askToPay(): player has chosen " + playerPowerups.get(choice) + " index " + choice);
 					Utils.logInfo("GUIView -> askToPay(): removing from price " + playerPowerups.get(choice).getAssociatedAmmo());

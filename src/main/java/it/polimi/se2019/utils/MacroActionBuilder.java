@@ -46,8 +46,6 @@ public class MacroActionBuilder {
 		this.name = name;
 	}
 
-
-
 	public MacroAction build() {
 		Utils.logInfo("MacroActionBuilder -> build(): Building " + name + ": moves = " + moveDistance + (grabActive ? " grab" : "") + (reloadActive ? " reload" : "") + (shootActive ? " shoot" : ""));
 		return new MacroAction(moveDistance, grabActive, reloadActive, shootActive, name);
