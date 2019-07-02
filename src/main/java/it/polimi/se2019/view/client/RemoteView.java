@@ -65,7 +65,7 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 					if(Utils.DEBUG_BYPASS_CONFIGURATION){
 						GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
 						gameConfigMessage.setMapIndex(0);
-						gameConfigMessage.setSkulls(5);
+						gameConfigMessage.setSkulls(GameConstants.MIN_SKULLS);
 						sendMessage(gameConfigMessage);
 						return;
 					}
@@ -217,11 +217,17 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		connectionToServer.sendMessage(message);
 	}
 
-	public ModelRep getModelRep() {
+
+	protected ModelRep getModelRep() {
 		return modelRep;
 	}
 
-	public void updateReps(RepMessage repMessage) {
+	/**
+	 * Updates the Representations contained in the RepMessage.
+	 *
+	 * @param repMessage the message containing the Representations.
+	 */
+	private void updateReps(RepMessage repMessage) {
 		updateGameMapRep(repMessage.getGameMapRep());
 		updateGameBoardRep(repMessage.getGameBoardRep());
 		for (PlayerRep playerRep : repMessage.getPlayersRep()) {
@@ -241,26 +247,63 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 		Client.terminateClient();
 	}
 
-
+	/**
+	 * Updates the display.
+	 */
 	public abstract void updateDisplay();
 
+	/**
+	 * Asks which type of connection the user would like to use.
+	 */
 	public abstract void askForConnectionAndStartIt();
 
+	/**
+	 * Called when the client failed the connection to the server.
+	 */
 	public abstract void failedConnectionToServer();
 
+	/**
+	 * Called when the client lost the connection to the server.
+	 */
 	public abstract void lostConnectionToServer();
 
+	/**
+	 * Asks to the user which nickname to use.
+	 */
 	public abstract void askNickname();
 
+	/**
+	 * Called when the user has entered a nickname already present in the server.
+	 * It re-asks the user which nickname to use.
+	 */
 	public abstract void askNicknameError();
 
+	/**
+	 * Displays the waiting players in the lobby.
+	 * @param waitingPlayers the waiting players.
+	 */
 	public abstract void displayWaitingPlayers(List<String> waitingPlayers);
 
+	/**
+	 * Tells the user that a timer has started.
+	 * @param delayInMs the time left.
+	 */
 	public abstract void displayTimerStarted(long delayInMs);
 
+	/**
+	 * Tells the user that the timer has stopped.
+	 */
 	public abstract void displayTimerStopped();
 
+	/**
+	 * Asks to the user which map and how many skulls he would like to play with.
+	 */
 	public abstract void askMapAndSkullsToUse();
 
+	/**
+	 *	Shows to the user which map and which skulls will be used for the game.
+	 * @param skulls the number of skulls.
+	 * @param mapType the type of the map.
+	 */
 	public abstract void showMapAndSkullsInUse(int skulls, GameConstants.MapType mapType);
 }
