@@ -277,7 +277,7 @@ public abstract class WeaponCard extends ActivableCard {
 			if (playersToShoot.get(i) != null) {
 
 				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage() + GameConstants
-						.DAMAGE_OVERLOAD);
+						.DEBUG_DAMAGE_OVERLOAD);
 				if (damagesAndMarks.get(i).getDamage() >= 1 && !playersHit.contains(playersToShoot.get(i))) {
 					playersHit.add(playersToShoot.get(i));
 				}

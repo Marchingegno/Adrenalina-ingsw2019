@@ -4,6 +4,7 @@ import it.polimi.se2019.model.Model;
 import it.polimi.se2019.model.player.TurnStatus;
 import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
+import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.Event;
 import it.polimi.se2019.view.server.VirtualView;
@@ -69,9 +70,11 @@ public class GameController {
 
 		//Checks if the game can continue, if the game is in frenzy mode.
 		//If it can't, end the game.
-		if (model.isFrenzyStarted() && !model.canGameContinue()) {
-			model.endGameAndFindWinner();
-			virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
+		if (!GameConstants.DEBUG_DONOTEND) {
+			if (model.isFrenzyStarted() && !model.canGameContinue()) {
+				model.endGameAndFindWinner();
+				virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
+			}
 		}
 
 		//start its turn.

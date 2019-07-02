@@ -33,8 +33,9 @@ public class GameConstants {
 	public static final int NUM_OF_ROWS_IN_SQUARE = 9;
 	public static final int NUM_OF_COLUMNS_IN_SQUARE = 17;
 
-	//ONLY FOR TESTING PURPOSES. LEAVE TO 0 FOR A NORMAL GAME.
-	public static final int DAMAGE_OVERLOAD = 0;
+	//ONLY FOR TESTING PURPOSES.
+	public static final int DEBUG_DAMAGE_OVERLOAD = 0; // LEAVE TO 0 FOR A NORMAL GAME.
+	public static final boolean DEBUG_DONOTEND = false; // LEAVE TO false FOR A NORMAL GAME.
 
 
 	public enum MapType {
