@@ -11,47 +11,47 @@ import it.polimi.se2019.utils.Color;
  */
 public class KillShotRep implements Representation {
 
-    private String playerName;
-    private Color.CharacterColorType playerColor;
-    private boolean overkill;
-    private String pgName;
+	private String playerName;
+	private Color.CharacterColorType playerColor;
+	private boolean overkill;
+	private String pgName;
 
 
-    KillShotRep(Player killer, boolean overkill) {
-        playerName = killer.getPlayerName();
-        playerColor = killer.getPlayerColor();
-        pgName = killer.getPgName();
-        this.overkill = overkill;
-    }
+	KillShotRep(Player killer, boolean overkill) {
+		playerName = killer.getPlayerName();
+		playerColor = killer.getPlayerColor();
+		pgName = killer.getPgName();
+		this.overkill = overkill;
+	}
 
-    /**
-     * Returns the name of the player how has killed.
-     *
-     * @return the name of the player how has killed.
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
+	/**
+	 * Returns the name of the player how has killed.
+	 *
+	 * @return the name of the player how has killed.
+	 */
+	public String getPlayerName() {
+		return playerName;
+	}
 
-    /**
-     * Returns the color of the player how has killed.
-     *
-     * @return the color of the player how has killed.
-     */
-    public Color.CharacterColorType getPlayerColor() {
-        return playerColor;
-    }
+	/**
+	 * Returns the color of the player how has killed.
+	 *
+	 * @return the color of the player how has killed.
+	 */
+	public Color.CharacterColorType getPlayerColor() {
+		return playerColor;
+	}
 
-    /**
-     * Returns true if and only if this kill is also an overkill.
-     *
-     * @return true if and only if this kill is also an overkill.
-     */
-    public boolean isOverkill() {
-        return overkill;
-    }
+	/**
+	 * Returns true if and only if this kill is also an overkill.
+	 *
+	 * @return true if and only if this kill is also an overkill.
+	 */
+	public boolean isOverkill() {
+		return overkill;
+	}
 
-    public String getPgName() {
-        return pgName;
-    }
+	public String getPgName() {
+		return pgName;
+	}
 }

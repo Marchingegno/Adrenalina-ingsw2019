@@ -9,33 +9,33 @@ import static it.polimi.se2019.utils.GameConstants.FRENZY_AFTER_NUMBER_OF_ACTION
 public class FrenzyAfter extends DamageStatus {
 
 
-    public FrenzyAfter() {
-        MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
-        MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
-        availableActions = new ArrayList<>();
+	public FrenzyAfter() {
+		MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
+		MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
+		availableActions = new ArrayList<>();
 
-        shootPeopleBuilder.setMovementDistance(2);
-        shootPeopleBuilder.setReloadAction(true);
-        shootPeopleBuilder.setShootAction(true);
-        shootPeopleBuilder.setName("Shoot");
-        availableActions.add(shootPeopleBuilder.build());
+		shootPeopleBuilder.setMovementDistance(2);
+		shootPeopleBuilder.setReloadAction(true);
+		shootPeopleBuilder.setShootAction(true);
+		shootPeopleBuilder.setName("Shoot");
+		availableActions.add(shootPeopleBuilder.build());
 
-        grabStuffBuilder.setMovementDistance(3);
-        grabStuffBuilder.setGrabAction(true);
-        grabStuffBuilder.setName("Grab");
-        availableActions.add(grabStuffBuilder.build());
+		grabStuffBuilder.setMovementDistance(3);
+		grabStuffBuilder.setGrabAction(true);
+		grabStuffBuilder.setName("Grab");
+		availableActions.add(grabStuffBuilder.build());
 
-        setNumberOfMacroActionsPerTurn(FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN);
-        setNumberOfMacroActionsToPerform(FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN);
-    }
+		setNumberOfMacroActionsPerTurn(FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN);
+		setNumberOfMacroActionsToPerform(FRENZY_AFTER_NUMBER_OF_ACTION_PER_TURN);
+	}
 
-    @Override
-    public String toString() {
-        return "FRENZY AFTER";
-    }
+	@Override
+	public String toString() {
+		return "FRENZY AFTER";
+	}
 
-    @Override
-    public boolean isFrenzy() {
-        return true;
-    }
+	@Override
+	public boolean isFrenzy() {
+		return true;
+	}
 }

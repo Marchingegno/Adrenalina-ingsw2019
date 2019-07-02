@@ -15,37 +15,37 @@ import java.util.List;
 
 public class EndGameController {
 
-    @FXML
-    private TableView<Score> tablePoints;
-    @FXML
-    private TableColumn<Score, String> rankColumn;
-    @FXML
-    private TableColumn<Score, String> nicknameColumn;
-    @FXML
-    private TableColumn<Score, String> pointsColumn;
+	@FXML
+	private TableView<Score> tablePoints;
+	@FXML
+	private TableColumn<Score, String> rankColumn;
+	@FXML
+	private TableColumn<Score, String> nicknameColumn;
+	@FXML
+	private TableColumn<Score, String> pointsColumn;
 
-    private ObservableList<Score> finalScores = FXCollections.observableArrayList();
+	private ObservableList<Score> finalScores = FXCollections.observableArrayList();
 
-    void setValues(Stage stage, List<PlayerRepPosition> finalPlayersInfo) {
+	void setValues(Stage stage, List<PlayerRepPosition> finalPlayersInfo) {
 
-        stage.setOnCloseRequest(event -> System.exit(0));
-        for (int i = 0; i < finalPlayersInfo.size(); i++) {
-            for (int j = 0; j < finalPlayersInfo.get(i).getPlayerReps().size(); j++) {
-                PlayerRep playerRep = finalPlayersInfo.get(i).getPlayerReps().get(j);
-                finalScores.add(new Score(playerRep.getPlayerName(), i + 1, playerRep.getPoints()));
-            }
-        }
-        Utils.logInfo("Final scores: " + finalScores);
+		stage.setOnCloseRequest(event -> System.exit(0));
+		for (int i = 0; i < finalPlayersInfo.size(); i++) {
+			for (int j = 0; j < finalPlayersInfo.get(i).getPlayerReps().size(); j++) {
+				PlayerRep playerRep = finalPlayersInfo.get(i).getPlayerReps().get(j);
+				finalScores.add(new Score(playerRep.getPlayerName(), i + 1, playerRep.getPoints()));
+			}
+		}
+		Utils.logInfo("Final scores: " + finalScores);
 
-        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
-        nicknameColumn.setCellValueFactory(new PropertyValueFactory<>("nickname"));
-        pointsColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
-        tablePoints.setItems(finalScores);
-    }
+		rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+		nicknameColumn.setCellValueFactory(new PropertyValueFactory<>("nickname"));
+		pointsColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
+		tablePoints.setItems(finalScores);
+	}
 
-    @FXML
-    private void closeStage() {
-        System.exit(0);
-    }
+	@FXML
+	private void closeStage() {
+		System.exit(0);
+	}
 
 }

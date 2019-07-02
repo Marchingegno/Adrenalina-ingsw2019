@@ -13,71 +13,71 @@ import java.util.Map;
  */
 public class GameMapRep implements Representation {
 
-    private String mapName;
-    private int numOfRows;
-    private int numOfColumns;
-    private SquareRep[][] mapRep;
-    private Map<String, Coordinates> playersPositions;
-    private Map<AmmoType, Coordinates> spawnSquares;
+	private String mapName;
+	private int numOfRows;
+	private int numOfColumns;
+	private SquareRep[][] mapRep;
+	private Map<String, Coordinates> playersPositions;
+	private Map<AmmoType, Coordinates> spawnSquares;
 
-    public GameMapRep(GameMap gameMapToRepresent) {
-        this.numOfColumns = gameMapToRepresent.getNumOfColumns();
-        this.numOfRows = gameMapToRepresent.getNumOfRows();
+	public GameMapRep(GameMap gameMapToRepresent) {
+		this.numOfColumns = gameMapToRepresent.getNumOfColumns();
+		this.numOfRows = gameMapToRepresent.getNumOfRows();
 
-        mapRep = new SquareRep[gameMapToRepresent.getNumOfRows()][gameMapToRepresent.getNumOfColumns()];
+		mapRep = new SquareRep[gameMapToRepresent.getNumOfRows()][gameMapToRepresent.getNumOfColumns()];
 
-        for (int i = 0; i < numOfRows; i++) {
-            for (int j = 0; j < numOfColumns; j++) {
-                this.mapRep[i][j] = gameMapToRepresent.getSquareRep(new Coordinates(i, j));
-            }
-        }
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				this.mapRep[i][j] = gameMapToRepresent.getSquareRep(new Coordinates(i, j));
+			}
+		}
 
-        spawnSquares = new HashMap<>();
-        for (AmmoType ammoType : AmmoType.values()) {
-            spawnSquares.put(ammoType, gameMapToRepresent.getSpawnCoordinates(ammoType));
-        }
+		spawnSquares = new HashMap<>();
+		for (AmmoType ammoType : AmmoType.values()) {
+			spawnSquares.put(ammoType, gameMapToRepresent.getSpawnCoordinates(ammoType));
+		}
 
-        playersPositions = new HashMap<>();
-        gameMapToRepresent.getPlayersCoordinates().forEach((player, coordinates) -> playersPositions.put(player.getPlayerName(), coordinates));
+		playersPositions = new HashMap<>();
+		gameMapToRepresent.getPlayersCoordinates().forEach((player, coordinates) -> playersPositions.put(player.getPlayerName(), coordinates));
 
-        mapName = gameMapToRepresent.getName();
-    }
+		mapName = gameMapToRepresent.getName();
+	}
 
-    public String getName() {
-        return mapName;
-    }
+	public String getName() {
+		return mapName;
+	}
 
-    public int getNumOfRows() {
-        return numOfRows;
-    }
+	public int getNumOfRows() {
+		return numOfRows;
+	}
 
-    public int getNumOfColumns() {
-        return numOfColumns;
-    }
+	public int getNumOfColumns() {
+		return numOfColumns;
+	}
 
-    public SquareRep[][] getMapRep() {
-        return mapRep;
-    }
+	public SquareRep[][] getMapRep() {
+		return mapRep;
+	}
 
-    public Map<String, Coordinates> getPlayersCoordinates() {
-        return playersPositions;
-    }
+	public Map<String, Coordinates> getPlayersCoordinates() {
+		return playersPositions;
+	}
 
-    public Coordinates getPlayerCoordinates(String playerName) {
-        return playersPositions.get(playerName);
-    }
+	public Coordinates getPlayerCoordinates(String playerName) {
+		return playersPositions.get(playerName);
+	}
 
-    public Coordinates getSpawncoordinats(AmmoType ammoType) {
-        return spawnSquares.get(ammoType);
-    }
+	public Coordinates getSpawncoordinats(AmmoType ammoType) {
+		return spawnSquares.get(ammoType);
+	}
 
-    public SquareRep getPlayerSquare(String playerName) {
-        Coordinates playerCoordinates = playersPositions.get(playerName);
-        return mapRep[playerCoordinates.getRow()][playerCoordinates.getColumn()];
-    }
+	public SquareRep getPlayerSquare(String playerName) {
+		Coordinates playerCoordinates = playersPositions.get(playerName);
+		return mapRep[playerCoordinates.getRow()][playerCoordinates.getColumn()];
+	}
 
-    public boolean isSpawn(Coordinates coordinates) {
-        return spawnSquares.containsValue(coordinates);
-    }
+	public boolean isSpawn(Coordinates coordinates) {
+		return spawnSquares.containsValue(coordinates);
+	}
 
 }

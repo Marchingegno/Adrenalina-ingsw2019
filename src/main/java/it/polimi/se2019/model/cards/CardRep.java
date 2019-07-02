@@ -4,30 +4,30 @@ import it.polimi.se2019.model.Representation;
 
 public class CardRep implements Representation {
 
-    private String description;
-    private String cardName;
-    private String imagePath;
+	private String description;
+	private String cardName;
+	private String imagePath;
 
-    public CardRep(Card card) {
-        this.cardName = card.getCardName();
-        this.description = card.getCardDescription();
-        this.imagePath = card.getImagePath();
-    }
+	public CardRep(Card card) {
+		this.cardName = card.getCardName();
+		this.description = card.getCardDescription();
+		this.imagePath = card.getImagePath();
+	}
 
-    /**
-     * Returns the description of the card.
-     *
-     * @return the description of the card.
-     */
-    public String getCardDescription() {
-        return description;
-    }
+	/**
+	 * Returns the description of the card.
+	 *
+	 * @return the description of the card.
+	 */
+	public String getCardDescription() {
+		return description;
+	}
 
-    public String getCardName() {
-        return cardName;
-    }
+	public String getCardName() {
+		return cardName;
+	}
 
-    public String getImagePath() {
-        return imagePath;
-    }
+	public String getImagePath() {
+		return imagePath;
+	}
 }

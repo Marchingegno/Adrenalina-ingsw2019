@@ -7,12 +7,12 @@ package it.polimi.se2019.utils.exceptions;
  */
 public class NegativeCoordinatesException extends RuntimeException {
 
-    /**
-     * Constructs an NegativeCoordinatesException with the specified message.
-     *
-     * @param message the detail message.
-     */
-    public NegativeCoordinatesException(String message) {
-        super(message);
-    }
+	/**
+	 * Constructs an NegativeCoordinatesException with the specified message.
+	 *
+	 * @param message the detail message.
+	 */
+	public NegativeCoordinatesException(String message) {
+		super(message);
+	}
 }

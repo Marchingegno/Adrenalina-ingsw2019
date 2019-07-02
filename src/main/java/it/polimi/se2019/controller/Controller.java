@@ -56,6 +56,7 @@ public class Controller implements Observer {
 
 	/**
 	 * Returns true if the game is ended.
+	 *
 	 * @return true if the game is ended.
 	 */
 	public boolean isGameEnded() {
@@ -84,7 +85,7 @@ public class Controller implements Observer {
 
 			// Add Controller's observer to the VirtualView. (Controller -👀-> VirtualView)
 			virtualView.addObserver(this);
-			Utils.logInfo("Controller now observes virtual View of "+virtualView.getNickname());
+			Utils.logInfo("Controller now observes virtual View of " + virtualView.getNickname());
 		}
 	}
 
@@ -94,6 +95,7 @@ public class Controller implements Observer {
 
 	/**
 	 * Returns the Model.
+	 *
 	 * @return the Model.
 	 */
 	protected Model getModel() {

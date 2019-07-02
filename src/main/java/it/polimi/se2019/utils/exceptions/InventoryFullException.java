@@ -7,12 +7,12 @@ package it.polimi.se2019.utils.exceptions;
  */
 public class InventoryFullException extends RuntimeException {
 
-    /**
-     * Constructs an InventoryFullException with the specified detail message.
-     *
-     * @param message the detail message.
-     */
-    public InventoryFullException(String message) {
-        super(message);
-    }
+	/**
+	 * Constructs an InventoryFullException with the specified detail message.
+	 *
+	 * @param message the detail message.
+	 */
+	public InventoryFullException(String message) {
+		super(message);
+	}
 }

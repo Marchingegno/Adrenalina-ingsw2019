@@ -104,7 +104,7 @@ public class TurnController {
 	 * @param event the event to be processed.
 	 */
 	private void handleGrabAmmoEvent(Event event) {
-        model.grabAmmoCard(event.getVirtualView().getNickname());
+		model.grabAmmoCard(event.getVirtualView().getNickname());
 		handleNextMacroActionStep(event.getVirtualView());
 	}
 
@@ -203,8 +203,7 @@ public class TurnController {
 			} else {
 				doWeaponStep(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
 			}
-		}
-		else
+		} else
 			initialWeaponActivation(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
 	}
 
@@ -247,6 +246,7 @@ public class TurnController {
 
 	/**
 	 * Handles the logic relative to a {@link it.polimi.se2019.utils.MacroAction}
+	 *
 	 * @param playerVirtualView the VirtualView of the player currently executing the MacroAction
 	 */
 	private void handleNextMacroActionStep(VirtualView playerVirtualView) {
@@ -287,7 +287,7 @@ public class TurnController {
 			else
 				playerVirtualView.askGrabWeapon(model.getIndexesOfTheGrabbableWeaponCurrentPlayer());
 		} else {
-            model.grabAmmoCard(playerVirtualView.getNickname());
+			model.grabAmmoCard(playerVirtualView.getNickname());
 			handleNextMacroActionStep(playerVirtualView);
 		}
 	}
@@ -320,6 +320,7 @@ public class TurnController {
 
 	/**
 	 * Handles an end action.
+	 *
 	 * @param playerVirtualView the VirtualView of the player executing this action.
 	 */
 	private void handleMacroActionEnd(VirtualView playerVirtualView) {
@@ -344,7 +345,8 @@ public class TurnController {
 
 	/**
 	 * Called when the player chooses the weapon to fire.
-	 * @param virtualView the VirtualView of the player firing.
+	 *
+	 * @param virtualView   the VirtualView of the player firing.
 	 * @param indexOfWeapon the index of the weapon in the inventory of the player.
 	 */
 	private void initialWeaponActivation(VirtualView virtualView, int indexOfWeapon) {
@@ -356,8 +358,9 @@ public class TurnController {
 
 	/**
 	 * Advance the shooting process of the weapon.
+	 *
 	 * @param virtualView the VirtualView of the player firing.
-	 * @param choice the choice of the player.
+	 * @param choice      the choice of the player.
 	 */
 	private void doWeaponStep(VirtualView virtualView, int choice) {
 		QuestionContainer questionContainer = model.doWeaponStep(virtualView.getNickname(), choice);
@@ -368,7 +371,8 @@ public class TurnController {
 
 	/**
 	 * Handles the {@link QuestionContainer} that the weapon returns when doWeaponStep is called.
-	 * @param virtualView the VirtualView of the player firing.
+	 *
+	 * @param virtualView       the VirtualView of the player firing.
 	 * @param questionContainer the QuestionContainer to be asked to the player.
 	 */
 	private void handleWeaponQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
@@ -410,7 +414,8 @@ public class TurnController {
 
 	/**
 	 * Initial activation of a powerup. This method is called when activating a powerup.
-	 * @param virtualView the virtualview of the player activating the powerup.
+	 *
+	 * @param virtualView    the virtualview of the player activating the powerup.
 	 * @param indexOfPowerup the powerup to activate.
 	 */
 	private void initialPowerupActivation(VirtualView virtualView, int indexOfPowerup) {
@@ -427,8 +432,9 @@ public class TurnController {
 
 	/**
 	 * Advance the process of activating a powerup.
+	 *
 	 * @param virtualView the VirtualView of the player activating the powerup.
-	 * @param choice the choice of the player.
+	 * @param choice      the choice of the player.
 	 */
 	private void doPowerupStep(VirtualView virtualView, int choice) {
 		QuestionContainer questionContainer = model.doPowerupStep(virtualView.getNickname(), choice);
@@ -437,7 +443,8 @@ public class TurnController {
 
 	/**
 	 * Handles the {@link QuestionContainer} that the powerup returns when doPowerupStep or initialPowerupActivation is called.
-	 * @param virtualView the VirtualView of the player activating the powerup.
+	 *
+	 * @param virtualView       the VirtualView of the player activating the powerup.
 	 * @param questionContainer the QuestionContainer to be asked to the player.
 	 */
 	private void handlePowerupQuestionContainer(VirtualView virtualView, QuestionContainer questionContainer) {
@@ -451,6 +458,7 @@ public class TurnController {
 
 	/**
 	 * Called when a powerup has finished its activation.
+	 *
 	 * @param virtualView the player that finished the powerup activation.
 	 */
 	private void handleActionEndForPowerup(VirtualView virtualView) {
@@ -476,22 +484,23 @@ public class TurnController {
 	// PAYMENT METHODS
 	// ####################################
 
-    /**
-     * Executes the transaction.
-     *
-     * @param virtualView              the VirtualView of the player paying.
-     * @param indexesOfThePowerupToUse indexes of the powerups the player has decided to use in order to pay.
-     * @param priceToPay               the ammo to be payed for this transaction.
-     */
-    private void resolvePayment(VirtualView virtualView, List<Integer> indexesOfThePowerupToUse, List<AmmoType> priceToPay) {
-        model.pay(virtualView.getNickname(), priceToPay, indexesOfThePowerupToUse);
+	/**
+	 * Executes the transaction.
+	 *
+	 * @param virtualView              the VirtualView of the player paying.
+	 * @param indexesOfThePowerupToUse indexes of the powerups the player has decided to use in order to pay.
+	 * @param priceToPay               the ammo to be payed for this transaction.
+	 */
+	private void resolvePayment(VirtualView virtualView, List<Integer> indexesOfThePowerupToUse, List<AmmoType> priceToPay) {
+		model.pay(virtualView.getNickname(), priceToPay, indexesOfThePowerupToUse);
 		processEvent(model.resumeAction());
 	}
 
 	/**
 	 * Handle a payment.
+	 *
 	 * @param virtualView the VirtualView of the player paying.
-	 * @param ammoToPay the ammo to be payed for this transaction.
+	 * @param ammoToPay   the ammo to be payed for this transaction.
 	 * @param eventToSave the event to be put on hold while the player is completing the payment.
 	 */
 	private void handlePayment(VirtualView virtualView, List<AmmoType> ammoToPay, Event eventToSave) {

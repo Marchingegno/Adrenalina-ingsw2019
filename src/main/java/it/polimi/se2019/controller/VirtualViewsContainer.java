@@ -28,6 +28,7 @@ class VirtualViewsContainer {
 
 	/**
 	 * Returns a list with all the VirtualViews in this container.
+	 *
 	 * @return a list with all the VirtualViews in this container.
 	 */
 	List<VirtualView> getVirtualViews() {
@@ -60,7 +61,7 @@ class VirtualViewsContainer {
 	 * @param playerName the nickname of the player.
 	 * @return the VirtualView of the player.
 	 */
-	VirtualView getVirtualViewFromPlayerName(String playerName){
+	VirtualView getVirtualViewFromPlayerName(String playerName) {
 		return virtualViews.stream()
 				.filter(item -> item.getNickname().equals(playerName))
 				.findFirst()

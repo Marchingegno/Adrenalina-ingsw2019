@@ -14,6 +14,7 @@ import java.util.Optional;
 /**
  * This class is in a lower level than Controller. It handles the logic relative to the game advancement, spawning,
  * starting turns, starting frenzy and connection errors.
+ *
  * @author Marchingegno
  */
 public class GameController {
@@ -57,11 +58,11 @@ public class GameController {
 	private void handleTurnBeginning() {
 		refillCardsOnMap();
 		//This checks if frenzy is to start.
-		if(model.areSkullsFinished() && !model.isFrenzyStarted()) {
+		if (model.areSkullsFinished() && !model.isFrenzyStarted()) {
 			model.startFrenzy();
 		}
 		//This checks if the frenzy is started and flips the DamageBoard of the players.
-		if(model.isFrenzyStarted()){
+		if (model.isFrenzyStarted()) {
 			model.flipPlayersWithNoDamage();
 		}
 
@@ -84,12 +85,12 @@ public class GameController {
 	/**
 	 * Start the turn.
 	 */
-	private void startTurn(){
+	private void startTurn() {
 		String currentPlayerName = model.getCurrentPlayerName();
 
 		// Check if the player is to be spawned.
 		// Which should be only in its beginning turns.
-		if(model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {
+		if (model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {
 			askToSpawn(currentPlayerName);
 		} else {
 			model.setCorrectDamageStatus(currentPlayerName);
@@ -124,31 +125,33 @@ public class GameController {
 
 	/**
 	 * Make the player draw a card and ask which card to use to spawn.
+	 *
 	 * @param playerName the name of the player to be spawned.
 	 */
 	private void askToSpawn(String playerName) {
-        model.addSpawnPowerupCardTo(playerName);
+		model.addSpawnPowerupCardTo(playerName);
 		VirtualView virtualView = virtualViewsContainer.getVirtualViewFromPlayerName(playerName);
 		virtualView.askSpawn();
 	}
 
 	/**
 	 * Handle a connection error from a player.
+	 *
 	 * @param playerName the name of the player that has a connection error.
 	 */
 	private void handleConnectionError(String playerName) {
-		if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
+		if (model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
 			Utils.logInfo("Received a CONNECTION ERROR from the player doing its turn.");
 			model.cancelAction(playerName);
 			model.setAsDisconnected(playerName);
-			if(model.isGameEnded())
+			if (model.isGameEnded())
 				virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
 			else
 				handleEndTurn();
 		} else {
 			Utils.logInfo("Received a CONNECTION ERROR from a player waiting for its turn.");
 			model.setAsDisconnected(playerName);
-			if(model.isGameEnded()) {
+			if (model.isGameEnded()) {
 				model.cancelAction(model.getCurrentPlayerName());
 				virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
 			} else {
@@ -159,9 +162,10 @@ public class GameController {
 
 	/**
 	 * Process an event observed by the Controller.
+	 *
 	 * @param event the event observed.
 	 */
-	void processEvent(Event event){
+	void processEvent(Event event) {
 		VirtualView virtualView = event.getVirtualView();
 		String playerName = virtualView.getNickname();
 		MessageSubtype messageSubtype = event.getMessage().getMessageSubtype();
@@ -170,7 +174,7 @@ public class GameController {
 
 		switch (event.getMessage().getMessageType()) {
 			case END_TURN:
-				if(model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN)
+				if (model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN)
 					handleEndTurn();
 				else
 					Utils.logError("It's not the turn of " + playerName + "!", new IllegalStateException());
@@ -179,7 +183,7 @@ public class GameController {
 				//TODO player should be spawned even if the current player turnStatus is prespawn.
 				int spawnAnswer = ((IntMessage) event.getMessage()).getContent();
 				//If the player was dead, spawn him and check if there are other dead players.
-				if (model.getTurnStatus(playerName) == TurnStatus.DEAD){
+				if (model.getTurnStatus(playerName) == TurnStatus.DEAD) {
 					model.spawnPlayer(playerName, spawnAnswer);
 					spawnNextDeadPlayerOrBeginTurn();
 				}
@@ -190,12 +194,13 @@ public class GameController {
 				}
 				break;
 			case CONNECTION:
-				if(messageSubtype == MessageSubtype.ERROR)
+				if (messageSubtype == MessageSubtype.ERROR)
 					handleConnectionError(playerName);
-				else if(messageSubtype == MessageSubtype.INFO)
+				else if (messageSubtype == MessageSubtype.INFO)
 					model.setAsReconnected(playerName);
 				break;
-			default: turnController.processEvent(event);
+			default:
+				turnController.processEvent(event);
 				break;
 		}
 		virtualViewsContainer.sendUpdatedReps(); // Send updated reps to other clients.

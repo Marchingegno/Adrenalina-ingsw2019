@@ -7,12 +7,12 @@ package it.polimi.se2019.utils.exceptions;
  */
 public class HiddenException extends RuntimeException {
 
-    /**
-     * Constructs an HiddenException with the specified detail message.
-     *
-     * @param message the detail message.
-     */
-    public HiddenException(String message) {
-        super(message);
-    }
+	/**
+	 * Constructs an HiddenException with the specified detail message.
+	 *
+	 * @param message the detail message.
+	 */
+	public HiddenException(String message) {
+		super(message);
+	}
 }

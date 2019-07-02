@@ -18,82 +18,82 @@ import java.util.stream.Collectors;
  */
 public class Newton extends PowerupCard {
 
-    private static final String DESCRIPTION =
-            "You may play this card on your turn before or\n" +
-                    "after any action. Choose any other player's\n" +
-                    "figure and move it 1 or 2 squares in one\n" +
-                    "direction. (You can't use this to move a figure\n" +
-                    "after it respawns at the end of your turn. That\n" +
-                    "would be too late.)";
-    private Player targetPlayer;
-    private List<Player> targettablePlayers;
-    private List<Coordinates> allowedCoordinates;
+	private static final String DESCRIPTION =
+			"You may play this card on your turn before or\n" +
+					"after any action. Choose any other player's\n" +
+					"figure and move it 1 or 2 squares in one\n" +
+					"direction. (You can't use this to move a figure\n" +
+					"after it respawns at the end of your turn. That\n" +
+					"would be too late.)";
+	private Player targetPlayer;
+	private List<Player> targettablePlayers;
+	private List<Coordinates> allowedCoordinates;
 
 
-    public Newton(AmmoType associatedAmmo) {
-        super("Newton", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN, "newton_" + associatedAmmo.getCharacterColorType().toString().toLowerCase());
-    }
+	public Newton(AmmoType associatedAmmo) {
+		super("Newton", associatedAmmo, DESCRIPTION, PowerupUseCaseType.ON_TURN, "newton_" + associatedAmmo.getCharacterColorType().toString().toLowerCase());
+	}
 
 
-    // ####################################
-    // OVERRIDDEN METHODS
-    // ####################################
+	// ####################################
+	// OVERRIDDEN METHODS
+	// ####################################
 
-    /**
-     * Returns true if there is at least one not dead player different from the activating player.
-     *
-     * @return true if there is at least one not dead player different from the activating player.
-     */
-    @Override
-    public boolean canBeActivated() {
-        return getGameBoard().getPlayers().stream().anyMatch(this::canActivateOnPlayer);
-    }
+	/**
+	 * Returns true if there is at least one not dead player different from the activating player.
+	 *
+	 * @return true if there is at least one not dead player different from the activating player.
+	 */
+	@Override
+	public boolean canBeActivated() {
+		return getGameBoard().getPlayers().stream().anyMatch(this::canActivateOnPlayer);
+	}
 
-    @Override
-    protected QuestionContainer firstStep() {
-        targettablePlayers = getGameBoard().getPlayers().stream()
-                .filter(this::canActivateOnPlayer)
-                .collect(Collectors.toList());
+	@Override
+	protected QuestionContainer firstStep() {
+		targettablePlayers = getGameBoard().getPlayers().stream()
+				.filter(this::canActivateOnPlayer)
+				.collect(Collectors.toList());
 
-        List<String> playerNames = targettablePlayers.stream()
-                .map(Player::getPlayerName)
-                .collect(Collectors.toList());
+		List<String> playerNames = targettablePlayers.stream()
+				.map(Player::getPlayerName)
+				.collect(Collectors.toList());
 
-        return QuestionContainer.createStringQuestionContainer("Choose the player to move.", playerNames);
-    }
+		return QuestionContainer.createStringQuestionContainer("Choose the player to move.", playerNames);
+	}
 
-    @Override
-    protected QuestionContainer secondStep(int choice) {
-        if (choice >= 0 && choice < targettablePlayers.size()) {
-            targetPlayer = targettablePlayers.get(choice);
-            allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinates(targetPlayer, 2);
+	@Override
+	protected QuestionContainer secondStep(int choice) {
+		if (choice >= 0 && choice < targettablePlayers.size()) {
+			targetPlayer = targettablePlayers.get(choice);
+			allowedCoordinates = getGameBoard().getGameMap().reachablePerpendicularCoordinates(targetPlayer, 2);
 
-            return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + targetPlayer.getPlayerName() + ".", allowedCoordinates);
-        } else {
-            Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of targettable players is: " + targettablePlayers.size(), new IllegalArgumentException());
-            concludeActivation();
-            return null;
-        }
-    }
+			return QuestionContainer.createCoordinatesQuestionContainer("Enter where to move " + targetPlayer.getPlayerName() + ".", allowedCoordinates);
+		} else {
+			Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of targettable players is: " + targettablePlayers.size(), new IllegalArgumentException());
+			concludeActivation();
+			return null;
+		}
+	}
 
-    @Override
-    protected QuestionContainer thirdStep(int choice) {
-        if (choice >= 0 && choice < allowedCoordinates.size()) {
-            getGameBoard().getGameMap().movePlayerTo(targetPlayer, allowedCoordinates.get(choice));
-        } else {
-            Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of targettable players is: " + targettablePlayers.size(), new IllegalArgumentException());
-        }
-        concludeActivation();
-        return null;
-    }
+	@Override
+	protected QuestionContainer thirdStep(int choice) {
+		if (choice >= 0 && choice < allowedCoordinates.size()) {
+			getGameBoard().getGameMap().movePlayerTo(targetPlayer, allowedCoordinates.get(choice));
+		} else {
+			Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of targettable players is: " + targettablePlayers.size(), new IllegalArgumentException());
+		}
+		concludeActivation();
+		return null;
+	}
 
 
-    // ####################################
-    // PRIVATE METHODS
-    // ####################################
+	// ####################################
+	// PRIVATE METHODS
+	// ####################################
 
-    private boolean canActivateOnPlayer(Player player) {
-        return player != getOwner() && player.getTurnStatus() != TurnStatus.PRE_SPAWN;
-    }
+	private boolean canActivateOnPlayer(Player player) {
+		return player != getOwner() && player.getTurnStatus() != TurnStatus.PRE_SPAWN;
+	}
 
 }

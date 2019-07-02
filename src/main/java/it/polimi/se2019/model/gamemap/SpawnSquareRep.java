@@ -15,34 +15,34 @@ import java.util.List;
  */
 public class SpawnSquareRep extends SquareRep {
 
-    private AmmoType associatedAmmo;
-    private List<WeaponRep> weaponsRep;
+	private AmmoType associatedAmmo;
+	private List<WeaponRep> weaponsRep;
 
-    SpawnSquareRep(Square squareToRepresent) {
-        super(squareToRepresent);
-        weaponsRep = new ArrayList<>();
-        for (Card card : squareToRepresent.getCards()) {
-            weaponsRep.add(new WeaponRep((WeaponCard) card));
-        }
-        this.associatedAmmo = ((SpawnSquare) squareToRepresent).getAmmoType();
-    }
+	SpawnSquareRep(Square squareToRepresent) {
+		super(squareToRepresent);
+		weaponsRep = new ArrayList<>();
+		for (Card card : squareToRepresent.getCards()) {
+			weaponsRep.add(new WeaponRep((WeaponCard) card));
+		}
+		this.associatedAmmo = ((SpawnSquare) squareToRepresent).getAmmoType();
+	}
 
-    @Override
-    public String[] getElementsToPrint() {
-        return new String[]{"S", "P", "W"};
-    }
+	@Override
+	public String[] getElementsToPrint() {
+		return new String[]{"S", "P", "W"};
+	}
 
-    /**
-     * Returns the list of the weapons' reps in the square.
-     *
-     * @return the list of the weapons' reps in the square.
-     */
-    public List<WeaponRep> getWeaponsRep() {
-        return weaponsRep;
-    }
+	/**
+	 * Returns the list of the weapons' reps in the square.
+	 *
+	 * @return the list of the weapons' reps in the square.
+	 */
+	public List<WeaponRep> getWeaponsRep() {
+		return weaponsRep;
+	}
 
 
-    public AmmoType getAssociatedAmmo() {
-        return associatedAmmo;
-    }
+	public AmmoType getAssociatedAmmo() {
+		return associatedAmmo;
+	}
 }

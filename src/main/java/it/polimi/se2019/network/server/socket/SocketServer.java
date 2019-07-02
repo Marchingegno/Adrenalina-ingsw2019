@@ -16,81 +16,81 @@ import java.net.SocketException;
  */
 public class SocketServer extends Thread implements Closeable {
 
-    private ServerSocket serverSocket; //Server that listens for requests
-    private ServerEventsListenerInterface serverEventsListener; //General serverEventsListener that works both with RMI and Socket
+	private ServerSocket serverSocket; //Server that listens for requests
+	private ServerEventsListenerInterface serverEventsListener; //General serverEventsListener that works both with RMI and Socket
 
-    private boolean active = false;
+	private boolean active = false;
 
-    /**
-     * Starts a thread that listens for new connection requests.
-     *
-     * @param serverEventsListener the event listener to which all events are forwarded.
-     * @throws IOException
-     */
-    public SocketServer(ServerEventsListenerInterface serverEventsListener) throws IOException {
-        super("CUSTOM: Socket Connection Request Listener"); // Give a name to the thread for debugging purposes.
-        this.serverEventsListener = serverEventsListener;
-        startServerSocket();
-    }
+	/**
+	 * Starts a thread that listens for new connection requests.
+	 *
+	 * @param serverEventsListener the event listener to which all events are forwarded.
+	 * @throws IOException
+	 */
+	public SocketServer(ServerEventsListenerInterface serverEventsListener) throws IOException {
+		super("CUSTOM: Socket Connection Request Listener"); // Give a name to the thread for debugging purposes.
+		this.serverEventsListener = serverEventsListener;
+		startServerSocket();
+	}
 
-    /**
-     * Listens for client connection requests and creates a socket for each client. The socket is added to the
-     */
-    @Override // Of Thread.
-    public void run() {
-        while (isActive()) {
-            try {
-                //The server receives a new connection requests, accepts it and returns the socket associated.
-                Socket newClientSocket = serverSocket.accept();
+	/**
+	 * Listens for client connection requests and creates a socket for each client. The socket is added to the
+	 */
+	@Override // Of Thread.
+	public void run() {
+		while (isActive()) {
+			try {
+				//The server receives a new connection requests, accepts it and returns the socket associated.
+				Socket newClientSocket = serverSocket.accept();
 
-                //The socket is decorated with the logic to handle the message communication
-                ServerClientSocket newServerClientSocket = new ServerClientSocket(serverEventsListener, newClientSocket);
+				//The socket is decorated with the logic to handle the message communication
+				ServerClientSocket newServerClientSocket = new ServerClientSocket(serverEventsListener, newClientSocket);
 
-                //The new decorated socket is registered to the server message handler
-                serverEventsListener.onClientConnection(newServerClientSocket);
-            } catch (SocketException e) {
-                if (e.getMessage().equals("Socket closed") || e.getMessage().equals("Socket is closed"))
-                    Utils.logInfo("SocketServer => run(): Socket connection listening closed by request.");
-                else
-                    Utils.logError("Error in SocketServer: run()", e);
-            } catch (IOException e) {
-                Utils.logError("Error in SocketServer: run()", e);
-            }
-        }
-    }
+				//The new decorated socket is registered to the server message handler
+				serverEventsListener.onClientConnection(newServerClientSocket);
+			} catch (SocketException e) {
+				if (e.getMessage().equals("Socket closed") || e.getMessage().equals("Socket is closed"))
+					Utils.logInfo("SocketServer => run(): Socket connection listening closed by request.");
+				else
+					Utils.logError("Error in SocketServer: run()", e);
+			} catch (IOException e) {
+				Utils.logError("Error in SocketServer: run()", e);
+			}
+		}
+	}
 
-    /**
-     * Closes the server.
-     */
-    @Override // Of Closeable.
-    public void close() {
-        active = false;
-        try {
-            serverSocket.close();
-            Utils.logInfo("SocketServer => close(): Socket server stopped.");
-        } catch (IOException e) {
-            Utils.logError("Error in SocketServer: close()", e);
-        }
-    }
+	/**
+	 * Closes the server.
+	 */
+	@Override // Of Closeable.
+	public void close() {
+		active = false;
+		try {
+			serverSocket.close();
+			Utils.logInfo("SocketServer => close(): Socket server stopped.");
+		} catch (IOException e) {
+			Utils.logError("Error in SocketServer: close()", e);
+		}
+	}
 
-    /**
-     * Returns true if and only if the server is active.
-     *
-     * @return true if and only if the server is active.
-     */
-    public boolean isActive() {
-        return active;
-    }
+	/**
+	 * Returns true if and only if the server is active.
+	 *
+	 * @return true if and only if the server is active.
+	 */
+	public boolean isActive() {
+		return active;
+	}
 
-    /**
-     * Starts the socket server.
-     *
-     * @throws IOException
-     */
-    private void startServerSocket() throws IOException {
-        serverSocket = new ServerSocket(Utils.getServerConfig().getSocketPort());
-        active = true;
-        start(); // Starts the Thread.
-        Utils.logInfo("SocketServer => startServerSocket(): Socket server is ready.");
-    }
+	/**
+	 * Starts the socket server.
+	 *
+	 * @throws IOException
+	 */
+	private void startServerSocket() throws IOException {
+		serverSocket = new ServerSocket(Utils.getServerConfig().getSocketPort());
+		active = true;
+		start(); // Starts the Thread.
+		Utils.logInfo("SocketServer => startServerSocket(): Socket server is ready.");
+	}
 }

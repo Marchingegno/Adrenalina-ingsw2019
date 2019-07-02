@@ -8,18 +8,18 @@ import javafx.stage.Stage;
 
 public class GUIInitializer extends Application {
 
-    public static void startGUIInitializer() {
-        launch();
-    }
+	public static void startGUIInitializer() {
+		launch();
+	}
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Connection.fxml"));
-        Parent root = loader.load();
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("Adrenaline");
-        primaryStage.setOnCloseRequest(event -> System.exit(0));
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Connection.fxml"));
+		Parent root = loader.load();
+		primaryStage.setScene(new Scene(root));
+		primaryStage.setTitle("Adrenaline");
+		primaryStage.setOnCloseRequest(event -> System.exit(0));
+		primaryStage.setResizable(false);
+		primaryStage.show();
+	}
 }

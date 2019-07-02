@@ -18,29 +18,29 @@ import java.util.List;
  */
 public class AmmoDeck extends Deck<Card> {
 
-    /**
-     * Initialize the ammo deck according to the file "AmmoDeck.json"
-     */
-    protected void initializeDeck() {
-        Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/AmmoDeck.json")));
-        try {
-            JsonParser parser = new JsonParser();
-            JsonObject rootObject = parser.parse(reader).getAsJsonObject();
+	/**
+	 * Initialize the ammo deck according to the file "AmmoDeck.json"
+	 */
+	protected void initializeDeck() {
+		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/AmmoDeck.json")));
+		try {
+			JsonParser parser = new JsonParser();
+			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 
-            JsonArray ammoCards = rootObject.getAsJsonArray("ammocards");
-            for (JsonElement entry : ammoCards) {
-                JsonObject cardToAdd = entry.getAsJsonObject();
+			JsonArray ammoCards = rootObject.getAsJsonArray("ammocards");
+			for (JsonElement entry : ammoCards) {
+				JsonObject cardToAdd = entry.getAsJsonObject();
 
-                List<AmmoType> ammo = new ArrayList<>();
+				List<AmmoType> ammo = new ArrayList<>();
 
-                for (JsonElement ammoToAdd : cardToAdd.getAsJsonArray("ammo")) {
-                    ammo.add(AmmoType.valueOf(ammoToAdd.getAsString()));
-                }
-                Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammo + (cardToAdd.get("powerup").getAsBoolean() ? " Powerup" : ""));
-                addCard(new AmmoCard(ammo, cardToAdd.get("powerup").getAsBoolean(), cardToAdd.get("name").getAsString(), cardToAdd.get("path").getAsString()));
-            }
-        } catch (JsonParseException e) {
-            Utils.logError("Cannot parse ammo cards", e);
-        }
-    }
+				for (JsonElement ammoToAdd : cardToAdd.getAsJsonArray("ammo")) {
+					ammo.add(AmmoType.valueOf(ammoToAdd.getAsString()));
+				}
+				Utils.logInfo("AmmoDeck -> initializeDeck(): Adding ammo card: " + ammo + (cardToAdd.get("powerup").getAsBoolean() ? " Powerup" : ""));
+				addCard(new AmmoCard(ammo, cardToAdd.get("powerup").getAsBoolean(), cardToAdd.get("name").getAsString(), cardToAdd.get("path").getAsString()));
+			}
+		} catch (JsonParseException e) {
+			Utils.logError("Cannot parse ammo cards", e);
+		}
+	}
 }

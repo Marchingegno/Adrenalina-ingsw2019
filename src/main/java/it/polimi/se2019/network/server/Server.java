@@ -16,65 +16,65 @@ import java.util.Scanner;
  */
 public class Server {
 
-    private ServerEventsListener serverEventsListener = new ServerEventsListener();
-    private SocketServer socketServer;
-    private RMIServer rmiServer;
+	private ServerEventsListener serverEventsListener = new ServerEventsListener();
+	private SocketServer socketServer;
+	private RMIServer rmiServer;
 
-    /**
-     * Starts the Server program.
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        Server server = new Server();
-        server.startRMIServerAsynchronously();
-        server.startSocketServerAsynchronously();
-        server.closeServerIfRequestedAsynchronously();
-    }
+	/**
+	 * Starts the Server program.
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Server server = new Server();
+		server.startRMIServerAsynchronously();
+		server.startSocketServerAsynchronously();
+		server.closeServerIfRequestedAsynchronously();
+	}
 
-    /**
-     * Starts the RMI server.
-     * Doesn't stop the calling thread.
-     */
-    private void startRMIServerAsynchronously() {
-        try {
-            rmiServer = new RMIServer(serverEventsListener);
-        } catch (RemoteException e) {
-            Utils.logError("Failed to start RMI server.", e);
-        }
-    }
+	/**
+	 * Starts the RMI server.
+	 * Doesn't stop the calling thread.
+	 */
+	private void startRMIServerAsynchronously() {
+		try {
+			rmiServer = new RMIServer(serverEventsListener);
+		} catch (RemoteException e) {
+			Utils.logError("Failed to start RMI server.", e);
+		}
+	}
 
-    /**
-     * Starts the socket server.
-     * Doesn't stop the calling thread.
-     */
-    private void startSocketServerAsynchronously() {
-        try {
-            socketServer = new SocketServer(serverEventsListener);
-        } catch (IOException e) {
-            Utils.logError("Failed to start Socket server.", e);
-        }
-    }
+	/**
+	 * Starts the socket server.
+	 * Doesn't stop the calling thread.
+	 */
+	private void startSocketServerAsynchronously() {
+		try {
+			socketServer = new SocketServer(serverEventsListener);
+		} catch (IOException e) {
+			Utils.logError("Failed to start Socket server.", e);
+		}
+	}
 
-    /**
-     * Listens for a "close" command.
-     * Doesn't stop the calling thread.
-     */
-    private void closeServerIfRequestedAsynchronously() {
-        new Thread(() -> {
-            String input = "";
-            while (!input.equalsIgnoreCase("close")) {
-                System.out.println("Type \"close\" to stop the server.");
-                input = new Scanner(System.in).nextLine();
-            }
+	/**
+	 * Listens for a "close" command.
+	 * Doesn't stop the calling thread.
+	 */
+	private void closeServerIfRequestedAsynchronously() {
+		new Thread(() -> {
+			String input = "";
+			while (!input.equalsIgnoreCase("close")) {
+				System.out.println("Type \"close\" to stop the server.");
+				input = new Scanner(System.in).nextLine();
+			}
 
-            serverEventsListener.closeAllConnections();
-            if (socketServer != null)
-                socketServer.close();
-            if (rmiServer != null)
-                rmiServer.close();
-            System.exit(0);
-        }, "CUSTOM: Input Listener").start();
-    }
+			serverEventsListener.closeAllConnections();
+			if (socketServer != null)
+				socketServer.close();
+			if (rmiServer != null)
+				rmiServer.close();
+			System.exit(0);
+		}, "CUSTOM: Input Listener").start();
+	}
 
 }

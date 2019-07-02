@@ -11,27 +11,27 @@ import java.util.List;
  */
 public class CoordinatesRequestMessage extends Message {
 
-    private final ArrayList<Coordinates> coordinates;
+	private final ArrayList<Coordinates> coordinates;
 
 
-    /**
-     * Constructs a message.
-     *
-     * @param coordinates a list of allowed Coordinates to choose from.
-     * @param messageType the messageType of the message.
-     */
-    public CoordinatesRequestMessage(List<Coordinates> coordinates, MessageType messageType) {
-        super(messageType, MessageSubtype.REQUEST);
-        this.coordinates = new ArrayList<>(coordinates);
-    }
+	/**
+	 * Constructs a message.
+	 *
+	 * @param coordinates a list of allowed Coordinates to choose from.
+	 * @param messageType the messageType of the message.
+	 */
+	public CoordinatesRequestMessage(List<Coordinates> coordinates, MessageType messageType) {
+		super(messageType, MessageSubtype.REQUEST);
+		this.coordinates = new ArrayList<>(coordinates);
+	}
 
 
-    /**
-     * Returns a list of allowed Coordinates to choose from.
-     *
-     * @return a list of allowed Coordinates to choose from.
-     */
-    public List<Coordinates> getCoordinates() {
-        return coordinates;
-    }
+	/**
+	 * Returns a list of allowed Coordinates to choose from.
+	 *
+	 * @return a list of allowed Coordinates to choose from.
+	 */
+	public List<Coordinates> getCoordinates() {
+		return coordinates;
+	}
 }

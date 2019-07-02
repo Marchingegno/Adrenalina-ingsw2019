@@ -5,26 +5,26 @@ package it.polimi.se2019.network.message;
  */
 public class EndRequestMessage extends Message {
 
-    private final boolean activablePowerups;
+	private final boolean activablePowerups;
 
 
-    /**
-     * Constructs a message.
-     *
-     * @param activablePowerups true if the player receiving the message can activate a powerup.
-     */
-    public EndRequestMessage(boolean activablePowerups) {
-        super(MessageType.END_TURN, MessageSubtype.REQUEST);
-        this.activablePowerups = activablePowerups;
-    }
+	/**
+	 * Constructs a message.
+	 *
+	 * @param activablePowerups true if the player receiving the message can activate a powerup.
+	 */
+	public EndRequestMessage(boolean activablePowerups) {
+		super(MessageType.END_TURN, MessageSubtype.REQUEST);
+		this.activablePowerups = activablePowerups;
+	}
 
 
-    /**
-     * True if the player receiving the message can activate a powerup.
-     *
-     * @return true if the player receiving the message can activate a powerup.
-     */
-    public boolean isActivablePowerups() {
-        return activablePowerups;
-    }
+	/**
+	 * True if the player receiving the message can activate a powerup.
+	 *
+	 * @return true if the player receiving the message can activate a powerup.
+	 */
+	public boolean isActivablePowerups() {
+		return activablePowerups;
+	}
 }

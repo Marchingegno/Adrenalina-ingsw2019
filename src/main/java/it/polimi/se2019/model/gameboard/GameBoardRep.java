@@ -14,79 +14,79 @@ import java.util.List;
  */
 public class GameBoardRep implements Representation {
 
-    private int remainingSkulls;
-    private List<Color.CharacterColorType> doubleKills;
-    private List<KillShotRep> killShoots;
-    private String currentPlayer;
-    private int numberOfPlayers;
-    private int startingSkulls;
+	private int remainingSkulls;
+	private List<Color.CharacterColorType> doubleKills;
+	private List<KillShotRep> killShoots;
+	private String currentPlayer;
+	private int numberOfPlayers;
+	private int startingSkulls;
 
-    public GameBoardRep(GameBoard gameBoard) {
-        this.remainingSkulls = gameBoard.getRemainingSkulls();
-        this.doubleKills = new ArrayList<>();
-        for (Player player : gameBoard.getDoubleKills())
-            doubleKills.add(player.getPlayerColor());
-        this.killShoots = new ArrayList<>();
-        for (KillShot killShot : gameBoard.getKillShots())
-            killShoots.add((KillShotRep) killShot.getRep());
-        this.currentPlayer = gameBoard.getCurrentPlayer().getPlayerName();
-        this.numberOfPlayers = gameBoard.getPlayers().size();
-        this.startingSkulls = gameBoard.getStartingSkulls();
-    }
+	public GameBoardRep(GameBoard gameBoard) {
+		this.remainingSkulls = gameBoard.getRemainingSkulls();
+		this.doubleKills = new ArrayList<>();
+		for (Player player : gameBoard.getDoubleKills())
+			doubleKills.add(player.getPlayerColor());
+		this.killShoots = new ArrayList<>();
+		for (KillShot killShot : gameBoard.getKillShots())
+			killShoots.add((KillShotRep) killShot.getRep());
+		this.currentPlayer = gameBoard.getCurrentPlayer().getPlayerName();
+		this.numberOfPlayers = gameBoard.getPlayers().size();
+		this.startingSkulls = gameBoard.getStartingSkulls();
+	}
 
-    /**
-     * Returns the number of starting skulls.
-     *
-     * @return the number of starting skulls.
-     */
-    public int getStartingSkulls() {
-        return startingSkulls;
-    }
+	/**
+	 * Returns the number of starting skulls.
+	 *
+	 * @return the number of starting skulls.
+	 */
+	public int getStartingSkulls() {
+		return startingSkulls;
+	}
 
-    /**
-     * Returns the number of remaining skulls.
-     *
-     * @return the number of remaining skulls.
-     */
-    public int getRemainingSkulls() {
-        return remainingSkulls;
-    }
+	/**
+	 * Returns the number of remaining skulls.
+	 *
+	 * @return the number of remaining skulls.
+	 */
+	public int getRemainingSkulls() {
+		return remainingSkulls;
+	}
 
-    /**
-     * Returns the list of all double kills.
-     *
-     * @return the list of all double kills.
-     */
-    public List<Color.CharacterColorType> getDoubleKills() {
-        return doubleKills;
-    }
+	/**
+	 * Returns the list of all double kills.
+	 *
+	 * @return the list of all double kills.
+	 */
+	public List<Color.CharacterColorType> getDoubleKills() {
+		return doubleKills;
+	}
 
-    /**
-     * Returns the list of all killshoots.
-     *
-     * @return the list of all killshoots.
-     */
-    public List<KillShotRep> getKillShoots() {
-        return killShoots;
-    }
+	/**
+	 * Returns the list of all killshoots.
+	 *
+	 * @return the list of all killshoots.
+	 */
+	public List<KillShotRep> getKillShoots() {
+		return killShoots;
+	}
 
-    /**
-     * Returns the name of the current player.
-     *
-     * @return the name of the current player.
-     */
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
+	/**
+	 * Returns the name of the current player.
+	 *
+	 * @return the name of the current player.
+	 */
+	public String getCurrentPlayer() {
+		return currentPlayer;
+	}
 
-    /**
-     * Returns the number of players in the game.
-     *
-     * @return the number of players in the game.
-     */
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
+	/**
+	 * Returns the number of players in the game.
+	 *
+	 * @return the number of players in the game.
+	 */
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
 }
 
 

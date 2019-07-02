@@ -12,49 +12,49 @@ import java.util.List;
  * @author Marchingegno
  */
 public class DamageStatusRep implements Representation {
-    private int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
-    private int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
-    private List<String> macroActionString;
-    private List<String> macroActionNames;
+	private int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
+	private int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
+	private List<String> macroActionString;
+	private List<String> macroActionNames;
 	/*Note: availableActions contains the reference of the MacroActions. In the current state of the project, there is
 	no need no clone them, since they are immutable.*/
 
 
-    public DamageStatusRep(DamageStatus damageStatus) {
-        this.macroActionString = new ArrayList<>();
-        this.macroActionNames = new ArrayList<>();
-        for (MacroAction macroAction : damageStatus.availableActions) {
-            macroActionString.add(macroAction.getMacroActionString());
-            macroActionNames.add(macroAction.getName());
-        }
-        this.numberOfMacroActionsPerTurn = damageStatus.getNumberOfMacroActionsPerTurn();
-        this.numberOfMacroActionsToPerform = damageStatus.getNumberOfMacroActionsToPerform();
-    }
+	public DamageStatusRep(DamageStatus damageStatus) {
+		this.macroActionString = new ArrayList<>();
+		this.macroActionNames = new ArrayList<>();
+		for (MacroAction macroAction : damageStatus.availableActions) {
+			macroActionString.add(macroAction.getMacroActionString());
+			macroActionNames.add(macroAction.getName());
+		}
+		this.numberOfMacroActionsPerTurn = damageStatus.getNumberOfMacroActionsPerTurn();
+		this.numberOfMacroActionsToPerform = damageStatus.getNumberOfMacroActionsToPerform();
+	}
 
 
-    public int getNumberOfMacroActionsPerTurn() {
-        return numberOfMacroActionsPerTurn;
-    }
+	public int getNumberOfMacroActionsPerTurn() {
+		return numberOfMacroActionsPerTurn;
+	}
 
-    public int getNumberOfMacroActionsToPerform() {
-        return numberOfMacroActionsToPerform;
-    }
+	public int getNumberOfMacroActionsToPerform() {
+		return numberOfMacroActionsToPerform;
+	}
 
-    public int numOfMacroActions() {
-        return macroActionString.size();
-    }
+	public int numOfMacroActions() {
+		return macroActionString.size();
+	}
 
-    public String getMacroActionString(int indexOfTheMacroAction) {
-        return macroActionString.get(indexOfTheMacroAction);
-    }
+	public String getMacroActionString(int indexOfTheMacroAction) {
+		return macroActionString.get(indexOfTheMacroAction);
+	}
 
-    public String getMacroActionName(int indexOfTheMacroAction) {
-        return macroActionNames.get(indexOfTheMacroAction);
-    }
+	public String getMacroActionName(int indexOfTheMacroAction) {
+		return macroActionNames.get(indexOfTheMacroAction);
+	}
 
-    public boolean isShootWithoutReload(int indexOfTheMacroAction) {
-        return getMacroActionString(indexOfTheMacroAction).contains("S") && !getMacroActionString(indexOfTheMacroAction).contains("R");
-    }
+	public boolean isShootWithoutReload(int indexOfTheMacroAction) {
+		return getMacroActionString(indexOfTheMacroAction).contains("S") && !getMacroActionString(indexOfTheMacroAction).contains("R");
+	}
 }
 
 

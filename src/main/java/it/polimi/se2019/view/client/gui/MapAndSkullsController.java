@@ -14,44 +14,44 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class MapAndSkullsController {
 
-    private GUIView guiView;
-    private ObservableList<String> mapOptions;
+	private GUIView guiView;
+	private ObservableList<String> mapOptions;
 
-    @FXML
-    private Button doneButton;
-    @FXML
-    private ComboBox<String> mapComboBox;
-    @FXML
-    private ComboBox<String> skullsComboBox;
-    @FXML
-    private Label waitingLabel;
+	@FXML
+	private Button doneButton;
+	@FXML
+	private ComboBox<String> mapComboBox;
+	@FXML
+	private ComboBox<String> skullsComboBox;
+	@FXML
+	private Label waitingLabel;
 
-    public void setGui(GUIView guiView) {
-        this.guiView = guiView;
-    }
+	public void setGui(GUIView guiView) {
+		this.guiView = guiView;
+	}
 
-    public void set(List<String> maps, int minSkulls, int maxSkulls) {
-        mapOptions = observableArrayList();
-        mapOptions.addAll(maps);
-        mapComboBox.setItems(mapOptions);
-        mapComboBox.setValue(maps.get(0));
-        ObservableList<String> skullsOptions = observableArrayList();
-        for (int i = minSkulls; i <= maxSkulls; i++)
-            skullsOptions.add(Integer.toString(i));
-        skullsComboBox.setItems(skullsOptions);
-        skullsComboBox.setValue(skullsOptions.get(0));
-    }
+	public void set(List<String> maps, int minSkulls, int maxSkulls) {
+		mapOptions = observableArrayList();
+		mapOptions.addAll(maps);
+		mapComboBox.setItems(mapOptions);
+		mapComboBox.setValue(maps.get(0));
+		ObservableList<String> skullsOptions = observableArrayList();
+		for (int i = minSkulls; i <= maxSkulls; i++)
+			skullsOptions.add(Integer.toString(i));
+		skullsComboBox.setItems(skullsOptions);
+		skullsComboBox.setValue(skullsOptions.get(0));
+	}
 
-    @FXML
-    public void done() {
-        String chosenMap = mapComboBox.getSelectionModel().getSelectedItem();
-        GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
-        gameConfigMessage.setMapIndex(mapOptions.indexOf(chosenMap));
-        gameConfigMessage.setSkulls(Integer.parseInt(skullsComboBox.getSelectionModel().getSelectedItem()));
-        guiView.sendMessage(gameConfigMessage);
-        doneButton.setDisable(true);
-        mapComboBox.setDisable(true);
-        skullsComboBox.setDisable(true);
-        waitingLabel.setVisible(true);
-    }
+	@FXML
+	public void done() {
+		String chosenMap = mapComboBox.getSelectionModel().getSelectedItem();
+		GameConfigMessage gameConfigMessage = new GameConfigMessage(MessageSubtype.ANSWER);
+		gameConfigMessage.setMapIndex(mapOptions.indexOf(chosenMap));
+		gameConfigMessage.setSkulls(Integer.parseInt(skullsComboBox.getSelectionModel().getSelectedItem()));
+		guiView.sendMessage(gameConfigMessage);
+		doneButton.setDisable(true);
+		mapComboBox.setDisable(true);
+		skullsComboBox.setDisable(true);
+		waitingLabel.setVisible(true);
+	}
 }

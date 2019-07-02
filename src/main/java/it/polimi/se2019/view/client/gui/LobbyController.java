@@ -11,22 +11,22 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class LobbyController {
 
-    @FXML
-    private Label timerLabel;
+	@FXML
+	private Label timerLabel;
 
-    @FXML
-    private ListView<String> nicknames;
+	@FXML
+	private ListView<String> nicknames;
 
-    void showNicknames(List<String> players) {
-        ObservableList<String> playerList = observableArrayList(players);
-        nicknames.setItems(playerList);
-    }
+	void showNicknames(List<String> players) {
+		ObservableList<String> playerList = observableArrayList(players);
+		nicknames.setItems(playerList);
+	}
 
-    void startTimer() {
-        timerLabel.setVisible(true);
-    }
+	void startTimer() {
+		timerLabel.setVisible(true);
+	}
 
-    void stopTimer() {
-        timerLabel.setVisible(false);
-    }
+	void stopTimer() {
+		timerLabel.setVisible(false);
+	}
 }

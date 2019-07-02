@@ -15,35 +15,35 @@ import javafx.stage.Stage;
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class AskStringController {
-    @FXML
-    private Label string;
-    @FXML
-    private ComboBox<String> choiceComboBox;
-    @FXML
-    private Button doneButton;
+	@FXML
+	private Label string;
+	@FXML
+	private ComboBox<String> choiceComboBox;
+	@FXML
+	private Button doneButton;
 
-    private GUIView guiView;
-    private Stage stage;
-    private MessageType answerMessageType;
-    private ObservableList<String> options;
+	private GUIView guiView;
+	private Stage stage;
+	private MessageType answerMessageType;
+	private ObservableList<String> options;
 
-    @FXML
-    private void pressedDone() {
-        stage.close();
-        guiView.sendMessage(new IntMessage(options.indexOf(choiceComboBox.getSelectionModel().getSelectedItem()), answerMessageType, MessageSubtype.ANSWER));
-    }
+	@FXML
+	private void pressedDone() {
+		stage.close();
+		guiView.sendMessage(new IntMessage(options.indexOf(choiceComboBox.getSelectionModel().getSelectedItem()), answerMessageType, MessageSubtype.ANSWER));
+	}
 
-    void setAskString(QuestionContainer questionContainer, MessageType messageType) {
-        answerMessageType = messageType;
-        string.setText(questionContainer.getQuestion());
-        options = observableArrayList();
-        options.addAll(questionContainer.getOptions());
-        choiceComboBox.setItems(options);
-        choiceComboBox.setValue(options.get(0));
-    }
+	void setAskString(QuestionContainer questionContainer, MessageType messageType) {
+		answerMessageType = messageType;
+		string.setText(questionContainer.getQuestion());
+		options = observableArrayList();
+		options.addAll(questionContainer.getOptions());
+		choiceComboBox.setItems(options);
+		choiceComboBox.setValue(options.get(0));
+	}
 
-    void setGuiAndStage(GUIView guiView, Stage stage) {
-        this.guiView = guiView;
-        this.stage = stage;
-    }
+	void setGuiAndStage(GUIView guiView, Stage stage) {
+		this.guiView = guiView;
+		this.stage = stage;
+	}
 }

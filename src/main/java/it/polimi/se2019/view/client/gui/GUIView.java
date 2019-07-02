@@ -272,8 +272,8 @@ public class GUIView extends RemoteView {
 		Platform.runLater(() -> {
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
-            powerupChoiceController.activateNoPowerupButton(true);
-            powerupChoiceController.setTitle("Choose the powerup you want to use");
+			powerupChoiceController.activateNoPowerupButton(true);
+			powerupChoiceController.setTitle("Choose the powerup you want to use");
 			int answer = powerupChoiceController.askChoice();
 			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		});
@@ -303,7 +303,7 @@ public class GUIView extends RemoteView {
 				askStringController.setAskString(questionContainer, messageType);
 				askStringStage.show();
 			} else {
-                gameBoardController.setQuestion(questionContainer.getQuestion());
+				gameBoardController.setQuestion(questionContainer.getQuestion());
 				gameBoardController.highlightCoordinates(questionContainer.getCoordinates(), Request.CHOOSE, messageType);
 			}
 		});
