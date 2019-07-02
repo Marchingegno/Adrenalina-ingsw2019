@@ -4,29 +4,30 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-
-<AnchorPane prefHeight="194.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2019.view.client.gui.AskStringController">
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="194.0" prefWidth="527.0"
+            xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="it.polimi.se2019.view.client.gui.AskStringController">
     <children>
-      <BorderPane prefHeight="188.0" prefWidth="527.0">
-         <top>
-              <Label fx:id="string" text="Label" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets top="45.0" />
-               </BorderPane.margin>
-            </Label>
-         </top>
-         <center>
-              <ComboBox fx:id="choiceComboBox" prefHeight="27.0" prefWidth="247.0" BorderPane.alignment="CENTER" />
-         </center>
-         <bottom>
-              <Button fx:id="doneButton" mnemonicParsing="false" onAction="#pressedDone" prefWidth="51.0" text="Done" textAlignment="RIGHT" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="310.0" />
-               </BorderPane.margin>
-            </Button>
-         </bottom>
-      </BorderPane>
+        <BorderPane prefHeight="188.0" prefWidth="527.0">
+            <top>
+                <Label fx:id="string" text="Label" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets top="45.0"/>
+                    </BorderPane.margin>
+                </Label>
+            </top>
+            <center>
+                <ComboBox fx:id="choiceComboBox" prefHeight="27.0" prefWidth="247.0" BorderPane.alignment="CENTER"/>
+            </center>
+            <bottom>
+                <Button fx:id="doneButton" mnemonicParsing="false" onAction="#pressedDone" prefWidth="51.0" text="Done"
+                        textAlignment="RIGHT" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" left="310.0"/>
+                    </BorderPane.margin>
+                </Button>
+            </bottom>
+        </BorderPane>
     </children>
 </AnchorPane>

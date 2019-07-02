@@ -1,214 +1,214 @@
 {
-	"ammocards": [
-		{
-			"name": "B_R_R",
-			"ammo": [
-				"BLUE_AMMO",
-				"RED_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": false,
-			"path": "B_R_R"
-		},
-		{
-			"name": "B_R_R",
-			"ammo": [
-				"BLUE_AMMO",
-				"RED_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": false,
-			"path": "B_R_R"
-		},
-		{
-			"name": "B_Y_Y",
-			"ammo": [
-				"BLUE_AMMO",
-				"YELLOW_AMMO",
-				"YELLOW_AMMO"
-			],
-			"powerup": false,
-			"path": "B_Y_Y"
-		},
-		{
-			"name": "B_Y_Y",
-			"ammo": [
-				"BLUE_AMMO",
-				"YELLOW_AMMO",
-				"YELLOW_AMMO"
-			],
-			"powerup": false,
-			"path": "B_Y_Y"
-		},
-		{
-			"name": "P_B_B",
-			"ammo": [
-				"BLUE_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": true,
-			"path": "P_B_B"
-		},
-		{
-			"name": "P_R_B",
-			"ammo": [
-				"RED_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": true,
-			"path": "P_B_B"
-		},
-		{
-			"name": "P_R_R",
-			"ammo": [
-				"RED_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": true,
-			"path": "P_R_R"
-		},
-		{
-			"name": "P_R_R",
-			"ammo": [
-				"RED_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": true,
-			"path": "P_R_R"
-		},
-		{
-			"name": "P_Y_B",
-			"ammo": [
-				"YELLOW_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": true,
-			"path": "P_Y_B"
-		},
-		{
-			"name": "P_Y_B",
-			"ammo": [
-				"YELLOW_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": true,
-			"path": "P_Y_B"
-		},
-		{
-			"name": "P_Y_R",
-			"ammo": [
-				"YELLOW_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": true,
-			"path": "P_Y_R"
-		},
-		{
-			"name": "P_Y_R",
-			"ammo": [
-				"YELLOW_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": true,
-			"path": "P_Y_R"
-		},
-		{
-			"name": "P_Y_Y",
-			"ammo": [
-				"YELLOW_AMMO",
-				"YELLOW_AMMO"
-			],
-			"powerup": true,
-			"path": "P_Y_Y"
-		},
-		{
-			"name": "P_Y_Y",
-			"ammo": [
-				"YELLOW_AMMO",
-				"YELLOW_AMMO"
-			],
-			"powerup": true,
-			"path": "P_Y_Y"
-		},
-		{
-			"name": "R_B_B",
-			"ammo": [
-				"RED_AMMO",
-				"BLUE_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": false,
-			"path": "R_B_B"
-		},
-		{
-			"name": "R_B_B",
-			"ammo": [
-				"RED_AMMO",
-				"BLUE_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": false,
-			"path": "R_B_B"
-		},
-		{
-			"name": "R_Y_Y",
-			"ammo": [
-				"RED_AMMO",
-				"YELLOW_AMMO",
-				"YELLOW_AMMO"
-			],
-			"powerup": false,
-			"path": "R_Y_Y"
-		},
-		{
-			"name": "R_Y_Y",
-			"ammo": [
-				"RED_AMMO",
-				"YELLOW_AMMO",
-				"YELLOW_AMMO"
-			],
-			"powerup": false,
-			"path": "R_Y_Y"
-		},
-		{
-			"name": "Y_B_B",
-			"ammo": [
-				"YELLOW_AMMO",
-				"BLUE_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": false,
-			"path": "Y_B_B"
-		},
-		{
-			"name": "Y_B_B",
-			"ammo": [
-				"YELLOW_AMMO",
-				"BLUE_AMMO",
-				"BLUE_AMMO"
-			],
-			"powerup": false,
-			"path": "Y_B_B"
-		},
-		{
-			"name": "Y_R_R",
-			"ammo": [
-				"YELLOW_AMMO",
-				"RED_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": false,
-			"path": "Y_R_R"
-		},
-		{
-			"name": "Y_R_R",
-			"ammo": [
-				"YELLOW_AMMO",
-				"RED_AMMO",
-				"RED_AMMO"
-			],
-			"powerup": false,
-			"path": "Y_R_R"
-		}
-	]
+  "ammocards": [
+    {
+      "name": "B_R_R",
+      "ammo": [
+        "BLUE_AMMO",
+        "RED_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": false,
+      "path": "B_R_R"
+    },
+    {
+      "name": "B_R_R",
+      "ammo": [
+        "BLUE_AMMO",
+        "RED_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": false,
+      "path": "B_R_R"
+    },
+    {
+      "name": "B_Y_Y",
+      "ammo": [
+        "BLUE_AMMO",
+        "YELLOW_AMMO",
+        "YELLOW_AMMO"
+      ],
+      "powerup": false,
+      "path": "B_Y_Y"
+    },
+    {
+      "name": "B_Y_Y",
+      "ammo": [
+        "BLUE_AMMO",
+        "YELLOW_AMMO",
+        "YELLOW_AMMO"
+      ],
+      "powerup": false,
+      "path": "B_Y_Y"
+    },
+    {
+      "name": "P_B_B",
+      "ammo": [
+        "BLUE_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_B_B"
+    },
+    {
+      "name": "P_R_B",
+      "ammo": [
+        "RED_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_B_B"
+    },
+    {
+      "name": "P_R_R",
+      "ammo": [
+        "RED_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_R_R"
+    },
+    {
+      "name": "P_R_R",
+      "ammo": [
+        "RED_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_R_R"
+    },
+    {
+      "name": "P_Y_B",
+      "ammo": [
+        "YELLOW_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_Y_B"
+    },
+    {
+      "name": "P_Y_B",
+      "ammo": [
+        "YELLOW_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_Y_B"
+    },
+    {
+      "name": "P_Y_R",
+      "ammo": [
+        "YELLOW_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_Y_R"
+    },
+    {
+      "name": "P_Y_R",
+      "ammo": [
+        "YELLOW_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_Y_R"
+    },
+    {
+      "name": "P_Y_Y",
+      "ammo": [
+        "YELLOW_AMMO",
+        "YELLOW_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_Y_Y"
+    },
+    {
+      "name": "P_Y_Y",
+      "ammo": [
+        "YELLOW_AMMO",
+        "YELLOW_AMMO"
+      ],
+      "powerup": true,
+      "path": "P_Y_Y"
+    },
+    {
+      "name": "R_B_B",
+      "ammo": [
+        "RED_AMMO",
+        "BLUE_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": false,
+      "path": "R_B_B"
+    },
+    {
+      "name": "R_B_B",
+      "ammo": [
+        "RED_AMMO",
+        "BLUE_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": false,
+      "path": "R_B_B"
+    },
+    {
+      "name": "R_Y_Y",
+      "ammo": [
+        "RED_AMMO",
+        "YELLOW_AMMO",
+        "YELLOW_AMMO"
+      ],
+      "powerup": false,
+      "path": "R_Y_Y"
+    },
+    {
+      "name": "R_Y_Y",
+      "ammo": [
+        "RED_AMMO",
+        "YELLOW_AMMO",
+        "YELLOW_AMMO"
+      ],
+      "powerup": false,
+      "path": "R_Y_Y"
+    },
+    {
+      "name": "Y_B_B",
+      "ammo": [
+        "YELLOW_AMMO",
+        "BLUE_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": false,
+      "path": "Y_B_B"
+    },
+    {
+      "name": "Y_B_B",
+      "ammo": [
+        "YELLOW_AMMO",
+        "BLUE_AMMO",
+        "BLUE_AMMO"
+      ],
+      "powerup": false,
+      "path": "Y_B_B"
+    },
+    {
+      "name": "Y_R_R",
+      "ammo": [
+        "YELLOW_AMMO",
+        "RED_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": false,
+      "path": "Y_R_R"
+    },
+    {
+      "name": "Y_R_R",
+      "ammo": [
+        "YELLOW_AMMO",
+        "RED_AMMO",
+        "RED_AMMO"
+      ],
+      "powerup": false,
+      "path": "Y_R_R"
+    }
+  ]
 }

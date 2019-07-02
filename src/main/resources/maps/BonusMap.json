@@ -1,158 +1,158 @@
 {
-	"name": "BonusMap",
-	"row": 3,
-	"column": 4,
-	"squares": [
-		{
-			"type": "AmmoSquare",
-			"row": 0,
-			"column": 0,
-			"roomID": 0,
-			"squareColor": "RED",
-			"possibleDirection": [
-				false,
-				true,
-				true,
-				false
-			]
-		},
-		{
-			"type": "AmmoSquare",
-			"row": 0,
-			"column": 1,
-			"roomID": 1,
-			"squareColor": "BLUE",
-			"possibleDirection": [
-				false,
-				true,
-				true,
-				true
-			]
-		},
-		{
-			"type": "SpawnSquare",
-			"row": 0,
-			"column": 2,
-			"roomID": 1,
-			"squareColor": "BLUE",
-			"ammoType": "BLUE_AMMO",
-			"possibleDirection": [
-				false,
-				false,
-				true,
-				true
-			]
-		},
-		{
-			"type": "VoidSquare",
-			"row": 0,
-			"column": 3
-		},
-		{
-			"type": "SpawnSquare",
-			"row": 1,
-			"column": 0,
-			"roomID": 0,
-			"squareColor": "RED",
-			"ammoType": "RED_AMMO",
-			"possibleDirection": [
-				true,
-				false,
-				true,
-				false
-			]
-		},
-		{
-			"type": "AmmoSquare",
-			"row": 1,
-			"column": 1,
-			"roomID": 2,
-			"squareColor": "MAGENTA",
-			"possibleDirection": [
-				true,
-				true,
-				true,
-				false
-			]
-		},
-		{
-			"type": "AmmoSquare",
-			"row": 1,
-			"column": 2,
-			"roomID": 2,
-			"squareColor": "MAGENTA",
-			"possibleDirection": [
-				true,
-				true,
-				false,
-				true
-			]
-		},
-		{
-			"type": "AmmoSquare",
-			"row": 1,
-			"column": 3,
-			"roomID": 3,
-			"squareColor": "YELLOW",
-			"possibleDirection": [
-				false,
-				false,
-				true,
-				true
-			]
-		},
-		{
-			"type": "AmmoSquare",
-			"row": 2,
-			"column": 0,
-			"roomID": 4,
-			"squareColor": "WHITE",
-			"possibleDirection": [
-				true,
-				true,
-				false,
-				false
-			]
-		},
-		{
-			"type": "AmmoSquare",
-			"row": 2,
-			"column": 1,
-			"roomID": 4,
-			"squareColor": "WHITE",
-			"possibleDirection": [
-				true,
-				true,
-				false,
-				true
-			]
-		},
-		{
-			"type": "AmmoSquare",
-			"row": 2,
-			"column": 2,
-			"roomID": 4,
-			"squareColor": "WHITE",
-			"possibleDirection": [
-				false,
-				true,
-				false,
-				true
-			]
-		},
-		{
-			"type": "SpawnSquare",
-			"row": 2,
-			"column": 3,
-			"roomID": 3,
-			"squareColor": "YELLOW",
-			"ammoType": "YELLOW_AMMO",
-			"possibleDirection": [
-				true,
-				false,
-				false,
-				true
-			]
-		}
-	]
+  "name": "BonusMap",
+  "row": 3,
+  "column": 4,
+  "squares": [
+    {
+      "type": "AmmoSquare",
+      "row": 0,
+      "column": 0,
+      "roomID": 0,
+      "squareColor": "RED",
+      "possibleDirection": [
+        false,
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "AmmoSquare",
+      "row": 0,
+      "column": 1,
+      "roomID": 1,
+      "squareColor": "BLUE",
+      "possibleDirection": [
+        false,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "type": "SpawnSquare",
+      "row": 0,
+      "column": 2,
+      "roomID": 1,
+      "squareColor": "BLUE",
+      "ammoType": "BLUE_AMMO",
+      "possibleDirection": [
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "type": "VoidSquare",
+      "row": 0,
+      "column": 3
+    },
+    {
+      "type": "SpawnSquare",
+      "row": 1,
+      "column": 0,
+      "roomID": 0,
+      "squareColor": "RED",
+      "ammoType": "RED_AMMO",
+      "possibleDirection": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "AmmoSquare",
+      "row": 1,
+      "column": 1,
+      "roomID": 2,
+      "squareColor": "MAGENTA",
+      "possibleDirection": [
+        true,
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "AmmoSquare",
+      "row": 1,
+      "column": 2,
+      "roomID": 2,
+      "squareColor": "MAGENTA",
+      "possibleDirection": [
+        true,
+        true,
+        false,
+        true
+      ]
+    },
+    {
+      "type": "AmmoSquare",
+      "row": 1,
+      "column": 3,
+      "roomID": 3,
+      "squareColor": "YELLOW",
+      "possibleDirection": [
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "type": "AmmoSquare",
+      "row": 2,
+      "column": 0,
+      "roomID": 4,
+      "squareColor": "WHITE",
+      "possibleDirection": [
+        true,
+        true,
+        false,
+        false
+      ]
+    },
+    {
+      "type": "AmmoSquare",
+      "row": 2,
+      "column": 1,
+      "roomID": 4,
+      "squareColor": "WHITE",
+      "possibleDirection": [
+        true,
+        true,
+        false,
+        true
+      ]
+    },
+    {
+      "type": "AmmoSquare",
+      "row": 2,
+      "column": 2,
+      "roomID": 4,
+      "squareColor": "WHITE",
+      "possibleDirection": [
+        false,
+        true,
+        false,
+        true
+      ]
+    },
+    {
+      "type": "SpawnSquare",
+      "row": 2,
+      "column": 3,
+      "roomID": 3,
+      "squareColor": "YELLOW",
+      "ammoType": "YELLOW_AMMO",
+      "possibleDirection": [
+        true,
+        false,
+        false,
+        true
+      ]
+    }
+  ]
 }
