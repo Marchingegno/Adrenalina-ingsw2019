@@ -14,85 +14,91 @@ import java.net.Socket;
 
 /**
  * Contains the socket to communicate with a client. It sends messages through the output stream and receives them through the input stream.
+ *
  * @author MarcerAndrea
  */
 public class ServerClientSocket extends AbstractConnectionToClient implements Runnable {
 
-	private ServerEventsListenerInterface serverEventsListener;
-	private Socket socket;
-	private boolean active;
-	private ObjectInputStream objInStream;
-	private ObjectOutputStream objOutStream;
+    private ServerEventsListenerInterface serverEventsListener;
+    private Socket socket;
+    private boolean active;
+    private ObjectInputStream objInStream;
+    private ObjectOutputStream objOutStream;
 
-	/**
-	 * Create a new ServerClientSocket instance.
-	 * @param serverEventsListener the event listener to which all events are forwarded.
-	 * @param socket the socket to associate to this instance.
-	 */
-	public ServerClientSocket(ServerEventsListenerInterface serverEventsListener, Socket socket){
-		active = true;
-		this.serverEventsListener = serverEventsListener;
-		this.socket = socket;
+    /**
+     * Create a new ServerClientSocket instance.
+     *
+     * @param serverEventsListener the event listener to which all events are forwarded.
+     * @param socket               the socket to associate to this instance.
+     */
+    ServerClientSocket(ServerEventsListenerInterface serverEventsListener, Socket socket) {
+        active = true;
+        this.serverEventsListener = serverEventsListener;
+        this.socket = socket;
 
-		try {
-			objOutStream = new ObjectOutputStream(socket.getOutputStream());
-			objInStream = new ObjectInputStream(socket.getInputStream());
-			new Thread(this, "CUSTOM: Socket Connection to Client").start();
-			Utils.logInfo("ServerClientSocket => ServerClientSocket(): a new connection to a client has been created with Socket.");
-		} catch (IOException e) {
-			Utils.logError("Error in ServerClientSocket()", e);
-			active = false;
-		}
-	}
+        try {
+            objOutStream = new ObjectOutputStream(socket.getOutputStream());
+            objInStream = new ObjectInputStream(socket.getInputStream());
+            new Thread(this, "CUSTOM: Socket Connection to Client").start();
+            Utils.logInfo("ServerClientSocket => ServerClientSocket(): a new connection to a client has been created with Socket.");
+        } catch (IOException e) {
+            Utils.logError("Error in ServerClientSocket()", e);
+            active = false;
+        }
+    }
 
-	/**
-	 * Returns true if and only if the socket is active.
-	 * @return true if and only if the socket is active.
-	 */
-	public boolean isConnectionActive(){ return active; }
+    /**
+     * Returns true if and only if the socket is active.
+     *
+     * @return true if and only if the socket is active.
+     */
+    private boolean isConnectionActive() {
+        return active;
+    }
 
-	/**
-	 * Thread that listens for new messages from the client.
-	 */
-	@Override
-	public void run() {
-		try{
-			while(isConnectionActive()){
-				serverEventsListener.onMessageReceived(this, (Message) objInStream.readObject());
-			}
-		} catch (IOException | ClassNotFoundException e) {
-			Utils.logError("Connection lost.", e);
-			serverEventsListener.onConnectionLost(this);
-		}finally{
-			closeConnectionWithClient();
-		}
-	}
+    /**
+     * Thread that listens for new messages from the client.
+     */
+    @Override
+    public void run() {
+        try {
+            while (isConnectionActive()) {
+                serverEventsListener.onMessageReceived(this, (Message) objInStream.readObject());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            Utils.logError("Connection lost.", e);
+            serverEventsListener.onConnectionLost(this);
+        } finally {
+            closeConnectionWithClient();
+        }
+    }
 
-	/**
-	 * Send a message to the client.
-	 * @param message the message to send.
-	 */
-	@Override
-	public void sendMessage(Message message){
-		Utils.logInfo("ServerClientSocket -> sendMessage(): sending a message to " + hashCode() + " " + message +
-				(message.getMessageType().equals(MessageType.UPDATE_REPS) ? " inner message " + ((RepMessage) message).getMessage() : ""));
-		try {
-			objOutStream.writeObject(message);
-		}catch(IOException e){
-			Utils.logError("Socket: send message to client failed.", e);
-		}
-	}
+    /**
+     * Send a message to the client.
+     *
+     * @param message the message to send.
+     */
+    @Override
+    public void sendMessage(Message message) {
+        Utils.logInfo("ServerClientSocket -> sendMessage(): sending a message to " + hashCode() + " " + message +
+                (message.getMessageType().equals(MessageType.UPDATE_REPS) ? " inner message " + ((RepMessage) message).getMessage() : ""));
+        try {
+            objOutStream.writeObject(message);
+        } catch (IOException e) {
+            Utils.logError("Socket: send message to client failed.", e);
+        }
+    }
 
-	/**
-	 * Closes the connection with the client.
-	 */
-	@Override
-	public void closeConnectionWithClient() {
-		active = false;
-		try {
-			socket.close();
-		} catch (IOException e) {
-			Utils.logError("Error in closeConnectionWithClient", e);
-		}
-	}
+    /**
+     * Closes the connection with the client.
+     */
+    @Override
+    public void closeConnectionWithClient() {
+        active = false;
+        try {
+            socket.close();
+        } catch (IOException e) {
+            Utils.logError("Error in closeConnectionWithClient", e);
+        }
+    }
 }

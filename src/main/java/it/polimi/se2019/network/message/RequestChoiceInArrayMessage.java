@@ -8,25 +8,27 @@ import java.util.List;
  */
 public class RequestChoiceInArrayMessage extends Message {
 
-	private final ArrayList<Integer> availableIndexes;
+    private final ArrayList<Integer> availableIndexes;
 
 
-	/**
-	 * Constructs a message.
-	 * @param availableIndexes the available indexes of the array to choose from.
-	 * @param messageType the message type of this message.
-	 */
-	public RequestChoiceInArrayMessage(List<Integer> availableIndexes, MessageType messageType) {
-		super(messageType, MessageSubtype.REQUEST);
-		this.availableIndexes = new ArrayList<>(availableIndexes);
-	}
+    /**
+     * Constructs a message.
+     *
+     * @param availableIndexes the available indexes of the array to choose from.
+     * @param messageType      the message type of this message.
+     */
+    public RequestChoiceInArrayMessage(List<Integer> availableIndexes, MessageType messageType) {
+        super(messageType, MessageSubtype.REQUEST);
+        this.availableIndexes = new ArrayList<>(availableIndexes);
+    }
 
 
-	/**
-	 * Returns the available indexes of the array to choose from.
-	 * @return the available indexes of the array to choose from.
-	 */
-	public List<Integer> getAvailableIndexes() {
-		return availableIndexes;
-	}
+    /**
+     * Returns the available indexes of the array to choose from.
+     *
+     * @return the available indexes of the array to choose from.
+     */
+    public List<Integer> getAvailableIndexes() {
+        return availableIndexes;
+    }
 }

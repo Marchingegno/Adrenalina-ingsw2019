@@ -15,10 +15,11 @@ public class PaymentMessage extends Message {
 
     /**
      * Constructs a message.
+     *
      * @param priceToPay a list containing the price the player has to pay.
-     * @param subtype the messageSubtype of the message.
+     * @param subtype    the messageSubtype of the message.
      */
-    public PaymentMessage(List<AmmoType> priceToPay, MessageSubtype subtype){
+    public PaymentMessage(List<AmmoType> priceToPay, MessageSubtype subtype) {
         super(MessageType.PAYMENT, subtype);
         this.priceToPay = priceToPay;
     }
@@ -26,6 +27,7 @@ public class PaymentMessage extends Message {
 
     /**
      * Returns the list of powerups to use as payment.
+     *
      * @return the list of powerups to use as payment.
      */
     public List<Integer> getPowerupsUsed() {
@@ -34,6 +36,7 @@ public class PaymentMessage extends Message {
 
     /**
      * Sets the list containing the powerups to use for payment.
+     *
      * @param powerupsUsed the list containing the powerups to use for payment.
      * @return the PaymentMessage itself.
      */
@@ -44,6 +47,7 @@ public class PaymentMessage extends Message {
 
     /**
      * Sets if the message can be afforded also with only ammo cubes.
+     *
      * @param canAffordAlsoWithAmmo true if the message can be afforded also with only ammo cubes.
      * @return the PaymentMessage itself.
      */
@@ -54,6 +58,7 @@ public class PaymentMessage extends Message {
 
     /**
      * Returns true if the payment can also be afforded with only ammo cubes.
+     *
      * @return true if the payment can also be afforded with only ammo cubes.
      */
     public boolean canAffordAlsoWithAmmo() {
@@ -62,6 +67,7 @@ public class PaymentMessage extends Message {
 
     /**
      * Returns a list containing the price to pay.
+     *
      * @return a list containing the price to pay.
      */
     public List<AmmoType> getPriceToPay() {
