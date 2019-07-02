@@ -9,100 +9,100 @@ import java.util.List;
 
 /**
  * This class represents the status of the player that decides which actions it can take.
+ *
  * @author Marchingegno
  */
 public abstract class DamageStatus implements Representable {
-	private int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
-	private int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
-	private int currentActionIndex; //Action currently in execution.
-	List<MacroAction> availableActions;
-	private boolean hasChanged = true;
+    List<MacroAction> availableActions;
+    private int numberOfMacroActionsPerTurn; // Number of actions that a player with this status can perform in a turn.
+    private int numberOfMacroActionsToPerform; // Actions that the player still has to perform in this turn.
+    private int currentActionIndex; //Action currently in execution.
+    private boolean hasChanged = true;
 
-	public boolean hasMacroActionLeft(){
-		return (numberOfMacroActionsToPerform > 0);
-	}
+    public boolean hasMacroActionLeft() {
+        return (numberOfMacroActionsToPerform > 0);
+    }
 
-	public List<MacroAction> getAvailableMacroActions(){
-		return availableActions;
-	}
+    public List<MacroAction> getAvailableMacroActions() {
+        return availableActions;
+    }
 
-	public MacroAction getCurrentMacroAction() {
-		return availableActions.get(currentActionIndex);
-	}
+    public MacroAction getCurrentMacroAction() {
+        return availableActions.get(currentActionIndex);
+    }
 
-	int getNumberOfMacroActionsPerTurn() {
-		return numberOfMacroActionsPerTurn;
-	}
+    int getNumberOfMacroActionsPerTurn() {
+        return numberOfMacroActionsPerTurn;
+    }
 
-	int getNumberOfMacroActionsToPerform() {
-		return numberOfMacroActionsToPerform;
-	}
+    void setNumberOfMacroActionsPerTurn(int numberOfMacroActionsPerTurn) {
+        this.numberOfMacroActionsPerTurn = numberOfMacroActionsPerTurn;
+    }
 
-	public void decreaseMacroActionsToPerform(){
-		if(numberOfMacroActionsToPerform == 0)
-			throw new IllegalStateException("numberOfMacroActionsToPerform is already zero!");
+    int getNumberOfMacroActionsToPerform() {
+        return numberOfMacroActionsToPerform;
+    }
 
-		numberOfMacroActionsToPerform--;
-		setChanged();
-	}
+    void setNumberOfMacroActionsToPerform(int numberOfMacroActionsToPerform) {
+        this.numberOfMacroActionsToPerform = numberOfMacroActionsToPerform;
+    }
 
-	public void setCurrentMacroActionIndex(int currentActionIndex) {
-		this.currentActionIndex = currentActionIndex;
-		setChanged();
-	}
+    public void decreaseMacroActionsToPerform() {
+        if (numberOfMacroActionsToPerform == 0)
+            throw new IllegalStateException("numberOfMacroActionsToPerform is already zero!");
 
-	public int getCurrentMacroActionIndex() {
-		return currentActionIndex;
-	}
+        numberOfMacroActionsToPerform--;
+        setChanged();
+    }
 
-	public ActionType getNextActionToExecuteAndAdvance() {
-		return availableActions.get(currentActionIndex).getNextActionToExecuteAndAdvance();
-	}
+    public int getCurrentMacroActionIndex() {
+        return currentActionIndex;
+    }
 
-	/**
-	 * This method will be called at the start of a turn if there is no need to setChanged the status of the player.
-	 */
-	public void refillMacroActions()
-	{
-		numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
-		setChanged();
-	}
+    public void setCurrentMacroActionIndex(int currentActionIndex) {
+        this.currentActionIndex = currentActionIndex;
+        setChanged();
+    }
 
-	/**
-	 * Sets the square as changed.
-	 */
-	public void setChanged() {
-		hasChanged = true;
-	}
+    public ActionType getNextActionToExecuteAndAdvance() {
+        return availableActions.get(currentActionIndex).getNextActionToExecuteAndAdvance();
+    }
 
-	/**
-	 * Sets the square as not changed.
-	 */
-	public void setNotChanged() {
-		hasChanged = false;
-	}
+    /**
+     * This method will be called at the start of a turn if there is no need to setChanged the status of the player.
+     */
+    public void refillMacroActions() {
+        numberOfMacroActionsToPerform = numberOfMacroActionsPerTurn;
+        setChanged();
+    }
 
-	/**
-	 * Returns true if and only if the player board has changed.
-	 *
-	 * @return true if and only if the player board has changed.
-	 */
-	public boolean hasChanged() {
-		return hasChanged;
-	}
+    /**
+     * Sets the square as changed.
+     */
+    public void setChanged() {
+        hasChanged = true;
+    }
 
-	@Override
-	public Representation getRep() {
-		return new DamageStatusRep(this);
-	}
+    /**
+     * Sets the square as not changed.
+     */
+    public void setNotChanged() {
+        hasChanged = false;
+    }
 
-	public abstract boolean isFrenzy();
+    /**
+     * Returns true if and only if the player board has changed.
+     *
+     * @return true if and only if the player board has changed.
+     */
+    public boolean hasChanged() {
+        return hasChanged;
+    }
 
-	void setNumberOfMacroActionsPerTurn(int numberOfMacroActionsPerTurn) {
-		this.numberOfMacroActionsPerTurn = numberOfMacroActionsPerTurn;
-	}
+    @Override
+    public Representation getRep() {
+        return new DamageStatusRep(this);
+    }
 
-	void setNumberOfMacroActionsToPerform(int numberOfMacroActionsToPerform) {
-		this.numberOfMacroActionsToPerform = numberOfMacroActionsToPerform;
-	}
+    public abstract boolean isFrenzy();
 }

@@ -29,374 +29,383 @@ import java.util.List;
  */
 public abstract class WeaponCard extends ActivableCard {
 
-	private final ArrayList<AmmoType> reloadPrice;
-	private final int moveDistance; //Standard move for relocation of the player.
-	private final int primaryDamage;
-	private final int primaryMarks;
-	private List<DamageAndMarks> standardDamagesAndMarks;
-	private List<Player> currentTargets;
-	private Player target;
-	private boolean loaded;
-	private List<Player> playersHit;
-	private static final int PAYMENT_STEP = 1;
+    private static final int PAYMENT_STEP = 1;
+    private final ArrayList<AmmoType> reloadPrice;
+    private final int moveDistance; //Standard move for relocation of the player.
+    private final int primaryDamage;
+    private final int primaryMarks;
+    private List<DamageAndMarks> standardDamagesAndMarks;
+    private List<Player> currentTargets;
+    private Player target;
+    private boolean loaded;
+    private List<Player> playersHit;
 
 
-	/**
-	 * Constructor of the class.
-	 *
-	 * @param parameters the JsonObject with the parameters needed for the weapon.
-	 */
-	public WeaponCard(JsonObject parameters) {
-		super(parameters.get("name").getAsString(), parameters.get("description").getAsString(), parameters.get("imagePath").getAsString());
-		this.standardDamagesAndMarks = new ArrayList<>();
-		this.reloadPrice = new ArrayList<>();
+    /**
+     * Constructor of the class.
+     *
+     * @param parameters the JsonObject with the parameters needed for the weapon.
+     */
+    public WeaponCard(JsonObject parameters) {
+        super(parameters.get("name").getAsString(), parameters.get("description").getAsString(), parameters.get("imagePath").getAsString());
+        this.standardDamagesAndMarks = new ArrayList<>();
+        this.reloadPrice = new ArrayList<>();
 
-		for (JsonElement ammoPrice : parameters.getAsJsonArray("price")) {
-			this.reloadPrice.add(AmmoType.valueOf(ammoPrice.getAsString()));
-		}
+        for (JsonElement ammoPrice : parameters.getAsJsonArray("price")) {
+            this.reloadPrice.add(AmmoType.valueOf(ammoPrice.getAsString()));
+        }
 
-		this.primaryDamage = parameters.get("primaryDamage").getAsInt();
-		this.primaryMarks = parameters.get("primaryMarks").getAsInt();
-		this.moveDistance = parameters.get("moveDistance").getAsInt();
-		this.currentTargets = new ArrayList<>();
-		this.playersHit = new ArrayList<>();
-		resetCurrentStep();
-		loaded = true;
-	}
+        this.primaryDamage = parameters.get("primaryDamage").getAsInt();
+        this.primaryMarks = parameters.get("primaryMarks").getAsInt();
+        this.moveDistance = parameters.get("moveDistance").getAsInt();
+        this.currentTargets = new ArrayList<>();
+        this.playersHit = new ArrayList<>();
+        resetCurrentStep();
+        loaded = true;
+    }
 
-	/**
-	 * Builds a {@link QuestionContainer} that asks in which coordinate to move at.
-	 *
-	 * @param coordinates the list of coordinates to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	static QuestionContainer getMoveCoordinatesQnO(List<Coordinates> coordinates) {
-		return getCoordinatesQno(coordinates, "Where do you want to move?");
-	}
+    /**
+     * Builds a {@link QuestionContainer} that asks in which coordinate to move at.
+     *
+     * @param coordinates the list of coordinates to choose from.
+     * @return the {@link QuestionContainer}.
+     */
+    static QuestionContainer getMoveCoordinatesQnO(List<Coordinates> coordinates) {
+        return getCoordinatesQno(coordinates, "Where do you want to move?");
+    }
 
-	/**
-	 * Builds a {@link QuestionContainer} that asks in which coordinate to fire at.
-	 *
-	 * @param coordinates the list of coordinates to choose from.
-	 * @param question the question of the QuestionContainer.
-	 * @return the {@link QuestionContainer}.
-	 */
-	private static QuestionContainer getCoordinatesQno(List<Coordinates> coordinates, String question) {
-		return QuestionContainer.createCoordinatesQuestionContainer(question, new ArrayList<>(coordinates));
-	}
+    /**
+     * Builds a {@link QuestionContainer} that asks in which coordinate to fire at.
+     *
+     * @param coordinates the list of coordinates to choose from.
+     * @param question    the question of the QuestionContainer.
+     * @return the {@link QuestionContainer}.
+     */
+    private static QuestionContainer getCoordinatesQno(List<Coordinates> coordinates, String question) {
+        return QuestionContainer.createCoordinatesQuestionContainer(question, new ArrayList<>(coordinates));
+    }
 
-	/**
-	 * Builds a {@link QuestionContainer} that asks in which cardinal direction to fire at.
-	 * @param availableDirections the available directions that the player is allowed to fire.
-	 * @return the {@link QuestionContainer}.
-	 */
-	static QuestionContainer getCardinalQnO(List<String> availableDirections) {
-		String question = "In which direction do you wish to fire?";
-		List<String> options = new ArrayList<>(availableDirections);
-		return QuestionContainer.createStringQuestionContainer(question, options);
-	}
+    /**
+     * Builds a {@link QuestionContainer} that asks in which cardinal direction to fire at.
+     *
+     * @param availableDirections the available directions that the player is allowed to fire.
+     * @return the {@link QuestionContainer}.
+     */
+    static QuestionContainer getCardinalQnO(List<String> availableDirections) {
+        String question = "In which direction do you wish to fire?";
+        List<String> options = new ArrayList<>(availableDirections);
+        return QuestionContainer.createStringQuestionContainer(question, options);
+    }
 
-	/**
-	 * Builds a {@link QuestionContainer} that asks which player to target.
-	 * The player can refuse.
-	 *
-	 * @param targets the target players to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	static QuestionContainer getTargetPlayersAndRefusalQnO(List<Player> targets) {
-		String question = "Which of the following players do you want to target?";
-		List<String> options = new ArrayList<>();
-		targets.forEach(target -> options.add(target.getPlayerName()));
-		options.add("Nobody");
-		return QuestionContainer.createStringQuestionContainer(question, options);
-	}
+    /**
+     * Builds a {@link QuestionContainer} that asks which player to target.
+     * The player can refuse.
+     *
+     * @param targets the target players to choose from.
+     * @return the {@link QuestionContainer}.
+     */
+    static QuestionContainer getTargetPlayersAndRefusalQnO(List<Player> targets) {
+        String question = "Which of the following players do you want to target?";
+        List<String> options = new ArrayList<>();
+        targets.forEach(target -> options.add(target.getPlayerName()));
+        options.add("Nobody");
+        return QuestionContainer.createStringQuestionContainer(question, options);
+    }
 
-	/**
-	 * Given a list and a choice, check whether or not the choice is a refusal.
-	 * The list must contain a refusal option as its last option.
-	 * @param listToCheck the list to check.
-	 * @param choice the choice of the player.
-	 * @return whether or not the choice is a refusal.
-	 */
-	static boolean isThisChoiceRefusal(List listToCheck, int choice) {
-		if (choice == listToCheck.size()) {
-			Utils.logWeapon("The player refused.");
-		}
-		return choice == listToCheck.size();
-	}
+    /**
+     * Given a list and a choice, check whether or not the choice is a refusal.
+     * The list must contain a refusal option as its last option.
+     *
+     * @param listToCheck the list to check.
+     * @param choice      the choice of the player.
+     * @return whether or not the choice is a refusal.
+     */
+    static boolean isThisChoiceRefusal(List listToCheck, int choice) {
+        if (choice == listToCheck.size()) {
+            Utils.logWeapon("The player refused.");
+        }
+        return choice == listToCheck.size();
+    }
 
-	/**
-	 * Gets the firing cost for this effects/mode of firing.
-	 *
-	 * @return the price.
-	 * @param choice the choice of the player.
-	 */
-	public List<AmmoType> getFiringCost(int choice) {
-		return new ArrayList<>();
-	}
+    /**
+     * Builds a {@link QuestionContainer} that asks which player to target.
+     *
+     * @param targets the target players to choose from.
+     * @return the {@link QuestionContainer}.
+     */
+    public static QuestionContainer getTargetPlayersQnO(List<Player> targets) {
+        return getTargetPlayersQnO(targets, "Which of the following players do you want to target?");
+    }
 
-	/**
-	 * Builds a {@link QuestionContainer} that asks which player to target.
-	 *
-	 * @param targets the target players to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	public static QuestionContainer getTargetPlayersQnO(List<Player> targets) {
-		return getTargetPlayersQnO(targets, "Which of the following players do you want to target?");
-	}
+    public static QuestionContainer getTargetPlayersQnO(List<Player> targets, String question) {
+        List<String> options = new ArrayList<>();
+        targets.forEach(target -> options.add(target.getPlayerName()));
+        return QuestionContainer.createStringQuestionContainer(question, options);
+    }
 
-	public static QuestionContainer getTargetPlayersQnO(List<Player> targets, String question) {
-		List<String> options = new ArrayList<>();
-		targets.forEach(target -> options.add(target.getPlayerName()));
-		return QuestionContainer.createStringQuestionContainer(question, options);
-	}
+    /**
+     * Builds a {@link QuestionContainer} that ask in which coordinate to move the enemy player.
+     *
+     * @param targetPlayer the player that will be moved.
+     * @param coordinates  the list of coordinates to choose from.
+     * @return the {@link QuestionContainer}.
+     */
+    static QuestionContainer getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates) {
+        return getCoordinatesQno(coordinates, "Where do you want to move " + targetPlayer.getPlayerName() + "?");
+    }
 
-	/**
-	 * Builds a {@link QuestionContainer} that ask in which coordinate to move the enemy player.
-	 *
-	 * @param targetPlayer the player that will be moved.
-	 * @param coordinates  the list of coordinates to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	static QuestionContainer getMovingTargetEnemyCoordinatesQnO(Player targetPlayer, List<Coordinates> coordinates) {
-		return getCoordinatesQno(coordinates, "Where do you want to move " + targetPlayer.getPlayerName() + "?");
-	}
+    /**
+     * Builds a {@link QuestionContainer} that asks in which coordinate to fire at.
+     *
+     * @param coordinates the list of coordinates to choose from.
+     * @return the {@link QuestionContainer}.
+     */
+    static QuestionContainer getTargetCoordinatesQnO(List<Coordinates> coordinates) {
+        return getCoordinatesQno(coordinates, "Where do you want to fire?");
+    }
 
-	/**
-	 * Builds a {@link QuestionContainer} that asks in which coordinate to fire at.
-	 *
-	 * @param coordinates the list of coordinates to choose from.
-	 * @return the {@link QuestionContainer}.
-	 */
-	static QuestionContainer getTargetCoordinatesQnO(List<Coordinates> coordinates) {
-		return getCoordinatesQno(coordinates, "Where do you want to fire?");
-	}
+    /**
+     * Gets the firing cost for this effects/mode of firing.
+     *
+     * @param choice the choice of the player.
+     * @return the price.
+     */
+    public List<AmmoType> getFiringCost(int choice) {
+        return new ArrayList<>();
+    }
 
-	GameMap getGameMap() {
-		return getGameBoard().getGameMap();
-	}
+    GameMap getGameMap() {
+        return getGameBoard().getGameMap();
+    }
 
-	List<Player> getAllPlayers() {
-		return getGameBoard().getPlayers();
-	}
+    List<Player> getAllPlayers() {
+        return getGameBoard().getPlayers();
+    }
 
-	/**
-	 * Returns the reload price of this weapon.
-	 *
-	 * @return Reload price of this weapon.
-	 */
-	public List<AmmoType> getReloadPrice() {
-		return new ArrayList<>(reloadPrice);
-	}
+    /**
+     * Returns the reload price of this weapon.
+     *
+     * @return Reload price of this weapon.
+     */
+    public List<AmmoType> getReloadPrice() {
+        return new ArrayList<>(reloadPrice);
+    }
 
-	/**
-	 * Returns the grab price for this weapon. It consists of the reload price minus the first occurrence.
-	 *
-	 * @return grab price for this weapon.
-	 */
-	public List<AmmoType> getGrabPrice() {
-		return new ArrayList<>(reloadPrice.subList(1, reloadPrice.size()));
-	}
+    /**
+     * Returns the grab price for this weapon. It consists of the reload price minus the first occurrence.
+     *
+     * @return grab price for this weapon.
+     */
+    public List<AmmoType> getGrabPrice() {
+        return new ArrayList<>(reloadPrice.subList(1, reloadPrice.size()));
+    }
 
-	/**
-	 * Returns whether or not the weapon is loaded.
-	 *
-	 * @return whether or not the weapon is loaded.
-	 */
-	public boolean isLoaded() {
-		return loaded;
-	}
+    /**
+     * Returns whether or not the weapon is loaded.
+     *
+     * @return whether or not the weapon is loaded.
+     */
+    public boolean isLoaded() {
+        return loaded;
+    }
 
-	/**
-	 * After getting the primary targets,
-	 * builds a {@link QuestionContainer} that asks in which coordinate to fire at.
-	 *
-	 * @return the {@link QuestionContainer}.
-	 */
-	QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO() {
-		currentTargets = getPrimaryTargets();
-		return getTargetPlayersQnO(currentTargets);
-	}
+    /**
+     * After getting the primary targets,
+     * builds a {@link QuestionContainer} that asks in which coordinate to fire at.
+     *
+     * @return the {@link QuestionContainer}.
+     */
+    QuestionContainer setPrimaryCurrentTargetsAndReturnTargetQnO() {
+        currentTargets = getPrimaryTargets();
+        return getTargetPlayersQnO(currentTargets);
+    }
 
-	/**
-	 * Check if the weapon can be activated and loaded.
-	 * @return whether or not the weapon can be chosen to fire.
-	 */
-	@Override
-	public boolean canBeActivated() {
-		return canPrimaryBeActivated() && isLoaded();
-	}
+    /**
+     * Check if the weapon can be activated and loaded.
+     *
+     * @return whether or not the weapon can be chosen to fire.
+     */
+    @Override
+    public boolean canBeActivated() {
+        return canPrimaryBeActivated() && isLoaded();
+    }
 
-	/**
-	 * Check if the weapon can be activated.
-	 * @return whether or not the weapon can fire.
-	 */
-	protected boolean canPrimaryBeActivated() {
-		return !getPrimaryTargets().isEmpty();
-	}
+    /**
+     * Check if the weapon can be activated.
+     *
+     * @return whether or not the weapon can fire.
+     */
+    protected boolean canPrimaryBeActivated() {
+        return !getPrimaryTargets().isEmpty();
+    }
 
-	/**
-	 * Loads the weapon.
-	 */
-	public void load() {
-		this.loaded = true;
-	}
+    /**
+     * Loads the weapon.
+     */
+    public void load() {
+        this.loaded = true;
+    }
 
-	/**
-	 * Deals damage to players and conclude the activation.
-	 * @param damagesAndMarks the list of damages and marks ordered.
-	 * @param playersToShoot the players to be shot.
-	 */
-	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
-		dealDamage(damagesAndMarks, playersToShoot);
-		concludeActivation();
-	}
+    /**
+     * Deals damage to players and conclude the activation.
+     *
+     * @param damagesAndMarks the list of damages and marks ordered.
+     * @param playersToShoot  the players to be shot.
+     */
+    protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
+        dealDamage(damagesAndMarks, playersToShoot);
+        concludeActivation();
+    }
 
-	/**
-	 * Deals damage to players and conclude the activation.
-	 * @param damagesAndMarks the list of damages and marks ordered.
-	 * @param playersToShoot the players to be shot.
-	 */
-	protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
-		List<Player> list = Arrays.asList(playersToShoot);
-		dealDamageAndConclude(damagesAndMarks, list);
-	}
+    /**
+     * Deals damage to players and conclude the activation.
+     *
+     * @param damagesAndMarks the list of damages and marks ordered.
+     * @param playersToShoot  the players to be shot.
+     */
+    protected void dealDamageAndConclude(List<DamageAndMarks> damagesAndMarks, Player... playersToShoot) {
+        List<Player> list = Arrays.asList(playersToShoot);
+        dealDamageAndConclude(damagesAndMarks, list);
+    }
 
-	/**
-	 * This method will be called by the damage-dealer methods of the weapons.
-	 * The two arrays are ordered in such a way that the i-th playerToShoot will be dealt the i-th damageAndMark.
-	 * This method does NOT deload the weapon.
-	 * This method does check only the first array's size, so it can happen that playersToShoot is shorter than
-	 * damagesAndMarks.
-	 *
-	 * @param damagesAndMarks the damage and marks for each player.
-	 * @param playersToShoot  the array of players that will receive damage and/or marks.
-	 */
-	void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
-		for (int i = 0; i < playersToShoot.size(); i++) {
-			if (playersToShoot.get(i) != null) {
+    /**
+     * This method will be called by the damage-dealer methods of the weapons.
+     * The two arrays are ordered in such a way that the i-th playerToShoot will be dealt the i-th damageAndMark.
+     * This method does NOT deload the weapon.
+     * This method does check only the first array's size, so it can happen that playersToShoot is shorter than
+     * damagesAndMarks.
+     *
+     * @param damagesAndMarks the damage and marks for each player.
+     * @param playersToShoot  the array of players that will receive damage and/or marks.
+     */
+    void dealDamage(List<DamageAndMarks> damagesAndMarks, List<Player> playersToShoot) {
+        for (int i = 0; i < playersToShoot.size(); i++) {
+            if (playersToShoot.get(i) != null) {
 
-				playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage() + GameConstants
-						.DEBUG_DAMAGE_OVERLOAD);
-				if (damagesAndMarks.get(i).getDamage() >= 1 && !playersHit.contains(playersToShoot.get(i))) {
-					playersHit.add(playersToShoot.get(i));
-				}
-				playersToShoot.get(i).addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
-			}
-		}
-	}
+                playersToShoot.get(i).addDamage(getOwner(), damagesAndMarks.get(i).getDamage() + GameConstants
+                        .DEBUG_DAMAGE_OVERLOAD);
+                if (damagesAndMarks.get(i).getDamage() >= 1 && !playersHit.contains(playersToShoot.get(i))) {
+                    playersHit.add(playersToShoot.get(i));
+                }
+                playersToShoot.get(i).addMarks(getOwner(), damagesAndMarks.get(i).getMarks());
+            }
+        }
+    }
 
-	/**
-	 * Primary method of firing of the weapon.
-	 */
-	protected abstract void primaryFire();
+    /**
+     * Primary method of firing of the weapon.
+     */
+    protected abstract void primaryFire();
 
-	/**
-	 * Handles the primary fire mode of the weapon.
-	 * This will be called if currentStep is at least 2.
-	 *
-	 * @param choice the choice of the player.
-	 * @return the {@link QuestionContainer}.
-	 */
-	abstract QuestionContainer handlePrimaryFire(int choice);
+    /**
+     * Handles the primary fire mode of the weapon.
+     * This will be called if currentStep is at least 2.
+     *
+     * @param choice the choice of the player.
+     * @return the {@link QuestionContainer}.
+     */
+    abstract QuestionContainer handlePrimaryFire(int choice);
 
-	/**
-	 * Get the targets of the primary mode of fire for this weapon.
-	 *
-	 * @return the targettable players of the primary mode of fire.
-	 */
-	public abstract List<Player> getPrimaryTargets();
+    /**
+     * Get the targets of the primary mode of fire for this weapon.
+     *
+     * @return the targettable players of the primary mode of fire.
+     */
+    public abstract List<Player> getPrimaryTargets();
 
-	/**
-	 * Deloads the weapon and reset eventually modified parameters.
-	 */
-	@Override
-	public void reset() {
-		super.reset();
-		this.loaded = false;
-		this.currentTargets = new ArrayList<>();
-		this.target = null;
-		this.playersHit = new ArrayList<>();
-	}
+    /**
+     * Deloads the weapon and reset eventually modified parameters.
+     */
+    @Override
+    public void reset() {
+        super.reset();
+        this.loaded = false;
+        this.currentTargets = new ArrayList<>();
+        this.target = null;
+        this.playersHit = new ArrayList<>();
+    }
 
-	protected List<DamageAndMarks> getStandardDamagesAndMarks() {
-		return standardDamagesAndMarks;
-	}
+    protected List<DamageAndMarks> getStandardDamagesAndMarks() {
+        return standardDamagesAndMarks;
+    }
 
-	protected int getPrimaryDamage() {
-		return primaryDamage;
-	}
+    protected int getPrimaryDamage() {
+        return primaryDamage;
+    }
 
-	protected int getPrimaryMarks() {
-		return primaryMarks;
-	}
+    protected int getPrimaryMarks() {
+        return primaryMarks;
+    }
 
-	protected int getMoveDistance() {
-		return moveDistance;
-	}
+    protected int getMoveDistance() {
+        return moveDistance;
+    }
 
-	/**
-	 * Relocate an enemy.
-	 * @param enemy the enemy to relocate.
-	 * @param coordinates the coordinate in which the enemy will be moved.
-	 */
-	void relocateEnemy(Player enemy, Coordinates coordinates) {
-		getGameMap().movePlayerTo(enemy, coordinates);
-	}
+    /**
+     * Relocate an enemy.
+     *
+     * @param enemy       the enemy to relocate.
+     * @param coordinates the coordinate in which the enemy will be moved.
+     */
+    void relocateEnemy(Player enemy, Coordinates coordinates) {
+        getGameMap().movePlayerTo(enemy, coordinates);
+    }
 
-	/**
-	 * Relocate the owner.
-	 * @param coordinates the coordinates in which the owner will be moved.
-	 */
-	void relocateOwner(Coordinates coordinates) {
-		getGameMap().movePlayerTo(getOwner(), coordinates);
-	}
+    /**
+     * Relocate the owner.
+     *
+     * @param coordinates the coordinates in which the owner will be moved.
+     */
+    void relocateOwner(Coordinates coordinates) {
+        getGameMap().movePlayerTo(getOwner(), coordinates);
+    }
 
 
-	/**
-	 * Get all players hit with at least 1 damage.
-	 * @return the list of players.
-	 */
-	public List<Player> getPlayersHit() {
-		return new ArrayList<>(playersHit);
-	}
+    /**
+     * Get all players hit with at least 1 damage.
+     *
+     * @return the list of players.
+     */
+    public List<Player> getPlayersHit() {
+        return new ArrayList<>(playersHit);
+    }
 
-	// ####################################
-	// OVERRIDDEN METHODS
-	// ####################################
+    // ####################################
+    // OVERRIDDEN METHODS
+    // ####################################
 
-	@Override
-	public String toString() {
-		return getCardName();
-	}
+    @Override
+    public String toString() {
+        return getCardName();
+    }
 
-	@Override
-	public Representation getRep() {
-		return new WeaponRep(this);
-	}
+    @Override
+    public Representation getRep() {
+        return new WeaponRep(this);
+    }
 
-	List<Player> getCurrentTargets() {
-		return currentTargets;
-	}
+    List<Player> getCurrentTargets() {
+        return currentTargets;
+    }
 
-	void setCurrentTargets(List<Player> currentTargets) {
-		this.currentTargets = currentTargets;
-	}
+    void setCurrentTargets(List<Player> currentTargets) {
+        this.currentTargets = currentTargets;
+    }
 
-	Player getTarget() {
-		return target;
-	}
+    Player getTarget() {
+        return target;
+    }
 
-	void setTarget(Player target) {
-		this.target = target;
-	}
+    void setTarget(Player target) {
+        this.target = target;
+    }
 
-	/**
-	 * Checks if the current step is when the player should be paying.
-	 *
-	 * @return true if the current step is equal to PAYMENT_STEP, which is 1 by standard..
-	 */
-	public boolean isPaymentStep() {
-		return getCurrentStep() == PAYMENT_STEP;
-	}
+    /**
+     * Checks if the current step is when the player should be paying.
+     *
+     * @return true if the current step is equal to PAYMENT_STEP, which is 1 by standard..
+     */
+    public boolean isPaymentStep() {
+        return getCurrentStep() == PAYMENT_STEP;
+    }
 }

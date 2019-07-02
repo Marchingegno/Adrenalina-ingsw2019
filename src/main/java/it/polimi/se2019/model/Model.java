@@ -263,7 +263,7 @@ public class Model {
     /**
      * Sets the hasPayed variable to the specified value.
      *
-     * @param hasPayed
+     * @param hasPayed value to set.
      */
     public void setPayed(boolean hasPayed) {
         this.hasPayed = hasPayed;
@@ -405,7 +405,7 @@ public class Model {
      *
      * @param playerName name of the player that needs to receive the powerup.
      */
-    public void addPowerupCardTo(String playerName) {
+    void addPowerupCardTo(String playerName) {
         Player player = getPlayerFromName(playerName);
         gameBoard.addPowerupCardTo(player);
         updateReps();
@@ -574,8 +574,9 @@ public class Model {
 
     /**
      * Swaps the specified weapon in the player's inventory with the specified weapon in the spawn square and then updates the reps.
+     *
      * @param indexOfThePlayerWeapon index of the player's weapon to swap.
-     * @param indexOfTheSpawnWeapon index of the weapon in the square to grab.
+     * @param indexOfTheSpawnWeapon  index of the weapon in the square to grab.
      */
     public void swapWeapons(int indexOfThePlayerWeapon, int indexOfTheSpawnWeapon) {
         Player player = getCurrentPlayer();
@@ -590,7 +591,8 @@ public class Model {
 
     /**
      * Reloads the specified weapon in the player's inventory and then updates the reps.
-     * @param playerName player who is reloading.
+     *
+     * @param playerName       player who is reloading.
      * @param indexOfTheWeapon index of the weapon to reload.
      */
     public void reloadWeapon(String playerName, int indexOfTheWeapon) {
@@ -697,22 +699,22 @@ public class Model {
 
         int precPoint = -1;
         int precIndex = -1;
-		int tiesFound = 0;
+        int tiesFound = 0;
         for (int i = 0; i < players.size(); i++) {
             Player currPlayer = players.get(i);
-			Utils.logInfo("Adding to leaderbord player " + currPlayer.getPlayerName());
+            Utils.logInfo("Adding to leaderbord player " + currPlayer.getPlayerName());
             if (currPlayer.getPlayerBoard().getPoints() == precPoint) {
                 //This is a tie,
-				Utils.logInfo("Found a tie. Points " + currPlayer.getPlayerBoard().getPoints());
-				Utils.logInfo("Adding in position " + precIndex);
+                Utils.logInfo("Found a tie. Points " + currPlayer.getPlayerBoard().getPoints());
+                Utils.logInfo("Adding in position " + precIndex);
                 leaderboard.get(precIndex).addInPosition(currPlayer);
-				tiesFound++;
+                tiesFound++;
             } else {
-				Utils.logInfo("Adding in position " + (i - tiesFound));
+                Utils.logInfo("Adding in position " + (i - tiesFound));
                 precPoint = currPlayer.getPlayerBoard().getPoints();
-				precIndex = i - tiesFound;
-				leaderboard.add(i - tiesFound, new LeaderboardSlot());
-				leaderboard.get(i - tiesFound).addInPosition(currPlayer);
+                precIndex = i - tiesFound;
+                leaderboard.add(i - tiesFound, new LeaderboardSlot());
+                leaderboard.get(i - tiesFound).addInPosition(currPlayer);
 
             }
         }
@@ -730,23 +732,23 @@ public class Model {
             if (leaderboard.get(i).isATie()) {
                 List<Player> tiedPlayers = leaderboard.get(i).getPlayersInThisPosition();
                 List<Player> orderedPlayers = new ArrayList<>();
-				List<Player> alreadyAddedPlayers = new ArrayList<>();
+                List<Player> alreadyAddedPlayers = new ArrayList<>();
 
                 List<KillShot> killShotTrack = gameBoard.getKillShots();
                 for (int j = 0; j < killShotTrack.size(); j++) {
                     if (tiedPlayers.indexOf(killShotTrack.get(i).getPlayer()) != -1) {
                         //I found a tied player in the killshot track.
                         //This player should be the next in leaderboard.
-						if (alreadyAddedPlayers.indexOf(killShotTrack.get(i).getPlayer()) == -1) {
-							orderedPlayers.add(killShotTrack.get(i).getPlayer());
-							alreadyAddedPlayers.add(killShotTrack.get(i).getPlayer());
-						}
+                        if (alreadyAddedPlayers.indexOf(killShotTrack.get(i).getPlayer()) == -1) {
+                            orderedPlayers.add(killShotTrack.get(i).getPlayer());
+                            alreadyAddedPlayers.add(killShotTrack.get(i).getPlayer());
+                        }
                     }
                 }
                 //Here, if the size of orderedPlayers is less than tiedPlayers, it means that
-				//one or more tied players have not obtained killshots.
+                //one or more tied players have not obtained killshots.
                 //These player(s) should be classified right after ordered players.
-				//Let's add the player we found to the leaderboard.
+                //Let's add the player we found to the leaderboard.
                 for (Player player : orderedPlayers) {
                     playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
                     playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
@@ -793,6 +795,7 @@ public class Model {
 
     /**
      * Returns the macroaction of the current player.
+     *
      * @return the macroaction of the current player.
      */
     public MacroAction getCurrentAction() {
@@ -801,6 +804,7 @@ public class Model {
 
     /**
      * Returns the next action the specified player needs to perform and than sets that action as current.
+     *
      * @param playerName name of the player to check.
      * @return the next action the specified player needs to perform.
      */
@@ -811,7 +815,8 @@ public class Model {
 
     /**
      * Sets the nex macroaction.
-     * @param playerName name of the player to whom set the next macroaction.
+     *
+     * @param playerName         name of the player to whom set the next macroaction.
      * @param indexOfMacroAction index of the macroaction to set.
      */
     public void setNextMacroAction(String playerName, int indexOfMacroAction) {
@@ -839,7 +844,8 @@ public class Model {
 
     /**
      * Returns true if and only if the specified weapon can be activated.
-     * @param playerName name of the owner of the weapon.
+     *
+     * @param playerName    name of the owner of the weapon.
      * @param indexOfWeapon index of the weapon in the player's inventory.
      * @return true if and only if the specified weapon can be activated.
      */
@@ -853,15 +859,15 @@ public class Model {
         return weaponCards.get(indexOfWeapon).canBeActivated();
     }
 
-	public boolean isPaymentStep(String playerName) {
-		Player player = getPlayerFromName(playerName);
-		return player.getFiringWeapon().isPaymentStep();
-	}
+    public boolean isPaymentStep(String playerName) {
+        Player player = getPlayerFromName(playerName);
+        return player.getFiringWeapon().isPaymentStep();
+    }
 
-	public List<AmmoType> getFiringCost(String playerName, int choice) {
-		Player player = getPlayerFromName(playerName);
-		return player.getFiringWeapon().getFiringCost(choice);
-	}
+    public List<AmmoType> getFiringCost(String playerName, int choice) {
+        Player player = getPlayerFromName(playerName);
+        return player.getFiringWeapon().getFiringCost(choice);
+    }
 
     /**
      * Returns a list of weapons that can be activated in the current state.
@@ -916,6 +922,7 @@ public class Model {
 
     /**
      * Returns true if and only if the player is shooting.
+     *
      * @param playerName name of the player to check.
      * @return true if and only if the player is shooting.
      */
@@ -926,7 +933,8 @@ public class Model {
 
     /**
      * Sets the specified weapon as the shooting weapon of the player and then updates the reps.
-     * @param playerName name of the player to whom set the weapon.
+     *
+     * @param playerName    name of the player to whom set the weapon.
      * @param indexOfWeapon index of the weapon to set as the shooting weapon.
      * @return the initial question container.
      */
@@ -939,8 +947,9 @@ public class Model {
 
     /**
      * Communicates the choi oc the player, advance the weapon step and updates the reps.
+     *
      * @param playerName name of the player that is shooting.
-     * @param choice index of the choice of the player.
+     * @param choice     index of the choice of the player.
      * @return the next question container to show to the player.
      */
     public QuestionContainer doWeaponStep(String playerName, int choice) {
@@ -953,6 +962,7 @@ public class Model {
     /**
      * Handles the end of the weapon, and checks if the shooting player has the targeting scope
      * and the damaged players have the tagback grenade; then updates the reps.
+     *
      * @param playerName name of the shooting player.
      */
     public void handleWeaponEnd(String playerName) {

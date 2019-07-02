@@ -16,34 +16,34 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class WeaponDeck extends ActivableDeck<WeaponCard> {
 
-	public WeaponDeck(GameBoard gameBoard) {
-		super(gameBoard);
-	}
+    public WeaponDeck(GameBoard gameBoard) {
+        super(gameBoard);
+    }
 
-	@Override
-	public void initializeDeck() {
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/Weapon.json")));
-		try {
-			JsonParser parser = new JsonParser();
-			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
-			JsonArray weapons = rootObject.getAsJsonArray("weapons");
+    @Override
+    public void initializeDeck() {
+        Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/Weapon.json")));
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject rootObject = parser.parse(reader).getAsJsonObject();
+            JsonArray weapons = rootObject.getAsJsonArray("weapons");
 
-			Class<?> weaponClassToInstantiate;
-			Constructor<?> constructor;
+            Class<?> weaponClassToInstantiate;
+            Constructor<?> constructor;
 
-			for (JsonElement entry : weapons) {
-				JsonObject weaponToAdd = entry.getAsJsonObject();
-				weaponClassToInstantiate = Class.forName("it.polimi.se2019.model.cards.weapons." + weaponToAdd.get("className").getAsString());
-				constructor = weaponClassToInstantiate.getConstructor(JsonObject.class);
-				addCard((WeaponCard) constructor.newInstance(weaponToAdd));
-				Utils.logInfo("WeaponDeck -> initializeDeck(): AddedToTheDeck " + weaponToAdd.get("className").getAsString());
-			}
+            for (JsonElement entry : weapons) {
+                JsonObject weaponToAdd = entry.getAsJsonObject();
+                weaponClassToInstantiate = Class.forName("it.polimi.se2019.model.cards.weapons." + weaponToAdd.get("className").getAsString());
+                constructor = weaponClassToInstantiate.getConstructor(JsonObject.class);
+                addCard((WeaponCard) constructor.newInstance(weaponToAdd));
+                Utils.logInfo("WeaponDeck -> initializeDeck(): AddedToTheDeck " + weaponToAdd.get("className").getAsString());
+            }
 
-		} catch (JsonParseException e) {
-			Utils.logError("Cannot parse weapon cards", e);
-		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-			Utils.logError("Cannot find create a class for a weapon", e);
-		}
-	}
+        } catch (JsonParseException e) {
+            Utils.logError("Cannot parse weapon cards", e);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            Utils.logError("Cannot find create a class for a weapon", e);
+        }
+    }
 
 }

@@ -12,105 +12,105 @@ import java.util.*;
  */
 public abstract class Deck<C extends Card> {
 
-	private Deque<C> discardDeck;
-	private Deque<C> actualDeck;
+    private Deque<C> discardDeck;
+    private Deque<C> actualDeck;
 
 
-	/**
-	 * Create an instance of a deck. The deck is automatically initialized using the method initializeDeck().
-	 */
-	public Deck() {
-		discardDeck = new ArrayDeque<>();
-		actualDeck = new ArrayDeque<>();
-		initializeDeck();
-		shuffleDeck();
-	}
+    /**
+     * Create an instance of a deck. The deck is automatically initialized using the method initializeDeck().
+     */
+    public Deck() {
+        discardDeck = new ArrayDeque<>();
+        actualDeck = new ArrayDeque<>();
+        initializeDeck();
+        shuffleDeck();
+    }
 
 
-	// ####################################
-	// PUBLIC METHODS
-	// ####################################
+    // ####################################
+    // PUBLIC METHODS
+    // ####################################
 
-	/**
-	 * Returns the first card of the deck.
-	 *
-	 * @return the first card of the deck.
-	 */
-	public C drawCard() {
-		if (actualDeck.isEmpty())
-			refillDeck();
-		if (actualDeck.isEmpty())
-			Utils.logError("There are no more cards in the deck", new NoSuchElementException());
-		return actualDeck.removeFirst();
-	}
+    /**
+     * Returns the first card of the deck.
+     *
+     * @return the first card of the deck.
+     */
+    public C drawCard() {
+        if (actualDeck.isEmpty())
+            refillDeck();
+        if (actualDeck.isEmpty())
+            Utils.logError("There are no more cards in the deck", new NoSuchElementException());
+        return actualDeck.removeFirst();
+    }
 
-	/**
-	 * Returns true if the deck doesn't contain any card.
-	 *
-	 * @return true if the deck doesn't contain any card.
-	 */
-	public boolean isEmpty() {
-		return actualDeck.isEmpty();
-	}
+    /**
+     * Returns true if the deck doesn't contain any card.
+     *
+     * @return true if the deck doesn't contain any card.
+     */
+    public boolean isEmpty() {
+        return actualDeck.isEmpty();
+    }
 
-	/**
-	 * Refills the deck by using the discard deck and then shuffles it.
-	 */
-	public void refillDeck() {
-		Utils.logInfo("Deck -> refillDeck(): Refilling actualDeck[" + actualDeck.size() + "] with the discardDeck[" + discardDeck.size() + "]");
-		actualDeck.addAll(discardDeck);
-		discardDeck.clear();
-		shuffleDeck();
-	}
+    /**
+     * Refills the deck by using the discard deck and then shuffles it.
+     */
+    public void refillDeck() {
+        Utils.logInfo("Deck -> refillDeck(): Refilling actualDeck[" + actualDeck.size() + "] with the discardDeck[" + discardDeck.size() + "]");
+        actualDeck.addAll(discardDeck);
+        discardDeck.clear();
+        shuffleDeck();
+    }
 
-	/**
-	 * Adds the card to the discard deck. The discard deck will be used when refilling the deck with the method refillDeck().
-	 *
-	 * @param cardToDiscard the card to discard.
-	 */
-	public void discardCard(C cardToDiscard) {
-		Utils.logInfo("Deck -> discardCard(): Adding to the discardDeck " + cardToDiscard);
-		discardDeck.push(cardToDiscard);
-	}
-
-
-	// ####################################
-	// PROTECTED METHODS
-	// ####################################
-
-	/**
-	 * Adds the specified card to the deck. This method is protected because only at initialization cards are added.
-	 *
-	 * @param cardToAdd the card to add to the deck.
-	 */
-	protected void addCard(C cardToAdd) {
-		Utils.logInfo("Deck -> addCard(): Adding to actualDeck " + cardToAdd);
-		actualDeck.push(cardToAdd);
-	}
+    /**
+     * Adds the card to the discard deck. The discard deck will be used when refilling the deck with the method refillDeck().
+     *
+     * @param cardToDiscard the card to discard.
+     */
+    public void discardCard(C cardToDiscard) {
+        Utils.logInfo("Deck -> discardCard(): Adding to the discardDeck " + cardToDiscard);
+        discardDeck.push(cardToDiscard);
+    }
 
 
-	// ####################################
-	// ABSTRACT METHODS
-	// ####################################
+    // ####################################
+    // PROTECTED METHODS
+    // ####################################
 
-	/**
-	 * Should initialize the deck with all the cards.
-	 */
-	protected abstract void initializeDeck();
+    /**
+     * Adds the specified card to the deck. This method is protected because only at initialization cards are added.
+     *
+     * @param cardToAdd the card to add to the deck.
+     */
+    protected void addCard(C cardToAdd) {
+        Utils.logInfo("Deck -> addCard(): Adding to actualDeck " + cardToAdd);
+        actualDeck.push(cardToAdd);
+    }
 
 
-	// ####################################
-	// PRIVATE METHODS
-	// ####################################
+    // ####################################
+    // ABSTRACT METHODS
+    // ####################################
 
-	/**
-	 * Shuffles the deck.
-	 */
-	private void shuffleDeck() {
-		ArrayList<C> list = new ArrayList<>(actualDeck); // Create shuffleable list.
-		Collections.shuffle(list); // Shuffle list.
-		actualDeck = new ArrayDeque<>(list); // Re-create deque from list.
-		Utils.logInfo("Deck -> shuffleDeck(): Deck shuffled");
-	}
+    /**
+     * Should initialize the deck with all the cards.
+     */
+    protected abstract void initializeDeck();
+
+
+    // ####################################
+    // PRIVATE METHODS
+    // ####################################
+
+    /**
+     * Shuffles the deck.
+     */
+    private void shuffleDeck() {
+        ArrayList<C> list = new ArrayList<>(actualDeck); // Create shuffleable list.
+        Collections.shuffle(list); // Shuffle list.
+        actualDeck = new ArrayDeque<>(list); // Re-create deque from list.
+        Utils.logInfo("Deck -> shuffleDeck(): Deck shuffled");
+    }
 
 }

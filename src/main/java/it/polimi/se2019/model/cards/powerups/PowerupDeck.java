@@ -18,51 +18,51 @@ import java.io.Reader;
  */
 public class PowerupDeck extends ActivableDeck<PowerupCard> {
 
-	public PowerupDeck(GameBoard gameBoard) {
-		super(gameBoard);
-	}
+    public PowerupDeck(GameBoard gameBoard) {
+        super(gameBoard);
+    }
 
-	/**
-	 * Initialize the Powerup deck according to the file "PowerupDeck.json".
-	 */
-	@Override
-	protected void initializeDeck() {
-		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/PowerupDeck.json")));
-		try {
-			JsonParser parser = new JsonParser();
-			JsonObject rootObject = parser.parse(reader).getAsJsonObject();
+    /**
+     * Initialize the Powerup deck according to the file "PowerupDeck.json".
+     */
+    @Override
+    protected void initializeDeck() {
+        Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/decks/PowerupDeck.json")));
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject rootObject = parser.parse(reader).getAsJsonObject();
 
-			JsonArray powerupsToAdd = rootObject.getAsJsonArray("powerups");
-			for (JsonElement entry : powerupsToAdd) {
-				JsonObject powerupToAdd = entry.getAsJsonObject();
+            JsonArray powerupsToAdd = rootObject.getAsJsonArray("powerups");
+            for (JsonElement entry : powerupsToAdd) {
+                JsonObject powerupToAdd = entry.getAsJsonObject();
 
-				switch (powerupToAdd.get("name").getAsString()) {
-					case "Teleporter":
-						addCard(new Teleporter(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
-						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Teleporter");
-						break;
+                switch (powerupToAdd.get("name").getAsString()) {
+                    case "Teleporter":
+                        addCard(new Teleporter(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+                        Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Teleporter");
+                        break;
 
-					case "Newton":
-						addCard(new Newton(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
-						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Newton");
-						break;
+                    case "Newton":
+                        addCard(new Newton(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+                        Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Newton");
+                        break;
 
-					case "Targetting scope":
-						addCard(new TargetingScope(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
-						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Targetting scope");
-						break;
+                    case "Targetting scope":
+                        addCard(new TargetingScope(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+                        Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Targetting scope");
+                        break;
 
-					case "Tagback grenade":
-						addCard(new TagbackGrenade(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
-						Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Tagback grenade");
-						break;
+                    case "Tagback grenade":
+                        addCard(new TagbackGrenade(AmmoType.valueOf(powerupToAdd.get("ammoType").getAsString())));
+                        Utils.logInfo("PowerupDeck -> addTeleporter(): Added " + powerupToAdd.get("ammoType").getAsString() + " Tagback grenade");
+                        break;
 
-					default:
-						throw new JsonParseException("No such powerup");
-				}
-			}
-		} catch (JsonParseException e) {
-			Utils.logError("Cannot parse powerup cards", e);
-		}
-	}
+                    default:
+                        throw new JsonParseException("No such powerup");
+                }
+            }
+        } catch (JsonParseException e) {
+            Utils.logError("Cannot parse powerup cards", e);
+        }
+    }
 }

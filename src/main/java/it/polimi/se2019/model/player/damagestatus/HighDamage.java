@@ -7,39 +7,39 @@ import java.util.ArrayList;
 import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
 public class HighDamage extends DamageStatus {
-	public static final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
+    public static final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
 
-	public HighDamage(){
-		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
-		MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
-		MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
-		availableActions = new ArrayList<>();
+    public HighDamage() {
+        MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
+        MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
+        MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
+        availableActions = new ArrayList<>();
 
-		runAroundBuilder.setMovementDistance(3);
-		runAroundBuilder.setName("Move");
-		availableActions.add(runAroundBuilder.build());
+        runAroundBuilder.setMovementDistance(3);
+        runAroundBuilder.setName("Move");
+        availableActions.add(runAroundBuilder.build());
 
-		grabStuffBuilder.setMovementDistance(2);
-		grabStuffBuilder.setGrabAction(true);
-		grabStuffBuilder.setName("Grab");
-		availableActions.add(grabStuffBuilder.build());
+        grabStuffBuilder.setMovementDistance(2);
+        grabStuffBuilder.setGrabAction(true);
+        grabStuffBuilder.setName("Grab");
+        availableActions.add(grabStuffBuilder.build());
 
-		shootPeopleBuilder.setMovementDistance(1);
-		shootPeopleBuilder.setShootAction(true);
-		shootPeopleBuilder.setName("Shoot");
-		availableActions.add(shootPeopleBuilder.build());
+        shootPeopleBuilder.setMovementDistance(1);
+        shootPeopleBuilder.setShootAction(true);
+        shootPeopleBuilder.setName("Shoot");
+        availableActions.add(shootPeopleBuilder.build());
 
-		setNumberOfMacroActionsPerTurn(NUMBER_OF_ACTIONS_PER_TURN);
-		setNumberOfMacroActionsToPerform(getNumberOfMacroActionsPerTurn());
-	}
+        setNumberOfMacroActionsPerTurn(NUMBER_OF_ACTIONS_PER_TURN);
+        setNumberOfMacroActionsToPerform(getNumberOfMacroActionsPerTurn());
+    }
 
-	@Override
-	public String toString() {
-		return "HIGH DAMAGE";
-	}
+    @Override
+    public String toString() {
+        return "HIGH DAMAGE";
+    }
 
-	@Override
-	public boolean isFrenzy() {
-		return false;
-	}
+    @Override
+    public boolean isFrenzy() {
+        return false;
+    }
 }

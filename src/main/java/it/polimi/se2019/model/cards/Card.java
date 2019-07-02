@@ -9,30 +9,30 @@ import it.polimi.se2019.model.Representable;
  */
 public abstract class Card implements Representable {
 
-	private String description;
-	private String cardName;
-	private String imagePath;
+    private String description;
+    private String cardName;
+    private String imagePath;
 
-	public Card(String cardName, String description, String imagePath) {
-		this.cardName = cardName;
-		this.description = description;
-		this.imagePath = imagePath;
-	}
+    public Card(String cardName, String description, String imagePath) {
+        this.cardName = cardName;
+        this.description = description;
+        this.imagePath = imagePath;
+    }
 
-	/**
-	 * Returns the description of the card.
-	 *
-	 * @return the description of the card.
-	 */
-	public String getCardDescription() {
-		return description;
-	}
+    /**
+     * Returns the description of the card.
+     *
+     * @return the description of the card.
+     */
+    public String getCardDescription() {
+        return description;
+    }
 
-	public String getImagePath() {
-		return imagePath;
-	}
+    String getImagePath() {
+        return imagePath;
+    }
 
-	public String getCardName() {
-		return cardName;
-	}
+    public String getCardName() {
+        return cardName;
+    }
 }
