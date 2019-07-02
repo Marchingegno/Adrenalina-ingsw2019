@@ -26,6 +26,7 @@ public class Match {
 	private HashMap<AbstractConnectionToClient, VirtualView> virtualViews = new HashMap<>();
 	private boolean matchStarted = false;
 	private SingleTimer singleTimer = new SingleTimer();
+	private Controller controller;
 
 	// Game config attributes.
 	private HashMap<AbstractConnectionToClient, Integer> skullsChosen = new HashMap<>();
@@ -111,6 +112,14 @@ public class Match {
 	 */
 	public boolean isMatchStarted() {
 		return matchStarted;
+	}
+
+	/**
+	 * Returns true if this match finished and is ready to be dismantled.
+	 * @return true if this match finished and is ready to be dismantled.
+	 */
+	public boolean isMatchFinished() {
+		return matchStarted && controller.isGameEnded();
 	}
 
 
@@ -208,7 +217,8 @@ public class Match {
 		}
 
 		// Create Controller.
-		(new Controller(mapType, virtualViews.values(), skulls)).startGame();
+		controller = new Controller(mapType, virtualViews.values(), skulls);
+		controller.startGame();
 
 		matchStarted = true;
 	}

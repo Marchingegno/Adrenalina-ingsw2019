@@ -80,22 +80,22 @@ public class CoordinatesTest {
 
 	@Test
 	public void equals_notCoordinate_correctOutput() {
-		assertFalse(new Coordinates( 2 , 1).equals(new Object()));
+		assertNotEquals(new Coordinates(2, 1), new Object());
 	}
 
 	@Test
 	public void equals_differentColumn_correctOutput() {
-		assertFalse(new Coordinates( 2 , 1).equals(new Coordinates(2,2)));
+		assertNotEquals(new Coordinates(2, 1), new Coordinates(2, 2));
 	}
 
 	@Test
 	public void equals_differentRow_correctOutput() {
-		assertFalse(new Coordinates( 2 , 1).equals(new Coordinates(1,1)));
+		assertNotEquals(new Coordinates(2, 1), new Coordinates(1, 1));
 	}
 
 	@Test
 	public void equals_dirrefentCoordinate_correctOutput() {
-		assertFalse(new Coordinates( 2 , 1).equals(new Coordinates(5,5)));
+		assertNotEquals(new Coordinates(2, 1), new Coordinates(5, 5));
 	}
 
 	@Test

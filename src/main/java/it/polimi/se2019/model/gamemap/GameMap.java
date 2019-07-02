@@ -325,8 +325,9 @@ public class GameMap extends Observable implements Representable {
 			playersPositions.replace(playerToMove, coordinates);
 			setChanged();
 			Utils.logInfo("GameMap -> movePlayerTo(): " + playerToMove.getPlayerName() + " moved to " + coordinates);
-		} else
+		} else {
 			throw new OutOfBoundariesException("tried to move the player out of the map" + coordinates.toString());
+		}
 	}
 
 	/**
@@ -395,8 +396,9 @@ public class GameMap extends Observable implements Representable {
 					possibleMoves.add(nextCoordinates);
 					currentCoordinates = nextCoordinates;
 					currentDistance++;
-				} else
+				} else {
 					canMove = false;
+				}
 			}
 		}
 		return possibleMoves;
@@ -763,8 +765,9 @@ public class GameMap extends Observable implements Representable {
 			gameMapRep = new GameMapRep(this);
 			if (Utils.DEBUG_REPS)
 				Utils.logInfo("GameMap -> updateRep(): The game map representation has been updated");
-		} else if (Utils.DEBUG_REPS)
+		} else if (Utils.DEBUG_REPS) {
 			Utils.logInfo("GameMap -> updateRep(): The game map representation is already up to date");
+		}
 	}
 
 	/**

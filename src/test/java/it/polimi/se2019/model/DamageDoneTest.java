@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class DamageDoneTest {
@@ -28,11 +27,7 @@ public class DamageDoneTest {
 		assertEquals(player1, players.get(0));
 		assertEquals(player2, players.get(1));
 		assertEquals(2, (int) damages.get(0));
-
-
 	}
-
-
 
 	@Test
 	public void getSortedPlayers_correctArray_correctOutput() {
@@ -59,9 +54,8 @@ public class DamageDoneTest {
 		expectedArray.add(player1);
 		expectedArray.add(player2);
 		expectedArray.add(player3);
-		ArrayList<Player> sortedArray = damageDoneTest.getSortedPlayers();
-		assertArrayEquals(new ArrayList[]{expectedArray}, new ArrayList[]{sortedArray});
-
+		List<Player> sortedArray = damageDoneTest.getSortedPlayers();
+		assertEquals(expectedArray, sortedArray);
 	}
 
 }

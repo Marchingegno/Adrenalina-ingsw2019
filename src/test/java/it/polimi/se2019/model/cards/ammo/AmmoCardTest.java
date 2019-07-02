@@ -18,7 +18,6 @@ public class AmmoCardTest {
 		ammoInTheCard.add(AmmoType.BLUE_AMMO);
 	}
 
-
 	@Test
 	public void hasPowerup_standardInitialization_correctOutput() {
 		AmmoCard ammoCardWithPowerup = new AmmoCard(ammoInTheCard, true, "r_b_p", null);

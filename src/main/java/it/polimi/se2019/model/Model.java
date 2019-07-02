@@ -167,27 +167,6 @@ public class Model {
     }
 
     /**
-     * Returns true if and only if the current weapon has finished to shoot.
-     *
-     * @param playerName the name of the player who is shooting.
-     * @return true if and only if the current weapon has finished to shoot.
-     */
-    public boolean isTheWeaponConcluded(String playerName) {
-        return getPlayerFromName(playerName).isTheWeaponConcluded();
-    }
-
-    /**
-     * Returns true if and only if the current powerup id concluded.
-     *
-     * @param playerName the name of the player who is using the powerup.
-     * @return true if and only if the current powerup id concluded.
-     */
-    public boolean isThePowerupConcluded(String playerName) {
-        Player player = getPlayerFromName(playerName);
-        return player.isThePowerupConcluded();
-    }
-
-    /**
      * Refills the map and updates the reps.
      */
     public void fillGameMap() {
@@ -202,6 +181,7 @@ public class Model {
         gameBoard.getPlayers().forEach(Player::flipIfNoDamage);
         updateReps();
     }
+
 
     // ####################################
     // PAYMENT METHODS
@@ -316,10 +296,10 @@ public class Model {
         return savedEvent;
     }
 
+
     // ####################################
     // PLAYERS MANAGEMENT METHODS
     // ####################################
-
 
     /**
      * Returns true if and only if the specified player is in a macro action.
@@ -619,6 +599,7 @@ public class Model {
         updateReps();
     }
 
+
     // ####################################
     // ENDGAME METHODS
     // ####################################
@@ -847,6 +828,16 @@ public class Model {
     // ####################################
 
     /**
+     * Returns true if and only if the current weapon has finished to shoot.
+     *
+     * @param playerName the name of the player who is shooting.
+     * @return true if and only if the current weapon has finished to shoot.
+     */
+    public boolean isTheWeaponConcluded(String playerName) {
+        return getPlayerFromName(playerName).isTheWeaponConcluded();
+    }
+
+    /**
      * Returns true if and only if the specified weapon can be activated.
      * @param playerName name of the owner of the weapon.
      * @param indexOfWeapon index of the weapon in the player's inventory.
@@ -976,6 +967,17 @@ public class Model {
     // ####################################
     // PUBLIC POWERUPS USE METHODS
     // ####################################
+
+    /**
+     * Returns true if and only if the current powerup id concluded.
+     *
+     * @param playerName the name of the player who is using the powerup.
+     * @return true if and only if the current powerup id concluded.
+     */
+    public boolean isThePowerupConcluded(String playerName) {
+        Player player = getPlayerFromName(playerName);
+        return player.isThePowerupConcluded();
+    }
 
     public boolean canPowerupBeActivated(String playerName, int indexOfPowerup) {
         Player player = getPlayerFromName(playerName);
@@ -1147,7 +1149,7 @@ public class Model {
     private void scoreDeadPlayer(Player player) {
         PlayerBoard playerBoard = player.getPlayerBoard();
         DamageDone damageDone = new DamageDone();
-        ArrayList<Player> sortedPlayers;
+        List<Player> sortedPlayers;
         Player killingPlayer;
         boolean overkill = false;
 

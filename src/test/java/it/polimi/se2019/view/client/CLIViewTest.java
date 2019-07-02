@@ -9,77 +9,12 @@ import it.polimi.se2019.model.player.Player;
 import it.polimi.se2019.model.player.PlayerRep;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.view.client.cli.CLIView;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CLIViewTest {
-
-	private Player player1, player2, player3, player4, player5;
-	private ArrayList<Player> players;
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	@Test
-	public void askNickname() {
-	}
-
-	@Test
-	public void displayWaitingPlayers() {
-	}
-
-	@Test
-	public void displayTimerStarted() {
-	}
-
-	@Test
-	public void displayText() {
-	}
-
-	@Test
-	public void displayGame() {
-	}
-
-	@Test
-	public void askMapToUse() {
-	}
-
-	@Test
-	public void askSkullsForGame() {
-	}
-
-	@Test
-	public void askAction() {
-	}
-
-	@Test
-	public void showTargettablePlayers() {
-	}
-
-	@Test
-	public void updateGameMapRep() {
-	}
-
-	@Test
-	public void updateGameBoardRep() {
-	}
-
-	@Test
-	public void updatePlayerRep() {
-	}
-
-	@Test
-	public void showMessage() {
-	}
 
 	@Test
 	public void displayMapTest() {
@@ -182,6 +117,5 @@ public class CLIViewTest {
 		cliView.updatePlayerRep(new PlayerRep(players.get(4)));
 
 		cliView.updateDisplay();
-
 	}
 }
