@@ -66,7 +66,7 @@ public class Controller implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (!isGameEnded() || GameConstants.DEBUG_DONOTEND)
+		if (!isGameEnded())
 			gameController.processEvent((Event) arg);
 	}
 

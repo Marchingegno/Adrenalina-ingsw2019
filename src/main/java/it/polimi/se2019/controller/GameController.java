@@ -180,7 +180,6 @@ public class GameController {
 					Utils.logError("It's not the turn of " + playerName + "!", new IllegalStateException());
 				break;
 			case SPAWN:
-				//TODO player should be spawned even if the current player turnStatus is prespawn.
 				int spawnAnswer = ((IntMessage) event.getMessage()).getContent();
 				//If the player was dead, spawn him and check if there are other dead players.
 				if (model.getTurnStatus(playerName) == TurnStatus.DEAD) {

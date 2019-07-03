@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="194.0" prefWidth="527.0"
-            xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns="http://javafx.com/javafx/8.0.171"
             fx:controller="it.polimi.se2019.view.client.gui.QuestionContainerController">
     <children>
         <BorderPane prefHeight="188.0" prefWidth="527.0">
@@ -21,8 +21,8 @@
                 <ComboBox fx:id="choiceComboBox" prefHeight="27.0" prefWidth="247.0" BorderPane.alignment="CENTER"/>
             </center>
             <bottom>
-                <Button fx:id="doneButton" mnemonicParsing="false" onAction="#pressedDone" prefWidth="51.0" text="Done"
-                        textAlignment="RIGHT" BorderPane.alignment="CENTER">
+                <Button fx:id="doneButton" mnemonicParsing="false" onAction="#pressedDone" prefHeight="31.0"
+                        prefWidth="72.0" text="Done" textAlignment="RIGHT" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
                         <Insets bottom="10.0" left="310.0"/>
                     </BorderPane.margin>
