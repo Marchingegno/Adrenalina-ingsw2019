@@ -5,6 +5,7 @@ package it.polimi.se2019.utils;
  *
  * @param <E> type of the first element.
  * @param <F> type of the second element.
+ * @author Marchingegno
  */
 public class Pair<E, F> {
 	private E first;

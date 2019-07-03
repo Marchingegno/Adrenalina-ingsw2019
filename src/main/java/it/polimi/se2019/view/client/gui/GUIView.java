@@ -44,7 +44,7 @@ public class GUIView extends RemoteView {
 	private WeaponChoiceController weaponChoiceController;
 	private Stage weaponChoiceStage;
 
-	private AskStringController askStringController;
+	private QuestionContainerController questionContainerController;
 	private Stage askStringStage;
 
 	private EndGameController endGameController;
@@ -161,8 +161,8 @@ public class GUIView extends RemoteView {
 			askStringStage.setTitle("Adrenaline");
 			askStringStage.setResizable(false);
 			askStringStage.setScene(askStringScene);
-			askStringController = loader.getController();
-			askStringController.setGuiAndStage(this, askStringStage);
+			questionContainerController = loader.getController();
+			questionContainerController.setGuiAndStage(this, askStringStage);
 			askStringStage.setOnCloseRequest(event ->
 					Platform.runLater(() -> askStringStage.show())
 			);
@@ -285,8 +285,8 @@ public class GUIView extends RemoteView {
 			Utils.logInfo("GUIView -> askOnDamagePowerupActivation(): activable powerups" + activablePowerups);
 			powerupChoiceController.setPowerups(getModelRep().getClientPlayerRep().getPowerupCards());
 			powerupChoiceController.activatePowerupsButtons(activablePowerups);
-			powerupChoiceController.activateNoPowerupButton(true);
 			powerupChoiceController.setTitle("You have just been damaged by " + shootingPlayer + "!");
+			powerupChoiceController.activateNoPowerupButton(true);
 			int answer = powerupChoiceController.askChoice();
 			sendMessage(new IntMessage(answer, MessageType.POWERUP, MessageSubtype.ANSWER));
 		});
@@ -300,7 +300,7 @@ public class GUIView extends RemoteView {
 	private void askQuestionContainerAndSendAnswer(QuestionContainer questionContainer, MessageType messageType) {
 		Platform.runLater(() -> {
 			if (questionContainer.isAskString()) {
-				askStringController.setAskString(questionContainer, messageType);
+				questionContainerController.setAskString(questionContainer, messageType);
 				askStringStage.show();
 			} else {
 				gameBoardController.setQuestion(questionContainer.getQuestion());

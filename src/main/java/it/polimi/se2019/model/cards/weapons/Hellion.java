@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Hellion.
+ * @author Marchingeno
  */
 public class Hellion extends AlternateFireWeapon {
 	private final int primaryFollowingDamage;

@@ -954,49 +954,49 @@
         <ImageView fx:id="skull0" fitHeight="25.0" fitWidth="25.0" layoutX="106.0" layoutY="80.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull1" fitHeight="25.0" fitWidth="25.0" layoutX="155.0" layoutY="80.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull2" fitHeight="25.0" fitWidth="25.0" layoutX="201.0" layoutY="81.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull3" fitHeight="25.0" fitWidth="25.0" layoutX="244.0" layoutY="80.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull4" fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="81.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull5" fitHeight="25.0" fitWidth="25.0" layoutX="339.0" layoutY="82.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull6" fitHeight="25.0" fitWidth="25.0" layoutX="380.0" layoutY="81.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="skull7" fitHeight="25.0" fitWidth="25.0" layoutX="423.0" layoutY="80.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../graphicassets/kisspng-computer-icons-skull-clip-art-5ae60935d9ff79.3380813815250250778929.png"/>
+                <Image url="@../graphicassets/skull.png"/>
             </image>
         </ImageView>
         <Button fx:id="actionButton0" disable="true" layoutX="28.0" layoutY="691.0" mnemonicParsing="false"

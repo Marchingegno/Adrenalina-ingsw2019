@@ -2,6 +2,9 @@ package it.polimi.se2019.network.message;
 
 /**
  * Enum containing all the possible message types.
+ * @author Desno365
+ * @author Marchingegno
+ * @author MarcerAndrea
  */
 public enum MessageType {
 

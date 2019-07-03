@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Class of the weapon T.H.O.R.
+ * @author Marchingeno
  */
 public class Thor extends OptionalEffectsWeapon {
 	private List<Player> chosenTargets;

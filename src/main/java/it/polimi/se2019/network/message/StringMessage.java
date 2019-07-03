@@ -2,6 +2,7 @@ package it.polimi.se2019.network.message;
 
 /**
  * Message used to exchange information with just one string.
+ * @author Desno365
  */
 public class StringMessage extends Message {
 

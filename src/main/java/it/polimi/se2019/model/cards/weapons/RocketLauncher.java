@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class of the weapon Rocket launcher.
+ * @author Marchingeno
  */
 public class RocketLauncher extends OptionalChoiceWeapon {
 	//BASE: Shoot at someone

@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Message used to send the reps of the model to the player.
+ * @author MarcerAndrea
  */
 public class RepMessage extends Message {
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Message used to request a choice in an array.
+ * @author Desno365
  */
 public class RequestChoiceInArrayMessage extends Message {
 

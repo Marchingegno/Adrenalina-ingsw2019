@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Class of the weapon ZX_2.
+ * @author Marchingeno
  */
 public class ZX_2 extends AlternateFireWeapon {
 	private List<Player> secondaryTargets;

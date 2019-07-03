@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+/**
+ * FXML controller to display the connection choice.
+ *
+ * @author MarcerAndrea
+ */
 public class ConnectionController {
 
 	private static GUIView guiView;

@@ -1,5 +1,10 @@
 package it.polimi.se2019.utils;
 
+/**
+ * Class that contains the configuration of the server.
+ *
+ * @author MarcerAndrea
+ */
 public class ServerConfig {
 	private int waitingTimeInLobby;
 	private int answerTimeLimit;

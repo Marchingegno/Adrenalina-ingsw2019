@@ -34,13 +34,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-enum Request {
-	MOVE,
-	CHOOSE,
-	CHOOSE_INT,
-	RELOAD
-}
-
+/**
+ * FXML controller to display the game board.
+ *
+ * @author MarcerAndrea
+ */
 public class GameBoardController {
 	private Group[][] map;
 	private ImageView[][] bansheePosition;

@@ -7,50 +7,55 @@ import it.polimi.se2019.network.message.MessageType;
 import it.polimi.se2019.utils.Color;
 import it.polimi.se2019.utils.Utils;
 
+/**
+ * A square that don't belongs to the map.
+ *
+ * @author MarcerAndrea
+ */
 public class VoidSquare extends Square {
 
-	public VoidSquare(Coordinates coordinates) {
-		super(-1, new boolean[]{false, false, false, false}, Color.CharacterColorType.DEFAULT, coordinates);
-	}
+    public VoidSquare(Coordinates coordinates) {
+        super(-1, new boolean[]{false, false, false, false}, Color.CharacterColorType.DEFAULT, coordinates);
+    }
 
-	@Override
-	public Card grabCard(int index) {
-		throw new UnsupportedOperationException("Can't call grabCard() in a VoidSquare");
-	}
+    @Override
+    public Card grabCard(int index) {
+        throw new UnsupportedOperationException("Can't call grabCard() in a VoidSquare");
+    }
 
-	@Override
-	public void addCard(Card cardToAdd) {
-		throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
-	}
+    @Override
+    public void addCard(Card cardToAdd) {
+        throw new UnsupportedOperationException("Can't call addCard() in a VoidSquare");
+    }
 
-	@Override
-	public void refillCards() {
-		Utils.logRep("No refill needed in a VoidSquare.");
-	}
+    @Override
+    public void refillCards() {
+        Utils.logRep("No refill needed in a VoidSquare.");
+    }
 
-	@Override
-	public boolean canGrab(Player player) {
-		throw new UnsupportedOperationException("Can't call canGrab() in a VoidSquare");
-	}
+    @Override
+    public boolean canGrab(Player player) {
+        throw new UnsupportedOperationException("Can't call canGrab() in a VoidSquare");
+    }
 
-	@Override
-	public MessageType getGrabMessageType() {
-		throw new UnsupportedOperationException("Can't call getGrabMessageType() in a VoidSquare");
-	}
+    @Override
+    public MessageType getGrabMessageType() {
+        throw new UnsupportedOperationException("Can't call getGrabMessageType() in a VoidSquare");
+    }
 
-	/**
-	 * Returns the spawn square's representation.
-	 *
-	 * @return the spawn square's representation.
-	 */
-	@Override
-	public Representation getRep() {
-		if (hasChanged || squareRep == null) {
-			squareRep = new VoidSquareRep(this);
-			setNotChanged();
-			if (Utils.DEBUG_REPS)
-				Utils.logInfo("SpawnSquare -> getRep(): Updated the square's representation");
-		}
-		return squareRep;
-	}
+    /**
+     * Returns the spawn square's representation.
+     *
+     * @return the spawn square's representation.
+     */
+    @Override
+    public Representation getRep() {
+        if (hasChanged || squareRep == null) {
+            squareRep = new VoidSquareRep(this);
+            setNotChanged();
+            if (Utils.DEBUG_REPS)
+                Utils.logInfo("SpawnSquare -> getRep(): Updated the square's representation");
+        }
+        return squareRep;
+    }
 }

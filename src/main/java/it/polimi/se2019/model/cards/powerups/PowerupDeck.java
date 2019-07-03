@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 /**
- * This class implements the powerup deck
+ * This class implements the powerup deck.
  *
  * @author MarcerAndrea
  * @author Desno365

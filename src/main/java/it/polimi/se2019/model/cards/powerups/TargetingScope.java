@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * This class implements the Targeting scope powerup
+ * This class implements the Targeting scope powerup.
  *
  * @author MarcerAndrea
  * @author Desno365

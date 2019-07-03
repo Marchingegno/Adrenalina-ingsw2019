@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * FXML controller to display the final leaderboard.
+ *
+ * @author MarcerAndrea
+ */
 public class EndGameController {
 
 	@FXML

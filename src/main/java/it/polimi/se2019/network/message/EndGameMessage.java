@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Message used to report the end of the game and the winners.
+ * @author Desno365
  */
 public class EndGameMessage extends Message {
 

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class of the weapon Tractor beam.
+ * @author Marchingeno
  */
 public class TractorBeam extends AlternateFireWeapon {
 

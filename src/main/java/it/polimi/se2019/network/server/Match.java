@@ -17,6 +17,7 @@ import java.util.Optional;
 
 /**
  * Represents a single Match with all his participants.
+ * @author Desno365
  */
 class Match {
 

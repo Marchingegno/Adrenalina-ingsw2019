@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class of the weapon Furnace.
+ * @author Marchingeno
  */
 public class Furnace extends AlternateFireWeapon {
 

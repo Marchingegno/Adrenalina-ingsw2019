@@ -19,7 +19,7 @@ public abstract class Square implements Representable {
 
 	protected int roomID;
 	protected boolean hasChanged;
-	protected SquareRep squareRep;
+    SquareRep squareRep;
 	protected List<Card> cards;
 	protected boolean[] possibleDirections;
 	private Coordinates coordinates;
@@ -78,7 +78,7 @@ public abstract class Square implements Representable {
 	 *
 	 * @param adjacentSquare the adjacent square to add to the list.
 	 */
-	public void addAdjacentSquare(Square adjacentSquare) {
+    void addAdjacentSquare(Square adjacentSquare) {
 		adjacentSquares.add(adjacentSquare);
 	}
 
@@ -101,7 +101,7 @@ public abstract class Square implements Representable {
 		return new ArrayList<>(cards);
 	}
 
-	public List<CardRep> getCardsRep() {
+    List<CardRep> getCardsRep() {
 		List<CardRep> cardsRep = new ArrayList<>();
 		for (Card card : cards) {
 			cardsRep.add((CardRep) card.getRep());
@@ -134,21 +134,21 @@ public abstract class Square implements Representable {
 	 *
 	 * @return true if and only if the square card slot is full.
 	 */
-	public boolean isFilled() {
+    boolean isFilled() {
 		return isFilled;
 	}
 
 	/**
 	 * Sets the square as filled.
 	 */
-	public void setFilled() {
+    void setFilled() {
 		isFilled = true;
 	}
 
 	/**
 	 * Sets the square as not filled.
 	 */
-	public void setNotFilled() {
+    void setNotFilled() {
 		isFilled = false;
 	}
 
@@ -162,11 +162,21 @@ public abstract class Square implements Representable {
 	/**
 	 * Sets the square as not changed.
 	 */
-	public void setNotChanged() {
+    void setNotChanged() {
 		hasChanged = false;
 	}
 
-	public abstract boolean canGrab(Player player);
+    /**
+     * Returns true if and only if the specified player can perform the grab action on this square.
+     *
+     * @param player player who is performing the action of grabbing.
+     * @return true if and only if the specified player can perform the grab action on this square.
+     */
+    public abstract boolean canGrab(Player player);
 
-	public abstract MessageType getGrabMessageType();
+    /**
+     * Returns the type of message to send to the client to perform the grab.
+     * @return the type of message to send to the client to perform the grab.
+     */
+    public abstract MessageType getGrabMessageType();
 }

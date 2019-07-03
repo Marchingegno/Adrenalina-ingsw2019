@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class of the weapon Power glove.
+ * @author Desno365
  */
 public class PowerGlove extends AlternateFireWeapon {
 

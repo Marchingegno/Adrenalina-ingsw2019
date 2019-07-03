@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * Class that represents a deck of WeaponCards.
+ * @author Marchingeno
  */
 public class WeaponDeck extends ActivableDeck<WeaponCard> {
 

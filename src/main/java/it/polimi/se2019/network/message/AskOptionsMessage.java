@@ -4,6 +4,7 @@ import it.polimi.se2019.utils.QuestionContainer;
 
 /**
  * Message used to display a question and possible answer to a player.
+ * @author Desno365
  */
 public class AskOptionsMessage extends Message {
 

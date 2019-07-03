@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Interface of the View class. It has the methods to ask the user a question and to record the answer.
  * It also contains the methods to update the Representations of the main elements of the game.
+ * @author Marchingegno
  */
 public interface ViewInterface {
 

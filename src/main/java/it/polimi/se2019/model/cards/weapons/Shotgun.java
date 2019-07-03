@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Shotgun.
+ * @author Marchingeno
  */
 public class Shotgun extends AlternateFireWeapon {
 	private List<Coordinates> listEnemyMoveCoordinates;

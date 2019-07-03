@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Electroscythe.
+ * @author Marchingeno
  */
 public class Electroscythe extends AlternateFireWeapon {
 

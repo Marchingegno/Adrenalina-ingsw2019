@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.utils.GameConstants.FRENZY_BEFORE_NUMBER_OF_ACTION_PER_TURN;
 
+/**
+ * @author Marchingegno
+ */
 public class FrenzyBefore extends DamageStatus {
 
 	public FrenzyBefore() {

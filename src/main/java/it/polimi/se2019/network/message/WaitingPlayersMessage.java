@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Message used to send the current players waiting in the wating room.
+ * @author Desno365
  */
 public class WaitingPlayersMessage extends Message {
 

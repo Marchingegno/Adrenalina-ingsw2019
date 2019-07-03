@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Vortex cannon.
+ * @author Marchingeno
  */
 public class VortexCannon extends OptionalEffectsWeapon {
 	private Coordinates vortexCoordinate;

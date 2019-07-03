@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Container for the VirtualViews of the player.
+ * @author Desno365
  */
 class VirtualViewsContainer {
 

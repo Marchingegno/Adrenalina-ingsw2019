@@ -2,6 +2,7 @@ package it.polimi.se2019.network.message;
 
 /**
  * Message used to request what action the players wants to do.
+ * @author Desno365
  */
 public class ActionRequestMessage extends Message {
 

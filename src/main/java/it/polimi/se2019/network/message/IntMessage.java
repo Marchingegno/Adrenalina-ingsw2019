@@ -2,6 +2,7 @@ package it.polimi.se2019.network.message;
 
 /**
  * Message used to exchange information with just one integer.
+ * @author Desno365
  */
 public class IntMessage extends Message {
 

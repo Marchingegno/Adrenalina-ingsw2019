@@ -6,7 +6,7 @@ import it.polimi.se2019.utils.QuestionContainer;
 import it.polimi.se2019.utils.Utils;
 
 /**
- * This class implements the Tagback grenade powerup
+ * This class implements the Tagback grenade powerup.
  *
  * @author MarcerAndrea
  * @author Desno365

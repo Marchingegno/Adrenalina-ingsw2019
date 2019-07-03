@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * FXML controller to display the request of a weapon.
+ *
+ * @author MarcerAndrea
+ */
 public class WeaponChoiceController {
 	@FXML
 	private ImageView weapon0;

@@ -18,6 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * FXML controller to display the inventory of a player.
+ *
+ * @author MarcerAndrea
+ */
 public class PlayerInventoryController {
 	@FXML
 	private ImageView playerBoard;

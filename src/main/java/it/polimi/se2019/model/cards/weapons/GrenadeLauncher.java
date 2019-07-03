@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Grenade launcher.
+ * @author Marchingeno
  */
 public class GrenadeLauncher extends OptionalChoiceWeapon {
 	private List<Coordinates> possibleCoordinates;

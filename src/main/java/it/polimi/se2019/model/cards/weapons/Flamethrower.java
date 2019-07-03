@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Flamethrower.
+ * @author Marchingeno
  */
 public class Flamethrower extends AlternateFireWeapon {
 	private static final int SECONDARY_FOLLOWING_DAMAGE = 1;

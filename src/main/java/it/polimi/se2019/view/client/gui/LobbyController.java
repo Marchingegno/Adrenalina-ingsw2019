@@ -9,6 +9,11 @@ import java.util.List;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * FXML controller to display the lobby.
+ *
+ * @author MarcerAndrea
+ */
 public class LobbyController {
 
 	@FXML

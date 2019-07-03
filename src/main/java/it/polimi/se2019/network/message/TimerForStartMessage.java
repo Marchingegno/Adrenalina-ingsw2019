@@ -2,6 +2,7 @@ package it.polimi.se2019.network.message;
 
 /**
  * Message used to report the start of the timer for the game start.
+ * @author Desno365
  */
 public class TimerForStartMessage extends Message {
 

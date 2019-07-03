@@ -8,7 +8,12 @@ import java.util.Scanner;
 
 import static it.polimi.se2019.view.client.cli.CLIView.print;
 
-public class CLIPrinter {
+/**
+ * Prints the login scene in the Cli.
+ *
+ * @author MarcerAndrea
+ */
+public class CLILoginPrinter {
 
 	private static final Object lock = new Object();
 	private static final String ESC = (char) 27 + "[";

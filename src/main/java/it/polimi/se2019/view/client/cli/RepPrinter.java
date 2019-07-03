@@ -22,11 +22,12 @@ import java.util.Collections;
 import java.util.List;
 
 import static it.polimi.se2019.utils.GameConstants.*;
-import static it.polimi.se2019.view.client.cli.CLIPrinter.cleanConsole;
-import static it.polimi.se2019.view.client.cli.CLIPrinter.setCursorHome;
+import static it.polimi.se2019.view.client.cli.CLILoginPrinter.cleanConsole;
+import static it.polimi.se2019.view.client.cli.CLILoginPrinter.setCursorHome;
 
 /**
- * Helps printing the information.
+ * Helps printing the information in the rep.
+ * @author MarcerAndrea
  */
 public class RepPrinter {
 
@@ -66,7 +67,7 @@ public class RepPrinter {
 		updateMapToPrint(reachableCoordinates);
 		displayMap();
 
-		CLIPrinter.moveCursorUP(AmmoType.values().length * (MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE + 1) + 10);
+        CLILoginPrinter.moveCursorUP(AmmoType.values().length * (MAX_NUM_OF_WEAPONS_IN_SPAWN_SQUARE + 1) + 10);
 
 		displayWeapons();
 
@@ -143,7 +144,7 @@ public class RepPrinter {
 		SquareRep[][] map = modelRep.getGameMapRep().getMapRep();
 
 		for (AmmoType ammoType : AmmoType.values()) {
-			Coordinates redSpawnCoordinates = modelRep.getGameMapRep().getSpawncoordinats(ammoType);
+            Coordinates redSpawnCoordinates = modelRep.getGameMapRep().getSpawnCoordinates(ammoType);
 			List<WeaponRep> weaponReps = ((SpawnSquareRep) map[redSpawnCoordinates.getRow()][redSpawnCoordinates.getColumn()]).getWeaponsRep();
 			CLIView.printLine(Color.getColoredString(ammoType.getCharacterColorType().toString() + " SPAWN", ammoType.getCharacterColorType()));
 
@@ -156,7 +157,7 @@ public class RepPrinter {
 			CLIView.print("\n");
 		}
 
-		CLIPrinter.moveCursorDOWN(5);
+        CLILoginPrinter.moveCursorDOWN(5);
 	}
 
 	String getWeaponRepString(WeaponRep weaponRep) {
@@ -275,13 +276,13 @@ public class RepPrinter {
 	}
 
 	private void displayMap() {
-		CLIPrinter.moveCursorRIGHT(84);
+        CLILoginPrinter.moveCursorRIGHT(84);
 		for (int i = 0; i < modelRep.getGameMapRep().getNumOfColumns(); i++) {
 			CLIView.print("        " + (i + 1) + "        ");
 		}
 		CLIView.print("\n\n");
 		for (int i = 0; i < mapToPrint.length; i++) {
-			CLIPrinter.moveCursorRIGHT(80);
+            CLILoginPrinter.moveCursorRIGHT(80);
 			CLIView.print(Utils.fillWithSpaces((i - (i / NUM_OF_ROWS_IN_SQUARE) * NUM_OF_ROWS_IN_SQUARE) == NUM_OF_ROWS_IN_SQUARE / 2 ? (i / NUM_OF_ROWS_IN_SQUARE + 1) + "" : "", 4));
 			for (int j = 0; j < mapToPrint[0].length; j++) {
 				CLIView.print(mapToPrint[i][j]);

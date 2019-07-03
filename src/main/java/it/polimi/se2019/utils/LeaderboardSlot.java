@@ -5,31 +5,36 @@ import it.polimi.se2019.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents position in a leaderboard.
+ *
+ * @author Marchingegno
+ */
 public class LeaderboardSlot {
-	private final List<Player> playersInThisPosition;
+    private final List<Player> playersInThisPosition;
 
 
-	public LeaderboardSlot() {
-		playersInThisPosition = new ArrayList<>();
-	}
+    public LeaderboardSlot() {
+        playersInThisPosition = new ArrayList<>();
+    }
 
 
-	public List<Player> getPlayersInThisPosition() {
-		return playersInThisPosition;
-	}
+    public List<Player> getPlayersInThisPosition() {
+        return playersInThisPosition;
+    }
 
-	public Player getPlayer() {
-		if (isATie()) throw new IllegalStateException("This slot is a tie, therefore getPlayer should not be called.");
-		return playersInThisPosition.get(0);
-	}
+    public Player getPlayer() {
+        if (isATie()) throw new IllegalStateException("This slot is a tie, therefore getPlayer should not be called.");
+        return playersInThisPosition.get(0);
+    }
 
-	public void addInPosition(Player player) {
-		playersInThisPosition.add(player);
-	}
+    public void addInPosition(Player player) {
+        playersInThisPosition.add(player);
+    }
 
-	public boolean isATie() {
-		return playersInThisPosition.size() > 1;
-	}
+    public boolean isATie() {
+        return playersInThisPosition.size() > 1;
+    }
 
 
 }

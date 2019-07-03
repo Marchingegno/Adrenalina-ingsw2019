@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="194.0" prefWidth="527.0"
             xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="it.polimi.se2019.view.client.gui.AskStringController">
+            fx:controller="it.polimi.se2019.view.client.gui.QuestionContainerController">
     <children>
         <BorderPane prefHeight="188.0" prefWidth="527.0">
             <top>

@@ -18,6 +18,8 @@ import java.util.List;
  * perform inside of a turn.
  *
  * @author Marchingegno
+ * @author MarcerAndrea
+ * @author Desno365
  */
 public class TurnController {
 

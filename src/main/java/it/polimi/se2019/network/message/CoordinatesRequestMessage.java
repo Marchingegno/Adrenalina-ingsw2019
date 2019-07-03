@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Message used to request a Coordinates to the Player, the Coordinates must be from a list of allowedCoordinates.
  * This message is used for the MOVE action.
+ * @author MarcerAndrea
  */
 public class CoordinatesRequestMessage extends Message {
 

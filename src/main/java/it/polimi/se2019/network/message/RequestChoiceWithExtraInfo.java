@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Message used to request a choice in an array, but adding an extra info.
+ * @author Desno365
  */
 public class RequestChoiceWithExtraInfo extends RequestChoiceInArrayMessage {
 

@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Railgun.
+ * @author Marchingeno
  */
 public class Railgun extends AlternateFireWeapon {
 	private List<String> availableDirections;

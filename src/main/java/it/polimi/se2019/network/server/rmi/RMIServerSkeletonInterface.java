@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 
 /**
  * Represents the methods of the server that can be called remotely by the client.
+ * @author Desno365
  */
 public interface RMIServerSkeletonInterface extends Remote {
 

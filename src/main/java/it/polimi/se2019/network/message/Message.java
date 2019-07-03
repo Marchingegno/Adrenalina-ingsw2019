@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * General Message class.
  * All other messages used in the game extend this class.
+ * @author Desno365
  */
 public class Message implements Serializable {
 

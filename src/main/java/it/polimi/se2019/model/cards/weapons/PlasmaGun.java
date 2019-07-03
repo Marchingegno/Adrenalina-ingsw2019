@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Plasma gun.
+ * @author Marchingeno
  */
 public class PlasmaGun extends OptionalChoiceWeapon {
 	private List<Coordinates> possibleMoveCoordinates;

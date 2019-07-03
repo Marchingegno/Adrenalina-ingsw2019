@@ -2,6 +2,7 @@ package it.polimi.se2019.network.message;
 
 /**
  * Message used for the answer of SWAP_WEAPON action.
+ * @author MarcerAndrea
  */
 public class SwapMessage extends Message {
 

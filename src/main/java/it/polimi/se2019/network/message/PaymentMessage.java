@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Message used for requesting payments with ammo cubes or powerups.
+ * @author MarcerAndrea
  */
 public class PaymentMessage extends Message {
 	private List<AmmoType> priceToPay;

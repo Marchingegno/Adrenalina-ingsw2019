@@ -12,6 +12,11 @@ import java.util.List;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * FXML controller to display the request of the maps and the skulls.
+ *
+ * @author MarcerAndrea
+ */
 public class MapAndSkullsController {
 
 	private GUIView guiView;

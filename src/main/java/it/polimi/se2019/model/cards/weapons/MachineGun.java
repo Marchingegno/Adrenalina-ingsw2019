@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Machine gun.
+ * @author Marchingeno
  */
 public class MachineGun extends OptionalEffectsWeapon {
 	private static final int OPTIONAL2_EXTRA_DAMAGE = 1;

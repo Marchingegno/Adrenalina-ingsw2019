@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Shockwave.
+ * @author Marchingeno
  */
 public class Shockwave extends AlternateFireWeapon {
 	private List<Player> chosenTargets;

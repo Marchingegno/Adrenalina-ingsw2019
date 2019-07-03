@@ -4,6 +4,7 @@ import it.polimi.se2019.model.gamemap.Coordinates;
 
 /**
  * Message used as answer with a Coordinates data.
+ * @author MarcerAndrea
  */
 public class CoordinatesAnswerMessage extends Message {
 

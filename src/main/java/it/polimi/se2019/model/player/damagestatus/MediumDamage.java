@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 
+/**
+ * @author Marchingegno
+ */
 public class MediumDamage extends DamageStatus {
 	public static final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
 

@@ -2,6 +2,7 @@ package it.polimi.se2019.network.message;
 
 /**
  * Message used for player nicknames.
+ * @author Desno365
  */
 public class NicknameMessage extends StringMessage {
 

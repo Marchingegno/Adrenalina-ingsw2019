@@ -6,6 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Starts the application for the gui.
+ *
+ * @author MarcerAndrea
+ */
 public class GUIInitializer extends Application {
 
 	public static void startGUIInitializer() {

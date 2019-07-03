@@ -1,5 +1,4 @@
 package it.polimi.se2019.view.client.cli;
-
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
@@ -17,9 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static it.polimi.se2019.view.client.cli.CLIPrinter.*;
+import static it.polimi.se2019.view.client.cli.CLILoginPrinter.*;
 
 /**
+ * Implements the Remote view for the Cli.
  * @author MarcerAndrea
  * @author Desno365
  * @author Marchingegno
@@ -489,8 +489,8 @@ public class CLIView extends RemoteView {
 			printLine("Enter Column coordinate 1-" + getModelRep().getGameMapRep().getNumOfColumns());
 			int y = askInteger(1, getModelRep().getGameMapRep().getNumOfColumns());
 			coordinates = new Coordinates(x - 1, y - 1);
-			CLIPrinter.moveCursorUP(4);
-			CLIPrinter.cleanConsole();
+			CLILoginPrinter.moveCursorUP(4);
+			CLILoginPrinter.cleanConsole();
 		} while (!reachableCoordinates.contains(coordinates));
 
 		return coordinates;

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * A sharable version of the square.
  *
- * @author MarcerAmdrea
+ * @author MarcerAndrea
  */
 public abstract class SquareRep implements Representation {
 
@@ -63,9 +63,14 @@ public abstract class SquareRep implements Representation {
 		return squareColor;
 	}
 
-	public List<CardRep> getCards() {
-		return cardsRep;
-	}
+    /**
+     * Returns the list of cards rep in this square.
+     *
+     * @return the list of cards rep in this square.
+     */
+    public List<CardRep> getCards() {
+        return cardsRep;
+    }
 
 	/**
 	 * Returns the elements to print in the CLI.

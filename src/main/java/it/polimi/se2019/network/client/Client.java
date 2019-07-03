@@ -7,8 +7,8 @@ import it.polimi.se2019.view.client.gui.GUIInitializer;
 import java.util.Locale;
 import java.util.Random;
 
-import static it.polimi.se2019.view.client.cli.CLIPrinter.printChooseView;
-import static it.polimi.se2019.view.client.cli.CLIPrinter.waitForChoiceInMenu;
+import static it.polimi.se2019.view.client.cli.CLILoginPrinter.printChooseView;
+import static it.polimi.se2019.view.client.cli.CLILoginPrinter.waitForChoiceInMenu;
 
 
 /**

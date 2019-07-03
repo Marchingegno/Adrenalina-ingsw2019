@@ -3,7 +3,8 @@ package it.polimi.se2019.network.client;
 import it.polimi.se2019.network.message.Message;
 
 /**
- * Implemented by classes which want to connect to the server.
+ * Implemented by classes that want to connect to the server.
+ * @author Desno365
  */
 public interface ConnectionToServerInterface {
 

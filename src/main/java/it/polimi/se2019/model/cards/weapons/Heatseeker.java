@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class of the weapon Heatseeker.
+ * @author Marchingeno
  */
 public class Heatseeker extends WeaponCard {
 

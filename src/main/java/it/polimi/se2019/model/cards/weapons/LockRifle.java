@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Lock rifle.
+ * @author Marchingeno
  */
 public class LockRifle extends OptionalEffectsWeapon {
 	private Player secondTarget;

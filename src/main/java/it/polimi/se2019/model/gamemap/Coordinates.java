@@ -73,7 +73,7 @@ public class Coordinates implements Serializable {
 	}
 
 	/**
-	 * Returns the Manhattan distance from two coordinates
+     * Returns the Manhattan distance between two coordinates
 	 *
 	 * @param otherCoordinates coordinates of the other point
 	 * @return the Manhattan distance between the two points

@@ -15,6 +15,13 @@ import it.polimi.se2019.view.ViewInterface;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Remote views must extend this class.
+ *
+ * @author Marchingegno
+ * @author Desno365
+ * @author MArcerAndrea
+ */
 public abstract class RemoteView implements ViewInterface, MessageReceiverInterface {
 
 	private ConnectionToServerInterface connectionToServer;

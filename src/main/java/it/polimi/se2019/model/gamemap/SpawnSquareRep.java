@@ -41,7 +41,11 @@ public class SpawnSquareRep extends SquareRep {
 		return weaponsRep;
 	}
 
-
+    /**
+     * Returns the associated ammo typeof the spawn.
+     *
+     * @return the associated ammo typeof the spawn.
+     */
 	public AmmoType getAssociatedAmmo() {
 		return associatedAmmo;
 	}

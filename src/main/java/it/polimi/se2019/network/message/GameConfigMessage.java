@@ -4,6 +4,7 @@ import it.polimi.se2019.utils.GameConstants;
 
 /**
  * Message used to request and to display the configurations of the game.
+ * @author Desno365
  */
 public class GameConfigMessage extends Message {
 

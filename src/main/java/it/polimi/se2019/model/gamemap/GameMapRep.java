@@ -43,41 +43,83 @@ public class GameMapRep implements Representation {
 		mapName = gameMapToRepresent.getName();
 	}
 
-	public String getName() {
-		return mapName;
-	}
+    /**
+     * Returns the name of the map.
+     *
+     * @return the name of the map.
+     */
+    public String getName() {
+        return mapName;
+    }
 
+    /**
+     * Returns the number of rows in the map.
+     * @return the number of rows in the map.
+	 */
 	public int getNumOfRows() {
 		return numOfRows;
-	}
+    }
 
-	public int getNumOfColumns() {
-		return numOfColumns;
-	}
+    /**
+     * Returns the number of columns in the map.
+     * @return the number of columns in the map.
+	 */
+    public int getNumOfColumns() {
+        return numOfColumns;
+    }
 
-	public SquareRep[][] getMapRep() {
-		return mapRep;
-	}
+    /**
+     * Returns the matrix of square reps.
+     * @return the matrix of square reps.
+     */
+    public SquareRep[][] getMapRep() {
+        return mapRep;
+    }
 
-	public Map<String, Coordinates> getPlayersCoordinates() {
-		return playersPositions;
-	}
+    /**
+     * Returns the players' position.
+     * @return the players' position.
+	 */
+    public Map<String, Coordinates> getPlayersCoordinates() {
+        return playersPositions;
+    }
 
-	public Coordinates getPlayerCoordinates(String playerName) {
-		return playersPositions.get(playerName);
-	}
+    /**
+     * Returns the position of the specified player.
+     * @param playerName name of the player.
+     * @return the position of the specified player.
+     */
+    public Coordinates getPlayerCoordinates(String playerName) {
+        return playersPositions.get(playerName);
+    }
 
-	public Coordinates getSpawncoordinats(AmmoType ammoType) {
-		return spawnSquares.get(ammoType);
-	}
+    /**
+     * Returns the coordinates of spawn that has the specified ammo as associated ammo.
+     *
+     * @param ammoType the ammo.
+     * @return the coordinates of spawn that has the specified ammo as associated ammo.
+     */
+    public Coordinates getSpawnCoordinates(AmmoType ammoType) {
+        return spawnSquares.get(ammoType);
+    }
 
-	public SquareRep getPlayerSquare(String playerName) {
-		Coordinates playerCoordinates = playersPositions.get(playerName);
-		return mapRep[playerCoordinates.getRow()][playerCoordinates.getColumn()];
-	}
+    /**
+     * Returns the square rep in the position of the specified player.
+     * @param playerName the player name.
+     * @return the square rep in the position of the specified player.
+     */
+    public SquareRep getPlayerSquare(String playerName) {
+        Coordinates playerCoordinates = playersPositions.get(playerName);
+        return mapRep[playerCoordinates.getRow()][playerCoordinates.getColumn()];
+    }
 
-	public boolean isSpawn(Coordinates coordinates) {
-		return spawnSquares.containsValue(coordinates);
-	}
+    /**
+     * Returns true if and only if in the specified coordinates there is a spawn square.
+     * @param coordinates the coordinates to check.
+     * @return true if and only if in the specified coordinates there is a spawn square.
+     */
+    public boolean isSpawn(Coordinates coordinates) {
+        return spawnSquares.containsValue(coordinates);
+    }
 
 }

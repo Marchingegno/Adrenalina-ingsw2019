@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Represents the waiting room of the server.
+ * @author Desno365
  */
 class Lobby {
 

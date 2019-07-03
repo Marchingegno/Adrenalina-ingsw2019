@@ -13,7 +13,7 @@ import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.Utils;
 
 /**
- * Spawn square associated with an ammo type that represents its color
+ * Spawn square associated with an ammo type that represents its color.
  *
  * @author MarcerAndrea
  */
@@ -55,15 +55,21 @@ public class SpawnSquare extends Square {
 			Utils.logRep("SpawnSquare -> refillCards(): The spawn square is already filled");
 	}
 
-	@Override
-	public boolean canGrab(Player player) {
-		for (Card weaponCard : cards) {
-			if (player.hasEnoughAmmo(((WeaponCard) weaponCard).getGrabPrice())) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Returns true if and only if the specified player can grab at least one weapon in this square.
+     *
+     * @param player player who is grabbing.
+     * @return true if and only if the specified player can grab at least one weapon in this square.
+     */
+    @Override
+    public boolean canGrab(Player player) {
+        for (Card weaponCard : cards) {
+            if (player.hasEnoughAmmo(((WeaponCard) weaponCard).getGrabPrice())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	@Override
 	public MessageType getGrabMessageType() {

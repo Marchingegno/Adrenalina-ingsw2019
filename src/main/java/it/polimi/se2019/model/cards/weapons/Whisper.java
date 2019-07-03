@@ -6,10 +6,13 @@ import it.polimi.se2019.utils.QuestionContainer;
 
 import java.util.List;
 
+/**
+ * Class of the weapon Whisper.
+ *
+ * @author Marchingeno
+ */
 public class Whisper extends WeaponCard {
-	/**
-	 * Class of the weapon Whisper.
-	 */
+
 	public Whisper(JsonObject parameters) {
 		super(parameters);
 		getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));

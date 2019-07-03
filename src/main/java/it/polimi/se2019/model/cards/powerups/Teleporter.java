@@ -8,7 +8,7 @@ import it.polimi.se2019.utils.Utils;
 import java.util.List;
 
 /**
- * This class implements the Teleporter powerup
+ * This class implements the Teleporter powerup.
  *
  * @author MarcerAndrea
  * @author Desno365

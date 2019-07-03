@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Class of the weapon Sledgehammer.
+ * @author Marchingeno
  */
 public class Sledgehammer extends AlternateFireWeapon {
 	private List<Coordinates> enemyMovingCoordinates;

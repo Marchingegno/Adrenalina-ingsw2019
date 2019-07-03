@@ -14,7 +14,12 @@ import javafx.stage.Stage;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
-public class AskStringController {
+/**
+ * FXML controller to display a question container.
+ *
+ * @author MarcerAndrea
+ */
+public class QuestionContainerController {
 	@FXML
 	private Label string;
 	@FXML

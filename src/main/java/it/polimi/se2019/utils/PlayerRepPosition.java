@@ -6,23 +6,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents a sharable version of the leaderboard.
+ *
+ * @author Desno365
+ */
 public class PlayerRepPosition implements Serializable {
 
-	private final ArrayList<PlayerRep> playerReps;
+    private final ArrayList<PlayerRep> playerReps;
 
 
-	public PlayerRepPosition() {
-		playerReps = new ArrayList<>();
-	}
+    public PlayerRepPosition() {
+        playerReps = new ArrayList<>();
+    }
 
 
-	public List<PlayerRep> getPlayerReps() {
-		return playerReps;
-	}
+    public List<PlayerRep> getPlayerReps() {
+        return playerReps;
+    }
 
-	public void addInPosition(PlayerRep playerRep) {
-		playerReps.add(playerRep);
-	}
+    public void addInPosition(PlayerRep playerRep) {
+        playerReps.add(playerRep);
+    }
 
 
 }

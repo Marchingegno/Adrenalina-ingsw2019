@@ -5,6 +5,7 @@ import it.polimi.se2019.network.message.Message;
 /**
  * Represents the methods of the client that can be called by the server.
  * Basically this class represents what the server can do with the client.
+ * @author Desno365
  */
 public abstract class AbstractConnectionToClient {
 

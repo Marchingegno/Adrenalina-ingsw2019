@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * - Connection started: processed in onClientConnection;
  * - Connection lost: processed in onConnectionLost;
  * - Message received: processed in onMessageReceived.
+ * @author Desno365
  */
 public class ServerEventsListener implements ServerEventsListenerInterface {
 

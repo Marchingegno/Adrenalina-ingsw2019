@@ -7,6 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * FXML controller to display the request of the nickname.
+ *
+ * @author MarcerAndrea
+ */
 public class LoginController {
 
 	private static GUIView guiView;
