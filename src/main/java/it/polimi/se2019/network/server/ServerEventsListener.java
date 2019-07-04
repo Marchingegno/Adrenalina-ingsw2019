@@ -166,8 +166,8 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	 */
 	private void dismantleFinishedMatches() {
 		List<AbstractConnectionToClient> disconnectedClients = lobby.dismantleFinishedMatches();
-		if(disconnectedClients.size() > 0)
-			Utils.logInfo("Found " + disconnectedClients.size() + " clients to be disconnected.");
+		if(!disconnectedClients.isEmpty())
+			Utils.logInfo("ServerEventsListener -> dismantleFinishedMatches(): found " + disconnectedClients.size() + " clients to be disconnected.");
 		for (AbstractConnectionToClient client : disconnectedClients) {
 			client.closeConnectionWithClient();
 			connectedClients.remove(client);
