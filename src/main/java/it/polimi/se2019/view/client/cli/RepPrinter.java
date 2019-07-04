@@ -230,6 +230,14 @@ public class RepPrinter {
 			stringBuilder.append("\t\t\t|");
 			stringBuilder.append(getMarksBoard(playerRep.getMarks()));
 
+			stringBuilder.append("\t");
+
+			if (!playerRep.getPlayerName().equals(modelRep.getClientPlayerRep().getPlayerName())) {
+				for (WeaponRep weaponrep : playerRep.getWeaponReps()) {
+					stringBuilder.append("\t" + weaponrep.getWeaponName());
+				}
+			}
+
 			if (!playerRep.isConnected()) {
 				stringBuilder.append("\t\t");
 				stringBuilder.append(Color.getColoredString("DISCONNECTED", Color.CharacterColorType.RED));

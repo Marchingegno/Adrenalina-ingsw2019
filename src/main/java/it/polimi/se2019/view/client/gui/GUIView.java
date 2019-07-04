@@ -5,7 +5,6 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.model.cards.weapons.WeaponRep;
 import it.polimi.se2019.model.gamemap.Coordinates;
-import it.polimi.se2019.network.client.Client;
 import it.polimi.se2019.network.message.*;
 import it.polimi.se2019.utils.GameConstants;
 import it.polimi.se2019.utils.PlayerRepPosition;
@@ -50,6 +49,9 @@ public class GUIView extends RemoteView {
 	private EndGameController endGameController;
 	private Stage endGameStage;
 
+	private WarningController warningController;
+	private Stage warningStage;
+
 	private Stage window;
 
 	public GUIView(Stage window) {
@@ -62,6 +64,7 @@ public class GUIView extends RemoteView {
 		loadWeaponChoice();
 		loadAskString();
 		loadEndGame();
+		loadWarning();
 	}
 
 	private void loadLoginController() {
@@ -187,20 +190,45 @@ public class GUIView extends RemoteView {
 		}
 	}
 
+	private void loadWarning() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Warning.fxml"));
+		try {
+			Parent root = loader.load();
+			warningStage = new Stage();
+			Scene warningScene = new Scene(root);
+			warningStage.setTitle("Adrenaline");
+			warningStage.setResizable(false);
+			warningStage.setScene(warningScene);
+			warningStage.initModality(Modality.APPLICATION_MODAL);
+			warningController = loader.getController();
+			warningStage.setOnCloseRequest(event ->
+					Platform.runLater(() -> System.exit(0))
+			);
+		} catch (IOException e) {
+			Utils.logError("Error loading endGame", e);
+		}
+	}
+
 	@Override
 	public void askForConnectionAndStartIt() {
 	}
 
 	@Override
 	public void failedConnectionToServer() {
-		JOptionPane.showMessageDialog(null, "Failed to connect to the server. Try again later.", "Failed Connection", JOptionPane.ERROR_MESSAGE);
-		Client.terminateClient();
+		Platform.runLater(() -> {
+					warningController.setWarning("Failed to connect to the server. Try again later.");
+					warningStage.show();
+				}
+		);
 	}
 
 	@Override
 	public void lostConnectionToServer() {
-		JOptionPane.showMessageDialog(null, "Lost connection with the server. Please restart the game.", "Lost Connection", JOptionPane.ERROR_MESSAGE);
-		Client.terminateClient();
+		Platform.runLater(() -> {
+					warningController.setWarning("Lost connection with the server. Please restart the game.");
+					warningStage.show();
+				}
+		);
 	}
 
 	@Override

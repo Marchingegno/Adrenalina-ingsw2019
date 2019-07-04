@@ -20,7 +20,7 @@ public class Shotgun extends AlternateFireWeapon {
 		this.setSecondaryDamage(parameters.get("secondaryDamage").getAsInt());
 		this.setSecondaryMarks(parameters.get("secondaryMarks").getAsInt());
 		this.getStandardDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
-		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getPrimaryDamage(), getPrimaryMarks()));
+		this.getSecondaryDamagesAndMarks().add(new DamageAndMarks(getSecondaryDamage(), getSecondaryMarks()));
 	}
 
 

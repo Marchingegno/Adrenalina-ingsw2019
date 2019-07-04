@@ -41,7 +41,10 @@ public class Client {
 		}
 
 		// Start with CLI and ask if the user wants to use CLI or GUI.
-		boolean isGUI = waitForChoiceInMenu("1", "2").equals("1");
+		boolean isGUI;
+		if (args.length == 1 && (args[0].equalsIgnoreCase("gui") || args[0].equalsIgnoreCase("cli")))
+			isGUI = args[0].equalsIgnoreCase("gui");
+		else isGUI = waitForChoiceInMenu("1", "2").equals("1");
 
 		// Start GUI if requested.
 		if (isGUI)

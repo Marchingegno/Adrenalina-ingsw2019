@@ -1,4 +1,5 @@
 package it.polimi.se2019.view.client.cli;
+
 import it.polimi.se2019.model.cards.CardRep;
 import it.polimi.se2019.model.cards.ammo.AmmoType;
 import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
@@ -276,7 +277,25 @@ public class CLIView extends RemoteView {
 
 	@Override
 	public void endOfGame(List<PlayerRepPosition> finalPlayersInfo) {
-		printLine("GAME ENDED!");
+
+		CLILoginPrinter.cleanConsole();
+
+		printLine("" +
+				"\t\t\t\t\t\t _______  _______  __   __  _______    _______  __   __  _______  ______   \n" +
+				"\t\t\t\t\t\t|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  \n" +
+				"\t\t\t\t\t\t|    ___||  |_|  ||       ||    ___|  |   _   ||  |_|  ||    ___||   | ||  \n" +
+				"\t\t\t\t\t\t|   | __ |       ||       ||   |___   |  | |  ||       ||   |___ |   |_||_ \n" +
+				"\t\t\t\t\t\t|   ||  ||       ||       ||    ___|  |  |_|  ||       ||    ___||    __  |\n" +
+				"\t\t\t\t\t\t|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |\n" +
+				"\t\t\t\t\t\t|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|\n\n\n");
+
+		CLIView.printLine("\t\t\t\t\t\t\t\t┌───┬────────────────────────────────┬─────┐");
+		for (int i = 0; i < finalPlayersInfo.size(); i++) {
+			for (PlayerRep playerRep : finalPlayersInfo.get(i).getPlayerReps()) {
+				printLine("\t\t\t\t\t\t\t\t│ " + (i + 1) + " │ " + Utils.fillWithSpacesColored(playerRep.getPlayerName(), 30, playerRep.getPlayerColor()) + " │ " + Utils.fillWithSpaces(Integer.toString(playerRep.getPoints()), 4) + "│");
+			}
+		}
+		CLIView.printLine("\t\t\t\t\t\t\t\t└───┴────────────────────────────────┴─────┘");
 
 		// Display winner(s).
 		if (finalPlayersInfo.get(0).getPlayerReps().size() > 1)
@@ -288,12 +307,11 @@ public class CLIView extends RemoteView {
 		}
 
 		// Display ranking.
-		for (int i = 0; i < finalPlayersInfo.size(); i++) {
-			for (PlayerRep playerRep : finalPlayersInfo.get(i).getPlayerReps()) {
-				printLine((i + 1) + ") " + Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()) + ": " + playerRep.getPoints() + " points.");
-
-			}
-		}
+//		for (int i = 0; i < finalPlayersInfo.size(); i++) {
+//			for (PlayerRep playerRep : finalPlayersInfo.get(i).getPlayerReps()) {
+//				printLine((i + 1) + ") " + Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()) + ": " + playerRep.getPoints() + " points.");
+//			}
+//		}
 
 		Client.terminateClient();
 	}

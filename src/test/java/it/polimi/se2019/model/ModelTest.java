@@ -676,23 +676,10 @@ public class ModelTest {
         assertEquals(1, model.getActivableOnShootPowerups(player1.getPlayerName()).size());
     }
 
-    /*@Test
-    public void getNextPlayerWaitingForDamagePowerups() {
-    }
-
-    @Test
-    public void isPlayerWaitingForDamagePowerupsEmpty() {
-    }
-
-    @Test
-    public void getActivableOnDamagePowerups() {
-    }*/
-
     @Test
     public void onTurnPowerup_correctInput_correctOutput() {
         // Prepare powerups.
         Player player1 = model.getGameBoard().getPlayers().get(0);
-        Player player2 = model.getGameBoard().getPlayers().get(1);
 
         for(PowerupCard powerupCard : player1.getPlayerBoard().getPowerupCards()) {
             player1.getPlayerBoard().removePowerup(0);
