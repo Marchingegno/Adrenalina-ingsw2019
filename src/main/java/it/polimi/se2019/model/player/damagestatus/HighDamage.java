@@ -10,7 +10,6 @@ import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
  * @author Marchingegno
  */
 public class HighDamage extends DamageStatus {
-	public static final int numberOfActions = NUMBER_OF_ACTIONS_PER_TURN;
 
 	public HighDamage() {
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
