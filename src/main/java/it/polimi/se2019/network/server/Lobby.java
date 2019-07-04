@@ -114,7 +114,6 @@ class Lobby {
 				iter.remove();
 				Utils.logInfo("Lobby -> dismantleFinishedMatches(): a match has been dismantled. There are now " + matches.size() + " matches.");
 				disconnectedClients.addAll(match.getParticipants());
-
 			}
 		}
 		return disconnectedClients;

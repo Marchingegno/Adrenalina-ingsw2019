@@ -10,10 +10,7 @@ import it.polimi.se2019.utils.SingleTimer;
 import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Represents a single Match with all his participants.
@@ -182,11 +179,7 @@ class Match {
 			Utils.logInfo("Match -> setParticipantAsReconnected(): reported reconnection of player \"" + client.getNickname() + "\" to the Match. In this match there are " + disconnectedParticipants.size() + " players disconnected.");
 
 			// Update client in the participants list.
-			for (AbstractConnectionToClient participant : participants) {
-				if (participant.getNickname().equals(client.getNickname())) {
-					participants.remove(participant);
-				}
-			}
+			participants.removeIf(participant -> participant.getNickname().equals(client.getNickname()));
 			participants.add(client);
 
 			// Update client in the virtualviews hashmap.

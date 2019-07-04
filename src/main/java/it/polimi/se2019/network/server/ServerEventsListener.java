@@ -61,11 +61,11 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 	 */
 	@Override
 	public synchronized void onMessageReceived(AbstractConnectionToClient client, Message message) {
+		dismantleFinishedMatches();
+		
 		// Discard messages of not registered clients.
 		if (!connectedClients.contains(client))
 			return;
-
-		dismantleFinishedMatches();
 
 		Utils.logInfo("ServerEventsListener -> onMessageReceived(): received a message from \"" + client.hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
@@ -169,8 +169,8 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if(!disconnectedClients.isEmpty())
 			Utils.logInfo("ServerEventsListener -> dismantleFinishedMatches(): found " + disconnectedClients.size() + " clients to be disconnected.");
 		for (AbstractConnectionToClient client : disconnectedClients) {
-			client.closeConnectionWithClient();
 			connectedClients.remove(client);
+			client.closeConnectionWithClient();
 		}
 	}
 
