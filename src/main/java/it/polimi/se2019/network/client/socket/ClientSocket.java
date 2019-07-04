@@ -30,13 +30,19 @@ public class ClientSocket extends Thread implements ConnectionToServerInterface 
 	 *
 	 * @param messageReceiver the associated interface that will receive the messages.
 	 */
-	public ClientSocket(MessageReceiverInterface messageReceiver) {
+	public ClientSocket(MessageReceiverInterface messageReceiver, String ipAddress) {
 		super("CUSTOM: Socket Connection to Server"); // Give a name to the thread for debugging purposes.
 		this.messageReceiver = messageReceiver;
 		active = true;
+		String ipAdd;
+
+		if (ipAddress == null)
+			ipAdd = Utils.getServerConfig().getHost();
+		else
+			ipAdd = ipAddress;
 
 		try {
-			socketClient = new Socket(Utils.getServerConfig().getHost(), Utils.getServerConfig().getSocketPort());
+			socketClient = new Socket(ipAdd, Utils.getServerConfig().getSocketPort());
 			objOutStream = new ObjectOutputStream(socketClient.getOutputStream());
 			objInStream = new ObjectInputStream(socketClient.getInputStream());
 			this.start();

@@ -41,10 +41,16 @@ public class CLIView extends RemoteView {
 	@Override
 	public void askForConnectionAndStartIt() {
 		printChooseConnection();
-		if (Integer.parseInt(waitForChoiceInMenu("1", "2")) == 1)
-			startConnectionWithRMI();
+		int typeOfConnection = Integer.parseInt(waitForChoiceInMenu("1", "2"));
+
+		Scanner scanner = new Scanner(System.in);
+		printIpAddressChoice();
+		String ipAddress = scanner.nextLine();
+
+		if (typeOfConnection == 1)
+			startConnectionWithRMI(ipAddress);
 		else
-			startConnectionWithSocket();
+			startConnectionWithSocket(ipAddress);
 	}
 
 	@Override
