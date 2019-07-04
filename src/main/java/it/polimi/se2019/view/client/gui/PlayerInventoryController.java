@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author MarcerAndrea
  */
-public class PlayerInventoryController {
+public class  PlayerInventoryController {
 	@FXML
 	private ImageView playerBoard;
 
@@ -319,16 +319,16 @@ public class PlayerInventoryController {
 					if (marksTokens.containsKey(pgName)) {
 						if (marksTokens.get(pgName) >= 1) {
 							marks00.setVisible(true);
-							marks00.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks00.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 						if (marksTokens.get(pgName) >= 2) {
 							marks01.setVisible(true);
-							marks01.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks01.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 
 						if (marksTokens.get(pgName) >= 3) {
 							marks02.setVisible(true);
-							marks02.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks02.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 					}
 					break;
@@ -336,16 +336,16 @@ public class PlayerInventoryController {
 					if (marksTokens.containsKey(pgName)) {
 						if (marksTokens.get(pgName) >= 1) {
 							marks10.setVisible(true);
-							marks10.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks10.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 						if (marksTokens.get(pgName) >= 2) {
 							marks11.setVisible(true);
-							marks11.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks11.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 
 						if (marksTokens.get(pgName) >= 3) {
 							marks12.setVisible(true);
-							marks12.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks12.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 					}
 					break;
@@ -353,16 +353,16 @@ public class PlayerInventoryController {
 					if (marksTokens.containsKey(pgName)) {
 						if (marksTokens.get(pgName) >= 1) {
 							marks20.setVisible(true);
-							marks20.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks20.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 						if (marksTokens.get(pgName) >= 2) {
 							marks21.setVisible(true);
-							marks21.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks21.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 
 						if (marksTokens.get(pgName) >= 3) {
 							marks22.setVisible(true);
-							marks22.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks22.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 					}
 					break;
@@ -370,16 +370,16 @@ public class PlayerInventoryController {
 					if (marksTokens.containsKey(pgName)) {
 						if (marksTokens.get(pgName) >= 1) {
 							marks30.setVisible(true);
-							marks30.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks30.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 						if (marksTokens.get(pgName) >= 2) {
 							marks31.setVisible(true);
-							marks31.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks31.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 
 						if (marksTokens.get(pgName) >= 3) {
 							marks32.setVisible(true);
-							marks32.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks32.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 					}
 					break;
@@ -387,16 +387,16 @@ public class PlayerInventoryController {
 					if (marksTokens.containsKey(pgName)) {
 						if (marksTokens.get(pgName) >= 1) {
 							marks40.setVisible(true);
-							marks40.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks40.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 						if (marksTokens.get(pgName) >= 2) {
 							marks41.setVisible(true);
-							marks41.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks41.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 
 						if (marksTokens.get(pgName) >= 3) {
 							marks42.setVisible(true);
-							marks42.setImage(loadImage("playerboards/" + pgName + "/token"));
+							marks42.setImage(loadImage("playerBoards/" + pgName + "/token"));
 						}
 					}
 					break;
