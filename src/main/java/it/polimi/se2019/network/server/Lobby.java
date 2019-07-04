@@ -102,20 +102,22 @@ class Lobby {
 	}
 
 	/**
-	 * Dismantle all finished matches and disconnect their participant if still connected.
+	 * Dismantle all finished matches and returns a list of clients that need to be disconnected.
+	 * @return a list of clients that need to be disconnected.
 	 */
-	void dismantleFinishedMatches() {
+	List<AbstractConnectionToClient> dismantleFinishedMatches() {
+		List<AbstractConnectionToClient> disconnectedClients = new ArrayList<>();
 		Iterator<Match> iter = matches.iterator();
 		while (iter.hasNext()) {
 			Match match = iter.next();
 			if (match.isMatchFinished()) {
 				iter.remove();
 				Utils.logInfo("A match has been dismantled. There are now " + matches.size() + " matches.");
-				for (AbstractConnectionToClient client : match.getParticipants()) {
-					client.closeConnectionWithClient();
-				}
+				disconnectedClients.addAll(match.getParticipants());
+
 			}
 		}
+		return disconnectedClients;
 	}
 
 

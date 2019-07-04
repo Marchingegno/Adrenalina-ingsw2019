@@ -5,6 +5,7 @@ import it.polimi.se2019.utils.Utils;
 import it.polimi.se2019.view.server.VirtualView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Listen to events produced by a client connected to the server:
@@ -64,7 +65,7 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 		if (!connectedClients.contains(client))
 			return;
 
-		lobby.dismantleFinishedMatches();
+		dismantleFinishedMatches();
 
 		Utils.logInfo("ServerEventsListener -> onMessageReceived(): received a message from \"" + client.hashCode() + "\" of type: " + message.getMessageType() + ", and subtype: " + message.getMessageSubtype() + ".");
 
@@ -157,6 +158,18 @@ public class ServerEventsListener implements ServerEventsListenerInterface {
 			}
 		} else {
 			Utils.logError("Client has no match", new NullPointerException());
+		}
+	}
+
+	/**
+	 * Dismantle all finished matches and disconnect their participant if still connected.
+	 */
+	private void dismantleFinishedMatches() {
+		List<AbstractConnectionToClient> disconnectedClients = lobby.dismantleFinishedMatches();
+		Utils.logInfo("Found " + disconnectedClients.size() + " clients to be disconnected.");
+		for (AbstractConnectionToClient client : disconnectedClients) {
+			client.closeConnectionWithClient();
+			connectedClients.remove(client);
 		}
 	}
 
