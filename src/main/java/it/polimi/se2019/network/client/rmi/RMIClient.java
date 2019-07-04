@@ -33,13 +33,19 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 	 *
 	 * @param messageReceiver the interface on which messages will be forwarded.
 	 */
-	public RMIClient(MessageReceiverInterface messageReceiver) {
+	public RMIClient(MessageReceiverInterface messageReceiver, String ipAddress) {
 		this.messageReceiver = messageReceiver;
 		active = true;
+		String ipAdd;
+
+		if (ipAddress == null)
+			ipAdd = Utils.getServerConfig().getHost();
+		else
+			ipAdd = ipAddress;
 
 		try {
 			// Get Server remote object.
-			Registry registry = LocateRegistry.getRegistry(Utils.getServerConfig().getHost(), Utils.getServerConfig().getRmiPort());
+			Registry registry = LocateRegistry.getRegistry(ipAdd, Utils.getServerConfig().getRmiPort());
 			rmiServerSkeleton = (RMIServerSkeletonInterface) registry.lookup("Server");
 
 			// Create stub from client.

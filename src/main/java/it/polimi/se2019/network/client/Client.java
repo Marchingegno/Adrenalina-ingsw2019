@@ -34,9 +34,9 @@ public class Client {
 		if (Utils.DEBUG_BYPASS_CONFIGURATION) {
 			CLIView cliView = new CLIView();
 			if (new Random().nextBoolean())
-				cliView.startConnectionWithRMI();
+				cliView.startConnectionWithRMI("localhost");
 			else
-				cliView.startConnectionWithSocket();
+				cliView.startConnectionWithSocket("localhost");
 			return;
 		}
 
