@@ -59,9 +59,8 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected QuestionContainer handleMoveAnswer(int choice) {
+	protected void handleMoveAnswer(int choice) {
 		relocateEnemy(getTarget(), possibleCoordinates.get(choice));
-		return null;
 	}
 
 	@Override
@@ -71,11 +70,10 @@ public class GrenadeLauncher extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected QuestionContainer handleExtraAnswer(int choice) {
+	protected void handleExtraAnswer(int choice) {
 		List<Player> playersToShoot = getGameMap().getPlayersFromCoordinates(possibleCoordinates.get(choice));
 		playersToShoot.remove(getOwner());
 		dealDamage(getOptional1DamagesAndMarks(), playersToShoot);
-		return null;
 	}
 
 	@Override

@@ -87,6 +87,11 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return QuestionContainer.createStringQuestionContainer(question, options);
 	}
 
+	/**
+	 * Registers which optional effects the player has activated.
+	 *
+	 * @param choice the choice of the player.
+	 */
 	private void registerChoice(int choice) {
 		choices.forEach(item -> Utils.logWeapon(item.toString()));
 		switch (choices.get(choice)) {
@@ -124,14 +129,29 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return handlePrimaryFire(choice);
 	}
 
+	/**
+	 * Handles the first optional effect. A weapon can override this method to make easier handling the firing process.
+	 * @param choice the choice of the player.
+	 * @return the Question Container to ask to the player.
+	 */
 	protected QuestionContainer handleOptionalEffect1(int choice) {
 		return null;
 	}
 
+	/**
+	 * Handles the second optional effect. A weapon can override this method to make easier handling the firing process.
+	 * @param choice the choice of the player.
+	 * @return the Question Container to ask to the player.
+	 */
 	protected QuestionContainer handleOptionalEffect2(int choice) {
 		return null;
 	}
 
+	/**
+	 * Handles both optional effects. A weapon can override this method to make easier handling the firing process.
+	 * @param choice the choice of the player.
+	 * @return the Question Container to ask to the player.
+	 */
 	protected QuestionContainer handleBothOptionalEffects(int choice) {
 		return null;
 	}
@@ -158,10 +178,17 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return canAddBaseWithoutEffects();
 	}
 
+	/**
+	 * Checks if the player can add the base effect without any optional effects.
+	 * @return true if the player can add the base effect.
+	 */
 	protected boolean canAddBaseWithoutEffects() {
 		return !getPrimaryTargets().isEmpty();
 	}
 
+	/**
+	 * Reset this class.
+	 */
 	private void optionalReset() {
 		for (int i = 0; i < optionalEffectsActive.length; i++) {
 			optionalEffectsActive[i] = false;
@@ -175,14 +202,28 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		optionalReset();
 	}
 
+	/**
+	 * Returns whether or not the optional effect is active.
+	 * @param optionalIndex the index of the optional effect.
+	 * @return if the optional effect is active.
+	 */
 	boolean isOptionalActive(int optionalIndex) {
 		return optionalEffectsActive[optionalIndex - 1];
 	}
 
+	/**
+	 * Checks whether both optional effects are active.
+	 * @return true if both optional effects are active.
+	 */
 	boolean isBothOptionalActive() {
 		return optionalEffectsActive[0] && optionalEffectsActive[1];
 	}
 
+	/**
+	 * Checks if the player can afford and can fire an optional effect.
+	 * @param numberOfEffect the index of the effect.
+	 * @return true if the player can afford and fire the optional effect.
+	 */
 	private boolean canAddThisOptionalEffect(int numberOfEffect) {
 		if (numberOfEffect == 1)
 			return canAddOptionalEffect1();
@@ -190,21 +231,36 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 			return canAddOptionalEffect2();
 	}
 
+	/**
+	 * Checks if the player can afford and can fire the first optional effect.
+	 * @return true if the player can afford and fire the optional effect.
+	 */
 	private boolean canAddOptionalEffect1() {
 		return canAffordOptionalEffect1() && canFireOptionalEffect1();
 	}
 
+	/**
+	 * Checks if the player can afford and can fire the second optional effect.
+	 * @return true if the player can afford and fire the optional effect.
+	 */
 	private boolean canAddOptionalEffect2() {
 		if (!hasOptionalEffects[1]) return false;
 		return canAffordOptionalEffect2() && canFireOptionalEffect2();
 	}
 
+	/**
+	 * Checks if the player can afford and can fire both optional effects.
+	 * @return true if the player can afford and fire the optional effects.
+	 */
 	private boolean canAddBothOptionalEffects() {
 		if (!hasOptionalEffects[1]) return false;
 		return canAffordBothOptionalEffects() && canFireBothOptionalEffects();
 	}
 
-
+	/**
+	 * Checks if the player can afford the first optional effect.
+	 * @return true if the player can afford the optional effect.
+	 */
 	boolean canAffordOptionalEffect1() {
 		if (optional1Price == null)
 			return true;
@@ -213,6 +269,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return getOwner().hasEnoughAmmo(optional1Cost);
 	}
 
+	/**
+	 * Checks if the player can afford the second optional effect.
+	 * @return true if the player can afford the optional effect.
+	 */
 	private boolean canAffordOptionalEffect2() {
 		if (optional2Price == null)
 			return true;
@@ -221,6 +281,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return getOwner().hasEnoughAmmo(optional2Cost);
 	}
 
+	/**
+	 * Checks if the player can afford both optional effects simultaneously.
+	 * @return true if the player can afford the optional effects.
+	 */
 	private boolean canAffordBothOptionalEffects() {
 		List<AmmoType> prices = new ArrayList<>();
 		if (optional1Price != null) {
@@ -232,16 +296,26 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		return getOwner().hasEnoughAmmo(prices);
 	}
 
-	//To override
-	protected boolean canFireOptionalEffect1() {
-		return false;
-	}
+	/**
+	 * Checks if the player can fire the first optional effect.
+	 *
+	 * @return true if the player can fire the optional effect.
+	 */
+	protected abstract boolean canFireOptionalEffect1();
 
-	//To override
+	/**
+	 * Checks if the player can fire the second optional effect.
+	 * This method can be overrided, but it is not abstract because some weapons don't have the second optional effect.
+	 * @return true if the player can fire the optional effect.
+	 */
 	protected boolean canFireOptionalEffect2() {
 		return false;
 	}
 
+	/**
+	 * Checks if the player can fire both optional effects simultaneously.
+	 * @return true if the player can fire the optional effects.
+	 */
 	protected boolean canFireBothOptionalEffects() {
 		return canFireOptionalEffect1() && canFireOptionalEffect2();
 	}
@@ -271,6 +345,10 @@ public abstract class OptionalEffectsWeapon extends WeaponCard {
 		}
 		return firingCost;
 	}
+
+	//**********
+	//GETTERS
+	//**********
 
 	boolean[] getHasOptionalEffects() {
 		return hasOptionalEffects;

@@ -48,12 +48,11 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected QuestionContainer handleMoveAnswer(int choice) {
+	protected void handleMoveAnswer(int choice) {
 		if (isOptionalActive(2)) {
 			dealDamage(getOptional2DamagesAndMarks(), getGameMap().getPlayersFromCoordinates(getGameMap().getPlayerCoordinates(getTarget())));
 		}
 		relocateEnemy(getTarget(), possibleMoveCoordinates.get(choice));
-		return null;
 	}
 
 	@Override
@@ -63,9 +62,8 @@ public class RocketLauncher extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected QuestionContainer handleExtraAnswer(int choice) {
+	protected void handleExtraAnswer(int choice) {
 		relocateOwner(possibleMoveCoordinates.get(choice));
-		return null;
 	}
 
 	@Override

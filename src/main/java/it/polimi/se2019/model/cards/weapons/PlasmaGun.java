@@ -38,9 +38,8 @@ public class PlasmaGun extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected QuestionContainer handleMoveAnswer(int choice) {
+	protected void handleMoveAnswer(int choice) {
 		relocateOwner(possibleMoveCoordinates.get(choice));
-		return null;
 	}
 
 	@Override
@@ -50,9 +49,8 @@ public class PlasmaGun extends OptionalChoiceWeapon {
 	}
 
 	@Override
-	protected QuestionContainer handleExtraAnswer(int choice) {
+	protected void handleExtraAnswer(int choice) {
 		Utils.logError("PlasmaGun: Extra  called", new IllegalStateException());
-		return null;
 	}
 
 	private List<Coordinates> getMoveCoordinateAfterBase() {

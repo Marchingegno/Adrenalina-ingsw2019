@@ -6,6 +6,8 @@ import it.polimi.se2019.model.cards.ammo.AmmoType;
 import java.util.List;
 
 /**
+ * Representation of a weapon.
+ *
  * @author Marchingeno
  */
 public class WeaponRep extends CardRep {

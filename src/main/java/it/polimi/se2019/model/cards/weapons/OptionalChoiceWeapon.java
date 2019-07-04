@@ -9,6 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class for weapons that have optional effects that can be fired in any order.
+ * The user is prompted to choose which effect to activate every time it wishes to do so.
+ * The whole weapon can be split into at most three separate effects: BASE,EXTRA,MOVE.
+ * Every effect can have a status: REQUEST and ANSWER.
+ * REQUEST is used when the Question Container is asked to the player; ANSWER is used when the player has answered to the
+ * Question Container.
+ * The state ACTION is used to ask to the player which of the three effects he would like to choose.
+ *
  * @author Marchingeno
  */
 public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
@@ -82,6 +90,12 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
         return false;
     }
 
+    /**
+     * Handles the base case of the weapon.
+     *
+     * @param choice the choice of the player.
+     * @return the Question Container to ask to the player.
+     */
     private QuestionContainer handleBase(int choice) {
         switch (weaponState.getSecond()) {
             case REQUEST:
@@ -93,15 +107,20 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
         return null;
     }
 
+
     protected QuestionContainer handleBaseRequest(int choice) {
         return setPrimaryCurrentTargetsAndReturnTargetQnO();
     }
 
-    private QuestionContainer handleBaseAnswer(int choice) {
+    private void handleBaseAnswer(int choice) {
         setTarget(getCurrentTargets().get(choice));
-        return null;
     }
 
+    /**
+     * Handles the move case of the weapon.
+     * @param choice the choice of the player.
+     * @return the Question Container to ask to the player.
+     */
     protected QuestionContainer handleMove(int choice) {
         switch (weaponState.getSecond()) {
             case REQUEST:
@@ -115,8 +134,13 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
     protected abstract QuestionContainer handleMoveRequest(int choice);
 
-    protected abstract QuestionContainer handleMoveAnswer(int choice);
+    protected abstract void handleMoveAnswer(int choice);
 
+    /**
+     * Handles the extra case of the weapon.
+     * @param choice the choice of the player.
+     * @return the Question Container to ask to the player.
+     */
     private QuestionContainer handleExtra(int choice) {
         switch (weaponState.getSecond()) {
             case REQUEST:
@@ -130,8 +154,13 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
     protected abstract QuestionContainer handleExtraRequest(int choice);
 
-    protected abstract QuestionContainer handleExtraAnswer(int choice);
+    protected abstract void handleExtraAnswer(int choice);
 
+    /**
+     * Handles the selection of the next action of the weapon.
+     * @param choice the choice of the player.
+     * @return the Question Container to ask to the player.
+     */
     private QuestionContainer handleActionSelect(int choice) {
         Utils.logWeapon("Weapon " + this.getCardName() + " : executing handleActionSelect with weapon state: ");
         Utils.logWeapon(weaponState.toString());
@@ -146,6 +175,10 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
         return null;
     }
 
+    /**
+     * Saves the effects that the player can activate, and ask the effect to activate.
+     * @return the Question Container to ask to the player.
+     */
     private QuestionContainer setCurrentActionListReturnActionTypeQnO() {
         String question = "Which action do you want to do?";
         List<String> options = new ArrayList<>();
@@ -176,6 +209,12 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
 
     }
 
+    /**
+     * The core logic of the weapon. Base on the current WeaponEffectState, it calls the right method to advance the
+     * firing process.
+     * @param choice the choice of the player.
+     * @return the Question Container to ask to the player.
+     */
     QuestionContainer handleChoices(int choice) {
         QuestionContainer qc;
         Utils.logWeapon("Executing handleChoices with choice " + choice + " and pair:");
@@ -213,6 +252,9 @@ public abstract class OptionalChoiceWeapon extends OptionalEffectsWeapon {
         }
     }
 
+    /**
+     * Updates the boolean that tells whether the player can activate the effects.
+     */
     protected abstract void updateBooleans();
 
     @Override

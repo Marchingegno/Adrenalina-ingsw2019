@@ -50,9 +50,8 @@ public class Cyberblade extends OptionalChoiceWeapon {
     }
 
     @Override
-    protected QuestionContainer handleMoveAnswer(int choice) {
+	protected void handleMoveAnswer(int choice) {
         relocateOwner(possibleMoveCoordinates.get(choice));
-        return null;
     }
 
     @Override
@@ -74,9 +73,8 @@ public class Cyberblade extends OptionalChoiceWeapon {
     }
 
     @Override
-    protected QuestionContainer handleExtraAnswer(int choice) {
+	protected void handleExtraAnswer(int choice) {
         secondTarget = getCurrentTargets().remove(choice);
-        return null;
     }
 
 
