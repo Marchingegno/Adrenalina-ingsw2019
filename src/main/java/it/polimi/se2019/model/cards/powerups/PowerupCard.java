@@ -34,10 +34,25 @@ public abstract class PowerupCard extends ActivableCard {
 	// ABSTRACT METHODS
 	// ####################################
 
+	/**
+	 * First step of the powerup.
+	 *
+	 * @return the next question container to show to the player.
+	 */
 	protected abstract QuestionContainer firstStep();
 
+	/**
+	 * Second step of the powerup.
+	 *
+	 * @return the next question container to show to the player.
+	 */
 	protected abstract QuestionContainer secondStep(int choice);
 
+	/**
+	 * Third step of the powerup.
+	 *
+	 * @return the next question container to show to the player.
+	 */
 	protected abstract QuestionContainer thirdStep(int choice);
 
 
@@ -92,14 +107,11 @@ public abstract class PowerupCard extends ActivableCard {
 		return powerupUseCaseType;
 	}
 
-	public String toString() {
-		return getCardName() + " " + getAssociatedAmmo();
-	}
-
-	protected Player getShootingPlayer() {
-		return shootingPlayer;
-	}
-
+	/**
+	 * Sets the player that shoot with a weapon.
+	 *
+	 * @param shootingPlayer the player shooting.
+	 */
 	public void setShootingPlayer(Player shootingPlayer) {
 		this.shootingPlayer = shootingPlayer;
 	}
@@ -108,10 +120,29 @@ public abstract class PowerupCard extends ActivableCard {
 	// PROTECTED METHODS (only for subclasses)
 	// ####################################
 
+	/**
+	 * Returns the player that shoot with a weapon.
+	 *
+	 * @return the player that shoot with a weapon.
+	 */
+	protected Player getShootingPlayer() {
+		return shootingPlayer;
+	}
+
+	/**
+	 * Returns the list of players shot by a weapon.
+	 *
+	 * @return the list of players shot by a weapon.
+	 */
 	protected List<Player> getShotPlayers() {
 		return shotPlayers;
 	}
 
+	/**
+	 * Sets the list of players shot by a weapon.
+	 *
+	 * @param shotPlayers the list of players shot by a weapon.
+	 */
 	public void setShotPlayers(List<Player> shotPlayers) {
 		this.shotPlayers = new ArrayList<>(shotPlayers);
 	}
@@ -120,6 +151,11 @@ public abstract class PowerupCard extends ActivableCard {
 	// ####################################
 	// OVERRIDDEN METHODS
 	// ####################################
+
+	@Override
+	public String toString() {
+		return getCardName() + " " + getAssociatedAmmo();
+	}
 
 	@Override
 	public Representation getRep() {

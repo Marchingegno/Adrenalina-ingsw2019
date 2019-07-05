@@ -946,7 +946,7 @@ public class Model {
 	}
 
 	/**
-	 * Communicates the choi oc the player, advance the weapon step and updates the reps.
+	 * Communicates the choice of the player, advance the weapon step and updates the reps.
 	 *
 	 * @param playerName name of the player that is shooting.
 	 * @param choice     index of the choice of the player.
@@ -979,7 +979,7 @@ public class Model {
 	// ####################################
 
 	/**
-	 * Returns true if and only if the current powerup id concluded.
+	 * Returns true if and only if the current powerup is concluded.
 	 *
 	 * @param playerName the name of the player who is using the powerup.
 	 * @return true if and only if the current powerup id concluded.
@@ -989,6 +989,13 @@ public class Model {
 		return player.isThePowerupConcluded();
 	}
 
+	/**
+	 * Returns true if the powerup can be activated.
+	 *
+	 * @param playerName the player that wants to activate the powerup.
+	 * @param indexOfPowerup the index of the powerup to activate.
+	 * @return true if the powerup can be activated.
+	 */
 	public boolean canPowerupBeActivated(String playerName, int indexOfPowerup) {
 		Player player = getPlayerFromName(playerName);
 		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
@@ -1000,6 +1007,12 @@ public class Model {
 		return powerupCard.canBeActivated();
 	}
 
+	/**
+	 * Returns true if the player has an activable powerup of type ON_SHOOT.
+	 *
+	 * @param playerName the player to check for.
+	 * @return true if the player has an activable powerup of type ON_SHOOT.
+	 */
 	public boolean doesPlayerHaveActivableOnShootPowerups(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
@@ -1008,6 +1021,12 @@ public class Model {
 				.anyMatch(powerupCard -> powerupCard.getUseCase() == PowerupCard.PowerupUseCaseType.ON_SHOOT && powerupCard.canBeActivated());
 	}
 
+	/**
+	 * Returns a list of activable powerup of type ON_SHOOT for the selected player.
+	 *
+	 * @param playerName the player to check for activable powerups.
+	 * @return a list of activable powerup of type ON_SHOOT.
+	 */
 	public List<Integer> getActivableOnShootPowerups(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
@@ -1022,14 +1041,31 @@ public class Model {
 		return activablePowerups;
 	}
 
+	/**
+	 * Returns the next player waiting to do his damage powerup.
+	 *
+	 * @return the next player waiting to do his damage powerup.
+	 */
 	public String getNextPlayerWaitingForDamagePowerups() {
 		return playersWaitingForDamagePowerups.poll();
 	}
 
+	/**
+	 * Returns true if there aren't anymore players left to do their damage powerups.
+	 *
+	 * @return true if there aren't anymore players left to do their damage powerups.
+	 */
 	public boolean isPlayerWaitingForDamagePowerupsEmpty() {
 		return playersWaitingForDamagePowerups == null || playersWaitingForDamagePowerups.isEmpty();
 	}
 
+	/**
+	 * Returns a list of activable powerup of type ON_DAMAGE for the selected player.
+	 *
+	 * @param damagedPlayerName the player to check for activable powerups.
+	 * @param shootingPlayerName the player shooting.
+	 * @return a list of activable powerup of type ON_SHOOT.
+	 */
 	public List<Integer> getActivableOnDamagePowerups(String damagedPlayerName, String shootingPlayerName) {
 		Player damagedPlayer = getPlayerFromName(damagedPlayerName);
 		Player shootingPlayer = getPlayerFromName(shootingPlayerName);
@@ -1052,6 +1088,12 @@ public class Model {
 		return activablePowerups;
 	}
 
+	/**
+	 * Returns a list of activable powerup of type ON_TURN for the selected player.
+	 *
+	 * @param playerName the player to check for activable powerups.
+	 * @return a list of activable powerup of type ON_TURN.
+	 */
 	public List<Integer> getActivableOnTurnPowerups(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
@@ -1066,6 +1108,12 @@ public class Model {
 		return activablePowerups;
 	}
 
+	/**
+	 * Returns true if the player has an activable powerup of type ON_TURN.
+	 *
+	 * @param playerName the player to check for.
+	 * @return true if the player has an activable powerup of type ON_TURN.
+	 */
 	public boolean doesPlayerHaveActivableOnTurnPowerups(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		List<PowerupCard> powerupCards = player.getPlayerBoard().getPowerupCards();
@@ -1074,11 +1122,23 @@ public class Model {
 				.anyMatch(powerupCard -> powerupCard.getUseCase() == PowerupCard.PowerupUseCaseType.ON_TURN && powerupCard.canBeActivated());
 	}
 
+	/**
+	 * Returns true if there is a powerup in execution.
+	 * @param playerName the player to check for.
+	 * @return true if there is a powerup in execution.
+	 */
 	public boolean isPowerupInExecution(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		return player.isPowerupInExecution();
 	}
 
+	/**
+	 * Sets the specified powerup as the activated powerup of the player and then updates the reps.
+	 *
+	 * @param playerName name of the player.
+	 * @param indexOfPowerup index of the powerup to set as the activated powerup.
+	 * @return the initial question container.
+	 */
 	public QuestionContainer initialPowerupActivation(String playerName, int indexOfPowerup) {
 		Player player = getPlayerFromName(playerName);
 		QuestionContainer questionContainer = player.initialPowerupActivation(indexOfPowerup);
@@ -1086,6 +1146,13 @@ public class Model {
 		return questionContainer;
 	}
 
+	/**
+	 * Communicates the choice of the player, advance the powerup step and updates the reps.
+	 *
+	 * @param playerName name of the player that is activating the powerup.
+	 * @param choice index of the choice of the player.
+	 * @return the next question container to show to the player.
+	 */
 	public QuestionContainer doPowerupStep(String playerName, int choice) {
 		Player player = getPlayerFromName(playerName);
 		QuestionContainer questionContainer = player.doPowerupStep(choice);
@@ -1093,6 +1160,11 @@ public class Model {
 		return questionContainer;
 	}
 
+	/**
+	 * Handles the end of the powerup while resetting its attributes.
+	 *
+	 * @param playerName name of the player.
+	 */
 	public void handlePowerupEnd(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		PowerupCard powerupCardToDiscard = player.handlePowerupEnd();

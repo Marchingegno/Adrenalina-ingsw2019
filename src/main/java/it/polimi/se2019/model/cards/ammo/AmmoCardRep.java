@@ -15,11 +15,17 @@ public class AmmoCardRep extends CardRep {
 	private List<AmmoType> ammo;
 	private boolean hasPowerup;
 
+
+	/**
+	 * Constructs a new AmmoCardRep with the specified ammo card.
+	 * @param ammoCard the ammo card to extract information from.
+	 */
 	AmmoCardRep(AmmoCard ammoCard) {
 		super(ammoCard);
 		this.ammo = ammoCard.getAmmo();
 		this.hasPowerup = ammoCard.hasPowerup();
 	}
+
 
 	/**
 	 * Returns true if and only if the card has a powerup associated.
