@@ -16,7 +16,7 @@ public class GameConstants {
 	public static final int MAX_POWERUP_CARDS_PER_PLAYER = 3;
 	public static final int MAX_AMMO_PER_AMMO_TYPE = 3;
 	public static final int INITIAL_AMMO_PER_AMMO_TYPE = 1;
-	public static final int MIN_SKULLS = 3;
+	public static final int MIN_SKULLS = 2;
 	public static final int MAX_SKULLS = 8;
 	public static final int MIN_PLAYERS = 2;
 	public static final int NUMBER_OF_ACTIONS_PER_TURN = 2;
