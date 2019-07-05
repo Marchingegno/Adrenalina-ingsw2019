@@ -841,6 +841,12 @@ public class GameBoardController {
 		playerReps.add(playerRep3);
 		playerReps.add(playerRep4);
 
+		disconnection0.setVisible(playerRep0 != null && !(playerRep0.isConnected()));
+		disconnection1.setVisible(playerRep1 != null && !(playerRep1.isConnected()));
+		disconnection2.setVisible(playerRep2 != null && !(playerRep2.isConnected()));
+		disconnection3.setVisible(playerRep3 != null && !(playerRep3.isConnected()));
+		disconnection4.setVisible(playerRep4 != null && !(playerRep4.isConnected()));
+
 		updateTurnIcon(modelRep.getGameBoardRep().getCurrentPlayer());
 
 		initialized = true;
@@ -984,11 +990,11 @@ public class GameBoardController {
 			inventoryController4.setInventory(playerRep4);
 		}
 
-		disconnection0.setVisible(!(playerRep0 != null && playerRep0.isConnected()));
-		disconnection1.setVisible(!(playerRep1 != null && playerRep1.isConnected()));
-		disconnection2.setVisible(!(playerRep2 != null && playerRep2.isConnected()));
-		disconnection3.setVisible(!(playerRep3 != null && playerRep3.isConnected()));
-		disconnection4.setVisible(!(playerRep4 != null && playerRep4.isConnected()));
+		disconnection0.setVisible(playerRep0 != null && !(playerRep0.isConnected()));
+		disconnection1.setVisible(playerRep1 != null && !(playerRep1.isConnected()));
+		disconnection2.setVisible(playerRep2 != null && !(playerRep2.isConnected()));
+		disconnection3.setVisible(playerRep3 != null && !(playerRep3.isConnected()));
+		disconnection4.setVisible(playerRep4 != null && !(playerRep4.isConnected()));
 
 		Coordinates playerPosition;
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
