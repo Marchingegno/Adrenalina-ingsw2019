@@ -49,7 +49,7 @@ public class TagbackGrenade extends PowerupCard {
 	@Override
 	public QuestionContainer firstStep() {
 		Player targetPlayer = getShootingPlayer();
-		targetPlayer.getPlayerBoard().addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
+		targetPlayer.addMarks(getOwner(), GIVEN_MARKS); // add marks to the target player.
 		concludeActivation();
 		return null;
 	}
