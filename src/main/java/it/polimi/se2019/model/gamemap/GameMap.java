@@ -780,6 +780,16 @@ public class GameMap extends Observable implements Representable {
 	}
 
 	/**
+	 * Forces the update of the game board.
+	 */
+	public void forceUpdateOfReps() {
+		gameMapRep = new GameMapRep(this);
+		setChanged();
+		if (Utils.DEBUG_REPS)
+			Utils.logInfo("GameMap -> forceUpdateOfReps(): The game map representation has been updated");
+	}
+
+	/**
 	 * Returns the representation of the game map.
 	 *
 	 * @return the representation of the game map.

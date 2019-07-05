@@ -306,6 +306,19 @@ public class Player extends Observable implements Representable {
 	}
 
 	/**
+	 * Forces the update of the game board.
+	 */
+	public void forceUpdateOfReps() {
+		playerRep = new PlayerRep(this);
+		playerBoard.setNotChanged();
+		playerBoard.getAmmoContainer().setNotChanged();
+		damageStatus.setNotChanged();
+		setChanged();
+		if (Utils.DEBUG_REPS)
+			Utils.logInfo("Player -> forceUpdateOfReps(): " + playerName + " representation has been updated");
+	}
+
+	/**
 	 * Returns the player representation. if the player who is asking the representation is the same player
 	 * the representation is complete, otherwise it is hidden.
 	 *

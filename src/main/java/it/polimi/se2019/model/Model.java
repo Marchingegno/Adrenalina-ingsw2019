@@ -348,7 +348,7 @@ public class Model {
 	public void setAsReconnected(String playerName) {
 		Player player = getPlayerFromName(playerName);
 		player.setConnected(true);
-		updateReps();
+		forceUpdateOfReps();
 	}
 
 	/**
@@ -1287,6 +1287,17 @@ public class Model {
 		gameMap.notifyObservers();
 		for (Player player : gameBoard.getPlayers()) {
 			player.updateRep();
+			player.notifyObservers();
+		}
+	}
+
+	private void forceUpdateOfReps() {
+		gameBoard.forceUpdateOfReps();
+		gameBoard.notifyObservers();
+		gameMap.forceUpdateOfReps();
+		gameMap.notifyObservers();
+		for (Player player : gameBoard.getPlayers()) {
+			player.forceUpdateOfReps();
 			player.notifyObservers();
 		}
 	}

@@ -295,6 +295,16 @@ public class GameBoard extends Observable implements Representable {
 	}
 
 	/**
+	 * Forces the update of the game board.
+	 */
+	public void forceUpdateOfReps() {
+		gameBoardRep = new GameBoardRep(this);
+		setChanged();
+		if (Utils.DEBUG_REPS)
+			Utils.logInfo("GameBoard -> forceUpdateOfReps(): The game board representation has been updated");
+	}
+
+	/**
 	 * Returns the representation of the game board.
 	 *
 	 * @return the representation of the game board.
