@@ -9,7 +9,7 @@ The game requires [Java 8] or later versions to run.
 #### Client
 
 ```sh
-$ java -jar client.jar [cli/gui]
+$ java -jar Client-jar-with-dependencies.jar [cli/gui]
 ```
 
 ##### Options
@@ -17,7 +17,7 @@ $ java -jar client.jar [cli/gui]
 
 #### Server
 ```sh
-$ java -jar server.jar
+$ java -jar Server-jar-with-dependencies.jar
 ```
 You can set various parameters in a file called `"server-config.json"`, which needs to be located in the same folder as the jar.
 The parameters you can set are:
