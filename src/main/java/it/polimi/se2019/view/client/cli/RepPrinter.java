@@ -255,20 +255,20 @@ public class RepPrinter {
 		strings.add("|");
 		List<Color.CharacterColorType> damageBoard = new ArrayList<>();
 		for (int i = 0; i < damageList.size(); i++) {
-			if (i < 11)
+			if (i < OVERKILL_DAMAGE)
 				damageBoard.add(damageList.get(i));
 		}
 		for (Color.CharacterColorType damage : damageBoard) {
 			strings.add(Color.getColoredString("●", damage));
 		}
-		for (int i = damageBoard.size(); i < 11; i++) {
+		for (int i = damageBoard.size(); i < OVERKILL_DAMAGE; i++) {
 			strings.add("●");
 		}
 		strings.add("|");
 
 		for (int i = 0; i < strings.size(); i++) {
 			stringBuilder.append(strings.get(i));
-			if (i == 2 || i == 5 || i == 9)
+			if (i == 2 || i == 5 || i == 10)
 				stringBuilder.append("|");
 		}
 		return stringBuilder.toString();
