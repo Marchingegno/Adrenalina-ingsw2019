@@ -113,6 +113,13 @@ public class Utils {
 		return Color.getColoredString(stringBuilder.toString(), color);
 	}
 
+	/**
+	 * Checks if the array of strings contains a certain element.
+	 *
+	 * @param array   the array of strings.
+	 * @param element the string.
+	 * @return true if element is present in array.
+	 */
 	public static boolean contains(String[] array, String element) {
 		for (String str : array) {
 			if (str.equals(element))
