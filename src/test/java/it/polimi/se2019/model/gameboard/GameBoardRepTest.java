@@ -25,7 +25,7 @@ public class GameBoardRepTest {
 		playerNames.add("Test 1");
 		playerNames.add("Test 2");
 		playerNames.add("Test 3");
-		gameBoard = new GameBoard("MediumMap", playerNames, 8);
+		gameBoard = new GameBoard("Medium1Map", playerNames, 8);
 		gameBoard.addKillShot(gameBoard.getCurrentPlayer(), true);
 		gameBoard.addKillShot(gameBoard.getCurrentPlayer(), true); // double kill
 		gameBoard.nextPlayerTurn();

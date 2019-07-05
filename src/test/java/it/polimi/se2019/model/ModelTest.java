@@ -43,7 +43,7 @@ public class ModelTest {
         playersNames.add(player4Name);
         playersNames.add(player5Name);
 
-        model = new Model(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersNames, 6);
+		model = new Model(GameConstants.MapType.MEDIUM1_MAP.getMapName(), playersNames, 6);
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -173,7 +173,8 @@ public class ModelTest {
     }
 
     @Test
-    public void macroAcrtion_correctInput_correctOutput() {
+	public void macroAction_correctInput_correctOutput() {
+		model.setNextMacroAction(model.getCurrentPlayerName(), 0);
         assertTrue(model.isInAMacroAction(model.getCurrentPlayerName()));
         model.endAction(model.getCurrentPlayerName());
         assertFalse(model.isInAMacroAction(model.getCurrentPlayerName()));
@@ -302,6 +303,7 @@ public class ModelTest {
         correctAnswer.add(new Coordinates(0, 0));
         correctAnswer.add(new Coordinates(1, 1));
         correctAnswer.add(new Coordinates(2, 1));
+		model.setNextMacroAction(model.getCurrentPlayerName(), 0);
         List<Coordinates> answer = model.getCoordinatesWherePlayerCanMove();
 
         for (Coordinates coordinates : answer) {
@@ -573,6 +575,7 @@ public class ModelTest {
 
     @Test
     public void getCurrentAction_correctInput_correctOutput() {
+		model.setNextMacroAction(model.getCurrentPlayerName(), 0);
         assertNotNull(model.getCurrentAction());
     }
 

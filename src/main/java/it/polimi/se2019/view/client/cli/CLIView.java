@@ -304,13 +304,13 @@ public class CLIView extends RemoteView {
 		CLIView.printLine("\t\t\t\t\t\t\t\t└───┴────────────────────────────────┴─────┘");
 
 		// Display winner(s).
-		if (finalPlayersInfo.get(0).getPlayerReps().size() > 1)
-			printLine("The winners are...");
-		else
-			printLine("The winner is...");
-		for (PlayerRep playerRep : finalPlayersInfo.get(0).getPlayerReps()) {
-			printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
-		}
+//		if (finalPlayersInfo.get(0).getPlayerReps().size() > 1)
+//			printLine("The winners are...");
+//		else
+//			printLine("The winner is...");
+//		for (PlayerRep playerRep : finalPlayersInfo.get(0).getPlayerReps()) {
+//			printLine(Color.getColoredString(playerRep.getPlayerName(), playerRep.getPlayerColor()));
+//		}
 
 		// Display ranking.
 //		for (int i = 0; i < finalPlayersInfo.size(); i++) {

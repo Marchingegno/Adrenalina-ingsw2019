@@ -38,12 +38,12 @@ public class GameMapTest {
 		players.add("Test 3");
 		players.add("Test 4");
 		players.add("Test 5");
-		mediumModel = new ModelDriver(GameConstants.MapType.MEDIUM_MAP.getMapName(), players, 8);
+		mediumModel = new ModelDriver(GameConstants.MapType.MEDIUM1_MAP.getMapName(), players, 8);
 		mediumMap = mediumModel.getGameBoard().getGameMap();
 		bigModel = new ModelDriver(GameConstants.MapType.BIG_MAP.getMapName(), players, 8);
 		bigMap = bigModel.getGameBoard().getGameMap();
-		bigMapWithOutBLueSpawn = new GameMap("BigMapWithOutBLueSpawn", new ModelDriver(GameConstants.MapType.MEDIUM_MAP.getMapName(), players, 8).getGameBoard());
-		mediumMapToTestAdjacentRooms = new GameMap("MediumMapToTestAdjacentRooms", new ModelDriver(GameConstants.MapType.MEDIUM_MAP.getMapName(), players, 8).getGameBoard());
+		bigMapWithOutBLueSpawn = new GameMap("BigMapWithOutBLueSpawn", new ModelDriver(GameConstants.MapType.MEDIUM1_MAP.getMapName(), players, 8).getGameBoard());
+		mediumMapToTestAdjacentRooms = new GameMap("MediumMapToTestAdjacentRooms", new ModelDriver(GameConstants.MapType.MEDIUM1_MAP.getMapName(), players, 8).getGameBoard());
 	}
 
 	@Test
@@ -416,7 +416,7 @@ public class GameMapTest {
 
 	@Test
 	public void reachableCoordinates_zeroDistance_correctOutput() {
-		ModelDriver model = new ModelDriver("MediumMap", players, 8);
+		ModelDriver model = new ModelDriver("Medium1Map", players, 8);
 		GameBoard gameBoard = model.getGameBoard();
 		GameMap map = gameBoard.getGameMap();
 		ArrayList<Coordinates> correctReachableSquares = new ArrayList<>();

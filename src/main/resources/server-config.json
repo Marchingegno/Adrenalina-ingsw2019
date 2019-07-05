@@ -2,6 +2,6 @@
   "waitingTimeInLobby": 10,
   "answerTimeLimit": 180,
   "host": "localhost",
-  "rmiPort": 1097,
+  "rmiPort": 1099,
   "socketPort": 12344
 }

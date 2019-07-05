@@ -720,6 +720,7 @@ public class GameMap extends Observable implements Representable {
 	 * @param mapName: name of the map to load
 	 */
 	private void generateMapJson(String mapName, GameBoard gameBoard) {
+		Utils.logInfo("Loading map:" + mapName);
 		Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/maps/" + mapName + ".json")));
 		try {
 			JsonParser parser = new JsonParser();

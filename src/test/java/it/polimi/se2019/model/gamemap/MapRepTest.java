@@ -25,7 +25,7 @@ public class MapRepTest {
 		players.add("Test 3");
 		players.add("Test 4");
 		players.add("Test 5");
-		ModelDriver model = new ModelDriver("MediumMap", players, 8);
+		ModelDriver model = new ModelDriver("Medium1Map", players, 8);
 		gameBoard = model.getGameBoard();
 		gameMap = gameBoard.getGameMap();
 	}

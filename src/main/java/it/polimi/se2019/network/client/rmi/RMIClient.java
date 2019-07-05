@@ -43,6 +43,7 @@ public class RMIClient implements ConnectionToServerInterface, RMIClientInterfac
 		else
 			ipAdd = ipAddress;
 
+		Utils.logInfo("Connecting with ip address " + ipAdd);
 		try {
 			// Get Server remote object.
 			Registry registry = LocateRegistry.getRegistry(ipAdd, Utils.getServerConfig().getRmiPort());

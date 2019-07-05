@@ -24,7 +24,7 @@ public class CLIViewTest {
 		playersName.add("Boo");
 		playersName.add("Pippo");
 		playersName.add("Pluto");
-		ModelDriver model = new ModelDriver(GameConstants.MapType.MEDIUM_MAP.getMapName(), playersName, 5);
+		ModelDriver model = new ModelDriver(GameConstants.MapType.MEDIUM1_MAP.getMapName(), playersName, 5);
 		GameMap gameMap = model.getGameBoard().getGameMap();
 		List<Player> players = model.getGameBoard().getPlayers();
 

@@ -464,6 +464,18 @@ public class GameBoardController {
 	private Circle turnIcon3;
 	@FXML
 	private Circle turnIcon4;
+
+	private List<Circle> disconnectionIcons;
+	@FXML
+	private Circle disconnection0;
+	@FXML
+	private Circle disconnection1;
+	@FXML
+	private Circle disconnection2;
+	@FXML
+	private Circle disconnection3;
+	@FXML
+	private Circle disconnection4;
 	@FXML
 	private Label question;
 
@@ -528,6 +540,13 @@ public class GameBoardController {
 		doubleKills = new ArrayList<>();
 		turnIcons = new ArrayList<>();
 		playerReps = new ArrayList<>();
+		disconnectionIcons = new ArrayList<>();
+
+		disconnectionIcons.add(disconnection0);
+		disconnectionIcons.add(disconnection1);
+		disconnectionIcons.add(disconnection2);
+		disconnectionIcons.add(disconnection3);
+		disconnectionIcons.add(disconnection4);
 
 		turnIcons.add(turnIcon0);
 		turnIcons.add(turnIcon1);
@@ -821,9 +840,15 @@ public class GameBoardController {
 	private void updateTurnIcon(String currentPlayer) {
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
 			if (playerReps.get(i) != null)
-				turnIcons.get(i).setVisible(playerReps.get(i).getPlayerName().equals(currentPlayer));
-			else
+				if (playerReps.get(i).isConnected()) {
+					disconnectionIcons.get(i).setVisible(false);
+					turnIcons.get(i).setVisible(playerReps.get(i).getPlayerName().equals(currentPlayer));
+				} else
+					disconnectionIcons.get(i).setVisible(true);
+			else {
+				disconnectionIcons.get(i).setVisible(false);
 				turnIcons.get(i).setVisible(false);
+			}
 		}
 	}
 

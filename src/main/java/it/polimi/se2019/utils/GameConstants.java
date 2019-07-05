@@ -47,9 +47,9 @@ public class GameConstants {
 
 	public enum MapType {
 		SMALL_MAP("SmallMap", "Small map with 10 squares."),
-		MEDIUM_MAP("MediumMap", "Medium map with 11 squares."),
-		BIG_MAP("BigMap", "Big map with 12 squares."),
-		BONUS_MAP("BonusMap", "Bonus map with 11 squares.");
+		MEDIUM1_MAP("Medium1Map", "Medium map with 11 squares."),
+		MEDIUM2_MAP("Medium2Map", "Bonus map with 11 squares."),
+		BIG_MAP("BigMap", "Big map with 12 squares.");
 
 		private String mapName;
 
