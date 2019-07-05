@@ -961,23 +961,23 @@ public class GameBoardController {
 				playersRep.add(playerRep);
 		}
 		playerReps.set(0, modelRep.getClientPlayerRep());
-		inventoryController0.setInventory(playerRep0);
+		inventoryController0.setInventory(playersRep.get(0));
 
 		if (!playersRep.isEmpty()) {
 			playerReps.set(1, playersRep.get(0));
-			inventoryController1.setInventory(playerRep1);
+			inventoryController1.setInventory(playersRep.get(1));
 		}
 		if (playersRep.size() >= 2) {
 			playerReps.set(2, playersRep.get(1));
-			inventoryController2.setInventory(playerRep2);
+			inventoryController2.setInventory(playersRep.get(2));
 		}
 		if (playersRep.size() >= 3) {
 			playerReps.set(3, playersRep.get(2));
-			inventoryController3.setInventory(playerRep3);
+			inventoryController3.setInventory(playersRep.get(3));
 		}
 		if (playersRep.size() >= 4) {
 			playerReps.set(4, playersRep.get(3));
-			inventoryController4.setInventory(playerRep4);
+			inventoryController4.setInventory(playersRep.get(4));
 		}
 
 		Coordinates playerPosition;
