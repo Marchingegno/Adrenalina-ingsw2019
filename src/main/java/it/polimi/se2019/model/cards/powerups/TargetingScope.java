@@ -82,7 +82,7 @@ public class TargetingScope extends PowerupCard {
 		if (choice >= 0 && choice < ownedTypes.size()) {
 			AmmoType ammoToUse = ownedTypes.get(choice);
 			getOwner().getPlayerBoard().getAmmoContainer().removeAmmo(ammoToUse); // Use ammo.
-			targetPlayer.getPlayerBoard().addDamage(getOwner(), GIVEN_DAMAGE);
+			targetPlayer.addDamage(getOwner(), GIVEN_DAMAGE);
 		} else {
 			Utils.logError(getCardName() + " has received an illegal choice: " + choice + " and the size of owned types is " + ownedTypes.size(), new IllegalArgumentException());
 		}
