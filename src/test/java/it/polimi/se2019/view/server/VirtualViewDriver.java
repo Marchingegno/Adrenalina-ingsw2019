@@ -46,7 +46,6 @@ public abstract class VirtualViewDriver extends VirtualView {
 
 	@Override
 	public void onClientDisconnected() {
-		// TODO inform controller/model and suspend the player
 	}
 
 	@Override

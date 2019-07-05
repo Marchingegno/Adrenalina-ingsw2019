@@ -21,7 +21,6 @@ public class MacroActionBuilder {
 		grabActive = false;
 		reloadActive = false;
 		shootActive = false;
-		//TODO: Implement name.
 		name = "placeHolder";
 	}
 
