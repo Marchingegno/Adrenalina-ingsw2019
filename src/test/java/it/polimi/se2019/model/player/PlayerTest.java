@@ -13,7 +13,7 @@ import it.polimi.se2019.model.gameboard.GameBoard;
 import it.polimi.se2019.model.gamemap.Coordinates;
 import it.polimi.se2019.model.gamemap.GameMap;
 import it.polimi.se2019.model.player.damagestatus.DamageStatus;
-import it.polimi.se2019.model.player.damagestatus.HighDamage;
+import it.polimi.se2019.model.player.damagestatus.MediumDamage;
 import it.polimi.se2019.utils.GameConstants;
 import org.junit.Assert;
 import org.junit.Before;
@@ -106,7 +106,7 @@ public class PlayerTest {
 
 	@Test
 	public void setDamageStatus_correctInput_correctOutput() {
-		DamageStatus ds = new HighDamage();
+		DamageStatus ds = new MediumDamage();
 		player1.setDamageStatus(ds);
 		Assert.assertEquals(ds, player1.getDamageStatus());
 		Assert.assertEquals(ds.getAvailableMacroActions(), player1.getAvailableActions());

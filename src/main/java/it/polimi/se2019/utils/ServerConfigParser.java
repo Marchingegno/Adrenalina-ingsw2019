@@ -23,23 +23,27 @@ class ServerConfigParser {
 			file = new File("");
 		}
 
-		BufferedReader reader;
+		BufferedReader reader = null;
 		String path = file.getParentFile().getPath() + FILE;
 
 		try {
 			reader = new BufferedReader(new FileReader(path));
+			Gson gson = new com.google.gson.GsonBuilder().create();
+			return gson.fromJson(reader, ServerConfig.class);
 		} catch (FileNotFoundException e) {
 			Utils.logError("Failed to load server-config.json from absolute path", e);
 			Utils.logInfo("Loading server-config.json file from within the jar file");
 			reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(FILE)));
-		}
-
-		try {
 			Gson gson = new com.google.gson.GsonBuilder().create();
 			return gson.fromJson(reader, ServerConfig.class);
-		} catch (com.google.gson.JsonParseException e) {
-			Utils.logError("Cannot parse server-config.json.", e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					Utils.logError("Error in ServerConfigParser", e);
+				}
+			}
 		}
-		return null;
 	}
 }
