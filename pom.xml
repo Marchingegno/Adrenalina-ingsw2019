@@ -28,12 +28,12 @@
         <!--sonar.login>admin</sonar.login>
         <sonar.password>admin</sonar.password-->
 
-		<sonar.coverage.exclusions>
-			**/network/**,
-			**/network/*,
-			**/view/**,
-			**/view/*
-		</sonar.coverage.exclusions>
+		<!--		<sonar.coverage.exclusions>-->
+		<!--			**/network/**,-->
+		<!--			**/network/*,-->
+		<!--			**/view/**,-->
+		<!--			**/view/*-->
+		<!--		</sonar.coverage.exclusions>-->
 
 	</properties>
 
