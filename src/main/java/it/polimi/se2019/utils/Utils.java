@@ -84,23 +84,40 @@ public class Utils {
 		return LOGGER;
 	}
 
+	/**
+	 * Returns a sting created from the specified one with the specified length, if the string is shorter the remaining length is filled with spaces.
+	 *
+	 * @param inputString the starting string.
+	 * @param length      length of the output string.
+	 * @return a sting created from the specified one with the specified length, if the string is shorter the remaining length is filled with spaces.
+	 */
 	public static String fillWithSpaces(String inputString, int length) {
 		return fillWithSpacesColored(inputString, length, Color.CharacterColorType.DEFAULT);
 	}
 
+	/**
+	 * Returns a sting of spaces of the specified length.
+	 * @param length length of the output string.
+	 * @return a sting of spaces of the specified length.
+	 */
 	public static String fillWithSpaces(int length) {
 		return fillWithSpacesColored("", length, Color.CharacterColorType.DEFAULT);
 	}
 
+	/**
+	 * Returns the a class with all the server configs.
+	 * @return the a class with all the server configs.
+	 */
 	public static ServerConfig getServerConfig() {
 		return serverConfig;
 	}
 
 	/**
-	 * @param inputString
-	 * @param length
-	 * @param color
-	 * @return
+	 * Returns a sting created from the specified one with the specified length and with the specified color, if the string is shorter the remaining length is filled with spaces.
+	 * @param inputString the starting string.
+	 * @param length the length of the final string.
+	 * @param color the colo of the string.
+	 * @return a sting created from the specified one with the specified length and with the specified color, if the string is shorter the remaining length is filled with spaces.
 	 */
 	public static String fillWithSpacesColored(String inputString, int length, Color.CharacterColorType color) {
 		if (inputString.length() >= length) {
