@@ -736,12 +736,12 @@ public class Model {
 
 				List<KillShot> killShotTrack = gameBoard.getKillShots();
 				for (int j = 0; j < killShotTrack.size(); j++) {
-					if (tiedPlayers.indexOf(killShotTrack.get(i).getPlayer()) != -1) {
+					if (tiedPlayers.indexOf(killShotTrack.get(j).getPlayer()) != -1) {
 						//I found a tied player in the killshot track.
 						//This player should be the next in leaderboard.
-						if (alreadyAddedPlayers.indexOf(killShotTrack.get(i).getPlayer()) == -1) {
-							orderedPlayers.add(killShotTrack.get(i).getPlayer());
-							alreadyAddedPlayers.add(killShotTrack.get(i).getPlayer());
+						if (alreadyAddedPlayers.indexOf(killShotTrack.get(j).getPlayer()) == -1) {
+							orderedPlayers.add(killShotTrack.get(j).getPlayer());
+							alreadyAddedPlayers.add(killShotTrack.get(j).getPlayer());
 						}
 					}
 				}
@@ -749,6 +749,8 @@ public class Model {
 				//one or more tied players have not obtained killshots.
 				//These player(s) should be classified right after ordered players.
 				//Let's add the player we found to the leaderboard.
+
+				//lets add all ordered players to new slots
 				for (Player player : orderedPlayers) {
 					playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
 					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
@@ -759,11 +761,13 @@ public class Model {
 				tiedPlayers.removeAll(orderedPlayers);
 				//These remaining players are DEFINITELY tied together.
 				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
-				for (Player player : tiedPlayers) {
-					playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
-					Utils.logInfo("Model -> tieBreak(): Adding in position " + nextPosition + " player " + player.getPlayerName());
+				if (!tiedPlayers.isEmpty()) {
+					for (Player player : tiedPlayers) {
+						playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) player.getRep());
+						Utils.logInfo("Model -> tieBreak(): Adding in position " + nextPosition + " player " + player.getPlayerName());
+					}
+					nextPosition++;
 				}
-				nextPosition++;
 			} else {
 				playerRepLeaderboard.add(nextPosition, new PlayerRepPosition());
 				playerRepLeaderboard.get(nextPosition).addInPosition((PlayerRep) leaderboard.get(i).getPlayer().getRep());
@@ -771,6 +775,7 @@ public class Model {
 				nextPosition++;
 			}
 		}
+		playerRepLeaderboard.forEach(item -> Utils.logInfo(item.toString()));
 		return playerRepLeaderboard;
 	}
 

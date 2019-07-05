@@ -29,5 +29,13 @@ public class PlayerRepPosition implements Serializable {
         playerReps.add(playerRep);
     }
 
-
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (PlayerRep playerRep : playerReps) {
+            stringBuilder.append(playerRep.getPlayerName());
+            stringBuilder.append(" - ");
+        }
+        return stringBuilder.toString();
+    }
 }
