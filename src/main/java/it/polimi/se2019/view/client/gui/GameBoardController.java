@@ -839,15 +839,15 @@ public class GameBoardController {
 
 	private void updateTurnIcon(String currentPlayer) {
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
-			if (playerReps.get(i) != null)
-				if (playerReps.get(i).isConnected()) {
+			if (playerReps.get(i) != null) {
+				if (playerReps.get(i).isConnected())
 					disconnectionIcons.get(i).setVisible(false);
-					turnIcons.get(i).setVisible(playerReps.get(i).getPlayerName().equals(currentPlayer));
-				} else
+				else
 					disconnectionIcons.get(i).setVisible(true);
-			else {
-				disconnectionIcons.get(i).setVisible(false);
+				turnIcons.get(i).setVisible(playerReps.get(i).getPlayerName().equals(currentPlayer));
+			} else {
 				turnIcons.get(i).setVisible(false);
+				disconnectionIcons.get(i).setVisible(false);
 			}
 		}
 	}
@@ -960,23 +960,23 @@ public class GameBoardController {
 			if (playerRep.isHidden())
 				playersRep.add(playerRep);
 		}
-		playerRep0 = modelRep.getClientPlayerRep();
+		playerReps.set(0, modelRep.getClientPlayerRep());
 		inventoryController0.setInventory(playerRep0);
 
 		if (!playersRep.isEmpty()) {
-			playerRep1 = playersRep.get(0);
+			playerReps.set(1, playersRep.get(0));
 			inventoryController1.setInventory(playerRep1);
 		}
 		if (playersRep.size() >= 2) {
-			playerRep2 = playersRep.get(1);
+			playerReps.set(2, playersRep.get(1));
 			inventoryController2.setInventory(playerRep2);
 		}
 		if (playersRep.size() >= 3) {
-			playerRep3 = playersRep.get(2);
+			playerReps.set(3, playersRep.get(2));
 			inventoryController3.setInventory(playerRep3);
 		}
 		if (playersRep.size() >= 4) {
-			playerRep4 = playersRep.get(3);
+			playerReps.set(4, playersRep.get(3));
 			inventoryController4.setInventory(playerRep4);
 		}
 

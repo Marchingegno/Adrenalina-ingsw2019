@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="857.0" prefWidth="1125.0" style="-fx-background-color: #131003;"
-            xmlns="http://javafx.com/javafx/8.0.211"
+            xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="it.polimi.se2019.view.client.gui.GameBoardController">
     <children>
         <ImageView fx:id="backGround" fitHeight="820.0" fitWidth="1080.0" layoutX="20.0" layoutY="20.0"
@@ -1045,15 +1045,15 @@
 				</ImageView>
 			</children>
 		</GridPane>
-        <Circle fx:id="disconnection4" fill="#cd1d1d" layoutX="437.0" layoutY="779.0" radius="9.0" stroke="BLACK"
+        <Circle fx:id="disconnection4" fill="#cd1d1d" layoutX="389.0" layoutY="779.0" radius="9.0" stroke="BLACK"
                 strokeType="INSIDE"/>
-        <Circle fx:id="disconnection2" fill="#cd1d1d" layoutX="507.0" layoutY="779.0" radius="9.0" stroke="BLACK"
+        <Circle fx:id="disconnection2" fill="#cd1d1d" layoutX="459.0" layoutY="779.0" radius="9.0" stroke="BLACK"
                 strokeType="INSIDE"/>
-        <Circle fx:id="disconnection0" fill="#cd1d1d" layoutX="597.0" layoutY="759.0" radius="9.0" stroke="BLACK"
+        <Circle fx:id="disconnection0" fill="#cd1d1d" layoutX="528.0" layoutY="759.0" radius="9.0" stroke="BLACK"
                 strokeType="INSIDE"/>
-        <Circle fx:id="disconnection1" fill="#cd1d1d" layoutX="664.0" layoutY="778.0" radius="9.0" stroke="BLACK"
+        <Circle fx:id="disconnection1" fill="#cd1d1d" layoutX="616.0" layoutY="778.0" radius="9.0" stroke="BLACK"
                 strokeType="INSIDE"/>
-        <Circle fx:id="disconnection3" fill="#cd1d1d" layoutX="732.0" layoutY="778.0" radius="9.0" stroke="BLACK"
+        <Circle fx:id="disconnection3" fill="#cd1d1d" layoutX="684.0" layoutY="778.0" radius="9.0" stroke="BLACK"
                 strokeType="INSIDE"/>
     </children>
 </AnchorPane>

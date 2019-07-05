@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 public class Utils {
 
 	public static final boolean DEBUG_BYPASS_CONFIGURATION = false;
-	public static final boolean DEBUG_CLI = false;
-	public static final boolean DEBUG_REPS = false;
+	public static final boolean DEBUG_CLI = true;
+	public static final boolean DEBUG_REPS = true;
 	public static final boolean ENABLE_WEAPON_LOG = true;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	private static boolean logEnabled = true;
