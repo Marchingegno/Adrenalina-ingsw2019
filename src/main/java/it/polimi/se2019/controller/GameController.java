@@ -142,7 +142,7 @@ public class GameController {
 	 * @param playerName the name of the player that has a connection error.
 	 */
 	private void handleConnectionError(String playerName) {
-		if (model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN) {
+		if (model.getTurnStatus(playerName) == TurnStatus.YOUR_TURN || (model.getTurnStatus(playerName) == TurnStatus.PRE_SPAWN && model.getCurrentPlayerName().equals(playerName))) {
 			Utils.logInfo("Received a CONNECTION ERROR from the player doing its turn.");
 			model.cancelAction(playerName);
 			model.setAsDisconnected(playerName);
@@ -156,8 +156,6 @@ public class GameController {
 			if (model.isGameEnded()) {
 				model.cancelAction(model.getCurrentPlayerName());
 				virtualViewsContainer.sendEndGameMessage(model.getFinalPlayersInfo());
-			} else {
-				handleEndTurn();
 			}
 		}
 	}

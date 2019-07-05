@@ -103,7 +103,6 @@ public class GameBoard extends Observable implements Representable {
 		// Skip turns of disconnected players.
 		Player currentPlayer = playerQueue.peekFirst();
 		while (!currentPlayer.isConnected()) {
-			currentPlayer.setTurnStatus(TurnStatus.IDLE);
 			playerQueue.moveFirstToLast();
 			currentPlayer = playerQueue.peekFirst();
 			if (isFrenzyStarted()) {
