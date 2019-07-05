@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 public class Utils {
 
 	public static final boolean DEBUG_BYPASS_CONFIGURATION = false;
-	public static final boolean DEBUG_CLI = true;
-	public static final boolean DEBUG_REPS = true;
+	public static final boolean DEBUG_CLI = false;
+	public static final boolean DEBUG_REPS = false;
 	public static final boolean ENABLE_WEAPON_LOG = true;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	private static boolean logEnabled = true;
@@ -29,29 +29,51 @@ public class Utils {
 		Utils.logEnabled = logEnabled;
 	}
 
+	/**
+	 * Method to log a weapon.
+	 *
+	 * @param msg the log.
+	 */
 	public static void logWeapon(String msg) {
 		if (ENABLE_WEAPON_LOG) {
 			System.out.println(Color.getColoredString("WEAPON:", Color.CharacterColorType.RED, Color.BackgroundColorType.MAGENTA) + " " + msg);
 		}
 	}
 
+	/**
+	 * Method to log a rep.
+	 * @param msg the log.
+	 */
 	public static void logRep(String msg) {
 		if (DEBUG_REPS) {
 			logInfo(msg);
 		}
 	}
 
+	/**
+	 * Method to log an error.
+	 * @param msg the log.
+	 * @param e the exception.
+	 */
 	public static void logError(String msg, Throwable e) {
 		if (logEnabled)
 			LOGGER.log(Level.SEVERE, msg, e);
 	}
 
+	/**
+	 * Method to log a warning.
+	 * @param msg the log.
+	 */
 	public static void logWarning(String msg) {
 		if (logEnabled) {
 			System.out.println(Color.getColoredString("WARNING:", Color.CharacterColorType.RED, Color.BackgroundColorType.YELLOW) + " " + msg);
 		}
 	}
 
+	/**
+	 * Method to log an info.
+	 * @param msg the log.
+	 */
 	public static void logInfo(String msg) {
 		if (logEnabled) {
 			System.out.println(Color.getColoredString("INFO:", Color.CharacterColorType.RED, Color.BackgroundColorType.BLUE) + " " + msg);

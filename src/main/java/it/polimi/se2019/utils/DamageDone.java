@@ -35,6 +35,11 @@ public class DamageDone {
 		return new ArrayList<>(players);
 	}
 
+	/**
+	 * Increments the damage of the player by one.
+	 *
+	 * @param player the player that did the damage.
+	 */
 	public void damageUp(Player player) {
 
 		int indexOfPlayer;
@@ -49,17 +54,24 @@ public class DamageDone {
 		damages.set(indexOfPlayer, (oldDamage + 1));
 	}
 
+	/**
+	 * Sort all players and return the list.
+	 * @return the sorted list.
+	 */
 	public List<Player> getSortedPlayers() {
 		sort();
 		return new ArrayList<>(players);
 	}
+
 
 	private void addPlayer(Player player) {
 		players.add(player);
 		damages.add(0);
 	}
 
+
 	private void sort() {
+		//Lazy bubble sort implementation
 		if (damages.size() <= 1) {
 			return;
 		}

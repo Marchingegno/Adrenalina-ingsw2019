@@ -48,6 +48,11 @@ public class MacroAction {
 	}
 
 
+	/**
+	 * Following the natural order of the action, it advances the MacroAction and returns the next ActionType to execute.
+	 *
+	 * @return the next ActionType to execute.
+	 */
 	public ActionType getNextActionToExecuteAndAdvance() {
 		if (isMove() && !moved) {
 			moved = true;
@@ -91,6 +96,10 @@ public class MacroAction {
 				']';
 	}
 
+	/**
+	 * Builds the string associated with this MacroAction.
+	 * @return the string representing the MacroAction.
+	 */
 	public String getMacroActionString() {
 		StringBuilder myBuilder = new StringBuilder();
 
