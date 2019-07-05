@@ -1130,7 +1130,7 @@ public class Model {
 		List<Player> playersHit = shootingPlayer.getPlayersHitWithWeapon();
 		playersWaitingForDamagePowerups = new ArrayDeque<>();
 		for (Player damagedPlayer : playersHit) {
-			if (doesPlayerHaveActivableOnDamagePowerups(damagedPlayer.getPlayerName(), shootingPlayer.getPlayerName()))
+			if (damagedPlayer.isConnected() && doesPlayerHaveActivableOnDamagePowerups(damagedPlayer.getPlayerName(), shootingPlayer.getPlayerName()))
 				playersWaitingForDamagePowerups.add(damagedPlayer.getPlayerName());
 		}
 	}
