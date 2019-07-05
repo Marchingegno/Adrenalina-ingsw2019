@@ -19,6 +19,11 @@ public abstract class DamageStatus implements Representable {
 	private int currentActionIndex; //Action currently in execution.
 	private boolean hasChanged = true;
 
+
+	public DamageStatus() {
+		currentActionIndex = -1;
+	}
+
 	public boolean hasMacroActionLeft() {
 		return (numberOfMacroActionsToPerform > 0);
 	}

@@ -96,6 +96,8 @@ public class TurnController {
 	 * @param event the event to be processed.
 	 */
 	private void handleActionEvent(Event event) {
+		IntMessage message = ((IntMessage) event.getMessage());
+		Utils.logInfo("Setting " + event.getVirtualView().getNickname() + " next MacroAction to " + message.getContent());
 		model.setNextMacroAction(event.getVirtualView().getNickname(), ((IntMessage) event.getMessage()).getContent());
 		handleNextMacroActionStep(event.getVirtualView());
 	}
@@ -205,8 +207,9 @@ public class TurnController {
 			} else {
 				doWeaponStep(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
 			}
-		} else
+		} else {
 			initialWeaponActivation(event.getVirtualView(), ((IntMessage) event.getMessage()).getContent());
+		}
 	}
 
 	/**
@@ -269,6 +272,7 @@ public class TurnController {
 				break;
 			case END:
 				//The MacroAction is already refilled.
+				Utils.logInfo("Ending the action of player " + playerVirtualView.getNickname());
 				handleMacroActionEnd(playerVirtualView);
 				break;
 			default:
@@ -470,6 +474,7 @@ public class TurnController {
 			// If the player is in a MacroAction (ex: he used targeting scope while firing, we need to continue the MacroAction.
 			// Else, we need to resume its turn, whether he has actions left or no.
 			if (model.isInAMacroAction(virtualView.getNickname())) {
+				Utils.logInfo(virtualView.getNickname() + " IS IN A MACROACTION");
 				handleNextMacroActionStep(virtualView);
 			} else {
 				endOnTurnAction(virtualView);

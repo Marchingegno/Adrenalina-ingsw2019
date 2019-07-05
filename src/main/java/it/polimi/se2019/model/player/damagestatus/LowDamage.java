@@ -12,6 +12,7 @@ import static it.polimi.se2019.utils.GameConstants.NUMBER_OF_ACTIONS_PER_TURN;
 public class LowDamage extends DamageStatus {
 
 	public LowDamage() {
+		super();
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
 		MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
 		MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();

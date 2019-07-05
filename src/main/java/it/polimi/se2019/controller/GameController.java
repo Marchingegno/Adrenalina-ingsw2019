@@ -88,6 +88,8 @@ public class GameController {
 	private void startTurn() {
 		String currentPlayerName = model.getCurrentPlayerName();
 
+		Utils.logInfo("######STARTING THE TURN OF " + currentPlayerName + "######################");
+
 		// Check if the player is to be spawned.
 		// Which should be only in its beginning turns.
 		if (model.getTurnStatus(currentPlayerName) == TurnStatus.PRE_SPAWN) {

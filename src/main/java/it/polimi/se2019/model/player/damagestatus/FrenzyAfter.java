@@ -13,6 +13,7 @@ public class FrenzyAfter extends DamageStatus {
 
 
     public FrenzyAfter() {
+        super();
         MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
         MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
         availableActions = new ArrayList<>();

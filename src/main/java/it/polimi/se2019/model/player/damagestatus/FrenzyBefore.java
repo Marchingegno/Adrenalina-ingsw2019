@@ -12,6 +12,7 @@ import static it.polimi.se2019.utils.GameConstants.FRENZY_BEFORE_NUMBER_OF_ACTIO
 public class FrenzyBefore extends DamageStatus {
 
 	public FrenzyBefore() {
+		super();
 		MacroActionBuilder shootPeopleBuilder = new MacroActionBuilder();
 		MacroActionBuilder runAroundBuilder = new MacroActionBuilder();
 		MacroActionBuilder grabStuffBuilder = new MacroActionBuilder();
