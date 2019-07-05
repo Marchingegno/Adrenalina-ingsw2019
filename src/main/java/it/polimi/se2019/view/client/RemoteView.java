@@ -202,15 +202,15 @@ public abstract class RemoteView implements ViewInterface, MessageReceiverInterf
 	/**
 	 * Start a connection with the server, using RMI.
 	 */
-	public void startConnectionWithRMI(String ipAddress) {
-		connectionToServer = new RMIClient(this, ipAddress);
+	public void startConnectionWithRMI() {
+		connectionToServer = new RMIClient(this);
 	}
 
 	/**
 	 * Start a connection with the server, using socket.
 	 */
-	public void startConnectionWithSocket(String ipAddress) {
-		connectionToServer = new ClientSocket(this, ipAddress);
+	public void startConnectionWithSocket() {
+		connectionToServer = new ClientSocket(this);
 	}
 
 	/**

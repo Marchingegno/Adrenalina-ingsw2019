@@ -113,25 +113,6 @@ public class CLILoginPrinter {
 		moveCursorRIGHT(120);
 	}
 
-	static void printIpAddressChoice() {
-		if (!Utils.DEBUG_CLI) {
-			setCursorHome();
-			cleanConsole();
-		}
-		print(TITLE +
-				"											╔════════════════════════════════════════════════════════════════╗\n" +
-				"											║                                                                ║\n" +
-				"											║                                                                ║\n" +
-				"											║                      Choose the ip address                     ║\n" +
-				"											║                                                                ║\n" +
-				"											║                                                                ║\n " +
-				"											║                                                                ║\n" +
-				"											║                                                                ║\n" +
-				"											╚════════════════════════════════════════════════════════════════╝\n");
-		moveCursorUP(3);
-		moveCursorRIGHT(120);
-	}
-
 	static void printChooseMap() {
 		if (!Utils.DEBUG_CLI) {
 			setCursorHome();

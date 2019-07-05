@@ -42,15 +42,10 @@ public class CLIView extends RemoteView {
 	public void askForConnectionAndStartIt() {
 		printChooseConnection();
 		int typeOfConnection = Integer.parseInt(waitForChoiceInMenu("1", "2"));
-
-		Scanner scanner = new Scanner(System.in);
-		printIpAddressChoice();
-		String ipAddress = scanner.nextLine();
-
 		if (typeOfConnection == 1)
-			startConnectionWithRMI(ipAddress);
+			startConnectionWithRMI();
 		else
-			startConnectionWithSocket(ipAddress);
+			startConnectionWithSocket();
 	}
 
 	@Override
