@@ -561,10 +561,6 @@ public class ModelTest {
     }
 
     @Test
-    public void getFinalPlayersInfo() {
-    }
-
-    @Test
     public void doesThePlayerHaveActionsLeft_correctInput_correctOutput() {
         assertTrue(model.doesThePlayerHaveActionsLeft(model.getCurrentPlayerName()));
         model.getGameBoard().getCurrentPlayer().getDamageStatus().decreaseMacroActionsToPerform();
@@ -709,4 +705,12 @@ public class ModelTest {
         model.handlePowerupEnd(player1.getPlayerName());
         assertFalse(model.isPowerupInExecution(player1.getPlayerName()));
     }
+
+	@Test
+	public void addSpawnPowerupCardTp_correctBehaviour() {
+		Player player1 = model.getGameBoard().getPlayers().get(0);
+		int powerupsCount = player1.getPlayerBoard().getPowerupCards().size();
+		model.addSpawnPowerupCardTo(player1.getPlayerName());
+		assertEquals(powerupsCount + 1, player1.getPlayerBoard().getPowerupCards().size());
+	}
 }
