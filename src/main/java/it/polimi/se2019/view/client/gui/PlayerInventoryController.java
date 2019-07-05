@@ -406,6 +406,10 @@ public class  PlayerInventoryController {
 		}
 	}
 
+	public String getNickname() {
+		return nickname.getText();
+	}
+
 	private Image loadImage(String filePath) {
 		Utils.logInfo(getClass().getName() + "-> loadImage(): /graphicassets/" + filePath + ".png");
 		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());

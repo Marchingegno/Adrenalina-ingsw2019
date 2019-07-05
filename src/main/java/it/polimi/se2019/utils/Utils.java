@@ -96,6 +96,12 @@ public class Utils {
 		return serverConfig;
 	}
 
+	/**
+	 * @param inputString
+	 * @param length
+	 * @param color
+	 * @return
+	 */
 	public static String fillWithSpacesColored(String inputString, int length, Color.CharacterColorType color) {
 		if (inputString.length() >= length) {
 			return inputString;

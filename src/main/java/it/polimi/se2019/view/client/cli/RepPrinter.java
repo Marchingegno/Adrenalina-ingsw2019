@@ -255,7 +255,7 @@ public class RepPrinter {
 		strings.add("|");
 		List<Color.CharacterColorType> damageBoard = new ArrayList<>();
 		for (int i = 0; i < damageList.size(); i++) {
-			if (i < 12)
+			if (i < 11)
 				damageBoard.add(damageList.get(i));
 		}
 		for (Color.CharacterColorType damage : damageBoard) {
@@ -332,7 +332,8 @@ public class RepPrinter {
 			stringBuilder.append("] ");
 			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionName(lineIndex), 8));
 			stringBuilder.append(Utils.fillWithSpaces(damageStatusRep.getMacroActionString(lineIndex), 7));
-		}
+		} else
+			stringBuilder.append(Utils.fillWithSpaces("", 16));
 
 		stringBuilder.append("\t│ ");
 

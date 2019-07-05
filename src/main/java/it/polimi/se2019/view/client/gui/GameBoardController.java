@@ -288,6 +288,7 @@ public class GameBoardController {
 	@FXML
 	private ImageView weponImageYellow2;
 
+	private List<PlayerInventoryController> playerInventoryControllers;
 	private List<PlayerRep> playerReps;
 	@FXML
 	private ImageView playerIcon0;
@@ -541,6 +542,13 @@ public class GameBoardController {
 		turnIcons = new ArrayList<>();
 		playerReps = new ArrayList<>();
 		disconnectionIcons = new ArrayList<>();
+		playerInventoryControllers = new ArrayList<>();
+
+		playerInventoryControllers.add(inventoryController0);
+		playerInventoryControllers.add(inventoryController1);
+		playerInventoryControllers.add(inventoryController2);
+		playerInventoryControllers.add(inventoryController3);
+		playerInventoryControllers.add(inventoryController4);
 
 		disconnectionIcons.add(disconnection0);
 		disconnectionIcons.add(disconnection1);
@@ -759,6 +767,7 @@ public class GameBoardController {
 			playerIconButton4.setDisable(true);
 			playerIconButton4.setVisible(false);
 		}
+
 		setMap(gameMapRep.getName());
 
 		inventoryStage0 = new Stage();
@@ -840,14 +849,9 @@ public class GameBoardController {
 	private void updateTurnIcon(String currentPlayer) {
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
 			if (playerReps.get(i) != null) {
-				if (playerReps.get(i).isConnected())
-					disconnectionIcons.get(i).setVisible(false);
-				else
-					disconnectionIcons.get(i).setVisible(true);
 				turnIcons.get(i).setVisible(playerReps.get(i).getPlayerName().equals(currentPlayer));
 			} else {
 				turnIcons.get(i).setVisible(false);
-				disconnectionIcons.get(i).setVisible(false);
 			}
 		}
 	}
@@ -960,25 +964,31 @@ public class GameBoardController {
 			if (playerRep.isHidden())
 				playersRep.add(playerRep);
 		}
-		playerReps.set(0, modelRep.getClientPlayerRep());
-		inventoryController0.setInventory(playersRep.get(0));
+		playerRep0 = modelRep.getClientPlayerRep();
+		inventoryController0.setInventory(playerRep0);
 
 		if (!playersRep.isEmpty()) {
-			playerReps.set(1, playersRep.get(0));
-			inventoryController1.setInventory(playersRep.get(1));
+			playerRep1 = playersRep.get(0);
+			inventoryController1.setInventory(playerRep1);
 		}
 		if (playersRep.size() >= 2) {
-			playerReps.set(2, playersRep.get(1));
-			inventoryController2.setInventory(playersRep.get(2));
+			playerRep2 = playersRep.get(1);
+			inventoryController2.setInventory(playerRep2);
 		}
 		if (playersRep.size() >= 3) {
-			playerReps.set(3, playersRep.get(2));
-			inventoryController3.setInventory(playersRep.get(3));
+			playerRep3 = playersRep.get(2);
+			inventoryController3.setInventory(playerRep3);
 		}
 		if (playersRep.size() >= 4) {
-			playerReps.set(4, playersRep.get(3));
-			inventoryController4.setInventory(playersRep.get(4));
+			playerRep4 = playersRep.get(3);
+			inventoryController4.setInventory(playerRep4);
 		}
+
+		disconnection0.setVisible(!(playerRep0 != null && playerRep0.isConnected()));
+		disconnection1.setVisible(!(playerRep1 != null && playerRep1.isConnected()));
+		disconnection2.setVisible(!(playerRep2 != null && playerRep2.isConnected()));
+		disconnection3.setVisible(!(playerRep3 != null && playerRep3.isConnected()));
+		disconnection4.setVisible(!(playerRep4 != null && playerRep4.isConnected()));
 
 		Coordinates playerPosition;
 		for (PlayerRep playerRep : modelRep.getPlayersRep()) {
