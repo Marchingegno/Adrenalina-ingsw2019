@@ -4,6 +4,7 @@ import it.polimi.se2019.model.cards.powerups.PowerupCardRep;
 import it.polimi.se2019.network.message.IntMessage;
 import it.polimi.se2019.network.message.MessageSubtype;
 import it.polimi.se2019.network.message.MessageType;
+import it.polimi.se2019.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -173,7 +174,7 @@ public class PowerupChoiceController {
     }
 
     private Image loadImage(String filePath) {
-        System.out.println("Loading: " + "/graphicassets/powerups/" + filePath + ".png");
+        Utils.logInfo(getClass().getName() + "-> loadImage(): /graphicassets/" + filePath + ".png");
         return new Image(getClass().getResource("/graphicassets/powerups/" + filePath + ".png").toString());
     }
 }

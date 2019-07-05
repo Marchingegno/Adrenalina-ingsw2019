@@ -407,7 +407,7 @@ public class  PlayerInventoryController {
 	}
 
 	private Image loadImage(String filePath) {
-		System.out.println("Loading: " + "/graphicassets/" + filePath + ".png");
+		Utils.logInfo(getClass().getName() + "-> loadImage(): /graphicassets/" + filePath + ".png");
 		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
 	}
 }

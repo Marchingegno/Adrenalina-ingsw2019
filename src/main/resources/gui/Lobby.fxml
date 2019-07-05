@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="292.0" prefWidth="522.0"
-            style="-fx-background-color: #0f213d;" xmlns="http://javafx.com/javafx/11.0.1"
+            style="-fx-background-color: #0f213d;" xmlns="http://javafx.com/javafx/8.0.211"
             fx:controller="it.polimi.se2019.view.client.gui.LobbyController">
     <children>
         <ListView fx:id="nicknames" editable="true" fixedCellSize="30.0" layoutX="50.0" layoutY="53.0"

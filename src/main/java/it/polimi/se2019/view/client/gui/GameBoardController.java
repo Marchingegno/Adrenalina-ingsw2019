@@ -1393,7 +1393,7 @@ public class GameBoardController {
 		guiView.sendMessage(new IntMessage(2, MessageType.GRAB_WEAPON, MessageSubtype.ANSWER));
 	}
 
-	public boolean isInitialized() {
+	boolean isInitialized() {
 		return initialized;
 	}
 
@@ -1402,7 +1402,7 @@ public class GameBoardController {
 	}
 
 	private Image loadImage(String filePath) {
-		System.out.println("/graphicassets/" + filePath + ".png");
+		Utils.logInfo(getClass().getName() + "-> loadImage(): /graphicassets/" + filePath + ".png");
 		return new Image(getClass().getResource("/graphicassets/" + filePath + ".png").toString());
 	}
 }

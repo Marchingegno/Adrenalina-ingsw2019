@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="857.0" prefWidth="1125.0" style="-fx-background-color: #131003;"
-            xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns="http://javafx.com/javafx/8.0.211"
             fx:controller="it.polimi.se2019.view.client.gui.GameBoardController">
     <children>
         <ImageView fx:id="backGround" fitHeight="820.0" fitWidth="1080.0" layoutX="20.0" layoutY="20.0"

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="180.0" prefWidth="344.0" xmlns="http://javafx.com/javafx/11.0.1"
+            minWidth="-Infinity" prefHeight="180.0" prefWidth="344.0" xmlns="http://javafx.com/javafx/8.0.211"
             fx:controller="it.polimi.se2019.view.client.gui.LoginController">
     <children>
         <Button fx:id="startButton" layoutX="248.0" layoutY="126.0" mnemonicParsing="false" onAction="#sendNickname"

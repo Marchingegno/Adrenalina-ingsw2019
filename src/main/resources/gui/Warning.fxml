@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="150.0" prefWidth="483.0"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="it.polimi.se2019.view.client.gui.WarningController">
+            xmlns="http://javafx.com/javafx/8.0.211" fx:controller="it.polimi.se2019.view.client.gui.WarningController">
     <children>
         <Button layoutX="347.0" layoutY="105.0" mnemonicParsing="false" onAction="#donePressed" prefHeight="27.0"
                 prefWidth="77.0" text="Done"/>
