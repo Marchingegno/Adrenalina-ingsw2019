@@ -2,6 +2,17 @@
 
 <img src="https://cf.geekdo-images.com/opengraph/img/ac8k6cuJA8cf6jnRlPjzkDd_YuQ=/fit-in/1200x630/pic3476604.jpg" width="450" height="315"></img>
 
+
+## Description
+The assignment was to build a digital version of the board game "Adrenaline" using Java, becoming familiar with some of the most common design patterns like Model-View-Controller, Strategy, parallelism and more.
+
+#### Requirements reached
+
+Complete rules + CLI + GUI + Socket + RMI + 1 Advanced Functionality
+
+- Advanced functionality
+    - **Multiple matches**: the ability of the server to handle multiple independent matches.
+
 ## Requirements
 
 The game requires [Java 8] or later versions to run.
@@ -28,14 +39,6 @@ The parameters you can set are:
 ```sh
 $ java -jar Server-jar-with-dependencies.jar
 ```
-
-## Requirements reached
-
-Complete rules + CLI + GUI + Socket + RMI + 1 Advanced Functionality
-
-
-- Advanced functionality
-    - **Multiple matches**: the ability of the server to handle multiple independent matches.
     
     
 ## Developers
